@@ -1,6 +1,6 @@
 # UWP Toolkit - Design guidelines
 
-The foundation of UWP toolkit is simplicity. 
+The foundation of **UWP Toolkit** is simplicity. 
 
 A developer should be able to quickly and easily learn to use the API. 
 
