@@ -37,3 +37,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 * DO use consistent naming and terminology.
 * DO provide strongly typed APIs.
 * DO use verbose identifier names.
+
+## Files and folders
+* DO associate no more than one class per file
+* DO use folders to group classes based on features
