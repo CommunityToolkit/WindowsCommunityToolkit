@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Windows.Toolkit;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,7 +27,24 @@ namespace Microsoft.Windows.Toolkit.SampleApp
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        private async void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Get list of samples
+            using (var jsonStream = await Core.GetPackagedFileAsync("Samples/samples.json"))
+            {
+                var jsonString = await jsonStream.ReadTextAsync();
+                var samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
+
+                ButtonsListView.ItemsSource = samplesCategories;
+            }
+        }
+
+        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
     }
 }

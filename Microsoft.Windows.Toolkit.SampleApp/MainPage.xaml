@@ -5,9 +5,43 @@
     xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="MainPage_OnLoaded"
     mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="ButtonTemplate" x:DataType="local:SampleCategory">
+            <Grid Width="240" Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Source="{x:Bind Icon}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12,12,11,12" Width="48" Height="48"></Image>
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="18" VerticalAlignment="Center"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <SplitView x:Name="MainSplitView" OpenPaneLength="240" PanePlacement="Left" DisplayMode="CompactInline" CompactPaneLength="48" PaneBackground="#242424" IsPaneOpen="False" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SplitView.Pane>
+            <Grid x:Name="PaneGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
 
-    </Grid>
+                <Rectangle Grid.Column="1" Fill="#121212" VerticalAlignment="Stretch" Grid.RowSpan="2" StrokeThickness="0"></Rectangle>
+                
+                <Button Grid.Row="0" Grid.Column="0" Name="HamburgerButton" Click="HamburgerButton_OnClick" Padding="0" Width="48" Height="48" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
+                    <FontIcon Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="White"/>
+                </Button>
+
+                <ListView Grid.Row="1" Grid.Column="0" x:Name="ButtonsListView"
+                          ItemTemplate="{StaticResource ButtonTemplate}">
+                </ListView>
+            </Grid>
+        </SplitView.Pane>
+    </SplitView>
 </Page>

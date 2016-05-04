@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Layout controls",
+    "Icon": "Icons/Layouts.png",
+    "Samples": [
+      {
+        "Name": "Test page",
+        "Type": "TestPage"
+      },
+      {
+        "Name": "Test page 2",
+        "Type": "TestPage2"
+      }
+    ]
+  }
+]
