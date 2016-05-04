@@ -12,5 +12,19 @@
         "Type": "TestPage2"
       }
     ]
+  },
+    {
+    "Name": "Foundation controls",
+    "Icon": "Icons/Foundation.png",
+    "Samples": [
+      {
+        "Name": "Test page",
+        "Type": "TestPage"
+      },
+      {
+        "Name": "Test page 2",
+        "Type": "TestPage2"
+      }
+    ]
   }
 ]

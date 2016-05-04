@@ -38,13 +38,13 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 var jsonString = await jsonStream.ReadTextAsync();
                 var samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
 
-                ButtonsListView.ItemsSource = samplesCategories;
+                HamburgerMenu.ItemsSource = samplesCategories;
             }
         }
 
-        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e)
+        void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+            var category = e.ClickedItem as SampleCategory;
         }
     }
 }
