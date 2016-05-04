@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Windows.Toolkit;
+using System.Threading.Tasks;
 
 namespace UnitTests
 {
@@ -19,6 +20,25 @@ namespace UnitTests
         {
             var compressedVersion = "H4sIAAAAAAAEAAsNDwjJz8/JziwBAAVj3RwKAAAA".Decompress();
             Assert.IsTrue(compressedVersion == "UWPToolkit");
+        }
+
+        [TestMethod]
+        public async Task TestGetPackagedFileAsync()
+        {
+            using (var stream = await Core.GetPackagedFileAsync("Assets/Sub/test.txt"))
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public async Task TestReadTextAsString()
+        {
+            using (var stream = await Core.GetPackagedFileAsync("Assets/Sub/test.txt"))
+            {
+                var readText = await stream.ReadTextAsync();
+                Assert.IsTrue(readText == "This is my content text");
+            }
         }
     }
 }

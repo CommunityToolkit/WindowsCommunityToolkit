@@ -10,7 +10,7 @@ namespace Microsoft.Windows.Toolkit
         /// <summary>
         /// This method can be used to decompress a base64 string previously created by Core.Compress.
         /// </summary>
-        /// <param name="data">String containing data to decompress</param>
+        /// <param name="data">String containing data to decompress.</param>
         /// <returns>Decompressed string</returns>
         public static string Decompress(this string data)
         {
@@ -37,7 +37,7 @@ namespace Microsoft.Windows.Toolkit
         /// Compression will be done using GZip.
         /// Due to base64 conversion the original string has to be long enough to compensate the conversion overhead.
         /// </summary>
-        /// <param name="data">String containing the data to compress</param>
+        /// <param name="data">String containing the data to compress.</param>
         /// <returns>Compressed string</returns>
         public static string Compress(this string data)
         {
