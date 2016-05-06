@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.LayoutControls
 {
-    public sealed partial class HamburgerMenu
+    public partial class HamburgerMenu
     {
         public event ItemClickEventHandler ItemClick;
 

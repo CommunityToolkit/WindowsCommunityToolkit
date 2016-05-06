@@ -1,18 +1,4 @@
-﻿using Microsoft.Windows.Toolkit;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 
@@ -30,8 +16,10 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             InitializeComponent();
         }
 
-        private async void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
             // Get list of samples
             using (var jsonStream = await Core.GetPackagedFileAsync("Samples/samples.json"))
             {

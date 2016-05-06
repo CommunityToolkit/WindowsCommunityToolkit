@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.LayoutControls
 {
-    public sealed partial class HamburgerMenu : ContentControl
+    public partial class HamburgerMenu : ContentControl
     {
         Button hamburgerButton;
         SplitView mainSplitView;

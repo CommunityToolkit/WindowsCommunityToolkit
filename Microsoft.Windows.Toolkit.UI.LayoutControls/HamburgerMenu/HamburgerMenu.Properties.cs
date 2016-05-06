@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.LayoutControls
 {
-    public sealed partial class HamburgerMenu
+    public partial class HamburgerMenu
     {
         public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register("OpenPaneLength", typeof(double), typeof(HamburgerMenu), new PropertyMetadata(240.0));
         public double OpenPaneLength
