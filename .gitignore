@@ -44,3 +44,4 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+/packages

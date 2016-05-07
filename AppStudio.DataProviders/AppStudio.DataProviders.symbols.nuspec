@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>WindowsAppStudio.DataProviders</id>
+    <version>$version$</version>
+    <title>Windows AppStudio Data Providers</title>
+    <authors>Windows AppStudio Team</authors>
+    <owners>wasteam</owners>
+    <licenseUrl>https://raw.githubusercontent.com/wasteam/waslibs/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/wasteam/waslibs</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Implementation of the data sources provided by Windows AppStudio. This library enable access to diferent data source like RSS, Bing, Facebook, Flickr, Instagram, Twitter and YouTube.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Windows AppStudio Net Portable Twitter YouTube OAuth RSS Instagram Facebook Bing Flickr</tags>
+    <references>
+      <reference file="AppStudio.DataProviders.dll" />
+    </references>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="\bin\$configuration$\AppStudio.DataProviders.*" target="lib\portable-win81+wpa81" />
+    <file src="**\*.cs" target="src" />
+  </files>
+</package>
