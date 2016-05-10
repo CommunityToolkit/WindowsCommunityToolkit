@@ -13,7 +13,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
     [ConnectedServiceProviderExport("Microsoft.Windows.Toolkit.VisualStudio.SocialServices")]
     internal class UWPToolkitConnectedServiceProvider : ConnectedServiceProvider
     {
-        GridViewModel ViewModel = new GridViewModel();
+        GridViewModel viewModel = new GridViewModel();
 
         public UWPToolkitConnectedServiceProvider()
         {
@@ -37,7 +37,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderContext context)
         {
-            ConnectedServiceConfigurator configurator = ViewModel;
+            ConnectedServiceConfigurator configurator = viewModel;
 
             return Task.FromResult(configurator);
         }

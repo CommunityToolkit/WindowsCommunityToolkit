@@ -13,7 +13,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             TwitterSchema tweet = new TwitterSchema
             {
-                _id = item.Id,
+                Id = item.Id,
                 Text = item.Text.DecodeHtml(),
                 CreationDateTime = TryParse(item.CreatedAt)
             };

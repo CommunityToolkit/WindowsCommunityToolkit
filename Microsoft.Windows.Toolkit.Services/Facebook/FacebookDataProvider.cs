@@ -12,18 +12,18 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
     {
         private const string BaseUrl = @"https://graph.facebook.com/v2.5";
 
-        private FacebookOAuthTokens _tokens;
+        private FacebookOAuthTokens tokens;
 
         public FacebookDataProvider(FacebookOAuthTokens tokens)
         {
-            _tokens = tokens;
+            this.tokens = tokens;
         }
 
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(FacebookDataConfig config, int maxRecords, IParser<TSchema> parser)
         {
             var settings = new HttpRequestSettings
             {
-                RequestedUri = new Uri($"{BaseUrl}/{config.UserId}/posts?&access_token={_tokens.AppId}|{ _tokens.AppSecret}&fields=id,message,from,created_time,link,full_picture&limit={maxRecords}", UriKind.Absolute)
+                RequestedUri = new Uri($"{BaseUrl}/{config.UserId}/posts?&access_token={tokens.AppId}|{ tokens.AppSecret}&fields=id,message,from,created_time,link,full_picture&limit={maxRecords}", UriKind.Absolute)
             };
 
             HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
@@ -51,15 +51,15 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             {
                 throw new ConfigParameterNullException("UserId");
             }
-            if (_tokens == null)
+            if (tokens == null)
             {
                 throw new ConfigParameterNullException("Tokens");
             }
-            if (string.IsNullOrEmpty(_tokens.AppId))
+            if (string.IsNullOrEmpty(tokens.AppId))
             {
                 throw new OAuthKeysNotPresentException("AppId");
             }
-            if (string.IsNullOrEmpty(_tokens.AppSecret))
+            if (string.IsNullOrEmpty(tokens.AppSecret))
             {
                 throw new OAuthKeysNotPresentException("AppSecret");
             }

@@ -16,12 +16,12 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     [ConnectedServiceProvider("Twitter", "https://apps.twitter.com/")]
     public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, TwitterSchema>
     {
-        private TwitterOAuthTokens _tokens;
+        private TwitterOAuthTokens tokens;
         private const string BaseUrl = "https://api.twitter.com/1.1";
 
         public TwitterDataProvider(TwitterOAuthTokens tokens)
         {
-            _tokens = tokens;
+            this.tokens = tokens;
         }
 
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, IParser<TSchema> parser)
@@ -69,7 +69,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
 
                 OAuthRequest request = new OAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, _tokens);
+                var rawResult = await request.ExecuteAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -109,7 +109,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
                 OAuthRequest request = new OAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, _tokens);
+                var rawResult = await request.ExecuteAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -140,23 +140,23 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 throw new ConfigParameterNullException("Query");
             }
-            if (_tokens == null)
+            if (tokens == null)
             {
                 throw new ConfigParameterNullException("Tokens");
             }
-            if (string.IsNullOrEmpty(_tokens.ConsumerKey))
+            if (string.IsNullOrEmpty(tokens.ConsumerKey))
             {
                 throw new OAuthKeysNotPresentException("ConsumerKey");
             }
-            if (string.IsNullOrEmpty(_tokens.ConsumerSecret))
+            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
             {
                 throw new OAuthKeysNotPresentException("ConsumerSecret");
             }
-            if (string.IsNullOrEmpty(_tokens.AccessToken))
+            if (string.IsNullOrEmpty(tokens.AccessToken))
             {
                 throw new OAuthKeysNotPresentException("AccessToken");
             }
-            if (string.IsNullOrEmpty(_tokens.AccessTokenSecret))
+            if (string.IsNullOrEmpty(tokens.AccessTokenSecret))
             {
                 throw new OAuthKeysNotPresentException("AccessTokenSecret");
             }
@@ -169,7 +169,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
 
                 OAuthRequest request = new OAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, _tokens);
+                var rawResult = await request.ExecuteAsync(uri, tokens);
 
                 return parser.Parse(rawResult);
             }

@@ -5,16 +5,16 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class StringValueAttribute : Attribute
     {
-        private string _value;
+        private string value;
 
         public StringValueAttribute(string value)
         {
-            _value = value;
+            this.value = value;
         }
 
         public string Value
         {
-            get { return _value; }
+            get { return value; }
         }
     }
 

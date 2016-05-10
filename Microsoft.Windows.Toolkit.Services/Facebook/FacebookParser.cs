@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             {
                 var item = new FacebookSchema
                 {
-                    _id = i.id,
+                    Id = i.id,
                     Author = i.from.name,
                     PublishDate = i.created_time,
                     Title = i.message.DecodeHtml(),
