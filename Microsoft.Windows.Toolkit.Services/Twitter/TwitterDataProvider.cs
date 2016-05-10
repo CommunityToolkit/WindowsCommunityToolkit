@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
-    [ConnectedServiceProvider("Twitter", "https://dev.twitter.com/web/sign-in")]
+    [ConnectedServiceProvider("Twitter", "https://apps.twitter.com/")]
     public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, TwitterSchema>
     {
         private TwitterOAuthTokens _tokens;

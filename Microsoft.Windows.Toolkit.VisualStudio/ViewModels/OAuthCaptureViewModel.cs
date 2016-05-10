@@ -10,11 +10,8 @@ using System.Windows.Input;
 
 namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
 {
-    public class OAuthCaptureViewModel : INotifyPropertyChanged
+    public class OAuthCaptureViewModel
     {
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand OkCommand { get; set; }
 
         public ICommand CancelCommand { get; set; }
@@ -94,11 +91,6 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
         private void ExecuteCancelClicked(object sender)
         {
             Window.Close();
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
