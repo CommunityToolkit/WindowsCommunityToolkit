@@ -45,22 +45,30 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
             AddFileOptions addFileOptions = new AddFileOptions();
 
+            string tokensPropertiesAndValues = String.Empty;
+
             foreach (var oAuthKeyValue in toolkitServicesInstance.Metadata)
             {
                 if (oAuthKeyValue.Value.ToString() != Constants.OAUTH_KEY_VALUE_DEFAULT_NOT_REQUIRED_VALUE)
                 {
-                    addFileOptions.AdditionalReplacementValues.Add(oAuthKeyValue.Key, oAuthKeyValue.Value.ToString());
+                    tokensPropertiesAndValues = String.Concat(tokensPropertiesAndValues, $@"tokens.{oAuthKeyValue.Key} = ""{oAuthKeyValue.Value.ToString()}""; ");
                 }
             }
 
+            addFileOptions.AdditionalReplacementValues.Add("TOKEN_PROPERTIES_AND_VALUES", tokensPropertiesAndValues);
+
+            var queryParamPropertyName = DataProviderDiscovery.Instance.FindQueryParamStringNameByProviderPublisherKeyName(context.ServiceInstance.Name);
+
+            addFileOptions.AdditionalReplacementValues.Add("QUERY_PARAM_PROPERTY_NAME", queryParamPropertyName);
+
             await context.HandlerHelper.AddFileAsync(templateResourceUri, generatedHelperPath, addFileOptions);
 
-            templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/DataProviderSourceTemplate.cs";
+            templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/DataProviderConnectorTemplate.cs";
 
             generatedHelperPath = Path.Combine(
                 context.HandlerHelper.GetServiceArtifactsRootFolder(),
                 Constants.SERVICE_FOLDER_NAME,
-                $"{context.ServiceInstance.Name}GeneratedProviderSource.cs");
+                $"{context.ServiceInstance.Name}GeneratedProviderConnector.cs");
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, generatedHelperPath, addFileOptions);
 
@@ -86,23 +94,6 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
         public override async Task<UpdateServiceInstanceResult> UpdateServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
-            var toolkitServicesInstance = context.ServiceInstance;
-
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Updating Config");
-            using (EditableXmlConfigHelper configHelper = context.CreateEditableXmlConfigHelper())
-            {
-                configHelper.SetAppSetting(
-                    string.Format("{0}:ConnectionString", context.ServiceInstance.Name),
-                    "SomeServiceConnectionString",
-                    context.ServiceInstance.Name
-                );
-                configHelper.Save();
-            }
-
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding NuGets");
-            await AddNuGetPackagesAsync(context, project);
-
             return new UpdateServiceInstanceResult();
         }
 

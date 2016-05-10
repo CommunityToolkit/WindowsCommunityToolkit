@@ -26,28 +26,19 @@ namespace $ProjectDefaultNamespace$
 
         public $ServiceInstance.Name$DataProvider GetProvider()
         {
-    // TODO these values differ per provider - needs abstracting
-             return new $ServiceInstance.Name$DataProvider(new $ServiceInstance.Name$OAuthTokens
-            {
-                AppId = "$ConsumerKey$",
-                AppSecret = "$ConsumerSecret$"
-                //,AccessToken = "$AccessToken$",
-                //AccessTokenSecret = "$AccessTokenSecret$"
-            }); ;
-        }
+            var tokens = new $ServiceInstance.Name$OAuthTokens();
+            
+            $TOKEN_PROPERTIES_AND_VALUES$
 
+            return new $ServiceInstance.Name$DataProvider(tokens);
+        }
+        public $ServiceInstance.Name$DataConfig Config { get; set; }
         public async Task<List<$ServiceInstance.Name$Schema>> RequestAsync()
         {
 
             List<$ServiceInstance.Name$Schema> queryResults = new List<$ServiceInstance.Name$Schema> ();
 
-            // TODO these values differ per provider - needs abstracting
-            $ServiceInstance.Name$DataConfig config = new $ServiceInstance.Name$DataConfig
-            {
-                UserId = "8195378771"
-            };
-
-            var results = await GetProvider().LoadDataAsync(config);
+            var results = await GetProvider().LoadDataAsync(Config);
             foreach (var result in results)
             {
                 queryResults.Add(result);

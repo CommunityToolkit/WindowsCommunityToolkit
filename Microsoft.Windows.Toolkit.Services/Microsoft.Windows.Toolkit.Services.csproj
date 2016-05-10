@@ -42,6 +42,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\ConnectedServiceDataConfigAttribute.cs" />
+    <Compile Include="Core\ConnectedServiceDataConfigQueryStringParamAttribute.cs" />
     <Compile Include="Core\ConnectedServiceOAuthAttribute.cs" />
     <Compile Include="Core\ConnectedServiceProviderAttribute.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />

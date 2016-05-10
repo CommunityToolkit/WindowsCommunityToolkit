@@ -45,7 +45,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Models\DataProviderModel.cs" />
     <Resource Include="Templates\ProviderHelperTemplate.cs" />
-    <Resource Include="Templates\DataProviderSourceTemplate.cs" />
+    <Resource Include="Templates\DataProviderConnectorTemplate.cs" />
     <Compile Include="UWPToolkitConnectedServiceHandler.cs" />
     <Compile Include="Helpers\DataProviderDiscovery.cs" />
     <Compile Include="Helpers\ProjectHelper.cs" />

@@ -76,9 +76,44 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
                 var props = from p in oAuthType.GetProperties() select new KeyValuePair<string, string>(p.Name, Constants.OAUTH_KEY_VALUE_DEFAULT_REQUIRED_VALUE);
                 oAuthProperties = props.ToDictionary(t => t.Key, t => t.Value);
             }
+            else
+            {
+                throw new Exception($"OAuth properties not found for providerPublisherKeyName: {providerPublisherKeyName}");
+            }
 
             return oAuthProperties;
         }
 
+        public string FindQueryParamStringNameByProviderPublisherKeyName(string providerPublisherKeyName)
+        {
+            string queryParamStringName = String.Empty;
+
+            var currentAssembly = Instance.GetType().GetTypeInfo().Assembly;
+            var referencedAssemblies = currentAssembly.GetReferencedAssemblies();
+
+            var dataProvidersAssemblyName = (from a in referencedAssemblies where a.Name == Constants.DATA_PROVIDER_LIBRARY_NAME select a).Single();
+
+            var dataProvidersAssembly = AppDomain.CurrentDomain.Load(dataProvidersAssemblyName);
+
+            var allTypesInAssembly = dataProvidersAssembly.DefinedTypes;
+
+            var allTypesWithCustomAttributes = from t in allTypesInAssembly where t.CustomAttributes.Count() > 0 select t;
+
+            var dataConfigType = (from t in allTypesWithCustomAttributes
+                             where t.GetCustomAttributes(typeof(ConnectedServiceDataConfigAttribute)).Any(attr => { return (attr as ConnectedServiceDataConfigAttribute).ProviderPublisherKeyName == providerPublisherKeyName; })
+                             select t).SingleOrDefault();
+
+            if (dataConfigType != null)
+            {
+                var queryStringProperty = (from p in dataConfigType.GetProperties() where p.CustomAttributes.Any(attr => { return attr.AttributeType == typeof(ConnectedServiceDataConfigQueryStringParamAttribute); }) select p).Single();
+                queryParamStringName = queryStringProperty.Name;
+            }
+            else
+            {
+                throw new Exception($"No dataConfigType found for providerPublisherKeyName: {providerPublisherKeyName}");
+            }
+
+            return queryParamStringName;
+        }
     }
 }
