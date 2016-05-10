@@ -44,10 +44,14 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                 $"{context.ServiceInstance.Name}GeneratedProviderHelper.cs");
 
             AddFileOptions addFileOptions = new AddFileOptions();
-            addFileOptions.AdditionalReplacementValues.Add("ConsumerKey", toolkitServicesInstance.Metadata["AppId"].ToString());
-            addFileOptions.AdditionalReplacementValues.Add("ConsumerSecret", toolkitServicesInstance.Metadata["AppSecret"].ToString());
-            addFileOptions.AdditionalReplacementValues.Add("AccessToken", toolkitServicesInstance.Metadata["AccessToken"].ToString());
-            addFileOptions.AdditionalReplacementValues.Add("AccessTokenSecret", toolkitServicesInstance.Metadata["AccessTokenSecret"].ToString());
+
+            foreach (var oAuthKeyValue in toolkitServicesInstance.Metadata)
+            {
+                if (oAuthKeyValue.Value.ToString() != Constants.OAUTH_KEY_VALUE_DEFAULT_NOT_REQUIRED_VALUE)
+                {
+                    addFileOptions.AdditionalReplacementValues.Add(oAuthKeyValue.Key, oAuthKeyValue.Value.ToString());
+                }
+            }
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, generatedHelperPath, addFileOptions);
 
@@ -74,17 +78,10 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding NuGets");
             await AddNuGetPackagesAsync(context, project);
 
-            StoreExtendedDesignerData(context);
-
             AddServiceInstanceResult result = new AddServiceInstanceResult(
                                                             Constants.SERVICE_FOLDER_NAME,
                                                             new Uri("https://github.com/"));
                                                             return result;
-        }
-
-        private void StoreExtendedDesignerData(ConnectedServiceHandlerContext context)
-        {
-            context.SetExtendedDesignerData("TEST DATA");
         }
 
         public override async Task<UpdateServiceInstanceResult> UpdateServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
@@ -105,8 +102,6 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding NuGets");
             await AddNuGetPackagesAsync(context, project);
-
-            StoreExtendedDesignerData(context);
 
             return new UpdateServiceInstanceResult();
         }

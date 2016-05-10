@@ -31,7 +31,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             var dataProviderModels = DataProviderDiscovery.Instance.FindAllDataProviders();
             foreach(var dataProviderModel in dataProviderModels)
             {
-                yield return Tuple.Create(dataProviderModel.ProviderPublisherName, new Uri(dataProviderModel.ServiceDeveloperInformationUrl));
+                yield return Tuple.Create(dataProviderModel.ProviderPublisherKeyName, new Uri(dataProviderModel.ServiceDeveloperInformationUrl));
             }
         }
 

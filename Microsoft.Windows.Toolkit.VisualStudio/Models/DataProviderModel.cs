@@ -10,7 +10,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Models
     public class DataProviderModel
     {
         public TypeInfo ProviderType { get; set; }
-        public string ProviderPublisherName { get; set; }
+        public string ProviderPublisherKeyName { get; set; }
         public string ServiceDeveloperInformationUrl { get; set; }
     }
 }

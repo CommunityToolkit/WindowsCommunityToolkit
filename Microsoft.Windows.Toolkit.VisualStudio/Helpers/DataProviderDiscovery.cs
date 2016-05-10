@@ -1,5 +1,4 @@
-﻿using AppStudio.DataProviders;
-using AppStudio.DataProviders.Core;
+﻿using Microsoft.Windows.Toolkit.Services.Core;
 using Microsoft.Windows.Toolkit.VisualStudio.Models;
 using System;
 using System.Collections.Generic;
@@ -33,8 +32,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
             var currentAssembly = Instance.GetType().GetTypeInfo().Assembly;
             var referencedAssemblies = currentAssembly.GetReferencedAssemblies();
 
-            // TODO Make less brittle / more concise / cache it for performance / basically re-write :-)
-            var dataProvidersAssemblyName = (from a in referencedAssemblies where a.Name == "AppStudio.DataProviders" select a).Single();
+            var dataProvidersAssemblyName = (from a in referencedAssemblies where a.Name == Constants.DATA_PROVIDER_LIBRARY_NAME select a).Single();
 
             var dataProvidersAssembly = AppDomain.CurrentDomain.Load(dataProvidersAssemblyName);
 
@@ -46,7 +44,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
                                 where t.CustomAttributes.Any(attr => { return (attr.AttributeType == typeof(ConnectedServiceProviderAttribute)); })
                                 select new DataProviderModel
                                 {
-                                    ProviderPublisherName = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).ProviderPublisherName,
+                                    ProviderPublisherKeyName = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).ProviderPublisherKeyName,
                                     ServiceDeveloperInformationUrl = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).DeveloperPortalUrl,
                                     ProviderType = t
                                 };
@@ -54,11 +52,32 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
             return dataProviderModels.ToList();
         }
 
-
-
-        private bool IsConnectedServiceProviderAttribute(CustomAttributeData attr)
+        public Dictionary<string,string> FindOAuthPropertiesByProviderPublisherKeyName(string providerPublisherKeyName)
         {
-            return attr.NamedArguments.Any(arg => attr.AttributeType == typeof(ConnectedServiceProviderAttribute));
+            Dictionary<string, string> oAuthProperties = new Dictionary<string, string>();
+
+            var currentAssembly = Instance.GetType().GetTypeInfo().Assembly;
+            var referencedAssemblies = currentAssembly.GetReferencedAssemblies();
+
+            var dataProvidersAssemblyName = (from a in referencedAssemblies where a.Name == Constants.DATA_PROVIDER_LIBRARY_NAME select a).Single();
+
+            var dataProvidersAssembly = AppDomain.CurrentDomain.Load(dataProvidersAssemblyName);
+
+            var allTypesInAssembly = dataProvidersAssembly.DefinedTypes;
+
+            var allTypesWithCustomAttributes = from t in allTypesInAssembly where t.CustomAttributes.Count() > 0 select t;
+
+            var oAuthType = (from t in allTypesWithCustomAttributes
+                             where t.GetCustomAttributes(typeof(ConnectedServiceOAuthAttribute)).Any(attr => { return (attr as ConnectedServiceOAuthAttribute).ProviderPublisherKeyName == providerPublisherKeyName; })
+                             select t).SingleOrDefault();
+
+            if(oAuthType != null)
+            {
+                var props = from p in oAuthType.GetProperties() select new KeyValuePair<string, string>(p.Name, Constants.OAUTH_KEY_VALUE_DEFAULT_REQUIRED_VALUE);
+                oAuthProperties = props.ToDictionary(t => t.Key, t => t.Value);
+            }
+
+            return oAuthProperties;
         }
 
     }
