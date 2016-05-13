@@ -7,8 +7,8 @@
     <ProjectGuid>{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.UI.LayoutControls</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.UI.LayoutControls</AssemblyName>
+    <RootNamespace>Microsoft.Windows.Toolkit.UI.Controls</RootNamespace>
+    <AssemblyName>Microsoft.Windows.Toolkit.UI.Controls</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -27,7 +27,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.LayoutControls.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Controls.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

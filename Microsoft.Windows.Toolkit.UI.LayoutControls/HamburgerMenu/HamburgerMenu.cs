@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Windows.Toolkit.UI.LayoutControls
+namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     public partial class HamburgerMenu : ContentControl
     {
@@ -13,11 +13,17 @@ namespace Microsoft.Windows.Toolkit.UI.LayoutControls
         SplitView mainSplitView;
         ListView buttonsListView;
 
+        /// <summary>
+        /// Create a new instance of a HamburgerMenu.
+        /// </summary>
         public HamburgerMenu()
         {
             DefaultStyleKey = typeof(HamburgerMenu);
         }
 
+        /// <summary>
+        /// Override default OnApplyTemplate to capture children controls
+        /// </summary>
         protected override void OnApplyTemplate()
         {
             hamburgerButton = (Button)GetTemplateChild("HamburgerButton");

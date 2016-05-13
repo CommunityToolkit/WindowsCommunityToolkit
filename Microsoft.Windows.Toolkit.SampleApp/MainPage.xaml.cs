@@ -21,7 +21,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             base.OnNavigatedTo(e);
 
             // Get list of samples
-            using (var jsonStream = await Core.GetPackagedFileAsync("Samples/samples.json"))
+            using (var jsonStream = await Helpers.GetPackagedFileAsync("Samples/samples.json"))
             {
                 var jsonString = await jsonStream.ReadTextAsync();
                 var samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);

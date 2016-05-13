@@ -42,8 +42,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core.Compression.cs" />
-    <Compile Include="Core.Streams.cs" />
+    <Compile Include="Helpers.Compression.cs" />
+    <Compile Include="Helpers.Streams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>

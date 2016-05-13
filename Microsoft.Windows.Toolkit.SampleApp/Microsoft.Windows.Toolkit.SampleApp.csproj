@@ -132,9 +132,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.LayoutControls\Microsoft.Windows.Toolkit.UI.LayoutControls.csproj">
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.LayoutControls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Windows.Toolkit.UI.LayoutControls</Name>
+      <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>

@@ -9,7 +9,7 @@ using Windows.Web.Http;
 
 namespace Microsoft.Windows.Toolkit
 {
-    public static partial class Core
+    public static partial class Helpers
     {
         /// <summary>
         /// Get the response stream returned by a HTTP get request.

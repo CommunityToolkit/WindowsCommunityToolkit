@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit
 {
-    public static partial class Core
+    public static partial class Helpers
     {
         /// <summary>
         /// This method can be used to decompress a base64 string previously created by Core.Compress.

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Windows.Toolkit.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Windows.Toolkit.UI.Animations", "Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.csproj", "{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Windows.Toolkit.UI.LayoutControls", "Microsoft.Windows.Toolkit.UI.LayoutControls\Microsoft.Windows.Toolkit.UI.LayoutControls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Windows.Toolkit.UI.Controls", "Microsoft.Windows.Toolkit.UI.LayoutControls\Microsoft.Windows.Toolkit.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}"
 EndProject

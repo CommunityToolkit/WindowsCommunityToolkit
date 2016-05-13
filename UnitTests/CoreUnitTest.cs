@@ -25,7 +25,7 @@ namespace UnitTests
         [TestMethod]
         public async Task TestGetPackagedFileAsync()
         {
-            using (var stream = await Core.GetPackagedFileAsync("Assets/Sub/test.txt"))
+            using (var stream = await Helpers.GetPackagedFileAsync("Assets/Sub/test.txt"))
             {
 
             }
@@ -34,7 +34,7 @@ namespace UnitTests
         [TestMethod]
         public async Task TestReadTextAsString()
         {
-            using (var stream = await Core.GetPackagedFileAsync("Assets/Sub/test.txt"))
+            using (var stream = await Helpers.GetPackagedFileAsync("Assets/Sub/test.txt"))
             {
                 var readText = await stream.ReadTextAsync();
                 Assert.IsTrue(readText == "This is my content text");
