@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:layoutControls="using:Microsoft.Windows.Toolkit.UI.LayoutControls"
-    Loaded="MainPage_OnLoaded"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate" x:DataType="local:SampleCategory">
