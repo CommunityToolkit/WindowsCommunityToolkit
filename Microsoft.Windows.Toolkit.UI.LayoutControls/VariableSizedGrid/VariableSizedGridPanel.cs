@@ -18,6 +18,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         internal bool IsReady { get; set; } = false;
 
         #region Orientation
+        /// <summary>
+        /// Gets or sets the dimension by which child elements are stacked.
+        /// </summary>
+        /// <value>One of the enumeration values that specifies the orientation of child elements.</value>
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
@@ -30,10 +34,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             control.InvalidateMeasure();
         }
 
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(VariableSizedGridPanel), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
         #endregion
 
         #region MaximumRowsOrColumns
+        /// <summary>
+        /// Gets or sets the maximum number of rows or columns.
+        /// </summary>
+        /// <value>The maximum rows or columns.</value>
         public int MaximumRowsOrColumns
         {
             get { return (int)GetValue(MaximumRowsOrColumnsProperty); }
@@ -46,10 +57,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             control.InvalidateMeasure();
         }
 
+        /// <summary>
+        /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register("MaximumRowsOrColumns", typeof(int), typeof(VariableSizedGridPanel), new PropertyMetadata(0, MaximumRowsOrColumnsChanged));
         #endregion
 
         #region AspectRatio
+        /// <summary>
+        /// Gets or sets the height-to-width aspect ratio for each tile.
+        /// </summary>
+        /// <value>The aspect ratio.</value>
         public double AspectRatio
         {
             get { return (double)GetValue(AspectRatioProperty); }
@@ -62,6 +80,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             control.InvalidateMeasure();
         }
 
+        /// <summary>
+        /// Identifies the <see cref="AspectRatio"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(VariableSizedGridPanel), new PropertyMetadata(1.0, AspectRatioChanged));
         #endregion
 
@@ -177,6 +198,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             return !cells.Any(r => !(r.Left >= rect.Right || r.Right <= rect.Left || r.Top >= rect.Bottom || r.Bottom <= rect.Top));
         }
 
+        /// <summary>
+        /// Assigned the row and column span for a given item.
+        /// </summary>
+        /// <param name="index">The index of the element.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="colSpan">The col span to use for the item.</param>
+        /// <param name="rowSpan">The row span to use for the item.</param>
         protected virtual void PrepareItem(int index, UIElement element, ref int colSpan, ref int rowSpan)
         {
             colSpan = index % 3 == 0 ? 2 : 1;

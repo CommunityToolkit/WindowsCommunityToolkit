@@ -45,6 +45,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         #endregion
 
         #region ItemPadding
+        /// <summary>
+        /// Gets or sets the padding applied to each item.
+        /// </summary>
+        /// <value>The item padding.</value>
         public Thickness ItemPadding
         {
             get { return (Thickness)GetValue(ItemPaddingProperty); }
@@ -58,6 +62,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         #endregion
 
         #region MaximumRowsOrColumns
+        /// <summary>
+        /// Gets or sets the maximum number of rows or columns.
+        /// </summary>
+        /// <value>The maximum rows or columns.</value>
         public int MaximumRowsOrColumns
         {
             get { return (int)GetValue(MaximumRowsOrColumnsProperty); }
