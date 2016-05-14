@@ -17,7 +17,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 
         internal bool IsReady { get; set; } = false;
 
-        #region Orientation
         /// <summary>
         /// Gets or sets the dimension by which child elements are stacked.
         /// </summary>
@@ -38,9 +37,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(VariableSizedGridPanel), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
-        #endregion
 
-        #region MaximumRowsOrColumns
         /// <summary>
         /// Gets or sets the maximum number of rows or columns.
         /// </summary>
@@ -61,9 +58,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register("MaximumRowsOrColumns", typeof(int), typeof(VariableSizedGridPanel), new PropertyMetadata(0, MaximumRowsOrColumnsChanged));
-        #endregion
 
-        #region AspectRatio
+
         /// <summary>
         /// Gets or sets the height-to-width aspect ratio for each tile.
         /// </summary>
@@ -84,7 +80,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(VariableSizedGridPanel), new PropertyMetadata(1.0, AspectRatioChanged));
-        #endregion
+
 
         /// <summary>
         /// Provides the behavior for the Measure pass of the layout cycle. Classes can override this method to define their own Measure pass behavior.
