@@ -2,8 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:layoutControls="using:Microsoft.Windows.Toolkit.UI.Controls">
+    
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.LayoutControls/HamburgerMenu/HamburgerMenu.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/HamburgerMenu/HamburgerMenu.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/SearchBox/SearchBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

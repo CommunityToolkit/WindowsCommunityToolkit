@@ -43,14 +43,22 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchBox\SearchBox.cs" />
+    <Compile Include="SearchBox\SearchBox.Member.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="SearchBox\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
