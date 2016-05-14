@@ -102,9 +102,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 if (_panel != null)
                 {
                     _panel.IsReady = true;
-                    _panel.SetBinding(VariableSizedGridPanel.OrientationProperty, new Binding { Source = this, Path = new PropertyPath("Orientation") });
-                    _panel.SetBinding(VariableSizedGridPanel.AspectRatioProperty, new Binding { Source = this, Path = new PropertyPath("AspectRatio") });
-                    _panel.SetBinding(VariableSizedGridPanel.MaximumRowsOrColumnsProperty, new Binding { Source = this, Path = new PropertyPath("MaximumRowsOrColumns") });
+                    _panel.SetBinding(VariableSizedGridPanel.OrientationProperty, new Binding { Source = this, Path = new PropertyPath(nameof(Orientation)) });
+                    _panel.SetBinding(VariableSizedGridPanel.AspectRatioProperty, new Binding { Source = this, Path = new PropertyPath(nameof(AspectRatio)) });
+                    _panel.SetBinding(VariableSizedGridPanel.MaximumRowsOrColumnsProperty, new Binding { Source = this, Path = new PropertyPath(nameof(MaximumRowsOrColumns)) });
                 }
             }
         }
