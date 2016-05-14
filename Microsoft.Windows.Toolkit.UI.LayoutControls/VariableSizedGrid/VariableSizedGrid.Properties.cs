@@ -8,6 +8,31 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     public partial class VariableSizedGrid
     {
         /// <summary>
+        /// Identifies the <see cref="ItemMargin"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register(nameof(ItemMargin), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
+
+        /// <summary>
+        /// Identifies the <see cref="ItemPadding"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(nameof(ItemPadding), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
+
+        /// <summary>
+        /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register(nameof(MaximumRowsOrColumns), typeof(int), typeof(VariableSizedGrid), new PropertyMetadata(4, MaximumRowsOrColumnsChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="AspectRatio"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(VariableSizedGrid), new PropertyMetadata(1.0, AspectRatioChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(VariableSizedGrid), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
+
+        /// <summary>
         /// Gets or sets the margin for each item.
         /// </summary>
         /// <value>The item margin.</value>
@@ -15,13 +40,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (Thickness)GetValue(ItemMarginProperty); }
             set { SetValue(ItemMarginProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ItemMargin"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register(nameof(ItemMargin), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
-     
+        }     
 
         /// <summary>
         /// Gets or sets the padding applied to each item.
@@ -32,12 +51,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Thickness)GetValue(ItemPaddingProperty); }
             set { SetValue(ItemPaddingProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the <see cref="ItemPadding"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(nameof(ItemPadding), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
-     
         
         /// <summary>
         /// Gets or sets the maximum number of rows or columns.
@@ -54,12 +67,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             var control = d as VariableSizedGrid;
             control.InvalidateMeasure();
         }
-
-        /// <summary>
-        /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register(nameof(MaximumRowsOrColumns), typeof(int), typeof(VariableSizedGrid), new PropertyMetadata(4, MaximumRowsOrColumnsChanged));
-        
         
         /// <summary>
         /// Gets or sets the height-to-width aspect ratio for each tile.
@@ -71,21 +78,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             set { SetValue(AspectRatioProperty, value); }
         }
 
-        /// <summary>
-        /// Identifies the <see cref="AspectRatio"/> dependency property.
-        /// </summary>
         private static void AspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as VariableSizedGrid;
             control.InvalidateMeasure();
         }
 
-        /// <summary>
-        /// Identifies the <see cref="AspectRatio"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(VariableSizedGrid), new PropertyMetadata(1.0, AspectRatioChanged));
-        
-        
         /// <summary>
         /// Gets or sets the dimension by which child elements are stacked.
         /// </summary>
@@ -101,10 +99,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             var control = d as VariableSizedGrid;
             control.SetOrientation((Orientation)e.NewValue);
         }
-
-        /// <summary>
-        /// Identifies the <see cref="Orientation"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(VariableSizedGrid), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
     }
 }
+
