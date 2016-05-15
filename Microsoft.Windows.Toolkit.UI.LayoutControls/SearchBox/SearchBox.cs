@@ -10,21 +10,21 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// <summary>
     /// Defines a text box control used for search.
     /// </summary>
+    [TemplatePart(Name = "TextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "SearchButtonGrid", Type = typeof(Grid))]
     public partial class SearchBox : Control
     {
-        private const double animationDurationMilliseconds = 500;
+        private const double _animationDurationMilliseconds = 500;
 
-        private TextBox textBox;
+        private TextBox _textBox;
 
-        private Grid searchButtonGrid;
+        private Grid _searchButtonGrid;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchBox"/>.       
         /// </summary>
         public SearchBox()
         {
-            HorizontalAlignment = HorizontalAlignment.Center;
-            Height = 68;
             DefaultStyleKey = typeof(SearchBox);
         }
 
@@ -33,17 +33,40 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            textBox = GetTemplateChild("TextBox") as TextBox;
-            searchButtonGrid = GetTemplateChild("SearchButtonGrid") as Grid;
+            if (_textBox != null)
+            {
+                _textBox.LostFocus -= TextBox_LostFocus;
+                _textBox.KeyUp -= TextBox_KeyUp;
+                _textBox = null;
+            }
 
-            textBox.LostFocus += TextBox_LostFocus;
-            textBox.KeyUp += TextBox_KeyUp;
+            if (_searchButtonGrid != null)
+            {
+                _searchButtonGrid.Tapped -= SearchButtonGrid_Tapped;
+                _searchButtonGrid.PointerEntered -= SearchButtonGrid_PointerEntered;
+                _searchButtonGrid.PointerExited -= SearchButtonGrid_PointerExited;
+                _searchButtonGrid.PointerPressed -= SearchButtonGrid_PointerPressed;
+                _searchButtonGrid.PointerReleased -= SearchButtonGrid_PointerEntered;
+                _searchButtonGrid = null;
+            }
 
-            searchButtonGrid.Tapped += SearchButtonGrid_Tapped;
-            searchButtonGrid.PointerEntered += SearchButtonGrid_PointerEntered;
-            searchButtonGrid.PointerExited += SearchButtonGrid_PointerExited;
-            searchButtonGrid.PointerPressed += SearchButtonGrid_PointerPressed;
-            searchButtonGrid.PointerReleased += SearchButtonGrid_PointerEntered;
+            _textBox = GetTemplateChild("TextBox") as TextBox;
+            _searchButtonGrid = GetTemplateChild("SearchButtonGrid") as Grid;
+
+            if (_textBox != null)
+            {
+                _textBox.LostFocus += TextBox_LostFocus;
+                _textBox.KeyUp += TextBox_KeyUp;
+            }
+
+            if (_searchButtonGrid != null)
+            {
+                _searchButtonGrid.Tapped += SearchButtonGrid_Tapped;
+                _searchButtonGrid.PointerEntered += SearchButtonGrid_PointerEntered;
+                _searchButtonGrid.PointerExited += SearchButtonGrid_PointerExited;
+                _searchButtonGrid.PointerPressed += SearchButtonGrid_PointerPressed;
+                _searchButtonGrid.PointerReleased += SearchButtonGrid_PointerEntered;
+            }
 
             UpdateSearchTextGridVisibility();
             base.OnApplyTemplate();
@@ -81,7 +104,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             if (IsTextVisible)
             {
-                if (!this.ExecuteSearchCommand(Text))
+                if (!ExecuteSearchCommand(Text))
                 {
                     HideSearchText();
                 }
@@ -89,7 +112,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             else
             {
                 await ShowSearchText();
-                this.textBox.Focus(FocusState.Keyboard);
+                _textBox.Focus(FocusState.Keyboard);
             }
         }
 
@@ -132,14 +155,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (DisplayMode == DisplayModeValue.Expand)
             {
                 var oldValue = SearchWidth;
-                await this.AnimateDoublePropertyAsync("SearchWidth", SearchWidth, 0.0, animationDurationMilliseconds);
+                await this.AnimateDoublePropertyAsync("SearchWidth", SearchWidth, 0.0, _animationDurationMilliseconds);
                 SearchTextGridVisibility = Visibility.Collapsed;
                 IsTextVisible = false;
                 SearchWidth = oldValue;
             }
             if (DisplayMode == DisplayModeValue.FadeIn)
             {
-                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 1.0, 0.0, animationDurationMilliseconds);
+                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 1.0, 0.0, _animationDurationMilliseconds);
                 SearchTextGridVisibility = Visibility.Collapsed;
                 IsTextVisible = false;
                 SearchTextGridOpacity = 1.0;
@@ -151,21 +174,21 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (DisplayMode == DisplayModeValue.Expand)
             {
                 SearchTextGridVisibility = Visibility.Visible;
-                await this.AnimateDoublePropertyAsync("SearchWidth", 0.0, SearchWidth, animationDurationMilliseconds);
+                await this.AnimateDoublePropertyAsync("SearchWidth", 0.0, SearchWidth, _animationDurationMilliseconds);
                 IsTextVisible = true;
             }
 
             if (DisplayMode == DisplayModeValue.FadeIn)
             {
                 SearchTextGridVisibility = Visibility.Visible;
-                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 0.0, 1.0, animationDurationMilliseconds);
+                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 0.0, 1.0, _animationDurationMilliseconds);
                 IsTextVisible = true;
             }
         }
 
         private void UpdatePlaceholderTextVisibility(object value)
         {
-            this.PlaceholderTextVisibility = string.IsNullOrEmpty(value?.ToString())
+            PlaceholderTextVisibility = string.IsNullOrEmpty(value?.ToString())
                                                  ? Visibility.Visible
                                                  : Visibility.Collapsed;
         }

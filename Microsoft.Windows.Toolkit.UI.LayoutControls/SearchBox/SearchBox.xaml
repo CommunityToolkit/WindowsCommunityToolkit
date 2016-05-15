@@ -4,6 +4,8 @@
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls">
 
     <Style TargetType="controls:SearchBox">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Height" Value="68" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SearchBox">
