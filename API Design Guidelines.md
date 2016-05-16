@@ -19,6 +19,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 * DO design an API by writing code samples for the main scenarios. Only then, you define the object model that supports those code samples.
 * DO NOT use regions. DO use partial classes instead
 * DO declare static dependency properties at the top of their file 
+* DO NOT seal controls
 
 ## Naming conventions
 * We are following the coding guidelines of [.NET Core Foundational libraries](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md). 
