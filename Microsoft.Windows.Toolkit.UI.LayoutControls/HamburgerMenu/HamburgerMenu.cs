@@ -11,11 +11,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     [TemplatePart(Name = "hamburgerButton", Type = typeof(Button))]
     [TemplatePart(Name = "mainSplitView", Type = typeof(SplitView))]
     [TemplatePart(Name = "buttonsListView", Type = typeof(ListViewBase))]
+    [TemplatePart(Name = "optionsListView", Type = typeof(ListViewBase))]
     public partial class HamburgerMenu : ContentControl
     {
         Button _hamburgerButton;
         SplitView _mainSplitView;
         ListViewBase _buttonsListView;
+        ListViewBase _optionsListView;
 
         /// <summary>
         /// Create a new instance of a HamburgerMenu.
@@ -40,9 +42,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _buttonsListView.ItemClick -= ButtonsListView_ItemClick;
             }
 
+            if (_optionsListView != null)
+            {
+                _optionsListView.ItemClick -= OptionsListView_ItemClick; ;
+            }
+
             _hamburgerButton = (Button)GetTemplateChild("hamburgerButton");
             _mainSplitView = (SplitView)GetTemplateChild("mainSplitView");
             _buttonsListView = (ListViewBase)GetTemplateChild("buttonsListView");
+            _optionsListView = (ListViewBase)GetTemplateChild("optionsListView");
 
             if (_hamburgerButton != null)
             {
@@ -52,6 +60,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_buttonsListView != null)
             {
                 _buttonsListView.ItemClick += ButtonsListView_ItemClick;
+            }
+
+            if (_optionsListView != null)
+            {
+                _optionsListView.ItemClick += OptionsListView_ItemClick; ;
             }
 
             base.OnApplyTemplate();

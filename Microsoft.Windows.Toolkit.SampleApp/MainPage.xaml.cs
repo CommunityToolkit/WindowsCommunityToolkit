@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Windows.Toolkit.SampleApp.Pages;
 using Newtonsoft.Json;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
@@ -24,13 +25,30 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 var jsonString = await jsonStream.ReadTextAsync();
                 var samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
 
-              //  HamburgerMenu.ItemsSource = samplesCategories;
+                HamburgerMenu.ItemsSource = samplesCategories;
             }
+
+            // Options
+            HamburgerMenu.OptionsItemsSource = new[] {new Option {Glyph = "", Name = "About", PageType = typeof(About)}};
         }
 
         void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var category = e.ClickedItem as SampleCategory;
+
+            if (category != null)
+            {
+                
+            }
+        }
+
+        private void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
+        {
+            var option = e.ClickedItem as Option;
+            if (option != null)
+            {
+                NavigationFrame.Navigate(option.PageType);
+            }
         }
     }
 }

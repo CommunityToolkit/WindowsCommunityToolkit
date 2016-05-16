@@ -16,6 +16,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
 
                                 <Button Grid.Row="0" Name="hamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
@@ -30,6 +31,24 @@
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                 </ListView>
+
+                                <Grid Grid.Row="2" Visibility="{TemplateBinding OptionsVisibility}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Rectangle Height="1" Fill="{TemplateBinding Foreground}" Grid.Row="0"></Rectangle>
+                                    
+                                    <ListView Grid.Row="1" Name="optionsListView" ItemsSource="{TemplateBinding OptionsItemsSource}" ItemTemplate="{TemplateBinding OptionsItemTemplate}" IsItemClickEnabled="True"
+                                              Width="{TemplateBinding OpenPaneLength}" VerticalAlignment="Bottom">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Padding" Value="0" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                </Grid>
+
                             </Grid>
                         </SplitView.Pane>
                         <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart"></ContentPresenter>
