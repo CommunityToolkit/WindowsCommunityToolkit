@@ -5,9 +5,8 @@
     xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:layoutControls="using:Microsoft.Windows.Toolkit.UI.Controls"
     mc:Ignorable="d">
-    <Page.Resources>
+    <!--<Page.Resources>
         <DataTemplate x:Key="ButtonTemplate" x:DataType="local:SampleCategory">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
@@ -18,12 +17,12 @@
                 <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
             </Grid>
         </DataTemplate>
-    </Page.Resources>
-
-    <layoutControls:HamburgerMenu PaneBackground="#242424" x:Name="HamburgerMenu"
+    </Page.Resources>-->
+    <Grid></Grid>
+    <!--<controls:HamburgerMenu PaneBackground="#242424" x:Name="HamburgerMenu"
                                   ItemClick="HamburgerMenu_OnItemClick"
                                   Foreground="White"
                                   ItemTemplate="{StaticResource ButtonTemplate}">
         <Frame x:Name="NavigationFrame"></Frame>
-    </layoutControls:HamburgerMenu>
+    </controls:HamburgerMenu>-->
 </Page>

@@ -7,22 +7,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
-                    <SplitView x:Name="MainSplitView" OpenPaneLength="{TemplateBinding OpenPaneLength}" 
+                    <SplitView x:Name="mainSplitView" OpenPaneLength="{TemplateBinding OpenPaneLength}" 
                                PanePlacement="{TemplateBinding PanePlacement}" DisplayMode="{TemplateBinding DisplayMode}" 
                                CompactPaneLength="{TemplateBinding CompactPaneLength}" PaneBackground="{TemplateBinding PaneBackground}" 
                                IsPaneOpen="{TemplateBinding IsPaneOpen}">
                         <SplitView.Pane>
-                            <Grid x:Name="PaneGrid">
+                            <Grid x:Name="paneGrid">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
 
-                                <Button Grid.Row="0" Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
+                                <Button Grid.Row="0" Name="hamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
                                     <FontIcon Margin="{TemplateBinding HamburgerMargin}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="{TemplateBinding Foreground}"/>
                                 </Button>
 
-                                <ListView Grid.Row="1" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
+                                <ListView Grid.Row="1" Name="buttonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">

@@ -2,8 +2,6 @@
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
     /// <summary>
@@ -26,7 +24,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 var jsonString = await jsonStream.ReadTextAsync();
                 var samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
 
-                HamburgerMenu.ItemsSource = samplesCategories;
+              //  HamburgerMenu.ItemsSource = samplesCategories;
             }
         }
 
