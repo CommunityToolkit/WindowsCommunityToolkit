@@ -8,16 +8,16 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    [TemplatePart(Name = "hamburgerButton", Type = typeof(Button))]
-    [TemplatePart(Name = "mainSplitView", Type = typeof(SplitView))]
-    [TemplatePart(Name = "buttonsListView", Type = typeof(ListViewBase))]
-    [TemplatePart(Name = "optionsListView", Type = typeof(ListViewBase))]
+    [TemplatePart(Name = "HamburgerButton", Type = typeof(Button))]
+    [TemplatePart(Name = "MainSplitView", Type = typeof(SplitView))]
+    [TemplatePart(Name = "ButtonsListView", Type = typeof(ListViewBase))]
+    [TemplatePart(Name = "OptionsListView", Type = typeof(ListViewBase))]
     public partial class HamburgerMenu : ContentControl
     {
-        Button _hamburgerButton;
-        SplitView _mainSplitView;
-        ListViewBase _buttonsListView;
-        ListViewBase _optionsListView;
+        private Button _hamburgerButton;
+        private SplitView _mainSplitView;
+        private ListViewBase _buttonsListView;
+        private ListViewBase _optionsListView;
 
         /// <summary>
         /// Create a new instance of a HamburgerMenu.
@@ -47,10 +47,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _optionsListView.ItemClick -= OptionsListView_ItemClick; ;
             }
 
-            _hamburgerButton = (Button)GetTemplateChild("hamburgerButton");
-            _mainSplitView = (SplitView)GetTemplateChild("mainSplitView");
-            _buttonsListView = (ListViewBase)GetTemplateChild("buttonsListView");
-            _optionsListView = (ListViewBase)GetTemplateChild("optionsListView");
+            _hamburgerButton = (Button)GetTemplateChild("HamburgerButton");
+            _mainSplitView = (SplitView)GetTemplateChild("MainSplitView");
+            _buttonsListView = (ListViewBase)GetTemplateChild("ButtonsListView");
+            _optionsListView = (ListViewBase)GetTemplateChild("OptionsListView");
 
             if (_hamburgerButton != null)
             {
