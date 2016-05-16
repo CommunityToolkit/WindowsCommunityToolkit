@@ -16,7 +16,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a 
     /// new column.</remarks>
-    [TemplatePart(Name = "listView", Type = typeof(ListViewBase))]
+    [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
     public sealed partial class ResponsiveGridView : Control
     {
         private int _columns;
@@ -64,11 +64,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_listView != null)
             {
                 _listView.SizeChanged -= ListView_SizeChanged;
-                _listView.ItemClick -= ListView_ItemClick;
+                _listView.ItemClick -= ListView_ItemClick;  
                 _listView = null;
             }
 
-            _listView = GetTemplateChild("listView") as ListViewBase;
+            _listView = GetTemplateChild("ListView") as ListViewBase;
             if (_listView != null)
             {
                 _listView.SizeChanged += ListView_SizeChanged;
