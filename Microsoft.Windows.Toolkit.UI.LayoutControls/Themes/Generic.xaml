@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/HamburgerMenu/HamburgerMenu.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ResponsiveGridView/ResponsiveGridView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
