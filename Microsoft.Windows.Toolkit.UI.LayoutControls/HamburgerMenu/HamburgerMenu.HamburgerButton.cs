@@ -16,9 +16,20 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     public partial class HamburgerMenu
     {
         /// <summary>
-        /// Dependency property associated with HamburgerWidth
+        /// Identifies the <see cref="HamburgerWidth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HamburgerWidthProperty = DependencyProperty.Register("HamburgerWidth", typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
+
+        /// <summary>
+        /// Identifies the <see cref="HamburgerHeight"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HamburgerHeightProperty = DependencyProperty.Register("HamburgerHeight", typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
+
+        /// <summary>
+        /// Identifies the <see cref="HamburgerMargin"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HamburgerMarginProperty = DependencyProperty.Register("HamburgerMargin", typeof(Thickness), typeof(HamburgerMenu), new PropertyMetadata(null));
+        
         /// <summary>
         /// Define main button's width
         /// </summary>
@@ -29,10 +40,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Dependency property associated with HamburgerHeight
-        /// </summary>
-        public static readonly DependencyProperty HamburgerHeightProperty = DependencyProperty.Register("HamburgerHeight", typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
-        /// <summary>
         /// Define main button's height
         /// </summary>
         public double HamburgerHeight
@@ -42,10 +49,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Dependency property associated with HamburgerMargin
-        /// </summary>
-        public static readonly DependencyProperty HamburgerMarginProperty = DependencyProperty.Register("HamburgerMargin", typeof(Thickness), typeof(HamburgerMenu), new PropertyMetadata(null));
-        /// <summary>
         /// Define main button's margin
         /// </summary>
         public Thickness HamburgerMargin
@@ -53,6 +56,5 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Thickness)GetValue(HamburgerMarginProperty); }
             set { SetValue(HamburgerMarginProperty, value); }
         }
-
     }
 }
