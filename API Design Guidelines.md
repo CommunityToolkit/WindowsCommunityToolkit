@@ -17,18 +17,12 @@ That's why many of the guidelines of this document are obvious and serve only on
 * DO ensure that APIs are intuitive and can be successfully used in basic scenarios without referring to the reference documentation.
 * DO communicate incorrect usage of APIs as soon as possible. 
 * DO design an API by writing code samples for the main scenarios. Only then, you define the object model that supports those code samples.
+* DO NOT use regions. DO use partial classes instead
+* DO declare static dependency properties at the top of their file 
+* DO NOT seal controls
 
 ## Naming conventions
-* DO use PascalCasing for namespace, type, and member names consisting of multiple words. 
-* DO use camelCasing for parameter names and field values.
-* DO use a capital I prefix followed by PascalCasing for interface parameter names.
-* DO capitalize both characters of two-character acronyms, except the first word of a camel-cased identifier.
-* DO capitalize only the first character of acronyms with three or more characters, except the first word of a camel-cased identifier.
-* DO not capitalize any of the characters of any acronyms, whatever their length, at the beginning of a camel-cased identifier.
-* DO NOT introduce generic type names such as Element, Node, Log, and Message.
-* DO NOT have properties that match the name of “Get” methods
-* DO name Boolean properties with an affirmative phrase (CanSeek instead of CantSeek).
-* DO name the delegate used to describe an event callback with the "EventHander" suffix. For example, the delegate for a "Clicked" event should be named "ClickedEventHandler".
+* We are following the coding guidelines of [.NET Core Foundational libraries](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md). 
 
 ## Documentation
 * DO NOT expect that your API is so well designed that it needs no documentation. No API is that intuitive.

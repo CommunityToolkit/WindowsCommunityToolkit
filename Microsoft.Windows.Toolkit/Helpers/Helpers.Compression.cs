@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit
 {
+    /// <summary>
+    /// This class provides static helper methods.
+    /// </summary>
     public static partial class Helpers
     {
         /// <summary>
