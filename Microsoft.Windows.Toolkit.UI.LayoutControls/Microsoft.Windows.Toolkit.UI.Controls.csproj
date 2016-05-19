@@ -43,6 +43,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HamburgerMenu\HamburgerMenu.Options.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
