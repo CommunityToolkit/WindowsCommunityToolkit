@@ -12,6 +12,7 @@ Any questions? ...
 ## Useful links
 
  - Official web site: 
+ - Do you want to contribute? Here are our [guidelines](https://github.com/deltakosh/UWPToolkit/blob/master/API%20Design%20Guidelines.md)
 
 ## Features
 To get a complete list of supported features, please visit our [website](...).
