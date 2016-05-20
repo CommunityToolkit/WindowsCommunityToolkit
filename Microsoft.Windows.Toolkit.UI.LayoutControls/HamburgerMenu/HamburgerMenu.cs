@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
@@ -44,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             if (_optionsListView != null)
             {
-                _optionsListView.ItemClick -= OptionsListView_ItemClick; ;
+                _optionsListView.ItemClick -= OptionsListView_ItemClick;
             }
 
             _hamburgerButton = (Button)GetTemplateChild("HamburgerButton");
@@ -64,7 +59,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             if (_optionsListView != null)
             {
-                _optionsListView.ItemClick += OptionsListView_ItemClick; ;
+                _optionsListView.ItemClick += OptionsListView_ItemClick;
             }
 
             base.OnApplyTemplate();
