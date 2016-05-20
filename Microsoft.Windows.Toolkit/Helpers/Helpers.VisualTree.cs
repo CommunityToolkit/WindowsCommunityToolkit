@@ -53,9 +53,10 @@ namespace Microsoft.Windows.Toolkit
             for (var i = 0; i < childrenCount; i++)
             {
                 var child = VisualTreeHelper.GetChild(element, i);
-                if (child is tType)
+                var type = child as tType;
+                if (type != null)
                 {
-                    retValue = (tType)child;
+                    retValue = type;
                     break;
                 }
 

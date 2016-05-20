@@ -77,22 +77,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             }
         }
 
-        private void CodeFlyout_OnOpening(object sender, object e)
-        {
-            var sample = DataContext as Sample;
-
-            if (sample != null)
-            {
-                var flyout = sender as Flyout;
-                var codeRenderer = flyout?.Content.FindDescendant<CodeRenderer>();
-
-                if (codeRenderer != null)
-                {
-                    codeRenderer.XamlSource = sample.XamlCode;
-                }
-            }
-        }
-
         private void XAMLSampleButton_OnClick(object sender, RoutedEventArgs e)
         {
             var sample = DataContext as Sample;
