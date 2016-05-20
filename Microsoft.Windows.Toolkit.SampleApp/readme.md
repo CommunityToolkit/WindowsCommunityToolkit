@@ -41,6 +41,20 @@ You can define "interactive" values in this file. The values can be:
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * Enum: You want the user to provide a enum value @[Name:**Enum**:Default value]
 
+You can then bind the value specified in your Xaml page (using xxx.Value path):
+
+```
+<Grid Margin="10">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="48"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="1" Text="{Binding Text.Value, Mode=OneWay}" Foreground="Black" 
+                FontSize="{Binding FontSize.Value, Mode=OneWay}" 
+                VerticalAlignment="{Binding VerticalAlignment.Value, Mode=OneWay}"></TextBlock>
+</Grid>
+```
+
 ## Samples.json
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:

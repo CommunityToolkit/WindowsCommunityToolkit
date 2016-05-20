@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.RangeSelectorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    xmlns:converters="using:Microsoft.Windows.Toolkit.UI.Converters"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding RangeMin, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" 
+                       Foreground="Black"></TextBlock>
+            <controls:RangeSelector x:Name="RangeSelector" Grid.Column="1"
+                 Minimum="{Binding Minimum.Value, Mode=TwoWay}" 
+                 Maximum="{Binding Maximum.Value, Mode=TwoWay}">
+            </controls:RangeSelector>
+            <TextBlock Grid.Column="2" Text="{Binding RangeMax, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
+                       Foreground="Black"></TextBlock>
+        </Grid>
+        
+    </Grid>
+</Page>

@@ -1,0 +1,4 @@
+<RangeSelector x:Name="RangeSelector"
+        Minimum="@[Minimum:Slider:0:10-100]" 
+        Maximum="@[Maximum:Slider:100:0-100]">
+</RangeSelector>

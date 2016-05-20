@@ -101,6 +101,7 @@
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
+    <Content Include="SamplePages\RangeSelectorCode.txt" />
     <Content Include="SamplePages\ResponsiveGridViewCode.txt" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
@@ -119,6 +120,9 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SamplePages\RangeSelectorPage.xaml.cs">
+      <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -165,6 +169,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\RangeSelectorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -190,6 +198,10 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
