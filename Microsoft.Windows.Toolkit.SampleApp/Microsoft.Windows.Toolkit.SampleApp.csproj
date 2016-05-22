@@ -28,6 +28,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -90,19 +92,52 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="project.json" />
+    <Content Include="Assets\Html\CSharp.html" />
+    <Content Include="Assets\Html\Json.html" />
+    <Content Include="Assets\Html\Xaml.html" />
+    <Content Include="Assets\Html\Xml.html" />
+    <Content Include="Assets\Prettify\prettify.css" />
+    <Content Include="Assets\Prettify\prettify.js" />
+    <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
-    <Content Include="Samples\samples.json" />
+    <Content Include="SamplePages\ResponsiveGridViewCode.txt" />
+    <Content Include="SamplePages\samples.json" />
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
+    <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
+    <Compile Include="Controls\PropertyControl.xaml.cs">
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\PropertyDescriptor\ValueHolder.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyOptions.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Models\SampleCategory.cs" />
     <Compile Include="Models\Sample.cs" />
+    <Compile Include="Models\Samples.cs" />
+    <Compile Include="Pages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ResponsiveGridViewPage.xaml.cs">
+      <DependentUpon>ResponsiveGridViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SamplePicker.xaml.cs">
+      <DependentUpon>SamplePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SearchBoxPage.xaml.cs">
+      <DependentUpon>SearchBoxPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,13 +161,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ResponsiveGridViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SamplePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SearchBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.LayoutControls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>
     </ProjectReference>
@@ -141,9 +196,7 @@
       <Name>Microsoft.Windows.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

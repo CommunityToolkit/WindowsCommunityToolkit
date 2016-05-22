@@ -1,0 +1,11 @@
+<Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="48"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="1" 
+		Text="@[Text:String:Hey!]" Foreground="Black" 
+		FontSize="@[FontSize:Slider:12:10-30]" 
+		VerticalAlignment="@[VerticalAlignment:Enum:VerticalAlignment.Center]">
+	</TextBlock>
+</Grid>

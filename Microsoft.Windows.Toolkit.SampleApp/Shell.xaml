@@ -1,0 +1,97 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    xmlns:controlsLocal="using:Microsoft.Windows.Toolkit.SampleApp.Controls"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="ButtonTemplate" x:DataType="local:SampleCategory">
+            <Grid Width="240" Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Source="{x:Bind Icon}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OptionTemplate" x:DataType="local:Option">
+            <Grid Width="240" Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" Foreground="White" />
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <Flyout x:Key="AboutFlyout" Placement="Full" FlyoutPresenterStyle="{StaticResource TooltipFlyoutPresenterStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Name}" Margin="0,10" FontSize="30" Grid.Row="0"></TextBlock>
+                <TextBlock Text="{Binding About}" Grid.Row="1" TextWrapping="WrapWholeWords" Margin="0,10,0,20"></TextBlock>
+                <TextBlock Text="View code on Github:" Grid.Row="2"></TextBlock>
+                <HyperlinkButton Grid.Row="3" NavigateUri="{Binding CodeUrl}">
+                    <TextBlock TextWrapping="Wrap">
+            <Underline>
+              <Run Text="{Binding CodeUrl}"/>
+            </Underline>
+                    </TextBlock>
+                </HyperlinkButton>
+            </Grid>
+        </Flyout>
+    </Page.Resources>
+
+    <controls:HamburgerMenu PaneBackground="#242424" x:Name="HamburgerMenu"
+                                ItemClick="HamburgerMenu_OnItemClick"
+                                Foreground="White"
+                                ItemTemplate="{StaticResource ButtonTemplate}"
+                                OptionsItemTemplate="{StaticResource OptionTemplate}"
+                                OptionsItemClick="HamburgerMenu_OnOptionsItemClick">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
+                <TextBlock Text="{Binding Name}" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Frame x:Name="NavigationFrame" Grid.Column="0"></Frame>
+                <controlsLocal:PropertyControl Grid.Column="1" x:Name="Properties" Visibility="Collapsed" Width="200"/>
+            </Grid>
+            <!--Code panel-->
+            <Grid Grid.Row="1" Margin="10" x:Name="CodePanel" Visibility="Collapsed" BorderThickness="1" BorderBrush="Black" Background="{StaticResource AppBarBackgroundThemeBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
+                <Button Margin="0,10" Content="Close" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="CloseButton" Click="CloseButton_OnClick"></Button>
+            </Grid>
+            <CommandBar Grid.Row="2" x:Name="Footer" ClosedDisplayMode="Hidden" IsSticky="True" IsOpen="False">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton x:Name="AboutSampleButton" Label="About" Icon="Help" Flyout="{StaticResource AboutFlyout}"></AppBarButton>
+                    <AppBarSeparator></AppBarSeparator>
+                    <AppBarButton x:Name="XAMLSampleButton" Label="XAML" Icon="Page2" Click="XAMLSampleButton_OnClick"></AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+    </controls:HamburgerMenu>
+</Page>
