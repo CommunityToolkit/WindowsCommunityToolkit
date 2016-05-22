@@ -112,7 +112,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             else
             {
                 await ShowSearchText();
-                this._textBox?.Focus(FocusState.Keyboard);
+                _textBox?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -125,10 +125,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 Text = txt.Text;
                 UpdatePlaceholderTextVisibility(Text);
             }
-            if (!SearchCommand.CanExecute(Text))
-            {
-                HideSearchText();
-            }
+
+            if (SearchCommand != null && !SearchCommand.CanExecute(Text)) HideSearchText();
         }
 
         private void SearchButtonGrid_PointerEntered(object sender, PointerRoutedEventArgs e) => ShadowOpacity = 0.2;
@@ -139,14 +137,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         
         private bool ExecuteSearchCommand(string text)
         {
-            if (!string.IsNullOrEmpty(text) && SearchCommand != null)
+            if (!string.IsNullOrEmpty(text) && SearchCommand != null && SearchCommand.CanExecute(text))
             {
-                if (SearchCommand.CanExecute(text))
-                {
-                    SearchCommand.Execute(text);
-                    return true;
-                }
+                SearchCommand.Execute(text);
+                return true;
             }
+
             return false;
         }
 
