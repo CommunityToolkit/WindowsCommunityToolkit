@@ -21,12 +21,13 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
+            //var propertyDesc = e.Parameter as PropertyDescriptor;
+            //
+            //if (propertyDesc != null)
+            //{
+            //    DataContext = propertyDesc.Expando;
+            //}
+            this.DataContext = new Data.PhotosDataSource().GetItems();
         }
     }
 }
