@@ -91,6 +91,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="SamplePages\SearchBoxCode.txt" />
     <None Include="project.json" />
     <Content Include="Assets\Html\CSharp.html" />
     <Content Include="Assets\Html\Json.html" />
@@ -109,6 +110,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
