@@ -12,10 +12,10 @@
 			},
 			 {
         "Name": "VariableSizedGridView",
-        "Type": "VariableSizedGridPage",
-        "About": "The VariableSizedGrid control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.",
+        "Type": "VariableSizedGridViewPage",
+        "About": "The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "VariableSizedGridCode.txt" 
+        "XamlCodeFile": "VariableSizedGridViewCode.txt" 
       }
     ]
   },

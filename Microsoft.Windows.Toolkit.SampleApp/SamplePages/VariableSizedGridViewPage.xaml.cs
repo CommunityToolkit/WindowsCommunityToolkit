@@ -3,9 +3,9 @@ using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class VariableSizedGridPage
+    public sealed partial class VariableSizedGridViewPage
     {
-        public VariableSizedGridPage()
+        public VariableSizedGridViewPage()
         {
             InitializeComponent();
         }

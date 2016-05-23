@@ -11,19 +11,19 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// displayed as well as the items orientation in the panel. Finally, the AspectRatio property
     /// allow us to control the relation between Width and Height.
     /// </summary>
-    public partial class VariableSizedGrid : ListViewBase
+    public partial class VariableSizedGridView : ListViewBase
     {
         private ScrollViewer _scrollViewer = null;
-        private VariableSizedGridPanel _panel = null;
+        private VariableSizedGridViewPanel _viewPanel = null;
 
         private bool _isInitialized = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VariableSizedGrid"/> class.
+        /// Initializes a new instance of the <see cref="VariableSizedGridView"/> class.
         /// </summary>
-        public VariableSizedGrid()
+        public VariableSizedGridView()
         {
-            this.DefaultStyleKey = typeof(VariableSizedGrid);
+            this.DefaultStyleKey = typeof(VariableSizedGridView);
             this.LayoutUpdated += OnLayoutUpdated;
         }
         
@@ -96,15 +96,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private void OnLayoutUpdated(object sender, object e)
         {
-            if (_panel == null)
+            if (_viewPanel == null)
             {
-                _panel = base.ItemsPanelRoot as VariableSizedGridPanel;
-                if (_panel != null)
+                _viewPanel = base.ItemsPanelRoot as VariableSizedGridViewPanel;
+                if (_viewPanel != null)
                 {
-                    _panel.IsReady = true;
-                    _panel.SetBinding(VariableSizedGridPanel.OrientationProperty, new Binding { Source = this, Path = new PropertyPath(nameof(Orientation)) });
-                    _panel.SetBinding(VariableSizedGridPanel.AspectRatioProperty, new Binding { Source = this, Path = new PropertyPath(nameof(AspectRatio)) });
-                    _panel.SetBinding(VariableSizedGridPanel.MaximumRowsOrColumnsProperty, new Binding { Source = this, Path = new PropertyPath(nameof(MaximumRowsOrColumns)) });
+                    _viewPanel.IsReady = true;
+                    _viewPanel.SetBinding(VariableSizedGridViewPanel.OrientationProperty, new Binding { Source = this, Path = new PropertyPath(nameof(Orientation)) });
+                    _viewPanel.SetBinding(VariableSizedGridViewPanel.AspectRatioProperty, new Binding { Source = this, Path = new PropertyPath(nameof(AspectRatio)) });
+                    _viewPanel.SetBinding(VariableSizedGridViewPanel.MaximumRowsOrColumnsProperty, new Binding { Source = this, Path = new PropertyPath(nameof(MaximumRowsOrColumns)) });
                 }
             }
         }

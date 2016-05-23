@@ -54,9 +54,9 @@
     <Compile Include="SearchBox\SearchBox.Properties.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGrid.Properties.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGrid.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGridPanel.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridView.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridViewPanel.cs" />
     <Compile Include="ResponsiveGridView\ResponsiveGridView.Properties.cs" />
     <Compile Include="ResponsiveGridView\ResponsiveGridView.cs" />
   </ItemGroup>
@@ -74,7 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="VariableSizedGrid\VariableSizedGrid.xaml">
+    <Page Include="VariableSizedGridView\VariableSizedGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

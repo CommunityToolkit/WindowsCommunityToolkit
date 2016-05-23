@@ -113,7 +113,7 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
-    <Content Include="SamplePages\VariableSizedGridCode.txt" />
+    <Content Include="SamplePages\VariableSizedGridViewCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="SamplePages\SearchBoxCode.txt" />
     <None Include="project.json" />
@@ -147,8 +147,8 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="SamplePages\VariableSizedGridPage.xaml.cs">
-      <DependentUpon>VariableSizedGridPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\VariableSizedGridViewPage.xaml.cs">
+      <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
@@ -203,7 +203,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\VariableSizedGridPage.xaml">
+    <Page Include="SamplePages\VariableSizedGridViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

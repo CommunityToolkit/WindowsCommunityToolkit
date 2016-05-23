@@ -5,32 +5,32 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    public partial class VariableSizedGrid
+    public partial class VariableSizedGridView
     {
         /// <summary>
         /// Identifies the <see cref="ItemMargin"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register(nameof(ItemMargin), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
+        public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register(nameof(ItemMargin), typeof(Thickness), typeof(VariableSizedGridView), new PropertyMetadata(new Thickness(2)));
 
         /// <summary>
         /// Identifies the <see cref="ItemPadding"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(nameof(ItemPadding), typeof(Thickness), typeof(VariableSizedGrid), new PropertyMetadata(new Thickness(2)));
+        public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(nameof(ItemPadding), typeof(Thickness), typeof(VariableSizedGridView), new PropertyMetadata(new Thickness(2)));
 
         /// <summary>
         /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register(nameof(MaximumRowsOrColumns), typeof(int), typeof(VariableSizedGrid), new PropertyMetadata(4, MaximumRowsOrColumnsChanged));
+        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register(nameof(MaximumRowsOrColumns), typeof(int), typeof(VariableSizedGridView), new PropertyMetadata(4, MaximumRowsOrColumnsChanged));
 
         /// <summary>
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(VariableSizedGrid), new PropertyMetadata(1.0, AspectRatioChanged));
+        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(VariableSizedGridView), new PropertyMetadata(1.0, AspectRatioChanged));
 
         /// <summary>
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(VariableSizedGrid), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(VariableSizedGridView), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
 
         /// <summary>
         /// Gets or sets the margin for each item.
@@ -64,7 +64,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void MaximumRowsOrColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGrid;
+            var control = d as VariableSizedGridView;
             control.InvalidateMeasure();
         }
         
@@ -80,7 +80,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void AspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGrid;
+            var control = d as VariableSizedGridView;
             control.InvalidateMeasure();
         }
 
@@ -96,7 +96,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGrid;
+            var control = d as VariableSizedGridView;
             control.SetOrientation((Orientation)e.NewValue);
         }
     }

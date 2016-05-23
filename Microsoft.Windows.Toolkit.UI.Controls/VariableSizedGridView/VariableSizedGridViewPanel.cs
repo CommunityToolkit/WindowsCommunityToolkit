@@ -9,9 +9,9 @@ using Windows.Foundation;
 namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 {
     /// <summary>
-    /// The VariableSizedGridPanel is used to support the <see cref="VariableSizedGrid"/> control.
+    /// The VariableSizedGridPanel is used to support the <see cref="VariableSizedGridView"/> control.
     /// </summary>
-    public class VariableSizedGridPanel : Panel
+    public class VariableSizedGridViewPanel : Panel
     {
         private List<Rect> _cells;
 
@@ -29,14 +29,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 
         private static void OrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGridPanel;
+            var control = d as VariableSizedGridViewPanel;
             control.InvalidateMeasure();
         }
 
         /// <summary>
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(VariableSizedGridPanel), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(VariableSizedGridViewPanel), new PropertyMetadata(Orientation.Horizontal, OrientationChanged));
 
         /// <summary>
         /// Gets or sets the maximum number of rows or columns.
@@ -50,14 +50,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 
         private static void MaximumRowsOrColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGridPanel;
+            var control = d as VariableSizedGridViewPanel;
             control.InvalidateMeasure();
         }
 
         /// <summary>
         /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register("MaximumRowsOrColumns", typeof(int), typeof(VariableSizedGridPanel), new PropertyMetadata(0, MaximumRowsOrColumnsChanged));
+        public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register("MaximumRowsOrColumns", typeof(int), typeof(VariableSizedGridViewPanel), new PropertyMetadata(0, MaximumRowsOrColumnsChanged));
 
 
         /// <summary>
@@ -72,14 +72,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 
         private static void AspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as VariableSizedGridPanel;
+            var control = d as VariableSizedGridViewPanel;
             control.InvalidateMeasure();
         }
 
         /// <summary>
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(VariableSizedGridPanel), new PropertyMetadata(1.0, AspectRatioChanged));
+        public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(VariableSizedGridViewPanel), new PropertyMetadata(1.0, AspectRatioChanged));
 
 
         /// <summary>
