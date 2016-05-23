@@ -4,11 +4,11 @@ using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class RangeSelectorPage : Page
+    public sealed partial class RangeSelectorPage
     {
         public RangeSelectorPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

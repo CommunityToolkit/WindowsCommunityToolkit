@@ -39,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
-                if (typeInfo.Name.Contains(typeName))
+                if (typeInfo.Name == typeName)
                 {
                     return typeInfo;
                 }

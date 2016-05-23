@@ -1,17 +1,27 @@
-﻿using System.Collections.ObjectModel;
-
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Navigation;
+using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class VariableSizedGridPage : Page
+    public sealed partial class VariableSizedGridPage
     {
         public VariableSizedGridPage()
         {
-            this.InitializeComponent();
-            this.DataContext = new Data.PhotosDataSource().GetItems();
+            InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
+
+            control.ItemsSource = new Data.PhotosDataSource().GetItems();
         }
     }
 }

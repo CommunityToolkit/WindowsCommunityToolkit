@@ -74,7 +74,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Frame x:Name="NavigationFrame" Grid.Column="0"></Frame>
-                <controlsLocal:PropertyControl Grid.Column="1" x:Name="Properties" Visibility="Collapsed" Width="200"/>
+                <controlsLocal:PropertyControl Grid.Column="1" x:Name="Properties" Visibility="Collapsed" Width="250"/>
             </Grid>
             <!--Code panel-->
             <Grid Grid.Row="1" Margin="10" x:Name="CodePanel" Visibility="Collapsed" BorderThickness="1" BorderBrush="Black" Background="{StaticResource AppBarBackgroundThemeBrush}">

@@ -1,33 +1,26 @@
-﻿using System.Dynamic;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Navigation;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class ResponsiveGridViewPage : Page
+    public sealed partial class ResponsiveGridViewPage
     {
         public ResponsiveGridViewPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            //var propertyDesc = e.Parameter as PropertyDescriptor;
-            //
-            //if (propertyDesc != null)
-            //{
-            //    DataContext = propertyDesc.Expando;
-            //}
-            this.DataContext = new Data.PhotosDataSource().GetItems();
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
+            control.ItemsSource = new Data.PhotosDataSource().GetItems();
         }
     }
 }

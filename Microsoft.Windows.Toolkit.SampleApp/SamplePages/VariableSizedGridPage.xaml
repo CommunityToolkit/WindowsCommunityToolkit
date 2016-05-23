@@ -2,7 +2,6 @@
     x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.VariableSizedGridPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp.Samples"
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,18 +21,13 @@
         </DataTemplate>
     </Page.Resources>
 
-	<Grid
-        Background="LightGray">
-		<controls:VariableSizedGrid
+	<Grid Background="LightGray">
+        <controls:VariableSizedGrid
             Name="control"
-            Margin="0"
-            ItemsSource="{Binding}"
+            Margin="5"
             ItemTemplate="{StaticResource PhotoTemplate}"
-            Orientation="Horizontal"
-            MaximumRowsOrColumns="4"            
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" />
-
-
-	</Grid>
+            Orientation="{Binding Orientation.Value}"
+            MaximumRowsOrColumns="{Binding MaximumRowsOrColumns.Value}"            
+        />
+    </Grid>
 </Page>

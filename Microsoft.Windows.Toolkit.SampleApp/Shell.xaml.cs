@@ -58,7 +58,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         private void SetHeadersVisibility(bool visible)
         {
             Header.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            Footer.IsOpen = visible;
+            Footer.IsOpen = false;
             Footer.ClosedDisplayMode = visible ? AppBarClosedDisplayMode.Compact : AppBarClosedDisplayMode.Hidden;
             Properties.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
