@@ -5,6 +5,7 @@
     xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp"
     xmlns:controls="using:Microsoft.Windows.Toolkit.SampleApp.Controls"
     RequestedTheme="Light">
+    
     <Application.Resources>
         <Style TargetType="controls:CodeRenderer">
             <Setter Property="Template">

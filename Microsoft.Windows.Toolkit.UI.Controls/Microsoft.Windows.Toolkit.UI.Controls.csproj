@@ -44,11 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HamburgerMenu\HamburgerMenu.Options.cs" />
+    <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchBox\SearchBox.cs" />
+    <Compile Include="SearchBox\SearchBox.Properties.cs" />
     <Compile Include="VariableSizedGrid\VariableSizedGrid.Properties.cs" />
     <Compile Include="VariableSizedGrid\VariableSizedGrid.cs" />
     <Compile Include="VariableSizedGrid\VariableSizedGridPanel.cs" />
@@ -68,6 +71,11 @@
     <Page Include="VariableSizedGrid\VariableSizedGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SearchBox\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

@@ -115,6 +115,7 @@
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="SamplePages\VariableSizedGridCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
+    <Content Include="SamplePages\SearchBoxCode.txt" />
     <None Include="project.json" />
     <Content Include="Assets\Html\CSharp.html" />
     <Content Include="Assets\Html\Json.html" />
@@ -133,6 +134,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
