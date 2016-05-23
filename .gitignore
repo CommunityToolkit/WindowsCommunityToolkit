@@ -45,3 +45,4 @@ ipch/
 *.vsp
 *.vspx
 /packages
+project.lock.json
