@@ -55,6 +55,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             }
         }
 
+        public void ShowOnlyHeader(string title)
+        {
+            Header.Visibility = Visibility.Visible;
+            Title.Text = title;
+        }
+
         private void SetHeadersVisibility(bool visible)
         {
             Header.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
@@ -72,6 +78,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 SetHeadersVisibility(true);
                 var propertyDesc = await sample.GetPropertyDescriptorAsync();
                 DataContext = sample;
+                Title.Text = sample.Name;
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
             }

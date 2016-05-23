@@ -9,20 +9,19 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SampleTemplate" x:DataType="sampleApp:Sample">
-            <Grid Width="300" Height="200">
-                <TextBlock Text="{x:Bind Name}" Foreground="Black" FontSize="16" VerticalAlignment="Center"></TextBlock>
+            <Grid Height="100" Margin="5,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Bind Name}" Foreground="Black" FontSize="24" VerticalAlignment="Center" Grid.Row="0" FontWeight="Bold"></TextBlock>
+                <TextBlock Text="{x:Bind About}" Foreground="Black" Opacity="0.8" FontSize="16" VerticalAlignment="Center" Grid.Row="1" FontWeight="ExtraLight" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"></TextBlock>
             </Grid>
         </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Pick a sample" FontSize="80" Foreground="Black" HorizontalAlignment="Center" Margin="0,40,0,0"></TextBlock>
-
-        <ListView Grid.Row="1" Name="SamplesList" ItemsSource="{Binding Samples}" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick">
+        <ListView Name="SamplesList" ItemsSource="{Binding Samples}" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick">
         </ListView>
     </Grid>
 </Page>

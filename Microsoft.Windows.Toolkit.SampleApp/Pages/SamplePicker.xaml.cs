@@ -31,6 +31,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Pages
         {
             base.OnNavigatedTo(e);
 
+            Shell.Current.ShowOnlyHeader("Please select a sample");
             DataContext = e.Parameter as SampleCategory;
         }
 

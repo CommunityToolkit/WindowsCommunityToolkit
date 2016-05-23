@@ -66,7 +66,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
-                <TextBlock Text="{Binding Name}" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+                <TextBlock x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Border>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

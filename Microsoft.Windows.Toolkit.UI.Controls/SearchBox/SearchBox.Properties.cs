@@ -14,10 +14,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public enum DisplayModeValue
         {
+            /// <summary>
+            /// Control is visible but not expanded.
+            /// </summary>
             Visible,
-
+            /// <summary>
+            /// Control is visible and expanded.
+            /// </summary>
             Expand,
-
+            /// <summary>
+            /// Control is faded in.
+            /// </summary>
             FadeIn
         }
 

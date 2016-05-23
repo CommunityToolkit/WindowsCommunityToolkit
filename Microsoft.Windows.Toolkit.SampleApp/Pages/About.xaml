@@ -2,16 +2,99 @@
     x:Class="Microsoft.Windows.Toolkit.SampleApp.Pages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="ABOUT" FontSize="80" Foreground="Black" HorizontalAlignment="Center" Margin="0,40,0,0"></TextBlock>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <RichTextBlock Margin="12" TextWrapping="Wrap" Foreground="Black">
+                    <Paragraph>
+                        <Run
+                            FontSize="17"
+                            FontWeight="SemiBold"
+                            Text="Microsoft UWP Toolkit Sample Application"/>
+                    </Paragraph>
+                    <Paragraph
+                        FontSize="12">
+                        <Run x:Name="Version"/>
+                    </Paragraph>
+                    <Paragraph
+                        Margin="0,12,0,0">
+                        <Run
+                            Text="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo (wasteam). All Controls and helpers are available as NuGet packages."
+                            FontWeight="Light"
+                            FontSize="14" />
+                    </Paragraph>
+                    <!--App Code-->
+                    <Paragraph
+                        Margin="0,24,0,0">
+                        <Run
+                            Text="App code"
+                            FontWeight="SemiBold"
+                            FontSize="17"/>
+                    </Paragraph>
+                    <Paragraph
+                        Margin="0,6,0,0">
+                        <Hyperlink
+                            FontWeight="Light"
+                            Foreground="Black"
+                            NavigateUri="https://github.com/deltakosh/UWPToolkit"
+                            FontSize="14">
+                            <Run
+                                Text="GitHub Repository" />
+                        </Hyperlink>
+                    </Paragraph>
+                    <!--App Studio URL-->
+                    <Paragraph
+                        Margin="0,24,0,0">
+                        <Run
+                            Text="Url"
+                            FontWeight="SemiBold"
+                            FontSize="17"/>
+                    </Paragraph>
+                    <Paragraph
+                        Margin="0,6,0,0">
+                        <Hyperlink
+                            FontWeight="Light"
+                            Foreground="Black"
+                            NavigateUri="https://dev.windows/com/uwptoolkit"
+                            FontSize="14">
+                            https://dev.windows/com/uwptoolkit
+                        </Hyperlink>
+                    </Paragraph>
+                    <!--Dependences-->
+                    <Paragraph
+                        Margin="0,24,0,0">
+                        <Run
+                            Text="Dependencies"
+                            FontWeight="SemiBold"
+                            FontSize="17"/>
+                    </Paragraph>
+                    <Paragraph
+                        Margin="12,6,0,0">
+                        <Hyperlink
+                            FontWeight="Light"
+                            Foreground="Black"
+                            NavigateUri="http://www.newtonsoft.com/json"
+                            FontSize="14">
+                            Newtonsoft Json
+                        </Hyperlink>
+                    </Paragraph>
+                    <Paragraph
+                        Margin="12,6,0,0">
+                        <Hyperlink
+                            FontWeight="Light"
+                            Foreground="Black"
+                            NavigateUri="https://github.com/google/code-prettify"
+                            FontSize="14">
+                            Code Prettify
+                        </Hyperlink>
+                    </Paragraph>
+                </RichTextBlock>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
+ 
