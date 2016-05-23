@@ -1,0 +1,8 @@
+﻿<Grid>
+	<controls:SearchBox Text="@[Text:String:search text]"
+		PlaceholderText="@[PlaceholderText:String:search...]"
+		SearchCommand="{Binding SearchCommand}"
+		TextAlignment="@[TextAlignment:Enum:TextAlignment.Left]"
+        SearchWidth="@[SearchWidth:Slider:250:200-400]"
+		Foreground="Black" Background="White" />		
+</Grid>
