@@ -5,6 +5,7 @@
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/HamburgerMenu/HamburgerMenu.xaml"/>
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ResponsiveGridView/ResponsiveGridView.xaml"/>
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/VariableSizedGrid/VariableSizedGrid.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/RangeSelector/RangeSelector.xaml"/>
      </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
