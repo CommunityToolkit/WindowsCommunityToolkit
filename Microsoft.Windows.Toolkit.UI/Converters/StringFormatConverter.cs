@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Converters
@@ -19,7 +15,7 @@ namespace Microsoft.Windows.Toolkit.UI.Converters
         /// <param name="targetType">The type of the target property, as a type reference</param>
         /// <param name="parameter">An optional parameter to be used in the string.Format method.</param>
         /// <param name="language">The language of the conversion (not used).</param>
-        /// <returns></returns>
+        /// <returns>Formatted string.</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null)
@@ -32,7 +28,7 @@ namespace Microsoft.Windows.Toolkit.UI.Converters
         }
 
         /// <summary>
-        /// Not supported.
+        /// Not implemented.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
