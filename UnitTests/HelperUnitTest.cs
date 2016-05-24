@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace UnitTests
 {
     [TestClass]
-    public class CoreUnitTests
+    public class HelperUnitTests
     {
         [TestMethod]
         public void TestCompress()
@@ -39,6 +39,18 @@ namespace UnitTests
                 var readText = await stream.ReadTextAsync();
                 Assert.IsTrue(readText == "This is my content text");
             }
+        }
+
+        [TestMethod]
+        public void TestIsInternetAvailable()
+        {
+            Assert.IsTrue(Helpers.IsInternetAvailable());
+        }
+
+        [TestMethod]
+        public void TestIsInternetOnMeteredConnection()
+        {
+            Assert.IsFalse(Helpers.IsInternetOnMeteredConnection);
         }
     }
 }

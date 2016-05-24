@@ -57,18 +57,65 @@ namespace Microsoft.Windows.Toolkit
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
 
-            var folderName = Path.GetDirectoryName(fullFileName);
-            var fileName = Path.GetFileName(fullFileName);
+            return await GetFileAsync(fullFileName, accessMode, workingFolder);
+        }
 
-            if (!string.IsNullOrEmpty(folderName) && folderName != @"\")
-            {
-                workingFolder = await workingFolder.GetFolderAsync(folderName);
-            }
+        /// <summary>
+        /// Return a stream to a specified file from the application local folder.
+        /// </summary>
+        /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
+        /// <param name="accessMode">File access mode. Default is read.</param>
+        /// <returns>File stream</returns>
+        public static async Task<IRandomAccessStream> GetLocalFileAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+
+            return await GetFileAsync(fullFileName, accessMode, workingFolder);
+        }
+
+        private static async Task<IRandomAccessStream> GetFileAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
+        {
+            var fileName = Path.GetFileName(fullFileName);
+            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
 
             var file = await workingFolder.GetFileAsync(fileName);
 
             return await file.OpenAsync(accessMode);
         }
+
+        private static async Task<StorageFolder> ExtractSubFolder(string fullFileName, StorageFolder workingFolder)
+        {
+            var folderName = Path.GetDirectoryName(fullFileName);
+
+            if (!string.IsNullOrEmpty(folderName) && folderName != @"\")
+            {
+                return await workingFolder.GetFolderAsync(folderName);
+            }
+
+            return workingFolder;
+        }
+
+        /// <summary>
+        /// Test if a file exists in the application local folder.
+        /// </summary>
+        /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
+        /// <returns>True if file exists.</returns>
+        public static async Task<bool> IsLocalFileExistsAsync(string fullFileName)
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+            var fileName = Path.GetFileName(fullFileName);
+            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
+
+            var item = await workingFolder.TryGetItemAsync(fileName);
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         /// <summary>
         /// Read stream content as a string.
