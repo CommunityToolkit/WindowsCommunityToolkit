@@ -28,7 +28,14 @@
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "RangeSelectorCode.txt" 
+        "XamlCodeFile": "RangeSelectorCode.txt"
+      },
+      {
+        "Name": "SearchBox",
+        "Type": "SearchBoxPage",
+        "About": "The SearchBox control allows to handle the App search feature. You can decide how the control will be displayed using properties Foreground, Background, PlaceHolderText, FontSize, etc. The SearchCommand property establish the command to execute when the user press enter or click the magnifier.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "SearchBoxCode.txt" 
       }
     ]
   }

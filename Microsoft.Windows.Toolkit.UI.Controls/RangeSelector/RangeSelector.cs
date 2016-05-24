@@ -139,7 +139,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
             }
 
-            VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", true);
+            VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", false);
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
