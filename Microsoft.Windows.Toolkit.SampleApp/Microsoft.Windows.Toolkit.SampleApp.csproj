@@ -114,6 +114,11 @@
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
+    <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
+    <Content Include="SamplePages\RangeSelector\icon.jpg" />
+    <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\SearchBox\icon.jpg" />
+    <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
     <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="SamplePages\SearchBox\SearchBoxCode.txt" />

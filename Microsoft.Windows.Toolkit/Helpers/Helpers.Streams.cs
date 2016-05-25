@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
 
 namespace Microsoft.Windows.Toolkit
@@ -54,11 +53,11 @@ namespace Microsoft.Windows.Toolkit
         /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetPackagedFileAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        public static async Task<IRandomAccessStream> GetPackagedFileStreamAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
 
-            return await GetFileAsync(fullFileName, accessMode, workingFolder);
+            return await GetFileStreamAsync(fullFileName, accessMode, workingFolder);
         }
 
         /// <summary>
@@ -67,14 +66,14 @@ namespace Microsoft.Windows.Toolkit
         /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetLocalFileAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        public static async Task<IRandomAccessStream> GetLocalFileStreamAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
 
-            return await GetFileAsync(fullFileName, accessMode, workingFolder);
+            return await GetFileStreamAsync(fullFileName, accessMode, workingFolder);
         }
 
-        private static async Task<IRandomAccessStream> GetFileAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
+        private static async Task<IRandomAccessStream> GetFileStreamAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
         {
             var fileName = Path.GetFileName(fullFileName);
             workingFolder = await ExtractSubFolder(fullFileName, workingFolder);

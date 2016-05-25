@@ -4,13 +4,11 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     [TemplatePart(Name = "HamburgerButton", Type = typeof(Button))]
-    [TemplatePart(Name = "MainSplitView", Type = typeof(SplitView))]
     [TemplatePart(Name = "ButtonsListView", Type = typeof(ListViewBase))]
     [TemplatePart(Name = "OptionsListView", Type = typeof(ListViewBase))]
     public partial class HamburgerMenu : ContentControl
     {
         private Button _hamburgerButton;
-        private SplitView _mainSplitView;
         private ListViewBase _buttonsListView;
         private ListViewBase _optionsListView;
 
@@ -43,7 +41,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
 
             _hamburgerButton = (Button)GetTemplateChild("HamburgerButton");
-            _mainSplitView = (SplitView)GetTemplateChild("MainSplitView");
             _buttonsListView = (ListViewBase)GetTemplateChild("ButtonsListView");
             _optionsListView = (ListViewBase)GetTemplateChild("OptionsListView");
 

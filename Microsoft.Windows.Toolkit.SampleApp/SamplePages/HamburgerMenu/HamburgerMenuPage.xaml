@@ -5,16 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    xmlns:data="using:Microsoft.Windows.Toolkit.SampleApp.Data"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="ButtonTemplate">
+        <DataTemplate x:Key="ButtonTemplate" x:DataType="data:PhotoDataItem">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Icon}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
-                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
+                <TextBlock Grid.Column="1" Text="{x:Bind Title}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
             </Grid>
         </DataTemplate>
 
@@ -36,16 +37,25 @@
                                 ItemTemplate="{StaticResource ButtonTemplate}"
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
                                 ItemClick="HamburgerMenu_OnItemClick"
+                                OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
+                                OpenPaneLength="{Binding OpenPaneLength.Value}"
+                                PanePlacement="{Binding PanePlacement.Value}"
+                                DisplayMode="{Binding DisplayMode.Value}"
+                                CompactPaneLength="{Binding CompactPaneLength.Value}"
+                                HamburgerWidth="{Binding HamburgerWidth.Value}"
+                                HamburgerHeight="{Binding HamburgerHeight.Value}"
+                                HamburgerFontSize="{Binding HamburgerFontSize.Value}"
+                                IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
                                 >
-            <Grid>
+            <Grid x:Name="ContentGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Border Background="Black" Grid.Row="0" Margin="48, 0, 0, 0">
-                    <TextBlock x:Name="Header"></TextBlock>
+                <Border Background="Black" Grid.Row="0">
+                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}"></TextBlock>
                 </Border>
-                <Image x:Name="Image" Grid.Row="1"></Image>
+                <Image x:Name="Image" Grid.Row="1" Source="{Binding Thumbnail}"></Image>
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

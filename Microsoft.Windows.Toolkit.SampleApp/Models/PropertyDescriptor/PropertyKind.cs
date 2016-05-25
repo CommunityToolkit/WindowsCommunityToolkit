@@ -12,6 +12,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Models
     {
         Slider,
         String,
-        Enum
+        Enum,
+        Bool
     }
 }

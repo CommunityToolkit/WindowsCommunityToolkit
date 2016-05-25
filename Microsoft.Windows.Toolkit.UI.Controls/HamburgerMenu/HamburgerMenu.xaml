@@ -51,7 +51,7 @@
                             <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart"></ContentPresenter>
                         </SplitView>
                         <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
-                            <FontIcon Margin="{TemplateBinding HamburgerMargin}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="{TemplateBinding Foreground}"/>
+                            <FontIcon Margin="{TemplateBinding HamburgerMargin}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding HamburgerFontSize}"/>
                         </Button>
                     </Grid>
                 </ControlTemplate>

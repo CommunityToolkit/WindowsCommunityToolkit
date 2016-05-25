@@ -16,8 +16,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
     [Bindable]
     public class PhotosDataSource
     {
-        static private ObservableCollection<PhotoDataItem> _photos = null;
-        static private ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos = null;
+        private static ObservableCollection<PhotoDataItem> _photos;
+        private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
 
         public IEnumerable<PhotoDataItem> GetItems()
         {

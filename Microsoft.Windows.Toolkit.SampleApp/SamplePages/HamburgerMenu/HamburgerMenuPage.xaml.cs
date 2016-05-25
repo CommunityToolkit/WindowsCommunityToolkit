@@ -1,16 +1,13 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Windows.Toolkit.SampleApp.Data;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public class MenuItem
-    {
-        public string Name { get; set; }
-        public string Icon { get; set; }
-        public string Image { get; set; }
-    }
-
     public class OptionMenuItem
     {
         public string Name { get; set; }
@@ -34,17 +31,22 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-            HamburgerMenu.ItemsSource = new[] { new MenuItem { Icon = "/Icons/Foundation.png", Name = "BigFourSummerHeat.png", Image= "/Assets/Photos/BigFourSummerHeat.png" } };
+            HamburgerMenu.ItemsSource = new PhotosDataSource().GetItems();
 
             HamburgerMenu.OptionsItemsSource = new [] { new OptionMenuItem { Glyph = "", Name = "About" } };
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var menuItem = e.ClickedItem as MenuItem;
-            Header.Text = menuItem.Name;
+            ContentGrid.DataContext = e.ClickedItem;
+        }
 
-            Image.Source = 
+        private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
+        {
+            var menuItem = e.ClickedItem as OptionMenuItem;
+            var dialog = new MessageDialog($"You clicked on {menuItem.Name} button");
+
+            await dialog.ShowAsync();
         }
     }
 }

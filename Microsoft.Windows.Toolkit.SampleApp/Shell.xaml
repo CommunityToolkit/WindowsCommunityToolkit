@@ -66,12 +66,16 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="640" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainGrid.RowDefinitions[1].Height" Value="Auto" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Small">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="MainGrid.RowDefinitions[1].MaxHeight" Value="300" />
                         <Setter Target="NavigationFrame.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="Properties.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="Properties.(Grid.Row)" Value="1" />
@@ -93,7 +97,7 @@
             <Grid Grid.Row="1" x:Name="MainGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>

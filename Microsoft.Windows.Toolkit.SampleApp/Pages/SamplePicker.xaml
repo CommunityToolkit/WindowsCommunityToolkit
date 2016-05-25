@@ -13,8 +13,15 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{x:Bind Name}" Foreground="Black" FontSize="24" VerticalAlignment="Center" Grid.Row="0" FontWeight="Bold"></TextBlock>
-                <TextBlock Text="{x:Bind About}" Foreground="Black" Opacity="0.8" FontSize="16" VerticalAlignment="Center" Grid.Row="1" FontWeight="ExtraLight" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"></TextBlock>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="5" BorderThickness="1" BorderBrush="Black">
+                    <Image Source="{Binding Icon}"></Image>
+                </Border>
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="Black" FontSize="24" VerticalAlignment="Center" Grid.Row="0" FontWeight="Bold"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{x:Bind About}" Foreground="Black" Opacity="0.8" FontSize="16" VerticalAlignment="Center" Grid.Row="1" FontWeight="ExtraLight" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"></TextBlock>
             </Grid>
         </DataTemplate>
     </Page.Resources>
