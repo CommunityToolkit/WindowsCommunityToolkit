@@ -113,9 +113,10 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
-    <Content Include="SamplePages\VariableSizedGridViewCode.txt" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
+    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
-    <Content Include="SamplePages\SearchBoxCode.txt" />
+    <Content Include="SamplePages\SearchBox\SearchBoxCode.txt" />
     <None Include="project.json" />
     <Content Include="Assets\Html\CSharp.html" />
     <Content Include="Assets\Html\Json.html" />
@@ -126,8 +127,8 @@
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
-    <Content Include="SamplePages\RangeSelectorCode.txt" />
-    <Content Include="SamplePages\ResponsiveGridViewCode.txt" />
+    <Content Include="SamplePages\RangeSelector\RangeSelectorCode.txt" />
+    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.txt" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
   </ItemGroup>
@@ -147,10 +148,13 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="SamplePages\VariableSizedGridViewPage.xaml.cs">
+    <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
+      <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RangeSelectorPage.xaml.cs">
+    <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.xaml.cs">
@@ -163,13 +167,13 @@
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ResponsiveGridViewPage.xaml.cs">
+    <Compile Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml.cs">
       <DependentUpon>ResponsiveGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SearchBoxPage.xaml.cs">
+    <Compile Include="SamplePages\SearchBox\SearchBoxPage.xaml.cs">
       <DependentUpon>SearchBoxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,11 +203,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\RangeSelectorPage.xaml">
+    <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\VariableSizedGridViewPage.xaml">
+    <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -215,7 +223,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ResponsiveGridViewPage.xaml">
+    <Page Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,7 +231,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\SearchBoxPage.xaml">
+    <Page Include="SamplePages\SearchBox\SearchBoxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

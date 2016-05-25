@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
@@ -77,7 +76,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await Helpers.GetPackagedFileAsync($"SamplePages/{XamlCodeFile}"))
+                using (var codeStream = await Helpers.GetPackagedFileAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
                     XamlCode = await codeStream.ReadTextAsync();
 

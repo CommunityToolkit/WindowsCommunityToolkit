@@ -24,6 +24,13 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
       {
+        "Name": "HamburgerMenu",
+        "Type": "HamburgerMenuPage",
+        "About": "The HamburgerMenu provide a simple to use side bar menu that you can show/hide using a hamburger button.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "HamburgerMenuCode.txt"
+      },
+      {
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
