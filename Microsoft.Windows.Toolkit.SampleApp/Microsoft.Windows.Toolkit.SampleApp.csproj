@@ -115,6 +115,8 @@
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
+    <Content Include="SamplePages\Pivorama\icon.jpg" />
+    <Content Include="SamplePages\Pivorama\PivoramaCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\SearchBox\icon.jpg" />
@@ -155,6 +157,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
       <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Pivorama\PivoramaPage.xaml.cs">
+      <DependentUpon>PivoramaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
@@ -211,6 +216,10 @@
     <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Pivorama\PivoramaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
