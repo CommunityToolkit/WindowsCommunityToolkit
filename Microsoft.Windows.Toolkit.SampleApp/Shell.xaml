@@ -91,9 +91,14 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
-                <TextBlock x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
-            </Border>
+            <Grid Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="CommandsPanel"></StackPanel>
+            </Grid>
             <Grid Grid.Row="1" x:Name="MainGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>

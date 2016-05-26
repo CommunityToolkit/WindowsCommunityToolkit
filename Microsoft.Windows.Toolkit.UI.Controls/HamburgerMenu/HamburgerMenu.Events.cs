@@ -30,7 +30,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _optionsListView.SelectedIndex = -1;
             }
-            ItemClick?.Invoke(sender, e);
+            ItemClick?.Invoke(this, e);
         }
 
         private void OptionsListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -39,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _buttonsListView.SelectedIndex = -1;
             }
-            OptionsItemClick?.Invoke(sender, e);
+            OptionsItemClick?.Invoke(this, e);
         }
     }
 }

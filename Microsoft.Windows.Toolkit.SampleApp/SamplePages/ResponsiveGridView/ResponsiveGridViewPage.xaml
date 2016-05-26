@@ -9,15 +9,11 @@
 
 	<Page.Resources>
 		<DataTemplate x:Key="PhotosTemplate">
-			<Grid
-        Background="White"
-        BorderBrush="Black"
-        BorderThickness="1">
-				<Image
-            Source="{Binding Thumbnail}"
-            Stretch="UniformToFill"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
+			<Grid Background="White" BorderBrush="Black" BorderThickness="1">
+				<Image Source="{Binding Thumbnail}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
 			</Grid>
 		</DataTemplate>
 	</Page.Resources>
@@ -31,3 +27,4 @@
           ItemTemplate="{StaticResource PhotosTemplate}"/>
 	</Grid>
 </Page>
+ 

@@ -7,6 +7,7 @@
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/VariableSizedGridView/VariableSizedGridView.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/RangeSelector/RangeSelector.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/SearchBox/SearchBox.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ImageEx/ImageEx.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
