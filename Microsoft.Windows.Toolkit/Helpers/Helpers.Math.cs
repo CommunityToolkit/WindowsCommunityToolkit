@@ -1,8 +1,5 @@
 ﻿namespace Microsoft.Windows.Toolkit
 {
-    /// <summary>
-    /// Defines a collection of Math helper methods.
-    /// </summary>
     public static partial class Helpers
     {
         /// <summary>

@@ -2,12 +2,9 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Windows.Toolkit.UI
 {
-    /// <summary>
-    /// This class provides static helper methods.
-    /// </summary>
-    public static partial class Helpers
+    public static partial class Extensions
     {
         /// <summary>
         /// Find descendant control using its name.

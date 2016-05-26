@@ -158,11 +158,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 double x = _tabsContainer.GetTranslateX();
                 if (x > 0)
                 {
-                    await _tabsContainer.AnimateXAsync(0, duration, null);
+                    await _tabsContainer.AnimateXAsync(0, duration);
                 }
                 else
                 {
-                    await _tabsContainer.AnimateXAsync(-_tabs.SelectedTabWidth, duration, null);
+                    await _tabsContainer.AnimateXAsync(-_tabs.SelectedTabWidth, duration);
                 }
             }
         }
@@ -174,11 +174,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 double x = _tabsContainer.GetTranslateX();
                 if (x < 0)
                 {
-                    await _tabsContainer.AnimateXAsync(0, duration, null);
+                    await _tabsContainer.AnimateXAsync(0, duration);
                 }
                 else
                 {
-                    await _tabsContainer.AnimateXAsync(_tabs.PrevTabWidth, duration, null);
+                    await _tabsContainer.AnimateXAsync(_tabs.PrevTabWidth, duration);
                 }
             }
         }

@@ -1,12 +1,12 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Windows.Toolkit.UI
 {
     /// <summary>
-    /// Defines a collection of helper methods for UI transform.
+    /// Defines a collection of extensions methods for UI.
     /// </summary>
-    public static partial class Helpers
+    public static partial class Extensions
     {
         /// <summary>
         /// Gets the current X translation of a <see cref="FrameworkElement"/>.
