@@ -4,13 +4,50 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls.Extensions
+namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// A collection of extensions for providing animation.
+    /// Defines a collection of helper methods for UI <see cref="Storyboard"/> animation.
     /// </summary>
     public static class AnimationExtensions
     {
+        /// <summary>
+        /// Animates a <see cref="FrameworkElement"/> on the X axis.
+        /// </summary>
+        /// <param name="element">
+        /// The target <see cref="FrameworkElement"/>.
+        /// </param>
+        /// <param name="x">
+        /// The target <see cref="double"/> value on the X axis.
+        /// </param>
+        /// <param name="duration">
+        /// The duration of the animation.
+        /// </param>
+        /// <param name="easingFunction">
+        /// An optional easing function.
+        /// </param>
+        /// <returns>
+        /// Returns an await-able task.
+        /// </returns>
+        public static async Task AnimateXAsync(
+            this FrameworkElement element,
+            double x,
+            double duration = 250,
+            EasingFunctionBase easingFunction = null)
+        {
+            if (element.GetTranslateX() != x)
+            {
+                await
+                    AnimateDoublePropertyAsync(
+                        element.GetCompositeTransform(),
+                        "TranslateX",
+                        element.GetTranslateX(),
+                        x,
+                        duration,
+                        easingFunction);
+            }
+        }
+
         /// <summary>
         /// Animates a <see cref="double"/> property on a given target asynchronously.
         /// </summary>
