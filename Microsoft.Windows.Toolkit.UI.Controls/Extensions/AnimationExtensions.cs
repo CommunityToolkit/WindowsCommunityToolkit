@@ -11,6 +11,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Extensions
     /// </summary>
     public static class AnimationExtensions
     {
+        public static async Task AnimateXAsync(this FrameworkElement element, double x, double duration = 250, EasingFunctionBase easingFunction = null)
+        {
+            if (element.GetTranslateX() != x)
+            {
+                await AnimateDoublePropertyAsync(element.GetCompositeTransform(), "TranslateX", element.GetTranslateX(), x, duration, easingFunction);
+            }
+        }
+
         /// <summary>
         /// Animates a <see cref="double"/> property on a given target asynchronously.
         /// </summary>

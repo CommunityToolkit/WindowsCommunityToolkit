@@ -40,9 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="Pivorama\Pivorama.Manipulation.cs" />
     <Compile Include="Pivorama\Pivorama.Properties.cs" />
     <Compile Include="Pivorama\PivoramaPanel.Items.cs" />
+    <Compile Include="Pivorama\PivoramaTabs.Properties.cs" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +58,7 @@
     <Compile Include="Pivorama\Pivorama.cs" />
     <Compile Include="Pivorama\PivoramaPanel.cs" />
     <Compile Include="Pivorama\PivoramaPanel.Properties.cs" />
+    <Compile Include="Pivorama\PivoramaTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchBox\SearchBox.cs" />
     <Compile Include="SearchBox\SearchBox.Properties.cs" />
@@ -66,6 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Pivorama\Pivorama.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
