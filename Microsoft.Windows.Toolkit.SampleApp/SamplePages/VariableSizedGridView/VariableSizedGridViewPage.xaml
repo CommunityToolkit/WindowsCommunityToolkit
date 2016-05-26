@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.VariableSizedGridViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="PhotoTemplate">
+            <Grid
+                BorderBrush="Black"
+                BorderThickness="1">
+                <Image
+                    Source="{Binding Thumbnail}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+	<Grid Background="LightGray">
+        <controls:VariableSizedGridView
+            Name="control"
+            Margin="5"
+            ItemTemplate="{StaticResource PhotoTemplate}"
+            Orientation="{Binding Orientation.Value}"
+            MaximumRowsOrColumns="{Binding MaximumRowsOrColumns.Value}"            
+        />
+    </Grid>
+</Page>

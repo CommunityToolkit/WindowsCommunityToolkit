@@ -3,12 +3,21 @@
     "Name": "Panel controls",
     "Icon": "Icons/Layouts.png",
     "Samples": [
-      {
-        "Name": "ResponsiveGridView",
-        "Type": "ResponsiveGridViewPage",
-        "About": "The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
+			{
+				"Name": "ResponsiveGridView",
+				"Type": "ResponsiveGridViewPage",
+				"About": "The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
+				"CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+				"XamlCodeFile": "ResponsiveGridViewCode.txt",
+        "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
+			},
+			 {
+        "Name": "VariableSizedGridView",
+        "Type": "VariableSizedGridViewPage",
+        "About": "The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "ResponsiveGridViewCode.txt" 
+        "XamlCodeFile": "VariableSizedGridViewCode.txt",
+        "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"  
       }
     ]
   },
@@ -17,11 +26,28 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
       {
+        "Name": "HamburgerMenu",
+        "Type": "HamburgerMenuPage",
+        "About": "The HamburgerMenu provide a simple to use side bar menu that you can show/hide using a hamburger button.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "HamburgerMenuCode.txt",
+        "Icon": "/SamplePages/HamburgerMenu/icon.jpg" 
+      },
+      {
+        "Name": "RangeSelector",
+        "Type": "RangeSelectorPage",
+        "About": "The RangeSelector is a \"double slider\" control for range values.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "RangeSelectorCode.txt",
+        "Icon": "/SamplePages/RangeSelector/icon.jpg" 
+      },
+      {
         "Name": "SearchBox",
         "Type": "SearchBoxPage",
         "About": "The SearchBox control allows to handle the App search feature. You can decide how the control will be displayed using properties Foreground, Background, PlaceHolderText, FontSize, etc. The SearchCommand property establish the command to execute when the user press enter or click the magnifier.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "SearchBoxCode.txt" 
+        "XamlCodeFile": "SearchBoxCode.txt" ,
+        "Icon": "/SamplePages/SearchBox/icon.jpg" 
       }
     ]
   }

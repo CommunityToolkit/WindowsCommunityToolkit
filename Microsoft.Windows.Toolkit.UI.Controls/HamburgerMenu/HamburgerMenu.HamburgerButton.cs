@@ -21,7 +21,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="HamburgerMargin"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HamburgerMarginProperty = DependencyProperty.Register("HamburgerMargin", typeof(Thickness), typeof(HamburgerMenu), new PropertyMetadata(null));
-        
+
+
+        /// <summary>
+        /// Identifies the <see cref="HamburgerFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HamburgerFontSizeProperty = DependencyProperty.Register("HamburgerFontSize", typeof(double), typeof(HamburgerMenu), new PropertyMetadata(18.0));
+
+
         /// <summary>
         /// Define main button's width
         /// </summary>
@@ -47,6 +54,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (Thickness)GetValue(HamburgerMarginProperty); }
             set { SetValue(HamburgerMarginProperty, value); }
+        }
+
+        /// <summary>
+        /// Define main button's font size
+        /// </summary>
+        public Thickness HamburgerFontSize
+        {
+            get { return (Thickness)GetValue(HamburgerFontSizeProperty); }
+            set { SetValue(HamburgerFontSizeProperty, value); }
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.SearchBoxPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center">
+            <controls:SearchBox Text="{Binding Text.Value, Mode=TwoWay}" 
+                            PlaceholderText="{Binding PlaceholderText.Value, Mode=OneWay}"
+                            SearchCommand="{x:Bind ExecuteSearchCommand}"
+                            TextAlignment="{Binding TextAlignment.Value, Mode=OneWay}"
+                            SearchWidth="{Binding SearchWidth.Value, Mode=OneWay}"
+                            ShadowOpacity="{Binding ShadowOpacity.Value, Mode=OneWay}"
+                            Foreground="Black" Background="White"/>
+
+            <TextBlock x:Name="SearchedText" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</Page>

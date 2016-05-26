@@ -91,7 +91,37 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="SamplePages\SearchBoxCode.txt" />
+    <Content Include="Assets\Photos\BigFourSummerHeat.png" />
+    <Content Include="Assets\Photos\BisonBadlandsChillin.png" />
+    <Content Include="Assets\Photos\ColumbiaRiverGorge.png" />
+    <Content Include="Assets\Photos\GiantSlabInOregon.png" />
+    <Content Include="Assets\Photos\GrandTetons.png" />
+    <Content Include="Assets\Photos\LakeAnnMushroom.png" />
+    <Content Include="Assets\Photos\LunchBreak.png" />
+    <Content Include="Assets\Photos\MilkyWayStHelensHikePurple.png" />
+    <Content Include="Assets\Photos\MitchellButtes.png" />
+    <Content Include="Assets\Photos\MultnomahFalls.png" />
+    <Content Include="Assets\Photos\NorthernCascadesReflection.png" />
+    <Content Include="Assets\Photos\NovemberHikeWaterfall.png" />
+    <Content Include="Assets\Photos\OregonWineryNamaste.png" />
+    <Content Include="Assets\Photos\Owl.png" />
+    <Content Include="Assets\Photos\PaintedHillsPathway.png" />
+    <Content Include="Assets\Photos\RunningDogPacificCity.png" />
+    <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.png" />
+    <Content Include="Assets\Photos\SmithnRockDownTheRiverView.png" />
+    <Content Include="Assets\Photos\SnowyInterbayt.png" />
+    <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
+    <Content Include="Assets\Photos\Van.png" />
+    <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
+    <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
+    <Content Include="SamplePages\RangeSelector\icon.jpg" />
+    <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\SearchBox\icon.jpg" />
+    <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
+    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
+    <Content Include="Assets\Photos\Photos.json" />
+    <Content Include="SamplePages\SearchBox\SearchBoxCode.txt" />
     <None Include="project.json" />
     <Content Include="Assets\Html\CSharp.html" />
     <Content Include="Assets\Html\Json.html" />
@@ -102,7 +132,8 @@
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
-    <Content Include="SamplePages\ResponsiveGridViewCode.txt" />
+    <Content Include="SamplePages\RangeSelector\RangeSelectorCode.txt" />
+    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.txt" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
   </ItemGroup>
@@ -116,11 +147,21 @@
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\PhotosDataSource.cs" />
     <Compile Include="Models\PropertyDescriptor\ValueHolder.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyOptions.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
+      <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
+      <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
+      <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -131,13 +172,13 @@
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ResponsiveGridViewPage.xaml.cs">
+    <Compile Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml.cs">
       <DependentUpon>ResponsiveGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SearchBoxPage.xaml.cs">
+    <Compile Include="SamplePages\SearchBox\SearchBoxPage.xaml.cs">
       <DependentUpon>SearchBoxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,6 +208,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,7 +228,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ResponsiveGridViewPage.xaml">
+    <Page Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\SearchBoxPage.xaml">
+    <Page Include="SamplePages\SearchBox\SearchBoxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -192,6 +245,10 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>

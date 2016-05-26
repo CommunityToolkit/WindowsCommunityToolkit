@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
@@ -22,6 +21,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         public string CodeUrl { get; set; }
         public string XamlCodeFile { get; set; }
         public string XamlCode { get; private set; }
+        public string Icon { get; set; }
 
         static Type LookForTypeByName(string typeName)
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
-                if (typeInfo.Name.Contains(typeName))
+                if (typeInfo.Name == typeName)
                 {
                     return typeInfo;
                 }
@@ -77,16 +77,16 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await Helpers.GetPackagedFileAsync($"SamplePages/{XamlCodeFile}"))
+                using (var codeStream = await Helpers.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
                     XamlCode = await codeStream.ReadTextAsync();
 
                     // Look for @[] values and generate associated properties
                     var regularExpression = new Regex(@"@\[(?<name>.+?):(?<type>.+?):(?<value>.+?)(:(?<parameters>.*))*\]");
 
-                    _propertyDescriptor = new PropertyDescriptor {Expando = new ExpandoObject()};
+                    _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
-                    
+
                     foreach (Match match in regularExpression.Matches(XamlCode))
                     {
                         var name = match.Groups["name"].Value;
@@ -94,7 +94,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         var value = match.Groups["value"].Value;
 
                         PropertyKind kind;
-                        
+
                         if (Enum.TryParse(type, out kind))
                         {
                             PropertyOptions options;
@@ -134,8 +134,19 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         continue;
                                     }
                                     break;
+                                case PropertyKind.Bool:
+                                    try
+                                    {
+                                        options = new PropertyOptions { DefaultValue = bool.Parse(value) };
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                        continue;
+                                    }
+                                    break;
                                 default:
-                                    options = new PropertyOptions {DefaultValue = value};
+                                    options = new PropertyOptions { DefaultValue = value };
                                     break;
                             }
 

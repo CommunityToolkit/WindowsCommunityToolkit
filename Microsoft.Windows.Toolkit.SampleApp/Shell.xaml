@@ -59,6 +59,32 @@
                                 ItemTemplate="{StaticResource ButtonTemplate}"
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainGrid.RowDefinitions[1].Height" Value="Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainGrid.RowDefinitions[1].MaxHeight" Value="300" />
+                        <Setter Target="NavigationFrame.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="Properties.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="Properties.(Grid.Row)" Value="1" />
+                        <Setter Target="Properties.(Grid.Column)" Value="0" />
+                        <Setter Target="Properties.Width" Value="NaN" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"></RowDefinition>
@@ -66,15 +92,19 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
-                <TextBlock Text="{Binding Name}" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+                <TextBlock x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
             </Border>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" x:Name="MainGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Frame x:Name="NavigationFrame" Grid.Column="0"></Frame>
-                <controlsLocal:PropertyControl Grid.Column="1" x:Name="Properties" Visibility="Collapsed" Width="200"/>
+                <Frame x:Name="NavigationFrame" Grid.Column="0" Grid.Row="0"></Frame>
+                <controlsLocal:PropertyControl Grid.Column="1" Grid.Row="0" x:Name="Properties" Visibility="Collapsed" Width="250"/>
             </Grid>
             <!--Code panel-->
             <Grid Grid.Row="1" Margin="10" x:Name="CodePanel" Visibility="Collapsed" BorderThickness="1" BorderBrush="Black" Background="{StaticResource AppBarBackgroundThemeBrush}">

@@ -62,9 +62,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchBox\SearchBox.cs" />
     <Compile Include="SearchBox\SearchBox.Properties.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGrid.Properties.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGrid.cs" />
-    <Compile Include="VariableSizedGrid\VariableSizedGridPanel.cs" />
+    <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
+    <Compile Include="RangeSelector\RangeSelector.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridView.cs" />
+    <Compile Include="VariableSizedGridView\VariableSizedGridViewPanel.cs" />
     <Compile Include="ResponsiveGridView\ResponsiveGridView.Properties.cs" />
     <Compile Include="ResponsiveGridView\ResponsiveGridView.cs" />
   </ItemGroup>
@@ -73,6 +75,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="RangeSelector\RangeSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pivorama\Pivorama.xaml">
       <SubType>Designer</SubType>
@@ -83,7 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="VariableSizedGrid\VariableSizedGrid.xaml">
+    <Page Include="VariableSizedGridView\VariableSizedGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

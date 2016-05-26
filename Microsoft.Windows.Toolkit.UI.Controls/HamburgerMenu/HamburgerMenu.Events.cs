@@ -21,12 +21,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private void HamburgerButton_Click(object sender, global::Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (_mainSplitView == null)
-            {
-                return;
-            }
-
-            _mainSplitView.IsPaneOpen = !_mainSplitView.IsPaneOpen;
+            IsPaneOpen = !IsPaneOpen;
         }
 
         private void ButtonsListView_ItemClick(object sender, ItemClickEventArgs e)

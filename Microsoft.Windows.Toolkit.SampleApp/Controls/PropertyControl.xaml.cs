@@ -1,31 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Microsoft.Windows.Toolkit.SampleApp.Controls
 {
-    public sealed partial class PropertyControl : UserControl
+    public sealed partial class PropertyControl
     {
         public PropertyControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -49,8 +37,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                     RootPanel.Children.Add(label);
 
                     // Control
-                    Control controlToAdd = null;
-                    DependencyProperty dependencyProperty = null;
+                    Control controlToAdd;
+                    DependencyProperty dependencyProperty;
 
                     switch (option.Kind)
                     {
@@ -77,10 +65,14 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                             controlToAdd = comboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
-                        default:
-                            var textBox = new TextBox();
+                        case PropertyKind.Bool:
+                            var checkBox = new ToggleSwitch();
 
-                            textBox.Text = option.DefaultValue.ToString();
+                            controlToAdd = checkBox;
+                            dependencyProperty = ToggleSwitch.IsOnProperty;
+                            break;
+                        default:
+                            var textBox = new TextBox {Text = option.DefaultValue.ToString()};
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;
