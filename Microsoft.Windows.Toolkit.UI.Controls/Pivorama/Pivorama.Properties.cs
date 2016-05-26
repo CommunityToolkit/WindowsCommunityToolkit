@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.Windows.Toolkit.UI.Controls.Extensions;
-
 using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls

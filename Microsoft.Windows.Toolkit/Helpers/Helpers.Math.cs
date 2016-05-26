@@ -1,9 +1,9 @@
-﻿namespace Microsoft.Windows.Toolkit.UI.Controls.Extensions
+﻿namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// A collection of extensions for math functions.
+    /// Defines a collection of Math helper methods.
     /// </summary>
-    public static class MathExtensions
+    public static partial class Helpers
     {
         /// <summary>
         /// Finds the remainder of division of an <see cref="int"/> by another.

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.Windows.Toolkit.UI.Controls.Extensions;
-
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
