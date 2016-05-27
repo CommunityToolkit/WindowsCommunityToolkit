@@ -51,5 +51,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             return _isInitialized ? _image.GetAsCastingSource() : null;
         }
+
+        /// <summary>
+        /// Enable or disable .
+        /// </summary>
+        public bool IsCacheEnabled
+        {
+            get; set;
+        }
     }
 }

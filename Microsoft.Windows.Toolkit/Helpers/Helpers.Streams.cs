@@ -72,7 +72,7 @@ namespace Microsoft.Windows.Toolkit
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(uri))
+                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
                 {
                     if (!response.IsSuccessStatusCode)
                     {

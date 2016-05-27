@@ -11,6 +11,7 @@
         <DataTemplate x:Key="PhotoTemplate">
             <Grid BorderBrush="Black" BorderThickness="1" Background="Black">
                 <controls:ImageEx
+                    IsCacheEnabled="True"
                     Source="{Binding Thumbnail}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"

@@ -82,7 +82,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (!_isLoadingImage && _uri != null)
             {
                 _isLoadingImage = true;
-                if (_isHttpSource)
+                if (IsCacheEnabled && _isHttpSource)
                 {
                     _image.Source = await ImageCache.LoadFromCacheAsync(_uri);
                 }

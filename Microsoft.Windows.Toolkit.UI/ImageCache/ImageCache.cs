@@ -93,13 +93,16 @@ namespace Microsoft.Windows.Toolkit.UI
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                return null;
             }
-
-            lock (_concurrentTasks)
+            finally
             {
-                if (_concurrentTasks.ContainsKey(key))
+                lock (_concurrentTasks)
                 {
-                    _concurrentTasks.Remove(key);
+                    if (_concurrentTasks.ContainsKey(key))
+                    {
+                        _concurrentTasks.Remove(key);
+                    }
                 }
             }
 
@@ -146,11 +149,7 @@ namespace Microsoft.Windows.Toolkit.UI
                 await _cacheFolderSemaphore.WaitAsync();
                 try
                 {
-                    _cacheFolder = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(CacheFolderName) as StorageFolder;
-                    if (_cacheFolder == null)
-                    {
-                        _cacheFolder = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(CacheFolderName);
-                    }
+                    _cacheFolder = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(CacheFolderName, CreationCollisionOption.OpenIfExists);
                 }
                 catch { }
                 finally
