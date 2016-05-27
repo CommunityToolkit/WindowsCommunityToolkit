@@ -1,6 +1,8 @@
-﻿using Microsoft.Windows.Toolkit.UI;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+
+using Microsoft.Windows.Toolkit.UI;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -9,7 +11,7 @@ namespace Microsoft.Windows.Toolkit
     /// <summary>
     /// Defines a collection of helper methods for UI <see cref="Storyboard"/> animation.
     /// </summary>
-    public static class AnimationExtensions
+    public static partial class Extensions
     {
         /// <summary>
         /// Animates a <see cref="FrameworkElement"/> on the X axis.
