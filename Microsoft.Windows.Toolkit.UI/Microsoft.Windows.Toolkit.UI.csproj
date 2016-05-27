@@ -53,6 +53,7 @@
     <Compile Include="Extensions\Extensions.Transform.cs" />
     <Compile Include="Extensions\Extensions.VisualTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DialogService.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
