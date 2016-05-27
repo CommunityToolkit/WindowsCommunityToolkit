@@ -62,6 +62,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             Header.Visibility = Visibility.Visible;
             Title.Text = title;
             Properties.Visibility = Visibility.Collapsed;
+            CodePanel.Visibility = Visibility.Collapsed;
 
             CommandsPanel.Children.Clear();
         }
