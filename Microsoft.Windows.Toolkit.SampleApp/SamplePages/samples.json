@@ -54,8 +54,16 @@
         "Type": "SearchBoxPage",
         "About": "The SearchBox control allows to handle the App search feature. You can decide how the control will be displayed using properties Foreground, Background, PlaceHolderText, FontSize, etc. The SearchCommand property establish the command to execute when the user press enter or click the magnifier.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "SearchBoxCode.txt" ,
-        "Icon": "/SamplePages/SearchBox/icon.jpg" 
+        "XamlCodeFile": "SearchBoxCode.txt",
+        "Icon": "/SamplePages/SearchBox/icon.jpg"
+      },
+      {
+        "Name": "HeaderedTextBlock",
+        "Type": "HeaderedTextBlockPage",
+        "About": "The HeaderedTextBlock control is designed to provide a header for readonly text. This control is useful for displaying readonly forms.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "HeaderedTextBlockCode.txt",
+        "Icon": "/SamplePages/SearchBox/icon.jpg"     
       }
     ]
   }

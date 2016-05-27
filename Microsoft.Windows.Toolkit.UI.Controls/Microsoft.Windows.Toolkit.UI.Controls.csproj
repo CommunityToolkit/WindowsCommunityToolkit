@@ -40,6 +40,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
+    <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="Pivorama\Pivorama.Manipulation.cs" />
     <Compile Include="Pivorama\Pivorama.Properties.cs" />
     <Compile Include="Pivorama\PivoramaPanel.Items.cs" />
@@ -69,6 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="HeaderedTextBlock\HeaderedTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
