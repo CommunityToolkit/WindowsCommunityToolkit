@@ -75,6 +75,7 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="MainGrid.RowDefinitions[1].Height" Value="Auto" />
                         <Setter Target="MainGrid.RowDefinitions[1].MaxHeight" Value="300" />
                         <Setter Target="NavigationFrame.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="Properties.(Grid.ColumnSpan)" Value="2" />

@@ -18,9 +18,21 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
     {
         private static ObservableCollection<PhotoDataItem> _photos;
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
+        private static bool _isOnlineCached;
+
+        private static void CheckCacheState(bool online)
+        {
+            if (_isOnlineCached != online)
+            {
+                _photos = null;
+                _groupedPhotos = null;
+            }
+        }
 
         public IEnumerable<PhotoDataItem> GetItems(bool online = false)
         {
+            CheckCacheState(online);
+
             if(_photos == null)
             {
                 var _ = Load(online);
@@ -30,6 +42,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
 
         public IEnumerable<IEnumerable<PhotoDataItem>> GetGroupedItems(bool online = false)
         {
+            CheckCacheState(online);
+
             if (_groupedPhotos == null)
             {
                 var _ = Load(online);
@@ -39,6 +53,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
 
         private static async Task Load(bool online)
         {
+            _isOnlineCached = online;
             _photos = new ObservableCollection<PhotoDataItem>();
             _groupedPhotos = new ObservableCollection<IEnumerable<PhotoDataItem>>();
             foreach (var item in await GetPhotos(online))
