@@ -40,11 +40,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Pivorama\Pivorama.Manipulation.cs" />
+    <Compile Include="Pivorama\Pivorama.Properties.cs" />
+    <Compile Include="Pivorama\PivoramaPanel.Items.cs" />
+    <Compile Include="Pivorama\PivoramaTabs.Properties.cs" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HamburgerMenu\HamburgerMenu.Options.cs" />
-    <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
@@ -52,6 +55,10 @@
     <Compile Include="ImageEx\ImageEx.cs" />
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
+    <Compile Include="Pivorama\Pivorama.cs" />
+    <Compile Include="Pivorama\PivoramaPanel.cs" />
+    <Compile Include="Pivorama\PivoramaPanel.Properties.cs" />
+    <Compile Include="Pivorama\PivoramaTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchBox\SearchBox.cs" />
     <Compile Include="SearchBox\SearchBox.Properties.cs" />
@@ -77,6 +84,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pivorama\Pivorama.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="ResponsiveGridView\ResponsiveGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,6 +112,20 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
       <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
       <Name>Microsoft.Windows.Toolkit.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI.Animations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+      <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
+      <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
+      <Name>Microsoft.Windows.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

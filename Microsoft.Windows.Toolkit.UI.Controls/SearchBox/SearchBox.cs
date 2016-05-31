@@ -1,5 +1,4 @@
-﻿using Microsoft.Windows.Toolkit.UI.Controls.Extensions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -7,6 +6,8 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System;
+
     /// <summary>
     /// Defines a text box control used for search.
     /// </summary>
@@ -151,14 +152,26 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (DisplayMode == DisplayModeValue.Expand)
             {
                 var oldValue = SearchWidth;
-                await this.AnimateDoublePropertyAsync("SearchWidth", SearchWidth, 0.0, _animationDurationMilliseconds);
+                await
+                    this.AnimateDoublePropertyAsync(
+                        "SearchWidth",
+                        SearchWidth,
+                        0.0,
+                        _animationDurationMilliseconds);
+
                 SearchTextGridVisibility = Visibility.Collapsed;
                 IsTextVisible = false;
                 SearchWidth = oldValue;
             }
             if (DisplayMode == DisplayModeValue.FadeIn)
             {
-                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 1.0, 0.0, _animationDurationMilliseconds);
+                await
+                    this.AnimateDoublePropertyAsync(
+                        "SearchTextGridOpacity",
+                        1.0,
+                        0.0,
+                        _animationDurationMilliseconds);
+
                 SearchTextGridVisibility = Visibility.Collapsed;
                 IsTextVisible = false;
                 SearchTextGridOpacity = 1.0;
@@ -170,14 +183,26 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (DisplayMode == DisplayModeValue.Expand)
             {
                 SearchTextGridVisibility = Visibility.Visible;
-                await this.AnimateDoublePropertyAsync("SearchWidth", 0.0, SearchWidth, _animationDurationMilliseconds);
+                await
+                    this.AnimateDoublePropertyAsync(
+                        "SearchWidth",
+                        0.0,
+                        SearchWidth,
+                        _animationDurationMilliseconds);
+
                 IsTextVisible = true;
             }
 
             if (DisplayMode == DisplayModeValue.FadeIn)
             {
                 SearchTextGridVisibility = Visibility.Visible;
-                await this.AnimateDoublePropertyAsync("SearchTextGridOpacity", 0.0, 1.0, _animationDurationMilliseconds);
+                await
+                    this.AnimateDoublePropertyAsync(
+                        "SearchTextGridOpacity",
+                        0.0,
+                        1.0,
+                        _animationDurationMilliseconds);
+
                 IsTextVisible = true;
             }
         }

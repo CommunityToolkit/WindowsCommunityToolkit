@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Helpers.Connections.cs" />
-    <Compile Include="Helpers\Helpers.VisualTree.cs" />
+    <Compile Include="Helpers\Helpers.Math.cs" />
     <Compile Include="Helpers\Helpers.Compression.cs" />
     <Compile Include="Helpers\Helpers.Streams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -117,6 +117,8 @@
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\Pivorama\icon.jpg" />
+    <Content Include="SamplePages\Pivorama\PivoramaCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\SearchBox\icon.jpg" />
@@ -161,6 +163,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Pivorama\PivoramaPage.xaml.cs">
+      <DependentUpon>PivoramaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
@@ -221,6 +226,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Pivorama\PivoramaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>

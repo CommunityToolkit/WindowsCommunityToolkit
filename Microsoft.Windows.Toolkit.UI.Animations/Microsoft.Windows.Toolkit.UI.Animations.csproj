@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}</ProjectGuid>
-    <OutputType>winmdobj</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Windows.Toolkit.UI.Animations</RootNamespace>
     <AssemblyName>Microsoft.Windows.Toolkit.UI.Animations</AssemblyName>
@@ -43,10 +43,24 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+      <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
+      <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
+      <Name>Microsoft.Windows.Toolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

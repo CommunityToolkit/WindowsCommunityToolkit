@@ -11,13 +11,21 @@
 				"XamlCodeFile": "ResponsiveGridViewCode.txt",
         "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
 			},
-			 {
+      {
         "Name": "VariableSizedGridView",
         "Type": "VariableSizedGridViewPage",
         "About": "The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "VariableSizedGridViewCode.txt",
-        "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"  
+        "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
+      },
+      {
+        "Name": "Pivorama",
+        "Type": "PivoramaPage",
+        "About": "The Pivorama control allows to visualize a set of elements optimizing the available space to display them. The Pivorama behaves differently based on the screen size: in big screens, it maximizes the number of items displayed using a table kind layout, with the ability to slide horizontally; in small screens, it behaves more like a Pivot control, showing the items in groups, with a heading inviting to slide horizontally. The Pivorama control is ideal to display big number of items in the best way depending on the device form factor.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "PivoramaCode.txt",
+        "Icon": "/SamplePages/Pivorama/icon.jpg"
       }
     ]
   },
