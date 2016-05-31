@@ -115,6 +115,8 @@
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
+    <Content Include="SamplePages\ImageEx\icon.jpg" />
+    <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
     <Content Include="SamplePages\Pivorama\icon.jpg" />
     <Content Include="SamplePages\Pivorama\PivoramaCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
@@ -124,6 +126,7 @@
     <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="SamplePages\SearchBox\SearchBoxCode.txt" />
+    <Content Include="Assets\Photos\OnlinePhotos.json" />
     <None Include="project.json" />
     <Content Include="Assets\Html\CSharp.html" />
     <Content Include="Assets\Html\Json.html" />
@@ -157,6 +160,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
       <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
+      <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Pivorama\PivoramaPage.xaml.cs">
       <DependentUpon>PivoramaPage.xaml</DependentUpon>
@@ -214,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

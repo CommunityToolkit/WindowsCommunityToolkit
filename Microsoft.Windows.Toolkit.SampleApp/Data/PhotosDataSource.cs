@@ -19,37 +19,38 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
         private static ObservableCollection<PhotoDataItem> _photos;
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
 
-        public IEnumerable<PhotoDataItem> GetItems()
+        public IEnumerable<PhotoDataItem> GetItems(bool online = false)
         {
             if(_photos == null)
             {
-                var _ = Load();
+                var _ = Load(online);
             }
             return _photos;
         }
 
-        public IEnumerable<IEnumerable<PhotoDataItem>> GetGroupedItems()
+        public IEnumerable<IEnumerable<PhotoDataItem>> GetGroupedItems(bool online = false)
         {
             if (_groupedPhotos == null)
             {
-                var _ = Load();
+                var _ = Load(online);
             }
             return _groupedPhotos;
         }
 
-        private static async Task Load()
+        private static async Task Load(bool online)
         {
             _photos = new ObservableCollection<PhotoDataItem>();
             _groupedPhotos = new ObservableCollection<IEnumerable<PhotoDataItem>>();
-            foreach (var item in await GetPhotos())
+            foreach (var item in await GetPhotos(online))
                 _photos.Add(item);
             foreach (var group in _photos.GroupBy(x => x.Category))
                 _groupedPhotos.Add(group);
         }
 
-        private static async Task<IEnumerable<PhotoDataItem>> GetPhotos()
+        private static async Task<IEnumerable<PhotoDataItem>> GetPhotos(bool online)
         {
-            var uri = new Uri("ms-appx:///Assets/Photos/Photos.json");
+            var prefix = online ? "Online" : "";
+            var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
 

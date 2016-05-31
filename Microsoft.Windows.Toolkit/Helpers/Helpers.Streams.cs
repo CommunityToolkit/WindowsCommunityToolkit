@@ -18,6 +18,53 @@ namespace Microsoft.Windows.Toolkit
         /// <returns>Response stream</returns>
         public static async Task<IRandomAccessStream> GetHTTPStreamAsync(Uri uri)
         {
+            var content = await GetHTTPContentAsync(uri);
+
+            if (content == null)
+            {
+                return null;
+            }
+
+            var outputStream = new InMemoryRandomAccessStream();
+
+            using (content)
+            {
+                await content.WriteToStreamAsync(outputStream);
+
+                outputStream.Seek(0);
+
+                return outputStream;
+            }
+        }
+
+        /// <summary>
+        /// Get the response stream returned by a HTTP get request and save it to a local file.
+        /// </summary>
+        /// <param name="uri">Uri to request.</param>
+        /// <param name="file">StorageFile to save the stream to.</param>
+        /// <returns>True if success.</returns>
+        public static async Task<bool> DownloadHTTPStreamAsync(Uri uri, StorageFile file)
+        {
+            var content = await GetHTTPContentAsync(uri);
+
+            if (content == null)
+            {
+                return false;
+            }
+
+            using (content)
+            {
+                using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    await content.WriteToStreamAsync(fileStream);
+                }
+            }
+
+            return true;
+        }
+
+        private static async Task<IHttpContent> GetHTTPContentAsync(Uri uri)
+        {
             if (uri == null)
             {
                 throw new ArgumentNullException();
@@ -25,24 +72,14 @@ namespace Microsoft.Windows.Toolkit
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(uri))
+                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
                 {
                     if (!response.IsSuccessStatusCode)
                     {
                         return null;
                     }
 
-                    var outputStream = new InMemoryRandomAccessStream();
-
-                    using (var content = response.Content)
-                    {
-                        var responseBuffer = await content.ReadAsBufferAsync();
-                        await outputStream.WriteAsync(responseBuffer);
-
-                        outputStream.Seek(0);
-
-                        return outputStream;
-                    }
+                    return response.Content;
                 }
             }
         }

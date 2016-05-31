@@ -52,6 +52,9 @@
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.cs" />
+    <Compile Include="ImageEx\ImageEx.cs" />
+    <Compile Include="ImageEx\ImageEx.Members.cs" />
+    <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="Pivorama\Pivorama.cs" />
     <Compile Include="Pivorama\PivoramaPanel.cs" />
     <Compile Include="Pivorama\PivoramaPanel.Properties.cs" />
@@ -72,6 +75,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="ImageEx\ImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="RangeSelector\RangeSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +107,12 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+      <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.csproj">
