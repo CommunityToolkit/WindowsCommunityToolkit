@@ -40,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Carousel\Carousel.cs" />
+    <Compile Include="Carousel\Carousel.Items.cs" />
+    <Compile Include="Carousel\Carousel.Manipulation.cs" />
+    <Compile Include="Carousel\Carousel.Members.cs" />
+    <Compile Include="Carousel\Carousel.Slots.cs" />
+    <Compile Include="Carousel\CarouselSlot.cs" />
     <Compile Include="Pivorama\Pivorama.Manipulation.cs" />
     <Compile Include="Pivorama\Pivorama.Properties.cs" />
     <Compile Include="Pivorama\PivoramaPanel.Items.cs" />
@@ -71,6 +77,10 @@
     <Compile Include="ResponsiveGridView\ResponsiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Carousel\Carousel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
