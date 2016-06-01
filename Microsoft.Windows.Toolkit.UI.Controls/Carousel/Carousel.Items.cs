@@ -9,11 +9,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     partial class Carousel
     {
+        /// <summary>
+        /// Identifies the <see cref="ItemsSource"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(object), typeof(Carousel), new PropertyMetadata(null, ItemsSourceChanged));
 
+        /// <summary>
+        /// Gets or sets an object source used to generate the content of the <see cref="Carousel"/>.
+        /// </summary>
         public object ItemsSource
         {
-            get { return (object)GetValue(ItemsSourceProperty); }
+            get { return GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -26,10 +32,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             var control = d as Carousel;
 
-            control.DetachNotificationEvents(e.OldValue as INotifyCollectionChanged);
-            control.AttachNotificationEvents(e.NewValue as INotifyCollectionChanged);
+            control?.DetachNotificationEvents(e.OldValue as INotifyCollectionChanged);
+            control?.AttachNotificationEvents(e.NewValue as INotifyCollectionChanged);
 
-            control.ItemsSourceChanged(e.NewValue as IEnumerable);
+            control?.ItemsSourceChanged(e.NewValue as IEnumerable);
         }
 
         private void AttachNotificationEvents(INotifyCollectionChanged notifyCollection)
@@ -127,7 +133,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                         var item = _items[index];
                         if (slots[n].Content != item)
                         {
-                            slots[n].Content = null;
                             slots[n].Content = item;
                         }
                     }
@@ -141,7 +146,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private int GetItemIndex(int n)
         {
-            int index = (SelectedIndex + n - 1);
+            int index = SelectedIndex + n - 1;
             return index.Mod(_items.Count);
         }
     }

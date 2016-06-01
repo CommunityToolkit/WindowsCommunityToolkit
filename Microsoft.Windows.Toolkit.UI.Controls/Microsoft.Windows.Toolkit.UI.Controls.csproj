@@ -46,10 +46,6 @@
     <Compile Include="Carousel\Carousel.Members.cs" />
     <Compile Include="Carousel\Carousel.Slots.cs" />
     <Compile Include="Carousel\CarouselSlot.cs" />
-    <Compile Include="Pivorama\Pivorama.Manipulation.cs" />
-    <Compile Include="Pivorama\Pivorama.Properties.cs" />
-    <Compile Include="Pivorama\PivoramaPanel.Items.cs" />
-    <Compile Include="Pivorama\PivoramaTabs.Properties.cs" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -58,16 +54,11 @@
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Events.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.cs" />
+    <Compile Include="ControlHelpers.Math.cs" />
     <Compile Include="ImageEx\ImageEx.cs" />
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
-    <Compile Include="Pivorama\Pivorama.cs" />
-    <Compile Include="Pivorama\PivoramaPanel.cs" />
-    <Compile Include="Pivorama\PivoramaPanel.Properties.cs" />
-    <Compile Include="Pivorama\PivoramaTabs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchBox\SearchBox.cs" />
-    <Compile Include="SearchBox\SearchBox.Properties.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
@@ -94,11 +85,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pivorama\Pivorama.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
     <Page Include="ResponsiveGridView\ResponsiveGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,11 +92,6 @@
     <Page Include="VariableSizedGridView\VariableSizedGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SearchBox\SearchBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

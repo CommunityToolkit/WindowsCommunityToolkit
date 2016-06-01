@@ -35,7 +35,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
             if (duration > 0)
             {
-                _storyboard = this.AnimateX(x, duration);
+                _storyboard = this.AnimateX(x, duration, new CircleEase());
             }
             else
             {
