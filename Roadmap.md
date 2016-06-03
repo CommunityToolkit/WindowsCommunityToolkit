@@ -3,7 +3,7 @@
 Need a small intro here....
 
 # v0.5 (August 2016)
-* Controls
+* **Controls**
  * HamburgerMenu
  * Carousel
  * Gauge
@@ -11,11 +11,11 @@ Need a small intro here....
  * VariableSizedGridView: The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.
  * RangeSelector: The RangeSlector is a double slider control for range values
  * ImageEx: The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps. Source images are downloaded asynchronously showing a load indicator while in progress. Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
-* Connected services
+* **Connected services**
  * Facebook
  * Twitter
  * Bing
-* Helpers
+* **Helpers**
  * IsInternetAvailable
  * IsInternetOnMeteredConnection
  * GetHTTPStreamAsync
