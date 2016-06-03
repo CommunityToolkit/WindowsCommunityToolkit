@@ -59,6 +59,8 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadialGauge\RadialGauge.cs" />
+    <Compile Include="RadialGauge\UIElementExtensions.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
@@ -78,6 +80,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="ImageEx\ImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialGauge\RadialGauge.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
