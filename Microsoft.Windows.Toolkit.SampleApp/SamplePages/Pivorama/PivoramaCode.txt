@@ -1,9 +1,0 @@
-﻿<Grid>
-	 <controls:Pivorama
-            ItemsSource="{x:Bind PivoramaItems, Mode=OneWay}"
-            FitToScreen="False"
-            ItemWidth="@[ItemWidth:Slider:320:200-500]"
-            HeaderTemplate="{StaticResource CustomHeaderTemplate}"
-            TabTemplate="{StaticResource CustomTabTemplate}"
-            ContentTemplate="{StaticResource CustomContentTemplate}"/>		
-</Grid>

@@ -43,12 +43,18 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                     switch (option.Kind)
                     {
                         case PropertyKind.Slider:
+                        case PropertyKind.DoubleSlider:
                             var slider = new Slider();
                             var sliderOption = option as SliderPropertyOptions;
                             if (sliderOption != null)
                             {
                                 slider.Minimum = sliderOption.MinValue;
                                 slider.Maximum = sliderOption.MaxValue;
+                            }
+
+                            if (option.Kind == PropertyKind.DoubleSlider)
+                            {
+                                slider.StepFrequency = 0.01;
                             }
 
                             controlToAdd = slider;
@@ -72,7 +78,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                             dependencyProperty = ToggleSwitch.IsOnProperty;
                             break;
                         default:
-                            var textBox = new TextBox {Text = option.DefaultValue.ToString()};
+                            var textBox = new TextBox { Text = option.DefaultValue.ToString() };
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;
