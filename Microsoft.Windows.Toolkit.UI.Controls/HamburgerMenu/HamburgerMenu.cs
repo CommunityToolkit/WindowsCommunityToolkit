@@ -13,7 +13,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private ListViewBase _optionsListView;
 
         /// <summary>
-        /// Create a new instance of a HamburgerMenu.
+        /// Initializes a new instance of the <see cref="HamburgerMenu"/> class.
         /// </summary>
         public HamburgerMenu()
         {

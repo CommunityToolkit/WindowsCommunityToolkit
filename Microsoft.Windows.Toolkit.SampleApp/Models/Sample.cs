@@ -102,6 +102,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                             switch (kind)
                             {
                                 case PropertyKind.Slider:
+                                case PropertyKind.DoubleSlider:
                                     try
                                     {
                                         var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
@@ -110,7 +111,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                                         sliderOptions.MinValue = double.Parse(split[0]);
                                         sliderOptions.MaxValue = double.Parse(split[1]);
-
+                                        
                                         options = sliderOptions;
                                     }
                                     catch (Exception ex)
