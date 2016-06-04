@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Windows.Toolkit.SampleApp.Controls;
 using Microsoft.Windows.Toolkit.SampleApp.Pages;
+using Microsoft.Windows.Toolkit.UI;
 using Newtonsoft.Json;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
@@ -59,6 +61,10 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         {
             Header.Visibility = Visibility.Visible;
             Title.Text = title;
+            Properties.Visibility = Visibility.Collapsed;
+            CodePanel.Visibility = Visibility.Collapsed;
+
+            CommandsPanel.Children.Clear();
         }
 
         private void SetHeadersVisibility(bool visible)
@@ -66,7 +72,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             Header.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
             Footer.IsOpen = false;
             Footer.ClosedDisplayMode = visible ? AppBarClosedDisplayMode.Compact : AppBarClosedDisplayMode.Hidden;
-            Properties.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+            CommandsPanel.Children.Clear();
         }
 
         public async Task NavigateToSampleAsync(Sample sample)
@@ -80,8 +86,24 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 DataContext = sample;
                 Title.Text = sample.Name;
 
+                Properties.Visibility = (propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+
                 NavigationFrame.Navigate(pageType, propertyDesc);
             }
+        }
+
+        public void RegisterNewCommand(string name, RoutedEventHandler action)
+        {
+            var commandButton = new Button
+            {
+                Content = name,
+                Margin = new Thickness(10, 5, 10, 5),
+                Foreground = Title.Foreground
+            };
+
+            commandButton.Click += action;
+
+            CommandsPanel.Children.Add(commandButton);
         }
 
         private void XAMLSampleButton_OnClick(object sender, RoutedEventArgs e)

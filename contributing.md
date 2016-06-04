@@ -1,4 +1,4 @@
-# UWP Toolkit - Design guidelines
+# Contributing to UWP Toolkit
 
 The foundation of **UWP Toolkit** is simplicity. 
 

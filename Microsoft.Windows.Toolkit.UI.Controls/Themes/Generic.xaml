@@ -6,8 +6,8 @@
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ResponsiveGridView/ResponsiveGridView.xaml"/>
 		<ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/VariableSizedGridView/VariableSizedGridView.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/RangeSelector/RangeSelector.xaml"/>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/SearchBox/SearchBox.xaml"/>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/Pivorama/Pivorama.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ImageEx/ImageEx.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/Carousel/Carousel.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/HeaderedTextBlock/HeaderedTextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

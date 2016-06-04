@@ -20,12 +20,12 @@
         "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
       },
       {
-        "Name": "Pivorama",
-        "Type": "PivoramaPage",
-        "About": "The Pivorama control allows to visualize a set of elements optimizing the available space to display them. The Pivorama behaves differently based on the screen size: in big screens, it maximizes the number of items displayed using a table kind layout, with the ability to slide horizontally; in small screens, it behaves more like a Pivot control, showing the items in groups, with a heading inviting to slide horizontally. The Pivorama control is ideal to display big number of items in the best way depending on the device form factor.",
+        "Name": "Carousel",
+        "Type": "CarouselPage",
+        "About": "The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items. The Carousel control is responsive by design, optimizing the visualization in the different form factors. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "PivoramaCode.txt",
-        "Icon": "/SamplePages/Pivorama/icon.jpg"
+        "XamlCodeFile": "CarouselCode.txt",
+        "Icon": "/SamplePages/Carousel/icon.jpg"
       }
     ]
   },
@@ -39,7 +39,7 @@
         "About": "The HamburgerMenu provide a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HamburgerMenuCode.txt",
-        "Icon": "/SamplePages/HamburgerMenu/icon.jpg" 
+        "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
       },
       {
         "Name": "RangeSelector",
@@ -47,15 +47,15 @@
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "RangeSelectorCode.txt",
-        "Icon": "/SamplePages/RangeSelector/icon.jpg" 
+        "Icon": "/SamplePages/RangeSelector/icon.jpg"
       },
       {
-        "Name": "SearchBox",
-        "Type": "SearchBoxPage",
-        "About": "The SearchBox control allows to handle the App search feature. You can decide how the control will be displayed using properties Foreground, Background, PlaceHolderText, FontSize, etc. The SearchCommand property establish the command to execute when the user press enter or click the magnifier.",
+        "Name": "ImageEx",
+        "Type": "ImageExPage",
+        "About": "The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps. Source images are downloaded asynchronously showing a load indicator while in progress. Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "SearchBoxCode.txt",
-        "Icon": "/SamplePages/SearchBox/icon.jpg"
+        "XamlCodeFile": "ImageExCode.txt",
+        "Icon": "/SamplePages/ImageEx/icon.jpg"
       },
       {
         "Name": "HeaderedTextBlock",
@@ -63,7 +63,7 @@
         "About": "The HeaderedTextBlock control is designed to provide a header for readonly text. This control is useful for displaying readonly forms.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HeaderedTextBlockCode.txt",
-        "Icon": "/SamplePages/SearchBox/icon.jpg"     
+        "Icon": "/SamplePages/SearchBox/icon.jpg"
       }
     ]
   }
