@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Windows.Toolkit
 {
-    internal static class ControlHelpers
+    internal static partial class ControlHelpers
     {
         public static int Mod(this int value, int module)
         {

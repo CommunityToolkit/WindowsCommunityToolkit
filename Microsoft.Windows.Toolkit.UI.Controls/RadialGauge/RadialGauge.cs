@@ -13,13 +13,104 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
     /// </summary>
-    /// <remarks>All calculations are for a 200x200 square. The viewbox will do the rest.</remarks>
+    //// All calculations are for a 200x200 square. The viewbox will do the rest.
     [TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
     [TemplatePart(Name = ScalePartName, Type = typeof(Path))]
     [TemplatePart(Name = TrailPartName, Type = typeof(Path))]
     [TemplatePart(Name = ValueTextPartName, Type = typeof(TextBlock))]
     public class RadialGauge : Control
     {
+        /// <summary>
+        /// Identifies the Minimum dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
+
+        /// <summary>
+        /// Identifies the Maximum dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0));
+
+        /// <summary>
+        /// Identifies the ScaleWidth dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleWidthProperty =
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(Double), typeof(RadialGauge), new PropertyMetadata(26.0));
+
+        /// <summary>
+        /// Identifies the NeedleBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty NeedleBrushProperty =
+            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
+
+        /// <summary>
+        /// Identifies the Value dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0, OnValueChanged));
+
+        /// <summary>
+        /// Identifies the Unit dependency property.
+        /// </summary>
+        public static readonly DependencyProperty UnitProperty =
+            DependencyProperty.Register(nameof(Unit), typeof(string), typeof(RadialGauge), new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// Identifies the TrailBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TrailBrushProperty =
+            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Orange)));
+
+        /// <summary>
+        /// Identifies the ScaleBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleBrushProperty =
+            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+
+        /// <summary>
+        /// Identifies the ScaleTickBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleTickBrushProperty =
+            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        /// <summary>
+        /// Identifies the TickBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickBrushProperty =
+            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+
+        /// <summary>
+        /// Identifies the ValueBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValueBrushProperty =
+            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+
+        /// <summary>
+        /// Identifies the UnitBrush dependency property.
+        /// </summary>
+        public static readonly DependencyProperty UnitBrushProperty =
+            DependencyProperty.Register(nameof(UnitBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+
+        /// <summary>
+        /// Identifies the ValueStringFormat dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValueStringFormatProperty =
+            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(RadialGauge), new PropertyMetadata("N0"));
+
+        /// <summary>
+        /// Identifies the TickSpacing dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickSpacingProperty =
+        DependencyProperty.Register(nameof(TickSpacing), typeof(int), typeof(RadialGauge), new PropertyMetadata(10, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the ValueAngle dependency property.
+        /// </summary>
+        protected static readonly DependencyProperty ValueAngleProperty =
+            DependencyProperty.Register(nameof(ValueAngle), typeof(double), typeof(RadialGauge), new PropertyMetadata(null));
+
+
         // Template Parts.
         private const string ContainerPartName = "PART_Container";
         private const string ScalePartName = "PART_Scale";
@@ -44,16 +135,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private ContainerVisual _root;
         private SpriteVisual _needle;
 
+        /// <summary>
+        /// Create a default radial gauge control.
+        /// </summary>
         public RadialGauge()
         {
             this.DefaultStyleKey = typeof(RadialGauge);
         }
-
-        /// <summary>
-        /// Identifies the Minimum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register("Minimum", typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
 
         /// <summary>
         /// Gets or sets the minimum on the scale.
@@ -65,12 +153,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the Maximum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register("Maximum", typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0));
-
-        /// <summary>
         /// Gets or sets the maximum on the scale.
         /// </summary>
         public double Maximum
@@ -78,12 +160,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (double)GetValue(MaximumProperty); }
             set { SetValue(MaximumProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the ScaleWidth dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register("ScaleWidth", typeof(Double), typeof(RadialGauge), new PropertyMetadata(26.0));
 
         /// <summary>
         /// Gets or sets the width of the scale.
@@ -95,12 +171,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the Value dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0, OnValueChanged));
-
-        /// <summary>
         /// Gets or sets the current value.
         /// </summary>
         public double Value
@@ -108,12 +178,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (double)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the Unit dependency property.
-        /// </summary>
-        public static readonly DependencyProperty UnitProperty =
-            DependencyProperty.Register("Unit", typeof(string), typeof(RadialGauge), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Gets or sets the unit measure.
@@ -125,12 +189,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the NeedleBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty NeedleBrushProperty =
-            DependencyProperty.Register("NeedleBrush", typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
-
-        /// <summary>
         /// Gets or sets the needle brush.
         /// </summary>
         public SolidColorBrush NeedleBrush
@@ -138,12 +196,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (SolidColorBrush)GetValue(NeedleBrushProperty); }
             set { SetValue(NeedleBrushProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the TrailBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TrailBrushProperty =
-            DependencyProperty.Register("TrailBrush", typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Orange)));
 
         /// <summary>
         /// Gets or sets the trail brush.
@@ -155,12 +207,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ScaleBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ScaleBrushProperty =
-            DependencyProperty.Register("ScaleBrush", typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
-
-        /// <summary>
         /// Gets or sets the scale brush.
         /// </summary>
         public Brush ScaleBrush
@@ -168,12 +214,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Brush)GetValue(ScaleBrushProperty); }
             set { SetValue(ScaleBrushProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the ScaleTickBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ScaleTickBrushProperty =
-            DependencyProperty.Register("ScaleTickBrush", typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
         /// Gets or sets the scale tick brush.
@@ -185,12 +225,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the TickBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TickBrushProperty =
-            DependencyProperty.Register("TickBrush", typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        /// <summary>
         /// Gets or sets the outer tick brush.
         /// </summary>
         public SolidColorBrush TickBrush
@@ -198,12 +232,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (SolidColorBrush)GetValue(TickBrushProperty); }
             set { SetValue(TickBrushProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the ValuaBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ValueBrushProperty =
-            DependencyProperty.Register("ValueBrush", typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         /// <summary>
         /// Gets or sets the value brush.
@@ -215,12 +243,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the UnitBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty UnitBrushProperty =
-            DependencyProperty.Register("UnitBrush", typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        /// <summary>
         /// Gets or sets the unit brush.
         /// </summary>
         public Brush UnitBrush
@@ -228,12 +250,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Brush)GetValue(UnitBrushProperty); }
             set { SetValue(UnitBrushProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the ValueStringFormat dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ValueStringFormatProperty =
-            DependencyProperty.Register("ValueStringFormat", typeof(string), typeof(RadialGauge), new PropertyMetadata("N0"));
 
         /// <summary>
         /// Gets or sets the value string format.
@@ -245,12 +261,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the TickSpacing dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TickSpacingProperty =
-        DependencyProperty.Register("TickSpacing", typeof(int), typeof(RadialGauge), new PropertyMetadata(10));
-
-        /// <summary>
         /// Gets or sets the tick spacing, in units.
         /// </summary>
         public int TickSpacing
@@ -260,76 +270,22 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ValuaAngle dependency property.
+        /// Gets or sets the angle of the needle.
         /// </summary>
-        protected static readonly DependencyProperty ValueAngleProperty =
-            DependencyProperty.Register("ValueAngle", typeof(double), typeof(RadialGauge), new PropertyMetadata(null));
-
         protected double ValueAngle
         {
             get { return (double)GetValue(ValueAngleProperty); }
             set { SetValue(ValueAngleProperty, value); }
         }
 
+        /// <summary>
+        /// Update the visual state of the control when its template is changed.
+        /// </summary>
         protected override void OnApplyTemplate()
         {
-            // Scale.
-            var scale = this.GetTemplateChild(ScalePartName) as Path;
-            if (scale != null)
-            {
-                var pg = new PathGeometry();
-                var pf = new PathFigure();
-                pf.IsClosed = false;
-                var middleOfScale = 100 - ScalePadding - this.ScaleWidth / 2;
-                pf.StartPoint = this.ScalePoint(MinAngle, middleOfScale);
-                var seg = new ArcSegment();
-                seg.SweepDirection = SweepDirection.Clockwise;
-                seg.IsLargeArc = true;
-                seg.Size = new Size(middleOfScale, middleOfScale);
-                seg.Point = this.ScalePoint(MaxAngle, middleOfScale);
-                pf.Segments.Add(seg);
-                pg.Figures.Add(pf);
-                scale.Data = pg;
-            }
+            OnScaleChanged(this);
+            OnFaceChanged(this);
 
-            var container = this.GetTemplateChild(ContainerPartName) as Grid;
-            _root = container.GetVisual();
-            _compositor = _root.Compositor;
-
-            // Ticks.
-            SpriteVisual tick;
-            for (double i = Minimum; i <= Maximum; i += TickSpacing)
-            {
-                tick = _compositor.CreateSpriteVisual();
-                tick.Size = new Vector2(TickWidth, TickHeight);
-                tick.Brush = _compositor.CreateColorBrush(TickBrush.Color);
-                tick.Offset = new Vector3(100 - TickWidth / 2, 0.0f, 0);
-                tick.CenterPoint = new Vector3(TickWidth / 2, 100.0f, 0);
-                tick.RotationAngleInDegrees = (float)ValueToAngle(i);
-                _root.Children.InsertAtTop(tick);
-            }
-
-            // Scale Ticks.
-            for (double i = Minimum; i <= Maximum; i += TickSpacing)
-            {
-                tick = _compositor.CreateSpriteVisual();
-                tick.Size = new Vector2(ScaleTickWidth, (float)ScaleWidth);
-                tick.Brush = _compositor.CreateColorBrush(ScaleTickBrush.Color);
-                tick.Offset = new Vector3(100 - ScaleTickWidth / 2, ScalePadding, 0);
-                tick.CenterPoint = new Vector3(ScaleTickWidth / 2, 100 - ScalePadding, 0);
-                tick.RotationAngleInDegrees = (float)ValueToAngle(i);
-                _root.Children.InsertAtTop(tick);
-            }
-
-            // Needle.
-            _needle = _compositor.CreateSpriteVisual();
-            _needle.Size = new Vector2(NeedleWidth, NeedleHeight);
-            _needle.Brush = _compositor.CreateColorBrush(NeedleBrush.Color);
-            _needle.CenterPoint = new Vector3(NeedleWidth / 2, NeedleHeight, 0);
-            _needle.Offset = new Vector3(100 - NeedleWidth / 2, 100 - NeedleHeight, 0);
-            _root.Children.InsertAtTop(_needle);
-
-            OnValueChanged(this);
             base.OnApplyTemplate();
         }
 
@@ -391,6 +347,96 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
+        private static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            OnScaleChanged(d);
+        }
+
+        /// <summary>
+        /// Updates the background scale.
+        /// </summary>
+        private static void OnScaleChanged(DependencyObject d)
+        {
+            RadialGauge c = (RadialGauge)d;
+
+            var scale = c.GetTemplateChild(ScalePartName) as Path;
+            if (scale != null)
+            {
+                var pg = new PathGeometry();
+                var pf = new PathFigure();
+                pf.IsClosed = false;
+                var middleOfScale = 100 - ScalePadding - c.ScaleWidth / 2;
+                pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
+                var seg = new ArcSegment();
+                seg.SweepDirection = SweepDirection.Clockwise;
+                seg.IsLargeArc = true;
+                seg.Size = new Size(middleOfScale, middleOfScale);
+                seg.Point = c.ScalePoint(MaxAngle, middleOfScale);
+                pf.Segments.Add(seg);
+                pg.Figures.Add(pf);
+                scale.Data = pg;
+            }
+        }
+
+        private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            OnFaceChanged(d);
+        }
+
+        /// <summary>
+        /// Updates the face: ticks, scale ticks, and needle.
+        /// </summary>
+        private static void OnFaceChanged(DependencyObject d)
+        {
+            RadialGauge c = (RadialGauge)d;
+
+            var container = c.GetTemplateChild(ContainerPartName) as Grid;
+            if (container == null)
+            {
+                // Bad template.
+                return;
+            }
+
+            c._root = container.GetVisual();
+            c._root.Children.RemoveAll();
+            c._compositor = c._root.Compositor;
+
+            // Ticks.
+            SpriteVisual tick;
+            for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
+            {
+                tick = c._compositor.CreateSpriteVisual();
+                tick.Size = new Vector2(TickWidth, TickHeight);
+                tick.Brush = c._compositor.CreateColorBrush(c.TickBrush.Color);
+                tick.Offset = new Vector3(100 - TickWidth / 2, 0.0f, 0);
+                tick.CenterPoint = new Vector3(TickWidth / 2, 100.0f, 0);
+                tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
+                c._root.Children.InsertAtTop(tick);
+            }
+
+            // Scale Ticks.
+            for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
+            {
+                tick = c._compositor.CreateSpriteVisual();
+                tick.Size = new Vector2(ScaleTickWidth, (float)c.ScaleWidth);
+                tick.Brush = c._compositor.CreateColorBrush(c.ScaleTickBrush.Color);
+                tick.Offset = new Vector3(100 - ScaleTickWidth / 2, ScalePadding, 0);
+                tick.CenterPoint = new Vector3(ScaleTickWidth / 2, 100 - ScalePadding, 0);
+                tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
+                c._root.Children.InsertAtTop(tick);
+            }
+
+            // Needle.
+            c._needle = c._compositor.CreateSpriteVisual();
+            c._needle.Size = new Vector2(NeedleWidth, NeedleHeight);
+            c._needle.Brush = c._compositor.CreateColorBrush(c.NeedleBrush.Color);
+            c._needle.CenterPoint = new Vector3(NeedleWidth / 2, NeedleHeight, 0);
+            c._needle.Offset = new Vector3(100 - NeedleWidth / 2, 100 - NeedleHeight, 0);
+            c._root.Children.InsertAtTop(c._needle);
+
+            OnValueChanged(c);
+        }
+
         /// <summary>
         /// Transforms a set of polar coordinates into a Windows Point.
         /// </summary>
@@ -406,18 +452,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private double ValueToAngle(double value)
         {
             // Off-scale on the left.
-            if (value < this.Minimum)
+            if (value < Minimum)
             {
                 return MinAngle - 7.5;
             }
 
             // Off-scale on the right.
-            if (value > this.Maximum)
+            if (value > Maximum)
             {
                 return MaxAngle + 7.5;
             }
 
-            return (value - this.Minimum) / (this.Maximum - this.Minimum) * (MaxAngle - MinAngle) + MinAngle;
+            return (value - Minimum) / (Maximum - Minimum) * (MaxAngle - MinAngle) + MinAngle;
         }
     }
 }

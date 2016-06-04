@@ -2,9 +2,9 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls
+namespace Microsoft.Windows.Toolkit
 {
-    public static class UIElementExtensions
+    internal static partial class ControlHelpers
     {
         public static ContainerVisual GetVisual(this UIElement element)
         {

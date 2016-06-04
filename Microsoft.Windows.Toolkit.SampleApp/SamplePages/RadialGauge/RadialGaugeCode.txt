@@ -4,11 +4,7 @@
       xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:converters="using:Microsoft.Windows.Toolkit.UI.Converters"
       mc:Ignorable="d">
-    <Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter" />
-    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid VerticalAlignment="Center"
@@ -20,7 +16,10 @@
             </Grid.ColumnDefinitions>
             <controls:RadialGauge x:Name="RadialGauge"
                                   Grid.Column="1"
-                                  Value="@[Value:Slider:0:10-100]"
+                                  Value="@[Value:Slider:0:0-180]"
+                                  Minimum="0"
+                                  Maximum="180"
+                                  TickSpacing="@[TickSpacing:Slider:20:10-30]"
                                   Unit="Units"
                                   TickBrush="Gainsboro"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -29,4 +28,3 @@
         </Grid>
     </Grid>
 </Page>
-

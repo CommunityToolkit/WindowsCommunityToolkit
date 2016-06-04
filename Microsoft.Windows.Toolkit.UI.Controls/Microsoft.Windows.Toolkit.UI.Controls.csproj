@@ -49,6 +49,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlHelpers.Composition.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Options.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadialGauge\RadialGauge.cs" />
-    <Compile Include="RadialGauge\UIElementExtensions.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
