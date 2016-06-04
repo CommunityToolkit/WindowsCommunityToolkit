@@ -20,6 +20,7 @@
                                   Minimum="0"
                                   Maximum="180"
                                   TickSpacing="{Binding TickSpacing.Value, Mode=TwoWay}"
+                                  ScaleWidth="{Binding ScaleWidth.Value, Mode=TwoWay}"
                                   Unit="Units"
                                   TickBrush="Gainsboro"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"

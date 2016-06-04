@@ -36,7 +36,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(Double), typeof(RadialGauge), new PropertyMetadata(26.0));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(Double), typeof(RadialGauge), new PropertyMetadata(26.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the NeedleBrush dependency property.
@@ -284,7 +284,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         protected override void OnApplyTemplate()
         {
             OnScaleChanged(this);
-            OnFaceChanged(this);
 
             base.OnApplyTemplate();
         }
@@ -375,6 +374,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 pf.Segments.Add(seg);
                 pg.Figures.Add(pf);
                 scale.Data = pg;
+
+                OnFaceChanged(c);
             }
         }
 
