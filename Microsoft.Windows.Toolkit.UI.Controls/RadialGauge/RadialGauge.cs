@@ -24,13 +24,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the Minimum dependency property.
         /// </summary>
         public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the Maximum dependency property.
         /// </summary>
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0));
+            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ScaleWidth dependency property.
@@ -42,7 +42,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the NeedleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleBrushProperty =
-            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
+            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red), OnFaceChanged));
 
         /// <summary>
         /// Identifies the Value dependency property.
@@ -72,13 +72,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the ScaleTickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleTickBrushProperty =
-            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TickBrushProperty =
-            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnFaceChanged));
 
         /// <summary>
         /// Identifies the ValueBrush dependency property.
