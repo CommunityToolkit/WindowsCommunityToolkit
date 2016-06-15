@@ -46,6 +46,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty HamburgerIconProperty = DependencyProperty.Register(
+            nameof(HamburgerIcon), typeof (IconElement), typeof (HamburgerMenu), new PropertyMetadata(default(IconElement)));
+
+        public IconElement HamburgerIcon
+        {
+            get { return (IconElement) GetValue(HamburgerIconProperty); }
+            set { SetValue(HamburgerIconProperty, value); }
+        }
+
         /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>

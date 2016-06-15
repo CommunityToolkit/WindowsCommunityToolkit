@@ -4,6 +4,12 @@
     xmlns:local="using:Microsoft.Windows.Toolkit.UI.Controls">
 
     <Style TargetType="local:HamburgerMenu">
+        <Setter Property="HamburgerIcon">
+            <Setter.Value>
+                <FontIcon FontFamily="Segoe MDL2 Assets"
+                          Glyph="&#xE700;"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
@@ -50,7 +56,10 @@
                             <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart"></ContentPresenter>
                         </SplitView>
                         <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
-                            <FontIcon Margin="{TemplateBinding HamburgerMargin}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding HamburgerFontSize}"/>
+                            <ContentControl Content="{TemplateBinding HamburgerIcon}"
+                                            Margin="{TemplateBinding HamburgerMargin}"
+                                            Foreground="{TemplateBinding Foreground}"
+                                            FontSize="{TemplateBinding HamburgerFontSize}" />
                         </Button>
                     </Grid>
                 </ControlTemplate>
