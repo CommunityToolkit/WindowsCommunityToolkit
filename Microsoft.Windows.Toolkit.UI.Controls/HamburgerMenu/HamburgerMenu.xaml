@@ -34,7 +34,6 @@
                                             <RowDefinition Height="Auto"></RowDefinition>
                                             <RowDefinition></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Rectangle Height="1" Fill="{TemplateBinding Foreground}" Grid.Row="0"></Rectangle>
 
                                         <ListView Grid.Row="1" Name="OptionsListView" ItemsSource="{TemplateBinding OptionsItemsSource}" ItemTemplate="{TemplateBinding OptionsItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}" VerticalAlignment="Bottom">
