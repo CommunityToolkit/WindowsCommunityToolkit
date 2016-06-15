@@ -11,6 +11,9 @@ using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
+    using global::Windows.UI;
+    using global::Windows.UI.Xaml.Media;
+
     public class Sample
     {
         private PropertyDescriptor _propertyDescriptor;
@@ -111,7 +114,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                                         sliderOptions.MinValue = double.Parse(split[0]);
                                         sliderOptions.MaxValue = double.Parse(split[1]);
-                                        
+
                                         options = sliderOptions;
                                     }
                                     catch (Exception ex)
@@ -119,6 +122,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
                                         continue;
                                     }
+
                                     break;
                                 case PropertyKind.Enum:
                                     try
@@ -134,6 +138,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
                                         continue;
                                     }
+
                                     break;
                                 case PropertyKind.Bool:
                                     try
@@ -145,6 +150,19 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
                                         continue;
                                     }
+
+                                    break;
+                                case PropertyKind.Brush:
+                                    try
+                                    {
+                                        options = new PropertyOptions { DefaultValue = value };
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                        continue;
+                                    }
+
                                     break;
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
@@ -161,6 +179,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     }
                 }
             }
+
             return _propertyDescriptor;
         }
     }
