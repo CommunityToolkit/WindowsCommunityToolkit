@@ -52,5 +52,11 @@ namespace UnitTests
         {
             Assert.IsFalse(Helpers.IsInternetOnMeteredConnection);
         }
+
+        [TestMethod]
+        public void TestStringToColor()
+        {
+            Assert.IsTrue("Red".ToColor().ToString() == "#FFFF0000");
+        }
     }
 }
