@@ -131,6 +131,8 @@
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\RadialGauge\icon.jpg" />
+    <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
@@ -177,6 +179,7 @@
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs" />
     <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
