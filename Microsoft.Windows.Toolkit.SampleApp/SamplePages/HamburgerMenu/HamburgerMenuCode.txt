@@ -42,7 +42,6 @@
 								PanePlacement="@[PanePlacement:Enum:SplitViewPanePlacement.Left]"
 								DisplayMode="@[DisplayMode:Enum:SplitViewDisplayMode.CompactInline]"
 								CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
-								HamburgerWidth="@[HamburgerWidth:Slider:48:10-80]"
 								HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
 								HamburgerFontSize="@[HamburgerFontSize:Slider:18:10-80]"
 								IsPaneOpen="@[IsPaneOpen:Bool:False]"

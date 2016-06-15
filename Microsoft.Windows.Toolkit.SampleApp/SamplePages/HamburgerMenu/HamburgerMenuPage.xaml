@@ -42,7 +42,7 @@
                                 PanePlacement="{Binding PanePlacement.Value}"
                                 DisplayMode="{Binding DisplayMode.Value}"
                                 CompactPaneLength="{Binding CompactPaneLength.Value}"
-                                HamburgerWidth="{Binding HamburgerWidth.Value}"
+                                HamburgerWidth="48"
                                 HamburgerHeight="{Binding HamburgerHeight.Value}"
                                 HamburgerFontSize="{Binding HamburgerFontSize.Value}"
                                 IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"

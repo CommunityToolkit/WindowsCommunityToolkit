@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Panel controls",
+    "Name": "Layout controls",
     "Icon": "Icons/Layouts.png",
     "Samples": [
 			{
@@ -39,7 +39,7 @@
         "About": "The HamburgerMenu provide a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HamburgerMenuCode.txt",
-        "Icon": "/SamplePages/HamburgerMenu/icon.jpg" 
+        "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
       },
       {
         "Name": "RangeSelector",
@@ -47,7 +47,7 @@
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "RangeSelectorCode.txt",
-        "Icon": "/SamplePages/RangeSelector/icon.jpg" 
+        "Icon": "/SamplePages/RangeSelector/icon.jpg"
       },
       {
         "Name": "ImageEx",
@@ -56,6 +56,14 @@
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "ImageExCode.txt",
         "Icon": "/SamplePages/ImageEx/icon.jpg"
+      },
+      {
+        "Name": "RadialGauge",
+        "Type": "RadialGaugePage",
+        "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "RadialGaugeCode.txt",
+        "Icon": "/SamplePages/RadialGauge/icon.jpg"
       },
       {
         "Name": "SlidableListItem",

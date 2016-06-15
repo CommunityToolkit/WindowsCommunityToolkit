@@ -9,6 +9,7 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/SlidableListItem/SlidableListItem.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/ImageEx/ImageEx.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/Carousel/Carousel.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/RadialGauge/RadialGauge.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
