@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Mvvm
+namespace Microsoft.Windows.Toolkit.SampleApp.Common
 {
     public abstract class BindableBase : INotifyPropertyChanged
     {

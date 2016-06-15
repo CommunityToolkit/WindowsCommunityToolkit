@@ -26,7 +26,7 @@
                                        ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}">
                 <Grid Height="110" Background="Gray">
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"></CheckBox>
+                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=TwoWay}"></CheckBox>
                         <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Grid>

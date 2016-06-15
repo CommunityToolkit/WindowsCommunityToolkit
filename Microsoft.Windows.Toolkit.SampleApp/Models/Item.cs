@@ -1,4 +1,4 @@
-﻿using Microsoft.Windows.Toolkit.SampleApp.Mvvm;
+﻿using Microsoft.Windows.Toolkit.SampleApp.Common;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.Models
 {
@@ -10,8 +10,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Models
         private bool? _IsFavorite = default(bool);
         public bool? IsFavorite { get { return _IsFavorite; } set { Set(ref _IsFavorite, value); } }
 
-        Mvvm.Command _ToggleFavorite = default(Mvvm.Command);
-        public Mvvm.Command ToggleFavorite { get { return _ToggleFavorite ?? (_ToggleFavorite = new Mvvm.Command(ExecuteToggleFavoriteCommand, CanExecuteToggleFavoriteCommand)); } }
+        DelegateCommand _ToggleFavorite = default(DelegateCommand);
+        public DelegateCommand ToggleFavorite { get { return _ToggleFavorite ?? (_ToggleFavorite = new DelegateCommand(ExecuteToggleFavoriteCommand, CanExecuteToggleFavoriteCommand)); } }
         private bool CanExecuteToggleFavoriteCommand() { return true; }
         private void ExecuteToggleFavoriteCommand()
         {
