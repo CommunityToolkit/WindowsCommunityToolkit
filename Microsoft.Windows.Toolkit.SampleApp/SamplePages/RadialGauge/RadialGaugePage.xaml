@@ -25,7 +25,9 @@
                                   TickBrush="Gainsboro"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   UnitBrush="Black"
-                                  ValueBrush="Black" />
+                                  ValueBrush="Black"
+                                  NeedleWidth="{Binding NeedleWidth.Value, Mode=TwoWay}"
+                                  TickLength="{Binding TickLength.Value, Mode=TwoWay}" />
         </Grid>
     </Grid>
 </Page>

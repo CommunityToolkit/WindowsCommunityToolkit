@@ -105,11 +105,46 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         DependencyProperty.Register(nameof(TickSpacing), typeof(int), typeof(RadialGauge), new PropertyMetadata(10, OnFaceChanged));
 
         /// <summary>
+        /// Identifies the NeedleLength dependency property.
+        /// </summary>
+        public static readonly DependencyProperty NeedleLengthProperty =
+            DependencyProperty.Register(nameof(NeedleLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(100d, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the NeedleWidth dependency property.
+        /// </summary>
+        public static readonly DependencyProperty NeedleWidthProperty =
+            DependencyProperty.Register(nameof(NeedleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the ScalePadding dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScalePaddingProperty =
+            DependencyProperty.Register(nameof(ScalePadding), typeof(double), typeof(RadialGauge), new PropertyMetadata(23d, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the ScaleTickWidth dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleTickWidthProperty =
+            DependencyProperty.Register(nameof(ScaleTickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(2.5, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the TickWidth dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickWidthProperty =
+            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
+
+        /// <summary>
+        /// Identifies the TickLength dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickLengthProperty =
+            DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
+
+        /// <summary>
         /// Identifies the ValueAngle dependency property.
         /// </summary>
         protected static readonly DependencyProperty ValueAngleProperty =
             DependencyProperty.Register(nameof(ValueAngle), typeof(double), typeof(RadialGauge), new PropertyMetadata(null));
-
 
         // Template Parts.
         private const string ContainerPartName = "PART_Container";
@@ -120,16 +155,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
 
-        // Candidate dependency properties.
-        // Feel free to modify...
         private const double MinAngle = -150.0;
         private const double MaxAngle = 150.0;
-        private const float TickHeight = 18.0f;
-        private const float TickWidth = 5.0f;
-        private const float ScalePadding = 23.0f;
-        private const float ScaleTickWidth = 2.5f;
-        private const float NeedleWidth = 5.0f;
-        private const float NeedleHeight = 100.0f;
 
         private Compositor _compositor;
         private ContainerVisual _root;
@@ -270,6 +297,59 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the needle length, in percentage of the gauge radius.
+        /// </summary>
+        public double NeedleLength
+        {
+            get { return (double)GetValue(NeedleLengthProperty); }
+            set { SetValue(NeedleLengthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the needle width, in percentage of the gauge radius.
+        /// </summary>
+        public double NeedleWidth        {
+            get { return (double)GetValue(NeedleWidthProperty); }
+            set { SetValue(NeedleWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the distance of the scale from the outside of the control, in percentage of the gauge radius.
+        /// </summary>
+        public double ScalePadding
+        {
+            get { return (double)GetValue(ScalePaddingProperty); }
+            set { SetValue(ScalePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of the scale ticks, in percentage of the gauge radius.
+        /// </summary>
+        public double ScaleTickWidth
+        {
+            get { return (double)GetValue(ScaleTickWidthProperty); }
+            set { SetValue(ScaleTickWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the length of the ticks, in percentage of the gauge radius.
+        /// </summary>
+        public double TickLength
+        {
+            get { return (double)GetValue(TickLengthProperty); }
+            set { SetValue(TickLengthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of the ticks, in percentage of the gauge radius.
+        /// </summary>
+        public double TickWidth
+        {
+            get { return (double)GetValue(TickWidthProperty); }
+            set { SetValue(TickWidthProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the angle of the needle.
         /// </summary>
         protected double ValueAngle
@@ -301,7 +381,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             RadialGauge c = (RadialGauge)d;
             if (!Double.IsNaN(c.Value))
             {
-                var middleOfScale = 100 - ScalePadding - c.ScaleWidth / 2;
+                var middleOfScale = 100 - c.ScalePadding - c.ScaleWidth / 2;
                 var valueText = c.GetTemplateChild(ValueTextPartName) as TextBlock;
                 c.ValueAngle = c.ValueToAngle(c.Value);
 
@@ -324,7 +404,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                         pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
                         var seg = new ArcSegment();
                         seg.SweepDirection = SweepDirection.Clockwise;
-                        // We start from -150, so +30 becomes a large arc.
                         seg.IsLargeArc = c.ValueAngle > (180 + MinAngle);
                         seg.Size = new Size(middleOfScale, middleOfScale);
                         seg.Point = c.ScalePoint(Math.Min(c.ValueAngle, MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
@@ -364,7 +443,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 var pg = new PathGeometry();
                 var pf = new PathFigure();
                 pf.IsClosed = false;
-                var middleOfScale = 100 - ScalePadding - c.ScaleWidth / 2;
+                var middleOfScale = 100 - c.ScalePadding - c.ScaleWidth / 2;
                 pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
                 var seg = new ArcSegment();
                 seg.SweepDirection = SweepDirection.Clockwise;
@@ -407,10 +486,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
             {
                 tick = c._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2(TickWidth, TickHeight);
+                tick.Size = new Vector2((float)c.TickWidth, (float)c.TickLength);
                 tick.Brush = c._compositor.CreateColorBrush(c.TickBrush.Color);
-                tick.Offset = new Vector3(100 - TickWidth / 2, 0.0f, 0);
-                tick.CenterPoint = new Vector3(TickWidth / 2, 100.0f, 0);
+                tick.Offset = new Vector3(100 - (float)c.TickWidth / 2, 0.0f, 0);
+                tick.CenterPoint = new Vector3((float)c.TickWidth / 2, 100.0f, 0);
                 tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
                 c._root.Children.InsertAtTop(tick);
             }
@@ -419,20 +498,20 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
             {
                 tick = c._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2(ScaleTickWidth, (float)c.ScaleWidth);
+                tick.Size = new Vector2((float)c.ScaleTickWidth, (float)c.ScaleWidth);
                 tick.Brush = c._compositor.CreateColorBrush(c.ScaleTickBrush.Color);
-                tick.Offset = new Vector3(100 - ScaleTickWidth / 2, ScalePadding, 0);
-                tick.CenterPoint = new Vector3(ScaleTickWidth / 2, 100 - ScalePadding, 0);
+                tick.Offset = new Vector3(100 - (float)c.ScaleTickWidth / 2, (float)c.ScalePadding, 0);
+                tick.CenterPoint = new Vector3((float)c.ScaleTickWidth / 2, 100 - (float)c.ScalePadding, 0);
                 tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
                 c._root.Children.InsertAtTop(tick);
             }
 
             // Needle.
             c._needle = c._compositor.CreateSpriteVisual();
-            c._needle.Size = new Vector2(NeedleWidth, NeedleHeight);
+            c._needle.Size = new Vector2((float)c.NeedleWidth, (float)c.NeedleLength );
             c._needle.Brush = c._compositor.CreateColorBrush(c.NeedleBrush.Color);
-            c._needle.CenterPoint = new Vector3(NeedleWidth / 2, NeedleHeight, 0);
-            c._needle.Offset = new Vector3(100 - NeedleWidth / 2, 100 - NeedleHeight, 0);
+            c._needle.CenterPoint = new Vector3((float)c.NeedleWidth / 2, (float)c.NeedleLength, 0);
+            c._needle.Offset = new Vector3(100 - (float)c.NeedleWidth / 2, 100 - (float)c.NeedleLength, 0);
             c._root.Children.InsertAtTop(c._needle);
 
             OnValueChanged(c);
