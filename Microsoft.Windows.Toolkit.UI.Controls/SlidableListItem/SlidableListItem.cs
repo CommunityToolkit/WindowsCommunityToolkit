@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     /// <summary>
-    /// ContentControl prividing functinality for sliding left or right to expose functions
+    /// ContentControl providing functionality for sliding left or right to expose functions
     /// </summary>
     [TemplatePart(Name = PartContentGrid, Type = typeof(Grid))]
     [TemplatePart(Name = PartCommandContainer, Type = typeof(Grid))]
@@ -150,29 +150,47 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            if (_contentGrid != null)
+            {
+                _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
+                _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
+            }
+
             _contentGrid = this.GetTemplateChild(PartContentGrid) as Grid;
             _commandContainer = this.GetTemplateChild(PartCommandContainer) as Grid;
             _leftCommandPanel = this.GetTemplateChild(PartLeftCommandPanel) as StackPanel;
             _rightCommandPanel = this.GetTemplateChild(PartRightCommandPanel) as StackPanel;
 
-            _transform = _contentGrid.RenderTransform as CompositeTransform;
+            if (_contentGrid != null)
+            {
+                _transform = _contentGrid.RenderTransform as CompositeTransform;
+                _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
+                _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
 
-            _leftCommandTransform = _leftCommandPanel.RenderTransform as CompositeTransform;
-            _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
+                _contentAnimation = new DoubleAnimation();
+                Storyboard.SetTarget(_contentAnimation, _transform);
+                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
+                _contentAnimation.To = 0;
+                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
 
-            _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
-            _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
+                _contentStoryboard = new Storyboard();
+                _contentStoryboard.Children.Add(_contentAnimation);
+            }
 
-            _contentAnimation = new DoubleAnimation();
-            Storyboard.SetTarget(_contentAnimation, _transform);
-            Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
-            _contentAnimation.To = 0;
-            _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+            if (_commandContainer != null)
+            {
+                _commandContainer.Background = LeftBackground as SolidColorBrush;
+            }
 
-            _contentStoryboard = new Storyboard();
-            _contentStoryboard.Children.Add(_contentAnimation);
+            if (_leftCommandPanel != null)
+            {
+                _leftCommandTransform = _leftCommandPanel.RenderTransform as CompositeTransform;
+            }
 
-            _commandContainer.Background = LeftBackground as SolidColorBrush;
+            if (_rightCommandPanel != null)
+            {
+                _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
+            }
 
             base.OnApplyTemplate();
         }
@@ -196,17 +214,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             if (x < -ActivationWidth)
             {
-                if (RightCommandRequested != null)
-                    RightCommandRequested(this, new EventArgs());
-                if (RightCommand != null)
-                    RightCommand.Execute(null);
+                RightCommandRequested?.Invoke(this, new EventArgs());
+                RightCommand?.Execute(null);
             }
             else if (x > ActivationWidth)
             {
-                if (LeftCommandRequested != null)
-                    LeftCommandRequested(this, new EventArgs());
-                if (LeftCommand != null)
-                    LeftCommand.Execute(null);
+                LeftCommandRequested?.Invoke(this, new EventArgs());
+                LeftCommand?.Execute(null);
             }
         }
 
@@ -224,7 +238,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             if (_transform.TranslateX > 0)
             {
-                _commandContainer.Background = LeftBackground as SolidColorBrush;
+                if (_commandContainer != null)
+                {
+                    _commandContainer.Background = LeftBackground as SolidColorBrush;
+                }
 
                 _leftCommandPanel.Opacity = 1;
                 _rightCommandPanel.Opacity = 0;
@@ -236,7 +253,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
             else
             {
-                _commandContainer.Background = RightBackground as SolidColorBrush;
+                if (_commandContainer != null)
+                {
+                    _commandContainer.Background = RightBackground as SolidColorBrush;
+                }
 
                 _rightCommandPanel.Opacity = 1;
                 _leftCommandPanel.Opacity = 0;
@@ -348,10 +368,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (ICommand)GetValue(LeftCommandProperty); }
             set
             {
-                //if (value != null)
-                //{
-                //    value.CanExecuteChanged += LeftCommand_CanExecuteChanged;
-                //}
                 SetValue(LeftCommandProperty, value);
             }
         }
