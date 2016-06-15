@@ -125,6 +125,8 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Icons\Notifications.png" />
+    <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />

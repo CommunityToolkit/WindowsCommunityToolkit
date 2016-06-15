@@ -66,5 +66,17 @@
         "Icon": "/SamplePages/RadialGauge/icon.jpg"
       }
     ]
+  },
+  {
+    "Name": "Notifications",
+    "Icon": "Icons/Notifications.png",
+    "Samples": [      
+    ]
+  },
+  {
+    "Name": "Services",
+    "Icon": "Icons/Services.png",
+    "Samples": [      
+    ]
   }
 ]
