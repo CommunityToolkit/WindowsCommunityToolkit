@@ -26,5 +26,6 @@ Need a small intro here....
  * IRandomAccessStream.ReadTextAsync
  * string.Compress
  * string.Decompress
+ * string.ToColor
   
 # v0.1 (September 2016)

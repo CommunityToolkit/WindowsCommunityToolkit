@@ -9,6 +9,11 @@ using Microsoft.Windows.Toolkit.SampleApp.Models;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.Controls
 {
+    using System.Linq;
+    using System.Reflection;
+
+    using Microsoft.Windows.Toolkit.SampleApp.Common;
+
     public sealed partial class PropertyControl
     {
         public PropertyControl()
@@ -39,6 +44,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                     // Control
                     Control controlToAdd;
                     DependencyProperty dependencyProperty;
+                    IValueConverter converter = null;
 
                     switch (option.Kind)
                     {
@@ -77,6 +83,17 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                             controlToAdd = checkBox;
                             dependencyProperty = ToggleSwitch.IsOnProperty;
                             break;
+                        case PropertyKind.Brush:
+                            var colorComboBox = new ComboBox();
+                            var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
+                            colorComboBox.ItemsSource = dataSource;
+                            colorComboBox.SelectedIndex = dataSource.IndexOf(option.DefaultValue.ToString());
+
+                            converter = new SolidColorBrushConverter();
+
+                            controlToAdd = colorComboBox;
+                            dependencyProperty = Selector.SelectedItemProperty;
+                            break;
                         default:
                             var textBox = new TextBox { Text = option.DefaultValue.ToString() };
 
@@ -89,7 +106,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                     {
                         Source = propertyDesc.Expando,
                         Path = new PropertyPath(option.Name + ".Value"),
-                        Mode = BindingMode.TwoWay
+                        Mode = BindingMode.TwoWay,
+                        Converter = converter
                     };
 
                     controlToAdd.SetBinding(dependencyProperty, binding);

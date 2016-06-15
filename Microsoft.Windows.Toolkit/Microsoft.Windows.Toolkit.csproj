@@ -46,6 +46,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Helpers.Color.cs" />
     <Compile Include="Helpers\Helpers.Connections.cs" />
     <Compile Include="Helpers\Helpers.Compression.cs" />
     <Compile Include="Helpers\Helpers.Streams.cs" />
