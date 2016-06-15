@@ -11,17 +11,20 @@
 
     <Page.Resources>
         <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
-            <controls:SlidableListItem LeftIcon="Favorite" 
-                                    RightIcon="Delete" 
-                                    LeftLabel="Set Favourite" 
-                                    RightLabel="Delete" 
-                                    HorizontalAlignment="Stretch"
-                                    LeftBackground="Green" 
-                                    RightBackground="Red"
-                                    MouseSlidingEnabled="true"
-                                    LeftCommand="{x:Bind ToggleFavorite}"
-                                    RightCommandRequested="SlidableListItem_RightCommandActivated">
-                <Grid Height="110">
+            <controls:SlidableListItem LeftIcon="{Binding DataContext.LeftIcon.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightIcon="{Binding DataContext.RightIcon.Value, ElementName=Root, Mode=OneWay}" 
+                                       LeftLabel="{Binding DataContext.LeftLabel.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightLabel="{Binding DataContext.RightLabel.Value, ElementName=Root, Mode=OneWay}" 
+                                       HorizontalAlignment="Stretch"
+                                       LeftBackground="Green" 
+                                       RightBackground="Red"
+                                       LeftForeground ="White" 
+                                       RightForeground ="Black"
+                                       MouseSlidingEnabled="{Binding DataContext.MouseSlidingEnabled.Value, ElementName=Root, Mode=OneWay}"
+                                       LeftCommand="{x:Bind ToggleFavorite}"
+                                       RightCommandRequested="SlidableListItem_RightCommandActivated"
+                                       ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}">
+                <Grid Height="110" Background="Gray">
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
                         <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"></CheckBox>
                         <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
@@ -31,11 +34,12 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="Root">
         <ListView x:Name="listView" ItemTemplate="{StaticResource EmailsItemTemplate}" ItemsSource="{x:Bind _items, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="False">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0,1"></Setter>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>

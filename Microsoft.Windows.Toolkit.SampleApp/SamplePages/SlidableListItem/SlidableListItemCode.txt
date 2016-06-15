@@ -11,17 +11,20 @@
 
     <Page.Resources>
         <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
-            <controls:SlidableListItem LeftIcon="Favorite" 
-                                    RightIcon="Delete" 
-                                    LeftLabel="Set Favourite" 
-                                    RightLabel="Delete" 
-                                    HorizontalAlignment="Stretch"
-                                    LeftBackground="Green" 
-                                    RightBackground="Red"
-                                    MouseSlidingEnabled="true"
-                                    LeftCommand="{x:Bind ToggleFavorite}"
-                                    RightCommandRequested="SlidableListItem_RightCommandActivated">
-                <Grid Height="110">
+            <controls:SlidableListItem HorizontalAlignment="Stretch"
+                                       LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
+                                       RightIcon="@[RightIcon:Enum:Symbol.Delete]" 
+                                       LeftLabel="@[LeftLabel:String:Set Favourite]" 
+                                       RightLabel="@[RightLabel:String:Delete]"
+                                       LeftBackground="Green" 
+                                       RightBackground="Red"
+                                       LeftForeground ="White" 
+                                       RightForeground ="Black"
+                                       ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
+                                       MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                                       LeftCommand="{x:Bind ToggleFavorite}"
+                                       RightCommandRequested="SlidableListItem_RightCommandActivated">
+                <Grid Height="110" Background="Gray">
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
                         <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"></CheckBox>
                         <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
@@ -36,6 +39,7 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0,1"></Setter>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>

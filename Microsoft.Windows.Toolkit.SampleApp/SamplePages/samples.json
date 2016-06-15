@@ -68,10 +68,10 @@
       {
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
-        "About": "",
+        "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root, but it is not required.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "SlidableListItemCode.txt" ,
-        "Icon": "/SamplePages/ImageEx/icon.jpg"
+        "XamlCodeFile": "SlidableListItemCode.txt",
+        "Icon": "/SamplePages/SlidableListItem/icon.png"
       }
     ]
   }

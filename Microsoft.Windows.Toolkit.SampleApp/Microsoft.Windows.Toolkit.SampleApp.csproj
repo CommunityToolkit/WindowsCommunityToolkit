@@ -135,6 +135,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
     <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
