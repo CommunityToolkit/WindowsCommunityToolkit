@@ -133,6 +133,7 @@
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
     <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
     <Content Include="Assets\Photos\Photos.json" />
@@ -163,10 +164,14 @@
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\PhotosDataSource.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\PropertyDescriptor\ValueHolder.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyOptions.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
+    <Compile Include="Mvvm\BindableBase.cs" />
+    <Compile Include="Mvvm\Command.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
@@ -176,6 +181,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
+      <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
@@ -241,6 +249,10 @@
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>

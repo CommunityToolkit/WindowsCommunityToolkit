@@ -54,7 +54,15 @@
         "Type": "ImageExPage",
         "About": "The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps. Source images are downloaded asynchronously showing a load indicator while in progress. Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "ImageExCode.txt" ,
+        "XamlCodeFile": "ImageExCode.txt",
+        "Icon": "/SamplePages/ImageEx/icon.jpg"
+      },
+      {
+        "Name": "SlidableListItem",
+        "Type": "SlidableListItemPage",
+        "About": "",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "SlidableListItemCode.txt" ,
         "Icon": "/SamplePages/ImageEx/icon.jpg"
       }
     ]
