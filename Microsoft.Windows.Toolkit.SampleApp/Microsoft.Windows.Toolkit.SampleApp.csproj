@@ -156,6 +156,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />

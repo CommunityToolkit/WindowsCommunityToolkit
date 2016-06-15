@@ -40,7 +40,8 @@ You can define "interactive" values in this file. The values can be:
 * String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value]
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * DoubleSlider: Same as slider but with double values (0.01 precision)
-* Enum: You want the user to provide a enum value @[Name:**Enum**:Default value]
+* Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:Default value]
+* Color: You want the user to select a color from a list. The string is built like this @[Name:**Color**:Black]
 
 You can then bind the value specified in your Xaml page (using xxx.Value path):
 
