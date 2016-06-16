@@ -1,15 +1,14 @@
-﻿// *********************************************************
-//  Copyright (c) Microsoft. All rights reserved.
-//  This code is licensed under the MIT License (MIT).
-//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// *********************************************************
-
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -23,7 +22,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// <remarks>
     /// The number and the width of items are calculated based on the
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
-    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a 
+    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
     public sealed partial class ResponsiveGridView : Control
@@ -37,10 +36,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public ResponsiveGridView()
         {
-            this.IsTabStop = false;
-            this.DefaultStyleKey = typeof(ResponsiveGridView);
+            IsTabStop = false;
+            DefaultStyleKey = typeof(ResponsiveGridView);
         }
-        
+
         private void RecalculateLayout(double containerWidth)
         {
             if (containerWidth == 0 || DesiredWidth == 0)
@@ -65,7 +64,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call 
+        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
         /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
         /// in your app. Override this method to influence the default post-template logic of a class.
         /// </summary>
@@ -75,7 +74,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_listView != null)
             {
                 _listView.SizeChanged -= ListView_SizeChanged;
-                _listView.ItemClick -= ListView_ItemClick;  
+                _listView.ItemClick -= ListView_ItemClick;
                 _listView = null;
             }
 

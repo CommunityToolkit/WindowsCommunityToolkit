@@ -1,15 +1,14 @@
-﻿// *********************************************************
-//  Copyright (c) Microsoft. All rights reserved.
-//  This code is licensed under the MIT License (MIT).
-//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// *********************************************************
-
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +26,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
         public ICommand CancelCommand { get; set; }
 
         public Window Window { get; set; }
+
         public FrameworkElement View { get; set; }
 
         private Dictionary<string, object> oAuthKeyValues;
@@ -36,6 +36,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
         public UWPToolkitConnectedServiceInstance ConnectedServiceInstance
         {
             get { return connectedServiceInstance; }
+
             set
             {
                 connectedServiceInstance = value;
@@ -43,13 +44,13 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
                 CreateDynamicUI();
             }
         }
-        
+
         public OAuthCaptureViewModel()
         {
-            this.View = new OAuthCaptureView();
-            this.View.DataContext = this;
-            this.OkCommand = new DelegateCommand(ExecuteOkClicked);
-            this.CancelCommand = new DelegateCommand(ExecuteCancelClicked);
+            View = new OAuthCaptureView();
+            View.DataContext = this;
+            OkCommand = new DelegateCommand(ExecuteOkClicked);
+            CancelCommand = new DelegateCommand(ExecuteCancelClicked);
         }
 
         private void CreateDynamicUI()

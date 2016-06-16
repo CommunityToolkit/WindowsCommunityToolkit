@@ -1,15 +1,14 @@
-﻿// *********************************************************
-//  Copyright (c) Microsoft. All rights reserved.
-//  This code is licensed under the MIT License (MIT).
-//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// *********************************************************
-
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -75,7 +74,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             return await GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
         }
 
-        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -119,7 +119,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             return await SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
         }
 
-        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -185,7 +186,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             }
         }
 
-        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -268,16 +270,27 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         public const string Verb = "GET";
 
         public Uri EncodedRequestUri { get; private set; }
+
         public Uri RequestUriWithoutQuery { get; private set; }
+
         public IEnumerable<OAuthParameter> QueryParams { get; private set; }
+
         public OAuthParameter Version { get; private set; }
+
         public OAuthParameter Nonce { get; private set; }
+
         public OAuthParameter Timestamp { get; private set; }
+
         public OAuthParameter SignatureMethod { get; private set; }
+
         public OAuthParameter ConsumerKey { get; private set; }
+
         public OAuthParameter ConsumerSecret { get; private set; }
+
         public OAuthParameter Token { get; private set; }
+
         public OAuthParameter TokenSecret { get; private set; }
+
         public OAuthParameter Signature
         {
             get
@@ -285,6 +298,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 return new OAuthParameter("oauth_signature", GenerateSignature());
             }
         }
+
         public string AuthorizationHeader
         {
             get
@@ -439,6 +453,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     internal class OAuthParameter
     {
         public string Key { get; set; }
+
         public string Value { get; set; }
 
         public OAuthParameter(string key, string value)

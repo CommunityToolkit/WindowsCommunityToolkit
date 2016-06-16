@@ -1,14 +1,14 @@
-﻿// *********************************************************
-//  Copyright (c) Microsoft. All rights reserved.
-//  This code is licensed under the MIT License (MIT).
-//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// *********************************************************
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -52,7 +52,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register("RangeMax", typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
 
-        const double Epsilon = 0.01;
+        private const double Epsilon = 0.01;
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -154,14 +154,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-
             base.OnApplyTemplate();
         }
 
         private void OutOfRangeContentContainer_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = (position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum) + Minimum;
+            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
             if (_pointerManipulatingMin)
             {
@@ -180,7 +179,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private void OutOfRangeContentContainer_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = (position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum) + Minimum;
+            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
             if (_pointerManipulatingMin)
             {
@@ -199,7 +198,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private void OutOfRangeContentContainer_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = (position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum) + Minimum;
+            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
             if (_pointerManipulatingMin && normalizedPosition < RangeMax)
             {
@@ -208,13 +207,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
             {
                 RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), _containerCanvas.ActualWidth, position);
-            }            
+            }
         }
 
         private void OutOfRangeContentContainer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = (position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum) + Minimum;
+            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
             if (normalizedPosition < RangeMin)
             {
                 _pointerManipulatingMin = true;
@@ -255,11 +254,30 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 RangeMin = Minimum;
             }
 
-            if (RangeMin < Minimum) RangeMin = Minimum;
-            if (RangeMax < Minimum) RangeMax = Minimum;
-            if (RangeMin > Maximum) RangeMin = Maximum;
-            if (RangeMax > Maximum) RangeMax = Maximum;
-            if (RangeMax < RangeMin) RangeMin = RangeMax;
+            if (RangeMin < Minimum)
+            {
+                RangeMin = Minimum;
+            }
+
+            if (RangeMax < Minimum)
+            {
+                RangeMax = Minimum;
+            }
+
+            if (RangeMin > Maximum)
+            {
+                RangeMin = Maximum;
+            }
+
+            if (RangeMax > Maximum)
+            {
+                RangeMax = Maximum;
+            }
+
+            if (RangeMax < RangeMin)
+            {
+                RangeMin = RangeMax;
+            }
         }
 
         /// <summary>
@@ -277,11 +295,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             set
             {
-                SetValue(MinimumProperty, value);                
+                SetValue(MinimumProperty, value);
             }
         }
 
-        static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
@@ -290,8 +308,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 return;
             }
 
-            var newValue = (double) e.NewValue;
-            var oldValue = (double) e.OldValue;
+            var newValue = (double)e.NewValue;
+            var oldValue = (double)e.OldValue;
 
             if (rangeSelector.Maximum < newValue)
             {
@@ -328,12 +346,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
 
             set
-            {                
+            {
                 SetValue(MaximumProperty, value);
             }
         }
 
-        static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
@@ -381,11 +399,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             set
             {
-                SetValue(RangeMinProperty, value);              
+                SetValue(RangeMinProperty, value);
             }
         }
 
-        static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
@@ -439,11 +457,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             set
             {
-                SetValue(RangeMaxProperty, value);                
+                SetValue(RangeMaxProperty, value);
             }
         }
 
-        static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
@@ -517,7 +535,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             Canvas.SetLeft(thumb, nextPos);
 
-            return Minimum + (nextPos / _containerCanvas.ActualWidth) * (Maximum - Minimum);
+            return Minimum + ((nextPos / _containerCanvas.ActualWidth) * (Maximum - Minimum));
         }
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
@@ -542,7 +560,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
 
             VisualStateManager.GoToState(this, "Normal", true);
-
         }
 
         private void RangeSelector_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -551,4 +568,3 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
     }
 }
-
