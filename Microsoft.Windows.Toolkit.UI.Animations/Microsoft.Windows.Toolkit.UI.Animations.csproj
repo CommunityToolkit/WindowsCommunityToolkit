@@ -27,8 +27,8 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Animations.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Animations.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,9 +40,11 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.Animations.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Animations.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="Microsoft.Windows.Toolkit.UI.Animations.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

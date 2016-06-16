@@ -1,15 +1,14 @@
-﻿// *********************************************************
-//  Copyright (c) Microsoft. All rights reserved.
-//  This code is licensed under the MIT License (MIT).
-//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// *********************************************************
-
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +20,8 @@ namespace Microsoft.Windows.Toolkit.Services
     public abstract class DataProviderBase<TConfig>
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an async method, so nesting generic types is necessary.")]
-        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             if (config == null)
             {
@@ -40,17 +40,20 @@ namespace Microsoft.Windows.Toolkit.Services
             {
                 return result
                     .Take(maxRecords)
-                    .ToList();             
+                    .ToList();
             }
 
             return new TSchema[0];
         }
 
-        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase;
+        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase;
+
         protected abstract void ValidateConfig(TConfig config);
     }
 
-    public abstract class DataProviderBase<TConfig, TSchema> : DataProviderBase<TConfig> where TSchema : SchemaBase
+    public abstract class DataProviderBase<TConfig, TSchema> : DataProviderBase<TConfig>
+        where TSchema : SchemaBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an async method, so nesting generic types is necessary.")]
         public async Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
