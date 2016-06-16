@@ -21,7 +21,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Defines the <see cref="TextStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register(
-            "TextStyle",
+            nameof(TextStyle),
             typeof(Style),
             typeof(HeaderedTextBlock),
             new PropertyMetadata(null));
