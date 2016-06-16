@@ -27,6 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,12 +37,19 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="Microsoft.Windows.Toolkit.ruleset" />
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Helpers.Color.cs" />
     <Compile Include="Helpers\Helpers.Connections.cs" />
     <Compile Include="Helpers\Helpers.Compression.cs" />
     <Compile Include="Helpers\Helpers.StorageFile.cs" />

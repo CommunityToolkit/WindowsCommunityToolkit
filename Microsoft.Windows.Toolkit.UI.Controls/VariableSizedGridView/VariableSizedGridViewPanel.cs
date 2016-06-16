@@ -1,10 +1,21 @@
-﻿using System;
-using System.Linq;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Foundation;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 {
@@ -30,7 +41,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         private static void OrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as VariableSizedGridViewPanel;
-            control.InvalidateMeasure();
+            control?.InvalidateMeasure();
         }
 
         /// <summary>
@@ -51,14 +62,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         private static void MaximumRowsOrColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as VariableSizedGridViewPanel;
-            control.InvalidateMeasure();
+            control?.InvalidateMeasure();
         }
 
         /// <summary>
         /// Identifies the <see cref="MaximumRowsOrColumns"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MaximumRowsOrColumnsProperty = DependencyProperty.Register("MaximumRowsOrColumns", typeof(int), typeof(VariableSizedGridViewPanel), new PropertyMetadata(0, MaximumRowsOrColumnsChanged));
-
 
         /// <summary>
         /// Gets or sets the height-to-width aspect ratio for each tile.
@@ -73,14 +83,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         private static void AspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as VariableSizedGridViewPanel;
-            control.InvalidateMeasure();
+            control?.InvalidateMeasure();
         }
 
         /// <summary>
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(VariableSizedGridViewPanel), new PropertyMetadata(1.0, AspectRatioChanged));
-
 
         /// <summary>
         /// Provides the behavior for the Measure pass of the layout cycle. Classes can override this method to define their own Measure pass behavior.
@@ -89,7 +98,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// <returns>The size that this object determines it needs during layout, based on its calculations of the allocated sizes for child objects or based on other considerations such as a fixed container size.</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (this.IsReady && base.Children.Count > 0)
+            if (IsReady && Children.Count > 0)
             {
                 _cells = new List<Rect>();
 
@@ -100,24 +109,25 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
                 {
                     sizeWidth = Window.Current.Bounds.Width;
                 }
+
                 if (double.IsInfinity(sizeHeight))
                 {
                     sizeHeight = Window.Current.Bounds.Height;
                 }
 
-                double cw = sizeWidth / this.MaximumRowsOrColumns;
-                double ch = cw * this.AspectRatio;
+                double cw = sizeWidth / MaximumRowsOrColumns;
+                double ch = cw * AspectRatio;
                 if (Orientation == Orientation.Vertical)
                 {
-                    ch = sizeHeight / this.MaximumRowsOrColumns;
-                    cw = ch / this.AspectRatio;
+                    ch = sizeHeight / MaximumRowsOrColumns;
+                    cw = ch / AspectRatio;
                 }
 
                 cw = Math.Round(cw);
                 ch = Math.Round(ch);
 
                 int n = 0;
-                foreach (FrameworkElement item in base.Children)
+                foreach (FrameworkElement item in Children)
                 {
                     int colSpan = 1;
                     int rowSpan = 1;
@@ -142,16 +152,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// <returns>The actual size that is used after the element is arranged in layout.</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (this.IsReady && base.Children.Count > 0)
+            if (IsReady && Children.Count > 0)
             {
                 int n = 0;
-                foreach (var item in base.Children)
+                foreach (var item in Children)
                 {
                     var rect = _cells[n++];
                     item.Arrange(rect);
                 }
+
                 return MeasureSize(_cells);
             }
+
             return base.ArrangeOverride(finalSize);
         }
 
@@ -161,7 +173,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             {
                 for (int y = 0; ; y++)
                 {
-                    for (int x = 0; x < this.MaximumRowsOrColumns; x++)
+                    for (int x = 0; x < MaximumRowsOrColumns; x++)
                     {
                         var rect = new Rect(new Point(x * cellSize.Width, y * cellSize.Height), itemSize);
                         if (RectFitInCells(rect, cells))
@@ -176,7 +188,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
             {
                 for (int x = 0; ; x++)
                 {
-                    for (int y = 0; y < this.MaximumRowsOrColumns; y++)
+                    for (int y = 0; y < MaximumRowsOrColumns; y++)
                     {
                         var rect = new Rect(new Point(x * cellSize.Width, y * cellSize.Height), itemSize);
                         if (RectFitInCells(rect, cells))

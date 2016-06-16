@@ -27,7 +27,8 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Controls.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Controls.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Controls.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +38,10 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.Controls.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Controls.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -48,9 +53,11 @@
     <Compile Include="Carousel\Carousel.Members.cs" />
     <Compile Include="Carousel\Carousel.Slots.cs" />
     <Compile Include="Carousel\CarouselSlot.cs" />
+    <None Include="Microsoft.Windows.Toolkit.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlHelpers.Composition.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Options.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\HamburgerMenu.Properties.cs" />
@@ -61,6 +68,7 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadialGauge\RadialGauge.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
@@ -85,6 +93,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="ImageEx\ImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialGauge\RadialGauge.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,4 +1,14 @@
-﻿using Microsoft.Windows.Toolkit.UI;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Threading.Tasks;
 
@@ -8,6 +18,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
+    /// Source images are downloaded asynchronously showing a load indicator while in progress.
+    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
+    /// </summary>
     partial class ImageEx
     {
         /// <summary>
@@ -63,6 +78,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                                 _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
                             }
                         }
+
                         await LoadImageAsync();
                     }
                 }
@@ -72,7 +88,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 }
 
                 _progress.IsActive = false;
-               //TODO: need to call this when animations will be merged _image.FadeIn();
+
+                // TODO: need to call this when animations will be merged _image.FadeIn();
                 _image.Opacity = 1.0;
             }
         }
@@ -90,6 +107,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
+
                 _isLoadingImage = false;
             }
         }

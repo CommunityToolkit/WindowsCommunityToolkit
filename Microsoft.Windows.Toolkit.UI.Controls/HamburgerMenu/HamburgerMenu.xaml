@@ -4,6 +4,12 @@
     xmlns:local="using:Microsoft.Windows.Toolkit.UI.Controls">
 
     <Style TargetType="local:HamburgerMenu">
+        <Setter Property="HamburgerIcon">
+            <Setter.Value>
+                <FontIcon FontFamily="Segoe MDL2 Assets"
+                          Glyph="&#xE700;"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
@@ -15,11 +21,11 @@
                             <SplitView.Pane>
                                 <Grid x:Name="PaneGrid">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}"></Grid>
+                                    <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}" />
                                     <ListView Grid.Row="1" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                         <ListView.ItemContainerStyle>
@@ -31,10 +37,9 @@
 
                                     <Grid Grid.Row="2" Visibility="{TemplateBinding OptionsVisibility}">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <Rectangle Height="1" Fill="{TemplateBinding Foreground}" Grid.Row="0"></Rectangle>
 
                                         <ListView Grid.Row="1" Name="OptionsListView" ItemsSource="{TemplateBinding OptionsItemsSource}" ItemTemplate="{TemplateBinding OptionsItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}" VerticalAlignment="Bottom">
@@ -48,10 +53,13 @@
 
                                 </Grid>
                             </SplitView.Pane>
-                            <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart"></ContentPresenter>
+                            <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart" />
                         </SplitView>
                         <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
-                            <FontIcon Margin="{TemplateBinding HamburgerMargin}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding HamburgerFontSize}"/>
+                            <ContentControl Content="{TemplateBinding HamburgerIcon}"
+                                            Margin="{TemplateBinding HamburgerMargin}"
+                                            Foreground="{TemplateBinding Foreground}"
+                                            FontSize="{TemplateBinding HamburgerFontSize}" />
                         </Button>
                     </Grid>
                 </ControlTemplate>

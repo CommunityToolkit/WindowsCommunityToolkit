@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -11,26 +22,32 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="SelectedIndex"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, SelectedIndexChanged));
+
         /// <summary>
         /// Identifies the <see cref="MaxItems"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MaxItemsProperty = DependencyProperty.Register("MaxItems", typeof(int), typeof(Carousel), new PropertyMetadata(3, MaxItemsChanged));
+
         /// <summary>
         /// Identifies the <see cref="ContentTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ContentTemplateProperty = DependencyProperty.Register("ContentTemplate", typeof(DataTemplate), typeof(Carousel), new PropertyMetadata(null));
+
         /// <summary>
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AspectRatioProperty = DependencyProperty.Register("AspectRatio", typeof(double), typeof(Carousel), new PropertyMetadata(1.6, OnInvalidate));
+
         /// <summary>
         /// Identifies the <see cref="AlignmentX"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AlignmentXProperty = DependencyProperty.Register("AlignmentX", typeof(AlignmentX), typeof(Carousel), new PropertyMetadata(AlignmentX.Left, OnInvalidate));
+
         /// <summary>
         /// Identifies the <see cref="GradientOpacity"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GradientOpacityProperty = DependencyProperty.Register("GradientOpacity", typeof(double), typeof(Carousel), new PropertyMetadata(0.0));
+
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
         /// </summary>
@@ -49,6 +66,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }
+
             set
             {
                 SetValue(SelectedIndexProperty, value);
@@ -115,7 +133,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             var control = d as Carousel;
             control?.SetItemClickCommand(e.NewValue as ICommand);
         }
-
 
         private void SetItemClickCommand(ICommand command)
         {

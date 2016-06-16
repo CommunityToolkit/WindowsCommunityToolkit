@@ -1,13 +1,22 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Threading.Tasks;
+
+using Microsoft.Windows.Toolkit.SampleApp.Pages;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Windows.Toolkit.SampleApp.Controls;
-using Microsoft.Windows.Toolkit.SampleApp.Pages;
-using Microsoft.Windows.Toolkit.UI;
-using Newtonsoft.Json;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
@@ -36,7 +45,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
         }
 
-        void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
+        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var category = e.ClickedItem as SampleCategory;
 
@@ -96,8 +105,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         {
             var commandButton = new Button
             {
-                Content = name,
-                Margin = new Thickness(10, 5, 10, 5),
+                Content = name, 
+                Margin = new Thickness(10, 5, 10, 5), 
                 Foreground = Title.Foreground
             };
 
@@ -114,6 +123,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             {
                 CodeRenderer.XamlSource = sample.UpdatedXamlCode;
             }
+
             CodePanel.Visibility = Visibility.Visible;
         }
 

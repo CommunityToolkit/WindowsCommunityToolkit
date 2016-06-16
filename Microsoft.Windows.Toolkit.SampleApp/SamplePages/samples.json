@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Panel controls",
+    "Name": "Layout controls",
     "Icon": "Icons/Layouts.png",
     "Samples": [
 			{
@@ -64,7 +64,27 @@
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HeaderedTextBlockCode.txt",
         "Icon": "/SamplePages/SearchBox/icon.jpg"
+      },
+      {
+        "Name": "RadialGauge",
+        "Type": "RadialGaugePage",
+        "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "RadialGaugeCode.txt",
+        "Icon": "/SamplePages/RadialGauge/icon.jpg"
       }
+    ]
+  },
+  {
+    "Name": "Notifications",
+    "Icon": "Icons/Notifications.png",
+    "Samples": [      
+    ]
+  },
+  {
+    "Name": "Services",
+    "Icon": "Icons/Services.png",
+    "Samples": [      
     ]
   }
 ]

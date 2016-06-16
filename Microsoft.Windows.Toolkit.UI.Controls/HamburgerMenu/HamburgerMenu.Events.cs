@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using global::Windows.UI.Xaml;
+
     public partial class HamburgerMenu
     {
         /// <summary>
@@ -19,7 +27,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public event ItemClickEventHandler OptionsItemClick;
 
-        private void HamburgerButton_Click(object sender, global::Windows.UI.Xaml.RoutedEventArgs e)
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             IsPaneOpen = !IsPaneOpen;
         }
@@ -30,6 +38,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _optionsListView.SelectedIndex = -1;
             }
+
             ItemClick?.Invoke(this, e);
         }
 
@@ -39,6 +48,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _buttonsListView.SelectedIndex = -1;
             }
+
             OptionsItemClick?.Invoke(this, e);
         }
     }

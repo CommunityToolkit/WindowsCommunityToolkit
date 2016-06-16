@@ -1,4 +1,15 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
@@ -6,8 +17,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
+
 using Microsoft.Windows.Toolkit.SampleApp.Models;
+
+using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
@@ -16,14 +29,20 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         private PropertyDescriptor _propertyDescriptor;
 
         public string Name { get; set; }
+
         public string Type { get; set; }
+
         public string About { get; set; }
+
         public string CodeUrl { get; set; }
+
         public string XamlCodeFile { get; set; }
+
         public string XamlCode { get; private set; }
+
         public string Icon { get; set; }
 
-        static Type LookForTypeByName(string typeName)
+        private static Type LookForTypeByName(string typeName)
         {
             // First search locally
             var result = System.Type.GetType(typeName);
@@ -54,7 +73,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             {
                 if (_propertyDescriptor == null)
                 {
-                    return "";
+                    return string.Empty;
                 }
 
                 var result = XamlCode;
@@ -111,7 +130,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                                         sliderOptions.MinValue = double.Parse(split[0]);
                                         sliderOptions.MaxValue = double.Parse(split[1]);
-                                        
+
                                         options = sliderOptions;
                                     }
                                     catch (Exception ex)
@@ -119,6 +138,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
                                         continue;
                                     }
+
                                     break;
                                 case PropertyKind.Enum:
                                     try
@@ -134,6 +154,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
                                         continue;
                                     }
+
                                     break;
                                 case PropertyKind.Bool:
                                     try
@@ -145,6 +166,19 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                                         Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
                                         continue;
                                     }
+
+                                    break;
+                                case PropertyKind.Brush:
+                                    try
+                                    {
+                                        options = new PropertyOptions { DefaultValue = value };
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                        continue;
+                                    }
+
                                     break;
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
@@ -161,6 +195,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     }
                 }
             }
+
             return _propertyDescriptor;
         }
     }

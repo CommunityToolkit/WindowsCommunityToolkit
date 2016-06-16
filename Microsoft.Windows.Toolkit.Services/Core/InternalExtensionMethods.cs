@@ -1,9 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Microsoft.Windows.Toolkit.Services.Core
 {
@@ -22,7 +28,7 @@ namespace Microsoft.Windows.Toolkit.Services.Core
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
         /// <returns>Truncated string.</returns>
-        public static string Truncate(this String value, int length)
+        public static string Truncate(this string value, int length)
         {
             return Truncate(value, length, false);
         }
@@ -34,7 +40,7 @@ namespace Microsoft.Windows.Toolkit.Services.Core
         /// <param name="length">The maximum length.</param>
         /// <param name="ellipsis">if set to <c>true</c> add a text ellipsis.</param>
         /// <returns>Truncated string.</returns>
-        public static string Truncate(this String value, int length, bool ellipsis)
+        public static string Truncate(this string value, int length, bool ellipsis)
         {
             if (!string.IsNullOrEmpty(value))
             {
@@ -51,6 +57,7 @@ namespace Microsoft.Windows.Toolkit.Services.Core
                     }
                 }
             }
+
             return value ?? string.Empty;
         }
 

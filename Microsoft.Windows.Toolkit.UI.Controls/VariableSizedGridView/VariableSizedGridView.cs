@@ -1,4 +1,15 @@
-﻿using Microsoft.Windows.Toolkit.UI.Controls.Primitives;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using Microsoft.Windows.Toolkit.UI.Controls.Primitives;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -6,27 +17,27 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     /// <summary>
-    /// The VariableSizedGrid control allows to display items from a list using different values 
+    /// The VariableSizedGrid control allows to display items from a list using different values
     /// for Width and Height item properties. You can control the number of rows and columns to be
     /// displayed as well as the items orientation in the panel. Finally, the AspectRatio property
     /// allow us to control the relation between Width and Height.
     /// </summary>
     public partial class VariableSizedGridView : ListViewBase
     {
-        private ScrollViewer _scrollViewer = null;
-        private VariableSizedGridViewPanel _viewPanel = null;
+        private ScrollViewer _scrollViewer;
+        private VariableSizedGridViewPanel _viewPanel;
 
-        private bool _isInitialized = false;
+        private bool _isInitialized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableSizedGridView"/> class.
         /// </summary>
         public VariableSizedGridView()
         {
-            this.DefaultStyleKey = typeof(VariableSizedGridView);
-            this.LayoutUpdated += OnLayoutUpdated;
+            DefaultStyleKey = typeof(VariableSizedGridView);
+            LayoutUpdated += OnLayoutUpdated;
         }
-        
+
         /// <summary>
         /// Creates or identifies the element that is used to display the given item.
         /// </summary>
@@ -44,24 +55,24 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             var container = element as ListViewItem;
-            container.Margin = this.ItemMargin;
-            container.Padding = this.ItemPadding;
+            container.Margin = ItemMargin;
+            container.Padding = ItemPadding;
             base.PrepareContainerForItemOverride(element, item);
         }
 
         /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuilding layout pass)
         /// call ApplyTemplate. In simplest terms, this means the method is called just before a UI
-        /// element displays in your app. Override this method to influence the default post-template 
+        /// element displays in your app. Override this method to influence the default post-template
         /// logic of a class.
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _scrollViewer = base.GetTemplateChild("scrollViewer") as ScrollViewer;
+            _scrollViewer = GetTemplateChild("scrollViewer") as ScrollViewer;
 
             _isInitialized = true;
 
-            SetOrientation(this.Orientation);
+            SetOrientation(Orientation);
 
             base.OnApplyTemplate();
         }
@@ -74,21 +85,22 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 {
                     _scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     _scrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
-                    _scrollViewer.VerticalScrollBarVisibility = (ScrollBarVisibility)this.GetValue(ScrollViewer.VerticalScrollBarVisibilityProperty);
+                    _scrollViewer.VerticalScrollBarVisibility = (ScrollBarVisibility)GetValue(ScrollViewer.VerticalScrollBarVisibilityProperty);
                     _scrollViewer.VerticalScrollMode = ScrollMode.Auto;
                 }
                 else
                 {
                     _scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     _scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
-                    if ((ScrollBarVisibility)this.GetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty) == ScrollBarVisibility.Disabled)
+                    if ((ScrollBarVisibility)GetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty) == ScrollBarVisibility.Disabled)
                     {
                         _scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
                     }
                     else
                     {
-                        _scrollViewer.HorizontalScrollBarVisibility = (ScrollBarVisibility)this.GetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty);
+                        _scrollViewer.HorizontalScrollBarVisibility = (ScrollBarVisibility)GetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty);
                     }
+
                     _scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
                 }
             }
@@ -98,7 +110,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             if (_viewPanel == null)
             {
-                _viewPanel = base.ItemsPanelRoot as VariableSizedGridViewPanel;
+                _viewPanel = ItemsPanelRoot as VariableSizedGridViewPanel;
                 if (_viewPanel != null)
                 {
                     _viewPanel.IsReady = true;
