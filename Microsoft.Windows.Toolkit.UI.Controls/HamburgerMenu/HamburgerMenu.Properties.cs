@@ -46,9 +46,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the <see cref="HamburgerIcon"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty HamburgerIconProperty = DependencyProperty.Register(
             nameof(HamburgerIcon), typeof (IconElement), typeof (HamburgerMenu), new PropertyMetadata(default(IconElement)));
 
+        /// <summary>
+        /// Gets or sets the hamburger icon.
+        /// </summary>
+        /// <value>
+        /// The hamburger icon.
+        /// </value>
         public IconElement HamburgerIcon
         {
             get { return (IconElement) GetValue(HamburgerIconProperty); }
