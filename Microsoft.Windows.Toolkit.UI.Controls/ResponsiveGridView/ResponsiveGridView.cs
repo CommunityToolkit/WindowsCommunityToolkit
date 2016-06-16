@@ -101,17 +101,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
-        private static int CalculateColumns(double containerWidth, double itemWidth)
-        {
-            var columns = (int)(containerWidth / itemWidth);
-            if (columns == 0)
-            {
-                columns = 1;
-            }
-
-            return columns;
-        }
-
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // If the width of the internal list view changes, check if more or less columns needs to be rendered.

@@ -52,8 +52,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
                                 where t.CustomAttributes.Any(attr => { return attr.AttributeType == typeof(ConnectedServiceProviderAttribute); })
                                 select new DataProviderModel
                                 {
-                                    ProviderPublisherKeyName = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).ProviderPublisherKeyName, 
-                                    ServiceDeveloperInformationUrl = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).DeveloperPortalUrl, 
+                                    ProviderPublisherKeyName = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).ProviderPublisherKeyName,
+                                    ServiceDeveloperInformationUrl = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).DeveloperPortalUrl,
                                     ProviderType = t
                                 };
 
@@ -79,7 +79,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
                              where t.GetCustomAttributes(typeof(ConnectedServiceOAuthAttribute)).Any(attr => { return (attr as ConnectedServiceOAuthAttribute).ProviderPublisherKeyName == providerPublisherKeyName; })
                              select t).SingleOrDefault();
 
-            if(oAuthType != null)
+            if (oAuthType != null)
             {
                 var props = from p in oAuthType.GetProperties() select new KeyValuePair<string, string>(p.Name, Constants.OAUTH_KEY_VALUE_DEFAULT_REQUIRED_VALUE);
                 oAuthProperties = props.ToDictionary(t => t.Key, t => t.Value);

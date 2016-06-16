@@ -15,36 +15,21 @@ using System.Windows.Input;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.Common
 {
-    /// <summary>
-    /// Represents a command that can perform a given action.
-    /// </summary>
-    public class DelegateCommand : ICommand
+    public class DelegateCommand<T> : ICommand
     {
-        private readonly Action commandExecuteAction;
+        private readonly Action<T> commandExecuteAction;
 
-        private readonly Func<bool> commandCanExecute;
+        private readonly Func<T, bool> commandCanExecute;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
-        /// </summary>
-        /// <param name="execute">
-        /// The action to execute when called.
-        /// </param>
-        /// <param name="canExecute">
-        /// The function to call to determine if the command can execute the action.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if the execute action is null.
-        /// </exception>
-        public DelegateCommand(Action execute, Func<bool> canExecute = null)
+        public DelegateCommand(Action<T> executeAction, Func<T, bool> canExecute = null)
         {
-            if (execute == null)
+            if (executeAction == null)
             {
-                throw new ArgumentNullException(nameof(execute));
+                throw new ArgumentNullException(nameof(executeAction));
             }
 
-            commandExecuteAction = execute;
-            commandCanExecute = canExecute ?? (() => true);
+            commandExecuteAction = executeAction;
+            commandCanExecute = canExecute ?? (e => true);
         }
 
         /// <summary>
@@ -61,11 +46,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Common
         /// <returns>
         /// Returns a value indicating whether this command can be executed.
         /// </returns>
-        public bool CanExecute(object parameter = null)
+        public bool CanExecute(object parameter)
         {
             try
             {
-                return commandCanExecute();
+                return commandCanExecute(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -88,7 +73,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Common
 
             try
             {
-                commandExecuteAction();
+                commandExecuteAction(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -99,6 +84,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Common
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static T ConvertParameterValue(object parameter)
+        {
+            parameter = parameter is T ? parameter : Convert.ChangeType(parameter, typeof(T));
+            return (T)parameter;
         }
     }
 }

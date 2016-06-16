@@ -9,12 +9,13 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Windows.Toolkit.SampleApp.Models
 {
-    public enum TwitterQueryType
+
+    public class SliderPropertyOptions : PropertyOptions
     {
-        Home,
-        User,
-        Search
+        public double MinValue { get; set; }
+
+        public double MaxValue { get; set; }
     }
 }

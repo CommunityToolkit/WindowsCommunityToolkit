@@ -16,6 +16,16 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the
+    /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
+    /// to different form factors automatically.
+    /// </summary>
+    /// <remarks>
+    /// The number and the width of items are calculated based on the
+    /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
+    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
+    /// new column.</remarks>
     public sealed partial class ResponsiveGridView
     {
         /// <summary>
@@ -76,7 +86,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 {
                     var b = new Binding()
                     {
-                        Source = self, 
+                        Source = self,
                         Path = new PropertyPath("ItemHeight")
                     };
 
@@ -165,6 +175,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (double)GetValue(ItemWidthProperty); }
             set { SetValue(ItemWidthProperty, value); }
+        }
+
+        private static int CalculateColumns(double containerWidth, double itemWidth)
+        {
+            var columns = (int)(containerWidth / itemWidth);
+            if (columns == 0)
+            {
+                columns = 1;
+            }
+
+            return columns;
         }
     }
 }

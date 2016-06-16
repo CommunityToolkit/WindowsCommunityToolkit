@@ -19,7 +19,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    partial class Carousel
+    /// <summary>
+    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
+    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
+    /// You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.
+    /// </summary>
+    public partial class Carousel
     {
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> dependency property.

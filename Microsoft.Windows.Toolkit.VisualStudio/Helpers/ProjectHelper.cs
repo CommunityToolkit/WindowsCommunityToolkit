@@ -22,8 +22,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
         {
             object projectObject;
             int result = projectHierarchy.GetProperty(
-                VSConstants.VSITEMID_ROOT, 
-                (int)__VSHPROPID.VSHPROPID_ExtObject, 
+                VSConstants.VSITEMID_ROOT,
+                (int)__VSHPROPID.VSHPROPID_ExtObject,
                 out projectObject);
             ErrorHandler.ThrowOnFailure(result);
             return (Project)projectObject;
@@ -35,8 +35,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 
             object capabilitiesObj;
             if (ErrorHandler.Succeeded(projectHierarchy.GetProperty(
-                    (uint)VSConstants.VSITEMID.Root, 
-                    (int)__VSHPROPID5.VSHPROPID_ProjectCapabilities, 
+                    (uint)VSConstants.VSITEMID.Root,
+                    (int)__VSHPROPID5.VSHPROPID_ProjectCapabilities,
                     out capabilitiesObj)))
             {
                 capabilities = capabilitiesObj as string;

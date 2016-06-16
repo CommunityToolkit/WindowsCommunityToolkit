@@ -34,13 +34,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     [TemplatePart(Name = "Clip", Type = typeof(RectangleGeometry))]
     public sealed partial class Carousel : Control
     {
+        private readonly List<object> _items;
+
         private Panel _container;
         private Button _prevArrow;
         private Button _nextArrow;
         private LinearGradientBrush _gradient;
         private RectangleGeometry _clip;
-
-        private readonly List<object> _items;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Carousel"/> class.
@@ -143,11 +143,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             if (_container != null)
             {
-                double slotWidth = Math.Round(Math.Min(size.Width, Math.Max(_container.ActualWidth/MaxItems, size.Height*AspectRatio)), 2);
-                double factor = Math.Round(_slotWidth/slotWidth, 2);
+                double slotWidth = Math.Round(Math.Min(size.Width, Math.Max(_container.ActualWidth / MaxItems, size.Height * AspectRatio)), 2);
+                double factor = Math.Round(_slotWidth / slotWidth, 2);
                 factor = factor == 0 ? 1 : factor;
                 _slotWidth = Math.Round(slotWidth, 2);
-                _offset = Math.Round((_offset/factor).Mod(_slotWidth), 2);
+                _offset = Math.Round((_offset / factor).Mod(_slotWidth), 2);
 
                 var positions = GetPositions(_slotWidth).ToArray();
                 var controls = _container.Children.Cast<CarouselSlot>().OrderBy(r => r.X).ToArray();
@@ -215,7 +215,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 return;
             }
 
-            _clip.Rect = new Rect(new Point(), new Size(_container.ActualWidth, _container.ActualHeight));
+            _clip.Rect = new Rect(default(Point), new Size(_container.ActualWidth, _container.ActualHeight));
         }
 
         private void ApplyGradient()
