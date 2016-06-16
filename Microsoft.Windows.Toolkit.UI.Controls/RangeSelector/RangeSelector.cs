@@ -1,4 +1,15 @@
-﻿using System;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -158,7 +169,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _containerCanvas.IsHitTestVisible = true;
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
-
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
@@ -178,7 +188,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _containerCanvas.IsHitTestVisible = true;
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
-
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
@@ -265,6 +274,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (double)GetValue(MinimumProperty);
             }
+
             set
             {
                 SetValue(MinimumProperty, value);                
@@ -287,14 +297,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 rangeSelector.Maximum = newValue + Epsilon;
             }
+
             if (rangeSelector.RangeMin < newValue)
             {
                 rangeSelector.RangeMin = newValue;
             }
+
             if (rangeSelector.RangeMax < newValue)
             {
                 rangeSelector.RangeMax = newValue;
             }
+
             if (newValue < oldValue)
             {
                 rangeSelector.SyncThumbs();
@@ -313,6 +326,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (double)GetValue(MaximumProperty);
             }
+
             set
             {                
                 SetValue(MaximumProperty, value);
@@ -335,10 +349,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 rangeSelector.Minimum = newValue - Epsilon;
             }
+
             if (rangeSelector.RangeMax > newValue)
             {
                 rangeSelector.RangeMax = newValue;
             }
+
             if (rangeSelector.RangeMin > newValue)
             {
                 rangeSelector.RangeMin = newValue;
@@ -362,6 +378,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (double)GetValue(RangeMinProperty);
             }
+
             set
             {
                 SetValue(RangeMinProperty, value);              
@@ -419,6 +436,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (double)GetValue(RangeMaxProperty);
             }
+
             set
             {
                 SetValue(RangeMaxProperty, value);                
@@ -458,7 +476,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     rangeSelector.RangeMin = newValue;
                 }
             }
-
             else
             {
                 rangeSelector.SyncThumbs();
@@ -500,7 +517,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
             Canvas.SetLeft(thumb, nextPos);
 
-            return (Minimum + (nextPos / _containerCanvas.ActualWidth) * (Maximum - Minimum));
+            return Minimum + (nextPos / _containerCanvas.ActualWidth) * (Maximum - Minimum);
         }
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)

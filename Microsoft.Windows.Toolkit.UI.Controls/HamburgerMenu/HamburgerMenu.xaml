@@ -21,11 +21,11 @@
                             <SplitView.Pane>
                                 <Grid x:Name="PaneGrid">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}"></Grid>
+                                    <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}" />
                                     <ListView Grid.Row="1" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                         <ListView.ItemContainerStyle>
@@ -37,8 +37,8 @@
 
                                     <Grid Grid.Row="2" Visibility="{TemplateBinding OptionsVisibility}">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
 
                                         <ListView Grid.Row="1" Name="OptionsListView" ItemsSource="{TemplateBinding OptionsItemsSource}" ItemTemplate="{TemplateBinding OptionsItemTemplate}" IsItemClickEnabled="True"
@@ -53,7 +53,7 @@
 
                                 </Grid>
                             </SplitView.Pane>
-                            <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart"></ContentPresenter>
+                            <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart" />
                         </SplitView>
                         <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
                             <ContentControl Content="{TemplateBinding HamburgerIcon}"

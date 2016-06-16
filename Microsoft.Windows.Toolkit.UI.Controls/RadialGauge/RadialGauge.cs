@@ -1,4 +1,15 @@
-﻿using System;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+using System;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.UI;
@@ -191,7 +202,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// <summary>
         /// Gets or sets the width of the scale.
         /// </summary>
-        public Double ScaleWidth
+        public double ScaleWidth
         {
             get { return (Double)GetValue(ScaleWidthProperty); }
             set { SetValue(ScaleWidthProperty, value); }
@@ -379,7 +390,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private static void OnValueChanged(DependencyObject d)
         {
             RadialGauge c = (RadialGauge)d;
-            if (!Double.IsNaN(c.Value))
+            if (!double.IsNaN(c.Value))
             {
                 var middleOfScale = 100 - c.ScalePadding - c.ScaleWidth / 2;
                 var valueText = c.GetTemplateChild(ValueTextPartName) as TextBlock;

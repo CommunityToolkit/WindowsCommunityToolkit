@@ -1,10 +1,22 @@
-﻿using System;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Windows.Toolkit.UI
 {
@@ -30,6 +42,7 @@ namespace Microsoft.Windows.Toolkit.UI
         /// </summary>
         public static TimeSpan CacheDuration { get; set; }
         
+
         /// <summary>
         /// call this method to clear the entire cache.
         /// </summary>
@@ -139,6 +152,7 @@ namespace Microsoft.Windows.Toolkit.UI
                 var properties = await file.GetBasicPropertiesAsync();
                 return properties.DateModified < expirationDate;
             }
+
             return true;
         }
 
@@ -157,6 +171,7 @@ namespace Microsoft.Windows.Toolkit.UI
                     _cacheFolderSemaphore.Release();
                 }
             }
+
             return _cacheFolder;
         }
 

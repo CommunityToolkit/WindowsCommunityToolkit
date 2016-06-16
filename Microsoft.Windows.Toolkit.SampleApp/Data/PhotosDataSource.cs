@@ -1,14 +1,26 @@
-﻿using System;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 
 using Windows.Storage;
 using Windows.Storage.Streams;
-
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.Data
@@ -37,6 +49,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
             {
                 var _ = Load(online);
             }
+
             return _photos;
         }
 
@@ -48,6 +61,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
             {
                 var _ = Load(online);
             }
+
             return _groupedPhotos;
         }
 
@@ -64,7 +78,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
 
         private static async Task<IEnumerable<PhotoDataItem>> GetPhotos(bool online)
         {
-            var prefix = online ? "Online" : "";
+            var prefix = online ? "Online" : string.Empty;
             var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
