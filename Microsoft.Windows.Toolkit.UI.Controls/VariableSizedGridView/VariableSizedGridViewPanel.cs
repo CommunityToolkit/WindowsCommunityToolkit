@@ -1,10 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Foundation;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 {
@@ -100,6 +112,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
                 {
                     sizeWidth = Window.Current.Bounds.Width;
                 }
+
                 if (double.IsInfinity(sizeHeight))
                 {
                     sizeHeight = Window.Current.Bounds.Height;
@@ -150,8 +163,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
                     var rect = _cells[n++];
                     item.Arrange(rect);
                 }
+
                 return MeasureSize(_cells);
             }
+
             return base.ArrangeOverride(finalSize);
         }
 

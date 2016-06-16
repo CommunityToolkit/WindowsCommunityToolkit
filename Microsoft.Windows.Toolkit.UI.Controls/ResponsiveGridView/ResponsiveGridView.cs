@@ -1,8 +1,17 @@
-﻿using System;
-using System.Windows.Input;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
@@ -38,6 +47,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return;
             }
+
             if (_columns == 0)
             {
                 _columns = CalculateColumns(containerWidth, DesiredWidth);
@@ -50,6 +60,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     _columns = desiredColumns;
                 }
             }
+
             ItemWidth = (containerWidth / _columns) - 5;
         }
 
@@ -74,6 +85,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
             }
+
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
         }
@@ -97,12 +109,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 columns = 1;
             }
+
             return columns;
         }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //If the width of the internal list view changes, check if more or less columns needs to be rendered.
+            // If the width of the internal list view changes, check if more or less columns needs to be rendered.
             if (e.PreviousSize.Width != e.NewSize.Width)
             {
                 RecalculateLayout(e.NewSize.Width);

@@ -12,36 +12,36 @@
         <DataTemplate x:Key="ButtonTemplate" x:DataType="local:SampleCategory">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{x:Bind Icon}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
-                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <Image Source="{x:Bind Icon}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="OptionTemplate" x:DataType="local:Option">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
         <Flyout x:Key="AboutFlyout" Placement="Full" FlyoutPresenterStyle="{StaticResource TooltipFlyoutPresenterStyle}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Name}" Margin="0,10" FontSize="30" Grid.Row="0"></TextBlock>
-                <TextBlock Text="{Binding About}" Grid.Row="1" TextWrapping="WrapWholeWords" Margin="0,10,0,20"></TextBlock>
-                <TextBlock Text="View code on Github:" Grid.Row="2"></TextBlock>
+                <TextBlock Text="{Binding Name}" Margin="0,10" FontSize="30" Grid.Row="0" />
+                <TextBlock Text="{Binding About}" Grid.Row="1" TextWrapping="WrapWholeWords" Margin="0,10,0,20" />
+                <TextBlock Text="View code on Github:" Grid.Row="2" />
                 <HyperlinkButton Grid.Row="3" NavigateUri="{Binding CodeUrl}">
                     <TextBlock TextWrapping="Wrap">
             <Underline>
@@ -88,44 +88,44 @@
         </VisualStateManager.VisualStateGroups>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="CommandsPanel"></StackPanel>
+                <TextBlock Grid.Column="0" x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White" />
+                <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="CommandsPanel" />
             </Grid>
             <Grid Grid.Row="1" x:Name="MainGrid">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Frame x:Name="NavigationFrame" Grid.Column="0" Grid.Row="0"></Frame>
+                <Frame x:Name="NavigationFrame" Grid.Column="0" Grid.Row="0" />
                 <controlsLocal:PropertyControl Grid.Column="1" Grid.Row="0" x:Name="Properties" Visibility="Collapsed" Width="250"/>
             </Grid>
             <!--Code panel-->
             <Grid Grid.Row="1" Margin="10" x:Name="CodePanel" Visibility="Collapsed" BorderThickness="1" BorderBrush="Black" Background="{StaticResource AppBarBackgroundThemeBrush}">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
-                <Button Margin="0,10" Content="Close" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="CloseButton" Click="CloseButton_OnClick"></Button>
+                <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0" />
+                <Button Margin="0,10" Content="Close" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="CloseButton" Click="CloseButton_OnClick" />
             </Grid>
             <CommandBar Grid.Row="2" x:Name="Footer" ClosedDisplayMode="Hidden" IsSticky="True" IsOpen="False">
                 <CommandBar.PrimaryCommands>
-                    <AppBarButton x:Name="AboutSampleButton" Label="About" Icon="Help" Flyout="{StaticResource AboutFlyout}"></AppBarButton>
-                    <AppBarSeparator></AppBarSeparator>
-                    <AppBarButton x:Name="XAMLSampleButton" Label="XAML" Icon="Page2" Click="XAMLSampleButton_OnClick"></AppBarButton>
+                    <AppBarButton x:Name="AboutSampleButton" Label="About" Icon="Help" Flyout="{StaticResource AboutFlyout}" />
+                    <AppBarSeparator />
+                    <AppBarButton x:Name="XAMLSampleButton" Label="XAML" Icon="Page2" Click="XAMLSampleButton_OnClick" />
                 </CommandBar.PrimaryCommands>
             </CommandBar>
         </Grid>

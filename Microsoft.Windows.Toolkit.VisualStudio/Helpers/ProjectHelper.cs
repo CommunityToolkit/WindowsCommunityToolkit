@@ -1,11 +1,19 @@
-﻿using EnvDTE;
+﻿// *********************************************************
+//  Copyright (c) Microsoft. All rights reserved.
+//  This code is licensed under the MIT License (MIT).
+//  THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+//  THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********************************************************
+
+using EnvDTE;
+
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 {
@@ -15,8 +23,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
         {
             object projectObject;
             int result = projectHierarchy.GetProperty(
-                VSConstants.VSITEMID_ROOT,
-                (int)__VSHPROPID.VSHPROPID_ExtObject,
+                VSConstants.VSITEMID_ROOT, 
+                (int)__VSHPROPID.VSHPROPID_ExtObject, 
                 out projectObject);
             ErrorHandler.ThrowOnFailure(result);
             return (Project)projectObject;
@@ -28,8 +36,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 
             object capabilitiesObj;
             if (ErrorHandler.Succeeded(projectHierarchy.GetProperty(
-                    (uint)VSConstants.VSITEMID.Root,
-                    (int)__VSHPROPID5.VSHPROPID_ProjectCapabilities,
+                    (uint)VSConstants.VSITEMID.Root, 
+                    (int)__VSHPROPID5.VSHPROPID_ProjectCapabilities, 
                     out capabilitiesObj)))
             {
                 capabilities = capabilitiesObj as string;
@@ -38,9 +46,9 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
             return capabilities;
         }
 
-        //public static string GetProjectNamespace(Project project)
-        //{
-        //    return project.Properties.Item("DefaultNamespace").Value.ToString();
-        //}
+        // public static string GetProjectNamespace(Project project)
+        // {
+        // return project.Properties.Item("DefaultNamespace").Value.ToString();
+        // }
     }
 }
