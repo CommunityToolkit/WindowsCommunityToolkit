@@ -20,13 +20,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public class OptionMenuItem
-    {
-        public string Name { get; set; }
-
-        public string Glyph { get; set; }
-    }
-
     public sealed partial class HamburgerMenuPage
     {
         public HamburgerMenuPage()
@@ -47,7 +40,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             HamburgerMenu.ItemsSource = new PhotosDataSource().GetItems();
 
-            HamburgerMenu.OptionsItemsSource = new [] { new OptionMenuItem { Glyph = "", Name = "About" } };
+            HamburgerMenu.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)

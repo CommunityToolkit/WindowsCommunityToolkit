@@ -44,9 +44,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
         {
             CheckCacheState(online);
 
-            if(_photos == null)
+            if (_photos == null)
             {
-                var _ = Load(online);
+                Load(online);
             }
 
             return _photos;
@@ -58,13 +58,13 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
 
             if (_groupedPhotos == null)
             {
-                var _ = Load(online);
+                Load(online);
             }
 
             return _groupedPhotos;
         }
 
-        private static async Task Load(bool online)
+        private static async void Load(bool online)
         {
             _isOnlineCached = online;
             _photos = new ObservableCollection<PhotoDataItem>();
@@ -97,14 +97,5 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
         {
             return JsonConvert.DeserializeObject<IList<PhotoDataItem>>(jsonData);
         }
-    }
-
-    public class PhotoDataItem
-    {
-        public string Title { get; set; }
-
-        public string Category { get; set; }
-
-        public string Thumbnail { get; set; }
     }
 }

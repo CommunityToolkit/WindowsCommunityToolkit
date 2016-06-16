@@ -49,7 +49,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Name + ":", 
+                        Text = option.Name + ":",
                         Foreground = new SolidColorBrush(Colors.Black)
                     };
                     RootPanel.Children.Add(label);
@@ -83,7 +83,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                         case PropertyKind.Enum:
                             var comboBox = new ComboBox
                             {
-                                ItemsSource = Enum.GetNames(option.DefaultValue.GetType()), 
+                                ItemsSource = Enum.GetNames(option.DefaultValue.GetType()),
                                 SelectedItem = option.DefaultValue.ToString()
                             };
 
@@ -117,9 +117,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
 
                     var binding = new Binding
                     {
-                        Source = propertyDesc.Expando, 
-                        Path = new PropertyPath(option.Name + ".Value"), 
-                        Mode = BindingMode.TwoWay, 
+                        Source = propertyDesc.Expando,
+                        Path = new PropertyPath(option.Name + ".Value"),
+                        Mode = BindingMode.TwoWay,
                         Converter = converter
                     };
 

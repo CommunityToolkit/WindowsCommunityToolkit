@@ -38,9 +38,29 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
         private static Tuple<string, Version>[] requiredPackages = new[]
         {
-            Tuple.Create("Newtonsoft.Json", new Version("8.0.3")), 
-            Tuple.Create("WindowsAppStudio.DataProviders", new Version("1.3.0")), 
+            Tuple.Create("Newtonsoft.Json", new Version("8.0.3")),
+            Tuple.Create("WindowsAppStudio.DataProviders", new Version("1.3.0")),
         };
+
+        private static Version GetNuGetPackageVersion(IVsPackageMetadata package)
+        {
+            Version version;
+            string versionString = package.VersionString;
+            int dashIndex = versionString.IndexOf('-');
+            if (dashIndex != -1)
+            {
+                // Trim off any pre-release versions.  Because the handler should never install pre-release
+                // versions they can be ignored when comparing versions.
+                versionString = versionString.Substring(0, dashIndex);
+            }
+
+            if (!Version.TryParse(versionString, out version))
+            {
+                Debug.Fail("Unable to parse the NuGet package version " + versionString);
+            }
+
+            return version;
+        }
 
         public async override Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
@@ -50,8 +70,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             string templateResourceUri = "pack://application:,,/" + GetType().Assembly.ToString() + ";component/Templates/ProviderHelperTemplate.cs";
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding and generating helper classes");
             string generatedHelperPath = Path.Combine(
-                context.HandlerHelper.GetServiceArtifactsRootFolder(), 
-                Constants.SERVICE_FOLDER_NAME, 
+                context.HandlerHelper.GetServiceArtifactsRootFolder(),
+                Constants.SERVICE_FOLDER_NAME,
                 $"{context.ServiceInstance.Name}GeneratedProviderHelper.cs");
 
             AddFileOptions addFileOptions = new AddFileOptions();
@@ -77,8 +97,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             templateResourceUri = "pack://application:,,/" + GetType().Assembly.ToString() + ";component/Templates/DataProviderConnectorTemplate.cs";
 
             generatedHelperPath = Path.Combine(
-                context.HandlerHelper.GetServiceArtifactsRootFolder(), 
-                Constants.SERVICE_FOLDER_NAME, 
+                context.HandlerHelper.GetServiceArtifactsRootFolder(),
+                Constants.SERVICE_FOLDER_NAME,
                 $"{context.ServiceInstance.Name}GeneratedProviderConnector.cs");
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, generatedHelperPath, addFileOptions);
@@ -87,8 +107,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             using (EditableXmlConfigHelper configHelper = context.CreateEditableXmlConfigHelper())
             {
                 configHelper.SetAppSetting(
-                    $@"{context.ServiceInstance.Name}:ConnectionString", 
-                    $@"AppId={toolkitServicesInstance.Metadata["AppId"]};AppSecret={toolkitServicesInstance.Metadata["AppSecret"]};AccessToken={toolkitServicesInstance.Metadata["AccessToken"]};AccessTokenSecret={toolkitServicesInstance.Metadata["AccessTokenSecret"]};DataProviderType={toolkitServicesInstance.DataProviderModel.ProviderType}", 
+                    $@"{context.ServiceInstance.Name}:ConnectionString",
+                    $@"AppId={toolkitServicesInstance.Metadata["AppId"]};AppSecret={toolkitServicesInstance.Metadata["AppSecret"]};AccessToken={toolkitServicesInstance.Metadata["AccessToken"]};AccessTokenSecret={toolkitServicesInstance.Metadata["AccessTokenSecret"]};DataProviderType={toolkitServicesInstance.DataProviderModel.ProviderType}",
                     context.ServiceInstance.Name);
                 configHelper.Save();
             }
@@ -97,7 +117,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             await AddNuGetPackagesAsync(context, project);
 
             AddServiceInstanceResult result = new AddServiceInstanceResult(
-                                                            Constants.SERVICE_FOLDER_NAME, 
+                                                            Constants.SERVICE_FOLDER_NAME,
                                                             new Uri("https://github.com/"));
                                                             return result;
         }
@@ -119,9 +139,9 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                 {
                     // The package does not exist - notify and install the package.
                     await context.Logger.WriteMessageAsync(
-                        LoggerMessageCategory.Information, 
-                        "Installing NuGet package '{0}' version {1}.", 
-                        requiredPackage.Item1, 
+                        LoggerMessageCategory.Information,
+                        "Installing NuGet package '{0}' version {1}.",
+                        requiredPackage.Item1,
                         requiredPackage.Item2.ToString());
                 }
                 else
@@ -136,20 +156,20 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                     {
                         // An older potentially non-compatible version of the package already exists - warn and upgrade the package.
                         await context.Logger.WriteMessageAsync(
-                            LoggerMessageCategory.Warning, 
-                            "Upgrading NuGet package '{0}' from version {1} to {2}.  A major version upgrade may introduce compatibility issues with existing code.", 
-                            requiredPackage.Item1, 
-                            installedPackage.VersionString, 
+                            LoggerMessageCategory.Warning,
+                            "Upgrading NuGet package '{0}' from version {1} to {2}.  A major version upgrade may introduce compatibility issues with existing code.",
+                            requiredPackage.Item1,
+                            installedPackage.VersionString,
                             requiredPackage.Item2.ToString());
                     }
                     else if (installedVersion.Major > requiredPackage.Item2.Major)
                     {
                         // A newer potentially non-compatible version of the package already exists - warn and continue.
                         await context.Logger.WriteMessageAsync(
-                            LoggerMessageCategory.Warning, 
-                            "The code being added depends on NugGet package ‘{0}’ version {1}.  A newer version ({2}) is already installed.  This may cause compatibility issues.", 
-                            requiredPackage.Item1, 
-                            requiredPackage.Item2.ToString(), 
+                            LoggerMessageCategory.Warning,
+                            "The code being added depends on NugGet package ‘{0}’ version {1}.  A newer version ({2}) is already installed.  This may cause compatibility issues.",
+                            requiredPackage.Item1,
+                            requiredPackage.Item2.ToString(),
                             installedPackage.VersionString);
 
                         continue;
@@ -163,10 +183,10 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                     {
                         // An older semantically compatible version of the package exists - notify and upgrade the package.
                         await context.Logger.WriteMessageAsync(
-                            LoggerMessageCategory.Information, 
-                            "Upgrading NuGet package '{0}' from version {1} to {2}.", 
-                            requiredPackage.Item1, 
-                            installedPackage.VersionString, 
+                            LoggerMessageCategory.Information,
+                            "Upgrading NuGet package '{0}' from version {1} to {2}.",
+                            requiredPackage.Item1,
+                            installedPackage.VersionString,
                             requiredPackage.Item2.ToString());
                     }
                 }
@@ -177,32 +197,12 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
             if (packagesToInstall.Any())
             {
                 PackageInstaller.InstallPackagesFromVSExtensionRepository(
-                    "Microsoft.Windows.Toolkit.VisualStudio.Chris Barker.432a25eb-7cbc-413e-8e31-0e8090bfa5fc", 
-                    false, 
-                    false, 
-                    project, 
+                    "Microsoft.Windows.Toolkit.VisualStudio.Chris Barker.432a25eb-7cbc-413e-8e31-0e8090bfa5fc",
+                    false,
+                    false,
+                    project,
                     packagesToInstall);
             }
-        }
-
-        private static Version GetNuGetPackageVersion(IVsPackageMetadata package)
-        {
-            Version version;
-            string versionString = package.VersionString;
-            int dashIndex = versionString.IndexOf('-');
-            if (dashIndex != -1)
-            {
-                // Trim off any pre-release versions.  Because the handler should never install pre-release
-                // versions they can be ignored when comparing versions.
-                versionString = versionString.Substring(0, dashIndex);
-            }
-
-            if (!Version.TryParse(versionString, out version))
-            {
-                Debug.Fail("Unable to parse the NuGet package version " + versionString);
-            }
-
-            return version;
         }
     }
 }

@@ -361,15 +361,15 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         private string GenerateSignature()
         {
             string signatureBaseString = string.Format(
-                CultureInfo.InvariantCulture, 
-                "GET&{0}&{1}", 
-                OAuthEncoder.UrlEncode(RequestUriWithoutQuery.Normalize()), 
+                CultureInfo.InvariantCulture,
+                "GET&{0}&{1}",
+                OAuthEncoder.UrlEncode(RequestUriWithoutQuery.Normalize()),
                 OAuthEncoder.UrlEncode(GetSignParameters()));
 
             string key = string.Format(
-                CultureInfo.InvariantCulture, 
-                "{0}&{1}", 
-                OAuthEncoder.UrlEncode(ConsumerSecret.Value), 
+                CultureInfo.InvariantCulture,
+                "{0}&{1}",
+                OAuthEncoder.UrlEncode(ConsumerSecret.Value),
                 OAuthEncoder.UrlEncode(TokenSecret.Value));
 
             return OAuthEncoder.GenerateHash(signatureBaseString, key);

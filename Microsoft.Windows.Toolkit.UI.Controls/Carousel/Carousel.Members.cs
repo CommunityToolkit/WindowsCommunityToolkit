@@ -16,7 +16,12 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    partial class Carousel
+    /// <summary>
+    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
+    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
+    /// You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.
+    /// </summary>
+    public partial class Carousel
     {
         /// <summary>
         /// Identifies the <see cref="SelectedIndex"/> dependency property.
@@ -65,7 +70,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public int SelectedIndex
         {
-            get { return (int)GetValue(SelectedIndexProperty); }
+            get
+            {
+                return (int)GetValue(SelectedIndexProperty);
+            }
 
             set
             {
@@ -134,23 +142,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             control?.SetItemClickCommand(e.NewValue as ICommand);
         }
 
-        private void SetItemClickCommand(ICommand command)
-        {
-            if (_container == null)
-            {
-                return;
-            }
-
-            foreach (var uiElement in _container.Children)
-            {
-                var item = uiElement as CarouselSlot;
-                if (item != null)
-                {
-                    item.ItemClickCommand = command;
-                }
-            }
-        }
-
         private static void OnInvalidate(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Carousel;
@@ -176,6 +167,23 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if ((int)e.NewValue > -1)
             {
                 control?.ArrangeItems();
+            }
+        }
+
+        private void SetItemClickCommand(ICommand command)
+        {
+            if (_container == null)
+            {
+                return;
+            }
+
+            foreach (var uiElement in _container.Children)
+            {
+                var item = uiElement as CarouselSlot;
+                if (item != null)
+                {
+                    item.ItemClickCommand = command;
+                }
             }
         }
     }

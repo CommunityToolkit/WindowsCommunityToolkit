@@ -48,14 +48,14 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
         {
             var columns = new List<Tuple<string, string>>();
 
-            foreach(var provider in supportedDataProviders)
+            foreach (var provider in supportedDataProviders)
             {
                 var oAuthKeyValues = DataProviderDiscovery.Instance.FindOAuthPropertiesByProviderPublisherKeyName(provider.ProviderPublisherKeyName);
 
                 foreach (var oAuthKeyValue in oAuthKeyValues)
                 {
                     var tupleExists = (from c in columns where c.Item1 == oAuthKeyValue.Key select c).Any();
-                    if(!tupleExists)
+                    if (!tupleExists)
                     {
                         columns.Add(new Tuple<string, string>(oAuthKeyValue.Key, oAuthKeyValue.Key));
                     }
@@ -94,8 +94,8 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
 
             Window window = new Window
             {
-                Content = appKeyAndSecretViewModel.View, 
-                MaxHeight = 400, 
+                Content = appKeyAndSecretViewModel.View,
+                MaxHeight = 400,
                 MaxWidth = 400
             };
 
@@ -117,10 +117,10 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
             instance.Name = model.ProviderPublisherKeyName;
             instance.InstanceId = model.ProviderPublisherKeyName;
 
-            foreach(var columnHeader in ColumnMetadata)
+            foreach (var columnHeader in ColumnMetadata)
             {
                 string oAuthValue = Constants.OAUTH_KEY_VALUE_DEFAULT_NOT_REQUIRED_VALUE;
-                if(oAuthKeyValues.ContainsKey(columnHeader.Item1))
+                if (oAuthKeyValues.ContainsKey(columnHeader.Item1))
                 {
                     oAuthValue = oAuthKeyValues[columnHeader.Item1];
                 }

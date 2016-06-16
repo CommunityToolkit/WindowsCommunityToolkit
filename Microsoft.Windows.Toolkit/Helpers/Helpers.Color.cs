@@ -107,9 +107,9 @@ namespace Microsoft.Windows.Toolkit
                     var scB = double.Parse(values[3]);
 
                     return Color.FromArgb(
-                        (byte)(scA * 255), 
-                        (byte)(scR * 255), 
-                        (byte)(scG * 255), 
+                        (byte)(scA * 255),
+                        (byte)(scR * 255),
+                        (byte)(scG * 255),
                         (byte)(scB * 255));
                 }
 
@@ -120,9 +120,9 @@ namespace Microsoft.Windows.Toolkit
                     var scB = double.Parse(values[2]);
 
                     return Color.FromArgb(
-                        255, 
-                        (byte)(scR * 255), 
-                        (byte)(scG * 255), 
+                        255,
+                        (byte)(scR * 255),
+                        (byte)(scG * 255),
                         (byte)(scB * 255));
                 }
 

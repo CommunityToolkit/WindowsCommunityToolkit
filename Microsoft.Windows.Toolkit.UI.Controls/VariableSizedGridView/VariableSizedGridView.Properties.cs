@@ -14,6 +14,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The VariableSizedGrid control allows to display items from a list using different values
+    /// for Width and Height item properties. You can control the number of rows and columns to be
+    /// displayed as well as the items orientation in the panel. Finally, the AspectRatio property
+    /// allow us to control the relation between Width and Height.
+    /// </summary>
     public partial class VariableSizedGridView
     {
         /// <summary>

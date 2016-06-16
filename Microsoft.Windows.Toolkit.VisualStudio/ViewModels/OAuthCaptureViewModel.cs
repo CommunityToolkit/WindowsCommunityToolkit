@@ -35,7 +35,10 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
 
         public UWPToolkitConnectedServiceInstance ConnectedServiceInstance
         {
-            get { return connectedServiceInstance; }
+            get
+            {
+                return connectedServiceInstance;
+            }
 
             set
             {
@@ -58,7 +61,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
             var view = View as OAuthCaptureView;
             var dynamicGrid = view.DynamicGrid;
 
-            foreach(var oAuthKeyValue in oAuthKeyValues)
+            foreach (var oAuthKeyValue in oAuthKeyValues)
             {
                 if (oAuthKeyValue.Value.ToString() != Constants.OAUTH_KEY_VALUE_DEFAULT_NOT_REQUIRED_VALUE)
                 {
@@ -92,7 +95,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
         private void ExecuteOkClicked(object sender)
         {
             connectedServiceInstance.Metadata.Clear();
-            foreach(var oAuthKeyValue in oAuthKeyValues)
+            foreach (var oAuthKeyValue in oAuthKeyValues)
             {
                 connectedServiceInstance.Metadata.Add(oAuthKeyValue.Key, oAuthKeyValue.Value);
             }

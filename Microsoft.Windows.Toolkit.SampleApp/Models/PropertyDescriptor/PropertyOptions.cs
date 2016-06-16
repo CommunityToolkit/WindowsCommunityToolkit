@@ -21,11 +21,4 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Models
 
         public object DefaultValue { get; set; }
     }
-
-    public class SliderPropertyOptions : PropertyOptions
-    {
-        public double MinValue { get; set; }
-
-        public double MaxValue { get; set; }
-    }
 }
