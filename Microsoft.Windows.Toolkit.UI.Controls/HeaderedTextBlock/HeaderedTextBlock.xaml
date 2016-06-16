@@ -4,7 +4,7 @@
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls">
 
     <Style x:Key="HeaderedTextBlockTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -17,13 +17,15 @@
     </Style>
 
     <Style x:Key="HeaderedTextBlockHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource HeaderedTextBlockTextStyle}">
-        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Setter Property="FontWeight" Value="Normal" />
     </Style>
 
     <Style TargetType="controls:HeaderedTextBlock">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
+        <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedTextBlock">
@@ -40,8 +42,8 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <TextBlock x:Name="HeaderContent" Text="{TemplateBinding Header}" Style="{StaticResource HeaderedTextBlockHeaderStyle}" />
-                        <TextBlock x:Name="TextContent" Text="{TemplateBinding Text}" Style="{StaticResource HeaderedTextBlockTextStyle}" />
+                        <TextBlock x:Name="HeaderContent" Text="{TemplateBinding Header}" Style="{TemplateBinding HeaderStyle}" />
+                        <TextBlock x:Name="TextContent" Text="{TemplateBinding Text}" Style="{TemplateBinding TextStyle}" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

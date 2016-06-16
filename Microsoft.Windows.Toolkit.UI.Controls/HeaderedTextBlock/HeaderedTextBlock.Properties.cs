@@ -9,6 +9,24 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     public partial class HeaderedTextBlock
     {
         /// <summary>
+        /// Defines the <see cref="HeaderStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderStyleProperty = DependencyProperty.Register(
+            nameof(HeaderStyle),
+            typeof(Style),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Defines the <see cref="TextStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register(
+            "TextStyle",
+            typeof(Style),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Defines the <see cref="Header"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
@@ -39,6 +57,36 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     {
                         ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue);
                     }));
+
+        /// <summary>
+        /// Gets or sets the header style.
+        /// </summary>
+        public Style HeaderStyle
+        {
+            get
+            {
+                return (Style)GetValue(HeaderStyleProperty);
+            }
+            set
+            {
+                SetValue(HeaderStyleProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text style.
+        /// </summary>
+        public Style TextStyle
+        {
+            get
+            {
+                return (Style)GetValue(TextStyleProperty);
+            }
+            set
+            {
+                SetValue(TextStyleProperty, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the header.
