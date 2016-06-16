@@ -1,16 +1,29 @@
-﻿using System;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
+
 using Microsoft.Windows.Toolkit.SampleApp.Data;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
+
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
     public class OptionMenuItem
     {
         public string Name { get; set; }
+
         public string Glyph { get; set; }
     }
 
@@ -31,6 +44,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
+
             HamburgerMenu.ItemsSource = new PhotosDataSource().GetItems();
 
             HamburgerMenu.OptionsItemsSource = new [] { new OptionMenuItem { Glyph = "", Name = "About" } };

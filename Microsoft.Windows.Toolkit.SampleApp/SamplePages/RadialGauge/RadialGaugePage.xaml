@@ -10,9 +10,9 @@
         <Grid VerticalAlignment="Center"
               HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition Width="250"></ColumnDefinition>
-                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <controls:RadialGauge x:Name="RadialGauge"
                                   Grid.Column="1"

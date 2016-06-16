@@ -1,4 +1,14 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -6,7 +16,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    public sealed partial class ResponsiveGridView 
+    public sealed partial class ResponsiveGridView
     {
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
@@ -36,7 +46,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="OneRowModeEnabled"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OneRowModeEnabledProperty =
-            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(ResponsiveGridView), new PropertyMetadata(false, ((o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); })));
+            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(ResponsiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
         /// Identifies the <see cref="VerticalScroll"/> dependency property.
@@ -66,7 +76,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 {
                     var b = new Binding()
                     {
-                        Source = self,
+                        Source = self, 
                         Path = new PropertyPath("ItemHeight")
                     };
 
@@ -155,6 +165,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (double)GetValue(ItemWidthProperty); }
             set { SetValue(ItemWidthProperty, value); }
-        }        
+        }
     }
 }

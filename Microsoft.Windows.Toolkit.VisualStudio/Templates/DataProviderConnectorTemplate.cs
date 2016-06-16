@@ -1,10 +1,12 @@
-﻿using AppStudio.DataProviders;
-using AppStudio.DataProviders.$ServiceInstance.Name$;
-using $ProjectDefaultNamespace$;
+﻿using $ProjectDefaultNamespace$;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+
+using AppStudio.DataProviders;
+using AppStudio.DataProviders. ???;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -27,23 +29,23 @@ namespace Microsoft.Windows.Toolkit.Services
 
         }
 
-        public List<$ServiceInstance.Name$Schema> Source
+        public List$Name$Schema> Source
         {
-            get { return (List<$ServiceInstance.Name$Schema>)GetValue(SourceProperty); }
+            get { return List<$ServiceInstance.Name$Schema>)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(List<$ServiceInstance.Name$Schema>), typeof(DataProviderConnector), new PropertyMetadata(null));
+            DependencyProperty.Register("Source", typeof(List<$Name$Schema>), typeof(DataProviderConnector), new PropertyMetadata(null));
 
-        public $ServiceInstance.Name$DataConfig SourceDataConfig
+        public $Name$DataConfig SourceDataConfig
         {
             get { return ($ServiceInstance.Name$DataConfig)GetValue(SourceDataConfigProperty); }
             set { SetValue(SourceDataConfigProperty, value); }
         }
 
         public static readonly DependencyProperty SourceDataConfigProperty =
-            DependencyProperty.Register("SourceDataConfig", typeof($ServiceInstance.Name$DataConfig), typeof(DataProviderConnector), new PropertyMetadata(null, SourceDataConfigChangedCallback));
+            DependencyProperty.Register("SourceDataConfig", typeof($Name$DataConfig), typeof(DataProviderConnector), new PropertyMetadata(null, SourceDataConfigChangedCallback));
 
         private async static void SourceDataConfigChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -53,7 +55,7 @@ namespace Microsoft.Windows.Toolkit.Services
 
             if(config!=null)
             {
-                var that = (d as DataProviderConnector);
+                var that = d as DataProviderConnector;
                 that.Source = await $ServiceInstance.Name$ProviderHelper.Instance.RequestAsync();
             }
         }
@@ -80,7 +82,7 @@ namespace Microsoft.Windows.Toolkit.Services
                 $ServiceInstance.Name$ProviderHelper.Instance.Config.$QUERY_PARAM_PROPERTY_NAME$ = query;
             }
 
-            var that = (d as DataProviderConnector);
+            var that = d as DataProviderConnector;
             that.Source = await $ServiceInstance.Name$ProviderHelper.Instance.RequestAsync();
         }
 

@@ -1,15 +1,31 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using Windows.Media.Casting;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    partial class ImageEx
+    /// <summary>
+    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
+    /// Source images are downloaded asynchronously showing a load indicator while in progress.
+    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
+    /// </summary>
+    public partial class ImageEx
     {
         /// <summary>
         /// Identifies the <see cref="NineGrid"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty NineGridProperty = DependencyProperty.Register("NineGrid", typeof(Thickness), typeof(ImageEx), new PropertyMetadata(new Thickness()));
+        public static readonly DependencyProperty NineGridProperty = DependencyProperty.Register("NineGrid", typeof(Thickness), typeof(ImageEx), new PropertyMetadata(default(Thickness)));
 
         /// <summary>
         /// Identifies the <see cref="Stretch"/> dependency property.
@@ -20,13 +36,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Event raised if the image failed loading.
         /// </summary>
         public event ExceptionRoutedEventHandler ImageFailed;
+
         /// <summary>
         /// Event raised when the image is successfully loaded and opened.
         /// </summary>
         public event RoutedEventHandler ImageOpened;
 
         /// <summary>
-        /// Get or set the stretch of the image.
+        /// Gets or sets the stretch of the image.
         /// </summary>
         public Stretch Stretch
         {
@@ -35,7 +52,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Get or set the nine-grid used by the image.
+        /// Gets or sets the nine-grid used by the image.
         /// </summary>
         public Thickness NineGrid
         {
@@ -53,7 +70,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Enable or disable .
+        /// Gets or sets cache state
         /// </summary>
         public bool IsCacheEnabled
         {

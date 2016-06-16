@@ -1,19 +1,30 @@
-﻿using System;
-using System.Linq;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Controls;
 using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     /// <summary>
-    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items. 
-    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors. 
+    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
+    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
     /// You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.
     /// </summary>
     [TemplatePart(Name = "Container", Type = typeof(Panel))]
@@ -109,11 +120,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 height = MinHeight;
                 width = height * AspectRatio;
             }
+
             if (height > MaxHeight)
             {
                 height = MaxHeight;
                 width = height * AspectRatio;
             }
+
             var size = new Size(width, height);
             base.MeasureOverride(size);
             return size;
@@ -177,6 +190,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             AnimatePrev();
         }
+
         private void OnNextArrowClick(object sender, RoutedEventArgs e)
         {
             AnimateNext();
@@ -200,6 +214,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return;
             }
+
             _clip.Rect = new Rect(new Point(), new Size(_container.ActualWidth, _container.ActualHeight));
         }
 
@@ -220,6 +235,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     index--;
                     count++;
                 }
+
                 _gradient.GradientStops[1].Offset = factor * index;
                 _gradient.GradientStops[2].Offset = factor * (index + count);
             }

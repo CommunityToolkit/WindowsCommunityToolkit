@@ -11,22 +11,22 @@
         <DataTemplate x:Key="ButtonTemplate" x:DataType="data:PhotoDataItem">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
-                <TextBlock Grid.Column="1" Text="{x:Bind Title}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <TextBlock Grid.Column="1" Text="{x:Bind Title}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="OptionTemplate">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{Binding Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -49,13 +49,13 @@
                                 >
             <Grid x:Name="ContentGrid">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="48"></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="48" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Background="Black" Grid.Row="0">
-                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}"></TextBlock>
+                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}" />
                 </Border>
-                <Image x:Name="Image" Grid.Row="1" Source="{Binding Thumbnail}"></Image>
+                <Image x:Name="Image" Grid.Row="1" Source="{Binding Thumbnail}" />
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

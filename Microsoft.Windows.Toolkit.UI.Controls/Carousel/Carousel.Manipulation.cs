@@ -1,4 +1,15 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Linq;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -7,8 +18,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 {
     partial class Carousel
     {
-        const int OffsetScale = 2;
-        private int MaxItemsPlusOffset => MaxItems + 2 * OffsetScale;
+        private const int OffsetScale = 2;
+
+        private int MaxItemsPlusOffset => MaxItems + (2 * OffsetScale);
 
         private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -53,7 +65,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_items.Count > 0)
             {
                 double x0 = GetLeftBound();
-                double x1 = Math.Round(x0 + _slotWidth * MaxItemsPlusOffset, 2);
+                double x1 = Math.Round(x0 + (_slotWidth * MaxItemsPlusOffset), 2);
 
                 int newIndex = SelectedIndex;
                 var controls = _container.Children.Cast<CarouselSlot>().ToArray();
@@ -79,6 +91,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                         control.MoveX(x, duration);
                     }
                 }
+
                 _offset = Math.Round((_offset + delta).Mod(_slotWidth), 2);
 
                 _disableSelectedIndexCallback = true;
