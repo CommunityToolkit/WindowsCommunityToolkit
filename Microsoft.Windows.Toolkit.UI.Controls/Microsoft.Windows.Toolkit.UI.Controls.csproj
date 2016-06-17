@@ -71,6 +71,7 @@
     <Compile Include="RadialGauge\RadialGauge.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
+    <Compile Include="SlidableListItem\SlidableListItem.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridView.cs" />
     <Compile Include="VariableSizedGridView\VariableSizedGridViewPanel.cs" />
@@ -105,6 +106,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResponsiveGridView\ResponsiveGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SlidableListItem\SlidableListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

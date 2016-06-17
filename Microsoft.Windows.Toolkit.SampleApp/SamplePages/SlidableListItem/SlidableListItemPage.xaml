@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.SlidableListItemPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
+    xmlns:data="using:Microsoft.Windows.Toolkit.SampleApp.Models"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
+            <controls:SlidableListItem LeftIcon="{Binding DataContext.LeftIcon.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightIcon="{Binding DataContext.RightIcon.Value, ElementName=Root, Mode=OneWay}" 
+                                       LeftLabel="{Binding DataContext.LeftLabel.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightLabel="{Binding DataContext.RightLabel.Value, ElementName=Root, Mode=OneWay}" 
+                                       HorizontalAlignment="Stretch"
+                                       LeftBackground="{Binding DataContext.LeftBackground.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightBackground="{Binding DataContext.RightBackground.Value, ElementName=Root, Mode=OneWay}"
+                                       LeftForeground ="{Binding DataContext.LeftForeground.Value, ElementName=Root, Mode=OneWay}" 
+                                       RightForeground ="{Binding DataContext.RightForeground.Value, ElementName=Root, Mode=OneWay}"
+                                       MouseSlidingEnabled="{Binding DataContext.MouseSlidingEnabled.Value, ElementName=Root, Mode=OneWay}"
+                                       LeftCommand="{x:Bind ToggleFavorite}"
+                                       RightCommandRequested="SlidableListItem_RightCommandActivated"
+                                       ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}">
+                <Grid Height="110" Background="Gray">
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=TwoWay}"></CheckBox>
+                        <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+                </Grid>
+            </controls:SlidableListItem>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="Root">
+        <ListView x:Name="listView" ItemTemplate="{StaticResource EmailsItemTemplate}" ItemsSource="{x:Bind _items, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0,1"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>
