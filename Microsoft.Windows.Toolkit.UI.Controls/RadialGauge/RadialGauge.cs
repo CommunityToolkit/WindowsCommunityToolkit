@@ -174,6 +174,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private SpriteVisual _needle;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RadialGauge"/> class.
         /// Create a default radial gauge control.
         /// </summary>
         public RadialGauge()
@@ -385,9 +386,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             OnValueChanged(d);
         }
 
-        /// <summary>
-        /// Updates the needle rotation, the trail, and the value text according to the new value.
-        /// </summary>
         private static void OnValueChanged(DependencyObject d)
         {
             RadialGauge c = (RadialGauge)d;
@@ -442,9 +440,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             OnScaleChanged(d);
         }
 
-        /// <summary>
-        /// Updates the background scale.
-        /// </summary>
         private static void OnScaleChanged(DependencyObject d)
         {
             RadialGauge c = (RadialGauge)d;
@@ -475,9 +470,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             OnFaceChanged(d);
         }
 
-        /// <summary>
-        /// Updates the face: ticks, scale ticks, and needle.
-        /// </summary>
         private static void OnFaceChanged(DependencyObject d)
         {
             RadialGauge c = (RadialGauge)d;
@@ -529,18 +521,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             OnValueChanged(c);
         }
 
-        /// <summary>
-        /// Transforms a set of polar coordinates into a Windows Point.
-        /// </summary>
         private Point ScalePoint(double angle, double middleOfScale)
         {
             return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
         }
 
-        /// <summary>
-        /// Returns the angle for a specific value.
-        /// </summary>
-        /// <returns>In degrees.</returns>
         private double ValueToAngle(double value)
         {
             // Off-scale on the left.

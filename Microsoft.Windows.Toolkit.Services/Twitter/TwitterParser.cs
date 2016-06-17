@@ -22,8 +22,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             TwitterSchema tweet = new TwitterSchema
             {
-                Id = item.Id, 
-                Text = item.Text.DecodeHtml(), 
+                Id = item.Id,
+                Text = item.Text.DecodeHtml(),
                 CreationDateTime = TryParse(item.CreatedAt)
             };
 

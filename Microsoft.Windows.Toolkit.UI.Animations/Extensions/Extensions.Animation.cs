@@ -330,11 +330,11 @@ namespace Microsoft.Windows.Toolkit
         /// Returns an await-able task.
         /// </returns>
         public static Task AnimateDoublePropertyAsync(
-            this DependencyObject target, 
-            string property, 
-            double from, 
-            double to, 
-            double duration = 250, 
+            this DependencyObject target,
+            string property,
+            double from,
+            double to,
+            double duration = 250,
             EasingFunctionBase easingFunction = null)
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
@@ -371,21 +371,21 @@ namespace Microsoft.Windows.Toolkit
         /// Returns the <see cref="Storyboard"/> for the animation.
         /// </returns>
         public static Storyboard AnimateDoubleProperty(
-            this DependencyObject target, 
-            string property, 
-            double from, 
-            double to, 
-            double duration = 250, 
+            this DependencyObject target,
+            string property,
+            double from,
+            double to,
+            double duration = 250,
             EasingFunctionBase easingFunction = null)
         {
             var storyboard = new Storyboard();
             var animation = new DoubleAnimation
             {
-                From = from, 
-                To = to, 
-                Duration = TimeSpan.FromMilliseconds(duration), 
-                EasingFunction = easingFunction ?? new SineEase(), 
-                FillBehavior = FillBehavior.HoldEnd, 
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromMilliseconds(duration),
+                EasingFunction = easingFunction ?? new SineEase(),
+                FillBehavior = FillBehavior.HoldEnd,
                 EnableDependentAnimation = true
             };
 

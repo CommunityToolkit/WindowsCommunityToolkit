@@ -17,7 +17,12 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    partial class Carousel
+    /// <summary>
+    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
+    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
+    /// You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.
+    /// </summary>
+    public partial class Carousel
     {
         private double _offset;
         private double _slotWidth = 1;
@@ -36,10 +41,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 var control = new CarouselSlot
                 {
-                    ContentTemplate = ContentTemplate, 
-                    ItemClickCommand = ItemClickCommand, 
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch, 
-                    VerticalContentAlignment = VerticalAlignment.Stretch, 
+                    ContentTemplate = ContentTemplate,
+                    ItemClickCommand = ItemClickCommand,
+                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    VerticalContentAlignment = VerticalAlignment.Stretch,
                     UseLayoutRounding = true
                 };
                 _container.Children.Add(control);

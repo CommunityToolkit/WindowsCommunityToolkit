@@ -34,7 +34,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public RangeSelectorProperty ChangedRangeProperty { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the RangeChangedEventArgs class.
+        /// Initializes a new instance of the <see cref="RangeChangedEventArgs"/> class.
         /// </summary>
         /// <param name="oldValue">The old value</param>
         /// <param name="newValue">The new value</param>
@@ -56,7 +56,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// <summary>
         /// Minimum value was changed
         /// </summary>
-        MinimumValue, 
+        MinimumValue,
 
         /// <summary>
         /// Maximum value was changed

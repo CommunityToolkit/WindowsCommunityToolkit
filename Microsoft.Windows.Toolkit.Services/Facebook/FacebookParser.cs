@@ -34,13 +34,13 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             {
                 var item = new FacebookSchema
                 {
-                    Id = i.id, 
-                    Author = i.from.name, 
-                    PublishDate = i.created_time, 
-                    Title = i.message.DecodeHtml(), 
-                    Summary = i.message.DecodeHtml(), 
-                    Content = i.message, 
-                    ImageUrl = ConvertImageUrlFromParameter(i.full_picture), 
+                    Id = i.id,
+                    Author = i.from.name,
+                    PublishDate = i.created_time,
+                    Title = i.message.DecodeHtml(),
+                    Summary = i.message.DecodeHtml(),
+                    Content = i.message,
+                    ImageUrl = ConvertImageUrlFromParameter(i.full_picture),
                     FeedUrl = BuildFeedUrl(i.from.id, i.id, i.link)
                 };
                 resultToReturn.Add(item);

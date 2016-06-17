@@ -168,6 +168,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
@@ -175,7 +176,9 @@
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\PhotoDataItem.cs" />
     <Compile Include="Data\PhotosDataSource.cs" />
+    <Compile Include="Models\PropertyDescriptor\SliderPropertyOptions.cs" />
     <Compile Include="Models\PropertyDescriptor\ValueHolder.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyOptions.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
@@ -186,6 +189,7 @@
     <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
       <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\HamburgerMenu\OptionMenuItem.cs" />
 	<Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
       <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
     </Compile>

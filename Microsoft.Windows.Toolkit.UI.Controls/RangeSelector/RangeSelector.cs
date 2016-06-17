@@ -72,6 +72,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public event EventHandler<RangeChangedEventArgs> ValueChanged;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RangeSelector"/> class.
         /// Create a default range selector control.
         /// </summary>
         public RangeSelector()

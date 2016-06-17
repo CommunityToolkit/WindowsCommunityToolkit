@@ -93,9 +93,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
                 var sb = new StringBuilder();
                 var settings = new XmlWriterSettings
                 {
-                    Indent = true, 
-                    IndentChars = "  ", 
-                    NewLineChars = "\r\n", 
+                    Indent = true,
+                    IndentChars = "  ",
+                    NewLineChars = "\r\n",
                     NewLineHandling = NewLineHandling.Replace
                 };
 

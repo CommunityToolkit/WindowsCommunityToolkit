@@ -70,7 +70,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets cache state
+        /// Gets or sets a value indicating whether gets or sets cache state
         /// </summary>
         public bool IsCacheEnabled
         {

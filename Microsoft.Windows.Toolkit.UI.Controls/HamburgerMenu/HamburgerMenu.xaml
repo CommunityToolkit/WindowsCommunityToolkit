@@ -6,8 +6,7 @@
     <Style TargetType="local:HamburgerMenu">
         <Setter Property="HamburgerIcon">
             <Setter.Value>
-                <FontIcon FontFamily="Segoe MDL2 Assets"
-                          Glyph="&#xE700;"/>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

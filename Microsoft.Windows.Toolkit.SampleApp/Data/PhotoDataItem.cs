@@ -9,12 +9,28 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
+using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Data;
+
+namespace Microsoft.Windows.Toolkit.SampleApp.Data
 {
-    public enum TwitterQueryType
+
+    public class PhotoDataItem
     {
-        Home,
-        User,
-        Search
+        public string Title { get; set; }
+
+        public string Category { get; set; }
+
+        public string Thumbnail { get; set; }
     }
 }

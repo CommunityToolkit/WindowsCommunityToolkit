@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
-    partial class ImageEx
+    public partial class ImageEx
     {
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
@@ -35,7 +35,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private bool _isLoadingImage;
 
         /// <summary>
-        /// Get or set the source used by the image
+        /// Gets or sets get or set the source used by the image
         /// </summary>
         public object Source
         {
@@ -47,6 +47,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             var control = d as ImageEx;
             control?.SetSource(e.NewValue);
+        }
+
+        private static bool IsHttpUri(Uri uri)
+        {
+            return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
 
         private async void SetSource(object source)
@@ -110,11 +115,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
                 _isLoadingImage = false;
             }
-        }
-
-        private static bool IsHttpUri(Uri uri)
-        {
-            return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
     }
 }

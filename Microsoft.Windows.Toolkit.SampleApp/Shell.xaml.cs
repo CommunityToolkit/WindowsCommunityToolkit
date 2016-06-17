@@ -105,8 +105,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         {
             var commandButton = new Button
             {
-                Content = name, 
-                Margin = new Thickness(10, 5, 10, 5), 
+                Content = name,
+                Margin = new Thickness(10, 5, 10, 5),
                 Foreground = Title.Foreground
             };
 

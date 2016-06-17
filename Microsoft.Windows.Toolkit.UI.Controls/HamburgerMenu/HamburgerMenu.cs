@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The HamburgerMenu is based on a SplitView control. By default it contains a HamburgerButton and a ListView to display menu items.
+    /// </summary>
     [TemplatePart(Name = "HamburgerButton", Type = typeof(Button))]
     [TemplatePart(Name = "ButtonsListView", Type = typeof(ListViewBase))]
     [TemplatePart(Name = "OptionsListView", Type = typeof(ListViewBase))]

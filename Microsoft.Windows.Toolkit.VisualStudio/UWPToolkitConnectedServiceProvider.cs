@@ -38,7 +38,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
         public override IEnumerable<Tuple<string, Uri>> GetSupportedTechnologyLinks()
         {
             var dataProviderModels = DataProviderDiscovery.Instance.FindAllDataProviders();
-            foreach(var dataProviderModel in dataProviderModels)
+            foreach (var dataProviderModel in dataProviderModels)
             {
                 yield return Tuple.Create(dataProviderModel.ProviderPublisherKeyName, new Uri(dataProviderModel.ServiceDeveloperInformationUrl));
             }
