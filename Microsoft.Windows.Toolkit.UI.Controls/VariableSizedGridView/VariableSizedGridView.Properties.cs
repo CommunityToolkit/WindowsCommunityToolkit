@@ -1,10 +1,25 @@
-﻿using Microsoft.Windows.Toolkit.UI.Controls.Primitives;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The VariableSizedGrid control allows to display items from a list using different values
+    /// for Width and Height item properties. You can control the number of rows and columns to be
+    /// displayed as well as the items orientation in the panel. Finally, the AspectRatio property
+    /// allow us to control the relation between Width and Height.
+    /// </summary>
     public partial class VariableSizedGridView
     {
         /// <summary>
@@ -40,7 +55,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (Thickness)GetValue(ItemMarginProperty); }
             set { SetValue(ItemMarginProperty, value); }
-        }     
+        }
 
         /// <summary>
         /// Gets or sets the padding applied to each item.
@@ -51,7 +66,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Thickness)GetValue(ItemPaddingProperty); }
             set { SetValue(ItemPaddingProperty, value); }
         }
-        
+
         /// <summary>
         /// Gets or sets the maximum number of rows or columns.
         /// </summary>
@@ -67,7 +82,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             var control = d as VariableSizedGridView;
             control.InvalidateMeasure();
         }
-        
+
         /// <summary>
         /// Gets or sets the height-to-width aspect ratio for each tile.
         /// </summary>
@@ -101,4 +116,3 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
     }
 }
-

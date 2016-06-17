@@ -18,7 +18,7 @@
                     VerticalAlignment="Center"/>  
                 <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center"
                            Text="{Binding Title}" FontSize="16"
-                           TextWrapping="Wrap" Foreground="White"></TextBlock>
+                           TextWrapping="Wrap" Foreground="White" />
             </Grid>
         </DataTemplate>
     </Page.Resources>

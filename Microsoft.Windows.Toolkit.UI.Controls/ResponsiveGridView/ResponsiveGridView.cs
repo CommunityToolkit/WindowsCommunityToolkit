@@ -1,8 +1,16 @@
-﻿using System;
-using System.Windows.Input;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
@@ -14,7 +22,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// <remarks>
     /// The number and the width of items are calculated based on the
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
-    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a 
+    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
     public sealed partial class ResponsiveGridView : Control
@@ -28,16 +36,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public ResponsiveGridView()
         {
-            this.IsTabStop = false;
-            this.DefaultStyleKey = typeof(ResponsiveGridView);
+            IsTabStop = false;
+            DefaultStyleKey = typeof(ResponsiveGridView);
         }
-        
+
         private void RecalculateLayout(double containerWidth)
         {
             if (containerWidth == 0 || DesiredWidth == 0)
             {
                 return;
             }
+
             if (_columns == 0)
             {
                 _columns = CalculateColumns(containerWidth, DesiredWidth);
@@ -50,11 +59,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     _columns = desiredColumns;
                 }
             }
+
             ItemWidth = (containerWidth / _columns) - 5;
         }
 
         /// <summary>
-        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call 
+        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
         /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
         /// in your app. Override this method to influence the default post-template logic of a class.
         /// </summary>
@@ -64,7 +74,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_listView != null)
             {
                 _listView.SizeChanged -= ListView_SizeChanged;
-                _listView.ItemClick -= ListView_ItemClick;  
+                _listView.ItemClick -= ListView_ItemClick;
                 _listView = null;
             }
 
@@ -74,6 +84,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
             }
+
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
         }
@@ -90,19 +101,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
-        private static int CalculateColumns(double containerWidth, double itemWidth)
-        {
-            var columns = (int)(containerWidth / itemWidth);
-            if (columns == 0)
-            {
-                columns = 1;
-            }
-            return columns;
-        }
-
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //If the width of the internal list view changes, check if more or less columns needs to be rendered.
+            // If the width of the internal list view changes, check if more or less columns needs to be rendered.
             if (e.PreviousSize.Width != e.NewSize.Width)
             {
                 RecalculateLayout(e.NewSize.Width);

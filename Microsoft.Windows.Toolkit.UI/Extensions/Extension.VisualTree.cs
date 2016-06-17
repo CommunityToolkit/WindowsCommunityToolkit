@@ -1,9 +1,23 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI
 {
+    /// <summary>
+    /// Defines a collection of extensions methods for UI.
+    /// </summary>
     public static partial class Extensions
     {
         /// <summary>
@@ -33,6 +47,7 @@ namespace Microsoft.Windows.Toolkit.UI
                     return result;
                 }
             }
+
             return null;
         }
 
@@ -42,7 +57,8 @@ namespace Microsoft.Windows.Toolkit.UI
         /// <typeparam name="tType">Type to search for.</typeparam>
         /// <param name="element">Parent element.</param>
         /// <returns>Descendant control or null if not found.</returns>
-        public static tType FindDescendant<tType>(this DependencyObject element) where tType : DependencyObject
+        public static tType FindDescendant<tType>(this DependencyObject element)
+            where tType : DependencyObject
         {
             tType retValue = null;
             var childrenCount = VisualTreeHelper.GetChildrenCount(element);
@@ -74,7 +90,8 @@ namespace Microsoft.Windows.Toolkit.UI
         /// <typeparam name="tType">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
-        public static tType FindAscendant<tType>(this FrameworkElement element) where tType : FrameworkElement
+        public static tType FindAscendant<tType>(this FrameworkElement element)
+            where tType : FrameworkElement
         {
             if (element.Parent == null)
             {
@@ -95,7 +112,8 @@ namespace Microsoft.Windows.Toolkit.UI
         /// <typeparam name="tType">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
-        public static tType FindVisualAscendant<tType>(this FrameworkElement element) where tType : FrameworkElement
+        public static tType FindVisualAscendant<tType>(this FrameworkElement element)
+            where tType : FrameworkElement
         {
             var parent = VisualTreeHelper.GetParent(element);
 

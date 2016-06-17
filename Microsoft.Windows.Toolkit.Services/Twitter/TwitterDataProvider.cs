@@ -1,5 +1,14 @@
-﻿using Microsoft.Windows.Toolkit.Services.Core;
-using Microsoft.Windows.Toolkit.Services.Exceptions;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +19,9 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Windows.Toolkit.Services.Exceptions;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
@@ -62,7 +74,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             return await GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
         }
 
-        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -85,15 +98,18 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                     {
                         throw new UserNotFoundException(screenName);
                     }
+
                     if ((int)response.StatusCode == 429)
                     {
                         throw new TooManyRequestsException();
                     }
+
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         throw new OAuthKeysRevokedException();
                     }
                 }
+
                 throw;
             }
         }
@@ -103,7 +119,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             return await SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
         }
 
-        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -125,11 +142,13 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                     {
                         throw new TooManyRequestsException();
                     }
+
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         throw new OAuthKeysRevokedException();
                     }
                 }
+
                 throw;
             }
         }
@@ -140,29 +159,35 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 throw new ConfigParameterNullException("Query");
             }
+
             if (tokens == null)
             {
                 throw new ConfigParameterNullException("Tokens");
             }
+
             if (string.IsNullOrEmpty(tokens.ConsumerKey))
             {
                 throw new OAuthKeysNotPresentException("ConsumerKey");
             }
+
             if (string.IsNullOrEmpty(tokens.ConsumerSecret))
             {
                 throw new OAuthKeysNotPresentException("ConsumerSecret");
             }
+
             if (string.IsNullOrEmpty(tokens.AccessToken))
             {
                 throw new OAuthKeysNotPresentException("AccessToken");
             }
+
             if (string.IsNullOrEmpty(tokens.AccessTokenSecret))
             {
                 throw new OAuthKeysNotPresentException("AccessTokenSecret");
             }
         }
 
-        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser) where TSchema : SchemaBase
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser)
+            where TSchema : SchemaBase
         {
             try
             {
@@ -182,11 +207,13 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                     {
                         throw new TooManyRequestsException();
                     }
+
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         throw new OAuthKeysRevokedException();
                     }
                 }
+
                 throw;
             }
         }
@@ -205,6 +232,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 result = sr.ReadToEnd();
             }
+
             return result;
         }
 
@@ -242,16 +270,27 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         public const string Verb = "GET";
 
         public Uri EncodedRequestUri { get; private set; }
+
         public Uri RequestUriWithoutQuery { get; private set; }
+
         public IEnumerable<OAuthParameter> QueryParams { get; private set; }
+
         public OAuthParameter Version { get; private set; }
+
         public OAuthParameter Nonce { get; private set; }
+
         public OAuthParameter Timestamp { get; private set; }
+
         public OAuthParameter SignatureMethod { get; private set; }
+
         public OAuthParameter ConsumerKey { get; private set; }
+
         public OAuthParameter ConsumerSecret { get; private set; }
+
         public OAuthParameter Token { get; private set; }
+
         public OAuthParameter TokenSecret { get; private set; }
+
         public OAuthParameter Signature
         {
             get
@@ -259,6 +298,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 return new OAuthParameter("oauth_signature", GenerateSignature());
             }
         }
+
         public string AuthorizationHeader
         {
             get
@@ -352,6 +392,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 yield return queryParam;
             }
+
             yield return Version;
             yield return Nonce;
             yield return Timestamp;
@@ -391,6 +432,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 return uri.AbsoluteUri;
             }
+
             return uri.AbsoluteUri.Replace(uri.Query, string.Empty);
         }
 
@@ -401,6 +443,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 result.Append(string.Concat(":", uri.Port));
             }
+
             result.Append(uri.AbsolutePath);
 
             return result.ToString();
@@ -410,6 +453,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     internal class OAuthParameter
     {
         public string Key { get; set; }
+
         public string Value { get; set; }
 
         public OAuthParameter(string key, string value)
@@ -434,6 +478,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 format = "{0}={1}";
             }
+
             return string.Format(CultureInfo.InvariantCulture, format, OAuthEncoder.UrlEncode(Key), OAuthEncoder.UrlEncode(Value));
         }
     }
@@ -475,12 +520,12 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
         public static string GenerateHash(string input, string key)
         {
-            //MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm("HMAC_SHA1");
-            //IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(key, BinaryStringEncoding.Utf8);
-            //CryptographicKey cryptoKey = mac.CreateKey(keyMaterial);
-            //IBuffer hash = CryptographicEngine.Sign(cryptoKey, CryptographicBuffer.ConvertStringToBinary(input, BinaryStringEncoding.Utf8));
-            //return CryptographicBuffer.EncodeToBase64String(hash);
-            return String.Empty;
+            // MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm("HMAC_SHA1");
+            // IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(key, BinaryStringEncoding.Utf8);
+            // CryptographicKey cryptoKey = mac.CreateKey(keyMaterial);
+            // IBuffer hash = CryptographicEngine.Sign(cryptoKey, CryptographicBuffer.ConvertStringToBinary(input, BinaryStringEncoding.Utf8));
+            // return CryptographicBuffer.EncodeToBase64String(hash);
+            return string.Empty;
         }
     }
 }

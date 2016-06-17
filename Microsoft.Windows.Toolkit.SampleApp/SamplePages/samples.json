@@ -74,5 +74,17 @@
         "Icon": "/SamplePages/SlidableListItem/icon.png"
       }
     ]
+  },
+  {
+    "Name": "Notifications",
+    "Icon": "Icons/Notifications.png",
+    "Samples": [      
+    ]
+  },
+  {
+    "Name": "Services",
+    "Icon": "Icons/Services.png",
+    "Samples": [      
+    ]
   }
 ]

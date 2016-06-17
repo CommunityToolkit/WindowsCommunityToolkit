@@ -1,6 +1,19 @@
-﻿using Microsoft.Windows.Toolkit.UI;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Threading.Tasks;
+
+using Microsoft.Windows.Toolkit.UI;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -35,6 +48,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element.GetCompositeTransform(), "TranslateX", element.GetTranslateX(), x, duration, easingFunction);
             }
+
             return null;
         }
 
@@ -56,7 +70,6 @@ namespace Microsoft.Windows.Toolkit
         /// <returns>
         /// Returns an await-able task.
         /// </returns>
-
         public static async Task AnimateXAsync(this FrameworkElement element, double x, double duration = 250, EasingFunctionBase easingFunction = null)
         {
             if (element.GetTranslateX() != x)
@@ -89,6 +102,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element.GetCompositeTransform(), "TranslateY", element.GetTranslateY(), y, duration, easingFunction);
             }
+
             return null;
         }
 
@@ -142,6 +156,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element, "Width", element.ActualWidth, width, duration, easingFunction);
             }
+
             return null;
         }
 
@@ -195,6 +210,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element, "Height", element.ActualHeight, height, duration, easingFunction);
             }
+
             return null;
         }
 
@@ -237,6 +253,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element, "Opacity", element.Opacity, 1.0, duration, easingFunction);
             }
+
             return null;
         }
 
@@ -268,6 +285,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 return AnimateDoubleProperty(element, "Opacity", element.Opacity, 0.0, duration, easingFunction);
             }
+
             return null;
         }
 

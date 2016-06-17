@@ -27,8 +27,8 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Controls.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Controls.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,6 +41,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.Controls.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Controls.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -50,6 +51,7 @@
     <Compile Include="Carousel\Carousel.Members.cs" />
     <Compile Include="Carousel\Carousel.Slots.cs" />
     <Compile Include="Carousel\CarouselSlot.cs" />
+    <None Include="Microsoft.Windows.Toolkit.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

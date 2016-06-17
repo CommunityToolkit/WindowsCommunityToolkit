@@ -1,12 +1,28 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Collections.Generic;
 
-using Windows.UI.Xaml;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    partial class Carousel
+    /// <summary>
+    /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
+    /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
+    /// You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.
+    /// </summary>
+    public partial class Carousel
     {
         private double _offset;
         private double _slotWidth = 1;

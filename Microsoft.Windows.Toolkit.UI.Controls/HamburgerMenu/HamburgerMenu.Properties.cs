@@ -4,6 +4,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    /// <summary>
+    /// The HamburgerMenu is based on a SplitView control. By default it contains a HamburgerButton and a ListView to display menu items.
+    /// </summary>
     public partial class HamburgerMenu
     {
         /// <summary>
@@ -65,7 +68,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Gets of sets a value that specifies how the pane and content areas are shown.
+        /// Gets or sets gets of sets a value that specifies how the pane and content areas are shown.
         /// </summary>
         public SplitViewDisplayMode DisplayMode
         {
@@ -92,7 +95,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies whether the pane is expanded to its full width.
+        /// Gets or sets a value indicating whether gets or sets a value that specifies whether the pane is expanded to its full width.
         /// </summary>
         public bool IsPaneOpen
         {
@@ -101,7 +104,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// 	Gets or sets an object source used to generate the content of the menu. 
+        /// Gets or sets an object source used to generate the content of the menu.
         /// </summary>
         public object ItemsSource
         {
@@ -110,7 +113,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the DataTemplate used to display each item. 
+        /// Gets or sets the DataTemplate used to display each item.
         /// </summary>
         public DataTemplate ItemTemplate
         {

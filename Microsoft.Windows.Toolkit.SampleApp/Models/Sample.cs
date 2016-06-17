@@ -1,4 +1,15 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
@@ -6,27 +17,32 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
+
 using Microsoft.Windows.Toolkit.SampleApp.Models;
+
+using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
-    using global::Windows.UI;
-    using global::Windows.UI.Xaml.Media;
-
     public class Sample
     {
         private PropertyDescriptor _propertyDescriptor;
 
         public string Name { get; set; }
+
         public string Type { get; set; }
+
         public string About { get; set; }
+
         public string CodeUrl { get; set; }
+
         public string XamlCodeFile { get; set; }
+
         public string XamlCode { get; private set; }
+
         public string Icon { get; set; }
 
-        static Type LookForTypeByName(string typeName)
+        private static Type LookForTypeByName(string typeName)
         {
             // First search locally
             var result = System.Type.GetType(typeName);
@@ -57,7 +73,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             {
                 if (_propertyDescriptor == null)
                 {
-                    return "";
+                    return string.Empty;
                 }
 
                 var result = XamlCode;

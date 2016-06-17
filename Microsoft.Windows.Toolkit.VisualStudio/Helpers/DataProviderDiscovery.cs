@@ -1,12 +1,21 @@
-﻿using Microsoft.Windows.Toolkit.Services.Core;
-using Microsoft.Windows.Toolkit.VisualStudio.Models;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Windows.Toolkit.VisualStudio.Models;
 
 namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 {
@@ -14,7 +23,6 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
     {
         private DataProviderDiscovery()
         {
-
         }
 
         private static DataProviderDiscovery _instance;
@@ -41,7 +49,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
             var allTypesWithCustomAttributes = from t in allTypesInAssembly where t.CustomAttributes.Count() > 0 select t;
 
             var dataProviderModels = from t in allTypesWithCustomAttributes
-                                where t.CustomAttributes.Any(attr => { return (attr.AttributeType == typeof(ConnectedServiceProviderAttribute)); })
+                                where t.CustomAttributes.Any(attr => { return attr.AttributeType == typeof(ConnectedServiceProviderAttribute); })
                                 select new DataProviderModel
                                 {
                                     ProviderPublisherKeyName = (t.GetCustomAttribute(typeof(ConnectedServiceProviderAttribute)) as ConnectedServiceProviderAttribute).ProviderPublisherKeyName,
@@ -52,7 +60,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
             return dataProviderModels.ToList();
         }
 
-        public Dictionary<string,string> FindOAuthPropertiesByProviderPublisherKeyName(string providerPublisherKeyName)
+        public Dictionary<string, string> FindOAuthPropertiesByProviderPublisherKeyName(string providerPublisherKeyName)
         {
             Dictionary<string, string> oAuthProperties = new Dictionary<string, string>();
 
@@ -71,7 +79,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
                              where t.GetCustomAttributes(typeof(ConnectedServiceOAuthAttribute)).Any(attr => { return (attr as ConnectedServiceOAuthAttribute).ProviderPublisherKeyName == providerPublisherKeyName; })
                              select t).SingleOrDefault();
 
-            if(oAuthType != null)
+            if (oAuthType != null)
             {
                 var props = from p in oAuthType.GetProperties() select new KeyValuePair<string, string>(p.Name, Constants.OAUTH_KEY_VALUE_DEFAULT_REQUIRED_VALUE);
                 oAuthProperties = props.ToDictionary(t => t.Key, t => t.Value);
@@ -86,7 +94,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 
         public string FindQueryParamStringNameByProviderPublisherKeyName(string providerPublisherKeyName)
         {
-            string queryParamStringName = String.Empty;
+            string queryParamStringName = string.Empty;
 
             var currentAssembly = Instance.GetType().GetTypeInfo().Assembly;
             var referencedAssemblies = currentAssembly.GetReferencedAssemblies();

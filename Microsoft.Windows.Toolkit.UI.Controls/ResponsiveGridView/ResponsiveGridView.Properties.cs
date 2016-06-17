@@ -1,4 +1,14 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -6,7 +16,17 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    public sealed partial class ResponsiveGridView 
+    /// <summary>
+    /// The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the
+    /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
+    /// to different form factors automatically.
+    /// </summary>
+    /// <remarks>
+    /// The number and the width of items are calculated based on the
+    /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
+    /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
+    /// new column.</remarks>
+    public sealed partial class ResponsiveGridView
     {
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
@@ -36,7 +56,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="OneRowModeEnabled"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OneRowModeEnabledProperty =
-            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(ResponsiveGridView), new PropertyMetadata(false, ((o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); })));
+            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(ResponsiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
         /// Identifies the <see cref="VerticalScroll"/> dependency property.
@@ -155,6 +175,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (double)GetValue(ItemWidthProperty); }
             set { SetValue(ItemWidthProperty, value); }
-        }        
+        }
+
+        private static int CalculateColumns(double containerWidth, double itemWidth)
+        {
+            var columns = (int)(containerWidth / itemWidth);
+            if (columns == 0)
+            {
+                columns = 1;
+            }
+
+            return columns;
+        }
     }
 }

@@ -1,13 +1,14 @@
-﻿using AppStudio.DataProviders.$ServiceInstance.Name$;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AppStudio.DataProviders. ???;
+
 namespace $ProjectDefaultNamespace$
 {
-    public class $ServiceInstance.Name$ProviderHelper
+    public class $Name$ProviderHelper
     {
         private $ServiceInstance.Name$ProviderHelper()
         {
@@ -32,6 +33,7 @@ namespace $ProjectDefaultNamespace$
 
             return new $ServiceInstance.Name$DataProvider(tokens);
         }
+
         public $ServiceInstance.Name$DataConfig Config { get; set; }
         public async Task<List<$ServiceInstance.Name$Schema>> RequestAsync()
         {

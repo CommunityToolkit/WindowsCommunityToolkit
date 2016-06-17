@@ -1,7 +1,14 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio.ConnectedServices;
-using Microsoft.Windows.Toolkit.VisualStudio.Helpers;
-using NuGet.VisualStudio;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -11,32 +18,56 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using EnvDTE;
+
+using Microsoft.VisualStudio.ConnectedServices;
+using Microsoft.Windows.Toolkit.VisualStudio.Helpers;
+
+using NuGet.VisualStudio;
+
 namespace Microsoft.Windows.Toolkit.VisualStudio
 {
     [ConnectedServiceHandlerExport("Microsoft.Windows.Toolkit.VisualStudio.SocialServices", AppliesTo = "CSharp + WindowsAppContainer")]
     internal class UWPToolkitConnectedServiceHandler : ConnectedServiceHandler
     {
-
         [Import]
         internal IVsPackageInstaller PackageInstaller { get; set; }
 
         [Import]
         internal IVsPackageInstallerServices PackageInstallerServices { get; set; }
 
-
-        private static Tuple<string, Version>[] requiredPackages = new Tuple<string, Version>[]
+        private static Tuple<string, Version>[] requiredPackages = new[]
         {
             Tuple.Create("Newtonsoft.Json", new Version("8.0.3")),
             Tuple.Create("WindowsAppStudio.DataProviders", new Version("1.3.0")),
-        }; 
+        };
+
+        private static Version GetNuGetPackageVersion(IVsPackageMetadata package)
+        {
+            Version version;
+            string versionString = package.VersionString;
+            int dashIndex = versionString.IndexOf('-');
+            if (dashIndex != -1)
+            {
+                // Trim off any pre-release versions.  Because the handler should never install pre-release
+                // versions they can be ignored when comparing versions.
+                versionString = versionString.Substring(0, dashIndex);
+            }
+
+            if (!Version.TryParse(versionString, out version))
+            {
+                Debug.Fail("Unable to parse the NuGet package version " + versionString);
+            }
+
+            return version;
+        }
 
         public async override Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-
             Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
             var toolkitServicesInstance = context.ServiceInstance as UWPToolkitConnectedServiceInstance;
 
-            string templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/ProviderHelperTemplate.cs";
+            string templateResourceUri = "pack://application:,,/" + GetType().Assembly.ToString() + ";component/Templates/ProviderHelperTemplate.cs";
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding and generating helper classes");
             string generatedHelperPath = Path.Combine(
                 context.HandlerHelper.GetServiceArtifactsRootFolder(),
@@ -45,13 +76,13 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
             AddFileOptions addFileOptions = new AddFileOptions();
 
-            string tokensPropertiesAndValues = String.Empty;
+            string tokensPropertiesAndValues = string.Empty;
 
             foreach (var oAuthKeyValue in toolkitServicesInstance.Metadata)
             {
                 if (oAuthKeyValue.Value.ToString() != Constants.OAUTH_KEY_VALUE_DEFAULT_NOT_REQUIRED_VALUE)
                 {
-                    tokensPropertiesAndValues = String.Concat(tokensPropertiesAndValues, $@"tokens.{oAuthKeyValue.Key} = ""{oAuthKeyValue.Value.ToString()}""; ");
+                    tokensPropertiesAndValues = string.Concat(tokensPropertiesAndValues, $@"tokens.{oAuthKeyValue.Key} = ""{oAuthKeyValue.Value.ToString()}""; ");
                 }
             }
 
@@ -63,7 +94,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
             await context.HandlerHelper.AddFileAsync(templateResourceUri, generatedHelperPath, addFileOptions);
 
-            templateResourceUri = "pack://application:,,/" + this.GetType().Assembly.ToString() + ";component/Templates/DataProviderConnectorTemplate.cs";
+            templateResourceUri = "pack://application:,,/" + GetType().Assembly.ToString() + ";component/Templates/DataProviderConnectorTemplate.cs";
 
             generatedHelperPath = Path.Combine(
                 context.HandlerHelper.GetServiceArtifactsRootFolder(),
@@ -78,11 +109,10 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                 configHelper.SetAppSetting(
                     $@"{context.ServiceInstance.Name}:ConnectionString",
                     $@"AppId={toolkitServicesInstance.Metadata["AppId"]};AppSecret={toolkitServicesInstance.Metadata["AppSecret"]};AccessToken={toolkitServicesInstance.Metadata["AccessToken"]};AccessTokenSecret={toolkitServicesInstance.Metadata["AccessTokenSecret"]};DataProviderType={toolkitServicesInstance.DataProviderModel.ProviderType}",
-                    context.ServiceInstance.Name
-                );
+                    context.ServiceInstance.Name);
                 configHelper.Save();
             }
-            
+
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, "Adding NuGets");
             await AddNuGetPackagesAsync(context, project);
 
@@ -99,7 +129,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
-            IEnumerable<IVsPackageMetadata> installedPackages = this.PackageInstallerServices.GetInstalledPackages(project);
+            IEnumerable<IVsPackageMetadata> installedPackages = PackageInstallerServices.GetInstalledPackages(project);
             Dictionary<string, string> packagesToInstall = new Dictionary<string, string>();
 
             foreach (Tuple<string, Version> requiredPackage in requiredPackages)
@@ -166,7 +196,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
 
             if (packagesToInstall.Any())
             {
-                this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
+                PackageInstaller.InstallPackagesFromVSExtensionRepository(
                     "Microsoft.Windows.Toolkit.VisualStudio.Chris Barker.432a25eb-7cbc-413e-8e31-0e8090bfa5fc",
                     false,
                     false,
@@ -174,27 +204,5 @@ namespace Microsoft.Windows.Toolkit.VisualStudio
                     packagesToInstall);
             }
         }
-
-        private static Version GetNuGetPackageVersion(IVsPackageMetadata package)
-        {
-            Version version;
-            string versionString = package.VersionString;
-            int dashIndex = versionString.IndexOf('-');
-            if (dashIndex != -1)
-            {
-                // Trim off any pre-release versions.  Because the handler should never install pre-release
-                // versions they can be ignored when comparing versions.
-                versionString = versionString.Substring(0, dashIndex);
-            }
-
-            if (!Version.TryParse(versionString, out version))
-            {
-                Debug.Fail("Unable to parse the NuGet package version " + versionString);
-            }
-
-            return version;
-        }
-
-
     }
 }

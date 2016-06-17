@@ -11,6 +11,8 @@ Need a small intro here....
  * VariableSizedGridView: *The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height*
  * RangeSelector: *The RangeSlector is a double slider control for range values*
  * ImageEx: *The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps. Source images are downloaded asynchronously showing a load indicator while in progress. Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed*
+ * HeaderedTextBlock: *The HeaderedTextBlock control is designed to provide a header for readonly text. This control is useful for displaying readonly forms*
+ * SlidableListItem: *A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root, but it is not required*
 * **Connected services**
  * Facebook
  * Twitter
@@ -23,6 +25,10 @@ Need a small intro here....
  * GetPackagedFileStreamAsync
  * GetLocalFileStreamAsync
  * IsLocalFileExistsAsync
+ * SaveTextToFileAsync
+ * SaveBytesToFileAsync
+ * GetTextFromFileAsync
+ * GetBytesFromFileAsync
  * IRandomAccessStream.ReadTextAsync
  * string.Compress
  * string.Decompress
