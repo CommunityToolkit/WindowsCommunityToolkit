@@ -51,12 +51,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             nameof(Orientation),
             typeof(Orientation),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(
-                Orientation.Vertical,
-                (d, e) =>
-                    {
-                        ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue);
-                    }));
+            new PropertyMetadata(Orientation.Vertical, (d, e) => { ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue);}));
 
         /// <summary>
         /// Gets or sets the header style.
@@ -67,6 +62,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (Style)GetValue(HeaderStyleProperty);
             }
+
             set
             {
                 SetValue(HeaderStyleProperty, value);
@@ -82,6 +78,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (Style)GetValue(TextStyleProperty);
             }
+
             set
             {
                 SetValue(TextStyleProperty, value);
@@ -97,6 +94,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (string)GetValue(HeaderProperty);
             }
+
             set
             {
                 SetValue(HeaderProperty, value);
@@ -112,6 +110,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (string)GetValue(TextProperty);
             }
+
             set
             {
                 SetValue(TextProperty, value);
@@ -127,6 +126,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 return (Orientation)GetValue(OrientationProperty);
             }
+
             set
             {
                 SetValue(OrientationProperty, value);

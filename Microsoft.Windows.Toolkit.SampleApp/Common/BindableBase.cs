@@ -12,12 +12,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Common
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Set<T>(ref T storage, T value, [CallerMemberName()]string propertyName = null)
+        public void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
-            if (!object.Equals(storage, value))
+            if (!Equals(storage, value))
             {
                 storage = value;
-                this.RaisePropertyChanged(propertyName);
+                RaisePropertyChanged(propertyName);
             }
         }
     }

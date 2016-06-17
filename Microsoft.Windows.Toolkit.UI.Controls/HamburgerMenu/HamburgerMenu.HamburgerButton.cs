@@ -30,17 +30,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty HamburgerFontSizeProperty = DependencyProperty.Register(nameof(HamburgerFontSize), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(18.0));
 
         /// <summary>
-        /// Identifies the <see cref="HamburgerIcon"/> dependency property.
+        /// Identifies the <see cref="HamburgerMenuTemplate"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HamburgerIconProperty = DependencyProperty.Register(nameof(HamburgerIcon), typeof(IconElement), typeof(HamburgerMenu), new PropertyMetadata(default(IconElement)));
+        public static readonly DependencyProperty HamburgerMenuTemplateProperty = DependencyProperty.Register(nameof(HamburgerMenuTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the hamburger icon.
         /// </summary>
-        public IconElement HamburgerIcon
+        public DataTemplate HamburgerMenuTemplate
         {
-            get { return (IconElement)GetValue(HamburgerIconProperty); }
-            set { SetValue(HamburgerIconProperty, value); }
+            get { return (DataTemplate)GetValue(HamburgerMenuTemplateProperty); }
+            set { SetValue(HamburgerMenuTemplateProperty, value); }
         }
 
         /// <summary>

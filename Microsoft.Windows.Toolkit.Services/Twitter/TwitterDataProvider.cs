@@ -291,21 +291,9 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
         public OAuthParameter TokenSecret { get; private set; }
 
-        public OAuthParameter Signature
-        {
-            get
-            {
-                return new OAuthParameter("oauth_signature", GenerateSignature());
-            }
-        }
+        public OAuthParameter Signature => new OAuthParameter("oauth_signature", GenerateSignature());
 
-        public string AuthorizationHeader
-        {
-            get
-            {
-                return GenerateAuthorizationHeader();
-            }
-        }
+        public string AuthorizationHeader => GenerateAuthorizationHeader();
 
         public OAuthRequestBuilder(Uri requestUri, TwitterOAuthTokens tokens)
         {

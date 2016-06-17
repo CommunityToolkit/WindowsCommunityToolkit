@@ -10,12 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Collections.Generic;
-using System.Windows.Input;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System.Windows.Input;
+
     /// <summary>
     /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
     /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.

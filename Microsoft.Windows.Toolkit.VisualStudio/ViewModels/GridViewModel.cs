@@ -39,12 +39,9 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.ViewModels
             supportedDataProviders = DataProviderDiscovery.Instance.FindAllDataProviders();
         }
 
-        public override IEnumerable<Tuple<string, string>> ColumnMetadata
-        {
-            get { return columnMetadata ?? (columnMetadata = RetrieveColumnMetadata()); }
-        }
+        public override IEnumerable<Tuple<string, string>> ColumnMetadata => columnMetadata ?? (columnMetadata = RetrieveColumnMetadata());
 
-        private List<Tuple<string, string>> RetrieveColumnMetadata()
+          private List<Tuple<string, string>> RetrieveColumnMetadata()
         {
             var columns = new List<Tuple<string, string>>();
 

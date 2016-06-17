@@ -9,11 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
-
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

@@ -9,13 +9,15 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.Windows.Input;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System.Windows.Input;
+
     /// <summary>
     /// The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the
     /// total display available space. It reacts to changes in the layout as well as the content so it can adapt

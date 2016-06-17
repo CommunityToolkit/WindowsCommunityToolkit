@@ -6,6 +6,9 @@ using Windows.Storage.Streams;
 
 namespace Microsoft.Windows.Toolkit
 {
+    /// <summary>
+    /// This class provides static helper methods.
+    /// </summary>
     public static partial class Helpers
     {
         /// <summary>
@@ -68,7 +71,7 @@ namespace Microsoft.Windows.Toolkit
         /// The <see cref="string"/> name for the file.
         /// </param>
         /// <param name="fileExtension">
-        /// The extension for the file. 
+        /// The extension for the file.
         /// </param>
         /// <param name="options">
         /// The creation collision options. Default is ReplaceExisting.

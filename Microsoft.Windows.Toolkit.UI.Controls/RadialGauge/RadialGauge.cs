@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
-using System.Numerics;
+
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System.Numerics;
+
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
     /// </summary>

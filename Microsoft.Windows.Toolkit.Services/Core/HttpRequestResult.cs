@@ -25,6 +25,6 @@ namespace Microsoft.Windows.Toolkit.Services.Core
 
         public string Result { get; set; }
 
-        public bool Success { get { return StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(Result); } }
+        public bool Success => StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(Result);
     }
 }

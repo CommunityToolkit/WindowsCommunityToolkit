@@ -30,7 +30,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </param>
         public void Show(string message)
         {
-            this.ShowAsync(message).ConfigureAwait(false);
+            ShowAsync(message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </param>
         public void Show(string title, string message)
         {
-            this.ShowAsync(title, message).ConfigureAwait(false);
+            ShowAsync(title, message).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </param>
         public void Show(string message, params IUICommand[] commands)
         {
-            this.ShowAsync(message, commands).ConfigureAwait(false);
+            ShowAsync(message, commands).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </param>
         public void Show(string title, string message, params IUICommand[] commands)
         {
-            this.ShowAsync(title, message, commands).ConfigureAwait(false);
+            ShowAsync(title, message, commands).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </returns>
         public async Task ShowAsync(string message)
         {
-            await this.ShowAsync(null, message, null);
+            await ShowAsync(null, message, null);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </returns>
         public async Task ShowAsync(string title, string message)
         {
-            await this.ShowAsync(title, message, null);
+            await ShowAsync(title, message, null);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </returns>
         public async Task ShowAsync(string message, params IUICommand[] commands)
         {
-            await this.ShowAsync(null, message, commands);
+            await ShowAsync(null, message, commands);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
                 CoreDispatcherPriority.Normal,
                 async () =>
                     {
-                        await this._dialogSemaphore.WaitAsync();
+                        await _dialogSemaphore.WaitAsync();
 
                         var dialog = new MessageDialog(message)
                                          {
@@ -168,7 +168,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
                         }
 
                         await dialog.ShowAsync();
-                        this._dialogSemaphore.Release();
+                        _dialogSemaphore.Release();
                         tcs.SetResult(true);
                     });
 
@@ -181,7 +181,7 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -193,13 +193,13 @@ namespace Microsoft.Windows.Toolkit.UI.Services
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposing || this._dialogSemaphore == null)
+            if (!disposing || _dialogSemaphore == null)
             {
                 return;
             }
 
-            this._dialogSemaphore.Dispose();
-            this._dialogSemaphore = null;
+            _dialogSemaphore.Dispose();
+            _dialogSemaphore = null;
         }
     }
 }

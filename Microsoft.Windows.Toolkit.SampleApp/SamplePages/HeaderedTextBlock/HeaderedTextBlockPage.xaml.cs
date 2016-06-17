@@ -8,7 +8,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
     {
         public HeaderedTextBlockPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
