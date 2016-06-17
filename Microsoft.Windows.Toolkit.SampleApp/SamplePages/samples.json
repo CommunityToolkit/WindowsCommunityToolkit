@@ -58,6 +58,14 @@
         "Icon": "/SamplePages/ImageEx/icon.jpg"
       },
       {
+        "Name": "HeaderedTextBlock",
+        "Type": "HeaderedTextBlockPage",
+        "About": "The HeaderedTextBlock control is designed to provide a header for readonly text. This control is useful for displaying readonly forms.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "HeaderedTextBlockCode.txt",
+        "Icon": "/SamplePages/SearchBox/icon.jpg"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",

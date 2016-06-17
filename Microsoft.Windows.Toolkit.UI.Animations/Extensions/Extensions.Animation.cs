@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace Microsoft.Windows.Toolkit
     /// <summary>
     /// Defines a collection of helper methods for UI <see cref="Storyboard"/> animation.
     /// </summary>
-    public static class AnimationExtensions
+    public static partial class Extensions
     {
         /// <summary>
         /// Animates a <see cref="FrameworkElement"/> on the X axis.

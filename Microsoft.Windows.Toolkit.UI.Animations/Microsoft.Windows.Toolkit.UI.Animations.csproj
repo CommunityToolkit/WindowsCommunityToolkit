@@ -48,7 +48,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\AnimationExtensions.cs" />
+    <Compile Include="Extensions\Extensions.Animation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

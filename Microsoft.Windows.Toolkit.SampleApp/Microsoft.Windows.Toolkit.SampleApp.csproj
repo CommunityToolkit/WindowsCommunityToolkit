@@ -137,6 +137,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
+	<Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
@@ -189,6 +190,9 @@
       <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\HamburgerMenu\OptionMenuItem.cs" />
+	<Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
+      <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
@@ -249,6 +253,10 @@
     <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+	<Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
