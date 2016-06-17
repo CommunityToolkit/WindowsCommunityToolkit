@@ -27,13 +27,7 @@ namespace Microsoft.Windows.Toolkit.VisualStudio.Helpers
 
         private static DataProviderDiscovery _instance;
 
-        public static DataProviderDiscovery Instance
-        {
-            get
-            {
-                return _instance ?? (_instance = new DataProviderDiscovery());
-            }
-        }
+        public static DataProviderDiscovery Instance => _instance ?? (_instance = new DataProviderDiscovery());
 
         public List<DataProviderModel> FindAllDataProviders()
         {

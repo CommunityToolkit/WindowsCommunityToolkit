@@ -18,9 +18,9 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     /// </summary>
     internal static class InternalExtensionMethods
     {
-        private static Regex RemoveCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
-        private static Regex RemoveScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-        private static Regex RemoveStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
+        private static readonly Regex RemoveScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Truncates the specified string to the specified length.

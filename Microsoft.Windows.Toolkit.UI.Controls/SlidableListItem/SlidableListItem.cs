@@ -41,13 +41,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Indetifies the <see cref="LeftLabel"/> property
         /// </summary>
         public static readonly DependencyProperty LeftLabelProperty =
-            DependencyProperty.Register("LeftLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(""));
+            DependencyProperty.Register("LeftLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Indetifies the <see cref="RightLabel"/> property
         /// </summary>
         public static readonly DependencyProperty RightLabelProperty =
-            DependencyProperty.Register("RightLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(""));
+            DependencyProperty.Register("RightLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Indetifies the <see cref="LeftForeground"/> property
@@ -91,10 +91,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty RightCommandProperty =
             DependencyProperty.Register("RightCommand", typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
 
-        const string PartContentGrid = "ContentGrid";
-        const string PartCommandContainer = "CommandContainer";
-        const string PartLeftCommandPanel = "LeftCommandPanel";
-        const string PartRightCommandPanel = "RightCommandPanel";
+        private const string PartContentGrid = "ContentGrid";
+        private const string PartCommandContainer = "CommandContainer";
+        private const string PartLeftCommandPanel = "LeftCommandPanel";
+        private const string PartRightCommandPanel = "RightCommandPanel";
 
         // Content Container
         private Grid _contentGrid;
@@ -129,7 +129,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public SlidableListItem()
         {
-            this.DefaultStyleKey = typeof(SlidableListItem);
+            DefaultStyleKey = typeof(SlidableListItem);
         }
 
         /// <summary>
@@ -201,7 +201,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
+            {
                 return;
+            }
 
             var x = _transform.TranslateX;
             _contentAnimation.From = x;
@@ -229,9 +231,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-
             if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
+            {
                 return;
+            }
 
             _transform.TranslateX += e.Delta.Translation.X;
             var abs = Math.Abs(_transform.TranslateX);
@@ -247,9 +250,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _rightCommandPanel.Opacity = 0;
 
                 if (abs < ActivationWidth)
+                {
                     _leftCommandTransform.TranslateX = _transform.TranslateX / 2;
+                }
                 else
+                {
                     _leftCommandTransform.TranslateX = 20;
+                }
             }
             else
             {
@@ -262,15 +269,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _leftCommandPanel.Opacity = 0;
 
                 if (abs < ActivationWidth)
+                {
                     _rightCommandTransform.TranslateX = _transform.TranslateX / 2;
+                }
                 else
+                {
                     _rightCommandTransform.TranslateX = -20;
+                }
             }
-
         }
 
         /// <summary>
-        /// Gets or sets the amount of pixels the content needs to be swiped for an 
+        /// Gets or sets the amount of pixels the content needs to be swiped for an
         /// action to be requested
         /// </summary>
         public double ActivationWidth
@@ -365,7 +375,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public ICommand LeftCommand
         {
-            get { return (ICommand)GetValue(LeftCommandProperty); }
+            get
+            {
+                return (ICommand)GetValue(LeftCommandProperty);
+            }
+
             set
             {
                 SetValue(LeftCommandProperty, value);
@@ -377,16 +391,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public ICommand RightCommand
         {
-            get { return (ICommand)GetValue(RightCommandProperty); }
+            get
+            {
+                return (ICommand)GetValue(RightCommandProperty);
+            }
+
             set
             {
-                //if (value != null)
-                //{
-                //    value.CanExecuteChanged += RightCommand_CanExecuteChanged;
-                //}
                 SetValue(RightCommandProperty, value);
             }
         }
-
     }
 }

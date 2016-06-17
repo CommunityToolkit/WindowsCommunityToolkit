@@ -1,28 +1,23 @@
-﻿using Microsoft.Windows.Toolkit.SampleApp.Models;
-using Microsoft.Windows.Toolkit.UI.Controls;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls;
+using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Windows.Toolkit.UI.Controls;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-
-    public sealed partial class SlidableListItemPage : Page
+    public sealed partial class SlidableListItemPage
     {
-        private ObservableCollection<Item> _items;
+        private readonly ObservableCollection<Item> _items;
 
         public SlidableListItemPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)
             {
-                items.Add(new Item() { Title = "Item " + i });
-
+                items.Add(new Item { Title = "Item " + i });
             }
 
             _items = items;

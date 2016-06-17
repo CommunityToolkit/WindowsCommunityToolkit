@@ -23,9 +23,6 @@ namespace Microsoft.Windows.Toolkit.Services.Core
             this.value = value;
         }
 
-        public string Value
-        {
-            get { return value; }
-        }
+        public string Value => value;
     }
 }

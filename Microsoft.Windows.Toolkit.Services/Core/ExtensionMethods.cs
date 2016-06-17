@@ -19,7 +19,7 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     /// </summary>
     public static class ExtensionMethods
     {
-        private static Regex RemoveHtmlTagsRegex = new Regex(@"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>");
+        private static readonly Regex RemoveHtmlTagsRegex = new Regex(@"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>");
 
         public static string ToSafeString(this object value)
         {
