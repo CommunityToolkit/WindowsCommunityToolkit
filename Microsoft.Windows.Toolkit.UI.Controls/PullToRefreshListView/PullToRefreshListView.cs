@@ -36,7 +36,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="OverscrollLimit"/> property.
         /// </summary>
         public static readonly DependencyProperty OverscrollLimitProperty =
-            DependencyProperty.Register("OverscrollLimit", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(0.4));
+            DependencyProperty.Register("OverscrollLimit", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(0.4, OverscrollLimitPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="PullThreshold"/> property.
@@ -255,30 +255,29 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public double OverscrollLimit
         {
-            get
-            {
-                return (double)GetValue(OverscrollLimitProperty);
-            }
+            get { return (double)GetValue(OverscrollLimitProperty); }
+            set { SetValue(OverscrollLimitProperty, value); }
+        }
 
-            set
+        private static void OverscrollLimitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            double value = (double)e.NewValue;
+            PullToRefreshListView view = d as PullToRefreshListView;
+
+            if (value >= 0 && value <= 1)
             {
-                if (value >= 0 && value <= 1)
+                if (DesignMode.DesignModeEnabled)
                 {
-                    if (DesignMode.DesignModeEnabled)
-                    {
-                        _overscrollMultiplier = value * 10;
-                    }
-                    else
-                    {
-                        _overscrollMultiplier = (value * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                    }
-
-                    SetValue(OverscrollLimitProperty, value);
+                    view._overscrollMultiplier = value * 10;
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException("OverscrollCoefficient has to be a double value between 0 and 1 inclusive.");
+                    view._overscrollMultiplier = (value * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
                 }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("OverscrollCoefficient has to be a double value between 0 and 1 inclusive.");
             }
         }
 
