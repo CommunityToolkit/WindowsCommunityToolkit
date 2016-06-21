@@ -115,6 +115,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            if (_scroller != null)
+            {
+                _scroller.DirectManipulationCompleted -= Scroller_DirectManipulationCompleted;
+                _scroller.DirectManipulationStarted -= Scroller_DirectManipulationStarted;
+            }
+
+            if (_refreshIndicatorBorder != null)
+            {
+                _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
+            }
+
             _root = GetTemplateChild(PARTROOT) as Border;
             _scroller = this.GetTemplateChild(PARTSCROLLER) as ScrollViewer;
             _contentTransform = GetTemplateChild(PARTCONTENTTRANSFORM) as CompositeTransform;
@@ -123,31 +134,39 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             _refreshIndicatorTransform = GetTemplateChild(PARTINDICATORTRANSFORM) as CompositeTransform;
             _defaultIndicatorContent = GetTemplateChild(PARTDEFAULTINDICATORCONTENT) as TextBlock;
 
-            _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
-            _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
-
-            _defaultIndicatorContent.Visibility = RefreshIndicatorContent == null ? Visibility.Visible : Visibility.Collapsed;
-
-            _refreshIndicatorBorder.SizeChanged += (s, e) =>
+            if (_root != null &&
+                _scroller != null &&
+                _contentTransform != null &
+                _scrollerContent != null &&
+                _refreshIndicatorBorder != null &&
+                _refreshIndicatorTransform != null &&
+                _defaultIndicatorContent != null)
             {
-                _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
-            };
+                _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
+                _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
 
-            if (DesignMode.DesignModeEnabled)
-            {
-                _overscrollMultiplier = OverscrollLimit * 10;
-            }
-            else
-            {
-                _overscrollMultiplier = (OverscrollLimit * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                _defaultIndicatorContent.Visibility = RefreshIndicatorContent == null ? Visibility.Visible : Visibility.Collapsed;
+
+                _refreshIndicatorBorder.SizeChanged += RefreshIndicatorBorder_SizeChanged;
+
+                if (DesignMode.DesignModeEnabled)
+                {
+                    _overscrollMultiplier = OverscrollLimit * 10;
+                }
+                else
+                {
+                    _overscrollMultiplier = (OverscrollLimit * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                }
             }
 
             base.OnApplyTemplate();
         }
 
-        /// <summary>
-        /// Event handler for when the user has started scrolling
-        /// </summary>
+        private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
+        }
+
         private void Scroller_DirectManipulationStarted(object sender, object e)
         {
             // sometimes the value gets stuck at 0.something, so checking if less than 1
@@ -157,9 +176,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Event handler for when the user has stoped scrolling
-        /// </summary>
         private void Scroller_DirectManipulationCompleted(object sender, object e)
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
