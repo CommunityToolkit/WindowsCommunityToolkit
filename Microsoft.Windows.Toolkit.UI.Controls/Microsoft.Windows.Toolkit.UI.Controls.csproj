@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-	<Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
+    <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\Carousel.Items.cs" />
@@ -68,6 +68,8 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PullToRefreshListView\PullToRefreshListView.cs" />
+    <Compile Include="PullToRefreshListView\RefreshProgressEventArgs.cs" />
     <Compile Include="RadialGauge\RadialGauge.cs" />
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
@@ -88,12 +90,16 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-	<Page Include="HeaderedTextBlock\HeaderedTextBlock.xaml">
+    <Page Include="HeaderedTextBlock\HeaderedTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="ImageEx\ImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PullToRefreshListView\PullToRefreshListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
