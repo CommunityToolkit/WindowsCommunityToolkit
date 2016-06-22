@@ -51,7 +51,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             nameof(Orientation),
             typeof(Orientation),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(Orientation.Vertical, (d, e) => { ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue);}));
+            new PropertyMetadata(Orientation.Vertical, (d, e) => { ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue); }));
 
         /// <summary>
         /// Gets or sets the header style.
