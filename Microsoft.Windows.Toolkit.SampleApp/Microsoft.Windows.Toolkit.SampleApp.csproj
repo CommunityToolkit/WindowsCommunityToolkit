@@ -140,6 +140,8 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
@@ -199,6 +201,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
+      <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
@@ -269,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -316,9 +325,7 @@
       <Name>Microsoft.Windows.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mvvm\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

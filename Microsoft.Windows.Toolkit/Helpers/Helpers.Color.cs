@@ -134,9 +134,9 @@ namespace Microsoft.Windows.Toolkit
         }
 
         /// <summary>
-        /// Converts a <see cref="Color"/> value to a string representation of the value in hex.
+        /// Converts a Color value to a string representation of the value in hex.
         /// </summary>
-        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <param name="color">The Color to convert.</param>
         /// <returns>Returns a string representing the hex value.</returns>
         public static string ToHex(this Color color)
         {
