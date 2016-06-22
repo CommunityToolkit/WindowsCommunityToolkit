@@ -1,4 +1,15 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using System.Windows.Input;
 using Windows.Devices.Input;
 using Windows.UI;
@@ -96,31 +107,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
 
-        // Content Container
         private Grid _contentGrid;
-
-        // transform for sliding content
         private CompositeTransform _transform;
-
-        // container for command content
         private Grid _commandContainer;
-
-        // container for left command content
         private StackPanel _leftCommandPanel;
-
-        // transform for left command content
         private CompositeTransform _leftCommandTransform;
-
-        // container for right command content
         private StackPanel _rightCommandPanel;
-
-        // transform for right command content
         private CompositeTransform _rightCommandTransform;
-
-        // doubleanimation for snaping back to default position
         private DoubleAnimation _contentAnimation;
-
-        // storyboard for snaping back to default position
         private Storyboard _contentStoryboard;
 
         /// <summary>
@@ -362,7 +356,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the ability to slide the control with the mouse. False by default
+        /// Gets or sets a value indicating whether it has the ability to slide the control with the mouse. False by default
         /// </summary>
         public bool MouseSlidingEnabled
         {

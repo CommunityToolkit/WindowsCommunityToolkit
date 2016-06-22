@@ -80,6 +80,14 @@
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "SlidableListItemCode.txt",
         "Icon": "/SamplePages/SlidableListItem/icon.png"
+      },
+      {
+        "Name": "PullToRefreshListView",
+        "Type": "PullToRefreshListViewPage",
+        "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "PullToRefreshListViewCode.txt",
+        "Icon": "/SamplePages/PullToRefreshListView/icon.png"
       }
     ]
   },
