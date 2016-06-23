@@ -95,7 +95,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 DataContext = sample;
                 Title.Text = sample.Name;
 
-                Properties.Visibility = (propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+                Properties.Visibility = (propertyDesc != null && propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+
+                XAMLSampleButton.Visibility = propertyDesc != null ? Visibility.Visible : Visibility.Collapsed;
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
             }
@@ -130,6 +132,18 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {
             CodePanel.Visibility = Visibility.Collapsed;
+        }
+
+        private async void CodeSampleButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var sample = DataContext as Sample;
+
+            if (sample != null)
+            {
+                CodeRenderer.CSharpSource = await sample.GetCSharpSource();
+            }
+
+            CodePanel.Visibility = Visibility.Visible;
         }
     }
 }

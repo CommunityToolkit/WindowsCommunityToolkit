@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.BingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bing="using:Microsoft.Windows.Toolkit.Services.Bing"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="BingSchemaTemplate" x:DataType="bing:BingSchema">
+            <Grid Margin="0,5,10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Bind Title}" Grid.Row="0" Grid.Column="0" FontWeight="Bold" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock Text="{x:Bind Published}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock Text="{x:Bind Summary}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap"></TextBlock>
+                <HyperlinkButton Content="{x:Bind Link}" NavigateUri="{x:Bind Link}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"></HyperlinkButton>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <TextBox Header="Request:" x:Name="SearchText" Text="UWP"></TextBox>
+            <Button Content="Search" x:Name="SearchButton" Click="SearchButton_OnClick" Margin="0,10,0,0"></Button>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemTemplate="{StaticResource BingSchemaTemplate}" x:Name="ListView">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>
+ 

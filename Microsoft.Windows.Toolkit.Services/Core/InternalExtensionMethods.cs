@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,7 +9,9 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
+using System;
 using System.Text.RegularExpressions;
 
 namespace Microsoft.Windows.Toolkit.Services.Core
@@ -18,8 +21,19 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     /// </summary>
     internal static class InternalExtensionMethods
     {
+        /// <summary>
+        /// Regular expression for removing comments.
+        /// </summary>
         private static readonly Regex RemoveCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
+
+        /// <summary>
+        /// Regular expression for removing scripts.
+        /// </summary>
         private static readonly Regex RemoveScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Regular expression for removing styles.
+        /// </summary>
         private static readonly Regex RemoveStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -51,16 +65,19 @@ namespace Microsoft.Windows.Toolkit.Services.Core
                     {
                         return value.Substring(0, length) + "...";
                     }
-                    else
-                    {
-                        return value.Substring(0, length);
-                    }
+
+                    return value.Substring(0, length);
                 }
             }
 
             return value ?? string.Empty;
         }
 
+        /// <summary>
+        /// Applies regular expressions to string of HTML to remove comments, scripts, styles.
+        /// </summary>
+        /// <param name="html">HTML string to fix</param>
+        /// <returns>Fixed HTML string</returns>
         public static string FixHtml(this string html)
         {
             // Remove comments

@@ -126,6 +126,7 @@
                     <AppBarButton x:Name="AboutSampleButton" Label="About" Icon="Help" Flyout="{StaticResource AboutFlyout}" />
                     <AppBarSeparator />
                     <AppBarButton x:Name="XAMLSampleButton" Label="XAML" Icon="Page2" Click="XAMLSampleButton_OnClick" />
+                    <AppBarButton x:Name="CodeSampleButton" Label="Code" Icon="Page2" Click="CodeSampleButton_OnClick" />
                 </CommandBar.PrimaryCommands>
             </CommandBar>
         </Grid>

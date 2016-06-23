@@ -133,6 +133,8 @@
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Bing Service\BingCode.txt" />
+    <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.txt" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
@@ -189,6 +191,9 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
+    <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
+      <DependentUpon>BingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
     </Compile>
@@ -258,6 +263,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\Bing Service\BingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -312,6 +321,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.csproj">
+      <Project>{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}</Project>
+      <Name>Microsoft.Windows.Toolkit.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>

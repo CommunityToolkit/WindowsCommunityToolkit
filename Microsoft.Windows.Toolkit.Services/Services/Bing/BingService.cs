@@ -1,0 +1,78 @@
+﻿// ******************************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
+// ******************************************************************
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Windows.Toolkit.Services.Core;
+
+namespace Microsoft.Windows.Toolkit.Services.Bing
+{
+    /// <summary>
+    /// Class for connecting to Bing.
+    /// </summary>
+    public class BingService : IDataService<BingDataProvider, BingSchema, BingSearchConfig>
+    {
+        /// <summary>
+        /// Private singleton field for BingDataProvider.
+        /// </summary>
+        private static BingDataProvider bingDataProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BingService"/> class.
+        /// Default private constructor.
+        /// </summary>
+        private BingService()
+        {
+        }
+
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static BingService instance;
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static BingService Instance => instance ?? (instance = new BingService());
+
+        /// <summary>
+        /// Returns a reference to an instance of the underlying data provider.
+        /// </summary>
+        /// <returns>BingDataProvider instance.</returns>
+        public BingDataProvider GetProvider()
+        {
+            return bingDataProvider ?? (bingDataProvider = new BingDataProvider());
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<BingSchema>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
+        {
+            List<BingSchema> queryResults = new List<BingSchema>();
+
+            var results = await GetProvider().LoadDataAsync(config, maxRecords);
+
+            foreach (var result in results)
+            {
+                queryResults.Add(result);
+            }
+
+            return queryResults;
+        }
+    }
+}

@@ -100,7 +100,15 @@
   {
     "Name": "Services",
     "Icon": "Icons/Services.png",
-    "Samples": [      
+    "Samples": [
+      {
+        "Name": "Bing Service",
+        "Type": "BingPage",
+        "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeFile": "BingCode.txt", 
+        "Icon": "/SamplePages/Bing Service/icon.png"
+      }
     ]
   }
 ]
