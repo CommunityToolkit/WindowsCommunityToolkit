@@ -98,6 +98,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 Properties.Visibility = (propertyDesc != null && propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
 
                 XAMLSampleButton.Visibility = propertyDesc != null ? Visibility.Visible : Visibility.Collapsed;
+                CodeSampleButton.Visibility = propertyDesc != null ? Visibility.Collapsed : Visibility.Visible;
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
             }
