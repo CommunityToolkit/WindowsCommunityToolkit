@@ -9,33 +9,17 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Pages
+using Microsoft.Windows.Toolkit.Services.Bing;
+using Windows.UI.Xaml;
+
+namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class SamplePicker
+    public sealed partial class FacebookPage
     {
-        public SamplePicker()
+        public FacebookPage()
         {
             InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            DataContext = e.Parameter as SampleCategory;
-        }
-
-        private async void SamplesList_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            var sample = e.ClickedItem as Sample;
-
-            if (sample != null)
-            {
-                await Shell.Current.NavigateToSampleAsync(sample);
-            }
         }
     }
 }

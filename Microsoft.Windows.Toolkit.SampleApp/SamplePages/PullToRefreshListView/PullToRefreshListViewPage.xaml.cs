@@ -1,21 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using System;
 using Microsoft.Windows.Toolkit.UI.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class PullToRefreshListViewPage : Page
+    public sealed partial class PullToRefreshListViewPage
     {
         private readonly ObservableCollection<Item> _items;
 
         public PullToRefreshListViewPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _items = new ObservableCollection<Item>();
             AddItems();
         }
@@ -36,7 +35,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         {
             for (int i = 0; i < 10; i++)
             {
-                _items.Insert(0, new Item() { Title = "Item " + new Random().Next(10000) });
+                _items.Insert(0, new Item { Title = "Item " + new Random().Next(10000) });
             }
         }
 

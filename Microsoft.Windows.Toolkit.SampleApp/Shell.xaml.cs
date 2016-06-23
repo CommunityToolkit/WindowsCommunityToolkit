@@ -109,6 +109,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     {
                         InfoAreaPivot.Items.Insert(0, PropertiesPivotItem);
                     }
+
                     InfoAreaPivot.SelectedIndex = 0;
                 }
                 else
@@ -145,7 +146,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     break;
 
                 case "MediumState":
-                    // if pane is open, close it
+                    // If pane is open, close it
                     if (isPaneOpen)
                     {
                         Grid.SetRowSpan(InfoAreaGrid, 1);
@@ -153,9 +154,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
-                    else 
+                    else
                     {
-                        // pane is closed, so let's open it
+                        // ane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
                         isPaneOpen = true;
@@ -165,7 +166,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     break;
 
                 case "WideState":
-                    // if pane is open, close it
+                    // If pane is open, close it
                     if (isPaneOpen)
                     {
                         Grid.SetColumnSpan(InfoAreaGrid, 1);
@@ -173,9 +174,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
-                    else 
+                    else
                     {
-                        // pane is closed, so let's open it
+                        // Pane is closed, so let's open it
                         Grid.SetColumnSpan(InfoAreaGrid, 2);
                         Grid.SetColumn(InfoAreaGrid, 0);
                         isPaneOpen = true;
