@@ -26,7 +26,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
         <ListView Name="SamplesList" ItemsSource="{Binding Samples}" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
     </Grid>
 </Page>

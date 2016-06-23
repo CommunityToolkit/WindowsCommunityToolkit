@@ -59,8 +59,7 @@
                         <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
                             <ContentControl ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Margin="{TemplateBinding HamburgerMargin}"
-                                            Foreground="{TemplateBinding Foreground}"
-                                            FontSize="{TemplateBinding HamburgerFontSize}" />
+                                            Foreground="{TemplateBinding Foreground}"/>
                         </Button>
                     </Grid>
                 </ControlTemplate>

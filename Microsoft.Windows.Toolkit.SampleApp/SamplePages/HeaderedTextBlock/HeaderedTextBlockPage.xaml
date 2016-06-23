@@ -7,7 +7,7 @@
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:HeaderedTextBlock Header="{Binding Header.Value, Mode=OneWay}" 
                                     Text="{Binding Text.Value, Mode=OneWay}" 
                                     Orientation="{Binding Orientation.Value, Mode=OneWay}"
