@@ -20,14 +20,14 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
     /// <summary>
     /// Parse Bing results into strong type.
     /// </summary>
-    public class BingParser : IParser<BingSchema>
+    public class BingParser : IParser<BingResult>
     {
         /// <summary>
         /// Take string data and parse into strong data type.
         /// </summary>
         /// <param name="data">String data.</param>
         /// <returns>Returns strong type.</returns>
-        public IEnumerable<BingSchema> Parse(string data)
+        public IEnumerable<BingResult> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -37,7 +37,7 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
             RssParser rssParser = new RssParser();
             IEnumerable<RssSchema> syndicationItems = rssParser.Parse(data);
             return from r in syndicationItems
-                    select new BingSchema
+                    select new BingResult
                     {
                         InternalID = r.InternalID,
                         Title = r.Title,

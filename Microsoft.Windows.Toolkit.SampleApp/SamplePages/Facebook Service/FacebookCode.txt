@@ -1,12 +1,29 @@
-if (string.IsNullOrEmpty(SearchText.Text))
+FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
+if (!await FacebookService.Instance.LoginAsync())
 {
+    ShareBox.Visibility = Visibility.Collapsed;
+    var error = new MessageDialog("Unable to log with Facebook");
+    await error.ShowAsync();
     return;
 }
 
-var searchConfig = new BingSearchConfig
-{
-    Country = BingCountry.UnitedStates,
-    Query = SearchText.Text
-};
+FacebookDataConfig config;
 
-ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
+switch (QueryType.SelectedIndex)
+{
+    case 1:
+        config = FacebookDataConfig.MyPosts;
+        break;
+    case 2:
+        config = FacebookDataConfig.MyTagged;
+        break;
+    default:
+        config = FacebookDataConfig.MyFeed;
+        break;
+}
+
+ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
+
+ShareBox.Visibility = Visibility.Visible;
+
+ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();

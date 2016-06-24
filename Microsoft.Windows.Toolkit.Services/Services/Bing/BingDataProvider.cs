@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
     /// <summary>
     /// Data Provider for connecting to Bing service.
     /// </summary>
-    public class BingDataProvider : DataProviderBase<BingSearchConfig, BingSchema>
+    public class BingDataProvider : DataProviderBase<BingSearchConfig, BingResult>
     {
         /// <summary>
         /// Base Url for service.
@@ -61,7 +61,7 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override IParser<BingSchema> GetDefaultParser(BingSearchConfig config)
+        protected override IParser<BingResult> GetDefaultParser(BingSearchConfig config)
         {
             return new BingParser();
         }

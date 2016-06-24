@@ -25,10 +25,9 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     public interface IDataService<T, U, V>
     {
         /// <summary>
-        /// Returns the underlying data service provider.
+        /// Gets the underlying data service provider.
         /// </summary>
-        /// <returns>Returns an instance of the underlying data service provider.</returns>
-        T GetProvider();
+        T Provider { get; }
 
         /// <summary>
         /// Makes a request for a list of data from the given service provider.

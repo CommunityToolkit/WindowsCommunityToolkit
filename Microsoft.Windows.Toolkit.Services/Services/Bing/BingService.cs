@@ -21,7 +21,7 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
     /// <summary>
     /// Class for connecting to Bing.
     /// </summary>
-    public class BingService : IDataService<BingDataProvider, BingSchema, BingSearchConfig>
+    public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>
     {
         /// <summary>
         /// Private singleton field for BingDataProvider.
@@ -47,13 +47,9 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
         public static BingService Instance => instance ?? (instance = new BingService());
 
         /// <summary>
-        /// Returns a reference to an instance of the underlying data provider.
+        /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        /// <returns>BingDataProvider instance.</returns>
-        public BingDataProvider GetProvider()
-        {
-            return bingDataProvider ?? (bingDataProvider = new BingDataProvider());
-        }
+        public BingDataProvider Provider => bingDataProvider ?? (bingDataProvider = new BingDataProvider());
 
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
@@ -61,11 +57,11 @@ namespace Microsoft.Windows.Toolkit.Services.Bing
         /// <param name="config">TwitterDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<BingSchema>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
+        public async Task<List<BingResult>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
         {
-            List<BingSchema> queryResults = new List<BingSchema>();
+            List<BingResult> queryResults = new List<BingResult>();
 
-            var results = await GetProvider().LoadDataAsync(config, maxRecords);
+            var results = await Provider.LoadDataAsync(config, maxRecords);
 
             foreach (var result in results)
             {

@@ -7,7 +7,7 @@
     xmlns:bing="using:Microsoft.Windows.Toolkit.Services.Bing"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="BingSchemaTemplate" x:DataType="bing:BingSchema">
+        <DataTemplate x:Key="BingSchemaTemplate" x:DataType="bing:BingResult">
             <Grid Margin="0,5,10,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>

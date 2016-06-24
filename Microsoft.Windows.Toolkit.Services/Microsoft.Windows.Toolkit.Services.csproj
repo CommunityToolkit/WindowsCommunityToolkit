@@ -53,6 +53,7 @@
     <Compile Include="Core\IDataService{T,U,V}.cs" />
     <Compile Include="Core\IOAuthDataService{T,U,V,W}.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
+    <Compile Include="Services\Bing\BingResult.cs" />
     <Compile Include="Services\Bing\BingSearchConfig.cs" />
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="OAuth\OAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
+    <Compile Include="Services\Facebook\FacebookDataHost.cs" />
+    <Compile Include="Services\Facebook\FacebookPicture.cs" />
+    <Compile Include="Services\Facebook\FacebookPost.cs" />
     <Compile Include="Services\Facebook\FacebookService.cs" />
     <Compile Include="Services\Twitter\TwitterProvider.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
@@ -75,11 +79,9 @@
     <Compile Include="Exceptions\TooManyRequestsException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Services\Facebook\FacebookDataConfig.cs" />
-    <Compile Include="Services\Facebook\FacebookSchema.cs" />
     <Compile Include="Core\HttpRequestResult.cs" />
     <Compile Include="Core\HttpRequestSettings.cs" />
     <Compile Include="Core\IParser.cs" />
-    <Compile Include="Services\Bing\BingSchema.cs" />
     <Compile Include="Core\HttpRequest.cs" />
     <Compile Include="Rss\AtomParser.cs" />
     <Compile Include="Rss\BaseRssParser.cs" />

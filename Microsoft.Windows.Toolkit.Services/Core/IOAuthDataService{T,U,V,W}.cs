@@ -50,14 +50,5 @@ namespace Microsoft.Windows.Toolkit.Services.Core
         /// </summary>
         /// <returns>Returns a Task to enable awaiting on method call.</returns>
         Task LogoutAsync();
-
-        /// <summary>
-        /// Enables posting to the timeline/newsfeed for the given service.
-        /// </summary>
-        /// <param name="title">Title of the post.</param>
-        /// <param name="link">Link to be presented in the post.</param>
-        /// <param name="description">Description of the post.</param>
-        /// <returns>Returns a success or failure indicator.</returns>
-        Task<bool> PostToFeedAsync(string title, string link, string description);
     }
 }

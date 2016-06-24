@@ -76,17 +76,19 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Returns a reference to an instance of the underlying data provider.
+        /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        /// <returns>TwitterDataProvider instance.</returns>
-        public TwitterDataProvider GetProvider()
+        public TwitterDataProvider Provider
         {
-            if (!isInitialized)
+            get
             {
-                throw new InvalidOperationException("Provider not initialized.");
-            }
+                if (!isInitialized)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
 
-            return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens));
+                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens));
+            }
         }
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             List<TwitterSchema> queryResults = new List<TwitterSchema>();
 
-            var results = await GetProvider().LoadDataAsync(config, maxRecords);
+            var results = await Provider.LoadDataAsync(config, maxRecords);
 
             foreach (var result in results)
             {
@@ -115,9 +117,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
-            var provider = GetProvider();
-
-            return await provider.LoginAsync();
+            return await Provider.LoginAsync();
         }
 
         /// <summary>
@@ -148,9 +148,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <returns>Returns success or failure of post request.</returns>
         public async Task<bool> PostToFeedAsync(string title, string link = "", string description = "")
         {
-            var provider = GetProvider();
-
-            return await provider.TweetStatus(title);
+            return await Provider.TweetStatus(title);
         }
     }
 }

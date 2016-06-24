@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Core;
@@ -22,7 +23,6 @@ using Microsoft.Windows.Toolkit.Services.Services.Facebook;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
-using Windows.UI.Popups;
 using winsdkfb;
 using winsdkfb.Graph;
 
@@ -32,17 +32,12 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
     /// Class for connecting to underlying service data provider.
     /// Developer may modify the OAuth settings in the constructor after generation, but be aware that these will get overwritten if re-adding the Connected Service instance for this provider.
     /// </summary>
-    public class FacebookService : IOAuthDataService<FBSession, FacebookSchema, FacebookDataConfig, FacebookOAuthTokens>
+    public class FacebookService : IOAuthDataService<FBSession, FacebookPost, FacebookDataConfig, FacebookOAuthTokens>
     {
         /// <summary>
         /// Field for tracking initialization status.
         /// </summary>
         private bool isInitialized;
-
-        /// <summary>
-        /// Reference to required Facebook requiredPermissions for the app.
-        /// </summary>
-        private FBPermissions permissions;
 
         /// <summary>
         /// Reference to paginated array object for handling multiple pages of returned service list data.
@@ -52,7 +47,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <summary>
         /// Strongly typed list of service query data.
         /// </summary>
-        private List<FacebookSchema> queryResults;
+        private List<FacebookPost> queryResults;
 
         /// <summary>
         /// Gets a Windows Store ID that can be used during development time
@@ -102,10 +97,8 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
 
             isInitialized = true;
 
-            var provider = GetProvider();
-
-            provider.FBAppId = appId;
-            provider.WinAppId = windowsStoreId;
+            Provider.FBAppId = appId;
+            Provider.WinAppId = windowsStoreId;
 
             return true;
         }
@@ -121,18 +114,25 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         public static FacebookService Instance => instance ?? (instance = new FacebookService());
 
         /// <summary>
-        /// Returns a reference to an instance of the underlying data provider.
+        /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        /// <returns>FBSession instance.</returns>
-        public FBSession GetProvider()
+        public FBSession Provider
         {
-            if (!isInitialized)
+            get
             {
-                throw new InvalidOperationException("Provider not initialized.");
-            }
+                if (!isInitialized)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
 
-            return FBSession.ActiveSession;
+                return FBSession.ActiveSession;
+            }
         }
+
+        /// <summary>
+        /// Gets the current logged user name.
+        /// </summary>
+        public string LoggedUser => !Provider.LoggedIn ? null : FBSession.ActiveSession.User.Name;
 
         /// <summary>
         /// Log in to the underlying service instance.
@@ -191,13 +191,11 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <returns>Success or failure.</returns>
         public async Task<bool> LoginAsync(List<string> requiredPermissions)
         {
-            permissions = new FBPermissions(requiredPermissions);
+            var permissions = new FBPermissions(requiredPermissions);
 
-            var provider = GetProvider();
-
-            if (provider != null)
+            if (Provider != null)
             {
-                var result = await provider.LoginAsync(permissions, SessionLoginBehavior.WebAuth);
+                var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebAuth);
 
                 if (result.Succeeded)
                 {
@@ -222,9 +220,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <returns>Task to support await of async call.</returns>
         public async Task LogoutAsync()
         {
-            var provider = GetProvider();
-
-            await provider.LogoutAsync();
+            await Provider.LogoutAsync();
         }
 
         /// <summary>
@@ -233,17 +229,15 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <param name="config">TwitterDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<FacebookSchema>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
+        public async Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
         {
-            var provider = GetProvider();
-
-            if (provider.LoggedIn)
+            if (Provider.LoggedIn)
             {
-                queryResults = new List<FacebookSchema>();
+                queryResults = new List<FacebookPost>();
 
                 PropertySet propertySet = new PropertySet { { "fields", "id,message,from,created_time,link,full_picture" } };
 
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookSchema>);
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPost>);
 
                 paginatedArray = new FBPaginatedArray(config.Query, propertySet, factory);
 
@@ -271,25 +265,62 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         }
 
         /// <summary>
-        /// Enables posting data to the timeline of the underlying service provider instance.
+        /// Returns the <see cref="FacebookPicture"/> object associated with the logged user
         /// </summary>
-        /// <param name="title">Title of the post.</param>
-        /// <param name="link">Link contained as part of the post.</param>
-        /// <param name="description">Description of the post.</param>
-        /// <returns>Task to support await of async call.</returns>
-        public async Task<bool> PostToFeedAsync(string title, string link, string description)
+        /// <returns>A <see cref="FacebookPicture"/> object</returns>
+        public async Task<FacebookPicture> GetUserPictureInfoAsync()
         {
-            var provider = GetProvider();
-
-            if (provider.LoggedIn)
+            if (Provider.LoggedIn)
             {
-                var parameters = new PropertySet { { "title", title }, { "link", link }, { "description", description } };
+                queryResults = new List<FacebookPost>();
 
-                var result = await provider.ShowFeedDialogAsync(parameters);
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookDataHost<FacebookPicture>>);
+
+                PropertySet propertySet = new PropertySet { { "redirect", "0" } };
+                var singleValue = new FBSingleValue("/me/picture", propertySet, factory);
+
+                var result = await singleValue.GetAsync();
 
                 if (result.Succeeded)
                 {
-                    await new MessageDialog("Posted.").ShowAsync();
+                    return ((FacebookDataHost<FacebookPicture>)result.Object).Data;
+                }
+
+                throw new Exception(result.ErrorInfo?.Message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserPictureInfoAsync();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Enables posting data to the timeline of the underlying service provider instance.
+        /// </summary>
+        /// <param name="title">Title of the post.</param>
+        /// <param name="description">Description of the post.</param>
+        /// <param name="link">Link contained as part of the post. Cannot be null</param>
+        /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
+        /// <returns>Task to support await of async call.</returns>
+        public async Task<bool> PostToFeedAsync(string title, string description, string link, string pictureUrl = null)
+        {
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet { { "title", title }, { "description", description }, { "link", link } };
+
+                if (!string.IsNullOrEmpty(pictureUrl))
+                {
+                    parameters.Add(new KeyValuePair<string, object>("picture", pictureUrl));
+                }
+
+                var result = await Provider.ShowFeedDialogAsync(parameters);
+
+                if (result.Succeeded)
+                {
                     return true;
                 }
 
@@ -300,7 +331,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await PostToFeedAsync(title, link, description);
+                return await PostToFeedAsync(title, description, link, pictureUrl);
             }
 
             return false;
@@ -314,7 +345,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <returns>Task to support await of async call.</returns>
         private async Task ProcessResultsAsync(IReadOnlyList<object> results, int maxRecords)
         {
-            foreach (FacebookSchema result in results)
+            foreach (FacebookPost result in results)
             {
                 if (queryResults.Count < maxRecords)
                 {

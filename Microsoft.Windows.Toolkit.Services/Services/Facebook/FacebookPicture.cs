@@ -11,42 +11,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Windows.Toolkit.Services.Facebook
 {
     /// <summary>
-    /// Strongly typed object for presenting data returned from service provider.
+    /// Strongly typed object for presenting picture data returned from service provider.
     /// </summary>
-    public class FacebookSchema
+    public class FacebookPicture
     {
         /// <summary>
-        /// Gets or sets id property.
+        /// Gets or sets a value indicating whether the picture is a silhouette or not.
         /// </summary>
-        public string Id { get; set; }
+        public bool Is_Silhouette { get; set; }
 
         /// <summary>
-        /// Gets or sets message or post text.
+        /// Gets or sets an url to the picture.
         /// </summary>
-        public string Message { get; set; }
-
-        /// <summary>
-        /// Gets or sets time the entity instance was created.
-        /// </summary>
-        public string CreatedTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets a link to the entity instance.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets a link to the accompanying image.
-        /// </summary>
-        public string Full_Picture { get; set; }
+        public string Url { get; set; }
     }
 }
