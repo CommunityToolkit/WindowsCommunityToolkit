@@ -11,12 +11,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Microsoft.Windows.Toolkit.Services.Facebook
 {
     /// <summary>
@@ -30,8 +24,8 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         public string AppId { get; set; }
 
         /// <summary>
-        /// Gets or sets callback Uri.
+        /// Gets or sets Windows Store ID.
         /// </summary>
-        public string CallbackUri { get; set; }
+        public string WindowsStoreId { get; set; }
     }
 }

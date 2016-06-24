@@ -37,7 +37,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <summary>
         /// Gets or sets time the entity instance was created.
         /// </summary>
-        public DateTime CreatedTime { get; set; }
+        public string CreatedTime { get; set; }
 
         /// <summary>
         /// Gets or sets a link to the entity instance.

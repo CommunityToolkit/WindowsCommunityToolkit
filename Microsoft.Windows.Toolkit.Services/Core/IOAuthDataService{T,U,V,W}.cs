@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit.Services.Core
     /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
     /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
     /// <typeparam name="W">OAuth Token information.</typeparam>
-    public interface IOAuthDataServiceProvider<T, U, V, W>
+    public interface IOAuthDataService<T, U, V, W> : IDataService<T, U, V>
     {
         /// <summary>
         /// Initialize the provider with relevant oAuthTokens.
@@ -31,20 +31,6 @@ namespace Microsoft.Windows.Toolkit.Services.Core
         /// <param name="oAuthTokens">Instantiated oAuthTokens.</param>
         /// <returns>Success or failure.</returns>
         bool Initialize(W oAuthTokens);
-
-        /// <summary>
-        /// Returns the underlying data service provider.
-        /// </summary>
-        /// <returns>Returns an instance of the underlying data service provider.</returns>
-        T GetProvider();
-
-        /// <summary>
-        /// Makes a request for a list of data from the given service provider.
-        /// </summary>
-        /// <param name="config">Describes the query on the list data request.</param>
-        /// <param name="maxRecords">Specifies an upper limit to the number of records returned.</param>
-        /// <returns>Returns a strongly typed list of results from the service.</returns>
-        Task<List<U>> RequestAsync(V config, int maxRecords);
 
         /// <summary>
         /// Log in to the underlying data service provider.

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Windows.Toolkit.Services.Bing;
+using Microsoft.Windows.Toolkit.Services.Facebook;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
@@ -20,6 +20,14 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         public FacebookPage()
         {
             InitializeComponent();
+        }
+
+        private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
+            await FacebookService.Instance.LoginAsync();
+
+            ListView.ItemsSource = await FacebookService.Instance.RequestAsync(FacebookDataConfig.MyPosts, 50);
         }
     }
 }

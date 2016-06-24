@@ -22,7 +22,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     /// Generated class for connecting to underlying service data provider.
     /// Developer may modify the OAuth settings in the GetProvider() method after generation, but be aware that these will get overwritten if re-adding the Connected Service instance for this provider.
     /// </summary>
-    public class TwitterProvider : IOAuthDataServiceProvider<TwitterDataProvider, TwitterSchema, TwitterDataConfig, TwitterOAuthTokens>
+    public class TwitterProvider : IOAuthDataService<TwitterDataProvider, TwitterSchema, TwitterDataConfig, TwitterOAuthTokens>
     {
         /// <summary>
         /// Private singleton field for TwitterDataProvider.

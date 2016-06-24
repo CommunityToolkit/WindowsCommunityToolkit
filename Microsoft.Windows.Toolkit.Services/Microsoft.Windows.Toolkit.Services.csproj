@@ -51,14 +51,16 @@
     <Compile Include="Core\DelegateCommand{T}.cs" />
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
-    <Compile Include="Core\IOAuthDataServiceProvider{T,U,V,W}.cs" />
+    <Compile Include="Core\IOAuthDataService{T,U,V,W}.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
     <Compile Include="Services\Bing\BingSearchConfig.cs" />
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
-    <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="OAuth\OAuthTokenType.cs" />
+    <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\Facebook\FacebookPermissions.cs" />
+    <Compile Include="Services\Facebook\FacebookService.cs" />
     <Compile Include="Services\Twitter\TwitterProvider.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
     <Compile Include="Core\InternalExtensionMethods.cs" />
@@ -74,7 +76,6 @@
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Services\Facebook\FacebookDataConfig.cs" />
     <Compile Include="Services\Facebook\FacebookSchema.cs" />
-    <Compile Include="Services\Facebook\FacebookShareModel.cs" />
     <Compile Include="Core\HttpRequestResult.cs" />
     <Compile Include="Core\HttpRequestSettings.cs" />
     <Compile Include="Core\IParser.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Rss\RssParser.cs" />
     <Compile Include="Rss\RssSchema.cs" />
     <Compile Include="Rss\RssType.cs" />
-    <Compile Include="Services\Facebook\FacebookProvider.cs" />
     <Compile Include="OAuth\OAuthEncoder.cs" />
     <Compile Include="OAuth\OAuthParameter.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthRequest.cs" />
