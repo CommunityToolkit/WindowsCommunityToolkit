@@ -68,5 +68,23 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Stretch)GetValue(PlaceholderStretchProperty); }
             set { SetValue(PlaceholderStretchProperty, value); }
         }
+
+        /// <summary>
+        /// Gets or sets the placeholder animation duration.
+        /// </summary>
+        /// <value>
+        /// The placeholder animation duration.
+        /// </value>
+        public TimeSpan PlaceholderAnimationDuration
+        {
+            get { return (TimeSpan)GetValue(PlaceholderAnimationDurationProperty); }
+            set { SetValue(PlaceholderAnimationDurationProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="PlaceholderAnimationDuration"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
+            DependencyProperty.Register("PlaceholderAnimationDuration", typeof(TimeSpan), typeof(ImageEx), new PropertyMetadata(TimeSpan.Zero));
     }
 }

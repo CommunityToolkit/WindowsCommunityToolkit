@@ -63,15 +63,19 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_isInitialized)
             {
                 _image.Source = null;
-                if (source == null)
-                {
-                    return;
-                }
 
                 _placeholderImage.Source = null;
                 if (PlaceholderSource != null)
                 {
-                    _placeholderImage.Visibility = Visibility.Visible;
+                    _placeholderImage.Source = this.PlaceholderSource;
+                    _placeholderImage.Stretch = this.PlaceholderStretch;
+
+                    _placeholderImage.Opacity = 1.0;
+                }
+
+                if (source == null)
+                {
+                    return;
                 }
 
                 var sourceString = source as string;
@@ -106,7 +110,16 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _progress.IsActive = false;
                 _placeholderImage.Visibility = Visibility.Collapsed;
 
-                _image.FadeIn();
+                if (this.PlaceholderAnimationDuration.Equals(TimeSpan.Zero))
+                {
+                    _placeholderImage.Opacity = 0;
+                    _image.Opacity = 1;
+                }
+                else
+                {
+                    _image.FadeIn(this.PlaceholderAnimationDuration.TotalMilliseconds);
+                    _placeholderImage.FadeOut(this.PlaceholderAnimationDuration.TotalMilliseconds);
+                }
             }
         }
 

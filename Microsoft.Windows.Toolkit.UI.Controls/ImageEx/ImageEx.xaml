@@ -10,8 +10,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">
                     <Grid Background="{TemplateBinding Background}">
+                        <Image Name="PlaceholderImage" Opacity="0.0" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
                         <Image Name="Image" Opacity="0.0" Stretch="{TemplateBinding Stretch}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" NineGrid="{TemplateBinding NineGrid}"/>
-                        <ProgressRing Name="Progress" Margin="16" IsActive="True" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ProgressRing Name="Progress" Margin="16" IsActive="True" Background="Transparent" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
