@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using global::Windows.UI.Xaml.Controls;
+    using global::Windows.UI.Xaml.Data;
     using System;
 
     /// <summary>
@@ -66,16 +68,23 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     return;
                 }
 
+                _placeholderImage.Source = null;
+                if (PlaceholderSource != null)
+                {
+                    _placeholderImage.Visibility = Visibility.Visible;
+                }
+
                 var sourceString = source as string;
                 if (sourceString != null)
                 {
+                    _image.Opacity = 0.0;
+
                     string url = sourceString;
                     if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
                     {
                         _isHttpSource = IsHttpUri(_uri);
                         if (_isHttpSource)
                         {
-                            _image.Opacity = 0.0;
                             _progress.IsActive = true;
                         }
                         else
@@ -95,9 +104,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 }
 
                 _progress.IsActive = false;
+                _placeholderImage.Visibility = Visibility.Collapsed;
 
-                // TODO: need to call this when animations will be merged _image.FadeIn();
-                _image.Opacity = 1.0;
+                _image.FadeIn();
             }
         }
 

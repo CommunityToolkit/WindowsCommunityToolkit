@@ -26,6 +26,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     public sealed partial class ImageEx : Control
     {
         private Image _image;
+        private Image _placeholderImage;
         private ProgressRing _progress;
 
         private bool _isInitialized;
@@ -51,6 +52,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
 
             _image = GetTemplateChild("Image") as Image;
+            _placeholderImage = GetTemplateChild("PlaceholderImage") as Image;
             _progress = GetTemplateChild("Progress") as ProgressRing;
 
             _isInitialized = true;
