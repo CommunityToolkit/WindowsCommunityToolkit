@@ -62,35 +62,24 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _image.Source = null;
 
-                if (_placeholderImage != null)
-                {
-                    _placeholderImage.Opacity = 1.0;
-                }
-
                 if (source == null)
                 {
+                    VisualStateManager.GoToState(this, "Unloaded", true);
                     return;
                 }
+
+                VisualStateManager.GoToState(this, "Loading", true);
 
                 var sourceString = source as string;
                 if (sourceString != null)
                 {
-                    _image.Opacity = 0.0;
-
                     string url = sourceString;
                     if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
                     {
                         _isHttpSource = IsHttpUri(_uri);
-                        if (_isHttpSource)
+                        if (!_isHttpSource && !_uri.IsAbsoluteUri)
                         {
-                            _progress.IsActive = true;
-                        }
-                        else
-                        {
-                            if (!_uri.IsAbsoluteUri)
-                            {
-                                _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
-                            }
+                            _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
                         }
 
                         await LoadImageAsync();
@@ -101,14 +90,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     _image.Source = source as ImageSource;
                 }
 
-                _progress.IsActive = false;
-
-                if (_placeholderImage != null)
-                {
-                    _placeholderImage.FadeOut(PlaceholderAnimationDuration.TotalMilliseconds);
-                }
-
-                _image.FadeIn(PlaceholderAnimationDuration.TotalMilliseconds);
+                VisualStateManager.GoToState(this, "Loaded", true);
             }
         }
 

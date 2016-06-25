@@ -21,7 +21,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
+    [TemplateVisualState(Name = "Loading", GroupName = "CommonStates")]
+    [TemplateVisualState(Name = "Loaded", GroupName = "CommonStates")]
+    [TemplateVisualState(Name = "Unloaded", GroupName = "CommonStates")]
     [TemplatePart(Name = "Image", Type = typeof(Image))]
+    [TemplatePart(Name = "PlaceholderImage", Type = typeof(Image))]
     [TemplatePart(Name = "Progress", Type = typeof(ProgressRing))]
     public sealed partial class ImageEx : Control
     {
