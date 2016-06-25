@@ -10,18 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Threading.Tasks;
-
+using global::Windows.UI.Xaml.Controls;
+using global::Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    using global::Windows.UI.Xaml.Controls;
-    using global::Windows.UI.Xaml.Data;
-    using System;
-
     /// <summary>
     /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
@@ -64,12 +62,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 _image.Source = null;
 
-                _placeholderImage.Source = null;
-                if (PlaceholderSource != null)
+                if (_placeholderImage != null)
                 {
-                    _placeholderImage.Source = this.PlaceholderSource;
-                    _placeholderImage.Stretch = this.PlaceholderStretch;
-
                     _placeholderImage.Opacity = 1.0;
                 }
 
@@ -108,18 +102,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 }
 
                 _progress.IsActive = false;
-                _placeholderImage.Visibility = Visibility.Collapsed;
 
-                if (this.PlaceholderAnimationDuration.Equals(TimeSpan.Zero))
+                if (_placeholderImage != null)
                 {
-                    _placeholderImage.Opacity = 0;
-                    _image.Opacity = 1;
+                    _placeholderImage.FadeOut(PlaceholderAnimationDuration.TotalMilliseconds);
                 }
-                else
-                {
-                    _image.FadeIn(this.PlaceholderAnimationDuration.TotalMilliseconds);
-                    _placeholderImage.FadeOut(this.PlaceholderAnimationDuration.TotalMilliseconds);
-                }
+
+                _image.FadeIn(PlaceholderAnimationDuration.TotalMilliseconds);
             }
         }
 
