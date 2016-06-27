@@ -152,6 +152,27 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
+        /// Retrieve user data.
+        /// </summary>
+        /// <param name="screenName">User screen name or null for current logged user.</param>
+        /// <returns>Returns user data.</returns>
+        public async Task<TwitterUser> GetUserAsync(string screenName = null)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.GetUserAsync(screenName);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserAsync(screenName);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Retrieve user timeline data.
         /// </summary>
         /// <param name="screenName">User screen name.</param>

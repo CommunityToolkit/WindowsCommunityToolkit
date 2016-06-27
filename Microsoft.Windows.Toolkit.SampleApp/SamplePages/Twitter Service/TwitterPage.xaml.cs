@@ -41,7 +41,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             ShareBox.Visibility = Visibility.Visible;
 
-         //   ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+            var user = await TwitterService.Instance.GetUserAsync();
+            ProfileImage.DataContext = user;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)

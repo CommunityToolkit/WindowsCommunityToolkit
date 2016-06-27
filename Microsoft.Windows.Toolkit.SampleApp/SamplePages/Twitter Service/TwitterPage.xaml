@@ -41,7 +41,7 @@
                 <TextBox Header="Callback URI:" x:Name="CallbackUri"></TextBox>
                 <Button Content="Connect" x:Name="ConnectButton" Click="ConnectButton_OnClick" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
             </StackPanel>
-            <Image Grid.Column="1" x:Name="ProfileImage" Source="{Binding Url}" VerticalAlignment="Top" Margin="5"></Image>
+            <Image Grid.Column="1" x:Name="ProfileImage" Source="{Binding ProfileImageUrl}" VerticalAlignment="Top" Margin="5"></Image>
         </Grid>
         <Border Margin="10" Grid.Row="1" x:Name="ShareBox" BorderThickness="1" BorderBrush="#555555" Padding="5">
             <StackPanel Orientation="Vertical">

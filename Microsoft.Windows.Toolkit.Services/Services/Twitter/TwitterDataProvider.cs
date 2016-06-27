@@ -24,7 +24,10 @@ using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
+using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml;
+using Newtonsoft.Json;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
@@ -68,6 +71,47 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             this.tokens = tokens;
             vault = new PasswordVault();
+        }
+
+        /// <summary>
+        /// Retrieve user data.
+        /// </summary>
+        /// <param name="screenName">User screen name or null for current logged user</param>
+        /// <returns>Returns user data.</returns>
+        public async Task<TwitterUser> GetUserAsync(string screenName = null)
+        {
+            try
+            {
+                var userScreenName = screenName ?? UserScreenName;
+                var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
+
+                TwitterOAuthRequest request = new TwitterOAuthRequest();
+                var rawResult = await request.ExecuteAsync(uri, tokens);
+                return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new UserNotFoundException(screenName);
+                    }
+
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -187,6 +231,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 tokens.AccessToken = twitterCredentials.UserName;
                 tokens.AccessTokenSecret = twitterCredentials.Password;
+                UserScreenName = ApplicationData.Current.LocalSettings.Values["TwitterScreenName"].ToString();
                 LoggedIn = true;
                 return true;
             }
@@ -233,6 +278,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             if (twitterCredentials != null)
             {
                 vault.Remove(twitterCredentials);
+                ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = null;
             }
 
             LoggedIn = false;
@@ -574,6 +620,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             tokens.AccessTokenSecret = accessTokenSecret;
 
             var passwordCredential = new PasswordCredential("TwitterAccessToken", accessToken, accessTokenSecret);
+            ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = screenName;
             vault.Add(passwordCredential);
 
             return true;
