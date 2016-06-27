@@ -1,0 +1,20 @@
+﻿{
+  "dependencies": {
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Newtonsoft.Json": "8.0.3",
+    "StyleCop.Analyzers": "1.0.0",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+    "winsdkfb": "0.10.20160621.3"
+  },
+  "frameworks": {
+    "uap10.0": {}
+  },
+  "runtimes": {
+    "win10-arm": {},
+    "win10-arm-aot": {},
+    "win10-x86": {},
+    "win10-x86-aot": {},
+    "win10-x64": {},
+    "win10-x64-aot": {}
+  }
+}

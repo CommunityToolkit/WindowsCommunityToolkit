@@ -100,7 +100,23 @@
   {
     "Name": "Services",
     "Icon": "Icons/Services.png",
-    "Samples": [      
+    "Samples": [
+      {
+        "Name": "Bing Service",
+        "Type": "BingPage",
+        "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeFile": "BingCode.txt",
+        "Icon": "/SamplePages/Bing Service/icon.png"
+      },
+      {
+        "Name": "Facebook Service",
+        "Type": "FacebookPage",
+        "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeFile": "FacebookCode.txt", 
+        "Icon": "/SamplePages/Facebook Service/icon.png"
+      }
     ]
   }
 ]

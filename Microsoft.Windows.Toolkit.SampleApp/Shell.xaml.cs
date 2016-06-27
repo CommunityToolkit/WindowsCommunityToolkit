@@ -10,22 +10,20 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.Windows.Toolkit.SampleApp.Pages;
-
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class Shell : Page
+    public sealed partial class Shell
     {
         public static Shell Current { get; private set; }
+
+        private bool isPaneOpen;
 
         public Shell()
         {
@@ -43,6 +41,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             // Options
             HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
+
+            HideInfoArea();
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
@@ -51,7 +51,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             if (category != null)
             {
-                SetHeadersVisibility(false);
+                HideInfoArea();
                 NavigationFrame.Navigate(typeof(SamplePicker), category);
             }
         }
@@ -61,27 +61,28 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             var option = e.ClickedItem as Option;
             if (option != null)
             {
-                SetHeadersVisibility(false);
                 NavigationFrame.Navigate(option.PageType);
             }
         }
 
-        public void ShowOnlyHeader(string title)
+        public void ShowInfoArea()
         {
-            Header.Visibility = Visibility.Visible;
-            Title.Text = title;
-            Properties.Visibility = Visibility.Collapsed;
-            CodePanel.Visibility = Visibility.Collapsed;
-
-            CommandsPanel.Children.Clear();
+            InfoAreaGrid.Visibility = Visibility.Visible;
+            RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+            RootGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
         }
 
-        private void SetHeadersVisibility(bool visible)
+        public void HideInfoArea()
         {
-            Header.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            Footer.IsOpen = false;
-            Footer.ClosedDisplayMode = visible ? AppBarClosedDisplayMode.Compact : AppBarClosedDisplayMode.Hidden;
-            CommandsPanel.Children.Clear();
+            InfoAreaGrid.Visibility = Visibility.Collapsed;
+            RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
+            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+        }
+
+        public void ShowOnlyHeader(string title)
+        {
+            Title.Text = title;
+            HideInfoArea();
         }
 
         public async Task NavigateToSampleAsync(Sample sample)
@@ -90,14 +91,35 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             if (pageType != null)
             {
-                SetHeadersVisibility(true);
+                ShowInfoArea();
+
                 var propertyDesc = await sample.GetPropertyDescriptorAsync();
                 DataContext = sample;
                 Title.Text = sample.Name;
 
-                Properties.Visibility = (propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+                Properties.Visibility = (propertyDesc != null && propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
+
+                if (propertyDesc != null)
+                {
+                    CodeRenderer.XamlSource = sample.UpdatedXamlCode;
+
+                    if (!InfoAreaPivot.Items.Contains(PropertiesPivotItem))
+                    {
+                        InfoAreaPivot.Items.Insert(0, PropertiesPivotItem);
+                    }
+
+                    InfoAreaPivot.SelectedIndex = 0;
+                }
+                else
+                {
+                    CodeRenderer.CSharpSource = await sample.GetCSharpSource();
+                    if (InfoAreaPivot.Items.Contains(PropertiesPivotItem))
+                    {
+                        InfoAreaPivot.Items.Remove(PropertiesPivotItem);
+                    }
+                }
             }
         }
 
@@ -111,25 +133,58 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             };
 
             commandButton.Click += action;
-
-            CommandsPanel.Children.Add(commandButton);
         }
 
-        private void XAMLSampleButton_OnClick(object sender, RoutedEventArgs e)
+        private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
-            var sample = DataContext as Sample;
+            var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
+            string currentState = states.CurrentState.Name;
 
-            if (sample != null)
+            switch (currentState)
             {
-                CodeRenderer.XamlSource = sample.UpdatedXamlCode;
+                case "NarrowState":
+                    break;
+
+                case "MediumState":
+                    // If pane is open, close it
+                    if (isPaneOpen)
+                    {
+                        Grid.SetRowSpan(InfoAreaGrid, 1);
+                        Grid.SetRow(InfoAreaGrid, 1);
+                        isPaneOpen = false;
+                        ExpandButton.Content = "";
+                    }
+                    else
+                    {
+                        // ane is closed, so let's open it
+                        Grid.SetRowSpan(InfoAreaGrid, 2);
+                        Grid.SetRow(InfoAreaGrid, 0);
+                        isPaneOpen = true;
+                        ExpandButton.Content = "";
+                    }
+
+                    break;
+
+                case "WideState":
+                    // If pane is open, close it
+                    if (isPaneOpen)
+                    {
+                        Grid.SetColumnSpan(InfoAreaGrid, 1);
+                        Grid.SetColumn(InfoAreaGrid, 1);
+                        isPaneOpen = false;
+                        ExpandButton.Content = "";
+                    }
+                    else
+                    {
+                        // Pane is closed, so let's open it
+                        Grid.SetColumnSpan(InfoAreaGrid, 2);
+                        Grid.SetColumn(InfoAreaGrid, 0);
+                        isPaneOpen = true;
+                        ExpandButton.Content = "";
+                    }
+
+                    break;
             }
-
-            CodePanel.Visibility = Visibility.Visible;
-        }
-
-        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            CodePanel.Visibility = Visibility.Collapsed;
         }
     }
 }

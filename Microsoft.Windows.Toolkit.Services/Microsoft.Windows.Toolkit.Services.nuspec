@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Windows.Toolkit.Services</id>
+    <version>0.5.0</version>
+    <title>UWP Toolkit Services</title>
+    <authors>Microsoft Corp</authors>
+    <owners>Microsoft Corp</owners>
+    <licenseUrl>https://github.com/deltakosh/UWPToolkit</licenseUrl>
+    <projectUrl>https://github.com/deltakosh/UWPToolkit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library enable access to diferent data source like Bing, Facebook, and Twitter.</description>
+    <releaseNotes>Initial internal release of core data services.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP Toolkit Windows AppStudio Net Portable Twitter OAuth RSS Facebook Bing</tags>
+    <references>
+      <reference file="Microsoft.Windows.Toolkit.Services.dll" />
+    </references>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="8.0.3" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="\bin\$configuration$\Microsoft.Windows.Toolkit.Services.*" target="lib\portable-win81+wpa81" />
+  </files>
+</package>

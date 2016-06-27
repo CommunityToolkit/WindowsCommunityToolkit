@@ -53,81 +53,101 @@
         </Flyout>
     </Page.Resources>
 
-    <controls:HamburgerMenu PaneBackground="#242424" x:Name="HamburgerMenu"
+    <controls:HamburgerMenu PaneBackground="{StaticResource Brush-Grey-02}" x:Name="HamburgerMenu"
                                 ItemClick="HamburgerMenu_OnItemClick"
-                                Foreground="White"
+                                Foreground="{StaticResource Brush-Grey-04}"
                                 ItemTemplate="{StaticResource ButtonTemplate}"
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick">
 
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MainGrid.RowDefinitions[1].Height" Value="Auto" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Small">
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainGrid.RowDefinitions[1].Height" Value="Auto" />
-                        <Setter Target="MainGrid.RowDefinitions[1].MaxHeight" Value="300" />
-                        <Setter Target="NavigationFrame.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="Properties.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="Properties.(Grid.Row)" Value="1" />
-                        <Setter Target="Properties.(Grid.Column)" Value="0" />
-                        <Setter Target="Properties.Width" Value="NaN" />
+                        <Setter Target="YellowRect.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MediumState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="ExpandButton.Content" Value=""/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1200"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="1"/>
+
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1"/>
+
+                        <Setter Target="ExpandButton.Content" Value=""/>
+                    </VisualState.Setters>
+
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid>
+
+        <Grid Background="{StaticResource Brush-Grey-05}" x:Name="RootGrid">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" x:Name="Header" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="Title" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="20" Foreground="White" />
-                <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="CommandsPanel" />
+
+            <Grid x:Name="DemoAreaGrid">
+                <Frame x:Name="NavigationFrame" />
             </Grid>
-            <Grid Grid.Row="1" x:Name="MainGrid">
+
+            <Grid x:Name="InfoAreaGrid" Background="{StaticResource Brush-Grey-04}">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Frame x:Name="NavigationFrame" Grid.Column="0" Grid.Row="0" />
-                <controlsLocal:PropertyControl Grid.Column="1" Grid.Row="0" x:Name="Properties" Visibility="Collapsed" Width="250"/>
+                <Grid Background="#FFCCCCCC">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ExpandButton" Click="ExpandButton_Click" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" />
+                    <TextBlock Grid.Column="1" x:Name="Title" Text="" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                </Grid>
+                <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot">
+                    <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
+                        <controlsLocal:PropertyControl x:Name="Properties"/>
+
+                    </PivotItem>
+                    <PivotItem Header="CODE" x:Name="CodePivotItem">
+                        <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
+                    </PivotItem>
+                </Pivot>
             </Grid>
-            <!--Code panel-->
-            <Grid Grid.Row="1" Margin="10" x:Name="CodePanel" Visibility="Collapsed" BorderThickness="1" BorderBrush="Black" Background="{StaticResource AppBarBackgroundThemeBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0" />
-                <Button Margin="0,10" Content="Close" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="CloseButton" Click="CloseButton_OnClick" />
-            </Grid>
-            <CommandBar Grid.Row="2" x:Name="Footer" ClosedDisplayMode="Hidden" IsSticky="True" IsOpen="False">
-                <CommandBar.PrimaryCommands>
-                    <AppBarButton x:Name="AboutSampleButton" Label="About" Icon="Help" Flyout="{StaticResource AboutFlyout}" />
-                    <AppBarSeparator />
-                    <AppBarButton x:Name="XAMLSampleButton" Label="XAML" Icon="Page2" Click="XAMLSampleButton_OnClick" />
-                </CommandBar.PrimaryCommands>
-            </CommandBar>
         </Grid>
     </controls:HamburgerMenu>
 </Page>

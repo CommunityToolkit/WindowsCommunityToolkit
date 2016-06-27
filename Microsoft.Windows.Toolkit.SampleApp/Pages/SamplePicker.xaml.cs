@@ -12,13 +12,9 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 namespace Microsoft.Windows.Toolkit.SampleApp.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class SamplePicker : Page
+    public sealed partial class SamplePicker
     {
         public SamplePicker()
         {
@@ -29,7 +25,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Pages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.ShowOnlyHeader("Please select a sample");
             DataContext = e.Parameter as SampleCategory;
         }
 

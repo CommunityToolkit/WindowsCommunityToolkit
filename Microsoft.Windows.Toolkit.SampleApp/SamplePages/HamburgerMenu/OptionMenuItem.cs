@@ -9,6 +9,14 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
+
+using Microsoft.Windows.Toolkit.SampleApp.Data;
+using Microsoft.Windows.Toolkit.SampleApp.Models;
+
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
