@@ -111,7 +111,6 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid Background="{StaticResource Brush-Grey-05}" x:Name="RootGrid">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition/>
@@ -120,11 +119,9 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
             <Grid x:Name="DemoAreaGrid">
                 <Frame x:Name="NavigationFrame" />
             </Grid>
-
             <Grid x:Name="InfoAreaGrid" Background="{StaticResource Brush-Grey-04}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -147,6 +144,10 @@
                         <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
                     </PivotItem>
                 </Pivot>
+            </Grid>
+            <Grid x:Name="waitRing" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <Rectangle Fill="Black" Opacity="0.2"></Rectangle>
+                <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100" IsActive="True" Foreground="{StaticResource ApplicationForegroundThemeBrush}"></ProgressRing>
             </Grid>
         </Grid>
     </controls:HamburgerMenu>

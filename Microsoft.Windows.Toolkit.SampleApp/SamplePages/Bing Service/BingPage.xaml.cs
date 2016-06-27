@@ -29,6 +29,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                 return;
             }
 
+            Shell.Current.DisplayWaitRing = true;
             var searchConfig = new BingSearchConfig
             {
                 Country = BingCountry.UnitedStates,
@@ -36,6 +37,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             };
 
             ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
+            Shell.Current.DisplayWaitRing = false;
         }
     }
 }

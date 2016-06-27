@@ -28,10 +28,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
+            Shell.Current.DisplayWaitRing = true;
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
             if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
+                Shell.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Twitter");
                 await error.ShowAsync();
                 return;
@@ -43,6 +45,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             var user = await TwitterService.Instance.GetUserAsync();
             ProfileImage.DataContext = user;
+            Shell.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)

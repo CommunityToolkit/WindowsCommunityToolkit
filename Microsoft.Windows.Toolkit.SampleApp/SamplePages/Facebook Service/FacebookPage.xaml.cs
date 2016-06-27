@@ -31,10 +31,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
+            Shell.Current.DisplayWaitRing = true;
             FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.WindowsStoreId);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
+                Shell.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Facebook");
                 await error.ShowAsync();
                 return;
@@ -59,6 +61,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             ShareBox.Visibility = Visibility.Visible;
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+            Shell.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
