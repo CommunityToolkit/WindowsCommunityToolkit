@@ -167,6 +167,11 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var passwordCredentials = vault.RetrieveAll();
                 var temp = passwordCredentials.FirstOrDefault(c => c.Resource == "TwitterAccessToken");
 
+                if (temp == null)
+                {
+                    return null;
+                }
+
                 return vault.Retrieve(temp.Resource, temp.UserName);
             }
         }
