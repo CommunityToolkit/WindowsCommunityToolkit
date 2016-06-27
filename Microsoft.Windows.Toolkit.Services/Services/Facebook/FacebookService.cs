@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Core;
@@ -29,8 +28,7 @@ using winsdkfb.Graph;
 namespace Microsoft.Windows.Toolkit.Services.Facebook
 {
     /// <summary>
-    /// Class for connecting to underlying service data provider.
-    /// Developer may modify the OAuth settings in the constructor after generation, but be aware that these will get overwritten if re-adding the Connected Service instance for this provider.
+    /// Class for connecting to Facebook.
     /// </summary>
     public class FacebookService : IOAuthDataService<FBSession, FacebookPost, FacebookDataConfig, FacebookOAuthTokens>
     {
@@ -55,9 +53,14 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         private FBPermissions permissions;
 
         /// <summary>
-        /// Gets a Windows Store ID that can be used during development time
+        /// Define the way to use to display Facebook windows.
         /// </summary>
-        public string DevelopmentTimeWindowsStoreId => WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
+        private SessionLoginBehavior sessionLoginBehavior;
+
+        /// <summary>
+        /// Gets a Windows Store ID associated with the current app
+        /// </summary>
+        public string WindowsStoreId => WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FacebookService"/> class.
@@ -89,7 +92,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <param name="windowsStoreId">Windows Store SID</param>
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts)
+        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, SessionLoginBehavior loginBehavior = SessionLoginBehavior.WebAuth)
         {
             if (string.IsNullOrEmpty(appId))
             {
@@ -102,6 +105,8 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             }
 
             isInitialized = true;
+
+            sessionLoginBehavior = loginBehavior;
 
             Provider.FBAppId = appId;
             Provider.WinAppId = windowsStoreId;
@@ -181,7 +186,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         {
             if (Provider != null)
             {
-                var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebAuth);
+                var result = await Provider.LoginAsync(permissions, sessionLoginBehavior);
 
                 if (result.Succeeded)
                 {

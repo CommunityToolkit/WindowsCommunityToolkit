@@ -11,12 +11,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-namespace Microsoft.Windows.Toolkit.Services.OAuth
+namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
     /// <summary>
     /// OAuth token types
     /// </summary>
-    public enum OAuthTokenType
+    public enum TwitterOAuthTokenType
     {
         /// <summary>
         /// Request or access token

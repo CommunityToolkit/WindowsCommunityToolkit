@@ -19,10 +19,9 @@ using Microsoft.Windows.Toolkit.Services.Core;
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
     /// <summary>
-    /// Generated class for connecting to underlying service data provider.
-    /// Developer may modify the OAuth settings in the GetProvider() method after generation, but be aware that these will get overwritten if re-adding the Connected Service instance for this provider.
+    /// Class for connecting to Twitter.
     /// </summary>
-    public class TwitterProvider : IOAuthDataService<TwitterDataProvider, TwitterSchema, TwitterDataConfig, TwitterOAuthTokens>
+    public class TwitterService : IOAuthDataService<TwitterDataProvider, Tweet, TwitterDataConfig, TwitterOAuthTokens>
     {
         /// <summary>
         /// Private singleton field for TwitterDataProvider.
@@ -40,22 +39,22 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         private bool isInitialized;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TwitterProvider"/> class.
+        /// Initializes a new instance of the <see cref="TwitterService"/> class.
         /// Default private constructor.
         /// </summary>
-        private TwitterProvider()
+        private TwitterService()
         {
         }
 
         /// <summary>
         /// Private singleton field.
         /// </summary>
-        private static TwitterProvider instance;
+        private static TwitterService instance;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static TwitterProvider Instance => instance ?? (instance = new TwitterProvider());
+        public static TwitterService Instance => instance ?? (instance = new TwitterService());
 
         /// <summary>
         /// Initialize underlying provider with relevent token information.
@@ -69,7 +68,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            this.tokens = oAuthTokens;
+            tokens = oAuthTokens;
             isInitialized = true;
 
             return true;
@@ -92,14 +91,36 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
+        /// Search for specific hash tag.
+        /// </summary>
+        /// <param name="hashTag">Hash tag.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<Tweet>> SearchAsync(string hashTag, int maxRecords)
+        {
+            return await Provider.SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
+        }
+
+        /// <summary>
+        /// Retrieve user timeline data.
+        /// </summary>
+        /// <param name="screenName">User screen name.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<Tweet>> GetUserTimeLineAsync(string screenName, int maxRecords)
+        {
+            return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
+        }
+
+        /// <summary>
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
         /// <param name="config">TwitterDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<TwitterSchema>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
+        public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
         {
-            List<TwitterSchema> queryResults = new List<TwitterSchema>();
+            List<Tweet> queryResults = new List<Tweet>();
 
             var results = await Provider.LoadDataAsync(config, maxRecords);
 
@@ -112,22 +133,12 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Not currently supported for this service provider.
+        /// Log user in to Twitter.
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
             return await Provider.LoginAsync();
-        }
-
-        /// <summary>
-        /// Not supported for Twitter Provider.
-        /// </summary>
-        /// <param name="requiredPermissions">Not supported.</param>
-        /// <returns>Returns success or failure of login request.</returns>
-        public Task<bool> LoginAsync(List<string> requiredPermissions)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -143,10 +154,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// Post a Tweet.
         /// </summary>
         /// <param name="title">Tweet message.</param>
-        /// <param name="link">Link parameter is not used.</param>
-        /// <param name="description">Description parameter is not used.</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public async Task<bool> PostToFeedAsync(string title, string link = "", string description = "")
+        public async Task<bool> TweetStatusAsync(string title)
         {
             return await Provider.TweetStatus(title);
         }

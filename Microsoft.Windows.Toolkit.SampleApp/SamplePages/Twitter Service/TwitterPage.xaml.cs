@@ -17,9 +17,9 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class FacebookPage
+    public sealed partial class TwitterPage
     {
-        public FacebookPage()
+        public TwitterPage()
         {
             InitializeComponent();
 

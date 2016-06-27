@@ -27,9 +27,9 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="item">TwitterTimelineItem item.</param>
         /// <returns>Strong typed object.</returns>
-        public static TwitterSchema Parse(this TwitterTimelineItem item)
+        public static Tweet Parse(this TwitterTimelineItem item)
         {
-            TwitterSchema tweet = new TwitterSchema
+            Tweet tweet = new Tweet
             {
                 InternalID = item.Id,
                 Text = item.Text.DecodeHtml(),

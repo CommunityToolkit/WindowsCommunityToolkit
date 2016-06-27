@@ -58,14 +58,15 @@
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
-    <Compile Include="OAuth\OAuthTokenType.cs" />
+    <Compile Include="Services\Twitter\OAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
     <Compile Include="Services\Facebook\FacebookPicture.cs" />
     <Compile Include="Services\Facebook\FacebookPost.cs" />
     <Compile Include="Services\Facebook\FacebookService.cs" />
-    <Compile Include="Services\Twitter\TwitterProvider.cs" />
+    <Compile Include="Services\Twitter\Tweet.cs" />
+    <Compile Include="Services\Twitter\TwitterService.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
     <Compile Include="Core\InternalExtensionMethods.cs" />
     <Compile Include="Core\JsonParser.cs" />
@@ -102,7 +103,6 @@
     <Compile Include="Services\Twitter\TwitterDataConfig.cs" />
     <Compile Include="Services\Twitter\TwitterDataProvider.cs" />
     <Compile Include="Services\Twitter\TwitterQueryType.cs" />
-    <Compile Include="Services\Twitter\TwitterSchema.cs" />
     <Compile Include="Exceptions\OAuthKeysNotPresentException.cs" />
     <Compile Include="Exceptions\ConfigParameterNullException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

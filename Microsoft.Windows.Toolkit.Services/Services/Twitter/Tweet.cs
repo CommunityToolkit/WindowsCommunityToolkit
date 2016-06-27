@@ -18,7 +18,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     /// <summary>
     /// Strong typed Twitter schema.
     /// </summary>
-    public class TwitterSchema : SchemaBase
+    public class Tweet : SchemaBase
     {
         /// <summary>
         /// Gets or sets tweet text.

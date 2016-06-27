@@ -31,7 +31,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-    public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, TwitterSchema>
+    public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, Tweet>
     {
         /// <summary>
         /// Base Url for service.
@@ -42,7 +42,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private TwitterOAuthTokens tokens;
+        private readonly TwitterOAuthTokens tokens;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -58,17 +58,6 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             User = new TwitterUser();
             this.tokens = tokens;
-        }
-
-        /// <summary>
-        /// Retrieve user timeline data.
-        /// </summary>
-        /// <param name="screenName">User screen name.</param>
-        /// <param name="maxRecords">Upper record limit.</param>
-        /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TwitterSchema>> GetUserTimeLineAsync(string screenName, int maxRecords)
-        {
-            return await GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
         }
 
         /// <summary>
@@ -117,17 +106,6 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Search for specific hash tag.
-        /// </summary>
-        /// <param name="hashTag">Hash tag.</param>
-        /// <param name="maxRecords">Upper record limit.</param>
-        /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TwitterSchema>> SearchAsync(string hashTag, int maxRecords)
-        {
-            return await SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
         }
 
         /// <summary>
@@ -247,7 +225,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override IParser<TwitterSchema> GetDefaultParser(TwitterDataConfig config)
+        protected override IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
         {
             if (config == null)
             {
@@ -326,7 +304,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <param name="getResponse">REST API response string.</param>
         /// <param name="tokenType">Token type to retrieve.</param>
         /// <returns>Required token.</returns>
-        private static string ExtractTokenFromResponse(string getResponse, OAuthTokenType tokenType)
+        private static string ExtractTokenFromResponse(string getResponse, TwitterOAuthTokenType tokenType)
         {
             string requestOrAccessToken = null;
             string requestOrAccessTokenSecret = null;
@@ -360,15 +338,15 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
             switch (tokenType)
             {
-                case OAuthTokenType.OAuthRequestOrAccessToken:
+                case TwitterOAuthTokenType.OAuthRequestOrAccessToken:
                     return requestOrAccessToken;
-                case OAuthTokenType.OAuthRequestOrAccessTokenSecret:
+                case TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret:
                     return requestOrAccessTokenSecret;
-                case OAuthTokenType.OAuthVerifier:
+                case TwitterOAuthTokenType.OAuthVerifier:
                     return oauth_verifier;
-                case OAuthTokenType.ScreenName:
+                case TwitterOAuthTokenType.ScreenName:
                     return screen_name;
-                case OAuthTokenType.OAuthCallbackConfirmed:
+                case TwitterOAuthTokenType.OAuthCallbackConfirmed:
                     return oauth_callback_confirmed;
             }
 
@@ -452,14 +430,14 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 }
             }
 
-            var callbackConfirmed = ExtractTokenFromResponse(getResponse, OAuthTokenType.OAuthCallbackConfirmed);
+            var callbackConfirmed = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthCallbackConfirmed);
             if (Convert.ToBoolean(callbackConfirmed) != true)
             {
                 return false;
             }
 
-            tokens.RequestToken = ExtractTokenFromResponse(getResponse, OAuthTokenType.OAuthRequestOrAccessToken);
-            tokens.RequestTokenSecret = ExtractTokenFromResponse(getResponse, OAuthTokenType.OAuthRequestOrAccessTokenSecret);
+            tokens.RequestToken = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
+            tokens.RequestTokenSecret = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
             return true;
         }
@@ -492,7 +470,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         private async Task<bool> ExchangeRequestTokenForAccessToken(string webAuthResultResponseData)
         {
             string responseData = webAuthResultResponseData.Substring(webAuthResultResponseData.IndexOf("oauth_token"));
-            string requestToken = ExtractTokenFromResponse(responseData, OAuthTokenType.OAuthRequestOrAccessToken);
+            string requestToken = ExtractTokenFromResponse(responseData, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
 
             // Ensure requestToken matches accessToken per Twitter documentation.
             if (requestToken != tokens.RequestToken)
@@ -500,7 +478,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 return false;
             }
 
-            string oAuthVerifier = ExtractTokenFromResponse(responseData, OAuthTokenType.OAuthVerifier);
+            string oAuthVerifier = ExtractTokenFromResponse(responseData, TwitterOAuthTokenType.OAuthVerifier);
 
             string twitterUrl = $"{OAuthBaseUrl}/access_token";
 
@@ -533,9 +511,9 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 response = await httpResponseMessage.Content.ReadAsStringAsync();
             }
 
-            var screenName = ExtractTokenFromResponse(response, OAuthTokenType.ScreenName);
-            var accessToken = ExtractTokenFromResponse(response, OAuthTokenType.OAuthRequestOrAccessToken);
-            var accessTokenSecret = ExtractTokenFromResponse(response, OAuthTokenType.OAuthRequestOrAccessTokenSecret);
+            var screenName = ExtractTokenFromResponse(response, TwitterOAuthTokenType.ScreenName);
+            var accessToken = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
+            var accessTokenSecret = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
             User.ScreenName = screenName;
             tokens.AccessToken = accessToken;

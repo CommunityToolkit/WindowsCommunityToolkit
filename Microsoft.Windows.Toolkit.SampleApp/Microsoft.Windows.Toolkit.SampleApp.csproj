@@ -137,6 +137,8 @@
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.txt" />
+    <Content Include="SamplePages\Twitter Service\TwitterCode.txt" />
+    <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.txt" />
     <Content Include="SamplePages\Facebook Service\icon.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
@@ -198,6 +200,9 @@
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
+      <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
@@ -273,6 +278,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
