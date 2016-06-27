@@ -17,9 +17,9 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Image Grid.RowSpan="2" Grid.Column="0" Source="{Binding UserProfileImageUrl}" Stretch="UniformToFill"/>
+                <Image Grid.RowSpan="2" Grid.Column="0" Source="{Binding User.ProfileImageUrl}" Stretch="UniformToFill"/>
                 <TextBlock Text="{x:Bind Text}" Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="20" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"></TextBlock>
-                <TextBlock Text="{x:Bind CreationDateTime}" Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="16" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="ExtraLight"></TextBlock>
+                <TextBlock Text="{x:Bind CreationDate}" Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="16" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontWeight="ExtraLight"></TextBlock>
             </Grid>
         </DataTemplate>
     </Page.Resources>

@@ -36,7 +36,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
             var result = JsonConvert.DeserializeObject<TwitterSearchResult>(data);
 
-            return result.Statuses.Select(r => r.Parse()).ToList();
+            return result.Statuses.ToList();
         }
     }
 }

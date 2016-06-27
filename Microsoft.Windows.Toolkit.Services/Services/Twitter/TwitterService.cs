@@ -161,7 +161,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             if (Provider.LoggedIn)
             {
-                return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
+                return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TweetParser());
             }
 
             var isLoggedIn = await LoginAsync();

@@ -58,14 +58,14 @@
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
-    <Compile Include="Services\Twitter\OAuthTokenType.cs" />
+    <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
     <Compile Include="Services\Facebook\FacebookPicture.cs" />
     <Compile Include="Services\Facebook\FacebookPost.cs" />
     <Compile Include="Services\Facebook\FacebookService.cs" />
-    <Compile Include="Services\Twitter\Tweet.cs" />
+    <Compile Include="Services\Twitter\TweetParser.cs" />
     <Compile Include="Services\Twitter\TwitterService.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
     <Compile Include="Core\InternalExtensionMethods.cs" />
@@ -99,7 +99,6 @@
     <Compile Include="Services\Twitter\TwitterOAuthRequestBuilder.cs" />
     <Compile Include="OAuth\OAuthUriExtensions.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokens.cs" />
-    <Compile Include="Services\Twitter\TwitterParser.cs" />
     <Compile Include="Services\Twitter\TwitterDataConfig.cs" />
     <Compile Include="Services\Twitter\TwitterDataProvider.cs" />
     <Compile Include="Services\Twitter\TwitterQueryType.cs" />
@@ -109,8 +108,7 @@
     <Compile Include="Core\SchemaBase.cs" />
     <Compile Include="Services\Twitter\TwitterSearchParser.cs" />
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
-    <Compile Include="Services\Twitter\TwitterTimelineItem.cs" />
-    <Compile Include="Services\Twitter\TwitterTimelineParser.cs" />
+    <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>

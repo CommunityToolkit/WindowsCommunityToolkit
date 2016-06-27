@@ -55,7 +55,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         public string UserScreenName { get; set; }
 
         /// <summary>
-        /// Gets if the povider is already logged in
+        /// Gets a value indicating whether the provider is already logged in
         /// </summary>
         public bool LoggedIn { get; private set; }
 
@@ -288,7 +288,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 case TwitterQueryType.Home:
                 case TwitterQueryType.User:
                 default:
-                    return new TwitterTimelineParser();
+                    return new TweetParser();
             }
         }
 
