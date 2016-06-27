@@ -1,6 +1,6 @@
-# Contributing to UWP Toolkit
+# Contributing to Windows App Toolkit
 
-The foundation of **UWP Toolkit** is simplicity. 
+The foundation of **Windows App Toolkit** is simplicity. 
 
 A developer should be able to quickly and easily learn to use the API. 
 
