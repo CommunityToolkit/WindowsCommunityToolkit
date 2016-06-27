@@ -50,6 +50,11 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         private List<FacebookPost> queryResults;
 
         /// <summary>
+        /// List of permissions required by the app.
+        /// </summary>
+        private FBPermissions permissions;
+
+        /// <summary>
         /// Gets a Windows Store ID that can be used during development time
         /// </summary>
         public string DevelopmentTimeWindowsStoreId => WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
@@ -82,8 +87,9 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// </summary>
         /// <param name="appId">Application ID (Provided by Facebook developer site)</param>
         /// <param name="windowsStoreId">Windows Store SID</param>
+        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appId, string windowsStoreId)
+        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts)
         {
             if (string.IsNullOrEmpty(appId))
             {
@@ -99,6 +105,39 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
 
             Provider.FBAppId = appId;
             Provider.WinAppId = windowsStoreId;
+
+            // Permissions
+            var permissionList = new List<string>();
+
+            foreach (FacebookPermissions value in Enum.GetValues(typeof(FacebookPermissions)))
+            {
+                if ((requiredPermissions & value) != 0)
+                {
+                    var name = value.ToString();
+                    var finalName = new StringBuilder();
+
+                    foreach (var c in name)
+                    {
+                        if (char.IsUpper(c))
+                        {
+                            if (finalName.Length > 0)
+                            {
+                                finalName.Append('_');
+                            }
+
+                            finalName.Append(char.ToLower(c));
+                        }
+                        else
+                        {
+                            finalName.Append(c);
+                        }
+                    }
+
+                    permissionList.Add(finalName.ToString());
+                }
+            }
+
+            permissions = new FBPermissions(permissionList);
 
             return true;
         }
@@ -135,64 +174,11 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         public string LoggedUser => !Provider.LoggedIn ? null : FBSession.ActiveSession.User.Name;
 
         /// <summary>
-        /// Log in to the underlying service instance.
+        /// Login with set of required requiredPermissions.
         /// </summary>
-        /// <returns>Returns success or failure of login.</returns>
-        /// <remarks>public_profile and user_posts permissions will be used by default.</remarks>
+        /// <returns>Success or failure.</returns>
         public async Task<bool> LoginAsync()
         {
-            return await LoginAsync(FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts);
-        }
-
-        /// <summary>
-        /// Login with set of required requiredPermissions.
-        /// </summary>
-        /// <param name="requiredPermissions">List of required required permissions.</param>
-        /// <returns>Success or failure.</returns>
-        public async Task<bool> LoginAsync(FacebookPermissions requiredPermissions)
-        {
-            var permissionsStringList = new List<string>();
-
-            foreach (FacebookPermissions value in Enum.GetValues(typeof(FacebookPermissions)))
-            {
-                if ((requiredPermissions & value) != 0)
-                {
-                    var name = value.ToString();
-                    var finalName = new StringBuilder();
-
-                    foreach (var c in name)
-                    {
-                        if (char.IsUpper(c))
-                        {
-                            if (finalName.Length > 0)
-                            {
-                                finalName.Append('_');
-                            }
-
-                            finalName.Append(char.ToLower(c));
-                        }
-                        else
-                        {
-                            finalName.Append(c);
-                        }
-                    }
-
-                    permissionsStringList.Add(finalName.ToString());
-                }
-            }
-
-            return await LoginAsync(permissionsStringList);
-        }
-
-        /// <summary>
-        /// Login with set of required requiredPermissions.
-        /// </summary>
-        /// <param name="requiredPermissions">List of required required permissions.</param>
-        /// <returns>Success or failure.</returns>
-        public async Task<bool> LoginAsync(List<string> requiredPermissions)
-        {
-            var permissions = new FBPermissions(requiredPermissions);
-
             if (Provider != null)
             {
                 var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebAuth);
