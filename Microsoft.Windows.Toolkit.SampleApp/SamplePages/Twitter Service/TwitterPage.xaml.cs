@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Windows.Toolkit.Services.Facebook;
+using Microsoft.Windows.Toolkit.Services.Twitter;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
@@ -23,47 +23,30 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            QueryType.ItemsSource = new[] { "My feed", "My posts", "My tagged" };
-            QueryType.SelectedIndex = 0;
-
             ShareBox.Visibility = Visibility.Collapsed;
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.WindowsStoreId);
-            if (!await FacebookService.Instance.LoginAsync())
+            TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
+            if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
-                var error = new MessageDialog("Unable to log with Facebook");
+                var error = new MessageDialog("Unable to log to Twitter");
                 await error.ShowAsync();
                 return;
             }
 
-            FacebookDataConfig config;
-            switch (QueryType.SelectedIndex)
-            {
-                case 1:
-                    config = FacebookDataConfig.MyPosts;
-                    break;
-                case 2:
-                    config = FacebookDataConfig.MyTagged;
-                    break;
-                default:
-                    config = FacebookDataConfig.MyFeed;
-                    break;
-            }
-
-            ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
+            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync("deltakosh", 50);
 
             ShareBox.Visibility = Visibility.Visible;
 
-            ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+         //   ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, "http://www.github.com/microsoft/uwptoolkit");
+            await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
         }
     }
 }

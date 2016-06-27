@@ -20,8 +20,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Exceptions;
-using Microsoft.Windows.Toolkit.Services.OAuth;
 using Windows.Security.Authentication.Web;
+using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
@@ -45,9 +45,19 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         private readonly TwitterOAuthTokens tokens;
 
         /// <summary>
+        /// Password vault used to store access tokens
+        /// </summary>
+        private readonly PasswordVault vault;
+
+        /// <summary>
         /// Gets or sets logged in user information.
         /// </summary>
-        public TwitterUser User { get; set; }
+        public string UserScreenName { get; set; }
+
+        /// <summary>
+        /// Gets if the povider is already logged in
+        /// </summary>
+        public bool LoggedIn { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
@@ -56,8 +66,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
         {
-            User = new TwitterUser();
             this.tokens = tokens;
+            vault = new PasswordVault();
         }
 
         /// <summary>
@@ -150,14 +160,35 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             }
         }
 
+        private PasswordCredential PasswordCredential
+        {
+            get
+            {
+                var passwordCredentials = vault.RetrieveAll();
+                var temp = passwordCredentials.FirstOrDefault(c => c.Resource == "TwitterAccessToken");
+
+                return vault.Retrieve(temp.Resource, temp.UserName);
+            }
+        }
+
         /// <summary>
         /// Log user in to Twitter.
         /// </summary>
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
+            var twitterCredentials = PasswordCredential;
+            if (twitterCredentials != null)
+            {
+                tokens.AccessToken = twitterCredentials.UserName;
+                tokens.AccessTokenSecret = twitterCredentials.Password;
+                LoggedIn = true;
+                return true;
+            }
+
             if (await InitializeRequestAccessTokens(tokens.CallbackUri) == false)
             {
+                LoggedIn = false;
                 return false;
             }
 
@@ -172,16 +203,34 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             switch (result.ResponseStatus)
             {
                 case WebAuthenticationStatus.Success:
+                    LoggedIn = true;
                     return await ExchangeRequestTokenForAccessToken(result.ResponseData);
                 case WebAuthenticationStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
+                    LoggedIn = false;
                     return false;
                 case WebAuthenticationStatus.UserCancel:
                     Debug.WriteLine("WAB user aborted.");
+                    LoggedIn = false;
                     return false;
             }
 
+            LoggedIn = false;
             return false;
+        }
+
+        /// <summary>
+        /// Log user out of Twitter.
+        /// </summary>
+        public void Logout()
+        {
+            var twitterCredentials = PasswordCredential;
+            if (twitterCredentials != null)
+            {
+                vault.Remove(twitterCredentials);
+            }
+
+            LoggedIn = false;
         }
 
         /// <summary>
@@ -196,7 +245,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/update.json?status={tweet}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens, "POST");
+                await request.ExecuteAsync(uri, tokens, "POST");
 
                 return true;
             }
@@ -515,9 +564,12 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             var accessToken = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
             var accessTokenSecret = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
-            User.ScreenName = screenName;
+            UserScreenName = screenName;
             tokens.AccessToken = accessToken;
             tokens.AccessTokenSecret = accessTokenSecret;
+
+            var passwordCredential = new PasswordCredential("TwitterAccessToken", accessToken, accessTokenSecret);
+            vault.Add(passwordCredential);
 
             return true;
         }

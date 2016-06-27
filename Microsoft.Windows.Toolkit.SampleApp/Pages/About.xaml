@@ -14,7 +14,7 @@
                         <Run
                             FontSize="17"
                             FontWeight="SemiBold"
-                            Text="Microsoft UWP Toolkit Sample Application"/>
+                            Text="Microsoft Windows App Toolkit Sample Application"/>
                     </Paragraph>
                     <Paragraph
                         FontSize="12">
@@ -59,7 +59,7 @@
                         <Hyperlink
                             FontWeight="Light"
                             Foreground="Black"
-                            NavigateUri="https://dev.windows/com/uwptoolkit"
+                            NavigateUri="https://github.com/Microsoft/WindowsAppToolkit"
                             FontSize="14">
                             https://dev.windows/com/uwptoolkit
                         </Hyperlink>

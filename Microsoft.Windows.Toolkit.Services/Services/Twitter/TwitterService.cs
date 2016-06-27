@@ -57,6 +57,45 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         public static TwitterService Instance => instance ?? (instance = new TwitterService());
 
         /// <summary>
+        /// Gets the current logged in user screen name.
+        /// </summary>
+        public string UserScreenName => Provider.UserScreenName;
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="consumerKey">Consumer key.</param>
+        /// <param name="consumerSecret">Consumer secret.</param>
+        /// <param name="callbackUri">Callback URI.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string consumerKey, string consumerSecret, string callbackUri)
+        {
+            if (string.IsNullOrEmpty(consumerKey))
+            {
+                throw new ArgumentNullException(nameof(consumerKey));
+            }
+
+            if (string.IsNullOrEmpty(consumerSecret))
+            {
+                throw new ArgumentNullException(nameof(consumerSecret));
+            }
+
+            if (string.IsNullOrEmpty(callbackUri))
+            {
+                throw new ArgumentNullException(nameof(callbackUri));
+            }
+
+            var oAuthTokens = new TwitterOAuthTokens
+            {
+                ConsumerKey = consumerKey,
+                ConsumerSecret = consumerSecret,
+                CallbackUri = callbackUri
+            };
+
+            return Initialize(oAuthTokens);
+        }
+
+        /// <summary>
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
@@ -98,7 +137,18 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <returns>Returns strongly typed list of results.</returns>
         public async Task<IEnumerable<Tweet>> SearchAsync(string hashTag, int maxRecords)
         {
-            return await Provider.SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
+            if (Provider.LoggedIn)
+            {
+                return await Provider.SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await SearchAsync(hashTag, maxRecords);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -107,9 +157,20 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <param name="screenName">User screen name.</param>
         /// <param name="maxRecords">Upper record limit.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<Tweet>> GetUserTimeLineAsync(string screenName, int maxRecords)
+        public async Task<IEnumerable<Tweet>> GetUserTimeLineAsync(string screenName, int maxRecords = 20)
         {
-            return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
+            if (Provider.LoggedIn)
+            {
+                return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TwitterTimelineParser());
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserTimeLineAsync(screenName, maxRecords);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -120,16 +181,27 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
         {
-            List<Tweet> queryResults = new List<Tweet>();
-
-            var results = await Provider.LoadDataAsync(config, maxRecords);
-
-            foreach (var result in results)
+            if (Provider.LoggedIn)
             {
-                queryResults.Add(result);
+                List<Tweet> queryResults = new List<Tweet>();
+
+                var results = await Provider.LoadDataAsync(config, maxRecords);
+
+                foreach (var result in results)
+                {
+                    queryResults.Add(result);
+                }
+
+                return queryResults;
             }
 
-            return queryResults;
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await RequestAsync(config, maxRecords);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -142,22 +214,32 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Not currently supported for this service provider.
+        /// Log user out of Twitter.
         /// </summary>
-        /// <returns>Task to support await of async call.</returns>
-        public Task LogoutAsync()
+        public void Logout()
         {
-            throw new NotImplementedException();
+            Provider.Logout();
         }
 
         /// <summary>
         /// Post a Tweet.
         /// </summary>
-        /// <param name="title">Tweet message.</param>
+        /// <param name="message">Tweet message.</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public async Task<bool> TweetStatusAsync(string title)
+        public async Task<bool> TweetStatusAsync(string message)
         {
-            return await Provider.TweetStatus(title);
+            if (Provider.LoggedIn)
+            {
+                return await Provider.TweetStatus(message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await TweetStatusAsync(message);
+            }
+
+            return false;
         }
     }
 }

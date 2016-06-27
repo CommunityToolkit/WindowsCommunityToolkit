@@ -53,11 +53,6 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         private FBPermissions permissions;
 
         /// <summary>
-        /// Define the way to use to display Facebook windows.
-        /// </summary>
-        private SessionLoginBehavior sessionLoginBehavior;
-
-        /// <summary>
         /// Gets a Windows Store ID associated with the current app
         /// </summary>
         public string WindowsStoreId => WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
@@ -92,7 +87,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// <param name="windowsStoreId">Windows Store SID</param>
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, SessionLoginBehavior loginBehavior = SessionLoginBehavior.WebAuth)
+        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts)
         {
             if (string.IsNullOrEmpty(appId))
             {
@@ -105,8 +100,6 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             }
 
             isInitialized = true;
-
-            sessionLoginBehavior = loginBehavior;
 
             Provider.FBAppId = appId;
             Provider.WinAppId = windowsStoreId;
@@ -186,7 +179,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         {
             if (Provider != null)
             {
-                var result = await Provider.LoginAsync(permissions, sessionLoginBehavior);
+                var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebView);
 
                 if (result.Succeeded)
                 {

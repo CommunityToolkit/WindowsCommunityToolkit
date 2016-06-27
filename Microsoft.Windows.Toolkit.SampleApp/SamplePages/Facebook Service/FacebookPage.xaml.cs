@@ -35,7 +35,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
-                var error = new MessageDialog("Unable to log with Facebook");
+                var error = new MessageDialog("Unable to log to Facebook");
                 await error.ShowAsync();
                 return;
             }
@@ -63,7 +63,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, "http://www.github.com/microsoft/uwptoolkit");
+            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, "https://github.com/Microsoft/WindowsAppToolkit");
         }
     }
 }
