@@ -64,37 +64,13 @@
                                             Storyboard.TargetProperty="Opacity" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Unloaded">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames 
-                                            Storyboard.TargetProperty="IsActive" 
-                                            Storyboard.TargetName="Progress">
-                                            <DiscreteObjectKeyFrame 
-                                                KeyTime="0" 
-                                                Value="False"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames 
-                                            Storyboard.TargetProperty="Opacity" 
-                                            Storyboard.TargetName="Image">
-                                            <DiscreteObjectKeyFrame 
-                                                KeyTime="0" 
-                                                Value="0"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames 
-                                            Storyboard.TargetProperty="Opacity" 
-                                            Storyboard.TargetName="PlaceholderImage">
-                                            <DiscreteObjectKeyFrame 
-                                                KeyTime="0" 
-                                                Value="1"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Unloaded" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         
                         <Image 
                             Name="PlaceholderImage" 
-                            Opacity="0.0" 
+                            Opacity="1.0" 
                             Source="{TemplateBinding PlaceholderSource}" 
                             Stretch="{TemplateBinding PlaceholderStretch}" 
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
@@ -109,7 +85,7 @@
                         <ProgressRing 
                             Name="Progress" 
                             Margin="16" 
-                            IsActive="True" 
+                            IsActive="False" 
                             Background="Transparent" 
                             Foreground="{TemplateBinding Foreground}" 
                             HorizontalAlignment="Center" 
