@@ -14,99 +14,32 @@ using System;
 using System.Numerics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
-using Microsoft.Xaml.Interactivity;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
     /// <summary>
     /// Performs an offset animation using composition.
     /// </summary>
+    /// <seealso cref="Microsoft.Windows.Toolkit.UI.Animations.Behaviors.CompositionBehaviorBase" />
     /// <seealso>
-    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
+    ///   <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class Offset : Behavior<UIElement>
+    public class Offset : CompositionBehaviorBase
     {
-        /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-
-            if (AutomaticallyStart)
-            {
-                StartAnimation();
-            }
-        }
-
-        /// <summary>
-        /// The duration of the animation.
-        /// </summary>
-        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register("Duration", typeof(double), typeof(Offset), new PropertyMetadata(1d));
-
-        /// <summary>
-        /// The delay of the animation.
-        /// </summary>
-        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register("Delay", typeof(double), typeof(Offset), new PropertyMetadata(0d));
-
         /// <summary>
         /// The Offset x of the associated object
         /// </summary>
-        public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register("OffsetX", typeof(double), typeof(Offset), new PropertyMetadata(1d));
+        public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register("OffsetX", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The Offset y of the associated object
         /// </summary>
-        public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register("OffsetY", typeof(double), typeof(Offset), new PropertyMetadata(1d));
+        public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register("OffsetY", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The Offset z of the associated object
         /// </summary>
-        public static readonly DependencyProperty OffsetZProperty = DependencyProperty.Register("OffsetZ", typeof(double), typeof(Offset), new PropertyMetadata(1d));
-
-        /// <summary>
-        /// The property sets if the animation should automatically start.
-        /// </summary>
-        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register("AutomaticallyStart", typeof(bool), typeof(Offset), new PropertyMetadata(true));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [automatically start] on the animation is set.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [automatically start]; otherwise, <c>false</c>.
-        /// </value>
-        public bool AutomaticallyStart
-        {
-            get { return (bool)GetValue(AutomaticallyStartProperty); }
-            set { SetValue(AutomaticallyStartProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the delay.
-        /// </summary>
-        /// <value>
-        /// The delay.
-        /// </value>
-        public double Delay
-        {
-            get { return (double)GetValue(DelayProperty); }
-            set { SetValue(DelayProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the duration.
-        /// </summary>
-        /// <value>
-        /// The duration.
-        /// </value>
-        public double Duration
-        {
-            get { return (double)GetValue(DurationProperty); }
-            set { SetValue(DurationProperty, value); }
-        }
+        public static readonly DependencyProperty OffsetZProperty = DependencyProperty.Register("OffsetZ", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Offset x.
@@ -145,9 +78,9 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Defines the method to be called when the command is invoked.
+        /// Starts the animation.
         /// </summary>
-        public void StartAnimation()
+        public override void StartAnimation()
         {
             var visual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
             var compositor = visual?.Compositor;

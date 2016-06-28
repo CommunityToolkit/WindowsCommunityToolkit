@@ -48,6 +48,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Opacity.cs" />
     <Compile Include="Behaviors\Resize.cs" />
