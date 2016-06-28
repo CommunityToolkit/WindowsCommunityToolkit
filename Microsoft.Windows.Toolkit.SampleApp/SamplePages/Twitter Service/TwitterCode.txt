@@ -1,29 +1,14 @@
-FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
-if (!await FacebookService.Instance.LoginAsync())
+TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
+
+if (!await TwitterService.Instance.LoginAsync())
 {
-    ShareBox.Visibility = Visibility.Collapsed;
-    var error = new MessageDialog("Unable to log with Facebook");
-    await error.ShowAsync();
     return;
 }
+var user = await TwitterService.Instance.GetUserAsync();
+ProfileImage.DataContext = user;
 
-FacebookDataConfig config;
+ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
-switch (QueryType.SelectedIndex)
-{
-    case 1:
-        config = FacebookDataConfig.MyPosts;
-        break;
-    case 2:
-        config = FacebookDataConfig.MyTagged;
-        break;
-    default:
-        config = FacebookDataConfig.MyFeed;
-        break;
-}
+await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
 
-ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
-
-ShareBox.Visibility = Visibility.Visible;
-
-ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
