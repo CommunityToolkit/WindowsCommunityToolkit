@@ -151,6 +151,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
@@ -218,6 +219,9 @@
     </Compile>
     <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
       <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml.cs">
+      <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
@@ -312,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -359,9 +367,7 @@
       <Name>Microsoft.Windows.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SamplePages\ScaleBehavior\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
