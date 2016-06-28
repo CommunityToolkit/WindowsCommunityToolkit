@@ -35,6 +35,25 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             new PropertyMetadata(default(ImageSource)));
 
         /// <summary>
+        /// Identifies the <see cref="PlaceholderStretch"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(
+            "PlaceholderStretch",
+            typeof(Stretch),
+            typeof(ImageEx),
+            new PropertyMetadata(default(Stretch)));
+
+        /// <summary>
+        /// Identifies the <see cref="PlaceholderAnimationDuration"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
+            DependencyProperty.Register(
+                "PlaceholderAnimationDuration",
+                typeof(Duration), 
+                typeof(ImageEx), 
+                new PropertyMetadata(TimeSpan.Zero));
+
+        /// <summary>
         /// Gets or sets the placeholder source.
         /// </summary>
         /// <value>
@@ -45,15 +64,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (ImageSource)GetValue(PlaceholderSourceProperty); }
             set { SetValue(PlaceholderSourceProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the <see cref="PlaceholderStretch"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(
-            "PlaceholderStretch",
-            typeof(Stretch),
-            typeof(ImageEx),
-            new PropertyMetadata(default(Stretch)));
 
         /// <summary>
         /// Gets or sets the placeholder stretch.
@@ -78,11 +88,5 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (Duration)GetValue(PlaceholderAnimationDurationProperty); }
             set { SetValue(PlaceholderAnimationDurationProperty, value); }
         }
-
-        /// <summary>
-        /// Identifies the <see cref="PlaceholderAnimationDuration"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
-            DependencyProperty.Register("PlaceholderAnimationDuration", typeof(Duration), typeof(ImageEx), new PropertyMetadata(TimeSpan.Zero));
     }
 }
