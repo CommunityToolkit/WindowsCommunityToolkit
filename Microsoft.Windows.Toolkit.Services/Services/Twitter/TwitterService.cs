@@ -110,6 +110,8 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             tokens = oAuthTokens;
             isInitialized = true;
 
+            twitterDataProvider = null;
+
             return true;
         }
 

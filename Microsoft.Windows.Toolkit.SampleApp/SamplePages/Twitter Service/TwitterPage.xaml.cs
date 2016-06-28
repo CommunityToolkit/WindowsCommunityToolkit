@@ -42,18 +42,28 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                 return;
             }
 
-            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync("deltakosh", 50);
-
             ShareBox.Visibility = Visibility.Visible;
 
             var user = await TwitterService.Instance.GetUserAsync();
             ProfileImage.DataContext = user;
+
+            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+
             Shell.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
+            Shell.Current.DisplayWaitRing = true;
             await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+            ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
+            Shell.Current.DisplayWaitRing = false;
         }
     }
 }
