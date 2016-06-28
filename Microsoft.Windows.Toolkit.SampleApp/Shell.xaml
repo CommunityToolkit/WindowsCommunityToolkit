@@ -67,7 +67,17 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="YellowRect.Visibility" Value="Collapsed"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="ExpandButton.Content" Value=""/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">

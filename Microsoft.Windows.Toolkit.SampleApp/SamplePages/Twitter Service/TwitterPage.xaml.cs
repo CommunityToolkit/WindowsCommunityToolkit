@@ -29,7 +29,10 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
+
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
+            TwitterService.Instance.Logout();
+
             if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;

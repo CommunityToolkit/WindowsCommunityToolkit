@@ -148,8 +148,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             switch (currentState)
             {
                 case "NarrowState":
-                    break;
-
                 case "MediumState":
                     // If pane is open, close it
                     if (isPaneOpen)
