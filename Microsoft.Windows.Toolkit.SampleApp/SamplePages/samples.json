@@ -94,7 +94,21 @@
   {
     "Name": "Notifications",
     "Icon": "Icons/Notifications.png",
-    "Samples": [      
+    "Samples": [
+    ]
+  },
+  {
+    "Name": "Behaviors",
+    "Icon": "Icons/Behavior.png",
+    "Samples": [
+         {
+        "Name": "OpacityBehavior",
+        "Type": "OpacityBehaviorPage",
+        "About": "Shows you how to implement the opacity behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "OpacityBehaviorCode.txt",
+        "Icon": "Icons/Behavior.png"
+      }
     ]
   },
   {
