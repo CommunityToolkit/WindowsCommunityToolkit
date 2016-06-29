@@ -22,6 +22,7 @@ using Microsoft.Windows.Toolkit.Services.Services.Facebook;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
+using Windows.Storage;
 using winsdkfb;
 using winsdkfb.Graph;
 
@@ -322,6 +323,35 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         }
 
         /// <summary>
+        /// Enables posting a picture to the timeline using the Facebook dialog.
+        /// </summary>
+        /// <param name="title">Title of the post.</param>
+        /// <param name="description">Description of the post.</param>
+        /// <param name="picture">Picture file to upload.</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> PostPictureDialogAsync(string title, string description, StorageFile picture)
+        {
+            var pictureId = await PostPictureToFeedAsync(title, picture, false);
+            if (pictureId != null)
+            {
+                var link = await GetPictureLinkAsync(pictureId);
+                if (link != null)
+                {
+                    var success = await PostToFeedAsync(title, description, link);
+                    if (success)
+                    {
+                        await PublishPictureAsync(pictureId);
+                        return true;
+                    }
+                }
+
+                await DeletePictureAsync(pictureId);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Helper method to process pages of results from underlying service instance.
         /// </summary>
         /// <param name="results">List of results to process.</param>
@@ -346,6 +376,182 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
                     await ProcessResultsAsync(nextResults, maxRecords);
                 }
             }
+        }
+
+        /// <summary>
+        /// Enables posting a picture to the timeline
+        /// </summary>
+        /// <param name="title">Title of the post.</param>
+        /// <param name="picture">Picture file to upload.</param>
+        /// <param name="published">Define if picture will be hidden or public.</param>
+        /// <returns>Return ID of the picture</returns>
+        private async Task<string> PostPictureToFeedAsync(string title, StorageFile picture, bool published)
+        {
+            if (picture == null)
+            {
+                return null;
+            }
+
+            if (Provider.LoggedIn)
+            {
+                var pictureStream = await picture.OpenReadAsync();
+                var facebookPictureStream = new FBMediaStream(picture.Name, pictureStream);
+                var parameters = new PropertySet();
+                parameters.Add("source", facebookPictureStream);
+                parameters.Add("name", title);
+                parameters.Add("published", published);
+
+                string path = "/" + FBSession.ActiveSession.User.Id + "/photos";
+                var factory = new FBJsonClassFactory(s =>
+                {
+                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
+                });
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.PostAsync();
+                if (result.Succeeded)
+                {
+                    var photoResponse = result.Object as FacebookPicture;
+                    if (photoResponse != null)
+                    {
+                        return photoResponse.Id;
+                    }
+                }
+
+                return null;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await PostPictureToFeedAsync(title, picture, published);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Publish a picture previously posted as hidden.
+        /// </summary>
+        /// <param name="pictureId">Id of the picture.</param>
+        /// <returns>Success or failure</returns>
+        private async Task<bool> PublishPictureAsync(string pictureId)
+        {
+            if (string.IsNullOrEmpty(pictureId))
+            {
+                return false;
+            }
+
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet();
+                parameters.Add("published", true);
+
+                string path = "/" + pictureId;
+                var factory = new FBJsonClassFactory(s =>
+                {
+                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
+                });
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.PostAsync();
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await PublishPictureAsync(pictureId);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Delete a picture previously posted.
+        /// </summary>
+        /// <param name="pictureId">Id of the picture.</param>
+        /// <returns>Success or failure</returns>
+        private async Task<bool> DeletePictureAsync(string pictureId)
+        {
+            if (string.IsNullOrEmpty(pictureId))
+            {
+                return false;
+            }
+
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet();
+
+                string path = "/" + pictureId;
+                var factory = new FBJsonClassFactory(s =>
+                {
+                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
+                });
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.DeleteAsync();
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await DeletePictureAsync(pictureId);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get link to the page where the picture was posted
+        /// </summary>
+        /// <param name="pictureId">Id of the picture.</param>
+        /// <returns>Link of the page where the picture was posted</returns>
+        private async Task<string> GetPictureLinkAsync(string pictureId)
+        {
+            if (string.IsNullOrEmpty(pictureId))
+            {
+                return null;
+            }
+
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet();
+                parameters.Add("fields", "images, link");
+
+                string path = "/" + pictureId;
+                var factory = new FBJsonClassFactory(s =>
+                {
+                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
+                });
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.GetAsync();
+
+                if (result.Succeeded)
+                {
+                    var photo = result.Object as FacebookPicture;
+                    if (photo != null)
+                    {
+                        return photo.Link;
+                    }
+                }
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetPictureLinkAsync(pictureId);
+            }
+
+            return null;
         }
     }
 }
