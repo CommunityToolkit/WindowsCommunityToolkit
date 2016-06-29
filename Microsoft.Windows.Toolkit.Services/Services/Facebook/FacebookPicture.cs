@@ -28,5 +28,15 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// Gets or sets an url to the picture.
         /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the picture.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the url of the page with the picture.
+        /// </summary>
+        public string Link { get; set; }
     }
 }
