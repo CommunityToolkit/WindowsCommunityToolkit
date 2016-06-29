@@ -207,6 +207,12 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             get
             {
+                // Password vault remains when app is uninstalled so checking the local settings value
+                if (ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] == null)
+                {
+                    return null;
+                }
+
                 var passwordCredentials = vault.RetrieveAll();
                 var temp = passwordCredentials.FirstOrDefault(c => c.Resource == "TwitterAccessToken");
 
@@ -292,7 +298,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={tweet}");
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 await request.ExecuteAsync(uri, tokens, "POST");
@@ -317,6 +323,28 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// WIP!!!
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public async Task UploadPicture(IRandomAccessStream stream)
+        {
+            var uri = new Uri($"{BaseUrl}/statuses/upload.json");
+
+            // get picture data
+            var fileBytes = new byte[stream.Size];
+
+            using (DataReader reader = new DataReader(stream))
+            {
+                await reader.LoadAsync((uint)stream.Size);
+                reader.ReadBytes(fileBytes);
+            }
+
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
+            await request.ExecuteAsync(uri, tokens, "POST");
         }
 
         /// <summary>
