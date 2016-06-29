@@ -352,40 +352,13 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         }
 
         /// <summary>
-        /// Helper method to process pages of results from underlying service instance.
-        /// </summary>
-        /// <param name="results">List of results to process.</param>
-        /// <param name="maxRecords">Total upper limit of records to process.</param>
-        /// <returns>Task to support await of async call.</returns>
-        private async Task ProcessResultsAsync(IReadOnlyList<object> results, int maxRecords)
-        {
-            foreach (FacebookPost result in results)
-            {
-                if (queryResults.Count < maxRecords)
-                {
-                    queryResults.Add(result);
-                }
-            }
-
-            if (paginatedArray.HasNext && queryResults.Count < maxRecords)
-            {
-                var nextResult = await paginatedArray.NextAsync();
-                if (nextResult.Succeeded)
-                {
-                    IReadOnlyList<object> nextResults = (IReadOnlyList<object>)nextResult.Object;
-                    await ProcessResultsAsync(nextResults, maxRecords);
-                }
-            }
-        }
-
-        /// <summary>
         /// Enables posting a picture to the timeline
         /// </summary>
         /// <param name="title">Title of the post.</param>
         /// <param name="picture">Picture file to upload.</param>
         /// <param name="published">Define if picture will be hidden or public.</param>
         /// <returns>Return ID of the picture</returns>
-        private async Task<string> PostPictureToFeedAsync(string title, StorageFile picture, bool published)
+        public async Task<string> PostPictureToFeedAsync(string title, StorageFile picture, bool published)
         {
             if (picture == null)
             {
@@ -430,6 +403,33 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             return null;
         }
 
+        /// <summary>
+        /// Helper method to process pages of results from underlying service instance.
+        /// </summary>
+        /// <param name="results">List of results to process.</param>
+        /// <param name="maxRecords">Total upper limit of records to process.</param>
+        /// <returns>Task to support await of async call.</returns>
+        private async Task ProcessResultsAsync(IReadOnlyList<object> results, int maxRecords)
+        {
+            foreach (FacebookPost result in results)
+            {
+                if (queryResults.Count < maxRecords)
+                {
+                    queryResults.Add(result);
+                }
+            }
+
+            if (paginatedArray.HasNext && queryResults.Count < maxRecords)
+            {
+                var nextResult = await paginatedArray.NextAsync();
+                if (nextResult.Succeeded)
+                {
+                    IReadOnlyList<object> nextResults = (IReadOnlyList<object>)nextResult.Object;
+                    await ProcessResultsAsync(nextResults, maxRecords);
+                }
+            }
+        }
+        
         /// <summary>
         /// Publish a picture previously posted as hidden.
         /// </summary>

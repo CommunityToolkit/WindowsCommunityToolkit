@@ -14,6 +14,8 @@ using System;
 using Microsoft.Windows.Toolkit.Services.Facebook;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
@@ -66,7 +68,21 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, "https://github.com/Microsoft/WindowsAppToolkit");
+            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+        }
+
+        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
+            StorageFile picture = await openPicker.PickSingleFileAsync();
+            if (picture != null)
+            {
+                await FacebookService.Instance.PostPictureDialogAsync(TitleText.Text, DescriptionText.Text, picture);
+            }
         }
     }
 }
