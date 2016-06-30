@@ -22,15 +22,66 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
     public class Rotation : CompositionBehaviorBase
     {
         /// <summary>
-        /// The Opacity x of the associated object
+        /// The rotation of the associated object in degrees
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Opacity), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Rotation), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// Gets or sets the Opacity x.
+        /// The center (x axis) of rotation for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// The center (y axis) of rotation for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// The center (z axis) of rotation for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterZProperty = DependencyProperty.Register("CenterZ", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// Gets or sets the center point (x axis) of the associated object.
         /// </summary>
         /// <value>
-        /// The Opacity x.
+        /// The center point (x axis) of the associated object.
+        /// </value>
+        public double CenterX
+        {
+            get { return (double)GetValue(CenterXProperty); }
+            set { SetValue(CenterXProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the center point (y axis) of the associated object.
+        /// </summary>
+        /// <value>
+        /// The center point (y axis) of the associated object.
+        /// </value>
+        public double CenterY
+        {
+            get { return (double)GetValue(CenterYProperty); }
+            set { SetValue(CenterYProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the center point (z axis) of the associated object.
+        /// </summary>
+        /// <value>
+        /// The center point (z axis) of the associated object.
+        /// </value>
+        public double CenterZ
+        {
+            get { return (double)GetValue(CenterZProperty); }
+            set { SetValue(CenterZProperty, value); }
+        }
+        
+        /// <summary>
+        /// Gets or sets the Rotation in degrees.
+        /// </summary>
+        /// <value>
+        /// The Rotation of the associated object in degrees.
         /// </value>
         public double Value
         {
@@ -55,6 +106,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             rotationAnimation.Duration = TimeSpan.FromSeconds(Duration);
             rotationAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
             rotationAnimation.InsertKeyFrame(1f, (float)Value);
+
+            visual.CenterPoint = new System.Numerics.Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
 
             visual.StartAnimation("RotationAngleInDegrees", rotationAnimation);
         }

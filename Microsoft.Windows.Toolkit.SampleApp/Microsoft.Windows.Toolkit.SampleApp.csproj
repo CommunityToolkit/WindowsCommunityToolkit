@@ -152,6 +152,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.txt" />
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
@@ -223,6 +224,9 @@
     </Compile>
     <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
       <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml.cs">
+      <DependentUpon>RotationBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml.cs">
       <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
@@ -323,6 +327,10 @@
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml">
       <SubType>Designer</SubType>
