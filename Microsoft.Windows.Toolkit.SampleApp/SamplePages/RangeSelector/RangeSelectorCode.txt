@@ -23,7 +23,7 @@
 					Text="{Binding RangeMin, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" 
                     Foreground="Black"></TextBlock>
             <controls:RangeSelector x:Name="RangeSelector" Grid.Column="1"
-                 Minimum="@[Minimum:Slider:0:10-100]" 
+                 Minimum="@[Minimum:Slider:0:0-100]" 
                  Maximum="@[Maximum:Slider:100:0-100]">
             </controls:RangeSelector>
             <TextBlock Grid.Column="2" 

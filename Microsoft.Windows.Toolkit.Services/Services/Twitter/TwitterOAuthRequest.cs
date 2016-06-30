@@ -15,6 +15,8 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
@@ -33,54 +35,24 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecuteAsync(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
         {
-            string result;
-            var request = CreateRequest(requestUri, tokens, method);
-            var response = await request.GetResponseAsync();
-            var responseStream = GetResponseStream(response);
-
-            using (StreamReader sr = new StreamReader(responseStream))
-            {
-                result = sr.ReadToEnd();
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Returns stream from web response.
-        /// </summary>
-        /// <param name="response">WebResponse response.</param>
-        /// <returns>Stream of response.</returns>
-        private static Stream GetResponseStream(WebResponse response)
-        {
-            var encoding = response.Headers["content-encoding"];
-
-            if (encoding != null && encoding == "gzip")
-            {
-                return new GZipStream(response.GetResponseStream(), CompressionMode.Decompress);
-            }
-
-            return response.GetResponseStream();
-        }
-
-        /// <summary>
-        /// Builds HttpWebRequest.
-        /// </summary>
-        /// <param name="requestUri">Uri to request.</param>
-        /// <param name="tokens">OAuth tokens to pass in request.</param>
-        /// <param name="method">Method to use with the request.</param>
-        /// <returns>Built up WebRequest.</returns>
-        private static WebRequest CreateRequest(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
-        {
             var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, method);
 
-            var request = (HttpWebRequest)WebRequest.Create(requestBuilder.EncodedRequestUri);
+            var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
+            var client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("Authorization", requestBuilder.AuthorizationHeader);
 
-            request.UseDefaultCredentials = true;
-            request.Method = method;
-            request.Headers["Authorization"] = requestBuilder.AuthorizationHeader;
+            HttpResponseMessage response;
 
-            return request;
+            if (method == "POST")
+            {
+                response = await client.PostAsync(requestUri, null);
+            }
+            else
+            {
+                response = await client.GetAsync(requestUri);
+            }
+
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

@@ -25,6 +25,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         private bool isPaneOpen;
 
+        public bool DisplayWaitRing
+        {
+            set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
         public Shell()
         {
             InitializeComponent();

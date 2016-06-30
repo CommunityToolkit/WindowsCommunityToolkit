@@ -20,23 +20,21 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     /// <summary>
     /// Twitter Timeline Parser.
     /// </summary>
-    public class TwitterTimelineParser : IParser<TwitterSchema>
+    public class TweetParser : IParser<Tweet>
     {
         /// <summary>
         /// Parse string data into strongly typed list.
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>List of strongly typed objects.</returns>
-        public IEnumerable<TwitterSchema> Parse(string data)
+        public IEnumerable<Tweet> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<TwitterTimelineItem[]>(data);
-
-            return result.Select(r => r.Parse()).ToList();
+            return JsonConvert.DeserializeObject<List<Tweet>>(data);
         }
     }
 }

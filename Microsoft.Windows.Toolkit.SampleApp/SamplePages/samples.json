@@ -116,6 +116,14 @@
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "CodeFile": "FacebookCode.txt", 
         "Icon": "/SamplePages/Facebook Service/icon.png"
+      },
+      {
+        "Name": "Twitter Service",
+        "Type": "TwitterPage",
+        "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeFile": "TwitterCode.txt", 
+        "Icon": "/SamplePages/Twitter Service/icon.png"
       }
     ]
   }
