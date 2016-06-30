@@ -21,6 +21,6 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets array of timeline statuses.
         /// </summary>
-        public TwitterTimelineItem[] Statuses { get; set; }
+        public Tweet[] Statuses { get; set; }
     }
 }

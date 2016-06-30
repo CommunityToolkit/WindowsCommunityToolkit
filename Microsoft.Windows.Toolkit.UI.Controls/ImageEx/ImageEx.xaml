@@ -10,8 +10,86 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">
                     <Grid Background="{TemplateBinding Background}">
-                        <Image Name="Image" Opacity="0.0" Stretch="{TemplateBinding Stretch}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" NineGrid="{TemplateBinding NineGrid}"/>
-                        <ProgressRing Name="Progress" Margin="16" IsActive="True" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Loading">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="IsActive" 
+                                            Storyboard.TargetName="Progress">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="Opacity" 
+                                            Storyboard.TargetName="Image">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="0"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="Opacity" 
+                                            Storyboard.TargetName="PlaceholderImage">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="1"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Loaded">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="IsActive" 
+                                            Storyboard.TargetName="Progress">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation
+                                            BeginTime="0"
+                                            Duration="{TemplateBinding PlaceholderAnimationDuration}"
+                                            From="0"
+                                            To="1"
+                                            AutoReverse="False"
+                                            Storyboard.TargetName="Image"
+                                            Storyboard.TargetProperty="Opacity" />
+                                        <DoubleAnimation
+                                            BeginTime="0"
+                                            Duration="{TemplateBinding PlaceholderAnimationDuration}"
+                                            From="1"
+                                            To="0"
+                                            AutoReverse="False"
+                                            Storyboard.TargetName="PlaceholderImage"
+                                            Storyboard.TargetProperty="Opacity" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unloaded" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <Image 
+                            Name="PlaceholderImage" 
+                            Opacity="1.0" 
+                            Source="{TemplateBinding PlaceholderSource}" 
+                            Stretch="{TemplateBinding PlaceholderStretch}" 
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                        <Image 
+                            Name="Image" 
+                            Opacity="0.0" 
+                            Stretch="{TemplateBinding Stretch}" 
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}" 
+                            NineGrid="{TemplateBinding NineGrid}"/>
+                        <ProgressRing 
+                            Name="Progress" 
+                            Margin="16" 
+                            IsActive="False" 
+                            Background="Transparent" 
+                            Foreground="{TemplateBinding Foreground}" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -11,48 +11,57 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
+
 using System;
+using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
     /// <summary>
-    /// Strong typed Twitter schema.
+    /// Twitter Timeline item.
     /// </summary>
-    public class TwitterSchema : SchemaBase
+    public class Tweet : SchemaBase
     {
         /// <summary>
-        /// Gets or sets tweet text.
+        /// Gets or sets time item was created.
         /// </summary>
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets item Id.
+        /// </summary>
+        [JsonProperty("id_str")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets text of the status.
+        /// </summary>
+        [JsonProperty("text")]
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets or sets creation date and time.
+        /// Gets or sets user who posted the status.
         /// </summary>
-        public DateTime CreationDateTime { get; set; }
+        [JsonProperty("user")]
+        public TwitterUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets userId of Tweeter.
+        /// Gets the creation date
         /// </summary>
-        public string UserId { get; set; }
+        public DateTime CreationDate
+        {
+            get
+            {
+                DateTime dt;
+                if (!DateTime.TryParseExact(CreatedAt, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                {
+                    dt = DateTime.Today;
+                }
 
-        /// <summary>
-        /// Gets or sets userName of Tweeter.
-        /// </summary>
-        public string UserName { get; set; }
-
-        /// <summary>
-        /// Gets or sets user screen name of Tweeter.
-        /// </summary>
-        public string UserScreenName { get; set; }
-
-        /// <summary>
-        /// Gets or sets profile image of user.
-        /// </summary>
-        public string UserProfileImageUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets url of tweet.
-        /// </summary>
-        public string Url { get; set; }
+                return dt;
+            }
+        }
     }
 }

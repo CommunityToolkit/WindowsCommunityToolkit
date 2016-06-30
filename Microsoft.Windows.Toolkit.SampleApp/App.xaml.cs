@@ -13,8 +13,12 @@ using System;
 
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Metadata;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
@@ -42,13 +46,27 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+
+            // Set title bar colors
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
             {
-                DebugSettings.EnableFrameRateCounter = true;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                Color blueBrush = default(Color);
+                Color lightGreyBrush = default(Color);
+                Color darkGreyBrush = default(Color);
+                blueBrush = (Color)Resources["Blue-01"];
+                lightGreyBrush = (Color)Resources["Grey-04"];
+                darkGreyBrush = (Color)Resources["Grey-01"];
+
+                if (titleBar != null)
+                {
+                    titleBar.ButtonBackgroundColor = lightGreyBrush;
+                    titleBar.ButtonForegroundColor = darkGreyBrush;
+                    titleBar.BackgroundColor = blueBrush;
+                    titleBar.ForegroundColor = lightGreyBrush;
+                }
             }
 
-#endif
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

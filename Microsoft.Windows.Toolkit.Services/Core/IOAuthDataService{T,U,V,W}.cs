@@ -37,18 +37,5 @@ namespace Microsoft.Windows.Toolkit.Services.Core
         /// </summary>
         /// <returns>Returns success or failure indicator.</returns>
         Task<bool> LoginAsync();
-
-        /// <summary>
-        /// Log in to the underlying data service provider with requested requiredPermissions.
-        /// </summary>
-        /// <param name="requiredPermissions">List of requiredPermissions required.</param>
-        /// <returns>Returns success or failure indicator.</returns>
-        Task<bool> LoginAsync(List<string> requiredPermissions);
-
-        /// <summary>
-        /// Logs out of the underlying data service provider.
-        /// </summary>
-        /// <returns>Returns a Task to enable awaiting on method call.</returns>
-        Task LogoutAsync();
     }
 }
