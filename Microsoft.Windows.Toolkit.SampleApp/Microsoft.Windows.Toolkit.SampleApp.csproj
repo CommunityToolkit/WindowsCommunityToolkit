@@ -144,6 +144,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.txt" />
     <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.txt" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
@@ -200,6 +201,9 @@
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml.cs">
+      <DependentUpon>OffsetBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml.cs">
       <DependentUpon>OpacityBehaviorPage.xaml</DependentUpon>
@@ -283,6 +287,10 @@
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml">
       <SubType>Designer</SubType>

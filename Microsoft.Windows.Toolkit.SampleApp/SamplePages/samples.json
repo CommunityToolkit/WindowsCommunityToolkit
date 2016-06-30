@@ -116,6 +116,14 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "ScaleBehaviorCode.txt",
         "Icon": "Icons/Behavior.png"
+      },
+      {
+        "Name": "OffsetBehavior",
+        "Type": "OffsetBehaviorPage",
+        "About": "Shows you how to implement the offset behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "OffsetBehaviorCode.txt",
+        "Icon": "Icons/Behavior.png"
       }
     ]
   },
