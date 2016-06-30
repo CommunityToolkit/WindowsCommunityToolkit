@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Windows.Toolkit.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14332.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -131,6 +131,7 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Icons\Behaviors.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.txt" />
@@ -144,16 +145,19 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
     <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.txt" />
+    <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
     <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.txt" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
-    <Content Include="SamplePages\ResizeBehavior\ResizeBehaviorCode.txt" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.txt" />
+    <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
@@ -198,9 +202,6 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml.cs">
-      <DependentUpon>ResizeBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
       <DependentUpon>BingPage.xaml</DependentUpon>
     </Compile>
@@ -285,10 +286,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

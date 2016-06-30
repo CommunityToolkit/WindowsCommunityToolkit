@@ -27,17 +27,17 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
     public class Offset : CompositionBehaviorBase
     {
         /// <summary>
-        /// The Offset x of the associated object
+        /// The Offset on the x axis of the associated object
         /// </summary>
         public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register("OffsetX", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// The Offset y of the associated object
+        /// The Offset on the y axis of the associated object
         /// </summary>
         public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register("OffsetY", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// The Offset z of the associated object
+        /// The Offset on the z axis of the associated object
         /// </summary>
         public static readonly DependencyProperty OffsetZProperty = DependencyProperty.Register("OffsetZ", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 

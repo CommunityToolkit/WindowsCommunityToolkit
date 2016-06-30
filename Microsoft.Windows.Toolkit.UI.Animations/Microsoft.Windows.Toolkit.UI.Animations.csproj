@@ -51,7 +51,6 @@
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Opacity.cs" />
-    <Compile Include="Behaviors\Resize.cs" />
     <Compile Include="Behaviors\Rotation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="Extensions\Extensions.Animation.cs" />

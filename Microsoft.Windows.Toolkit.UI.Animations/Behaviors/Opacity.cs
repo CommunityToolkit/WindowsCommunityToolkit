@@ -25,15 +25,15 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
     public class Opacity : CompositionBehaviorBase
     {
         /// <summary>
-        /// The Opacity x of the associated object
+        /// The Opacity value of the associated object
         /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Opacity), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// Gets or sets the Opacity x.
+        /// Gets or sets the Opacity.
         /// </summary>
         /// <value>
-        /// The Opacity x.
+        /// The Opacity.
         /// </value>
         public double Value
         {
@@ -42,7 +42,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Defines the method to be called when the command is invoked.
+        /// Starts the animation.
         /// </summary>
         public override void StartAnimation()
         {

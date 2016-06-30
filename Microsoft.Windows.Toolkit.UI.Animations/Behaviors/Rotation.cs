@@ -76,7 +76,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             get { return (double)GetValue(CenterZProperty); }
             set { SetValue(CenterZProperty, value); }
         }
-        
+
         /// <summary>
         /// Gets or sets the Rotation in degrees.
         /// </summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Defines the method to be called when the command is invoked.
+        /// Starts the animation.
         /// </summary>
         public override void StartAnimation()
         {

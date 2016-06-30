@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 

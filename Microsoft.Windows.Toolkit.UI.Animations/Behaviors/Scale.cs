@@ -12,7 +12,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -24,25 +23,40 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
     public class Scale : CompositionBehaviorBase
     {
         /// <summary>
-        /// The scale x of the associated object
+        /// The scale (x axis) of the associated object
         /// </summary>
         public static readonly DependencyProperty ScaleXProperty = DependencyProperty.Register("ScaleX", typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// The scale y of the associated object
+        /// The scale (y axis) of the associated object
         /// </summary>
         public static readonly DependencyProperty ScaleYProperty = DependencyProperty.Register("ScaleY", typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// The scale z of the associated object
+        /// The scale (z axis) of the associated object
         /// </summary>
         public static readonly DependencyProperty ScaleZProperty = DependencyProperty.Register("ScaleZ", typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// Gets or sets the scale x.
+        /// The center (x axis) of scale for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// The center (y axis) of scale for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// The center (z axis) of scale for associated object
+        /// </summary>
+        public static readonly DependencyProperty CenterZProperty = DependencyProperty.Register("CenterZ", typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
+
+        /// <summary>
+        /// Gets or sets the scale on the x axis.
         /// </summary>
         /// <value>
-        /// The scale x.
+        /// The scale on the x axis.
         /// </value>
         public double ScaleX
         {
@@ -51,10 +65,10 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the scale y.
+        /// Gets or sets the scale on the y axis.
         /// </summary>
         /// <value>
-        /// The scale y.
+        /// The scale on the y axis.
         /// </value>
         public double ScaleY
         {
@@ -63,10 +77,10 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the scale z.
+        /// Gets or sets the scale on the z axis.
         /// </summary>
         /// <value>
-        /// The scale z.
+        /// The scale on the z axis.
         /// </value>
         public double ScaleZ
         {
@@ -75,7 +89,43 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Defines the method to be called when the command is invoked.
+        /// Gets or sets the scale (x axis) of the associated object.
+        /// </summary>
+        /// <value>
+        /// The scale (x axis) of the associated object.
+        /// </value>
+        public double CenterX
+        {
+            get { return (double)GetValue(CenterXProperty); }
+            set { SetValue(CenterXProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale (y axis) of the associated object.
+        /// </summary>
+        /// <value>
+        /// The scale (y axis) of the associated object.
+        /// </value>
+        public double CenterY
+        {
+            get { return (double)GetValue(CenterYProperty); }
+            set { SetValue(CenterYProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale (z axis) of the associated object.
+        /// </summary>
+        /// <value>
+        /// The scale (z axis) of the associated object.
+        /// </value>
+        public double CenterZ
+        {
+            get { return (double)GetValue(CenterZProperty); }
+            set { SetValue(CenterZProperty, value); }
+        }
+
+        /// <summary>
+        /// Starts the animation.
         /// </summary>
         public override void StartAnimation()
         {
@@ -91,6 +141,9 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             scaleAnimation.Duration = TimeSpan.FromSeconds(Duration);
             scaleAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
             scaleAnimation.InsertKeyFrame(1f, new Vector3((float)ScaleX, (float)ScaleY, (float)ScaleZ));
+
+            visual.CenterPoint = new Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
+
             visual.StartAnimation("Scale", scaleAnimation);
         }
     }

@@ -99,7 +99,7 @@
   },
   {
     "Name": "Behaviors",
-    "Icon": "Icons/Behavior.png",
+    "Icon": "Icons/Behaviors.png",
     "Samples": [
       {
         "Name": "OpacityBehavior",
@@ -107,7 +107,7 @@
         "About": "Shows you how to implement the opacity behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "OpacityBehaviorCode.txt",
-        "Icon": "Icons/Behavior.png"
+        "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
       },
       {
         "Name": "ScaleBehavior",
@@ -115,7 +115,7 @@
         "About": "Shows you how to implement the scale behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "ScaleBehaviorCode.txt",
-        "Icon": "Icons/Behavior.png"
+        "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {
         "Name": "OffsetBehavior",
@@ -123,7 +123,7 @@
         "About": "Shows you how to implement the offset behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "OffsetBehaviorCode.txt",
-        "Icon": "Icons/Behavior.png"
+        "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
       },
       {
         "Name": "RotationBehavior",
@@ -131,15 +131,7 @@
         "About": "Shows you how to implement the rotation behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "RotationBehaviorCode.txt",
-        "Icon": "Icons/Behavior.png"
-      },
-      {
-        "Name": "ResizeBehavior",
-        "Type": "ResizeBehaviorPage",
-        "About": "Shows you how to implement the resize behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "ResizeBehaviorCode.txt",
-        "Icon": "Icons/Behavior.png"
+        "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
       }
     ]
   },
