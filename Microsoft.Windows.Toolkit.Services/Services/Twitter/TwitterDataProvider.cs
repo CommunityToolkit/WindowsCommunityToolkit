@@ -18,6 +18,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
@@ -85,7 +86,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
             catch (WebException wex)
@@ -129,7 +130,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -176,7 +177,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -301,7 +302,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                await request.ExecuteAsync(uri, tokens, "POST");
+                await request.ExecutePostAsync(uri, tokens);
 
                 return true;
             }
@@ -334,7 +335,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         {
             var uri = new Uri($"{BaseUrl}/statuses/upload.json");
 
-            // get picture data
+            // Get picture data
             var fileBytes = new byte[stream.Size];
 
             using (DataReader reader = new DataReader(stream))
@@ -343,8 +344,24 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 reader.ReadBytes(fileBytes);
             }
 
+            // Prepare content
+            //Encoding encodingAlgorithm = Encoding.GetEncoding("iso-8859-1");
+            string boundary = DateTime.Now.Ticks.ToString("x");
+            //string startBoundary = string.Format("--{0}\r\n", boundary);
+            //string endBoundary = string.Format("\r\n--{0}--\r\n", boundary);
+            //string sContentType = "multipart/form-data;boundary=" + boundary;
+            //string contentDisposition = "Content-Disposition: form-data; ";
+            //string contenName = "name=\"media\";\r\n ";
+            //string contentType = "\r\nContent-Type: application/octet-stream\r\n\r\n";
+            //string data = encodingAlgorithm.GetString(fileBytes, 0, fileBytes.Length);
+
+            //var contents = new StringBuilder();
+            //contents.Append($"{startBoundary}{contentDisposition}{contenName}{contentType}{data}");
+            //contents.Append(endBoundary);
+            //byte[] content = encodingAlgorithm.GetBytes(contents.ToString());
+
             TwitterOAuthRequest request = new TwitterOAuthRequest();
-            await request.ExecuteAsync(uri, tokens, "POST");
+            await request.ExecutePostMultipartAsync(uri, tokens, boundary, fileBytes);
         }
 
         /// <summary>
@@ -495,7 +512,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 return parser.Parse(rawResult);
             }

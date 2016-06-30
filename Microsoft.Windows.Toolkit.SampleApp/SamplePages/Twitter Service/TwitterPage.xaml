@@ -47,6 +47,7 @@
             <StackPanel Orientation="Vertical">
                 <TextBox Header="Tweet:" x:Name="TweetText"></TextBox>
                 <Button Content="Share" x:Name="ShareButton" Click="ShareButton_OnClick" Margin="0,10,0,0"></Button>
+                <Button Content="Share" x:Name="SharePictureButton" Click="SharePictureButton_OnClick" Margin="0,10,0,0"></Button>
                 <TextBox Header="Search tag:" x:Name="TagText"></TextBox>
                 <Button Content="Search" x:Name="SearchButton" Click="SearchButton_OnClick" Margin="0,10,0,0"></Button>
             </StackPanel>

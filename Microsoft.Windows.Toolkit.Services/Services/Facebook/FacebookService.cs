@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using winsdkfb;
 using winsdkfb.Graph;
 
@@ -327,11 +328,12 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// </summary>
         /// <param name="title">Title of the post.</param>
         /// <param name="description">Description of the post.</param>
-        /// <param name="picture">Picture file to upload.</param>
+        /// <param name="pictureName">Picture name.</param>
+        /// <param name="pictureStream">Picture stream to upload.</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> PostPictureDialogAsync(string title, string description, StorageFile picture)
+        public async Task<bool> PostToFeedAsync(string title, string description, string pictureName, IRandomAccessStreamWithContentType pictureStream)
         {
-            var pictureId = await PostPictureToFeedAsync(title, picture, false);
+            var pictureId = await PostPictureToFeedAsync(title, pictureName, pictureStream, false);
             if (pictureId != null)
             {
                 var link = await GetPictureLinkAsync(pictureId);
@@ -355,30 +357,28 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
         /// Enables posting a picture to the timeline
         /// </summary>
         /// <param name="title">Title of the post.</param>
-        /// <param name="picture">Picture file to upload.</param>
+        /// <param name="pictureName">Picture name.</param>
+        /// <param name="pictureStream">Picture stream to upload.</param>
         /// <param name="published">Define if picture will be hidden or public.</param>
         /// <returns>Return ID of the picture</returns>
-        public async Task<string> PostPictureToFeedAsync(string title, StorageFile picture, bool published)
+        public async Task<string> PostPictureToFeedAsync(string title, string pictureName, IRandomAccessStreamWithContentType pictureStream, bool published)
         {
-            if (picture == null)
+            if (pictureStream == null)
             {
                 return null;
             }
 
             if (Provider.LoggedIn)
             {
-                var pictureStream = await picture.OpenReadAsync();
-                var facebookPictureStream = new FBMediaStream(picture.Name, pictureStream);
-                var parameters = new PropertySet();
-                parameters.Add("source", facebookPictureStream);
-                parameters.Add("name", title);
-                parameters.Add("published", published);
+                var facebookPictureStream = new FBMediaStream(pictureName, pictureStream);
+                var parameters = new PropertySet
+                {
+                    { "source", facebookPictureStream },
+                    { "name", title }, { "published", published }
+                };
 
                 string path = "/" + FBSession.ActiveSession.User.Id + "/photos";
-                var factory = new FBJsonClassFactory(s =>
-                {
-                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
-                });
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.PostAsync();
@@ -397,7 +397,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await PostPictureToFeedAsync(title, picture, published);
+                return await PostPictureToFeedAsync(title, pictureName, pictureStream, published);
             }
 
             return null;
@@ -429,7 +429,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
                 }
             }
         }
-        
+
         /// <summary>
         /// Publish a picture previously posted as hidden.
         /// </summary>
