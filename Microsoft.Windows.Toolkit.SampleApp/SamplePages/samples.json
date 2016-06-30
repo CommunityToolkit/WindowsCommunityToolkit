@@ -6,7 +6,7 @@
 			{
 				"Name": "ResponsiveGridView",
 				"Type": "ResponsiveGridViewPage",
-				"About": "The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
+				"About": "Presents content within a GridView to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
 				"CodeUrl": "https://github.com/deltakosh/UWPToolkit",
 				"XamlCodeFile": "ResponsiveGridViewCode.txt",
         "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
@@ -14,7 +14,7 @@
       {
         "Name": "VariableSizedGridView",
         "Type": "VariableSizedGridViewPage",
-        "About": "The VariableSizedGridView control allows to display items from a list using different values for Width and Height item properties. You can control the number of rows and columns to be displayed as well as the items orientation in the panel. Finally, the AspectRatio property allow us to control the relation between Width and Height.",
+        "About": "Displays items that have different Width and Height values. You can control the number of rows, columns, orientation, and aspect ratio.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "VariableSizedGridViewCode.txt",
         "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
@@ -22,7 +22,7 @@
       {
         "Name": "Carousel",
         "Type": "CarouselPage",
-        "About": "The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items. The Carousel control is responsive by design, optimizing the visualization in the different form factors. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX to properly behave depending on the resolution and space available.",
+        "About": "A responsive carousel control for displaying content. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "CarouselCode.txt",
         "Icon": "/SamplePages/Carousel/icon.jpg"
@@ -36,7 +36,7 @@
       {
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
-        "About": "The HamburgerMenu provide a simple to use side bar menu that you can show/hide using a hamburger button.",
+        "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HamburgerMenuCode.txt",
         "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
@@ -52,7 +52,7 @@
       {
         "Name": "ImageEx",
         "Type": "ImageExPage",
-        "About": "The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps. Source images are downloaded asynchronously showing a load indicator while in progress. Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.",
+        "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "ImageExCode.txt",
         "Icon": "/SamplePages/ImageEx/icon.jpg"
@@ -60,7 +60,7 @@
       {
         "Name": "HeaderedTextBlock",
         "Type": "HeaderedTextBlockPage",
-        "About": "The HeaderedTextBlock control is designed to provide a header for readonly text. This control is useful for displaying readonly forms.",
+        "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "HeaderedTextBlockCode.txt",
         "Icon": "/SamplePages/SearchBox/icon.jpg"
@@ -76,7 +76,7 @@
       {
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
-        "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root, but it is not required.",
+        "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "SlidableListItemCode.txt",
         "Icon": "/SamplePages/SlidableListItem/icon.png"
