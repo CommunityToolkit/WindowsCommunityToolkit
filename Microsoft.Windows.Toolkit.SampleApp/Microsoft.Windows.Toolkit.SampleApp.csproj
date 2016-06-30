@@ -151,6 +151,7 @@
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
+    <Content Include="SamplePages\ResizeBehavior\ResizeBehaviorCode.txt" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.txt" />
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
@@ -197,6 +198,9 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
+    <Compile Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml.cs">
+      <DependentUpon>ResizeBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
       <DependentUpon>BingPage.xaml</DependentUpon>
     </Compile>
@@ -281,6 +285,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

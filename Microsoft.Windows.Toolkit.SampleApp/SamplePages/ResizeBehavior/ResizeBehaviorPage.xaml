@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.ResizeBehaviorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:behaviors="using:Microsoft.Windows.Toolkit.UI.Animations.Behaviors" 
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Microsoft.Windows.Toolkit.SampleApp.ResizeBehavior"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Rectangle Fill="red" Height="100" Width="100" >
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Resize x:Name="Resize" ResizeX="{Binding ResizeX.Value, Mode=TwoWay}" ResizeY="{Binding ResizeY.Value, Mode=TwoWay}" Duration="{Binding Duration.Value, Mode=TwoWay}" Delay="{Binding Delay.Value, Mode=TwoWay}" AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
+            </interactivity:Interaction.Behaviors>
+        </Rectangle>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Apply" Margin="10">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:CallMethodAction TargetObject="{Binding ElementName=Resize}" MethodName="StartAnimation"/>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

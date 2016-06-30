@@ -132,6 +132,14 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "XamlCodeFile": "RotationBehaviorCode.txt",
         "Icon": "Icons/Behavior.png"
+      },
+      {
+        "Name": "ResizeBehavior",
+        "Type": "ResizeBehaviorPage",
+        "About": "Shows you how to implement the resize behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "ResizeBehaviorCode.txt",
+        "Icon": "Icons/Behavior.png"
       }
     ]
   },
