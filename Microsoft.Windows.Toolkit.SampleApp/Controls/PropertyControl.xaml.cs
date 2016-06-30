@@ -44,6 +44,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Controls
             {
                 var propertyDesc = await sample.GetPropertyDescriptorAsync();
 
+                if (propertyDesc == null)
+                {
+                    return;
+                }
+
                 foreach (var option in propertyDesc.Options)
                 {
                     // Label

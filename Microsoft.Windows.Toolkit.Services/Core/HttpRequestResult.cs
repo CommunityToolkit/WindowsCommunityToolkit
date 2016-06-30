@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,23 +9,40 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
-using System.Net;
+using Windows.Web.Http;
 
 namespace Microsoft.Windows.Toolkit.Services.Core
 {
+    /// <summary>
+    /// HttpRequestResult type for hold request results.
+    /// </summary>
     internal class HttpRequestResult
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestResult"/> class.
+        /// Default constructor.
+        /// </summary>
         public HttpRequestResult()
         {
-            StatusCode = HttpStatusCode.OK;
+            StatusCode = HttpStatusCode.Ok;
             Result = string.Empty;
         }
 
+        /// <summary>
+        /// Gets or sets holds request StatusCode.
+        /// </summary>
         public HttpStatusCode StatusCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets holds request Result.
+        /// </summary>
         public string Result { get; set; }
 
-        public bool Success => StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(Result);
+        /// <summary>
+        /// Gets a value indicating whether holds request Success boolean.
+        /// </summary>
+        public bool Success => StatusCode == HttpStatusCode.Ok && !string.IsNullOrEmpty(Result);
     }
 }

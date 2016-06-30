@@ -25,11 +25,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty HamburgerMarginProperty = DependencyProperty.Register(nameof(HamburgerMargin), typeof(Thickness), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="HamburgerFontSize"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HamburgerFontSizeProperty = DependencyProperty.Register(nameof(HamburgerFontSize), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(18.0));
-
-        /// <summary>
         /// Identifies the <see cref="HamburgerMenuTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HamburgerMenuTemplateProperty = DependencyProperty.Register(nameof(HamburgerMenuTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
@@ -68,15 +63,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             get { return (Thickness)GetValue(HamburgerMarginProperty); }
             set { SetValue(HamburgerMarginProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets main button's font size
-        /// </summary>
-        public Thickness HamburgerFontSize
-        {
-            get { return (Thickness)GetValue(HamburgerFontSizeProperty); }
-            set { SetValue(HamburgerFontSizeProperty, value); }
         }
     }
 }

@@ -31,7 +31,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
+    <Grid Background="{StaticResource Brush-White}" Margin="50" BorderThickness="1" BorderBrush="Black">
         <controls:HamburgerMenu PaneBackground="{Binding PaneBackground.Value}" x:Name="HamburgerMenu"
                                 Foreground="White"
                                 ItemTemplate="{StaticResource ButtonTemplate}"
@@ -39,12 +39,10 @@
                                 ItemClick="HamburgerMenu_OnItemClick"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OpenPaneLength="{Binding OpenPaneLength.Value}"
-                                PanePlacement="{Binding PanePlacement.Value}"
                                 DisplayMode="{Binding DisplayMode.Value}"
                                 CompactPaneLength="{Binding CompactPaneLength.Value}"
                                 HamburgerWidth="48"
                                 HamburgerHeight="{Binding HamburgerHeight.Value}"
-                                HamburgerFontSize="{Binding HamburgerFontSize.Value}"
                                 IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
                                 >
             <Grid x:Name="ContentGrid">
@@ -53,7 +51,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Background="Black" Grid.Row="0">
-                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}" />
+                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}" Foreground="White"/>
                 </Border>
                 <Image x:Name="Image" Grid.Row="1" Source="{Binding Thumbnail}" />
             </Grid>

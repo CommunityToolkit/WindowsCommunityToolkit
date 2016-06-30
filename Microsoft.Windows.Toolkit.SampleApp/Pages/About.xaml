@@ -6,93 +6,49 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <RichTextBlock Margin="12" TextWrapping="Wrap" Foreground="Black">
-                    <Paragraph>
-                        <Run
-                            FontSize="17"
-                            FontWeight="SemiBold"
-                            Text="Microsoft UWP Toolkit Sample Application"/>
-                    </Paragraph>
-                    <Paragraph
-                        FontSize="12">
-                        <Run x:Name="Version"/>
-                    </Paragraph>
-                    <Paragraph
-                        Margin="0,12,0,0">
-                        <Run
-                            Text="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo (wasteam). All Controls and helpers are available as NuGet packages."
+            <StackPanel HorizontalAlignment="Center" Margin="0,36,0,0">
+                <Ellipse Height="60" Width="60" Stroke="{StaticResource Brush-Blue-01}" StrokeThickness="1" Fill="{StaticResource Brush-Grey-04}" Margin="0,0,0,24"/>
+                <TextBlock Text="Microsoft UWP Toolkit Sample App" FontSize="36" Foreground="{StaticResource Brush-Grey-03}" FontWeight="Light" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="Version" TextAlignment="Center" Margin="0,0,0,24"/>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="WrapWholeWords" Text="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo (wasteam). All Controls and helpers are available as NuGet packages." Margin="0,0,0,12"/>
+
+                <TextBlock Text="App code" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <HyperlinkButton HorizontalAlignment="Center"
                             FontWeight="Light"
-                            FontSize="14" />
-                    </Paragraph>
-                    <!--App Code-->
-                    <Paragraph
-                        Margin="0,24,0,0">
-                        <Run
-                            Text="App code"
-                            FontWeight="SemiBold"
-                            FontSize="17"/>
-                    </Paragraph>
-                    <Paragraph
-                        Margin="0,6,0,0">
-                        <Hyperlink
-                            FontWeight="Light"
-                            Foreground="Black"
+                            Foreground="{StaticResource Brush-Blue-01}"
                             NavigateUri="https://github.com/deltakosh/UWPToolkit"
-                            FontSize="14">
-                            <Run
-                                Text="GitHub Repository" />
-                        </Hyperlink>
-                    </Paragraph>
-                    <!--App Studio URL-->
-                    <Paragraph
-                        Margin="0,24,0,0">
-                        <Run
-                            Text="Url"
-                            FontWeight="SemiBold"
-                            FontSize="17"/>
-                    </Paragraph>
-                    <Paragraph
-                        Margin="0,6,0,0">
-                        <Hyperlink
+                            FontSize="14" Margin="0,0,0,12">
+                    GitHub Repository
+                </HyperlinkButton>
+                <TextBlock Text="URL" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <HyperlinkButton
+                            HorizontalAlignment="Center"
                             FontWeight="Light"
-                            Foreground="Black"
+                            Foreground="{StaticResource Brush-Blue-01}"
                             NavigateUri="https://dev.windows/com/uwptoolkit"
-                            FontSize="14">
-                            https://dev.windows/com/uwptoolkit
-                        </Hyperlink>
-                    </Paragraph>
-                    <!--Dependences-->
-                    <Paragraph
-                        Margin="0,24,0,0">
-                        <Run
-                            Text="Dependencies"
-                            FontWeight="SemiBold"
-                            FontSize="17"/>
-                    </Paragraph>
-                    <Paragraph
-                        Margin="12,6,0,0">
-                        <Hyperlink
+                            FontSize="14" Margin="0,0,0,12">
+                    https://dev.windows/com/uwptoolkit
+                </HyperlinkButton>
+
+                <TextBlock Text="Dependencies" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <HyperlinkButton
+                            HorizontalAlignment="Center"
                             FontWeight="Light"
-                            Foreground="Black"
+                            Foreground="{StaticResource Brush-Blue-01}"
                             NavigateUri="http://www.newtonsoft.com/json"
                             FontSize="14">
-                            Newtonsoft Json
-                        </Hyperlink>
-                    </Paragraph>
-                    <Paragraph
-                        Margin="12,6,0,0">
-                        <Hyperlink
+                    Newtonsoft Json
+                </HyperlinkButton>
+                <HyperlinkButton
+                            HorizontalAlignment="Center"
                             FontWeight="Light"
-                            Foreground="Black"
+                            Foreground="{StaticResource Brush-Blue-01}"
                             NavigateUri="https://github.com/google/code-prettify"
                             FontSize="14">
-                            Code Prettify
-                        </Hyperlink>
-                    </Paragraph>
-                </RichTextBlock>
+                    Code Prettify
+                </HyperlinkButton>
             </StackPanel>
         </ScrollViewer>
     </Grid>

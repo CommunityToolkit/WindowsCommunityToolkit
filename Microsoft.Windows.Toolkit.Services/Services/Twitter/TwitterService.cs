@@ -1,0 +1,268 @@
+﻿// ******************************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
+// ******************************************************************
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Windows.Toolkit.Services.Core;
+
+namespace Microsoft.Windows.Toolkit.Services.Twitter
+{
+    /// <summary>
+    /// Class for connecting to Twitter.
+    /// </summary>
+    public class TwitterService : IOAuthDataService<TwitterDataProvider, Tweet, TwitterDataConfig, TwitterOAuthTokens>
+    {
+        /// <summary>
+        /// Private singleton field for TwitterDataProvider.
+        /// </summary>
+        private static TwitterDataProvider twitterDataProvider;
+
+        /// <summary>
+        /// Field for tracking oAuthTokens.
+        /// </summary>
+        private TwitterOAuthTokens tokens;
+
+        /// <summary>
+        /// Field for tracking initialization status.
+        /// </summary>
+        private bool isInitialized;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TwitterService"/> class.
+        /// Default private constructor.
+        /// </summary>
+        private TwitterService()
+        {
+        }
+
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static TwitterService instance;
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static TwitterService Instance => instance ?? (instance = new TwitterService());
+
+        /// <summary>
+        /// Gets the current logged in user screen name.
+        /// </summary>
+        public string UserScreenName => Provider.UserScreenName;
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="consumerKey">Consumer key.</param>
+        /// <param name="consumerSecret">Consumer secret.</param>
+        /// <param name="callbackUri">Callback URI.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string consumerKey, string consumerSecret, string callbackUri)
+        {
+            if (string.IsNullOrEmpty(consumerKey))
+            {
+                throw new ArgumentNullException(nameof(consumerKey));
+            }
+
+            if (string.IsNullOrEmpty(consumerSecret))
+            {
+                throw new ArgumentNullException(nameof(consumerSecret));
+            }
+
+            if (string.IsNullOrEmpty(callbackUri))
+            {
+                throw new ArgumentNullException(nameof(callbackUri));
+            }
+
+            var oAuthTokens = new TwitterOAuthTokens
+            {
+                ConsumerKey = consumerKey,
+                ConsumerSecret = consumerSecret,
+                CallbackUri = callbackUri
+            };
+
+            return Initialize(oAuthTokens);
+        }
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(TwitterOAuthTokens oAuthTokens)
+        {
+            if (oAuthTokens == null)
+            {
+                throw new ArgumentNullException(nameof(oAuthTokens));
+            }
+
+            tokens = oAuthTokens;
+            isInitialized = true;
+
+            twitterDataProvider = null;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets a reference to an instance of the underlying data provider.
+        /// </summary>
+        public TwitterDataProvider Provider
+        {
+            get
+            {
+                if (!isInitialized)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
+
+                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens));
+            }
+        }
+
+        /// <summary>
+        /// Search for specific hash tag.
+        /// </summary>
+        /// <param name="hashTag">Hash tag.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<Tweet>> SearchAsync(string hashTag, int maxRecords)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.SearchAsync(hashTag, maxRecords, new TwitterSearchParser());
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await SearchAsync(hashTag, maxRecords);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieve user data.
+        /// </summary>
+        /// <param name="screenName">User screen name or null for current logged user.</param>
+        /// <returns>Returns user data.</returns>
+        public async Task<TwitterUser> GetUserAsync(string screenName = null)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.GetUserAsync(screenName);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserAsync(screenName);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieve user timeline data.
+        /// </summary>
+        /// <param name="screenName">User screen name.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<Tweet>> GetUserTimeLineAsync(string screenName, int maxRecords = 20)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new TweetParser());
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserTimeLineAsync(screenName, maxRecords);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
+        {
+            if (Provider.LoggedIn)
+            {
+                List<Tweet> queryResults = new List<Tweet>();
+
+                var results = await Provider.LoadDataAsync(config, maxRecords);
+
+                foreach (var result in results)
+                {
+                    queryResults.Add(result);
+                }
+
+                return queryResults;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await RequestAsync(config, maxRecords);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Log user in to Twitter.
+        /// </summary>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> LoginAsync()
+        {
+            return await Provider.LoginAsync();
+        }
+
+        /// <summary>
+        /// Log user out of Twitter.
+        /// </summary>
+        public void Logout()
+        {
+            Provider.Logout();
+        }
+
+        /// <summary>
+        /// Post a Tweet.
+        /// </summary>
+        /// <param name="message">Tweet message.</param>
+        /// <returns>Returns success or failure of post request.</returns>
+        public async Task<bool> TweetStatusAsync(string message)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.TweetStatus(message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await TweetStatusAsync(message);
+            }
+
+            return false;
+        }
+    }
+}

@@ -8,25 +8,35 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SampleTemplate" x:DataType="sampleApp:Sample">
-            <Grid Height="100" Margin="5,10">
+            <Grid Width="500" Height="100" Margin="6" >
                 <Grid.RowDefinitions>
-                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="5" BorderThickness="1" BorderBrush="Black">
-                    <Image Source="{Binding Icon}" />
+                <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Top" Margin="0,0,12,0">
+                    <Image Source="{Binding Icon}" Height="100" Width="100" />
                 </Border>
-                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="Black" FontSize="24" VerticalAlignment="Center" Grid.Row="0" FontWeight="Bold" />
-                <TextBlock Grid.Column="1" Text="{x:Bind About}" Foreground="Black" Opacity="0.8" FontSize="16" VerticalAlignment="Center" Grid.Row="1" FontWeight="ExtraLight" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
+                <StackPanel Grid.Column="1">
+                    <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="WrapWholeWords" Margin="0,4,0,0" />
+                </StackPanel>
             </Grid>
+
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView Name="SamplesList" ItemsSource="{Binding Samples}" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="{StaticResource Brush-Grey-04}"/>
+        <TextBlock Text="TODO: Bind this to page title" Margin="12" FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+        <GridView Name="SamplesList" Grid.Row="1" ItemsSource="{Binding Samples}" Margin="6" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
+
+
     </Grid>
 </Page>

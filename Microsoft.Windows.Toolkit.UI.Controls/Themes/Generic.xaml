@@ -11,6 +11,7 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/Carousel/Carousel.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/HeaderedTextBlock/HeaderedTextBlock.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/RadialGauge/RadialGauge.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Windows.Toolkit.UI.Controls/PullToRefreshListView/PullToRefreshListView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

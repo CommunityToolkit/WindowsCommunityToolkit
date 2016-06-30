@@ -36,6 +36,8 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public string CodeUrl { get; set; }
 
+        public string CodeFile { get; set; }
+
         public string XamlCodeFile { get; set; }
 
         public string XamlCode { get; private set; }
@@ -67,6 +69,14 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             return null;
         }
 
+        public async Task<string> GetCSharpSource()
+        {
+            using (var codeStream = await Helpers.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            {
+                return await codeStream.ReadTextAsync();
+            }
+        }
+
         public string UpdatedXamlCode
         {
             get
@@ -93,6 +103,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public async Task<PropertyDescriptor> GetPropertyDescriptorAsync()
         {
+            if (string.IsNullOrEmpty(XamlCodeFile))
+            {
+                return null;
+            }
+
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
