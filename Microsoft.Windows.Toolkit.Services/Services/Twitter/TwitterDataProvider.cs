@@ -286,6 +286,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 vault.Remove(twitterCredentials);
                 ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = null;
+                UserScreenName = null;
             }
 
             LoggedIn = false;
