@@ -94,7 +94,15 @@
   {
     "Name": "Notifications",
     "Icon": "Icons/Notifications.png",
-    "Samples": [      
+    "Samples": [
+      {
+        "Name": "WeatherLiveTileAndToast",
+        "Type": "WeatherLiveTileAndToastPage",
+        "About": "This shows how to send a Weather Live Tile notification, displaying the forecast.",
+        "CodeUrl": "https://github.com/TODO",
+        "CodeFile": "WeatherLiveTileAndToastCode.txt",
+        "Icon": "/SamplePages/ImageEx/icon.jpg"
+      }
     ]
   },
   {

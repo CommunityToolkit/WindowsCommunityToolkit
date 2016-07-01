@@ -109,6 +109,23 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
+    <Content Include="Assets\NotificationAssets\Cloudy.png" />
+    <Content Include="Assets\NotificationAssets\Drizzle-Square.png" />
+    <Content Include="Assets\NotificationAssets\Drizzle.png" />
+    <Content Include="Assets\NotificationAssets\Haze-Square.png" />
+    <Content Include="Assets\NotificationAssets\Haze.png" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy-Background.jpg" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy-Square.png" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy.png" />
+    <Content Include="Assets\NotificationAssets\Slight Drizzle-Square.png" />
+    <Content Include="Assets\NotificationAssets\Slight Drizzle.png" />
+    <Content Include="Assets\NotificationAssets\Snow-Square.png" />
+    <Content Include="Assets\NotificationAssets\Snow.png" />
+    <Content Include="Assets\NotificationAssets\Sunny-Square.png" />
+    <Content Include="Assets\NotificationAssets\Sunny.png" />
+    <Content Include="Assets\NotificationAssets\Thunderstorms-Square.png" />
+    <Content Include="Assets\NotificationAssets\Thunderstorms.png" />
     <Content Include="Assets\Photos\BigFourSummerHeat.png" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.png" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.png" />
@@ -144,6 +161,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.txt" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
@@ -211,6 +229,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
+      <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
       <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
@@ -292,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,6 +355,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.Notifications.UWP\Microsoft.Windows.Toolkit.Notifications.UWP.csproj">
+      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
+      <Name>Microsoft.Windows.Toolkit.Notifications.UWP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.csproj">
       <Project>{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}</Project>
       <Name>Microsoft.Windows.Toolkit.Services</Name>
