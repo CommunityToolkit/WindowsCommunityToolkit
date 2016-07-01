@@ -1,4 +1,4 @@
-UWP Toolkit
+Windows App Toolkit
 ===========
 
 Getting started? ...

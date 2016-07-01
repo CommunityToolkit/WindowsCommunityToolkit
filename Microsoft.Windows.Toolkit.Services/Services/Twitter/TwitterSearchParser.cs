@@ -20,14 +20,14 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     /// <summary>
     /// Twitter Search Parser.
     /// </summary>
-    public class TwitterSearchParser : IParser<TwitterSchema>
+    public class TwitterSearchParser : IParser<Tweet>
     {
         /// <summary>
         /// Parse string into strong typed list.
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>Strong typed list.</returns>
-        public IEnumerable<TwitterSchema> Parse(string data)
+        public IEnumerable<Tweet> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -36,7 +36,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
 
             var result = JsonConvert.DeserializeObject<TwitterSearchResult>(data);
 
-            return result.Statuses.Select(r => r.Parse()).ToList();
+            return result.Statuses.ToList();
         }
     }
 }

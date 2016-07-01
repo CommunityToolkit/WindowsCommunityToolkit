@@ -10,16 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Threading.Tasks;
-
+using global::Windows.UI.Xaml.Controls;
+using global::Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
-    using System;
-
     /// <summary>
     /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
@@ -61,10 +61,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             if (_isInitialized)
             {
                 _image.Source = null;
+
                 if (source == null)
                 {
+                    VisualStateManager.GoToState(this, "Unloaded", true);
                     return;
                 }
+
+                VisualStateManager.GoToState(this, "Loading", true);
 
                 var sourceString = source as string;
                 if (sourceString != null)
@@ -73,17 +77,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
                     {
                         _isHttpSource = IsHttpUri(_uri);
-                        if (_isHttpSource)
+                        if (!_isHttpSource && !_uri.IsAbsoluteUri)
                         {
-                            _image.Opacity = 0.0;
-                            _progress.IsActive = true;
-                        }
-                        else
-                        {
-                            if (!_uri.IsAbsoluteUri)
-                            {
-                                _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
-                            }
+                            _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
                         }
 
                         await LoadImageAsync();
@@ -94,10 +90,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     _image.Source = source as ImageSource;
                 }
 
-                _progress.IsActive = false;
-
-                // TODO: need to call this when animations will be merged _image.FadeIn();
-                _image.Opacity = 1.0;
+                VisualStateManager.GoToState(this, "Loaded", true);
             }
         }
 

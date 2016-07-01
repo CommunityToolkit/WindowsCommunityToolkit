@@ -114,7 +114,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             RequestUriWithoutQuery = new Uri(requestUri.AbsoluteWithoutQuery());
 
             QueryParams = requestUri.GetQueryParams()
-                                        .Select(p => new OAuthParameter(p.Key, p.Value))
+                                        .Select(p => new OAuthParameter(p.Key, Uri.UnescapeDataString(p.Value)))
                                         .ToList();
 
             EncodedRequestUri = GetEncodedUri(requestUri, QueryParams);

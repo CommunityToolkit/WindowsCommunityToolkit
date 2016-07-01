@@ -14,6 +14,8 @@ using System;
 using Microsoft.Windows.Toolkit.Services.Facebook;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
@@ -31,11 +33,13 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
+            Shell.Current.DisplayWaitRing = true;
+            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.WindowsStoreId);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
-                var error = new MessageDialog("Unable to log with Facebook");
+                Shell.Current.DisplayWaitRing = false;
+                var error = new MessageDialog("Unable to log to Facebook");
                 await error.ShowAsync();
                 return;
             }
@@ -59,11 +63,26 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             ShareBox.Visibility = Visibility.Visible;
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+            Shell.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, "http://www.github.com/microsoft/uwptoolkit");
+            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+        }
+
+        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
+            StorageFile picture = await openPicker.PickSingleFileAsync();
+            if (picture != null)
+            {
+                await FacebookService.Instance.PostPictureDialogAsync(TitleText.Text, DescriptionText.Text, picture);
+            }
         }
     }
 }

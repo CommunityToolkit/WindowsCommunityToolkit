@@ -131,6 +131,7 @@
     <Content Include="Assets\Photos\ColumbiaRiverGorge.png" />
     <Content Include="Assets\Photos\GiantSlabInOregon.png" />
     <Content Include="Assets\Photos\GrandTetons.png" />
+    <Content Include="Assets\Photos\ImageExPlaceholder.jpg" />
     <Content Include="Assets\Photos\LakeAnnMushroom.png" />
     <Content Include="Assets\Photos\LunchBreak.png" />
     <Content Include="Assets\Photos\MilkyWayStHelensHikePurple.png" />
@@ -148,12 +149,20 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo.png" />
+    <Content Include="Icons\About.png" />
+    <Content Include="Icons\Foundation.png" />
+    <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.txt" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.txt" />
+    <Content Include="SamplePages\Twitter Service\TwitterCode.txt" />
+    <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.txt" />
     <Content Include="SamplePages\Facebook Service\icon.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
@@ -183,8 +192,6 @@
     <Content Include="Assets\Prettify\prettify.css" />
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
-    <Content Include="Icons\Foundation.png" />
-    <Content Include="Icons\Layouts.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.txt" />
     <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.txt" />
     <Content Include="SamplePages\samples.json" />
@@ -216,6 +223,9 @@
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
+      <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
@@ -297,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -360,7 +374,7 @@
       <Name>Microsoft.Windows.Toolkit.Notifications.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.csproj">
-      <Project>{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}</Project>
+      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Windows.Toolkit.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">

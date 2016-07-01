@@ -15,7 +15,7 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{x:Bind Icon}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <Image Source="{x:Bind Icon}" Stretch="Uniform" Margin="12" />
                 <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
@@ -26,31 +26,11 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" Foreground="White" />
+                <FontIcon Grid.Column="0" Margin="12" FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" Foreground="White" />
                 <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
-        <Flyout x:Key="AboutFlyout" Placement="Full" FlyoutPresenterStyle="{StaticResource TooltipFlyoutPresenterStyle}">
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Name}" Margin="0,10" FontSize="30" Grid.Row="0" />
-                <TextBlock Text="{Binding About}" Grid.Row="1" TextWrapping="WrapWholeWords" Margin="0,10,0,20" />
-                <TextBlock Text="View code on Github:" Grid.Row="2" />
-                <HyperlinkButton Grid.Row="3" NavigateUri="{Binding CodeUrl}">
-                    <TextBlock TextWrapping="Wrap">
-            <Underline>
-              <Run Text="{Binding CodeUrl}"/>
-            </Underline>
-                    </TextBlock>
-                </HyperlinkButton>
-            </Grid>
-        </Flyout>
     </Page.Resources>
 
     <controls:HamburgerMenu PaneBackground="{StaticResource Brush-Grey-02}" x:Name="HamburgerMenu"
@@ -67,7 +47,17 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="YellowRect.Visibility" Value="Collapsed"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
+
+                        <Setter Target="ExpandButton.Content" Value=""/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -111,7 +101,6 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid Background="{StaticResource Brush-Grey-05}" x:Name="RootGrid">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition/>
@@ -120,11 +109,14 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
             <Grid x:Name="DemoAreaGrid">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="Assets/Win-App-Toolkit-logo-ccc.png" Width="120" Height="120" />
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Windows App Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sample Demonstrator" Margin="0" FontSize="18.667" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+                </StackPanel>
                 <Frame x:Name="NavigationFrame" />
             </Grid>
-
             <Grid x:Name="InfoAreaGrid" Background="{StaticResource Brush-Grey-04}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -147,6 +139,10 @@
                         <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
                     </PivotItem>
                 </Pivot>
+            </Grid>
+            <Grid x:Name="waitRing" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <Rectangle Fill="Black" Opacity="0.2"></Rectangle>
+                <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100" IsActive="True" Foreground="{StaticResource ApplicationForegroundThemeBrush}"></ProgressRing>
             </Grid>
         </Grid>
     </controls:HamburgerMenu>

@@ -1,0 +1,14 @@
+TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
+
+if (!await TwitterService.Instance.LoginAsync())
+{
+    return;
+}
+var user = await TwitterService.Instance.GetUserAsync();
+ProfileImage.DataContext = user;
+
+ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+
+await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
+
+ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
