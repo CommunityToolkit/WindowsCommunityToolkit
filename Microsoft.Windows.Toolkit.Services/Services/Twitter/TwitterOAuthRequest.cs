@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
@@ -70,13 +71,14 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent(boundary);
             HttpContent byteContent = new ByteArrayContent(content);
 
-            multipartFormDataContent.Add(byteContent);
+            multipartFormDataContent.Add(byteContent, "media");
 
             HttpResponseMessage response = await client.PostAsync(requestUri, multipartFormDataContent);
 
-            var respe = await response.Content.ReadAsStringAsync();
+            string jsonResult = await response.Content.ReadAsStringAsync();
 
-            return respe;
+            JObject jObj = JObject.Parse(jsonResult);
+            return Convert.ToString(jObj["media_id_string"]);
         }
 
         private static HttpClient GetHttpClient(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")

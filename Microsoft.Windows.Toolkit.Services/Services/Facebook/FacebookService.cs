@@ -79,17 +79,17 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            return Initialize(oAuthTokens.AppId, oAuthTokens.WindowsStoreId);
+            return Initialize(oAuthTokens.AppId, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, oAuthTokens.WindowsStoreId);
         }
 
         /// <summary>
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="appId">Application ID (Provided by Facebook developer site)</param>
-        /// <param name="windowsStoreId">Windows Store SID</param>
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
+        /// <param name="windowsStoreId">Windows Store SID</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appId, string windowsStoreId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts)
+        public bool Initialize(string appId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, string windowsStoreId = null)
         {
             if (string.IsNullOrEmpty(appId))
             {
@@ -98,7 +98,7 @@ namespace Microsoft.Windows.Toolkit.Services.Facebook
 
             if (string.IsNullOrEmpty(windowsStoreId))
             {
-                throw new ArgumentNullException(nameof(windowsStoreId));
+                windowsStoreId = WindowsStoreId;
             }
 
             isInitialized = true;

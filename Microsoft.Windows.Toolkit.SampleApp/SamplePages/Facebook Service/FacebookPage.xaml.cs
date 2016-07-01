@@ -34,7 +34,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.WindowsStoreId);
+            FacebookService.Instance.Initialize(AppIDText.Text);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;

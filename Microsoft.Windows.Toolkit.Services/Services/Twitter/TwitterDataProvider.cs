@@ -41,6 +41,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// </summary>
         private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
+        private const string PublishUrl = "https://upload.twitter.com/1.1";
 
         /// <summary>
         /// Base Url for service.
@@ -294,12 +295,26 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// Tweets a status update.
         /// </summary>
         /// <param name="tweet">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatus(string tweet)
+        public async Task<bool> TweetStatus(string tweet, params IRandomAccessStream[] pictures)
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}");
+                var media_ids = string.Empty;
+
+                if (pictures != null)
+                {
+                    var ids = new List<string>();
+                    foreach (var picture in pictures)
+                    {
+                        ids.Add(await UploadPicture(picture));
+                    }
+
+                    media_ids = "&media_ids=" + string.Join(",", ids);
+                }
+
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{media_ids}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 await request.ExecutePostAsync(uri, tokens);
@@ -327,13 +342,13 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// WIP!!!
+        /// Publish a picture to Twitter user's medias.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public async Task UploadPicture(IRandomAccessStream stream)
+        /// <param name="stream">Picture stream.</param>
+        /// <returns>Media ID</returns>
+        public async Task<string> UploadPicture(IRandomAccessStream stream)
         {
-            var uri = new Uri($"{BaseUrl}/statuses/upload.json");
+            var uri = new Uri($"{PublishUrl}/media/upload.json");
 
             // Get picture data
             var fileBytes = new byte[stream.Size];
@@ -344,24 +359,10 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 reader.ReadBytes(fileBytes);
             }
 
-            // Prepare content
-            //Encoding encodingAlgorithm = Encoding.GetEncoding("iso-8859-1");
             string boundary = DateTime.Now.Ticks.ToString("x");
-            //string startBoundary = string.Format("--{0}\r\n", boundary);
-            //string endBoundary = string.Format("\r\n--{0}--\r\n", boundary);
-            //string sContentType = "multipart/form-data;boundary=" + boundary;
-            //string contentDisposition = "Content-Disposition: form-data; ";
-            //string contenName = "name=\"media\";\r\n ";
-            //string contentType = "\r\nContent-Type: application/octet-stream\r\n\r\n";
-            //string data = encodingAlgorithm.GetString(fileBytes, 0, fileBytes.Length);
-
-            //var contents = new StringBuilder();
-            //contents.Append($"{startBoundary}{contentDisposition}{contenName}{contentType}{data}");
-            //contents.Append(endBoundary);
-            //byte[] content = encodingAlgorithm.GetBytes(contents.ToString());
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
-            await request.ExecutePostMultipartAsync(uri, tokens, boundary, fileBytes);
+            return await request.ExecutePostMultipartAsync(uri, tokens, boundary, fileBytes);
         }
 
         /// <summary>

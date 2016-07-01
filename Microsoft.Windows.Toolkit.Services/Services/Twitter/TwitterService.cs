@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Core;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
@@ -245,21 +246,27 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Post a Tweet.
+        /// Post a Tweet with associated pictures.
         /// </summary>
         /// <param name="message">Tweet message.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public async Task<bool> TweetStatusAsync(string message)
+        public async Task<bool> TweetStatusAsync(string message, params IRandomAccessStream[] pictures)
         {
+            if (pictures.Length > 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pictures));
+            }
+
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatus(message);
+                return await Provider.TweetStatus(message, pictures);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(message);
+                return await TweetStatusAsync(message, pictures);
             }
 
             return false;

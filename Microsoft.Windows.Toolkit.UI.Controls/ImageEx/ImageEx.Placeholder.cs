@@ -49,8 +49,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
             DependencyProperty.Register(
                 "PlaceholderAnimationDuration",
-                typeof(Duration), 
-                typeof(ImageEx), 
+                typeof(Duration),
+                typeof(ImageEx),
                 new PropertyMetadata(TimeSpan.Zero));
 
         /// <summary>
