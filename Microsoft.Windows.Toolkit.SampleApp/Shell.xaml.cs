@@ -12,6 +12,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Microsoft.Windows.Toolkit.SampleApp.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,6 +49,34 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
 
             HideInfoArea();
+
+            NavigationFrame.Navigated += NavigationFrameOnNavigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+        }
+
+        /// <summary>
+        /// Called when [back requested] event is fired.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="backRequestedEventArgs">The <see cref="BackRequestedEventArgs"/> instance containing the event data.</param>
+        private void OnBackRequested(object sender, BackRequestedEventArgs backRequestedEventArgs)
+        {
+            if (NavigationFrame.CanGoBack)
+            {
+                NavigationFrame.GoBack();
+            }
+        }
+
+        /// <summary>
+        /// When the frame has navigated this method is called.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
+        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
