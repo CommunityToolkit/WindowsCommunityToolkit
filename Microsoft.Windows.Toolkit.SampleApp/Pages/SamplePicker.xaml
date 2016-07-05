@@ -34,7 +34,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Rectangle Fill="{StaticResource Brush-Grey-04}"/>
-        <TextBlock Text="TODO: Bind this to page title" Margin="12" FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+        <TextBlock Text="{Binding Name}" Margin="12" FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
         <GridView Name="SamplesList" Grid.Row="1" ItemsSource="{Binding Samples}" Margin="6" ItemTemplate="{StaticResource SampleTemplate}" IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
 
 
