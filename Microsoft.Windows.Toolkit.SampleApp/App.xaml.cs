@@ -53,16 +53,18 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 Color blueBrush = default(Color);
                 Color lightGreyBrush = default(Color);
-                Color darkGreyBrush = default(Color);
+                Color greyBrush03 = default(Color);
+                Color greyBrush01 = default(Color);
                 blueBrush = (Color)Resources["Blue-01"];
                 lightGreyBrush = (Color)Resources["Grey-04"];
-                darkGreyBrush = (Color)Resources["Grey-01"];
+                greyBrush03 = (Color)Resources["Grey-03"];
+                greyBrush01 = (Color)Resources["Grey-01"];
 
                 if (titleBar != null)
                 {
-                    titleBar.ButtonBackgroundColor = lightGreyBrush;
-                    titleBar.ButtonForegroundColor = darkGreyBrush;
-                    titleBar.BackgroundColor = blueBrush;
+                    titleBar.ButtonBackgroundColor = greyBrush03;
+                    titleBar.ButtonForegroundColor = lightGreyBrush;
+                    titleBar.BackgroundColor = greyBrush01;
                     titleBar.ForegroundColor = lightGreyBrush;
                 }
             }

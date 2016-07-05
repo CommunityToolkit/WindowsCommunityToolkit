@@ -133,6 +133,12 @@
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
     <Content Include="Icons\Behaviors.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
+    <Content Include="Assets\Win-App-Toolkit-logo.png" />
+    <Content Include="Icons\About.png" />
+    <Content Include="Icons\Foundation.png" />
+    <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.txt" />
@@ -177,8 +183,6 @@
     <Content Include="Assets\Prettify\prettify.css" />
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
-    <Content Include="Icons\Foundation.png" />
-    <Content Include="Icons\Layouts.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.txt" />
     <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.txt" />
     <Content Include="SamplePages\samples.json" />
