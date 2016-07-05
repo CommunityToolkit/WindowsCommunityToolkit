@@ -13,14 +13,22 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Rectangle Fill="red" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
-                <behaviors:Offset x:Name="Offset" OffsetX="{Binding OffsetX.Value, Mode=TwoWay}" OffsetY="{Binding OffsetY.Value, Mode=TwoWay}" OffsetZ="{Binding OffsetZ.Value, Mode=TwoWay}" Duration="{Binding Duration.Value, Mode=TwoWay}" Delay="{Binding Delay.Value, Mode=TwoWay}" AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
+                <behaviors:Offset x:Name="Offset" 
+                                  OffsetX="{Binding OffsetX.Value, Mode=TwoWay}" 
+                                  OffsetY="{Binding OffsetY.Value, Mode=TwoWay}" 
+                                  OffsetZ="{Binding OffsetZ.Value, Mode=TwoWay}" 
+                                  Duration="{Binding Duration.Value, Mode=TwoWay}" 
+                                  Delay="{Binding Delay.Value, Mode=TwoWay}" 
+                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
             </interactivity:Interaction.Behaviors>
         </Rectangle>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="Apply" Margin="10">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction TargetObject="{Binding ElementName=Offset}" MethodName="StartAnimation"/>
+                        <core:CallMethodAction 
+                            TargetObject="{Binding ElementName=Offset}" 
+                            MethodName="StartAnimation"/>
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>
