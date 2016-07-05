@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Windows.Toolkit.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14332.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -132,6 +132,7 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Icons\Behaviors.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
     <Content Include="Assets\Win-App-Toolkit-logo.png" />
@@ -153,12 +154,20 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
+    <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
+    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.txt" />
+    <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
+    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.txt" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
+    <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
+    <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.txt" />
+    <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
+    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
@@ -209,6 +218,12 @@
     <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml.cs">
+      <DependentUpon>OffsetBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml.cs">
+      <DependentUpon>OpacityBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
     </Compile>
@@ -224,6 +239,12 @@
     </Compile>
     <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
       <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml.cs">
+      <DependentUpon>RotationBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml.cs">
+      <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
@@ -286,6 +307,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -318,6 +347,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -347,6 +384,10 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Windows.Toolkit.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>Microsoft.Windows.Toolkit.UI.Animations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>

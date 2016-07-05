@@ -10,7 +10,7 @@
 				"CodeUrl": "https://github.com/deltakosh/UWPToolkit",
 				"XamlCodeFile": "ResponsiveGridViewCode.txt",
         "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
-			},
+      },
       {
         "Name": "VariableSizedGridView",
         "Type": "VariableSizedGridViewPage",
@@ -94,7 +94,45 @@
   {
     "Name": "Notifications",
     "Icon": "Icons/Notifications.png",
-    "Samples": [      
+    "Samples": [
+    ]
+  },
+  {
+    "Name": "Behaviors",
+    "Icon": "Icons/Behaviors.png",
+    "Samples": [
+      {
+        "Name": "OpacityBehavior",
+        "Type": "OpacityBehaviorPage",
+        "About": "Shows you how to implement the opacity behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "OpacityBehaviorCode.txt",
+        "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
+      },
+      {
+        "Name": "ScaleBehavior",
+        "Type": "ScaleBehaviorPage",
+        "About": "Shows you how to implement the scale behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "ScaleBehaviorCode.txt",
+        "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
+      },
+      {
+        "Name": "OffsetBehavior",
+        "Type": "OffsetBehaviorPage",
+        "About": "Shows you how to implement the offset behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "OffsetBehaviorCode.txt",
+        "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
+      },
+      {
+        "Name": "RotationBehavior",
+        "Type": "RotationBehaviorPage",
+        "About": "Shows you how to implement the rotation behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "XamlCodeFile": "RotationBehaviorCode.txt",
+        "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
+      }
     ]
   },
   {
@@ -114,7 +152,7 @@
         "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "CodeFile": "FacebookCode.txt", 
+        "CodeFile": "FacebookCode.txt",
         "Icon": "/SamplePages/Facebook Service/icon.png"
       },
       {
