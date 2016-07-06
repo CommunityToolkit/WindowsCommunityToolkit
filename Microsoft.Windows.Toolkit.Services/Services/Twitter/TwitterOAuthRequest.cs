@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Windows.Toolkit.Services.Twitter
 {
@@ -27,32 +28,67 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
     internal class TwitterOAuthRequest
     {
         /// <summary>
-        /// HTTP request to specified Uri.
+        /// HTTP Get request to specified Uri.
         /// </summary>
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
-        /// <param name="method">Method to associate with the request</param>
         /// <returns>String result.</returns>
-        public async Task<string> ExecuteAsync(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
+        public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens)
+        {
+            HttpClient client = GetHttpClient(requestUri, tokens);
+
+            HttpResponseMessage response = await client.GetAsync(requestUri);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        /// <summary>
+        /// HTTP Post request to specified Uri.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <returns>String result.</returns>
+        public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens)
+        {
+            HttpClient client = GetHttpClient(requestUri, tokens, "POST");
+
+            HttpResponseMessage response = await client.PostAsync(requestUri, null);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        /// <summary>
+        /// HTTP Post request to specified Uri.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="boundary">Boundary used to separate data.</param>
+        /// <param name="content">Data to post to server.</param>
+        /// <returns>String result.</returns>
+        public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content)
+        {
+            HttpClient client = GetHttpClient(requestUri, tokens, "POST");
+            MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent(boundary);
+            HttpContent byteContent = new ByteArrayContent(content);
+
+            multipartFormDataContent.Add(byteContent, "media");
+
+            HttpResponseMessage response = await client.PostAsync(requestUri, multipartFormDataContent);
+
+            string jsonResult = await response.Content.ReadAsStringAsync();
+
+            JObject jObj = JObject.Parse(jsonResult);
+            return Convert.ToString(jObj["media_id_string"]);
+        }
+
+        private static HttpClient GetHttpClient(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
         {
             var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, method);
 
             var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", requestBuilder.AuthorizationHeader);
-
-            HttpResponseMessage response;
-
-            if (method == "POST")
-            {
-                response = await client.PostAsync(requestUri, null);
-            }
-            else
-            {
-                response = await client.GetAsync(requestUri);
-            }
-
-            return await response.Content.ReadAsStringAsync();
+            return client;
         }
     }
 }

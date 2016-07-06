@@ -18,6 +18,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Windows.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
@@ -40,6 +41,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// </summary>
         private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
+        private const string PublishUrl = "https://upload.twitter.com/1.1";
 
         /// <summary>
         /// Base Url for service.
@@ -85,7 +87,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
             catch (WebException wex)
@@ -129,7 +131,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -176,7 +178,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -284,6 +286,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
             {
                 vault.Remove(twitterCredentials);
                 ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = null;
+                UserScreenName = null;
             }
 
             LoggedIn = false;
@@ -293,15 +296,29 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         /// Tweets a status update.
         /// </summary>
         /// <param name="tweet">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatus(string tweet)
+        public async Task<bool> TweetStatus(string tweet, params IRandomAccessStream[] pictures)
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}");
+                var media_ids = string.Empty;
+
+                if (pictures != null)
+                {
+                    var ids = new List<string>();
+                    foreach (var picture in pictures)
+                    {
+                        ids.Add(await UploadPicture(picture));
+                    }
+
+                    media_ids = "&media_ids=" + string.Join(",", ids);
+                }
+
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{media_ids}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                await request.ExecuteAsync(uri, tokens, "POST");
+                await request.ExecutePostAsync(uri, tokens);
 
                 return true;
             }
@@ -326,15 +343,15 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// WIP!!!
+        /// Publish a picture to Twitter user's medias.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public async Task UploadPicture(IRandomAccessStream stream)
+        /// <param name="stream">Picture stream.</param>
+        /// <returns>Media ID</returns>
+        public async Task<string> UploadPicture(IRandomAccessStream stream)
         {
-            var uri = new Uri($"{BaseUrl}/statuses/upload.json");
+            var uri = new Uri($"{PublishUrl}/media/upload.json");
 
-            // get picture data
+            // Get picture data
             var fileBytes = new byte[stream.Size];
 
             using (DataReader reader = new DataReader(stream))
@@ -343,8 +360,10 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 reader.ReadBytes(fileBytes);
             }
 
+            string boundary = DateTime.Now.Ticks.ToString("x");
+
             TwitterOAuthRequest request = new TwitterOAuthRequest();
-            await request.ExecuteAsync(uri, tokens, "POST");
+            return await request.ExecutePostMultipartAsync(uri, tokens, boundary, fileBytes);
         }
 
         /// <summary>
@@ -495,7 +514,7 @@ namespace Microsoft.Windows.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 return parser.Parse(rawResult);
             }

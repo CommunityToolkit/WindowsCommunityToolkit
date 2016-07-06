@@ -12,10 +12,10 @@
 
 using System;
 using Microsoft.Windows.Toolkit.Services.Facebook;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.Storage.Pickers;
-using Windows.Storage;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
@@ -34,7 +34,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.WindowsStoreId);
+            FacebookService.Instance.Initialize(AppIDText.Text);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
@@ -73,15 +73,20 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            var openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
             openPicker.FileTypeFilter.Add(".jpg");
             openPicker.FileTypeFilter.Add(".png");
             StorageFile picture = await openPicker.PickSingleFileAsync();
             if (picture != null)
             {
-                await FacebookService.Instance.PostPictureDialogAsync(TitleText.Text, DescriptionText.Text, picture);
+                using (var stream = await picture.OpenReadAsync())
+                {
+                    await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);
+                }
             }
         }
     }
