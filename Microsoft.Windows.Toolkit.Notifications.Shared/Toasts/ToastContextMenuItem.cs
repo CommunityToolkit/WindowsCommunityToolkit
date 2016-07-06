@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
+    /// <summary>
+    /// A Toast context menu item.
+    /// </summary>
     public sealed class ToastContextMenuItem
     {
         /// <summary>

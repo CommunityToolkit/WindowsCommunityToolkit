@@ -603,7 +603,7 @@ namespace UnitTests.Notifications
                 expectedAdaptiveChildXml = "<text>Required text element</text>" + expectedAdaptiveChildXml;
             }
 
-            binding.Children.Add(child);
+            binding.Children.Add((IToastBindingGenericChild)child);
 
             var content = new ToastContent()
             {
@@ -630,7 +630,7 @@ namespace UnitTests.Notifications
                         {
                             Children =
                             {
-                                child
+                                (ITileBindingContentAdaptiveChild)child
                             }
                         }
                     }

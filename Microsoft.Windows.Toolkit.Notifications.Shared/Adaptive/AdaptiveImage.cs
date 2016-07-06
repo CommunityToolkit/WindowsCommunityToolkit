@@ -16,7 +16,12 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// <summary>
     /// An inline image.
     /// </summary>
-    public sealed class AdaptiveImage : IBaseImage, IAdaptiveChild, IAdaptiveSubgroupChild
+    public sealed class AdaptiveImage
+        : IBaseImage
+        , IToastBindingGenericChild
+        , ITileBindingContentAdaptiveChild
+        , IAdaptiveChild
+        , IAdaptiveSubgroupChild
     {
         /// <summary>
         /// Initializes a new inline image.

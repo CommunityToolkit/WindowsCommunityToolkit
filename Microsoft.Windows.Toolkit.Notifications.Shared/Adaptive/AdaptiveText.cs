@@ -13,7 +13,12 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// <summary>
     /// An adaptive text element.
     /// </summary>
-    public sealed class AdaptiveText : IAdaptiveSubgroupChild, IAdaptiveChild, IBaseText
+    public sealed class AdaptiveText
+        : IAdaptiveChild
+        , IAdaptiveSubgroupChild
+        , ITileBindingContentAdaptiveChild
+        , IToastBindingGenericChild
+        , IBaseText
     {
         /// <summary>
         /// Initializes a new Adaptive text element.

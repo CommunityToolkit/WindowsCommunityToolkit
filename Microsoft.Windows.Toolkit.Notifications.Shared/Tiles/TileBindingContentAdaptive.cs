@@ -25,7 +25,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> objects can be added as children. The children are displayed in a vertical StackPanel fashion.
         /// </summary>
-        public IList<IAdaptiveChild> Children { get; private set; } = new List<IAdaptiveChild>();
+        public IList<ITileBindingContentAdaptiveChild> Children { get; private set; } = new List<ITileBindingContentAdaptiveChild>();
 
         /// <summary>
         /// An optional background image that gets displayed behind all the Tile content, full bleed.
@@ -75,7 +75,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
             }
         }
 
-        private static IElement_TileBindingChild ConvertToBindingChildElement(IAdaptiveChild child)
+        private static IElement_TileBindingChild ConvertToBindingChildElement(ITileBindingContentAdaptiveChild child)
         {
             return (IElement_TileBindingChild)AdaptiveHelper.ConvertToElement(child);
         }

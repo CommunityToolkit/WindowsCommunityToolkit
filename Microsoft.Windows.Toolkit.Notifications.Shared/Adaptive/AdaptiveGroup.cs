@@ -16,7 +16,12 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// <summary>
     /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
     /// </summary>
-    public sealed class AdaptiveGroup : IAdaptiveChild
+    public sealed class AdaptiveGroup
+        : ITileBindingContentAdaptiveChild
+        , IAdaptiveChild
+#if ANNIVERSARY_UPDATE
+        , IToastBindingGenericChild
+#endif
     {
         /// <summary>
         /// Initializes a new group. Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns.

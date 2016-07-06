@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeGlyphValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ContentInterfaces.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tiles\ITileBindingContentAdaptiveChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileBasicImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\Elements\TileElementsCommon.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTemplateNameV3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTextStacking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastBindingGenericChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\Element_Toast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\Element_ToastAction.cs" />
