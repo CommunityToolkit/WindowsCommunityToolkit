@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-  <!--Nothing. This is here to prevent the Windows version of the targets being added to the C# flavor.-->
-
-</Project>
