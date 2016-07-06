@@ -46,7 +46,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
             // Set title bar colors
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
             {

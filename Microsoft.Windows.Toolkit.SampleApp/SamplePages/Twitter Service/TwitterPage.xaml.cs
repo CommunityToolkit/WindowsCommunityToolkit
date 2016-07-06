@@ -12,6 +12,8 @@
 
 using System;
 using Microsoft.Windows.Toolkit.Services.Twitter;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
@@ -29,7 +31,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
-
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
             TwitterService.Instance.Logout();
 
@@ -64,6 +65,25 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
             Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
+            StorageFile picture = await openPicker.PickSingleFileAsync();
+            if (picture != null)
+            {
+                using (var stream = await picture.OpenReadAsync())
+                {
+                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
+                }
+            }
         }
     }
 }
