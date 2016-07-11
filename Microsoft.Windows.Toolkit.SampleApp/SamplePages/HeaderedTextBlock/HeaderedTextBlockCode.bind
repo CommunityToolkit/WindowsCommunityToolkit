@@ -1,4 +1,5 @@
-﻿<Grid>
+<?xml version="1.0" encoding="Windows-1252"?>
+<Grid>
 	<controls:HeaderedTextBlock Header="@[Header:String:Name]" 
                                 Text="@[Text:String:UWP Toolkit]" 
                                 Orientation="@[Orientation:Enum:Orientation.Vertical]"

@@ -73,7 +73,7 @@ Select the category where you want your page to be listed and add the following 
         "Type": "ResponsiveGridViewPage",
         "About": "The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "ResponsiveGridViewCode.txt" 
+        "XamlCodeFile": "ResponsiveGridViewCode.bind" 
       }
     ]
   }
