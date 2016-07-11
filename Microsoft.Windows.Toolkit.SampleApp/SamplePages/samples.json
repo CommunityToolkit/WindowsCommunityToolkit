@@ -8,7 +8,7 @@
 				"Type": "ResponsiveGridViewPage",
 				"About": "Presents content within a GridView to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
 				"CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-				"XamlCodeFile": "ResponsiveGridViewCode.txt",
+				"XamlCodeFile": "ResponsiveGridViewCode.bind",
         "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
       },
       {
@@ -16,7 +16,7 @@
         "Type": "VariableSizedGridViewPage",
         "About": "Displays items that have different Width and Height values. You can control the number of rows, columns, orientation, and aspect ratio.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "VariableSizedGridViewCode.txt",
+        "XamlCodeFile": "VariableSizedGridViewCode.bind",
         "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
       },
       {
@@ -24,7 +24,7 @@
         "Type": "CarouselPage",
         "About": "A responsive carousel control for displaying content. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "CarouselCode.txt",
+        "XamlCodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/icon.jpg"
       }
     ]
@@ -38,7 +38,7 @@
         "Type": "HamburgerMenuPage",
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "HamburgerMenuCode.txt",
+        "XamlCodeFile": "HamburgerMenuCode.bind",
         "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
       },
       {
@@ -46,7 +46,7 @@
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "RangeSelectorCode.txt",
+        "XamlCodeFile": "RangeSelectorCode.bind",
         "Icon": "/SamplePages/RangeSelector/icon.jpg"
       },
       {
@@ -54,7 +54,7 @@
         "Type": "ImageExPage",
         "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "ImageExCode.txt",
+        "XamlCodeFile": "ImageExCode.bind",
         "Icon": "/SamplePages/ImageEx/icon.jpg"
       },
       {
@@ -62,7 +62,7 @@
         "Type": "HeaderedTextBlockPage",
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "HeaderedTextBlockCode.txt",
+        "XamlCodeFile": "HeaderedTextBlockCode.bind",
         "Icon": "/SamplePages/SearchBox/icon.jpg"
       },
       {
@@ -70,7 +70,7 @@
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "RadialGaugeCode.txt",
+        "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/icon.jpg"
       },
       {
@@ -78,7 +78,7 @@
         "Type": "SlidableListItemPage",
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "SlidableListItemCode.txt",
+        "XamlCodeFile": "SlidableListItemCode.bind",
         "Icon": "/SamplePages/SlidableListItem/icon.png"
       },
       {
@@ -86,7 +86,7 @@
         "Type": "PullToRefreshListViewPage",
         "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "PullToRefreshListViewCode.txt",
+        "XamlCodeFile": "PullToRefreshListViewCode.bind",
         "Icon": "/SamplePages/PullToRefreshListView/icon.png"
       }
     ]
@@ -106,7 +106,7 @@
         "Type": "OpacityBehaviorPage",
         "About": "Shows you how to implement the opacity behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "OpacityBehaviorCode.txt",
+        "XamlCodeFile": "OpacityBehaviorCode.bind",
         "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
       },
       {
@@ -114,7 +114,7 @@
         "Type": "ScaleBehaviorPage",
         "About": "Shows you how to implement the scale behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "ScaleBehaviorCode.txt",
+        "XamlCodeFile": "ScaleBehaviorCode.bind",
         "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {
@@ -122,7 +122,7 @@
         "Type": "OffsetBehaviorPage",
         "About": "Shows you how to implement the offset behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "OffsetBehaviorCode.txt",
+        "XamlCodeFile": "OffsetBehaviorCode.bind",
         "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
       },
       {
@@ -130,7 +130,7 @@
         "Type": "RotationBehaviorPage",
         "About": "Shows you how to implement the rotation behavior which uses composition",
         "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "RotationBehaviorCode.txt",
+        "XamlCodeFile": "RotationBehaviorCode.bind",
         "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
       }
     ]
@@ -144,7 +144,7 @@
         "Type": "BingPage",
         "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "CodeFile": "BingCode.txt",
+        "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png"
       },
       {
@@ -152,7 +152,7 @@
         "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "CodeFile": "FacebookCode.txt",
+        "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/icon.png"
       },
       {
@@ -160,7 +160,7 @@
         "Type": "TwitterPage",
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "CodeFile": "TwitterCode.txt", 
+        "CodeFile": "TwitterCode.bind", 
         "Icon": "/SamplePages/Twitter Service/icon.png"
       }
     ]
