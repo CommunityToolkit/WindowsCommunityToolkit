@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>982cc826-aacd-4855-9075-430bb6ce40a9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnitTests.Notifications.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssertHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestMail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestWeather.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Adaptive_Xml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Badge_Xml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Tile_Xml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Toast_Xml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextXboxModern.cs" />
+  </ItemGroup>
+</Project>

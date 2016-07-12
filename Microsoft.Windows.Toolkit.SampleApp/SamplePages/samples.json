@@ -95,6 +95,14 @@
     "Name": "Notifications",
     "Icon": "Icons/Notifications.png",
     "Samples": [
+      {
+        "Name": "WeatherLiveTileAndToast",
+        "Type": "WeatherLiveTileAndToastPage",
+        "About": "This shows how to send a Weather Live Tile notification, displaying the forecast.",
+        "CodeUrl": "https://github.com/TODO",
+        "CodeFile": "WeatherLiveTileAndToastCode.txt",
+        "Icon": "/SamplePages/ImageEx/icon.jpg"
+      }
     ]
   },
   {
@@ -160,7 +168,7 @@
         "Type": "TwitterPage",
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "CodeFile": "TwitterCode.bind", 
+        "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/icon.png"
       }
     ]

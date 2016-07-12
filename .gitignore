@@ -46,3 +46,6 @@ ipch/
 *.vspx
 /packages
 project.lock.json
+
+# NuGet Packages
+*.nupkg
