@@ -12,6 +12,7 @@
 using System;
 #if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 #endif
 
 namespace Microsoft.Windows.Toolkit.Notifications
@@ -68,7 +69,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 #if WINDOWS_UWP
 
         /// <summary>
-        /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="Windows.UI.Notifications.ToastNotification"/> or <see cref="Windows.UI.Notifications.ScheduledToastNotification"/>.
+        /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="ToastNotification"/> or <see cref="ScheduledToastNotification"/>.
         /// </summary>
         /// <returns>The notification XML content as a WinRT XmlDocument.</returns>
         public XmlDocument GetXml()
