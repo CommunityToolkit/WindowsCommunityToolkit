@@ -39,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// This is specifically used for the quick reply scenario. 
+        /// This is specifically used for the quick reply scenario.
         /// </summary>
         [NotificationXmlAttribute("hint-inputId")]
         public string InputId { get; set; }

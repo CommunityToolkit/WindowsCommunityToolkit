@@ -26,10 +26,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public ToastSelectionBoxItem(string id, string content)
         {
             if (id == null)
+            {
                 throw new ArgumentNullException("id");
+            }
 
             if (content == null)
+            {
                 throw new ArgumentNullException("content");
+            }
 
             Id = id;
             Content = content;
@@ -54,6 +58,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
         }
     }
-
-
 }

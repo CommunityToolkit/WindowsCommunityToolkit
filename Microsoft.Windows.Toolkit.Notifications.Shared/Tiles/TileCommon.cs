@@ -9,34 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-    internal static class TileSizeToAdaptiveTemplateConverter
-    {
-        public static TileTemplateNameV3 Convert(TileSize size)
-        {
-            switch (size)
-            {
-                case TileSize.Small:
-                    return TileTemplateNameV3.TileSmall;
-
-                case TileSize.Medium:
-                    return TileTemplateNameV3.TileMedium;
-
-                case TileSize.Wide:
-                    return TileTemplateNameV3.TileWide;
-
-                case TileSize.Large:
-                    return TileTemplateNameV3.TileLarge;
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-    }
-
     internal enum TileSize
     {
         Small,

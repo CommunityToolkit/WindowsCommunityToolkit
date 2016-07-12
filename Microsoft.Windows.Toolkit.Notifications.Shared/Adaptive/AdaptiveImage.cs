@@ -17,17 +17,12 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// An inline image.
     /// </summary>
     public sealed class AdaptiveImage
-        : IBaseImage
-        , IToastBindingGenericChild
-        , ITileBindingContentAdaptiveChild
-        , IAdaptiveChild
-        , IAdaptiveSubgroupChild
+        : IBaseImage,
+        IToastBindingGenericChild,
+        ITileBindingContentAdaptiveChild,
+        IAdaptiveChild,
+        IAdaptiveSubgroupChild
     {
-        /// <summary>
-        /// Initializes a new inline image.
-        /// </summary>
-        public AdaptiveImage() { }
-
 #if ANNIVERSARY_UPDATE
         /// <summary>
         /// Control the desired cropping of the image.
@@ -62,6 +57,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public AdaptiveImageAlign HintAlign { get; set; }
 
         private string _source;
+
         /// <summary>
         /// Required. The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.
         /// </summary>
@@ -79,7 +75,21 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language.
         /// </summary>
-        public bool? AddImageQuery { get; set;}
+        public bool? AddImageQuery { get; set; }
+
+        /// <summary>
+        /// Returns the image's source string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            if (Source == null)
+            {
+                return "Source is null";
+            }
+
+            return Source;
+        }
 
         internal Element_AdaptiveImage ConvertToElement()
         {
@@ -91,18 +101,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
             image.Placement = AdaptiveImagePlacement.Inline;
 
             return image;
-        }
-
-        /// <summary>
-        /// Returns the image's source string.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            if (Source == null)
-                return "Source is null";
-
-            return Source;
         }
     }
 }

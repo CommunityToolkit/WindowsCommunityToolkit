@@ -15,9 +15,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json;
-
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
@@ -30,15 +28,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
         private static ObservableCollection<PhotoDataItem> _photos;
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
         private static bool _isOnlineCached;
-
-        private static void CheckCacheState(bool online)
-        {
-            if (_isOnlineCached != online)
-            {
-                _photos = null;
-                _groupedPhotos = null;
-            }
-        }
 
         public IEnumerable<PhotoDataItem> GetItems(bool online = false)
         {
@@ -96,6 +85,15 @@ namespace Microsoft.Windows.Toolkit.SampleApp.Data
         private static IEnumerable<PhotoDataItem> Parse(string jsonData)
         {
             return JsonConvert.DeserializeObject<IList<PhotoDataItem>>(jsonData);
+        }
+
+        private static void CheckCacheState(bool online)
+        {
+            if (_isOnlineCached != online)
+            {
+                _photos = null;
+                _groupedPhotos = null;
+            }
         }
     }
 }

@@ -9,8 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive;
 using System.Collections.Generic;
+using Microsoft.Windows.Toolkit.Notifications.Adaptive;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -19,11 +19,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class TileBindingContentAdaptive : ITileBindingContent
     {
-        /// <summary>
-        /// Supported on all sizes. This is the recommended way of specifying your Tile content. Adaptive Tile templates are the de-facto choice for Windows 10, and you can create a wide variety of custom Tiles through adaptive.
-        /// </summary>
-        public TileBindingContentAdaptive() { }
-
         /// <summary>
         /// <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> objects can be added as children. The children are displayed in a vertical StackPanel fashion.
         /// </summary>
@@ -43,7 +38,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// Controls the text stacking (vertical alignment) of the entire binding element.
         /// </summary>
         public TileTextStacking TextStacking { get; set; } = Element_TileBinding.DEFAULT_TEXT_STACKING;
-        
 
         internal TileTemplateNameV3 GetTemplateName(TileSize size)
         {

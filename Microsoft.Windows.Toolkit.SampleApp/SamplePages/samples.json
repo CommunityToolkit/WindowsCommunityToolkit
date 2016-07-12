@@ -100,7 +100,7 @@
         "Type": "WeatherLiveTileAndToastPage",
         "About": "This shows how to send a Weather Live Tile notification, displaying the forecast.",
         "CodeUrl": "https://github.com/TODO",
-        "CodeFile": "WeatherLiveTileAndToastCode.txt",
+        "CodeFile": "WeatherLiveTileAndToastCode.bind",
         "Icon": "/SamplePages/ImageEx/icon.jpg"
       }
     ]

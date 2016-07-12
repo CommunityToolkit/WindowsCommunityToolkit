@@ -9,9 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive;
 using System;
 using System.Collections.Generic;
+using Microsoft.Windows.Toolkit.Notifications.Adaptive;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -20,11 +20,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastBindingGeneric
     {
-        /// <summary>
-        /// Constructs a generic Toast binding, where you provide text, images, and other visual elements for your Toast notification.
-        /// </summary>
-        public ToastBindingGeneric() { }
-
 #if ANNIVERSARY_UPDATE
         /// <summary>
         /// The contents of the body of the Toast, which can include <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> (added in 14332). Also, <see cref="AdaptiveText"/> elements must come before any other elements. If an <see cref="AdaptiveText"/> element is placed after any other element, an exception will be thrown when you try to retrieve the Toast XML content. And finally, certain <see cref="AdaptiveText"/> properties like HintStyle aren't supported on the root children text elements, and only work inside an <see cref="AdaptiveGroup"/>.

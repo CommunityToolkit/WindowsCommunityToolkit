@@ -9,9 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 using System;
 using System.Linq;
+using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -20,11 +20,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class TileVisual
     {
-        /// <summary>
-        /// Initializes a Tile notification's visual element, which can contain multiple Tile size bindings, each defining the visuals for a specific Tile size.
-        /// </summary>
-        public TileVisual() { }
-
         /// <summary>
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". This locale is overridden by any locale specified in binding or text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
         /// </summary>
@@ -39,14 +34,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// The form that the Tile should use to display the app's brand.
         /// </summary>
         public TileBranding Branding { get; set; } = Element_TileVisual.DEFAULT_BRANDING;
-        
+
         /// <summary>
         /// Defaults to false. Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
-        /// 
+        ///
         /// "www.website.com/images/hello.png"
-        /// 
+        ///
         /// included in the notification becomes
-        /// 
+        ///
         /// "www.website.com/images/hello.png?ms-scale=100&amp;ms-contrast=standard&amp;ms-lang=en-us"
         /// </summary>
         public bool? AddImageQuery { get; set; }
@@ -102,7 +97,55 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// Desktop-only. Provide an optional large binding to specify content for the large Tile size.
         /// </summary>
         public TileBinding TileLarge { get; set; }
-        
+
+        /// <summary>
+        /// Attempts to find and re-use an existing text element inside the binding. Returns true if it could. Otherwise returns false, and the caller will have to specify the detailed status using the lock hint attribute.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        /// <param name="lockText"></param>
+        /// <param name="binding"></param>
+        /// <returns></returns>
+        private static bool TryReuseTextElementForLockDetailedText(int lineNumber, string lockText, Element_TileBinding binding)
+        {
+            if (lockText == null)
+            {
+                throw new ArgumentNullException("lockText cannot be null");
+            }
+
+            if (binding == null)
+            {
+                throw new ArgumentNullException("binding cannot be null");
+            }
+
+            // If a text element already has an id with the line number (only look at immediate children, since the lockscreen will ignore things under groups/subgroups)
+            Element_AdaptiveText matchingIdTextElement = binding.Children.OfType<Element_AdaptiveText>().FirstOrDefault(i => i.Id != null && i.Id.Equals(lineNumber.ToString()));
+
+            if (matchingIdTextElement != null)
+            {
+                // If the text in the element matches the lock text, then we're good, don't need to assign anything else!
+                if (matchingIdTextElement.Text != null && matchingIdTextElement.Text.Equals(lockText))
+                {
+                    return true;
+                }
+
+                // Otherwise, we need to specify the lock text in the hint attribute, so we return false
+                return false;
+            }
+
+            // Otherwise no text elements use that ID, so we could assign one if we find a text element that doesn't have an ID assigned and matches the lock text
+            Element_AdaptiveText matchingTextTextElement = binding.Children.OfType<Element_AdaptiveText>().FirstOrDefault(i => i.Id == null && i.Text != null && i.Text.Equals(lockText));
+
+            // If we found text that matched, we'll assign the id so it gets re-used for lock!
+            if (matchingTextTextElement != null)
+            {
+                matchingTextTextElement.Id = lineNumber;
+                return true;
+            }
+
+            // Otherwise we'll need to specify lock text in hint attribute, so return false
+            return false;
+        }
+
         internal Element_TileVisual ConvertToElement()
         {
             var visual = new Element_TileVisual()
@@ -119,10 +162,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
 
             if (TileSmall != null)
+            {
                 visual.Bindings.Add(TileSmall.ConvertToElement(TileSize.Small));
+            }
 
             if (TileMedium != null)
+            {
                 visual.Bindings.Add(TileMedium.ConvertToElement(TileSize.Medium));
+            }
 
             if (TileWide != null)
             {
@@ -133,19 +180,25 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 {
                     // If we can't reuse existing text element, we'll have to use the hints
                     if (!TryReuseTextElementForLockDetailedText(1, LockDetailedStatus1, wideBindingElement))
+                    {
                         wideBindingElement.LockDetailedStatus1 = LockDetailedStatus1;
+                    }
                 }
 
                 if (LockDetailedStatus2 != null)
                 {
                     if (!TryReuseTextElementForLockDetailedText(2, LockDetailedStatus2, wideBindingElement))
+                    {
                         wideBindingElement.LockDetailedStatus2 = LockDetailedStatus2;
+                    }
                 }
 
                 if (LockDetailedStatus3 != null)
                 {
                     if (!TryReuseTextElementForLockDetailedText(3, LockDetailedStatus3, wideBindingElement))
+                    {
                         wideBindingElement.LockDetailedStatus3 = LockDetailedStatus3;
+                    }
                 }
 
                 visual.Bindings.Add(wideBindingElement);
@@ -153,61 +206,22 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
             // Otherwise if they specified lock values, throw an exception since lock values require wide
             else if (HasLockDetailedStatusValues())
+            {
                 throw new Exception("To provide lock detailed status text strings, you must also provide a TileWide binding. Either provide a TileWide binding, or leave the detailed status values null.");
-                
+            }
+
             if (TileLarge != null)
+            {
                 visual.Bindings.Add(TileLarge.ConvertToElement(TileSize.Large));
-            
+            }
+
             // TODO: If a BaseUri wasn't provided, we can potentially optimize the payload size by calculating the best BaseUri
-            
             return visual;
         }
 
         private bool HasLockDetailedStatusValues()
         {
             return LockDetailedStatus1 != null && LockDetailedStatus2 != null && LockDetailedStatus3 != null;
-        }
-
-        /// <summary>
-        /// Attempts to find and re-use an existing text element inside the binding. Returns true if it could. Otherwise returns false, and the caller will have to specify the detailed status using the lock hint attribute.
-        /// </summary>
-        /// <param name="lineNumber"></param>
-        /// <param name="lockText"></param>
-        /// <param name="binding"></param>
-        /// <returns></returns>
-        private static bool TryReuseTextElementForLockDetailedText(int lineNumber, string lockText, Element_TileBinding binding)
-        {
-            if (lockText == null)
-                throw new ArgumentNullException("lockText cannot be null");
-
-            if (binding == null)
-                throw new ArgumentNullException("binding cannot be null");
-            
-            // If a text element already has an id with the line number (only look at immediate children, since the lockscreen will ignore things under groups/subgroups)
-            Element_AdaptiveText matchingIdTextElement = binding.Children.OfType<Element_AdaptiveText>().FirstOrDefault(i => i.Id != null && i.Id.Equals(lineNumber.ToString()));
-
-            if (matchingIdTextElement != null)
-            {
-                // If the text in the element matches the lock text, then we're good, don't need to assign anything else!
-                if (matchingIdTextElement.Text != null && matchingIdTextElement.Text.Equals(lockText))
-                    return true;
-
-                // Otherwise, we need to specify the lock text in the hint attribute, so we return false
-                return false;
-            }
-            
-            // Otherwise no text elements use that ID, so we could assign one if we find a text element that doesn't have an ID assigned and matches the lock text
-            Element_AdaptiveText matchingTextTextElement = binding.Children.OfType<Element_AdaptiveText>().FirstOrDefault(i => i.Id == null && i.Text != null && i.Text.Equals(lockText));
-
-            // If we found text that matched, we'll assign the id so it gets re-used for lock!
-            if (matchingTextTextElement != null)
-            {
-                matchingTextTextElement.Id = lineNumber;
-                return true;
-            }
-
-            // Otherwise we'll need to specify lock text in hint attribute, so return false
-            return false;
         }
     }
 }

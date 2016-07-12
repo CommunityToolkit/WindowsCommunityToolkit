@@ -11,7 +11,6 @@
 // ******************************************************************
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-
     /// <summary>
     /// TextStacking specifies the vertical alignment of content.
     /// </summary>

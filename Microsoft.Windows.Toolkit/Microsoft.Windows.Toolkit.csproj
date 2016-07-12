@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,13 +40,13 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Windows.Toolkit.ruleset" />
+    <None Include="Microsoft.Windows.Toolkit1.ruleset" />
     <None Include="project.json" />
-    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Helpers.Color.cs" />
@@ -70,7 +70,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -82,7 +82,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
     <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
@@ -96,7 +96,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
@@ -110,7 +110,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

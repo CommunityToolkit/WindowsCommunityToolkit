@@ -21,15 +21,10 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class TileContent
     {
         /// <summary>
-        /// Initializes a new instance of a Tile notification's content. You must then set the Visual property, which is required for a Tile notification.
-        /// </summary>
-        public TileContent() { }
-
-        /// <summary>
         /// The visual element is required.
         /// </summary>
         public TileVisual Visual { get; set; }
-        
+
         /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
         /// </summary>
@@ -58,7 +53,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
             var tile = new Element_Tile();
 
             if (Visual != null)
+            {
                 tile.Visual = Visual.ConvertToElement();
+            }
 
             return tile;
         }

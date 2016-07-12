@@ -9,8 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 using System;
+using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -19,7 +19,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         internal static void SetSource(ref string destination, string value)
         {
             if (value == null)
-                throw new ArgumentNullException("Source property cannot be null.");
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
 
             destination = value;
         }
@@ -27,7 +29,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         internal static Element_AdaptiveImage CreateBaseElement(IBaseImage curr)
         {
             if (curr.Source == null)
+            {
                 throw new NullReferenceException("Source property is required.");
+            }
 
             return new Element_AdaptiveImage()
             {

@@ -24,7 +24,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();
     }
 
-    internal interface IElement_ToastActionsChild { }
+    internal interface IElement_ToastActionsChild
+    {
+    }
 
     internal enum ToastSystemCommand
     {

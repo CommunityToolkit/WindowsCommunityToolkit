@@ -43,14 +43,21 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         public bool? RemoveMargin { get; set; }
 
         private int? _overlay;
+
         [NotificationXmlAttribute("hint-overlay")]
         public int? Overlay
         {
-            get { return _overlay; }
+            get
+            {
+                return _overlay;
+            }
+
             set
             {
                 if (value != null)
+                {
                     Element_TileBinding.CheckOverlayValue(value.Value);
+                }
 
                 _overlay = value;
             }

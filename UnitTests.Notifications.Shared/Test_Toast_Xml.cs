@@ -611,7 +611,6 @@ namespace UnitTests.Notifications
                     }
                 };
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -688,7 +687,6 @@ namespace UnitTests.Notifications
                     }
                 };
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -852,7 +850,6 @@ namespace UnitTests.Notifications
             {
                 new ToastButton(null, "args");
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -865,7 +862,6 @@ namespace UnitTests.Notifications
             {
                 new ToastButton("content", null);
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1086,7 +1082,6 @@ namespace UnitTests.Notifications
             {
                 new ToastTextBox(null);
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1123,7 +1118,6 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBox(null);
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1166,7 +1160,6 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBoxItem(null, "My content");
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1179,7 +1172,6 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBoxItem("myId", null);
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");

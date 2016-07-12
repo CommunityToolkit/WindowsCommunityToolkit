@@ -46,7 +46,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// Default value. Toast appears for a short while and then goes into Action Center.
         /// </summary>
         Short,
-        
+
         /// <summary>
         /// Toast stays on-screen for longer, and then goes into Action Center.
         /// </summary>

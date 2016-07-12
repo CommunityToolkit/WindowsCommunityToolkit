@@ -20,12 +20,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class TileBindingContentPeople : ITileBindingContent
     {
         /// <summary>
-        /// New in 1511: Supported on Medium, Wide, and Large (Desktop and Mobile).
-        /// Previously for RTM: Phone-only. Supported on Medium and Wide.
-        /// </summary>
-        public TileBindingContentPeople() { }
-
-        /// <summary>
         /// Images that will roll around as circles.
         /// </summary>
         public IList<TileBasicImage> Images { get; private set; } = new List<TileBasicImage>();
@@ -40,7 +34,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
             binding.Presentation = TilePresentation.People;
 
             foreach (var img in Images)
+            {
                 binding.Children.Add(img.ConvertToElement());
+            }
         }
     }
 }

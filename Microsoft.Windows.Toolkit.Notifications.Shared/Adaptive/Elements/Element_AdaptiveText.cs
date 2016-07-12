@@ -33,14 +33,21 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         public AdaptiveTextAlign Align { get; set; } = DEFAULT_ALIGN;
 
         private int? _maxLines;
+
         [NotificationXmlAttribute("hint-maxLines")]
         public int? MaxLines
         {
-            get { return _maxLines; }
+            get
+            {
+                return _maxLines;
+            }
+
             set
             {
                 if (value != null)
+                {
                     CheckMaxLinesValue(value.Value);
+                }
 
                 _maxLines = value;
             }
@@ -49,18 +56,27 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         internal static void CheckMaxLinesValue(int value)
         {
             if (value < 1)
+            {
                 throw new ArgumentOutOfRangeException("MaxLines must be between 1 and int.MaxValue, inclusive.");
+            }
         }
 
         private int? _minLines;
+
         [NotificationXmlAttribute("hint-minLines")]
         public int? MinLines
         {
-            get { return _minLines; }
+            get
+            {
+                return _minLines;
+            }
+
             set
             {
                 if (value != null)
+                {
                     CheckMinLinesValue(value.Value);
+                }
 
                 _minLines = value;
             }
@@ -69,7 +85,9 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         internal static void CheckMinLinesValue(int value)
         {
             if (value < 1)
+            {
                 throw new ArgumentOutOfRangeException("MinLines must be between 1 and int.MaxValue, inclusive.");
+            }
         }
 
         [NotificationXmlAttribute("hint-style", DEFAULT_STYLE)]

@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
 using Microsoft.Windows.Toolkit.Notifications;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
 using Windows.Data.Xml.Dom;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.System.Profile;
 using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.System.Profile;
-using Windows.Foundation.Metadata;
-using Windows.UI.StartScreen;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
@@ -26,54 +27,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
     {
         public WeatherLiveTileAndToastPage()
         {
-            this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-
-        private void ButtonPinTile_Click(object sender, RoutedEventArgs e)
-        {
-            PinTile();
-        }
-
-        private async void PinTile()
-        {
-            SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString(), "WeatherSample", "args", new Uri("ms-appx:///Assets/Square150x150Logo.png"), TileSize.Default);
-
-            if (!await tile.RequestCreateAsync())
-            {
-                return;
-            }
-
-            TileContent content = GenerateTileContent();
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content.GetContent());
-            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(doc));
-        }
-
-        private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
-        {
-            PopToast();
-        }
-
-        private void PopToast()
-        {
-            ToastContent content = GenerateToastContent();
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content.GetContent());
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(doc));
+            InitializeComponent();
         }
 
         public static ToastContent GenerateToastContent()
@@ -89,6 +43,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             });
 
             // If Adaptive Toast Notifications are supported
+#if ANNIVERSARY_UPDATE
             if (IsAdaptiveToastSupported())
             {
                 // Use the rich Tile-like visual layout
@@ -107,6 +62,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             // Otherwise...
             else
+#endif
             {
                 // We'll just add two simple lines of text
                 binding.Children.Add(new AdaptiveText()
@@ -137,21 +93,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             };
         }
 
-        private static bool IsAdaptiveToastSupported()
-        {
-            switch (AnalyticsInfo.VersionInfo.DeviceFamily)
-            {
-                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-                case "Windows.Mobile":
-                case "Windows.Desktop":
-                    return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
-
-                // Other device families do not support adaptive toasts
-                default:
-                    return false;
-            }
-        }
-
         public static TileContent GenerateTileContent()
         {
             return new TileContent()
@@ -167,6 +108,33 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                     BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative)
                 }
             };
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
+        }
+
+        private static bool IsAdaptiveToastSupported()
+        {
+            switch (AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
+                case "Windows.Mobile":
+                case "Windows.Desktop":
+                    return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
+
+                // Other device families do not support adaptive toasts
+                default:
+                    return false;
+            }
         }
 
         private static TileBinding GenerateTileBindingSmall()
@@ -369,6 +337,41 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             {
                 Text = $"{day} {weatherEmoji} {tempHi}° / {tempLo}°"
             };
+        }
+
+        private void ButtonPinTile_Click(object sender, RoutedEventArgs e)
+        {
+            PinTile();
+        }
+
+        private async void PinTile()
+        {
+            SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString(), "WeatherSample", "args", new Uri("ms-appx:///Assets/Square150x150Logo.png"), TileSize.Default);
+
+            if (!await tile.RequestCreateAsync())
+            {
+                return;
+            }
+
+            TileContent content = GenerateTileContent();
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content.GetContent());
+            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(doc));
+        }
+
+        private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
+        {
+            PopToast();
+        }
+
+        private void PopToast()
+        {
+            ToastContent content = GenerateToastContent();
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content.GetContent());
+            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(doc));
         }
     }
 }

@@ -22,11 +22,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class ToastContent : INotificationContent
     {
         /// <summary>
-        /// Initializes a new instance of Toast content. You must then set the Visual property, which is required for a Toast notification. You can optionally set Audio, Actions, and more.
-        /// </summary>
-        public ToastContent() { }
-
-        /// <summary>
         /// The visual element is required.
         /// </summary>
         public ToastVisual Visual { get; set; }
@@ -97,14 +92,19 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
 
             if (Visual != null)
+            {
                 toast.Visual = Visual.ConvertToElement();
+            }
 
             if (Audio != null)
+            {
                 toast.Audio = Audio.ConvertToElement();
+            }
 
             if (Actions != null)
+            {
                 toast.Actions = ConvertToActionsElement(Actions);
-            
+            }
 
             return toast;
         }
@@ -112,10 +112,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
         private static Element_ToastActions ConvertToActionsElement(IToastActions actions)
         {
             if (actions is ToastActionsCustom)
+            {
                 return (actions as ToastActionsCustom).ConvertToElement();
+            }
 
-            else if (actions is ToastActionsSnoozeAndDismiss)
+            if (actions is ToastActionsSnoozeAndDismiss)
+            {
                 return (actions as ToastActionsSnoozeAndDismiss).ConvertToElement();
+            }
 
             throw new NotImplementedException("Unknown actions type: " + actions.GetType());
         }

@@ -44,31 +44,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public string Icon { get; set; }
 
-        private static Type LookForTypeByName(string typeName)
-        {
-            // First search locally
-            var result = System.Type.GetType(typeName);
-
-            if (result != null)
-            {
-                return result;
-            }
-
-            // Search in Windows
-            var proxyType = VerticalAlignment.Center;
-            var assembly = proxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            return null;
-        }
-
         public async Task<string> GetCSharpSource()
         {
             using (var codeStream = await Helpers.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
@@ -212,6 +187,31 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             }
 
             return _propertyDescriptor;
+        }
+
+        private static Type LookForTypeByName(string typeName)
+        {
+            // First search locally
+            var result = System.Type.GetType(typeName);
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            // Search in Windows
+            var proxyType = VerticalAlignment.Center;
+            var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            return null;
         }
     }
 }

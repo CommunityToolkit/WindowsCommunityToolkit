@@ -46,7 +46,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public IList<IElement_ToastInputChild> Children { get; private set; } = new List<IElement_ToastInputChild>();
     }
 
-    internal interface IElement_ToastInputChild { }
+    internal interface IElement_ToastInputChild
+    {
+    }
 
     internal enum ToastInputType
     {

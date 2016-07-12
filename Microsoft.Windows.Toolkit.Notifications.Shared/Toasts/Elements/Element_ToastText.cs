@@ -18,7 +18,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         [NotificationXmlContent]
         public string Text { get; set; }
-        
+
         [NotificationXmlAttribute("lang")]
         public string Lang { get; set; }
 

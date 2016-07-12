@@ -19,14 +19,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class TileBasicText
     {
         /// <summary>
-        /// Initializes a text element for the Tile.
-        /// </summary>
-        public TileBasicText()
-        {
-
-        }
-
-        /// <summary>
         /// The text value that will be shown in the text field.
         /// </summary>
         public string Text { get; set; }
