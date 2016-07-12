@@ -19,11 +19,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class TileBinding
     {
         /// <summary>
-        /// Initializes a binding element, which contains the visual content for a specific Tile size.
-        /// </summary>
-        public TileBinding() { }
-
-        /// <summary>
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides that in visual, but can be overriden by that in text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string. See Remarks for when this value isn't specified.
         /// </summary>
         public string Language { get; set; }
@@ -40,11 +35,11 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         /// <summary>
         /// Defaults to false. Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
-        /// 
+        ///
         /// "www.website.com/images/hello.png"
-        /// 
+        ///
         /// included in the notification becomes
-        /// 
+        ///
         /// "www.website.com/images/hello.png?ms-scale=100&amp;ms-contrast=standard&amp;ms-lang=en-us"
         /// </summary>
         public bool? AddImageQuery { get; set; }
@@ -74,7 +69,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
         internal Element_TileBinding ConvertToElement(TileSize size)
         {
             TileTemplateNameV3 templateName = GetTemplateName(Content, size);
-            
 
             Element_TileBinding binding = new Element_TileBinding(templateName)
             {
@@ -87,6 +81,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 #if ANNIVERSARY_UPDATE
                 Arguments = Arguments
 #endif
+
                 // LockDetailedStatus gets populated by TileVisual
             };
 
@@ -98,95 +93,78 @@ namespace Microsoft.Windows.Toolkit.Notifications
         private static void PopulateElement(ITileBindingContent bindingContent, Element_TileBinding binding, TileSize size)
         {
             if (bindingContent == null)
+            {
                 return;
+            }
 
             if (bindingContent is TileBindingContentAdaptive)
+            {
                 (bindingContent as TileBindingContentAdaptive).PopulateElement(binding, size);
-
+            }
             else if (bindingContent is TileBindingContentContact)
+            {
                 (bindingContent as TileBindingContentContact).PopulateElement(binding, size);
-
+            }
             else if (bindingContent is TileBindingContentIconic)
+            {
                 (bindingContent as TileBindingContentIconic).PopulateElement(binding, size);
-
+            }
             else if (bindingContent is TileBindingContentPeople)
+            {
                 (bindingContent as TileBindingContentPeople).PopulateElement(binding, size);
-
+            }
             else if (bindingContent is TileBindingContentPhotos)
+            {
                 (bindingContent as TileBindingContentPhotos).PopulateElement(binding, size);
-
+            }
             else
+            {
                 throw new NotImplementedException("Unknown binding content type: " + bindingContent.GetType());
+            }
         }
 
         private static TileTemplateNameV3 GetTemplateName(ITileBindingContent bindingContent, TileSize size)
         {
             if (bindingContent == null)
+            {
                 return TileSizeToAdaptiveTemplateConverter.Convert(size);
-
+            }
 
             if (bindingContent is TileBindingContentAdaptive)
+            {
                 return (bindingContent as TileBindingContentAdaptive).GetTemplateName(size);
+            }
 
-            else if (bindingContent is TileBindingContentContact)
+            if (bindingContent is TileBindingContentContact)
+            {
                 return (bindingContent as TileBindingContentContact).GetTemplateName(size);
+            }
 
-            else if (bindingContent is TileBindingContentIconic)
+            if (bindingContent is TileBindingContentIconic)
+            {
                 return (bindingContent as TileBindingContentIconic).GetTemplateName(size);
+            }
 
-            else if (bindingContent is TileBindingContentPeople)
+            if (bindingContent is TileBindingContentPeople)
+            {
                 return (bindingContent as TileBindingContentPeople).GetTemplateName(size);
+            }
 
-            else if (bindingContent is TileBindingContentPhotos)
+            if (bindingContent is TileBindingContentPhotos)
+            {
                 return (bindingContent as TileBindingContentPhotos).GetTemplateName(size);
+            }
 
             throw new NotImplementedException("Unknown binding content type: " + bindingContent.GetType());
         }
     }
 
-    
     /// <summary>
     /// Visual Tile content. One of <see cref="TileBindingContentAdaptive"/>, <see cref="TileBindingContentIconic"/>, <see cref="TileBindingContentPhotos"/>, <see cref="TileBindingContentPeople"/>, or <see cref="TileBindingContentContact"/>.
     /// </summary>
     public interface ITileBindingContent
     {
     }
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
-
-
-
-
 
     internal enum TileTemplate
     {
@@ -195,31 +173,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
         TileWide,
         TileLarge
     }
-
-    
-    
-    
-
-    
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-    
-
-
-
 }

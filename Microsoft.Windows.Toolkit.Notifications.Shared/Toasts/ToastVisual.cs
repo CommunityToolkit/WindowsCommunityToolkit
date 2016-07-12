@@ -19,11 +19,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class ToastVisual
     {
         /// <summary>
-        /// Initializes a new instance that defines the visual aspects of a Toast notification.
-        /// </summary>
-        public ToastVisual() { }
-        
-        /// <summary>
         /// The target locale of the XML payload, specified as BCP-47 language tags such as "en-US" or "fr-FR". This locale is overridden by any locale specified in binding or text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
         /// </summary>
         public string Language { get; set; }
@@ -42,7 +37,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// The generic Toast binding, which can be rendered on all devices. This binding is required and cannot be null.
         /// </summary>
         public ToastBindingGeneric BindingGeneric { get; set; }
-        
+
         internal Element_ToastVisual ConvertToElement()
         {
             var visual = new Element_ToastVisual()
@@ -51,18 +46,13 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 BaseUri = BaseUri,
                 AddImageQuery = AddImageQuery
             };
-            
+
             Element_ToastBinding binding = BindingGeneric.ConvertToElement();
-            
+
             // TODO: If a BaseUri wasn't provided, we can potentially optimize the payload size by calculating the best BaseUri
-            
             visual.Bindings.Add(binding);
 
             return visual;
         }
-
-
     }
-
-
 }

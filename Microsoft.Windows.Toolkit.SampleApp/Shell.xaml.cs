@@ -12,8 +12,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using Microsoft.Windows.Toolkit.SampleApp.Pages;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -36,67 +36,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             InitializeComponent();
 
             Current = this;
-        }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // Get list of samples
-            HamburgerMenu.ItemsSource = await Samples.GetCategoriesAsync();
-
-            // Options
-            HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
-
-            HideInfoArea();
-
-            NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-        }
-
-        /// <summary>
-        /// Called when [back requested] event is fired.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="backRequestedEventArgs">The <see cref="BackRequestedEventArgs"/> instance containing the event data.</param>
-        private void OnBackRequested(object sender, BackRequestedEventArgs backRequestedEventArgs)
-        {
-            if (NavigationFrame.CanGoBack)
-            {
-                NavigationFrame.GoBack();
-            }
-        }
-
-        /// <summary>
-        /// When the frame has navigated this method is called.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
-        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
-        {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
-                ? AppViewBackButtonVisibility.Visible
-                : AppViewBackButtonVisibility.Collapsed;
-        }
-
-        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            var category = e.ClickedItem as SampleCategory;
-
-            if (category != null)
-            {
-                HideInfoArea();
-                NavigationFrame.Navigate(typeof(SamplePicker), category);
-            }
-        }
-
-        private void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
-        {
-            var option = e.ClickedItem as Option;
-            if (option != null)
-            {
-                NavigationFrame.Navigate(option.PageType);
-            }
         }
 
         public void ShowInfoArea()
@@ -169,6 +108,22 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             commandButton.Click += action;
         }
 
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Get list of samples
+            HamburgerMenu.ItemsSource = await Samples.GetCategoriesAsync();
+
+            // Options
+            HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
+
+            HideInfoArea();
+
+            NavigationFrame.Navigated += NavigationFrameOnNavigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+        }
+
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
@@ -216,6 +171,51 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                     }
 
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Called when [back requested] event is fired.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="backRequestedEventArgs">The <see cref="BackRequestedEventArgs"/> instance containing the event data.</param>
+        private void OnBackRequested(object sender, BackRequestedEventArgs backRequestedEventArgs)
+        {
+            if (NavigationFrame.CanGoBack)
+            {
+                NavigationFrame.GoBack();
+            }
+        }
+
+        /// <summary>
+        /// When the frame has navigated this method is called.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
+        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var category = e.ClickedItem as SampleCategory;
+
+            if (category != null)
+            {
+                HideInfoArea();
+                NavigationFrame.Navigate(typeof(SamplePicker), category);
+            }
+        }
+
+        private void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
+        {
+            var option = e.ClickedItem as Option;
+            if (option != null)
+            {
+                NavigationFrame.Navigate(option.PageType);
             }
         }
     }

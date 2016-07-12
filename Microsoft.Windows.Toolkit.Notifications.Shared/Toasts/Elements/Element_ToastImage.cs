@@ -51,7 +51,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
         Circle
     }
 
-
     internal enum ToastImagePlacement
     {
         Inline,

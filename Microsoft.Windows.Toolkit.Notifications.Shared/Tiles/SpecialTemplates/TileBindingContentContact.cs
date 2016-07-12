@@ -17,11 +17,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class TileBindingContentContact : ITileBindingContent
     {
         /// <summary>
-        /// Phone-only. Supported on Small, Medium, and Wide.
-        /// </summary>
-        public TileBindingContentContact() { }
-
-        /// <summary>
         /// The image to display.
         /// </summary>
         public TileBasicImage Image { get; set; }
@@ -42,10 +37,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
             // Small size doesn't display the text, so no reason to include it in the payload
             if (Text != null && size != TileSize.Small)
+            {
                 binding.Children.Add(Text.ConvertToElement());
+            }
 
             if (Image != null)
+            {
                 binding.Children.Add(Image.ConvertToElement());
+            }
         }
     }
 }

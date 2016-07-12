@@ -9,21 +9,21 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
+#if WINDOWS_UWP
+
+#endif
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
     /// <summary>
-    /// Elements that can be direct children of adaptive content, including (<see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/>).
+    /// Exception returned when invalid notification content is provided.
     /// </summary>
-    public interface IAdaptiveChild
+    internal sealed class NotificationContentValidationException : Exception
     {
-        // Blank interface simply for compile-enforcing the child types in the list.
-    }
-
-    /// <summary>
-    /// Elements that can be direct children of an <see cref="AdaptiveSubgroup"/>, including  (<see cref="AdaptiveText"/> and <see cref="AdaptiveImage"/>).
-    /// </summary>
-    public interface IAdaptiveSubgroupChild
-    {
-        // Blank interface simply for compile-enforcing the child types in the list.
+        public NotificationContentValidationException(string message)
+            : base(message)
+        {
+        }
     }
 }

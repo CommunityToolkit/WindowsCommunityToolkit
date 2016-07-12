@@ -109,7 +109,6 @@ namespace UnitTests.Notifications
             {
                 new AdaptiveText() { HintMaxLines = 0 };
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -126,7 +125,6 @@ namespace UnitTests.Notifications
             { 
                 new AdaptiveText() { HintMaxLines = -54 };
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -169,7 +167,6 @@ namespace UnitTests.Notifications
             { 
                 new AdaptiveText() { HintMinLines = 0 };
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -185,7 +182,6 @@ namespace UnitTests.Notifications
             { 
                 new AdaptiveText() { HintMinLines = -54 };
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -235,7 +231,6 @@ namespace UnitTests.Notifications
             { 
                 AssertAdaptiveChild("exception should be thrown", new AdaptiveImage());
             }
-
             catch (NullReferenceException)
             {
                 return;
@@ -278,7 +273,6 @@ namespace UnitTests.Notifications
                     Source = null
                 };
             }
-
             catch (ArgumentNullException)
             {
                 return;
@@ -396,7 +390,6 @@ namespace UnitTests.Notifications
             {
                 AssertAdaptiveChild("exception should be thrown since groups need at least one subgroup child", new AdaptiveGroup());
             }
-
             catch (InvalidOperationException)
             {
                 return;
@@ -487,7 +480,6 @@ namespace UnitTests.Notifications
                     HintWeight = 0
                 });
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -506,7 +498,6 @@ namespace UnitTests.Notifications
                     HintWeight = -53
                 });
             }
-
             catch (ArgumentOutOfRangeException)
             {
                 return;

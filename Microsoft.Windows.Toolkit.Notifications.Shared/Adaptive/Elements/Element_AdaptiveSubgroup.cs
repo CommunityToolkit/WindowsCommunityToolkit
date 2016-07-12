@@ -23,10 +23,14 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         public AdaptiveSubgroupTextStacking TextStacking { get; set; } = DEFAULT_TEXT_STACKING;
 
         private int? _weight;
+
         [NotificationXmlAttribute("hint-weight")]
         public int? Weight
         {
-            get { return _weight; }
+            get
+            {
+                return _weight;
+            }
 
             set
             {
@@ -39,7 +43,9 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         internal static void CheckWeight(int? weight)
         {
             if (weight != null && weight.Value < 1)
+            {
                 throw new ArgumentOutOfRangeException("Weight must be between 1 and int.MaxValue, inclusive (or null)");
+            }
         }
 
         public IList<IElement_AdaptiveSubgroupChild> Children { get; private set; } = new List<IElement_AdaptiveSubgroupChild>();
@@ -54,5 +60,7 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
         }
     }
 
-    internal interface IElement_AdaptiveSubgroupChild { }
+    internal interface IElement_AdaptiveSubgroupChild
+    {
+    }
 }

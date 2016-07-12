@@ -77,27 +77,6 @@ namespace Microsoft.Windows.Toolkit
             return true;
         }
 
-        private static async Task<IHttpContent> GetHTTPContentAsync(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return null;
-                    }
-
-                    return response.Content;
-                }
-            }
-        }
-
         /// <summary>
         /// Return a stream to a specified file from the installation folder.
         /// </summary>
@@ -122,28 +101,6 @@ namespace Microsoft.Windows.Toolkit
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
 
             return await GetFileStreamAsync(fullFileName, accessMode, workingFolder);
-        }
-
-        private static async Task<IRandomAccessStream> GetFileStreamAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
-        {
-            var fileName = Path.GetFileName(fullFileName);
-            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
-
-            var file = await workingFolder.GetFileAsync(fileName);
-
-            return await file.OpenAsync(accessMode);
-        }
-
-        private static async Task<StorageFolder> ExtractSubFolder(string fullFileName, StorageFolder workingFolder)
-        {
-            var folderName = Path.GetDirectoryName(fullFileName);
-
-            if (!string.IsNullOrEmpty(folderName) && folderName != @"\")
-            {
-                return await workingFolder.GetFolderAsync(folderName);
-            }
-
-            return workingFolder;
         }
 
         /// <summary>
@@ -188,6 +145,49 @@ namespace Microsoft.Windows.Toolkit
             }
 
             return encoding.GetString(bytes);
+        }
+
+        private static async Task<IHttpContent> GetHTTPContentAsync(Uri uri)
+        {
+            if (uri == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return null;
+                    }
+
+                    return response.Content;
+                }
+            }
+        }
+
+        private static async Task<IRandomAccessStream> GetFileStreamAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
+        {
+            var fileName = Path.GetFileName(fullFileName);
+            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
+
+            var file = await workingFolder.GetFileAsync(fileName);
+
+            return await file.OpenAsync(accessMode);
+        }
+
+        private static async Task<StorageFolder> ExtractSubFolder(string fullFileName, StorageFolder workingFolder)
+        {
+            var folderName = Path.GetDirectoryName(fullFileName);
+
+            if (!string.IsNullOrEmpty(folderName) && folderName != @"\")
+            {
+                return await workingFolder.GetFolderAsync(folderName);
+            }
+
+            return workingFolder;
         }
     }
 }

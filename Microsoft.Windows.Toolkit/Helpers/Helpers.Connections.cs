@@ -20,6 +20,19 @@ namespace Microsoft.Windows.Toolkit
     public static partial class Helpers
     {
         /// <summary>
+        /// Gets a value indicating whether if the current internet connection is metered.
+        /// </summary>
+        public static bool IsInternetOnMeteredConnection
+        {
+            get
+            {
+                var profile = NetworkInformation.GetInternetConnectionProfile();
+
+                return profile?.GetConnectionCost().NetworkCostType != NetworkCostType.Unrestricted;
+            }
+        }
+
+        /// <summary>
         /// Check internet availability across all connections.
         /// </summary>
         /// <returns>True if internet can be reached.</returns>
@@ -31,19 +44,6 @@ namespace Microsoft.Windows.Toolkit
             }
 
             return NetworkInformation.GetInternetConnectionProfile() != null;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether if the current internet connection is metered.
-        /// </summary>
-        public static bool IsInternetOnMeteredConnection
-        {
-            get
-            {
-                var profile = NetworkInformation.GetInternetConnectionProfile();
-
-                return profile?.GetConnectionCost().NetworkCostType != NetworkCostType.Unrestricted;
-            }
         }
     }
 }

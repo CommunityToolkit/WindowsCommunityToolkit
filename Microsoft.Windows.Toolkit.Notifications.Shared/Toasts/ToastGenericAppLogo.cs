@@ -18,12 +18,8 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastGenericAppLogo : IBaseImage
     {
-        /// <summary>
-        /// Initializes a new instance of a Toast app logo, which can override the logo displayed on your Toast notification. 
-        /// </summary>
-        public ToastGenericAppLogo() { }
-
         private string _source;
+
         /// <summary>
         /// The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.
         /// </summary>
@@ -73,6 +69,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
             }
         }
     }
-
-
 }

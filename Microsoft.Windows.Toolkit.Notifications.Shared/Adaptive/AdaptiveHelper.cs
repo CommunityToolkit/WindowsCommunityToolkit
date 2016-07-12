@@ -18,19 +18,26 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive
         internal static object ConvertToElement(object obj)
         {
             if (obj is AdaptiveText)
+            {
                 return (obj as AdaptiveText).ConvertToElement();
+            }
 
-            else if (obj is AdaptiveImage)
+            if (obj is AdaptiveImage)
+            {
                 return (obj as AdaptiveImage).ConvertToElement();
+            }
 
-            else if (obj is AdaptiveGroup)
+            if (obj is AdaptiveGroup)
+            {
                 return (obj as AdaptiveGroup).ConvertToElement();
+            }
 
-            else if (obj is AdaptiveSubgroup)
+            if (obj is AdaptiveSubgroup)
+            {
                 return (obj as AdaptiveSubgroup).ConvertToElement();
+            }
 
-            else
-                throw new NotImplementedException("Unknown object: " + obj.GetType());
+            throw new NotImplementedException("Unknown object: " + obj.GetType());
         }
     }
 }

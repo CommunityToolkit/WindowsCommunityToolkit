@@ -1006,7 +1006,6 @@ namespace UnitTests.Notifications
                     Source = "Fable.jpg"
                 };
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1024,7 +1023,6 @@ namespace UnitTests.Notifications
                     Source = "Fable.jpg"
                 };
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown.");
@@ -1252,7 +1250,6 @@ namespace UnitTests.Notifications
 
                 c.GetContent();
             }
-
             catch (NullReferenceException)
             {
                 return;
@@ -1408,7 +1405,6 @@ namespace UnitTests.Notifications
 
                 c.GetContent();
             }
-
             catch (NullReferenceException)
             {
                 return;
@@ -1692,7 +1688,6 @@ namespace UnitTests.Notifications
                     }
                 };
             }
-
             catch { return; }
 
             Assert.Fail("Exception should have been thrown, adding more than 12 images isn't supported.");

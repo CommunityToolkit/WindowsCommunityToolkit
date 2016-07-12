@@ -25,7 +25,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public ToastTextBox(string id)
         {
             if (id == null)
+            {
                 throw new ArgumentNullException("id");
+            }
 
             Id = id;
         }
@@ -62,6 +64,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
         }
     }
-
-
 }

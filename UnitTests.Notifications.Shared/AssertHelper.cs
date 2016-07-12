@@ -28,7 +28,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<Tile><visual version=\"2\" > <text>Hello world</text></visual> </tile>");
             }
-
             catch { return; }
 
             Assert.Fail("tile element name was different, should have thrown exception");
@@ -41,7 +40,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<tile><visuals version=\"2\" > <text>Hello world</text></visual> </tile>");
             }
-
             catch { return; }
 
             Assert.Fail("visual element name was incorrect, should have thrown exception");
@@ -54,7 +52,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<tile><visual version=\"3\" > <text>Hello world</text></visual> </tile>");
             }
-
             catch { return; }
 
             Assert.Fail("visual version number was incorrect, should have thrown exception");
@@ -67,7 +64,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<Tile><visual version=\"2\" > <text>Hello world!</text></visual> </tile>");
             }
-
             catch { return; }
 
             Assert.Fail("text content was different, should have thrown exception");
@@ -86,7 +82,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='45' id='2'/>");
             }
-
             catch { return; }
 
             Assert.Fail("Version number was incorrect, should have thrown exception.");
@@ -99,7 +94,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='3' id='myId'/>");
             }
-
             catch { return; }
 
             Assert.Fail("ID number was incorrect, should have thrown exception.");
@@ -120,7 +114,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile><visual/></tile>", "<tile/>");
             }
-
             catch { return; }
 
             Assert.Fail("Visual element was missing, should have thrown exception");
@@ -135,7 +128,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile><image/><text/></tile>", "<tile><text/><image/></tile>");
             }
-
             catch { return; }
 
             Assert.Fail("Child elements were different order, should have thrown exception");
@@ -148,7 +140,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile version='3' id='2'/>", "<tile version='3' id='5'/>");
             }
-
             catch { return; }
 
             Assert.Fail("id attribute value wasn't the same, should have thrown exception");
@@ -161,7 +152,6 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='3'/>");
             }
-
             catch { return; }
 
             Assert.Fail("id attribute was missing, should have thrown exception");
@@ -172,7 +162,6 @@ namespace UnitTests.Notifications
     {
         private class XmlElementHelper
         {
-
         }
 
         //public static void AssertXml(string expected, string actual)

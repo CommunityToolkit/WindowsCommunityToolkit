@@ -31,11 +31,11 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         /// <summary>
         /// Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
-        /// 
+        ///
         /// "www.website.com/images/hello.png"
-        /// 
+        ///
         /// included in the notification becomes
-        /// 
+        ///
         /// "www.website.com/images/hello.png?ms-scale=100&amp;ms-contrast=standard&amp;ms-lang=en-us"
         /// </summary>
         [NotificationXmlAttribute("addImageQuery")]
@@ -55,7 +55,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         /// <summary>
         /// Set to a sender-defined string that uniquely identifies the content of the notification. This prevents duplicates in the situation where a large Tile template is displaying the last three wide Tile notifications.
-        /// 
+        ///
         /// Required: NO
         /// </summary>
         [NotificationXmlAttribute("contentId")]
@@ -92,7 +92,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         internal static void CheckOverlayValue(int value)
         {
             if (value < 0 || value > 100)
+            {
                 throw new ArgumentOutOfRangeException("Overlay must be between 0 and 100, inclusive.");
+            }
         }
 
         [NotificationXmlAttribute("hint-presentation")]
@@ -100,7 +102,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         [NotificationXmlAttribute("hint-textStacking", DEFAULT_TEXT_STACKING)]
         public TileTextStacking TextStacking { get; set; } = DEFAULT_TEXT_STACKING;
-
 
         public IList<IElement_TileBindingChild> Children { get; private set; } = new List<IElement_TileBindingChild>();
 
@@ -119,11 +120,15 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 if (child is IElementWithDescendants)
                 {
                     foreach (object descendant in (child as IElementWithDescendants).Descendants())
+                    {
                         yield return descendant;
+                    }
                 }
             }
         }
     }
 
-    internal interface IElement_TileBindingChild { }
+    internal interface IElement_TileBindingChild
+    {
+    }
 }

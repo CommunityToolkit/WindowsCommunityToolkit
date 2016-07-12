@@ -30,7 +30,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         [NotificationXmlAttribute("version")]
         public int? Version { get; set; }
-        
+
         public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();
     }
 }

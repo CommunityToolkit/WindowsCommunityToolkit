@@ -130,7 +130,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public enum AdaptiveTextAlign
     {
         /// <summary>
-        /// Alignment is automatically determined by 
+        /// Alignment is automatically determined by
         /// </summary>
         Default,
 

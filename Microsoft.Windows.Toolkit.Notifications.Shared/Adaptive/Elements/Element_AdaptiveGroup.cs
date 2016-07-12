@@ -14,7 +14,6 @@ using System.Collections.Generic;
 
 namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
 {
-
     [NotificationXmlElement("group")]
     internal sealed class Element_AdaptiveGroup : IElement_TileBindingChild, IElement_ToastBindingChild, IElementWithDescendants
     {
@@ -29,7 +28,9 @@ namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
 
                 // And also return its descendants
                 foreach (object descendant in subgroup.Descendants())
+                {
                     yield return descendant;
+                }
             }
         }
     }

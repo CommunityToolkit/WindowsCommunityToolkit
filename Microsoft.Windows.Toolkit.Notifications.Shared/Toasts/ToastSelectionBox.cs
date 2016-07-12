@@ -26,7 +26,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public ToastSelectionBox(string id)
         {
             if (id == null)
+            {
                 throw new ArgumentNullException("id");
+            }
 
             Id = id;
         }
@@ -62,11 +64,11 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
 
             foreach (var item in Items)
+            {
                 input.Children.Add(item.ConvertToElement());
+            }
 
             return input;
         }
     }
-
-
 }

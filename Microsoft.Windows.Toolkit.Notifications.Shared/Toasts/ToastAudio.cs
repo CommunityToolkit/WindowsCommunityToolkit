@@ -13,17 +13,11 @@ using System;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-
     /// <summary>
     /// Specify audio to be played when the Toast notification is received.
     /// </summary>
     public sealed class ToastAudio
     {
-        /// <summary>
-        /// Initializes a new instance of Toast audio, which specifies what audio to play when the Toast notification is received.
-        /// </summary>
-        public ToastAudio() { }
-
         /// <summary>
         /// The media file to play in place of the default sound.
         /// </summary>
@@ -49,6 +43,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
             };
         }
     }
-
-
 }

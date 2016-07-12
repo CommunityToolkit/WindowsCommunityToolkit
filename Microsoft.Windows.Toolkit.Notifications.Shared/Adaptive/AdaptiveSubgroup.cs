@@ -9,9 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 using System;
 using System.Collections.Generic;
+using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -20,11 +20,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class AdaptiveSubgroup
     {
-        /// <summary>
-        /// Initializes a new subgroup. Subgroups are vertical columns that can contain text and images. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
-        /// </summary>
-        public AdaptiveSubgroup() { }
-
         /// <summary>
         /// <see cref="AdaptiveText"/> and <see cref="AdaptiveImage"/> are valid children of subgroups.
         /// </summary>
@@ -37,7 +32,11 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public int? HintWeight
         {
-            get { return _hintWeight; }
+            get
+            {
+                return _hintWeight;
+            }
+
             set
             {
                 Element_AdaptiveSubgroup.CheckWeight(value);
@@ -70,13 +69,16 @@ namespace Microsoft.Windows.Toolkit.Notifications
         private static IElement_AdaptiveSubgroupChild ConvertToSubgroupChildElement(IAdaptiveSubgroupChild child)
         {
             if (child is AdaptiveText)
+            {
                 return (child as AdaptiveText).ConvertToElement();
+            }
 
-            else if (child is AdaptiveImage)
+            if (child is AdaptiveImage)
+            {
                 return (child as AdaptiveImage).ConvertToElement();
+            }
 
-            else
-                throw new NotImplementedException("Unknown child: " + child.GetType());
+            throw new NotImplementedException("Unknown child: " + child.GetType());
         }
     }
 }

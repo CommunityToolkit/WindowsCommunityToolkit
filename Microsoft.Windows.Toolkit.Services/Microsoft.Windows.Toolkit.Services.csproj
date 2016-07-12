@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,13 +38,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Microsoft.Windows.Toolkit.Services.ruleset">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Microsoft.Windows.Toolkit.Services.ruleset" />
+    <None Include="Microsoft.Windows.Toolkit.Services1.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +130,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -143,7 +142,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
     <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
@@ -155,7 +154,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
@@ -167,7 +166,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.windows.toolkit.services.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

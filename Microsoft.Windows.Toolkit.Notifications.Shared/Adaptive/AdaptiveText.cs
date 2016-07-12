@@ -11,24 +11,18 @@
 // ******************************************************************
 using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 
-
 namespace Microsoft.Windows.Toolkit.Notifications
 {
     /// <summary>
     /// An adaptive text element.
     /// </summary>
     public sealed class AdaptiveText
-        : IAdaptiveChild
-        , IAdaptiveSubgroupChild
-        , ITileBindingContentAdaptiveChild
-        , IToastBindingGenericChild
-        , IBaseText
+        : IAdaptiveChild,
+        IAdaptiveSubgroupChild,
+        ITileBindingContentAdaptiveChild,
+        IToastBindingGenericChild,
+        IBaseText
     {
-        /// <summary>
-        /// Initializes a new Adaptive text element.
-        /// </summary>
-        public AdaptiveText() { }
-
         /// <summary>
         /// The text to display.
         /// </summary>
@@ -74,11 +68,17 @@ namespace Microsoft.Windows.Toolkit.Notifications
 #endif
         public int? HintMaxLines
         {
-            get { return _hintMaxLines; }
+            get
+            {
+                return _hintMaxLines;
+            }
+
             set
             {
                 if (value != null)
+                {
                     Element_AdaptiveText.CheckMaxLinesValue(value.Value);
+                }
 
                 _hintMaxLines = value;
             }
@@ -97,11 +97,17 @@ namespace Microsoft.Windows.Toolkit.Notifications
 #endif
         public int? HintMinLines
         {
-            get { return _hintMinLines; }
+            get
+            {
+                return _hintMinLines;
+            }
+
             set
             {
                 if (value != null)
+                {
                     Element_AdaptiveText.CheckMinLinesValue(value.Value);
+                }
 
                 _hintMinLines = value;
             }
