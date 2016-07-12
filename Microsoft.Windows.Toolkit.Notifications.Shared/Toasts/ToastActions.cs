@@ -22,23 +22,29 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public ToastActionsSnoozeAndDismiss() { }
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
         /// New in RS1: Custom context menu items, providing additional actions when the user right clicks the Toast notification. You can only have up to 5 items.
         /// </summary>
         public IList<ToastContextMenuItem> ContextMenuItems { get; private set; } = new List<ToastContextMenuItem>();
+#endif
 
         internal Element_ToastActions ConvertToElement()
         {
+#if ANNIVERSARY_UPDATE
             if (ContextMenuItems.Count > 5)
                 throw new InvalidOperationException("You have too many context menu items. You can only have up to 5.");
+#endif
 
             var el = new Element_ToastActions()
             {
                 SystemCommands = ToastSystemCommand.SnoozeAndDismiss
             };
-            
+
+#if ANNIVERSARY_UPDATE
             foreach (var item in ContextMenuItems)
                 el.Children.Add(item.ConvertToElement());
+#endif
 
             return el;
         }
@@ -64,15 +70,22 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public IList<IToastButton> Buttons { get; private set; } = new LimitedList<IToastButton>(5);
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
         /// New in RS1: Custom context menu items, providing additional actions when the user right clicks the Toast notification. You can only have up to 5 buttons and context menu items *combined*. Thus, if you have one context menu item, you can only have four buttons, etc.
         /// </summary>
         public IList<ToastContextMenuItem> ContextMenuItems { get; private set; } = new List<ToastContextMenuItem>();
+#endif
 
         internal Element_ToastActions ConvertToElement()
         {
+#if ANNIVERSARY_UPDATE
             if (Buttons.Count + ContextMenuItems.Count > 5)
                 throw new InvalidOperationException("You have too many buttons/context menu items. You can only have up to 5 total.");
+#else
+            if (Buttons.Count > 5)
+                throw new InvalidOperationException("You have too many buttons. You can only have up to 5.");
+#endif
 
             var el = new Element_ToastActions();
 
@@ -82,8 +95,10 @@ namespace Microsoft.Windows.Toolkit.Notifications
             foreach (var button in Buttons)
                 el.Children.Add(ConvertToActionElement(button));
 
+#if ANNIVERSARY_UPDATE
             foreach (var item in ContextMenuItems)
                 el.Children.Add(item.ConvertToElement());
+#endif
 
             return el;
         }
@@ -124,9 +139,11 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public interface IToastActions
     {
+#if ANNIVERSARY_UPDATE
         /// <summary>
         /// New in RS1: Custom context menu items, providing additional actions when the user right clicks the Toast notification.
         /// </summary>
         IList<ToastContextMenuItem> ContextMenuItems { get; }
+#endif
     }
 }

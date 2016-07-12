@@ -56,10 +56,12 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public string DisplayName { get; set; }
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// New in RS1: App-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile.
+        /// New in Anniversary Update: App-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile.
         /// </summary>
         public string Arguments { get; set; }
+#endif
 
         /// <summary>
         /// The actual content to be displayed. One of <see cref="TileBindingContentAdaptive"/>, <see cref="TileBindingContentIconic"/>, <see cref="TileBindingContentContact"/>, <see cref="TileBindingContentPeople"/>, or <see cref="TileBindingContentPhotos"/>
@@ -79,7 +81,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 AddImageQuery = AddImageQuery,
                 DisplayName = DisplayName,
                 ContentId = ContentId,
+#if ANNIVERSARY_UPDATE
                 Arguments = Arguments
+#endif
                 // LockDetailedStatus gets populated by TileVisual
             };
 

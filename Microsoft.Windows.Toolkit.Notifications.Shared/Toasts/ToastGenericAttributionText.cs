@@ -12,6 +12,7 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
+#if ANNIVERSARY_UPDATE
     /// <summary>
     /// Defines an attribution text element to be displayed on the Toast notification.
     /// </summary>
@@ -41,4 +42,5 @@ namespace Microsoft.Windows.Toolkit.Notifications
             return el;
         }
     }
+#endif
 }

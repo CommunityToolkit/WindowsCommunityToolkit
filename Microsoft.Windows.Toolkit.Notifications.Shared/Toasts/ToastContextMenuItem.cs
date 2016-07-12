@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
+#if ANNIVERSARY_UPDATE
     /// <summary>
     /// A Toast context menu item.
     /// </summary>
@@ -70,4 +71,5 @@ namespace Microsoft.Windows.Toolkit.Notifications
             }
         }
     }
+#endif
 }

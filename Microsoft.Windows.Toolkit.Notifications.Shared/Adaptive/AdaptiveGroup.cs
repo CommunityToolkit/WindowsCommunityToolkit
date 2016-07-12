@@ -13,9 +13,15 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
+#if ANNIVERSARY_UPDATE
     /// <summary>
     /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
     /// </summary>
+#else
+    /// <summary>
+    /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns.
+    /// </summary>
+#endif
     public sealed class AdaptiveGroup
         : ITileBindingContentAdaptiveChild
         , IAdaptiveChild

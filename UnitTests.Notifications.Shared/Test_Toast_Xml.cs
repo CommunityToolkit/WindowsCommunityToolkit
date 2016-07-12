@@ -694,6 +694,7 @@ namespace UnitTests.Notifications
             Assert.Fail("Exception should have been thrown.");
         }
 
+#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_Toast_Xml_Actions_SixTotal()
         {
@@ -834,6 +835,7 @@ namespace UnitTests.Notifications
 
             Assert.Fail("Exception should have been thrown.");
         }
+#endif
 
         [TestMethod]
         public void Test_Toast_Xml_Button_Defaults()
@@ -967,6 +969,7 @@ namespace UnitTests.Notifications
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
 
+#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
@@ -1033,6 +1036,7 @@ namespace UnitTests.Notifications
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' activationType='protocol'/>", item);
         }
+#endif
 
         [TestMethod]
         public void Test_Toast_Xml_TextBox_Defaults()
@@ -1221,6 +1225,7 @@ namespace UnitTests.Notifications
             });
         }
 
+#if ANNIVERSARY_UPDATE
         private static void AssertContextMenuItemPayload(string expectedContextMenuItemXml, ToastContextMenuItem item)
         {
             AssertActionsPayload("<actions>" + expectedContextMenuItemXml + "</actions>", new ToastActionsCustom()
@@ -1228,6 +1233,7 @@ namespace UnitTests.Notifications
                 ContextMenuItems = { item }
             });
         }
+#endif
 
         private static void AssertActionsPayload(string expectedActionsXml, IToastActions actions)
         {

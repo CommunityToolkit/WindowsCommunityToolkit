@@ -12,6 +12,7 @@ using System.Text;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
+#if ANNIVERSARY_UPDATE
     /// <summary>
     /// Constructs a hero image for the Toast notification.
     /// </summary>
@@ -51,4 +52,5 @@ namespace Microsoft.Windows.Toolkit.Notifications
             return el;
         }
     }
+#endif
 }

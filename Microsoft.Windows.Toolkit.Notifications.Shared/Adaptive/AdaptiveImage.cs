@@ -28,19 +28,37 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public AdaptiveImage() { }
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
         /// Control the desired cropping of the image.
         /// </summary>
+#else
+        /// <summary>
+        /// Control the desired cropping of the image. Not supported on Toast.
+        /// </summary>
+#endif
         public AdaptiveImageCrop HintCrop { get; set; }
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
         /// By default, images have an 8px margin around them. You can remove this margin by setting this property to true.
         /// </summary>
+#else
+        /// <summary>
+        /// By default, images have an 8px margin around them. You can remove this margin by setting this property to true. Not supported on Toast.
+        /// </summary>
+#endif
         public bool? HintRemoveMargin { get; set; }
 
+#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// The horizontal alignment of the image.
+        /// The horizontal alignment of the image. For Toast, this is only supported when inside an <see cref="AdaptiveSubgroup"/>.
         /// </summary>
+#else
+        /// <summary>
+        /// The horizontal alignment of the image. Not supported on Toast.
+        /// </summary>
+#endif
         public AdaptiveImageAlign HintAlign { get; set; }
 
         private string _source;
