@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Windows.Toolkit.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.14332.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14366.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -126,6 +126,11 @@
     <Content Include="Assets\NotificationAssets\Sunny.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms-Square.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms.png" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\Photos\BigFourSummerHeat.png" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.png" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.png" />
@@ -149,6 +154,43 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\Square310x310Logo.scale-125.png" />
+    <Content Include="Assets\Square310x310Logo.scale-150.png" />
+    <Content Include="Assets\Square310x310Logo.scale-200.png" />
+    <Content Include="Assets\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Behaviors.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
@@ -158,38 +200,38 @@
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
-    <Content Include="SamplePages\Bing Service\BingCode.txt" />
+    <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
-    <Content Include="SamplePages\Carousel\CarouselCode.txt" />
-    <Content Include="SamplePages\Twitter Service\TwitterCode.txt" />
+    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
+    <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
-    <Content Include="SamplePages\Facebook Service\FacebookCode.txt" />
+    <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\Facebook Service\icon.png" />
-    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.txt" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.txt" />
+    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
-    <Content Include="SamplePages\ImageEx\ImageExCode.txt" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.txt" />
+    <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
-    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.txt" />
+    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.bind" />
     <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
-    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.txt" />
+    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.txt" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
-    <Content Include="SamplePages\RadialGauge\RadialGaugeCode.txt" />
+    <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
-    <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.txt" />
+    <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.bind" />
     <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
-    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.txt" />
+    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.bind" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
-    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.txt" />
+    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
-    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.txt" />
+    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <None Include="Microsoft.Windows.Toolkit.SampleApp.ruleset" />
@@ -201,8 +243,8 @@
     <Content Include="Assets\Prettify\prettify.css" />
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
-    <Content Include="SamplePages\RangeSelector\RangeSelectorCode.txt" />
-    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.txt" />
+    <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
+    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
   </ItemGroup>
@@ -308,7 +350,7 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
