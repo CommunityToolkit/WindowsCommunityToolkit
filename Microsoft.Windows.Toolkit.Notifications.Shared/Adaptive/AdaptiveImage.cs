@@ -80,7 +80,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// Returns the image's source string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The image's source string.</returns>
         public override string ToString()
         {
             if (Source == null)

@@ -141,7 +141,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// Returns the value of the Text property.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The value of the Text property.</returns>
         public override string ToString()
         {
             return Text;
