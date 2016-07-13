@@ -19,7 +19,6 @@ namespace UnitTests
     [TestClass]
     public class HelperUnitTests
     {
-
         [TestMethod]
         public async Task TestGetPackagedFileAsync()
         {
@@ -41,13 +40,13 @@ namespace UnitTests
         [TestMethod]
         public void TestIsInternetAvailable()
         {
-            Assert.IsTrue(Helpers.IsInternetAvailable());
+            Assert.IsTrue(ConnectionHelper.IsInternetAvailable());
         }
 
         [TestMethod]
         public void TestIsInternetOnMeteredConnection()
         {
-            Assert.IsFalse(Helpers.IsInternetOnMeteredConnection);
+            Assert.IsFalse(ConnectionHelper.IsInternetOnMeteredConnection);
         }
 
         [TestMethod]

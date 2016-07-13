@@ -135,7 +135,7 @@ namespace Microsoft.Windows.Toolkit.UI
             if (await IsFileOutOfDate(baseFile, expirationDate))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                if (!await Helpers.DownloadHTTPStreamAsync(uri, baseFile))
+                if (!await StreamHelper.DownloadHTTPStreamAsync(uri, baseFile))
                 {
                     await baseFile.DeleteAsync();
                 }
