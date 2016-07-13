@@ -19,9 +19,9 @@ using Windows.Storage.Streams;
 namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// This class provides static helper methods.
+    /// This class provides static helper methods for <see cref="StorageFile" />.
     /// </summary>
-    public static partial class Helpers
+    public static class StorageFileHelper
     {
         /// <summary>
         /// Saves a string value to a <see cref="StorageFile"/> in the given <see cref="StorageFolder"/>.
@@ -129,7 +129,7 @@ namespace Microsoft.Windows.Toolkit
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="filePath"/> is null or empty.
         /// </exception>
-        public static async Task<string> GetTextFromFileAsync(string filePath)
+        public static async Task<string> GetTextFromFilePathAsync(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -137,27 +137,7 @@ namespace Microsoft.Windows.Toolkit
             }
 
             var file = await StorageFile.GetFileFromPathAsync(filePath);
-            return await GetTextFromFileAsync(file);
-        }
-
-        /// <summary>
-        /// Gets a string value from a <see cref="StorageFile"/>.
-        /// </summary>
-        /// <param name="file">
-        /// The <see cref="StorageFile"/>.
-        /// </param>
-        /// <returns>
-        /// Returns the stored <see cref="string"/> value.
-        /// </returns>
-        public static async Task<string> GetTextFromFileAsync(StorageFile file)
-        {
-            if (file == null)
-            {
-                return null;
-            }
-
-            var textContent = await FileIO.ReadTextAsync(file);
-            return textContent;
+            return await FileIO.ReadTextAsync(file);
         }
 
         /// <summary>
@@ -172,7 +152,7 @@ namespace Microsoft.Windows.Toolkit
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="filePath"/> is null or empty.
         /// </exception>
-        public static async Task<byte[]> GetBytesFromFileAsync(string filePath)
+        public static async Task<byte[]> GetBytesFromFilePathAsync(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
