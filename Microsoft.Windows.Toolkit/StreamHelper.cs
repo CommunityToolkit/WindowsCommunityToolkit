@@ -21,9 +21,9 @@ using Windows.Web.Http;
 namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// This class provides static helper methods.
+    /// This class provides static helper methods for streams.
     /// </summary>
-    public static class StreamIO
+    public static class StreamHelper
     {
         /// <summary>
         /// Get the response stream returned by a HTTP get request.

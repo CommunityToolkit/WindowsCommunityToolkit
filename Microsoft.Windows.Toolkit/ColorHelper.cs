@@ -18,9 +18,9 @@ using Windows.UI;
 namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// This class provides static helper methods.
+    /// This class provides static helper methods for colors.
     /// </summary>
-    public static partial class Helpers
+    public static class ColorHelper
     {
         /// <summary>
         /// Returns a color based on XAML color string.
