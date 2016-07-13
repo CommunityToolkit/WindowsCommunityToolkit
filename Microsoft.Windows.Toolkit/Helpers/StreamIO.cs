@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit
     /// <summary>
     /// This class provides static helper methods.
     /// </summary>
-    public static partial class Helpers
+    public static class StreamIO
     {
         /// <summary>
         /// Get the response stream returned by a HTTP get request.

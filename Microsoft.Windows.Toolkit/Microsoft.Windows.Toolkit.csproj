@@ -51,9 +51,8 @@
   <ItemGroup>
     <Compile Include="Helpers\Helpers.Color.cs" />
     <Compile Include="Helpers\Helpers.Connections.cs" />
-    <Compile Include="Helpers\Helpers.Compression.cs" />
     <Compile Include="Helpers\Helpers.StorageFile.cs" />
-    <Compile Include="Helpers\Helpers.Streams.cs" />
+    <Compile Include="Helpers\StreamIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
