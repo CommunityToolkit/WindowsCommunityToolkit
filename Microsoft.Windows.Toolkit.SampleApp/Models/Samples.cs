@@ -22,7 +22,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         {
             if (_samplesCategories == null)
             {
-                using (var jsonStream = await Helpers.GetPackagedFileStreamAsync("SamplePages/samples.json"))
+                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
                     _samplesCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
