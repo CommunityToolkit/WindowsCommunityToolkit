@@ -216,7 +216,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <None Include="Microsoft.Windows.Toolkit.SampleApp.ruleset" />
-    <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
     <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.bind" />
