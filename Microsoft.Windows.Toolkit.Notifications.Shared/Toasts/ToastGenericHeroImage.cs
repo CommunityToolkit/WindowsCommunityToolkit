@@ -9,6 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
+#if ANNIVERSARY_UPDATE
+using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+#endif
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
 #if ANNIVERSARY_UPDATE
@@ -17,12 +22,8 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastGenericHeroImage : IBaseImage
     {
-        /// <summary>
-        /// Constructs a hero image for the Toast notification.
-        /// </summary>
-        public ToastGenericHeroImage() { }
-
         private string _source;
+
         /// <summary>
         /// The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.
         /// </summary>

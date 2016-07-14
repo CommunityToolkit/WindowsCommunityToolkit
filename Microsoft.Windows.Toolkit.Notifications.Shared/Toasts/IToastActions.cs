@@ -10,6 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+#if ANNIVERSARY_UPDATE
+using System.Collections.Generic;
+#endif
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
     /// <summary>

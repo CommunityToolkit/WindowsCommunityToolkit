@@ -1,8 +1,19 @@
+// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
+using System.Collections.Generic;
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Create your own custom actions, using controls like <see cref="ToastButton"/>, <see cref="ToastTextBox"/>, and <see cref="ToastSelectionBox"/>.
     /// </summary>
@@ -29,7 +40,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
         {
 #if ANNIVERSARY_UPDATE
             if (Buttons.Count + ContextMenuItems.Count > 5)
+            {
                 throw new InvalidOperationException("You have too many buttons/context menu items. You can only have up to 5 total.");
+            }
 #else
             if (this.Buttons.Count > 5)
             {
@@ -51,7 +64,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
 #if ANNIVERSARY_UPDATE
             foreach (var item in ContextMenuItems)
+            {
                 el.Children.Add(item.ConvertToElement());
+            }
 #endif
 
             return el;

@@ -9,9 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+#if ANNIVERSARY_UPDATE
+using System;
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-#if ANNIVERSARY_UPDATE
     /// <summary>
     /// A Toast context menu item.
     /// </summary>
@@ -25,10 +27,14 @@ namespace Microsoft.Windows.Toolkit.Notifications
         public ToastContextMenuItem(string content, string arguments)
         {
             if (content == null)
-                throw new ArgumentNullException("content");
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
 
             if (arguments == null)
-                throw new ArgumentNullException("arguments");
+            {
+                throw new ArgumentNullException(nameof(arguments));
+            }
 
             Content = content;
             Arguments = arguments;
@@ -51,7 +57,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
 
         internal Element_ToastAction ConvertToElement()
         {
-            return new Element_ToastAction()
+            return new Element_ToastAction
             {
                 Content = Content,
                 Arguments = Arguments,
@@ -78,5 +84,5 @@ namespace Microsoft.Windows.Toolkit.Notifications
             }
         }
     }
-#endif
 }
+#endif
