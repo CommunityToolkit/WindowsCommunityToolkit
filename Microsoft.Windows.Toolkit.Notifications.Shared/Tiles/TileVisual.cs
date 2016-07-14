@@ -101,10 +101,10 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// Attempts to find and re-use an existing text element inside the binding. Returns true if it could. Otherwise returns false, and the caller will have to specify the detailed status using the lock hint attribute.
         /// </summary>
-        /// <param name="lineNumber"></param>
-        /// <param name="lockText"></param>
-        /// <param name="binding"></param>
-        /// <returns></returns>
+        /// <param name="lineNumber">The lock screen line number.</param>
+        /// <param name="lockText">The lock screen line text.</param>
+        /// <param name="binding">The binding to look in for matches.</param>
+        /// <returns>True if could re-use existing text element, otherwise false.</returns>
         private static bool TryReuseTextElementForLockDetailedText(int lineNumber, string lockText, Element_TileBinding binding)
         {
             if (lockText == null)

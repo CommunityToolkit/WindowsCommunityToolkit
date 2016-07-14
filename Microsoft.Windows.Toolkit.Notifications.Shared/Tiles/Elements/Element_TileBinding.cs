@@ -108,7 +108,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// <summary>
         /// Generates an enumerable collection of children and all those children's children
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Enumerable collection of children and all those children's children.</returns>
         public IEnumerable<object> Descendants()
         {
             foreach (IElement_TileBindingChild child in Children)
