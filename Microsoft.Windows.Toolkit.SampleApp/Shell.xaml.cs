@@ -142,11 +142,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 case "NarrowState":
                 case "MediumState":
                     // If pane is open, close it
-                    if (this._isPaneOpen)
+                    if (_isPaneOpen)
                     {
                         Grid.SetRowSpan(InfoAreaGrid, 1);
                         Grid.SetRow(InfoAreaGrid, 1);
-                        this._isPaneOpen = false;
+                        _isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
                     else
@@ -154,7 +154,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         // ane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
-                        this._isPaneOpen = true;
+                        _isPaneOpen = true;
                         ExpandButton.Content = "";
                     }
 
@@ -162,11 +162,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                 case "WideState":
                     // If pane is open, close it
-                    if (this._isPaneOpen)
+                    if (_isPaneOpen)
                     {
                         Grid.SetColumnSpan(InfoAreaGrid, 1);
                         Grid.SetColumn(InfoAreaGrid, 1);
-                        this._isPaneOpen = false;
+                        _isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
                     else
@@ -174,7 +174,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         // Pane is closed, so let's open it
                         Grid.SetColumnSpan(InfoAreaGrid, 2);
                         Grid.SetColumn(InfoAreaGrid, 0);
-                        this._isPaneOpen = true;
+                        _isPaneOpen = true;
                         ExpandButton.Content = "";
                     }
 
