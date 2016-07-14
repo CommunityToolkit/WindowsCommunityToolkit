@@ -130,7 +130,7 @@
                     <Button x:Name="ExpandButton" Click="ExpandButton_Click" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" />
                     <TextBlock Grid.Column="1" x:Name="Title" Text="" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
                 </Grid>
-                <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot">
+                <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot" SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
                         <controlsLocal:PropertyControl x:Name="Properties"/>
 
