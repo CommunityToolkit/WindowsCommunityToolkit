@@ -9,6 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+#if ANNIVERSARY_UPDATE
+using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+#endif
+
 namespace Microsoft.Windows.Toolkit.Notifications
 {
 #if ANNIVERSARY_UPDATE
@@ -17,11 +21,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastGenericAttributionText : IBaseText
     {
-        /// <summary>
-        /// Constructs a new attribution text element that can be displayed on a Toast notification.
-        /// </summary>
-        public ToastGenericAttributionText() { }
-
         /// <summary>
         /// The text to display.
         /// </summary>
