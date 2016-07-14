@@ -183,6 +183,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         {
             if (NavigationFrame.CanGoBack)
             {
+                HideInfoArea();
                 NavigationFrame.GoBack();
             }
         }
