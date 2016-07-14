@@ -20,11 +20,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
+
     public sealed partial class Shell
     {
         public static Shell Current { get; private set; }
 
-        private bool isPaneOpen;
+        private bool _isPaneOpen;
+        private Sample _currentSample;
+
+        private bool _sampleHasPropertyDescriptor;
 
         public bool DisplayWaitRing
         {
@@ -50,6 +54,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             InfoAreaGrid.Visibility = Visibility.Collapsed;
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            _currentSample = null;
         }
 
         public void ShowOnlyHeader(string title)
@@ -74,9 +79,12 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
 
-                if (propertyDesc != null)
+                _currentSample = sample;
+                _sampleHasPropertyDescriptor = propertyDesc != null;
+
+                if (_sampleHasPropertyDescriptor)
                 {
-                    CodeRenderer.XamlSource = sample.UpdatedXamlCode;
+                    CodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
 
                     if (!InfoAreaPivot.Items.Contains(PropertiesPivotItem))
                     {
@@ -87,7 +95,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 }
                 else
                 {
-                    CodeRenderer.CSharpSource = await sample.GetCSharpSource();
+                    CodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
                     if (InfoAreaPivot.Items.Contains(PropertiesPivotItem))
                     {
                         InfoAreaPivot.Items.Remove(PropertiesPivotItem);
@@ -134,11 +142,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 case "NarrowState":
                 case "MediumState":
                     // If pane is open, close it
-                    if (isPaneOpen)
+                    if (this._isPaneOpen)
                     {
                         Grid.SetRowSpan(InfoAreaGrid, 1);
                         Grid.SetRow(InfoAreaGrid, 1);
-                        isPaneOpen = false;
+                        this._isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
                     else
@@ -146,7 +154,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         // ane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
-                        isPaneOpen = true;
+                        this._isPaneOpen = true;
                         ExpandButton.Content = "";
                     }
 
@@ -154,11 +162,11 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
                 case "WideState":
                     // If pane is open, close it
-                    if (isPaneOpen)
+                    if (this._isPaneOpen)
                     {
                         Grid.SetColumnSpan(InfoAreaGrid, 1);
                         Grid.SetColumn(InfoAreaGrid, 1);
-                        isPaneOpen = false;
+                        this._isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
                     else
@@ -166,7 +174,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                         // Pane is closed, so let's open it
                         Grid.SetColumnSpan(InfoAreaGrid, 2);
                         Grid.SetColumn(InfoAreaGrid, 0);
-                        isPaneOpen = true;
+                        this._isPaneOpen = true;
                         ExpandButton.Content = "";
                     }
 
@@ -217,6 +225,28 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             if (option != null)
             {
                 NavigationFrame.Navigate(option.PageType);
+            }
+        }
+
+        private async void InfoAreaPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
+            {
+                return;
+            }
+
+            if (_currentSample == null)
+            {
+                return;
+            }
+
+            if (_sampleHasPropertyDescriptor)
+            {
+                CodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+            }
+            else
+            {
+                CodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
             }
         }
     }
