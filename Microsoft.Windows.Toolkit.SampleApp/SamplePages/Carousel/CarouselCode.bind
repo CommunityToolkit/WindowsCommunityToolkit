@@ -24,7 +24,7 @@
                 ContentTemplate="{StaticResource PhotosTemplate}"
                 MaxItems="@[MaxItems:Slider:6:1-10]"
                 AspectRatio="@[AspectRatio:DoubleSlider:0.6:0.25-2.0]"
-				MaxHeight="@[MaxHeight:Slider:500:200-800]"
+                MaxHeight="@[MaxHeight:Slider:500:200-800]"
                 AlignmentX="@[AlignmentX:Enum:AlignmentX.Center]"
                 GradientOpacity="@[GradientOpacity:DoubleSlider:0.3:0.0-1.0]"/>
     </Grid>
