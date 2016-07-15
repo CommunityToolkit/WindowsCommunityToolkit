@@ -42,13 +42,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private const string STACKPARTNAME = "Stack";
 
         private static Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
-        private int _currentIndex = 0; // current index in the items displayed
+        private int _currentIndex = -1; // current index in the items displayed
         private DispatcherTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
         private FrameworkElement _nextElement; // FrameworkElement holding a reference to the next element being display
         private FrameworkElement _scroller;  // Container Element that's being translated to animate from one item to the next
         private TranslateTransform _translate; // Translate Transform used when animating the transition
         private StackPanel _stackPanel; // StackPanel that contains the live tile elements
+        private bool _suppressFlipOnSet; // Prevents the SelectedItem change handler to cause a flip
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -67,6 +68,13 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public static readonly DependencyProperty FlipDirectionProperty =
             DependencyProperty.Register(nameof(FlipDirection), typeof(FlipDirection), typeof(LiveTile), new PropertyMetadata(FlipDirection.Up));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(LiveTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LiveTile"/> class.
@@ -161,13 +169,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         private void Timer_Tick(object sender, object e)
         {
-            var item = GetItemAt(_currentIndex+1);
+            var item = GetItemAt(_currentIndex + 1);
             _timer.Interval = TimeSpan.FromSeconds(_randomizer.Next(5) + 5); // randomize next flip
-            SelectedItem = item;
             UpdateNextItem();
         }
 
         private void UpdateNextItem()
+        {
+            _currentIndex++;
+            SelectedItem = GetItemAt(_currentIndex);
+        }
+
+        private void FlipToNextItem()
         {
             // Check if there's more than one item. if not, don't start animation
             bool hasTwoOrMoreItems = false;
@@ -232,12 +245,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
                 if (_currentElement != null)
                 {
-                    _currentElement.DataContext = GetCurrent();
+                    _currentElement.DataContext = _nextElement.DataContext;
                 }
 
                 if (_nextElement != null)
                 {
-                    _nextElement.DataContext = GetNext();
+                    _nextElement.DataContext = GetNext(); // Preload the next tile
                 }
             };
             sb.Begin();
@@ -250,12 +263,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private object GetNext()
         {
+            if (_currentIndex < 0)
+            {
+                return null;
+            }
+
             return GetItemAt(_currentIndex + 1);
         }
 
         private object GetItemAt(int index)
         {
-            if (ItemsSource != null)
+            if (ItemsSource != null && index > -1)
             {
                 if (ItemsSource is IList)
                 {
@@ -316,18 +334,22 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private void Start()
         {
             _currentIndex = 0;
+            var currentItem = GetCurrent();
             if (_currentElement != null)
             {
-                _currentElement.DataContext = GetCurrent();
-                if (_currentElement.DataContext == null)
-                {
-                    return;
-                }
+                _currentElement.DataContext = currentItem;
             }
 
             if (_nextElement != null)
             {
                 _nextElement.DataContext = GetNext();
+            }
+
+            if (currentItem == null)
+            {
+                _currentIndex = -1;
+                _timer?.Stop();
+                return;
             }
 
             if (_timer == null)
@@ -338,6 +360,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
 
             _timer.Start();
+            _suppressFlipOnSet = true;
+            SelectedItem = currentItem;
+            _suppressFlipOnSet = false;
         }
 
         /// <summary>
@@ -355,27 +380,30 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             ctrl.OnCollectionChanged(e.OldValue, e.NewValue);
         }
 
+        private WeakEventListener<LiveTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
+
         private void OnCollectionChanged(object oldValue, object newValue)
         {
             if (oldValue is INotifyCollectionChanged)
             {
                 var incc = (INotifyCollectionChanged)oldValue;
                 incc.CollectionChanged -= Incc_CollectionChanged;
+                _inccWeakEventListener?.Detach();
+                _inccWeakEventListener = null;
             }
 
             if (newValue is IEnumerable)
             {
-                if (_currentElement != null && _nextElement != null)
-                {
-                    _currentIndex = 0;
-                    Start();
-                }
-
                 if (newValue is INotifyCollectionChanged)
                 {
                     var incc = (INotifyCollectionChanged)newValue;
-                    incc.CollectionChanged += Incc_CollectionChanged;
+                    _inccWeakEventListener = new WeakEventListener<LiveTile, object, NotifyCollectionChangedEventArgs>(this);
+                    _inccWeakEventListener.OnEventAction = (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs);
+                    _inccWeakEventListener.OnDetachAction = (listener) => incc.CollectionChanged -= listener.OnEvent;
+                    incc.CollectionChanged += _inccWeakEventListener.OnEvent;
                 }
+
+                Start();
             }
             else if (_timer != null)
             {
@@ -383,9 +411,74 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
-        private static void Incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                if (e.OldItems?.Count > 0)
+                {
+                    int endIndex = e.OldStartingIndex + e.OldItems.Count;
+                    if (_currentIndex >= e.NewStartingIndex && _currentIndex < endIndex)
+                    {
+                        UpdateNextItem(); // Current item was removed. Replace with the next one
+                    }
+                    else if (_currentIndex > endIndex)
+                    {
+                        // items were removed before the current item. Just update the changed index
+                        _currentIndex -= (endIndex - e.NewStartingIndex) - 1;
+                    }
+                    else if (e.NewStartingIndex == _currentIndex + 1)
+                    {
+                        // upcoming item was changed, so update the datacontext
+                        _nextElement.DataContext = GetNext();
+                    }
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                int endIndex = e.NewStartingIndex + e.NewItems.Count;
+                if (e.NewItems?.Count > 0)
+                {
+                    if (_currentIndex < 0)
+                    {
+                        // First item loaded. Start the rotator
+                        Start();
+                    }
+                    else if (_currentIndex >= e.NewStartingIndex)
+                    {
+                        // Items were inserted before the current item. Update the index
+                        _currentIndex += e.NewItems.Count;
+                    }
+                    else if (_currentIndex + 1 == e.NewStartingIndex)
+                    {
+                        // upcoming item was changed, so update the datacontext
+                        _nextElement.DataContext = GetNext();
+                    }
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                int endIndex = e.OldStartingIndex + e.OldItems.Count;
+                if (_currentIndex >= e.OldStartingIndex && _currentIndex < endIndex + 1)
+                {
+                    // The current or next item was moved. Get its new location
+                    UpdateNextItem();
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Move)
+            {
+                int endIndex = e.OldStartingIndex + e.OldItems.Count;
+                if (_currentIndex >= e.OldStartingIndex && _currentIndex < endIndex)
+                {
+                    // The current item was moved. Get its new location
+                    _currentIndex = GetIndexOf(SelectedItem);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                // Significant change or clear. Restart.
+                Start();
+            }
         }
 
         public object SelectedItem
@@ -394,17 +487,22 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             set { SetValue(SelectedItemProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(LiveTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
-
         private static void OnSelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (LiveTile)d;
+            if (ctrl._suppressFlipOnSet)
+            {
+                return;
+            }
+
             int index = ctrl.GetIndexOf(e.NewValue);
             if (index > -1)
             {
                 ctrl._currentIndex = index;
-                ctrl.UpdateNextItem();
+                ctrl._nextElement.DataContext = e.NewValue;
+                ctrl.FlipToNextItem();
+                ctrl._timer.Stop();
+                ctrl._timer.Start();
             }
         }
 
