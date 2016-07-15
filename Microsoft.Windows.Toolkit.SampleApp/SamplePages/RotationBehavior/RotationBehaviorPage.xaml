@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle Fill="red" Height="100" Width="100" >
+        <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Rotation x:Name="Rotation" 
                                     Value="{Binding Value.Value, Mode=TwoWay}" 

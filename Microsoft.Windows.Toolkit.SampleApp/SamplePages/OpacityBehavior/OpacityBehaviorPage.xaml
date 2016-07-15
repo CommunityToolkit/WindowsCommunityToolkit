@@ -9,7 +9,7 @@
     x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.OpacityBehaviorPage"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle Fill="red" Height="100" Width="100" >
+        <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Opacity x:Name="OpacityBehavior" 
                                    Value="{Binding Value.Value, Mode=TwoWay}" 

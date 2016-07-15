@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="Windows-1252"?>
 <Page
     x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.RotationBehaviorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -11,7 +10,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle Fill="red" Height="100" Width="100" >
+        <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Rotation x:Name="Rotation" 
 				Value="@[Value:DoubleSlider:0.0:0.0-360.0]"
@@ -34,3 +33,12 @@
         </StackPanel>
     </Grid>
 </Page>
+
+C#
+MyRectangle.Rotate(
+                duration: Duration,
+                delay: Delay,
+                value: (float)Value,
+                centerX: (float)CenterX,
+                centerY: (float)CenterY,
+                centerZ: (float)CenterZ);
