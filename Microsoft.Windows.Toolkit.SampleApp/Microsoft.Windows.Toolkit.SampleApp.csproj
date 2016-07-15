@@ -205,6 +205,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
+    <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
@@ -255,6 +256,7 @@
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
+    <Content Include="SamplePages\BlurBehavior\BlurBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -280,6 +282,9 @@
     <Compile Include="Common\BindableBase.cs" />
     <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
       <DependentUpon>BingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml.cs">
+      <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
@@ -378,6 +383,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Bing Service\BingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
