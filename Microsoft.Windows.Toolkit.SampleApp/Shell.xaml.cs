@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp
 {
-
     public sealed partial class Shell
     {
         public static Shell Current { get; private set; }
