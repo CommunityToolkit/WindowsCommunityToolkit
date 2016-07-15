@@ -46,7 +46,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public async Task<string> GetCSharpSource()
         {
-            using (var codeStream = await Helpers.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
                 return await codeStream.ReadTextAsync();
             }
@@ -86,7 +86,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await Helpers.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
+                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
                     XamlCode = await codeStream.ReadTextAsync();
 
