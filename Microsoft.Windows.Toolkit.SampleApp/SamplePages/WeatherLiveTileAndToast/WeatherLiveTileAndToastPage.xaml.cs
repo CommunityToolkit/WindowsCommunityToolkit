@@ -9,10 +9,12 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using Microsoft.Windows.Toolkit.Notifications;
+using Microsoft.Windows.Toolkit.SampleApp.Common;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
-using Windows.Data.Xml.Dom;
+using NotificationsVisualizerLibrary;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
@@ -25,9 +27,13 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
     public sealed partial class WeatherLiveTileAndToastPage : Page
     {
+        private TileContent _tileContent;
+        private ToastContent _toastContent;
+
         public WeatherLiveTileAndToastPage()
         {
             InitializeComponent();
+            Initialize();
         }
 
         public static ToastContent GenerateToastContent()
@@ -346,18 +352,24 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private async void PinTile()
         {
-            SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString(), "WeatherSample", "args", new Uri("ms-appx:///Assets/Square150x150Logo.png"), TileSize.Default);
+            SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString())
+            {
+                DisplayName = "WeatherSample",
+                Arguments = "args"
+            };
+            tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+            tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+            tile.VisualElements.ShowNameOnWide310x150Logo = true;
+            tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
+            tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
+            tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
 
             if (!await tile.RequestCreateAsync())
             {
                 return;
             }
 
-            TileContent content = GenerateTileContent();
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content.GetContent());
-            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(doc));
+            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(_tileContent.GetXml()));
         }
 
         private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
@@ -367,11 +379,43 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastContent content = GenerateToastContent();
+            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
+        }
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content.GetContent());
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(doc));
+        private void Initialize()
+        {
+            // Generate the tile notification content
+            _tileContent = GenerateTileContent();
+
+            // Generate the toast notification content
+            _toastContent = GenerateToastContent();
+
+            // Prepare and update the preview tiles
+            var previewTiles = new PreviewTile[] { PreviewTileSmall, PreviewTileMedium, PreviewTileWide, PreviewTileLarge };
+            foreach (var tile in previewTiles)
+            {
+                tile.DisplayName = "WeatherSample";
+                tile.VisualElements.BackgroundColor = Constants.ApplicationBackgroundColor;
+                tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+                tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+                tile.VisualElements.ShowNameOnWide310x150Logo = true;
+                tile.VisualElements.Square44x44Logo = Constants.Square44x44Logo;
+                tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
+                tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
+                tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
+                var dontWait = tile.UpdateAsync(); // Commit changes (no need to await)
+
+                tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
+            }
+
+            // Prepare and update preview toast
+            PreviewToastWeather.Properties = new PreviewToastProperties()
+            {
+                BackgroundColor = Constants.ApplicationBackgroundColor,
+                DisplayName = Constants.ApplicationDisplayName,
+                Square44x44Logo = Constants.Square44x44Logo
+            };
+            PreviewToastWeather.Initialize(_toastContent.GetXml());
         }
     }
 }

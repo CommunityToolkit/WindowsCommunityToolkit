@@ -207,6 +207,8 @@
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
+    <Content Include="SamplePages\LiveTile\icon.jpg" />
+    <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
@@ -216,6 +218,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
     <None Include="Microsoft.Windows.Toolkit.SampleApp.ruleset" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\icon.jpg" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
@@ -250,11 +253,14 @@
     <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
+    <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
+    <Content Include="SamplePages\Toast\ToastCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
@@ -277,6 +283,12 @@
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\LiveTile\LiveTilePage.xaml.cs">
+      <DependentUpon>LiveTilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
+      <DependentUpon>ToastPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
@@ -373,6 +385,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\LiveTile\LiveTilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -380,6 +396,10 @@
     <Page Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Toast\ToastPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
