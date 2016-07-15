@@ -179,6 +179,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         {
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
             var compositor = visual?.Compositor;
+            const string blurName = "Blur";
 
             if (compositor == null)
             {
@@ -199,16 +200,16 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
 
             if (blurBrush != null)
             {
-                if (blurBrush.Comment == "Blur")
+                if (blurBrush.Comment == blurName)
                 {
-                    blurBrush.StartAnimation("Blur.BlurAmount", blurAnimation);
+                    blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
                     return;
                 }
             }
 
             var blurEffect = new GaussianBlurEffect
             {
-                Name = "Blur",
+                Name = blurName,
                 BlurAmount = 0f,
                 Optimization = EffectOptimization.Balanced,
                 BorderMode = EffectBorderMode.Hard,
@@ -216,8 +217,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             };
 
             // Create a brush to which I want to apply. I also have noted that BlurAmount should be left out of the compiled shader.
-            blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { "Blur.BlurAmount" }).CreateBrush();
-            blurBrush.Comment = "Blur";
+            blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { $"{blurName}.BlurAmount" }).CreateBrush();
+            blurBrush.Comment = blurName;
 
             // Set the source of the blur as a backdrop brush
             blurBrush.SetSourceParameter("source", compositor.CreateBackdropBrush());
@@ -227,12 +228,12 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
 
             blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-            blurBrush.StartAnimation("Blur.BlurAmount", blurAnimation);
+            blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
 
             associatedObject.SizeChanged += (s, e) =>
             {
                 blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-                blurBrush.StartAnimation("Blur.BlurAmount", blurAnimation);
+                blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
             };
         }
     }
