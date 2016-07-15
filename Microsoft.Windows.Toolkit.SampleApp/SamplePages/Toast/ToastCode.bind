@@ -1,4 +1,4 @@
-﻿private void PopToast()
+private void PopToast()
 {
     // Generate the toast notification content and pop the toast
     ToastContent content = GenerateToastContent();

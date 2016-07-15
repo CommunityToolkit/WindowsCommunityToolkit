@@ -1,4 +1,4 @@
-﻿private async void PinTile()
+private async void PinTile()
 {
     SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString())
     {
