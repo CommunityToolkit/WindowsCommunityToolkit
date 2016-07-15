@@ -47,6 +47,5 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         }
 
         public IEnumerable<Data.PhotoDataItem> Photos { get; } = new Data.PhotosDataSource().GetItems(true);
-
     }
 }
