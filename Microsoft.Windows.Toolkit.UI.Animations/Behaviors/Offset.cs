@@ -10,10 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Numerics;
+using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
@@ -82,19 +80,12 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            var visual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return;
-            }
-
-            var offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-            offsetAnimation.Duration = TimeSpan.FromSeconds(Duration);
-            offsetAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
-            offsetAnimation.InsertKeyFrame(1f, new Vector3((float)OffsetX, (float)OffsetY, (float)OffsetZ));
-            visual.StartAnimation("Offset", offsetAnimation);
+            AssociatedObject.Offset(
+                duration: Duration,
+                delay: Delay,
+                offsetX: (float)OffsetX,
+                offsetY: (float)OffsetY,
+                offsetZ: (float)OffsetZ);
         }
     }
 }
