@@ -10,9 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
@@ -94,22 +93,13 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            var visual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return;
-            }
-
-            var rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            rotationAnimation.Duration = TimeSpan.FromSeconds(Duration);
-            rotationAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
-            rotationAnimation.InsertKeyFrame(1f, (float)Value);
-
-            visual.CenterPoint = new System.Numerics.Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
-
-            visual.StartAnimation("RotationAngleInDegrees", rotationAnimation);
+            AssociatedObject.Rotate(
+                duration: Duration,
+                delay: Delay,
+                value: (float)Value,
+                centerX: (float)CenterX,
+                centerY: (float)CenterY,
+                centerZ: (float)CenterZ);
         }
     }
 }

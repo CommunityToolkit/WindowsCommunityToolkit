@@ -10,9 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
@@ -46,20 +45,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            var visual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return;
-            }
-
-            var opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-            opacityAnimation.Duration = TimeSpan.FromSeconds(Duration);
-            opacityAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
-            opacityAnimation.InsertKeyFrame(1f, (float)Value);
-
-            visual.StartAnimation("Opacity", opacityAnimation);
+            AssociatedObject.Opacity(Duration, Delay, (float)Value);
         }
     }
 }
