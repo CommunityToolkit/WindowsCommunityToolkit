@@ -1,4 +1,4 @@
-Windows App Toolkit
+UWP Community Toolkit
 ===========
 
 Getting started? ...
@@ -21,7 +21,7 @@ Please find what we plan for next iteration here: https://github.com/Microsoft/W
 
 ## Useful links
  - Official web site: 
- - Do you want to contribute? Here are our [guidelines](https://github.com/deltakosh/UWPToolkit/blob/master/contributing.md)
+ - Do you want to contribute? Here are our [guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
 ## Features
 To get a complete list of supported features, please visit our [website](...).
