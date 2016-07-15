@@ -1,14 +1,24 @@
+// Initialize service
 TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
+// Login to Twitter
 if (!await TwitterService.Instance.LoginAsync())
 {
     return;
 }
+
+// Get current user info
 var user = await TwitterService.Instance.GetUserAsync();
 ProfileImage.DataContext = user;
 
+// Get user timeline
 ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
+// Post a tweet
 await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
 
+// Post a tweet with a picture
+await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
+
+// Search for a specific tag
 ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);

@@ -1,29 +1,20 @@
+// Initialize service
 FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
+
+// Login to Facebook
 if (!await FacebookService.Instance.LoginAsync())
 {
-    ShareBox.Visibility = Visibility.Collapsed;
-    var error = new MessageDialog("Unable to log with Facebook");
-    await error.ShowAsync();
     return;
 }
 
-FacebookDataConfig config;
+// Get user's feed
+ListView.ItemsSource = await FacebookService.Instance.RequestAsync(FacebookDataConfig.MyFeed, 50);
 
-switch (QueryType.SelectedIndex)
-{
-    case 1:
-        config = FacebookDataConfig.MyPosts;
-        break;
-    case 2:
-        config = FacebookDataConfig.MyTagged;
-        break;
-    default:
-        config = FacebookDataConfig.MyFeed;
-        break;
-}
-
-ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
-
-ShareBox.Visibility = Visibility.Visible;
-
+// Get current user profile picture
 ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+
+// Post a message on your wall
+await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+
+// Post a message with a picture on your wall
+await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);
