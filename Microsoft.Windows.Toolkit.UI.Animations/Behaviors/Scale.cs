@@ -10,10 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Numerics;
+using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
@@ -129,22 +127,15 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            var visual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return;
-            }
-
-            var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
-            scaleAnimation.Duration = TimeSpan.FromSeconds(Duration);
-            scaleAnimation.DelayTime = TimeSpan.FromSeconds(Delay);
-            scaleAnimation.InsertKeyFrame(1f, new Vector3((float)ScaleX, (float)ScaleY, (float)ScaleZ));
-
-            visual.CenterPoint = new Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
-
-            visual.StartAnimation("Scale", scaleAnimation);
+            AssociatedObject.Scale(
+                duration: Duration,
+                delay: Delay,
+                centerX: (float)CenterX,
+                centerY: (float)CenterY,
+                centerZ: (float)CenterZ,
+                scaleX: (float)ScaleX,
+                scaleY: (float)ScaleY,
+                scaleZ: (float)ScaleZ);
         }
     }
 }
