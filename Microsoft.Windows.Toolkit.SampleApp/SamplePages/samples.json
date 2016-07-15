@@ -88,6 +88,14 @@
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
         "XamlCodeFile": "PullToRefreshListViewCode.bind",
         "Icon": "/SamplePages/PullToRefreshListView/icon.png"
+      },
+      {
+        "Name": "FlipTile",
+        "Type": "FlipTilePage",
+        "About": "FlipTile is a live-tile like ItemsControl. It enables you to show multiple items of data in a live-tile like way.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "Flip-TileCode.bind",
+        "Icon": "/SamplePages/FlipTile/icon.png"
       }
     ]
   },
