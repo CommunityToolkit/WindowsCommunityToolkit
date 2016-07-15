@@ -16,6 +16,9 @@ Any questions? ...(UserVoice? Forum entry?)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. 
 
+## Roadmap
+Please find what we plan for next iteration here: https://github.com/Microsoft/WindowsAppToolkit/milestone/3
+
 ## Useful links
  - Official web site: 
  - Do you want to contribute? Here are our [guidelines](https://github.com/deltakosh/UWPToolkit/blob/master/contributing.md)
