@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Windows.Toolkit.UI.Controls</id>
+    <version>0.0.0</version>
+    <title>UWP Toolkit Services</title>
+    <authors>Microsoft Corp</authors>
+    <owners>Microsoft Corp</owners>
+    <licenseUrl>https://github.com/deltakosh/UWPToolkit</licenseUrl>
+    <projectUrl>https://github.com/deltakosh/UWPToolkit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library enable access to diferent data source like Bing, Facebook, and Twitter.</description>
+    <releaseNotes>Initial internal release of core data services.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP Toolkit Windows AppStudio Net Portable Twitter OAuth RSS Facebook Bing</tags>
+    <dependencies>
+      <dependency id="Microsoft.Windows.Toolkit" />
+      <dependency id="Microsoft.Windows.Toolkit.UI" />
+      <dependency id="Microsoft.Windows.Toolkit.UI.Animations" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.*" target="lib\uap10.0" />
+  </files>
+</package>
