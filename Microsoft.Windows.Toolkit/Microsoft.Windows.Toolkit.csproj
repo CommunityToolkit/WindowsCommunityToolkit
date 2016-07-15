@@ -49,12 +49,11 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Helpers.Color.cs" />
-    <Compile Include="Helpers\Helpers.Connections.cs" />
-    <Compile Include="Helpers\Helpers.Compression.cs" />
-    <Compile Include="Helpers\Helpers.StorageFile.cs" />
-    <Compile Include="Helpers\Helpers.Streams.cs" />
+    <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\StreamHelper.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

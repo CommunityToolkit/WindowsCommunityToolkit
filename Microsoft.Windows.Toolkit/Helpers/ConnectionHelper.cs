@@ -15,9 +15,9 @@ using Windows.Networking.Connectivity;
 namespace Microsoft.Windows.Toolkit
 {
     /// <summary>
-    /// This class provides static helper methods.
+    /// This class provides static helper methods for connections.
     /// </summary>
-    public static partial class Helpers
+    public static class ConnectionHelper
     {
         /// <summary>
         /// Gets a value indicating whether if the current internet connection is metered.
