@@ -96,12 +96,28 @@
     "Icon": "Icons/Notifications.png",
     "Samples": [
       {
+        "Name": "LiveTile",
+        "Type": "LiveTilePage",
+        "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeFile": "LiveTileCode.bind",
+        "Icon": "/SamplePages/LiveTile/icon.jpg"
+      },
+      {
+        "Name": "Toast",
+        "Type": "ToastPage",
+        "About": "This shows how to send a Toast notification.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeFile": "ToastCode.bind",
+        "Icon": "/SamplePages/Toast/icon.jpg"
+      },
+      {
         "Name": "WeatherLiveTileAndToast",
         "Type": "WeatherLiveTileAndToastPage",
-        "About": "This shows how to send a Weather Live Tile notification, displaying the forecast.",
-        "CodeUrl": "https://github.com/TODO",
+        "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
-        "Icon": "/SamplePages/ImageEx/icon.jpg"
+        "Icon": "/SamplePages/WeatherLiveTileAndToast/icon.jpg"
       }
     ]
   },
