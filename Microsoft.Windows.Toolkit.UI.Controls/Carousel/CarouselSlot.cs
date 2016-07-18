@@ -18,15 +18,38 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System;
+
+    using global::Windows.Foundation;
+    using global::Windows.UI.Xaml.Media;
+
     internal class CarouselSlot : ContentControl
     {
         internal static readonly DependencyProperty ItemClickCommandProperty = DependencyProperty.Register("ItemClickCommand", typeof(ICommand), typeof(CarouselSlot), new PropertyMetadata(null));
 
         private Storyboard _storyboard;
 
+        internal event EventHandler<object> ItemClick;
+
         internal CarouselSlot()
         {
             Tapped += OnTapped;
+            RenderTransform = new ScaleTransform();
+            RenderTransformOrigin = new Point { X = 0.5, Y = 0.5 };
+            PointerPressed += OnPointerPressed;
+            PointerReleased += OnPointerReleased;
+        }
+
+        private void OnPointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            RenderTransform.AnimateDoubleProperty("ScaleX", 0.98, 1.0, 150);
+            RenderTransform.AnimateDoubleProperty("ScaleY", 0.98, 1.0, 150);
+        }
+
+        private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            RenderTransform.AnimateDoubleProperty("ScaleX", 1.0, 0.98, 150);
+            RenderTransform.AnimateDoubleProperty("ScaleY", 1.0, 0.98, 150);
         }
 
         internal double X { get; set; }
@@ -70,6 +93,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     }
                 }
             }
+
+            ItemClick?.Invoke(this, Content);
         }
     }
 }

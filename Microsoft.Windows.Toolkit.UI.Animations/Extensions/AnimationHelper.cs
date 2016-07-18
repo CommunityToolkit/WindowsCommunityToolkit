@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit
     /// <summary>
     /// Defines a collection of helper methods for UI <see cref="Storyboard"/> animation.
     /// </summary>
-    public static partial class Extensions
+    public static class AnimationHelper
     {
         /// <summary>
         /// Animates a <see cref="FrameworkElement"/> on the X axis.
