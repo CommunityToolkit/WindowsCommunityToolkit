@@ -47,9 +47,17 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     VerticalContentAlignment = VerticalAlignment.Stretch,
                     UseLayoutRounding = true
                 };
+
+                control.ItemClick += Control_ItemClick;
+
                 _container.Children.Add(control);
                 control.MoveX(n);
             }
+        }
+
+        private void Control_ItemClick(object sender, object source)
+        {
+           ItemClick?.Invoke(this, source);
         }
 
         private IEnumerable<Point> GetPositions(double slotWidth)

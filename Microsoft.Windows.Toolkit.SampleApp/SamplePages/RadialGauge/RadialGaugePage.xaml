@@ -14,7 +14,7 @@
                 <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            <controls:RadialGauge x:Name="RadialGauge"
+            <controls:RadialGauge x:Name="RadialGaugeControl"
                                   Grid.Column="1"
                                   Value="{Binding Value.Value, Mode=TwoWay}"
                                   Minimum="0"
