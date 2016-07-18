@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System;
     using System.Windows.Input;
 
     /// <summary>
@@ -166,6 +167,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (bool)GetValue(OneRowModeEnabledProperty); }
             set { SetValue(OneRowModeEnabledProperty, value); }
         }
+
+        /// <summary>
+        /// Event raised when an item is clicked
+        /// </summary>
+        public event ItemClickEventHandler ItemClick;
 
         private ScrollMode VerticalScroll
         {
