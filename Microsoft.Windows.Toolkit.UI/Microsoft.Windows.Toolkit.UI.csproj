@@ -49,7 +49,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToSizeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionVisibilityConverter.cs" />
     <Compile Include="Converters\ConverterTools.cs" />
@@ -57,9 +56,8 @@
     <Compile Include="ImageCache\ImageCache.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Extensions\Extensions.Transform.cs" />
-    <Compile Include="Extensions\Extensions.VisualTree.cs" />
+    <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DialogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">

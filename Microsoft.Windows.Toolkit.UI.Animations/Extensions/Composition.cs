@@ -47,6 +47,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             float scaleY = 0f,
             float scaleZ = 0f)
         {
+            // TODO: add an extra variable (optional) to define the from value
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
             var compositor = visual?.Compositor;
 
@@ -118,6 +119,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
             var compositor = visual?.Compositor;
 
+            // TODO: Rename all methods to AnimateXXX
+
             if (compositor == null)
             {
                 return;
@@ -148,6 +151,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             float offsetY = 0f,
             float offsetZ = 0f)
         {
+            // TODO: need a AnimateTranslation (to take care of current position)
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
             var compositor = visual?.Compositor;
 

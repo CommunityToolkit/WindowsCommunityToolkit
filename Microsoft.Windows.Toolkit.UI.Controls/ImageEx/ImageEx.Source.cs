@@ -101,7 +101,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
-                    _image.Source = await ImageCache.LoadFromCacheAsync(_uri);
+                    _image.Source = await ImageCache.GetFromCacheAsync(_uri);
                 }
                 else
                 {
