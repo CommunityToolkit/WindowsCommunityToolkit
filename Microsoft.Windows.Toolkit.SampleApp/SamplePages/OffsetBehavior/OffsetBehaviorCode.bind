@@ -34,10 +34,12 @@
     </Grid>
 </Page>
 
-C#
+<!--
+Code only version:
 MyRectangle.Offset(
                 duration: Duration,
                 delay: Delay,
                 offsetX: (float)OffsetX,
                 offsetY: (float)OffsetY,
-                offsetZ: (float)OffsetZ);;
+                offsetZ: (float)OffsetZ);
+-->

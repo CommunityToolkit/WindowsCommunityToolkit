@@ -34,7 +34,8 @@
     </Grid>
 </Page>
 
-C#
+<!--
+Code only version:
 MyRectangle.Rotate(
                 duration: Duration,
                 delay: Delay,
@@ -42,3 +43,4 @@ MyRectangle.Rotate(
                 centerX: (float)CenterX,
                 centerY: (float)CenterY,
                 centerZ: (float)CenterZ);
+-->
