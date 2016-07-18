@@ -20,7 +20,7 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:Carousel
-                Name="control"
+                Name="CarouselControl"
                 ContentTemplate="{StaticResource PhotosTemplate}"
                 MaxItems="{Binding MaxItems.Value}"
                 AspectRatio="{Binding AspectRatio.Value}"

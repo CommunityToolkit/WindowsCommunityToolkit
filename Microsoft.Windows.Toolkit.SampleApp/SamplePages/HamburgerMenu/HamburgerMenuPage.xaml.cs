@@ -38,9 +38,9 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            HamburgerMenu.ItemsSource = new PhotosDataSource().GetItems();
+            HamburgerMenuControl.ItemsSource = new PhotosDataSource().GetItems();
 
-            HamburgerMenu.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
+            HamburgerMenuControl.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
