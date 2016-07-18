@@ -30,7 +30,7 @@ namespace Microsoft.Windows.Toolkit
         /// </summary>
         /// <param name="uri">Uri to request.</param>
         /// <returns>Response stream</returns>
-        public static async Task<IRandomAccessStream> GetHTTPStreamAsync(Uri uri)
+        public static async Task<IRandomAccessStream> GetHTTPStreamAsync(this Uri uri)
         {
             var content = await GetHTTPContentAsync(uri);
 
@@ -55,64 +55,59 @@ namespace Microsoft.Windows.Toolkit
         /// Get the response stream returned by a HTTP get request and save it to a local file.
         /// </summary>
         /// <param name="uri">Uri to request.</param>
-        /// <param name="file">StorageFile to save the stream to.</param>
+        /// <param name="targetFile">StorageFile to save the stream to.</param>
         /// <returns>True if success.</returns>
-        public static async Task<bool> DownloadHTTPStreamAsync(Uri uri, StorageFile file)
+        public static async Task GetHTTPStreamToStorageFileAsync(Uri uri, StorageFile targetFile)
         {
             var content = await GetHTTPContentAsync(uri);
 
-            if (content == null)
-            {
-                return false;
-            }
-
             using (content)
             {
-                using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     await content.WriteToStreamAsync(fileStream);
                 }
             }
-
-            return true;
         }
 
         /// <summary>
         /// Return a stream to a specified file from the installation folder.
         /// </summary>
-        /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetPackagedFileStreamAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        public static async Task<IRandomAccessStream> GetPackagedFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
 
-            return await GetFileStreamAsync(fullFileName, accessMode, workingFolder);
+            return await GetFileStreamAsync(relativeFileName, accessMode, workingFolder);
         }
 
         /// <summary>
         /// Return a stream to a specified file from the application local folder.
         /// </summary>
-        /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetLocalFileStreamAsync(string fullFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        public static async Task<IRandomAccessStream> GetLocalFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
 
-            return await GetFileStreamAsync(fullFileName, accessMode, workingFolder);
+            return await GetFileStreamAsync(relativeFileName, accessMode, workingFolder);
         }
+
+        // TODO: Add to local cache version 
 
         /// <summary>
         /// Test if a file exists in the application local folder.
         /// </summary>
-        /// <param name="fullFileName">Full name of the file to open. Can contains subfolders.</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
-        public static async Task<bool> IsLocalFileExistsAsync(string fullFileName)
+        public static async Task<bool> IsLocalFileExistsAsync(string relativeFileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
-            var fileName = Path.GetFileName(fullFileName);
-            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
+            var fileName = Path.GetFileName(relativeFileName);
+            workingFolder = await GetSubFolder(relativeFileName, workingFolder);
 
             var item = await workingFolder.TryGetItemAsync(fileName);
 
@@ -123,6 +118,8 @@ namespace Microsoft.Windows.Toolkit
 
             return true;
         }
+
+        // TODO: add same for local cache
 
         /// <summary>
         /// Read stream content as a string.
@@ -158,10 +155,7 @@ namespace Microsoft.Windows.Toolkit
             {
                 using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
                 {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return null;
-                    }
+                    response.EnsureSuccessStatusCode();
 
                     return response.Content;
                 }
@@ -171,14 +165,14 @@ namespace Microsoft.Windows.Toolkit
         private static async Task<IRandomAccessStream> GetFileStreamAsync(string fullFileName, FileAccessMode accessMode, StorageFolder workingFolder)
         {
             var fileName = Path.GetFileName(fullFileName);
-            workingFolder = await ExtractSubFolder(fullFileName, workingFolder);
+            workingFolder = await GetSubFolder(fullFileName, workingFolder);
 
             var file = await workingFolder.GetFileAsync(fileName);
 
             return await file.OpenAsync(accessMode);
         }
 
-        private static async Task<StorageFolder> ExtractSubFolder(string fullFileName, StorageFolder workingFolder)
+        private static async Task<StorageFolder> GetSubFolder(string fullFileName, StorageFolder workingFolder)
         {
             var folderName = Path.GetDirectoryName(fullFileName);
 

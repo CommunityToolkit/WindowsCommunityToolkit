@@ -40,9 +40,9 @@ namespace Microsoft.Windows.Toolkit.UI.Converters
                 result = Visibility.Visible;
             }
 
-            if (ConverterTools.SafeParseBool(parameter))
+            if (ConverterTools.TryParseBool(parameter))
             {
-                return ConverterTools.Opposite(result);
+                return result == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             }
 
             return result;

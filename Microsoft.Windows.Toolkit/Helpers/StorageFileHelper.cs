@@ -131,6 +131,10 @@ namespace Microsoft.Windows.Toolkit
         /// </exception>
         public static async Task<string> GetTextFromFilePathAsync(string filePath)
         {
+            // TODO: ReadTextFromPackagedFile(...relativePath)
+            // TODO: ReadTextFromLocalCacheFile(...relativePath)
+            // TODO: ReadTextFromLocalFile(...relativePath)
+            // TODO: ReadTextFromKnownFoldersFile(...relativePath)
             if (string.IsNullOrWhiteSpace(filePath))
             {
                 throw new ArgumentNullException(nameof(filePath));
