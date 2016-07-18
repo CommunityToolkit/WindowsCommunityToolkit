@@ -96,7 +96,43 @@ namespace Microsoft.Windows.Toolkit
             return await GetFileStreamAsync(relativeFileName, accessMode, workingFolder);
         }
 
-        // TODO: Add to local cache version 
+        /// <summary>
+        /// Return a stream to a specified file from the application local cache folder.
+        /// </summary>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <param name="accessMode">File access mode. Default is read.</param>
+        /// <returns>File stream</returns>
+        public static async Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
+
+            return await GetFileStreamAsync(relativeFileName, accessMode, workingFolder);
+        }
+
+        /// <summary>
+        /// Return a stream to a specified file from the application local cache folder.
+        /// </summary>
+        /// <param name="knownFolderId">The well known folder ID to use</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <param name="accessMode">File access mode. Default is read.</param>
+        /// <returns>File stream</returns>
+        public static async Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(KnownFolderId knownFolderId, string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
+        {
+            StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
+
+            return await GetFileStreamAsync(relativeFileName, accessMode, workingFolder);
+        }
+
+        /// <summary>
+        /// Test if a file exists in the application installation folder.
+        /// </summary>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <returns>True if file exists.</returns>
+        public static async Task<bool> IsPackagedFileExistsAsync(string relativeFileName)
+        {
+            StorageFolder workingFolder = Package.Current.InstalledLocation;
+            return await IsFileExistsAsync(workingFolder, relativeFileName);
+        }
 
         /// <summary>
         /// Test if a file exists in the application local folder.
@@ -106,20 +142,47 @@ namespace Microsoft.Windows.Toolkit
         public static async Task<bool> IsLocalFileExistsAsync(string relativeFileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+            return await IsFileExistsAsync(workingFolder, relativeFileName);
+        }
+
+        /// <summary>
+        /// Test if a file exists in the application local cache folder.
+        /// </summary>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <returns>True if file exists.</returns>
+        public static async Task<bool> IsLocalCacheFileExistsAsync(string relativeFileName)
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
+            return await IsFileExistsAsync(workingFolder, relativeFileName);
+        }
+
+        /// <summary>
+        /// Test if a file exists in the application local cache folder.
+        /// </summary>
+        /// <param name="knownFolderId">The well known folder ID to use</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <returns>True if file exists.</returns>
+        public static async Task<bool> IsKnownFolderFileExistsAsync(KnownFolderId knownFolderId, string relativeFileName)
+        {
+            StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
+            return await IsFileExistsAsync(workingFolder, relativeFileName);
+        }
+
+        /// <summary>
+        /// Test if a file exists in the application local folder.
+        /// </summary>
+        /// <param name="workingFolder">Folder to use.</param>
+        /// <param name="relativeFileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <returns>True if file exists.</returns>
+        public static async Task<bool> IsFileExistsAsync(StorageFolder workingFolder, string relativeFileName)
+        {
             var fileName = Path.GetFileName(relativeFileName);
             workingFolder = await GetSubFolder(relativeFileName, workingFolder);
 
             var item = await workingFolder.TryGetItemAsync(fileName);
 
-            if (item == null)
-            {
-                return false;
-            }
-
-            return true;
+            return item != null;
         }
-
-        // TODO: add same for local cache
 
         /// <summary>
         /// Read stream content as a string.
