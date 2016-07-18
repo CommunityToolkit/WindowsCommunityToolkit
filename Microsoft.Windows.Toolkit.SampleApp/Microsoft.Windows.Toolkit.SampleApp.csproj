@@ -257,6 +257,11 @@
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
     <Content Include="SamplePages\BlurBehavior\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\BlurBehavior\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorXaml.bind" />
+    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\RotationBehavior\RotationBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
