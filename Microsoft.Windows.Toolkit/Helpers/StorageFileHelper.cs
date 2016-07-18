@@ -26,6 +26,89 @@ namespace Microsoft.Windows.Toolkit
     public static class StorageFileHelper
     {
         /// <summary>
+        /// Saves a string value to a <see cref="StorageFile"/> in application local folder/>.
+        /// </summary>
+        /// <param name="text">
+        /// The <see cref="string"/> value to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveTextToLocalFileAsync(
+            string text,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            return await SaveTextToFileAsync(ApplicationData.Current.LocalFolder, text, fileName, options);
+        }
+
+        /// <summary>
+        /// Saves a string value to a <see cref="StorageFile"/> in application local cache folder/>.
+        /// </summary>
+        /// <param name="text">
+        /// The <see cref="string"/> value to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveTextToLocalCacheFileAsync(
+            string text,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            return await SaveTextToFileAsync(ApplicationData.Current.LocalCacheFolder, text, fileName, options);
+        }
+
+        /// <summary>
+        /// Saves a string value to a <see cref="StorageFile"/> in well known folder/>.
+        /// </summary>
+        /// <param name="knownFolderId">
+        /// The well known folder ID to use.
+        /// </param>
+        /// <param name="text">
+        /// The <see cref="string"/> value to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveTextToKnownFolderFileAsync(
+            KnownFolderId knownFolderId,
+            string text,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            var folder = GetFolderFromKnownFolderId(knownFolderId);
+            return await SaveTextToFileAsync(folder, text, fileName, options);
+        }
+
+        /// <summary>
         /// Saves a string value to a <see cref="StorageFile"/> in the given <see cref="StorageFolder"/>.
         /// </summary>
         /// <param name="fileLocation">
@@ -36,9 +119,6 @@ namespace Microsoft.Windows.Toolkit
         /// </param>
         /// <param name="fileName">
         /// The <see cref="string"/> name for the file.
-        /// </param>
-        /// <param name="fileExtension">
-        /// The extension for the file. Default is .txt.
         /// </param>
         /// <param name="options">
         /// The creation collision options. Default is ReplaceExisting.
@@ -53,7 +133,6 @@ namespace Microsoft.Windows.Toolkit
             StorageFolder fileLocation,
             string text,
             string fileName,
-            string fileExtension = ".txt",
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             if (fileLocation == null)
@@ -66,10 +145,93 @@ namespace Microsoft.Windows.Toolkit
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var storageFile = await fileLocation.CreateFileAsync($"{fileName}{fileExtension}", options);
+            var storageFile = await fileLocation.CreateFileAsync(fileName, options);
             await FileIO.WriteTextAsync(storageFile, text);
 
             return storageFile;
+        }
+
+        /// <summary>
+        /// Saves an array of bytes to a <see cref="StorageFile"/> to application local folder/>.
+        /// </summary>
+        /// <param name="bytes">
+        /// The <see cref="byte"/> array to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveBytesToLocalFileAsync(
+            byte[] bytes,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            return await SaveBytesToFileAsync(ApplicationData.Current.LocalFolder, bytes, fileName, options);
+        }
+
+        /// <summary>
+        /// Saves an array of bytes to a <see cref="StorageFile"/> to application local cache folder/>.
+        /// </summary>
+        /// <param name="bytes">
+        /// The <see cref="byte"/> array to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveBytesToLocalCacheFileAsync(
+            byte[] bytes,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            return await SaveBytesToFileAsync(ApplicationData.Current.LocalCacheFolder, bytes, fileName, options);
+        }
+
+        /// <summary>
+        /// Saves an array of bytes to a <see cref="StorageFile"/> to well known folder/>.
+        /// </summary>
+        /// <param name="knownFolderId">
+        /// The well known folder ID to use.
+        /// </param>
+        /// <param name="bytes">
+        /// The <see cref="byte"/> array to save to the file.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> name for the file.
+        /// </param>
+        /// <param name="options">
+        /// The creation collision options. Default is ReplaceExisting.
+        /// </param>
+        /// <returns>
+        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the file location or file name are null or empty.
+        /// </exception>
+        public static async Task<StorageFile> SaveBytesToKnownFolderFileAsync(
+            KnownFolderId knownFolderId,
+            byte[] bytes,
+            string fileName,
+            CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
+        {
+            var folder = GetFolderFromKnownFolderId(knownFolderId);
+            return await SaveBytesToFileAsync(folder, bytes, fileName, options);
         }
 
         /// <summary>
@@ -84,9 +246,6 @@ namespace Microsoft.Windows.Toolkit
         /// <param name="fileName">
         /// The <see cref="string"/> name for the file.
         /// </param>
-        /// <param name="fileExtension">
-        /// The extension for the file.
-        /// </param>
         /// <param name="options">
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
@@ -100,7 +259,6 @@ namespace Microsoft.Windows.Toolkit
             StorageFolder fileLocation,
             byte[] bytes,
             string fileName,
-            string fileExtension,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             if (fileLocation == null)
@@ -113,7 +271,7 @@ namespace Microsoft.Windows.Toolkit
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var storageFile = await fileLocation.CreateFileAsync($"{fileName}{fileExtension}", options);
+            var storageFile = await fileLocation.CreateFileAsync(fileName, options);
             await FileIO.WriteBytesAsync(storageFile, bytes);
 
             return storageFile;
