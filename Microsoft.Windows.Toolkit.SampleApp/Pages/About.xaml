@@ -49,6 +49,16 @@
                             FontSize="14">
                     Code Prettify
                 </HyperlinkButton>
+                
+                <HyperlinkButton
+                            Margin="0,30,0,0"
+                            HorizontalAlignment="Center"
+                            FontWeight="Light"
+                            Foreground="{StaticResource Brush-Blue-01}"
+                            NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839"
+                            FontSize="14">
+                    Privacy statement
+                </HyperlinkButton>
             </StackPanel>
         </ScrollViewer>
     </Grid>
