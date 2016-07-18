@@ -54,8 +54,8 @@
     <Compile Include="Behaviors\Opacity.cs" />
     <Compile Include="Behaviors\Rotation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
+    <Compile Include="Extensions\AnimationHelper.cs" />
     <Compile Include="Extensions\Composition.cs" />
-    <Compile Include="Extensions\Extensions.Animation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

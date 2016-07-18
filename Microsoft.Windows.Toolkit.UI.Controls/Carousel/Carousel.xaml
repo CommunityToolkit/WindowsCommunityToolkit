@@ -4,6 +4,9 @@
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls">
 
     <Style TargetType="controls:Carousel">
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="TabNavigation" Value="Once"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Carousel">
@@ -70,7 +73,7 @@
                                 </Border>
                             </ControlTemplate>
                         </Grid.Resources>
-                        <Canvas Name="Container" />
+                        <Canvas Name="Container"/>
                         <Button Name="PrevArrow" Width="20" IsTabStop="False" Template="{StaticResource HorizontalPrevTemplate}" UseSystemFocusVisuals="False" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.0" />
                         <Button Name="NextArrow" Width="20" IsTabStop="False" Template="{StaticResource HorizontalNextTemplate}" UseSystemFocusVisuals="False" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.0" />
                         <Grid IsHitTestVisible="False" Opacity="{TemplateBinding GradientOpacity}">

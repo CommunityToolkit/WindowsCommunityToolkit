@@ -171,7 +171,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// <summary>
         /// Event raised when an item is clicked
         /// </summary>
-        public event EventHandler<ItemClickEventArgs> ItemClick;
+        public event ItemClickEventHandler ItemClick;
 
         private ScrollMode VerticalScroll
         {
