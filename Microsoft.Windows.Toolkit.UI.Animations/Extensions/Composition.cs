@@ -12,6 +12,8 @@
 
 using System;
 using System.Numerics;
+using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -160,6 +162,79 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             animation.InsertKeyFrame(1f, new Vector3(offsetX, offsetY, offsetZ));
 
             visual.StartAnimation("Offset", animation);
+        }
+
+        /// <summary>
+        /// Blurs the specified framework element.
+        /// </summary>
+        /// <param name="associatedObject">The associated object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay.</param>
+        /// <param name="blurAmount">The blur amount.</param>
+        public static void Blur(
+            this FrameworkElement associatedObject,
+            double duration = 0.1d,
+            double delay = 0d,
+            double blurAmount = 0d)
+        {
+            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var compositor = visual?.Compositor;
+            const string blurName = "Blur";
+
+            if (compositor == null)
+            {
+                return;
+            }
+
+            // Create an animation to change the blur amount over time
+            var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
+            blurAnimation.InsertKeyFrame(1f, (float)blurAmount);
+            blurAnimation.Duration = TimeSpan.FromSeconds(duration);
+            blurAnimation.DelayTime = TimeSpan.FromSeconds(delay);
+
+            CompositionEffectBrush blurBrush;
+
+            // check to see if the visual already has a blur applied.
+            var spriteVisual = ElementCompositionPreview.GetElementChildVisual(associatedObject) as SpriteVisual;
+            blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
+
+            if (blurBrush != null)
+            {
+                if (blurBrush.Comment == blurName)
+                {
+                    blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+                    return;
+                }
+            }
+
+            var blurEffect = new GaussianBlurEffect
+            {
+                Name = blurName,
+                BlurAmount = 0f,
+                Optimization = EffectOptimization.Balanced,
+                BorderMode = EffectBorderMode.Hard,
+                Source = new CompositionEffectSourceParameter("source")
+            };
+
+            // Create a brush to which I want to apply. I also have noted that BlurAmount should be left out of the compiled shader.
+            blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { $"{blurName}.BlurAmount" }).CreateBrush();
+            blurBrush.Comment = blurName;
+
+            // Set the source of the blur as a backdrop brush
+            blurBrush.SetSourceParameter("source", compositor.CreateBackdropBrush());
+
+            var blurSprite = compositor.CreateSpriteVisual();
+            blurSprite.Brush = blurBrush;
+            ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
+
+            blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
+            blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+
+            associatedObject.SizeChanged += (s, e) =>
+            {
+                blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
+                blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+            };
         }
     }
 }
