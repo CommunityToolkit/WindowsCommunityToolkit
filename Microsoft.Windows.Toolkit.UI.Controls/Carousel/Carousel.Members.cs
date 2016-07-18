@@ -16,7 +16,10 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using System;
     using System.Windows.Input;
+
+    using global::Windows.UI.Xaml.Controls;
 
     /// <summary>
     /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
@@ -137,6 +140,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             get { return (ICommand)GetValue(ItemClickCommandProperty); }
             set { SetValue(ItemClickCommandProperty, value); }
         }
+
+        /// <summary>
+        /// Event raised when an item is clicked
+        /// </summary>
+        public event EventHandler<object> ItemClick;
 
         private static void ItemClickCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

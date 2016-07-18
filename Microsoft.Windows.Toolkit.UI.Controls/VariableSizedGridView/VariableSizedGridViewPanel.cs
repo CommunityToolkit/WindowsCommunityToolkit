@@ -127,14 +127,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
                 ch = Math.Round(ch);
 
                 int n = 0;
-                foreach (FrameworkElement item in Children)
+                foreach (var uiElement in Children)
                 {
+                    var item = (FrameworkElement)uiElement;
                     int colSpan = 1;
                     int rowSpan = 1;
                     PrepareItem(n, item, ref colSpan, ref rowSpan);
                     double w = cw * colSpan;
                     double h = ch * rowSpan;
-                    var rect = GetNextPosition(_cells, new Size(cw, ch), new Size(w, h));
+                    GetNextPosition(_cells, new Size(cw, ch), new Size(w, h));
                     item.Measure(new Size(w, h));
                     n++;
                 }
@@ -203,7 +204,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
 
         private bool RectFitInCells(Rect rect, List<Rect> cells)
         {
-            return !cells.Any(r => !(r.Left >= rect.Right || r.Right <= rect.Left || r.Top >= rect.Bottom || r.Bottom <= rect.Top));
+            return cells.All(r => (r.Left >= rect.Right || r.Right <= rect.Left || r.Top >= rect.Bottom || r.Bottom <= rect.Top));
         }
 
         /// <summary>
@@ -215,6 +216,16 @@ namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
         /// <param name="rowSpan">The row span to use for the item.</param>
         protected virtual void PrepareItem(int index, UIElement element, ref int colSpan, ref int rowSpan)
         {
+            if (colSpan <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(colSpan));
+            }
+
+            if (rowSpan <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowSpan));
+            }
+
             colSpan = index % 3 == 0 ? 2 : 1;
             rowSpan = index % 3 == 0 ? 2 : 1;
         }

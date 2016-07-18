@@ -68,7 +68,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _scrollViewer = GetTemplateChild("scrollViewer") as ScrollViewer;
+            _scrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
 
             _isInitialized = true;
 

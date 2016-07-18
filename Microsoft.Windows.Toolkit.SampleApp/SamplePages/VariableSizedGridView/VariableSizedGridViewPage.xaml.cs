@@ -15,6 +15,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
+    using System.Diagnostics;
+
+    using global::Windows.UI.Xaml.Controls;
+
     public sealed partial class VariableSizedGridViewPage
     {
         public VariableSizedGridViewPage()
