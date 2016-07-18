@@ -37,7 +37,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            control.ItemsSource = new Data.PhotosDataSource().GetItems();
+            VariableSizedGridViewControl.ItemsSource = new Data.PhotosDataSource().GetItems();
         }
     }
 }

@@ -32,7 +32,7 @@
     </Page.Resources>
 
     <Grid Background="{StaticResource Brush-White}" Margin="50" BorderThickness="1" BorderBrush="Black">
-        <controls:HamburgerMenu PaneBackground="{Binding PaneBackground.Value}" x:Name="HamburgerMenu"
+        <controls:HamburgerMenu PaneBackground="{Binding PaneBackground.Value}" x:Name="HamburgerMenuControl"
                                 Foreground="White"
                                 ItemTemplate="{StaticResource ButtonTemplate}"
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
