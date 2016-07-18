@@ -37,7 +37,8 @@
     </Grid>
 </Page>
 
-C#
+<!--
+Code only version:
 MyRectangle.Scale(
                 duration: Duration,
                 delay: Delay,
@@ -47,3 +48,4 @@ MyRectangle.Scale(
                 scaleX: (float)ScaleX,
                 scaleY: (float)ScaleY,
                 scaleZ: (float)ScaleZ);
+-->                

@@ -30,5 +30,7 @@
     </Grid>
 </Page>
 
-C#
+<!--
+Code only version:
 MyRectangle.Opacity(Duration, Delay, (float)Value);
+-->

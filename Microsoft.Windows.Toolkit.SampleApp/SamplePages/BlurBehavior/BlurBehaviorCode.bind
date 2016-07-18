@@ -32,5 +32,7 @@
     </Grid>
 </Page>
 
-C#
+<!--
+Code only version:
 ToolkitLogo.Blur(duration: 10, delay: 0, blurAmount: 10);
+-->
