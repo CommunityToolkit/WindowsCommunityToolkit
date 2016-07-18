@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Controls
 {
+    using global::Windows.System;
+
     /// <summary>
     /// The Carousel offer an alternative to items visualization adding horizontal scroll to a set of items.
     /// The Carousel control is responsive by design, optimizing the visualization in the different form factors.
@@ -88,6 +90,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 _container.ManipulationDelta += OnManipulationDelta;
                 _container.ManipulationCompleted += OnManipulationCompleted;
                 _container.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateInertia | ManipulationModes.System;
+                _container.Tapped += OnContainer_Tapped;
             }
 
             if (_prevArrow != null)
@@ -184,6 +187,29 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             _prevArrow?.FadeOut(500.0);
             _nextArrow?.FadeOut(500.0);
             base.OnPointerExited(e);
+        }
+
+        /// <summary>
+        /// Called when a key is pressed.
+        /// </summary>
+        /// <param name="e">Event data for the event.</param>
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+                if (e.Key == VirtualKey.Left)
+            {
+                AnimatePrev();
+            }
+            else if (e.Key == VirtualKey.Right)
+            {
+                AnimateNext();
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        private void OnContainer_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Focus(FocusState.Pointer);
         }
 
         private void OnPrevArrowClick(object sender, RoutedEventArgs e)

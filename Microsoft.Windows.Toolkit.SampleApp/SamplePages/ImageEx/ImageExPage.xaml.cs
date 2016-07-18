@@ -28,7 +28,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Reset Cache", async (sender, args) =>
             {
-                control.ItemsSource = null;
+                ImageExControl.ItemsSource = null;
                 System.GC.Collect(); // Force GC to free file locks
                 await ImageCache.ClearAsync();
             });
@@ -43,7 +43,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
         private void LoadData()
         {
-            control.ItemsSource = new Data.PhotosDataSource().GetItems(true);
+            ImageExControl.ItemsSource = new Data.PhotosDataSource().GetItems(true);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            control.ItemsSource = new Data.PhotosDataSource().GetItems();
+            CarouselControl.ItemsSource = new Data.PhotosDataSource().GetItems();
         }
     }
 }
