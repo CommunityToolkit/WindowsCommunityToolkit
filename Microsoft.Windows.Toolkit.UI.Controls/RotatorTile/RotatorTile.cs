@@ -67,7 +67,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// <summary>
         /// Identifies the <see cref="RotateDirection"/> property.
         /// </summary>
-        public static readonly DependencyProperty FlipDirectionProperty =
+        public static readonly DependencyProperty RotateDirectionProperty =
             DependencyProperty.Register(nameof(RotateDirection), typeof(RotateDirection), typeof(RotatorTile), new PropertyMetadata(RotateDirection.Up));
 
         /// <summary>
@@ -522,8 +522,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// </summary>
         public RotateDirection Direction
         {
-            get { return (RotateDirection)GetValue(FlipDirectionProperty); }
-            set { SetValue(FlipDirectionProperty, value); }
+            get { return (RotateDirection)GetValue(RotateDirectionProperty); }
+            set { SetValue(RotateDirectionProperty, value); }
         }
 
         /// <summary>
