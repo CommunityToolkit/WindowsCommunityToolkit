@@ -50,6 +50,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         private TranslateTransform _translate; // Translate Transform used when animating the transition
         private StackPanel _stackPanel; // StackPanel that contains the live tile elements
         private bool _suppressFlipOnSet; // Prevents the SelectedItem change handler to cause a flip
+        private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -64,10 +65,10 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(RotatorTile), null);
 
         /// <summary>
-        /// Identifies the <see cref="FlipDirection"/> property.
+        /// Identifies the <see cref="RotateDirection"/> property.
         /// </summary>
         public static readonly DependencyProperty FlipDirectionProperty =
-            DependencyProperty.Register(nameof(FlipDirection), typeof(FlipDirection), typeof(RotatorTile), new PropertyMetadata(FlipDirection.Up));
+            DependencyProperty.Register(nameof(RotateDirection), typeof(RotateDirection), typeof(RotatorTile), new PropertyMetadata(RotateDirection.Up));
 
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> property.
@@ -83,9 +84,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         {
             this.DefaultStyleKey = typeof(RotatorTile);
 
-            this.Unloaded += EpisodeFlipControl_Unloaded;
-            this.Loaded += EpisodeFlipControl_Loaded;
-            this.SizeChanged += EpisodeFlipControl_SizeChanged;
+            this.Unloaded += RotatorTile_Unloaded;
+            this.Loaded += RotatorTile_Loaded;
+            this.SizeChanged += RotatorTile_SizeChanged;
         }
 
         /// <inheritdoc/>
@@ -98,7 +99,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             _stackPanel = GetTemplateChild(STACKPARTNAME) as StackPanel;
             if (_stackPanel != null)
             {
-                if (Direction == FlipDirection.Up)
+                if (Direction == RotateDirection.Up)
                 {
                     _stackPanel.Orientation = Orientation.Vertical;
                 }
@@ -116,7 +117,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void EpisodeFlipControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void RotatorTile_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_currentElement != null && _nextElement != null)
             {
@@ -127,7 +128,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             // Set content area to twice the size in the slide direction
             if (_scroller != null)
             {
-                if (Direction == FlipDirection.Up)
+                if (Direction == RotateDirection.Up)
                 {
                     _scroller.Height = e.NewSize.Height * 2;
                 }
@@ -141,7 +142,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             this.Clip = new RectangleGeometry() { Rect = new Rect(default(Point), e.NewSize) };
         }
 
-        private void EpisodeFlipControl_Loaded(object sender, RoutedEventArgs e)
+        private void RotatorTile_Loaded(object sender, RoutedEventArgs e)
         {
             // Start timer after control has loaded
             if (_timer != null)
@@ -150,7 +151,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
-        private void EpisodeFlipControl_Unloaded(object sender, RoutedEventArgs e)
+        private void RotatorTile_Unloaded(object sender, RoutedEventArgs e)
         {
             // Stop timer and reset animation when control unloads
             if (_timer != null)
@@ -180,7 +181,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             SelectedItem = GetItemAt(_currentIndex);
         }
 
-        private void FlipToNextItem()
+        private void RotateToNextItem()
         {
             // Check if there's more than one item. if not, don't start animation
             bool hasTwoOrMoreItems = false;
@@ -210,11 +211,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 var anim = new DoubleAnimation();
                 anim.Duration = new Duration(TimeSpan.FromMilliseconds(500));
                 anim.From = 0;
-                if (Direction == RotatorTile.FlipDirection.Up)
+                if (Direction == RotatorTile.RotateDirection.Up)
                 {
                     anim.To = -this.ActualHeight;
                 }
-                else if (Direction == RotatorTile.FlipDirection.Left)
+                else if (Direction == RotatorTile.RotateDirection.Left)
                 {
                     anim.To = -this.ActualWidth;
                 }
@@ -222,7 +223,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 anim.FillBehavior = FillBehavior.HoldEnd;
                 anim.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
                 Storyboard.SetTarget(anim, _translate);
-                if (Direction == RotatorTile.FlipDirection.Up)
+                if (Direction == RotatorTile.RotateDirection.Up)
                 {
                     Storyboard.SetTargetProperty(anim, "Y");
                 }
@@ -380,8 +381,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             ctrl.OnCollectionChanged(e.OldValue, e.NewValue);
         }
 
-        private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
-
         private void OnCollectionChanged(object oldValue, object newValue)
         {
             if (oldValue is INotifyCollectionChanged)
@@ -481,6 +480,9 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the currently selected visible item
+        /// </summary>
         public object SelectedItem
         {
             get { return (object)GetValue(SelectedItemProperty); }
@@ -500,7 +502,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
             {
                 ctrl._currentIndex = index;
                 ctrl._nextElement.DataContext = e.NewValue;
-                ctrl.FlipToNextItem();
+                ctrl.RotateToNextItem();
                 ctrl._timer.Stop();
                 ctrl._timer.Start();
             }
@@ -518,16 +520,16 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// <summary>
         /// Gets or sets the direction the tile slides in.
         /// </summary>
-        public FlipDirection Direction
+        public RotateDirection Direction
         {
-            get { return (FlipDirection)GetValue(FlipDirectionProperty); }
+            get { return (RotateDirection)GetValue(FlipDirectionProperty); }
             set { SetValue(FlipDirectionProperty, value); }
         }
 
         /// <summary>
-        /// Live Tile Slide Direction
+        /// Tile Slide Direction
         /// </summary>
-        public enum FlipDirection
+        public enum RotateDirection
         {
             /// <summary>Up</summary>
             Up,
