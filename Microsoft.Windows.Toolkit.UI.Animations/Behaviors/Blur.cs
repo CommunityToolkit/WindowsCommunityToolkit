@@ -18,9 +18,17 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
     /// <summary>
     /// Performs an blur animation using composition.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Blurs are only supported on Build 1607 and up. Assigning the blur behavior on an older
+    /// version of Windows will not add any effect. You can use the <see cref="Composition.IsBlurSupported"/>
+    /// property to check for whether blurs are supported on the device at runtime.
+    /// </para>
+    /// </remarks>
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
+    /// <seealso cref="Composition.IsBlurSupported"/>
     public class Blur : CompositionBehaviorBase
     {
         /// <summary>
@@ -63,7 +71,10 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            _frameworkElement?.Blur(duration: Duration, delay: Delay, blurAmount: (float)BlurAmount);
+            if (Composition.IsBlurSupported)
+            {
+                _frameworkElement?.Blur(duration: Duration, delay: Delay, blurAmount: (float)BlurAmount);
+            }
         }
     }
 }
