@@ -3,10 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls">
 
-    <Style TargetType="controls:LiveTile">
+    <Style TargetType="controls:RotatorTile">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:LiveTile">
+                <ControlTemplate TargetType="controls:RotatorTile">
                     <Grid  Background="{TemplateBinding Background}">
                         <Canvas x:Name="Scroller" DataContext="{x:Null}">
                             <StackPanel x:Name="Stack">
