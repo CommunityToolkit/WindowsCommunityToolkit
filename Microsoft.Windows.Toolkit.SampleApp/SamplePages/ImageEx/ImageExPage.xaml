@@ -27,7 +27,7 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:VariableSizedGridView
-            Name="control"
+            Name="ImageExControl"
             Margin="0"
             ItemTemplate="{StaticResource PhotoTemplate}"
             Orientation="Horizontal"

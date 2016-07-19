@@ -99,6 +99,8 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                     cmd.Execute(e.ClickedItem);
                 }
             }
+
+            ItemClick?.Invoke(this, e);
         }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
