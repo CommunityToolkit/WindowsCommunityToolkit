@@ -25,11 +25,11 @@ using System.Collections.Generic;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class FlipTilePage : Page
+    public sealed partial class RotatorTilePage : Page
     {
         private TileContent _tileContent;
 
-        public FlipTilePage()
+        public RotatorTilePage()
         {
             InitializeComponent();
         }

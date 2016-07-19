@@ -33,7 +33,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
     [TemplatePart(Name = NEXTPARTNAME, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TRANSLATEPARTNAME, Type = typeof(TranslateTransform))]
     [TemplatePart(Name = STACKPARTNAME, Type = typeof(StackPanel))]
-    public sealed class LiveTile : Control
+    public sealed class RotatorTile : Control
     {
         private const string SCROLLERPARTNAME = "Scroller";
         private const string CURRENTPARTNAME = "Current";
@@ -55,33 +55,33 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         /// Identifies the <see cref="ItemsSource"/> property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(LiveTile), new PropertyMetadata(null, OnItemsSourcePropertyChanged));
+            DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(RotatorTile), new PropertyMetadata(null, OnItemsSourcePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemTemplate"/> property.
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(LiveTile), null);
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(RotatorTile), null);
 
         /// <summary>
         /// Identifies the <see cref="FlipDirection"/> property.
         /// </summary>
         public static readonly DependencyProperty FlipDirectionProperty =
-            DependencyProperty.Register(nameof(FlipDirection), typeof(FlipDirection), typeof(LiveTile), new PropertyMetadata(FlipDirection.Up));
+            DependencyProperty.Register(nameof(FlipDirection), typeof(FlipDirection), typeof(RotatorTile), new PropertyMetadata(FlipDirection.Up));
 
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> property.
         /// </summary>
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(LiveTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
+            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(RotatorTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LiveTile"/> class.
+        /// Initializes a new instance of the <see cref="RotatorTile"/> class.
         /// </summary>
-        public LiveTile()
+        public RotatorTile()
         {
-            this.DefaultStyleKey = typeof(LiveTile);
+            this.DefaultStyleKey = typeof(RotatorTile);
 
             this.Unloaded += EpisodeFlipControl_Unloaded;
             this.Loaded += EpisodeFlipControl_Loaded;
@@ -210,11 +210,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 var anim = new DoubleAnimation();
                 anim.Duration = new Duration(TimeSpan.FromMilliseconds(500));
                 anim.From = 0;
-                if (Direction == LiveTile.FlipDirection.Up)
+                if (Direction == RotatorTile.FlipDirection.Up)
                 {
                     anim.To = -this.ActualHeight;
                 }
-                else if (Direction == LiveTile.FlipDirection.Left)
+                else if (Direction == RotatorTile.FlipDirection.Left)
                 {
                     anim.To = -this.ActualWidth;
                 }
@@ -222,7 +222,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 anim.FillBehavior = FillBehavior.HoldEnd;
                 anim.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
                 Storyboard.SetTarget(anim, _translate);
-                if (Direction == LiveTile.FlipDirection.Up)
+                if (Direction == RotatorTile.FlipDirection.Up)
                 {
                     Storyboard.SetTargetProperty(anim, "Y");
                 }
@@ -376,11 +376,11 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctrl = (LiveTile)d;
+            var ctrl = (RotatorTile)d;
             ctrl.OnCollectionChanged(e.OldValue, e.NewValue);
         }
 
-        private WeakEventListener<LiveTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
+        private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
 
         private void OnCollectionChanged(object oldValue, object newValue)
         {
@@ -397,7 +397,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 if (newValue is INotifyCollectionChanged)
                 {
                     var incc = (INotifyCollectionChanged)newValue;
-                    _inccWeakEventListener = new WeakEventListener<LiveTile, object, NotifyCollectionChangedEventArgs>(this);
+                    _inccWeakEventListener = new WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs>(this);
                     _inccWeakEventListener.OnEventAction = (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs);
                     _inccWeakEventListener.OnDetachAction = (listener) => incc.CollectionChanged -= listener.OnEvent;
                     incc.CollectionChanged += _inccWeakEventListener.OnEvent;
@@ -489,7 +489,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnSelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctrl = (LiveTile)d;
+            var ctrl = (RotatorTile)d;
             if (ctrl._suppressFlipOnSet)
             {
                 return;
