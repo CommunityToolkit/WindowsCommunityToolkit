@@ -165,18 +165,43 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         }
 
         /// <summary>
+        /// Gets a value indicating whether the platform supports blur.
+        /// </summary>
+        /// <remarks>
+        /// A check should always be made to IsBlurSupported prior to calling <seealso cref="Blur"/>,
+        /// since older operating systems will not support blurs.
+        /// </remarks>
+        /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
+        public static bool IsBlurSupported
+        {
+            get
+            {
+                return global::Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
+            }
+        }
+
+        /// <summary>
         /// Blurs the specified framework element.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="blurAmount">The blur amount.</param>
+        /// <seealso cref="IsBlurSupported"/>
         public static void Blur(
             this FrameworkElement associatedObject,
             double duration = 0.1d,
             double delay = 0d,
             double blurAmount = 0d)
         {
+            if (!IsBlurSupported)
+            {
+                // The operating system doesn't support blur.
+                // Fail gracefully by not applying blur.
+                // See 'IsBlurSupported' property
+                return;
+            }
+
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
             var compositor = visual?.Compositor;
             const string blurName = "Blur";
