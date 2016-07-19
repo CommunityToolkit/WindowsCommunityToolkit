@@ -44,6 +44,10 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public string Icon { get; set; }
 
+        public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
+
+        public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
+
         public async Task<string> GetCSharpSource()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))

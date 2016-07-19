@@ -133,11 +133,15 @@
                 <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot" SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
                         <controlsLocal:PropertyControl x:Name="Properties"/>
-
                     </PivotItem>
-                    <PivotItem Header="CODE" x:Name="CodePivotItem">
-                        <controlsLocal:CodeRenderer x:Name="CodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
+                    
+                    <PivotItem Header="XAML" x:Name="XamlPivotItem">
+                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
                     </PivotItem>
+                    
+                    <PivotItem Header="CODE" x:Name="CSharpPivotItem">
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
+                    </PivotItem>                    
                 </Pivot>
             </Grid>
             <Grid x:Name="waitRing" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2">

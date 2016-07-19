@@ -9,24 +9,29 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
-
-using Microsoft.Windows.Toolkit.SampleApp.Data;
 using Microsoft.Windows.Toolkit.SampleApp.Models;
-
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 {
-    public sealed partial class HamburgerMenuPage
+    /// <summary>
+    /// A page that shows how to use the offset behavior.
+    /// </summary>
+    public sealed partial class BlurBehaviorPage : Page
     {
-        public HamburgerMenuPage()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlurBehaviorPage"/> class.
+        /// </summary>
+        public BlurBehaviorPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// </summary>
+        /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -37,23 +42,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-
-            HamburgerMenuControl.ItemsSource = new PhotosDataSource().GetItems();
-
-            HamburgerMenuControl.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
-        }
-
-        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            ContentGrid.DataContext = e.ClickedItem;
-        }
-
-        private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
-        {
-            var menuItem = e.ClickedItem as OptionMenuItem;
-            var dialog = new MessageDialog($"You clicked on {menuItem.Name} button");
-
-            await dialog.ShowAsync();
         }
     }
 }
