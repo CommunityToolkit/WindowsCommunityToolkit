@@ -15,20 +15,10 @@ using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-#if ANNIVERSARY_UPDATE
     /// <summary>
     /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
     /// </summary>
-#else
-    /// <summary>
-    /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns.
-    /// </summary>
-#endif
-    public sealed class AdaptiveGroup
-        : ITileBindingContentAdaptiveChild, IAdaptiveChild
-#if ANNIVERSARY_UPDATE
-        , IToastBindingGenericChild
-#endif
+    public sealed class AdaptiveGroup : ITileBindingContentAdaptiveChild, IAdaptiveChild, IToastBindingGenericChild
     {
         /// <summary>
         /// The only valid children of groups are <see cref="AdaptiveSubgroup"/>. Each subgroup is displayed as a separate vertical column. Note that you must include at least one subgroup in your group, otherwise an <see cref="InvalidOperationException"/> will be thrown when you try to retrieve the XML for the notification.
