@@ -20,15 +20,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastBindingGeneric
     {
-#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// The contents of the body of the Toast, which can include <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> (added in 14332). Also, <see cref="AdaptiveText"/> elements must come before any other elements. If an <see cref="AdaptiveText"/> element is placed after any other element, an exception will be thrown when you try to retrieve the Toast XML content. And finally, certain <see cref="AdaptiveText"/> properties like HintStyle aren't supported on the root children text elements, and only work inside an <see cref="AdaptiveGroup"/>.
+        /// The contents of the body of the Toast, which can include <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> (added in Anniversary Update). Also, <see cref="AdaptiveText"/> elements must come before any other elements. If an <see cref="AdaptiveText"/> element is placed after any other element, an exception will be thrown when you try to retrieve the Toast XML content. And finally, certain <see cref="AdaptiveText"/> properties like HintStyle aren't supported on the root children text elements, and only work inside an <see cref="AdaptiveGroup"/>. If you use <see cref="AdaptiveGroup"/> on devices without the Anniversary Update, the group content will simply be dropped.
         /// </summary>
-#else
-        /// <summary>
-        /// The contents of the body of the Toast, which can include <see cref="AdaptiveText"/> and <see cref="AdaptiveImage"/>. <see cref="AdaptiveText"/> elements must come before any other elements. If an <see cref="AdaptiveText"/> element is placed after any other element, an exception will be thrown when you try to retrieve the Toast XML content. And finally, none of the hint properties on <see cref="AdaptiveText"/> are supported on Toast notifications.
-        /// </summary>
-#endif
         public IList<IToastBindingGenericChild> Children { get; private set; } = new List<IToastBindingGenericChild>();
 
         /// <summary>
@@ -36,17 +30,15 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public ToastGenericAppLogo AppLogoOverride { get; set; }
 
-#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// New in RS1: An optional hero image (a visually impactful image displayed on the Toast notification).
+        /// New in Anniversary Update: An optional hero image (a visually impactful image displayed on the Toast notification). On devices without the Anniversary Update, the hero image will simply be ignored.
         /// </summary>
         public ToastGenericHeroImage HeroImage { get; set; }
 
         /// <summary>
-        /// New in RS1: An optional text element that is displayed as attribution text.
+        /// New in Anniversary Update: An optional text element that is displayed as attribution text. On devices without the Anniversary Update, this text will appear as if it's another <see cref="AdaptiveText"/> element at the end of your Children list.
         /// </summary>
         public ToastGenericAttributionText Attribution { get; set; }
-#endif
 
         /// <summary>
         /// The target locale of the XML payload, specified as BCP-47 language tags such as "en-US" or "fr-FR". This locale is overridden by any locale specified in binding or text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
@@ -79,7 +71,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 binding.Children.Add(el);
             }
 
-#if ANNIVERSARY_UPDATE
             // Add attribution
             if (Attribution != null)
             {
@@ -91,7 +82,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
             {
                 binding.Children.Add(HeroImage.ConvertToElement());
             }
-#endif
 
             // If there's app logo, add it
             if (AppLogoOverride != null)

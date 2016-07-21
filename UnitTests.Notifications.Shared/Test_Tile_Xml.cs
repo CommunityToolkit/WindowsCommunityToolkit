@@ -237,7 +237,6 @@ namespace UnitTests.Notifications
                 });
         }
 
-#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_Tile_Xml_Visual_Arguments_Null()
         {
@@ -278,7 +277,6 @@ namespace UnitTests.Notifications
                     Arguments = "action=viewStory&story=53"
                 });
         }
-#endif
 
 
         [TestMethod]
@@ -802,8 +800,7 @@ namespace UnitTests.Notifications
                     Language = "en-US"
                 });
         }
-
-#if ANNIVERSARY_UPDATE
+        
         [TestMethod]
         public void Test_Tile_Xml_Binding_Arguments_Null()
         {
@@ -842,7 +839,6 @@ namespace UnitTests.Notifications
                     Arguments = "action=viewStory&storyId=52"
                 });
         }
-#endif
 
 #endregion
 
