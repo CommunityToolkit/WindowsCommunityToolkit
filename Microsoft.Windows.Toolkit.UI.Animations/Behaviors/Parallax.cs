@@ -1,9 +1,9 @@
-﻿using Windows.UI.Composition;
+﻿using Microsoft.Xaml.Interactivity;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
-using Microsoft.Xaml.Interactivity;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
