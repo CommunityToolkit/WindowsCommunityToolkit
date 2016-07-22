@@ -74,16 +74,23 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             ((Parallax)sender)?.SetBehavior();
         }
 
-        private static T GetChildOfType<T>(DependencyObject depObj) where T : DependencyObject
+        private static T GetChildOfType<T>(DependencyObject depObj) 
+            where T : DependencyObject
         {
-            if (depObj == null) return null;
+            if (depObj == null)
+            {
+                return null;
+            }
 
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
                 var child = VisualTreeHelper.GetChild(depObj, i);
 
-                var result = (child as T) ?? GetChildOfType<T>(child);
-                if (result != null) return result;
+                var result = child as T ?? GetChildOfType<T>(child);
+                if (result != null)
+                {
+                    return result;
+                }
             }
 
             return null;
@@ -116,7 +123,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             expression.SetScalarParameter("ParallaxMultiplier", Multiplier);
             expression.SetReferenceParameter("ScrollManipululation", scrollerViewerManipulation);
 
-            Visual textVisual = ElementCompositionPreview.GetElementVisual((UIElement)AssociatedObject);
+            Visual textVisual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
             textVisual.StartAnimation($"Offset.{manipulationProperty}", expression);
         }
     }
