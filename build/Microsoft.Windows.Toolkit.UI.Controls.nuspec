@@ -21,5 +21,6 @@
   </metadata>
   <files>
     <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.*" target="lib\uap10.0" />
+	<file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls\**\*.*" target="lib\uap10.0\Microsoft.Windows.Toolkit.UI.Controls" />
   </files>
 </package>
