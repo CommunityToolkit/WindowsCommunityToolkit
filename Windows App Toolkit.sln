@@ -278,6 +278,8 @@ Global
 		{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}.Release|x86.ActiveCfg = Release|Any CPU
 		{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}.Release|x86.Build.0 = Release|Any CPU
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|Any CPU.ActiveCfg = Debug (Anniversary Update)|x86
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|Any CPU.Build.0 = Debug (Anniversary Update)|x86
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|Any CPU.Deploy.0 = Debug (Anniversary Update)|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|ARM.ActiveCfg = Debug (Anniversary Update)|ARM
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|ARM.Build.0 = Debug (Anniversary Update)|ARM
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug (Anniversary Update)|ARM.Deploy.0 = Debug (Anniversary Update)|ARM
