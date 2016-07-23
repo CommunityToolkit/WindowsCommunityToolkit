@@ -71,7 +71,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 
         private static void PropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            ((Parallax)sender)?.SetBehavior();
+            (sender as Parallax)?.SetBehavior();
         }
 
         private static T GetChildOfType<T>(DependencyObject depObj) 
