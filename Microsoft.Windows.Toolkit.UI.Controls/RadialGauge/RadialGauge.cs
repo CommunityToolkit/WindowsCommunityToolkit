@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -153,6 +153,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty TickLengthProperty =
             DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
 
+        // Identifies the MinAngle dependency property.
+        public static readonly DependencyProperty MinAngleProperty =
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnFaceChanged));
+
+        // Identifies the MaxAngle dependency property.
+        public static readonly DependencyProperty MaxAngleProperty =
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnFaceChanged));
+
         /// <summary>
         /// Identifies the ValueAngle dependency property.
         /// </summary>
@@ -167,9 +175,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
-
-        private const double MinAngle = -150.0;
-        private const double MaxAngle = 150.0;
 
         private Compositor _compositor;
         private ContainerVisual _root;
@@ -365,6 +370,26 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the angle for the Minimum value, in degrees.
+        /// </summary>
+        /// <remarks>Proposed value range: -180 to 0. Probably requires retemplating the control.</remarks>
+        public int MinAngle
+        {
+            get { return (int)GetValue(MinAngleProperty); }
+            set { SetValue(MinAngleProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the angle for the Maximum value, in degrees.
+        /// </summary>
+        /// <remarks>Proposed value range: 0 to 180. Probably requires retemplating the control.</remarks>
+        public int MaxAngle
+        {
+            get { return (int)GetValue(MaxAngleProperty); }
+            set { SetValue(MaxAngleProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the angle of the needle.
         /// </summary>
         protected double ValueAngle
@@ -407,18 +432,18 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 var trail = c.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    if (c.ValueAngle > MinAngle)
+                    if (c.ValueAngle > c.MinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
                         var pg = new PathGeometry();
                         var pf = new PathFigure();
                         pf.IsClosed = false;
-                        pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
+                        pf.StartPoint = c.ScalePoint(c.MinAngle, middleOfScale);
                         var seg = new ArcSegment();
                         seg.SweepDirection = SweepDirection.Clockwise;
-                        seg.IsLargeArc = c.ValueAngle > (180 + MinAngle);
+                        seg.IsLargeArc = c.ValueAngle > (180 + c.MinAngle);
                         seg.Size = new Size(middleOfScale, middleOfScale);
-                        seg.Point = c.ScalePoint(Math.Min(c.ValueAngle, MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                        seg.Point = c.ScalePoint(Math.Min(c.ValueAngle, c.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
                         pf.Segments.Add(seg);
                         pg.Figures.Add(pf);
                         trail.Data = pg;
@@ -453,12 +478,12 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 var pf = new PathFigure();
                 pf.IsClosed = false;
                 var middleOfScale = 100 - c.ScalePadding - (c.ScaleWidth / 2);
-                pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
+                pf.StartPoint = c.ScalePoint(c.MinAngle, middleOfScale);
                 var seg = new ArcSegment();
                 seg.SweepDirection = SweepDirection.Clockwise;
                 seg.IsLargeArc = true;
                 seg.Size = new Size(middleOfScale, middleOfScale);
-                seg.Point = c.ScalePoint(MaxAngle, middleOfScale);
+                seg.Point = c.ScalePoint(c.MaxAngle, middleOfScale);
                 pf.Segments.Add(seg);
                 pg.Figures.Add(pf);
                 scale.Data = pg;
