@@ -148,7 +148,6 @@
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
         "XamlCodeFile": "ScaleBehaviorCode.bind",
-        "XamlCodeFile": "ScaleBehaviorCode.bind",
         "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {
@@ -177,6 +176,13 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/BlurBehavior/blurBehavior.gif"
+      },
+      {
+        "Name": "ParallaxBehavior",
+        "Type": "ParallaxBehaviorPage",
+        "About": "Shows you how to implement the parallax behavior which uses composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "XamlCodeFile": "ParallaxBehaviorXaml.bind"
       }
     ]
   },
