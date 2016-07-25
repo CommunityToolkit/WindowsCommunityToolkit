@@ -16,6 +16,7 @@
     <dependencies>
       <dependency id="Microsoft.Windows.Toolkit" />
       <dependency id="Microsoft.Windows.Toolkit.UI" />
+	  <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" />
     </dependencies>
   </metadata>
   <files>
