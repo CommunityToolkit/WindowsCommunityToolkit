@@ -16,7 +16,6 @@
     <dependencies>
       <dependency id="Microsoft.Windows.Toolkit" />
       <dependency id="Microsoft.Windows.Toolkit.UI" />
-      <dependency id="Microsoft.Windows.Toolkit.UI.Animations" />
     </dependencies>
   </metadata>
   <files>
