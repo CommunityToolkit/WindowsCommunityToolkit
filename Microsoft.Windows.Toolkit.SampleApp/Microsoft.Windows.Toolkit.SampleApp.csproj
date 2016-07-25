@@ -208,6 +208,7 @@
     <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
     <Content Include="SamplePages\Carousel\icon.jpg" />
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
+    <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
     <Content Include="SamplePages\Toast\icon.jpg" />
@@ -264,6 +265,7 @@
     <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorXaml.bind" />
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorXaml.bind" />
+    <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -295,6 +297,9 @@
     </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ParallaxBehavior\ParallaxBehaviorPage.xaml.cs">
+      <DependentUpon>ParallaxBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -401,6 +406,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ParallaxBehavior\ParallaxBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
