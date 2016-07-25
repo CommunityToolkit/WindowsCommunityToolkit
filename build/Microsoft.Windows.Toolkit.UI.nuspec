@@ -18,6 +18,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.*" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.xml" target="lib\uap10.0" />
   </files>
 </package>

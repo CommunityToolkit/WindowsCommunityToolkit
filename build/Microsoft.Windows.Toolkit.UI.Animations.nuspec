@@ -16,10 +16,14 @@
     <dependencies>
       <dependency id="Microsoft.Windows.Toolkit" />
       <dependency id="Microsoft.Windows.Toolkit.UI" />
-	  <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" />
+      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" />
+      <dependency id="Win2D.uwp" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.*" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.xml" target="lib\uap10.0" />
   </files>
 </package>
