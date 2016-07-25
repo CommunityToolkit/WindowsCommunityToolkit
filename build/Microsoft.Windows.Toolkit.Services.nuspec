@@ -21,6 +21,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.*" target="lib\portable-win81+wpa81" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.dll" target="lib\portable-win81+wpa81" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pdb" target="lib\portable-win81+wpa81" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pri" target="lib\portable-win81+wpa81" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.xml" target="lib\portable-win81+wpa81" />
   </files>
 </package>

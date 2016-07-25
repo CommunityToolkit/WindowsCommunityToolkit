@@ -15,6 +15,9 @@
     <tags>UWP Toolkit Windows AppStudio Net Portable Twitter OAuth RSS Facebook Bing</tags>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.*" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.xml" target="lib\uap10.0" />
   </files>
 </package>

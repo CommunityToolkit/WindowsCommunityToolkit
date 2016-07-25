@@ -16,11 +16,14 @@
     <dependencies>
       <dependency id="Microsoft.Windows.Toolkit" />
       <dependency id="Microsoft.Windows.Toolkit.UI" />
-	  <dependency id="Microsoft.Windows.Toolkit.UI.Animations" />
+	    <dependency id="Microsoft.Windows.Toolkit.UI.Animations" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.*" target="lib\uap10.0" />
-	<file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls\**\*.*" target="lib\uap10.0\Microsoft.Windows.Toolkit.UI.Controls" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.xml" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls\**\*.*" target="lib\uap10.0\Microsoft.Windows.Toolkit.UI.Controls" />
   </files>
 </package>
