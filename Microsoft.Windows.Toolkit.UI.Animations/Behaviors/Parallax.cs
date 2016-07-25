@@ -118,7 +118,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             Compositor compositor = scrollerViewerManipulation.Compositor;
 
             var manipulationProperty = IsHorizontalEffect ? "X" : "Y";
-            ExpressionAnimation expression = compositor.CreateExpressionAnimation($"ScrollManipululation.Translation.{manipulationProperty} * ParallaxMultiplier");
+            var expression = compositor.CreateExpressionAnimation($"ScrollManipululation.Translation.{manipulationProperty} * ParallaxMultiplier");
 
             expression.SetScalarParameter("ParallaxMultiplier", Multiplier);
             expression.SetReferenceParameter("ScrollManipululation", scrollerViewerManipulation);
