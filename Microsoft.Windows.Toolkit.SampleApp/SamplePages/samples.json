@@ -172,7 +172,7 @@
       {
         "Name": "BlurBehavior",
         "Type": "BlurBehaviorPage",
-        "About": "Image blur behavior using composition",
+        "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
