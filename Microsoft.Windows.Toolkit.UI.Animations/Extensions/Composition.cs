@@ -39,7 +39,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         /// <returns>The visual of the UIElement.</returns>
         public static Visual Scale(
             this UIElement associatedObject,
-            double duration = 0.1d,
+            double duration = 0.5d,
             double delay = 0d,
             float centerX = 0f,
             float centerY = 0f,
@@ -54,21 +54,29 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return null;
-            }
-
-            var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
-            animation.InsertKeyFrame(1f, new Vector3(scaleX, scaleY, scaleZ));
-
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
+            var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
 
-            visual.StartAnimation("Scale", animation);
+            if (duration > 0)
+            {
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateVector3KeyFrameAnimation();
+                animation.Duration = TimeSpan.FromSeconds(duration);
+                animation.DelayTime = TimeSpan.FromSeconds(delay);
+                animation.InsertKeyFrame(1f, scaleVector);
+
+                visual.StartAnimation("Scale", animation);
+            }
+            else
+            {
+                visual.Scale = scaleVector;
+            }
 
             return visual;
         }
@@ -86,7 +94,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         /// <returns>The visual of the UIElement.</returns>
         public static Visual Rotate(
             this UIElement associatedObject,
-            double duration = 0.1d,
+            double duration = 0.5d,
             double delay = 0d,
             float value = 0f,
             float centerX = 0f,
@@ -99,21 +107,28 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
-            {
-                return null;
-            }
-
-            var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
-            animation.InsertKeyFrame(1f, value);
-
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
 
-            visual.StartAnimation("RotationAngleInDegrees", animation);
+            if (duration > 0)
+            {
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateScalarKeyFrameAnimation();
+                animation.Duration = TimeSpan.FromSeconds(duration);
+                animation.DelayTime = TimeSpan.FromSeconds(delay);
+                animation.InsertKeyFrame(1f, value);
+
+                visual.StartAnimation("RotationAngleInDegrees", animation);
+            }
+            else
+            {
+                visual.RotationAngleInDegrees = value;
+            }
 
             return visual;
         }
@@ -128,7 +143,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         /// <returns>The visual of the UIElement.</returns>
         public static Visual Opacity(
             this UIElement associatedObject,
-            double duration = 0.1d,
+            double duration = 0.5d,
             double delay = 0d,
             float value = 0f)
         {
@@ -138,19 +153,27 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
-            var compositor = visual?.Compositor;
 
-            if (compositor == null)
+            if (duration > 0)
             {
-                return null;
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateScalarKeyFrameAnimation();
+                animation.Duration = TimeSpan.FromSeconds(duration);
+                animation.DelayTime = TimeSpan.FromSeconds(delay);
+                animation.InsertKeyFrame(1f, value);
+
+                visual.StartAnimation("Opacity", animation);
             }
-
-            var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
-            animation.InsertKeyFrame(1f, value);
-
-            visual.StartAnimation("Opacity", animation);
+            else
+            {
+                visual.Opacity = value;
+            }
 
             return visual;
         }
@@ -167,7 +190,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         /// <returns>The visual of the UIElement.</returns>
         public static Visual Offset(
             this UIElement associatedObject,
-            double duration = 0.1d,
+            double duration = 0.5d,
             double delay = 0d,
             float offsetX = 0f,
             float offsetY = 0f,
@@ -179,19 +202,28 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
-            var compositor = visual?.Compositor;
+            var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
 
-            if (compositor == null)
+            if (duration > 0)
             {
-                return null;
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateVector3KeyFrameAnimation();
+                animation.Duration = TimeSpan.FromSeconds(duration);
+                animation.DelayTime = TimeSpan.FromSeconds(delay);
+                animation.InsertKeyFrame(1f, offsetVector);
+
+                visual.StartAnimation("Offset", animation);
             }
-
-            var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
-            animation.InsertKeyFrame(1f, new Vector3(offsetX, offsetY, offsetZ));
-
-            visual.StartAnimation("Offset", animation);
+            else
+            {
+                visual.Offset = offsetVector;
+            }
 
             return visual;
         }
@@ -223,7 +255,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
         /// <seealso cref="IsBlurSupported" />
         public static CompositionEffectBrush Blur(
             this FrameworkElement associatedObject,
-            double duration = 0.1d,
+            double duration = 0.5d,
             double delay = 0d,
             double blurAmount = 0d)
         {
@@ -241,6 +273,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+
             var compositor = visual?.Compositor;
             const string blurName = "Blur";
 
