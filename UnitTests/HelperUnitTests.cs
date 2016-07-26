@@ -54,5 +54,13 @@ namespace UnitTests
         {
             Assert.IsTrue("Red".ToColor().ToString() == "#FFFF0000");
         }
+
+        [TestMethod]
+        public void TestHTMLColor()
+        {
+            Windows.UI.Color myColor = ColorHelper.ToColor("#3a4ab0");
+
+            Assert.IsTrue( myColor.ToHex().ToString().ToLower() == "#3a4ab0");
+        }
     }
 }
