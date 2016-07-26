@@ -56,11 +56,34 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TestHTMLColor()
+        public void TestHTMLColorNoAlpha()
         {
             Windows.UI.Color myColor = ColorHelper.ToColor("#3a4ab0");
 
-            Assert.IsTrue( myColor.ToHex().ToString().ToLower() == "#3a4ab0");
+            Assert.IsTrue( myColor.ToHex().ToString() == "#FF3A4AB0");
         }
+
+        [TestMethod]
+        public void TestHTMLColor()
+        {
+            Windows.UI.Color myColor = ColorHelper.ToColor("#ff3a4ab0");
+
+            Assert.IsTrue(myColor.ToHex().ToString() == "#FF3A4AB0");
+        }
+
+        //[TestMethod]
+        //public void TestHSLColor()
+        //{
+        //    Windows.UI.Color myColor = ColorHelper.ToColor("#AABBCC");
+
+        //    HslColor hslColor = myColor.ToHsl();
+
+        //    Assert.IsTrue(  hslColor.A == 1 &&
+        //                    hslColor.H == 210 &&
+        //                    hslColor.S == 25 &&
+        //                    hslColor.L == 73
+        //        );
+        //}
+
     }
 }
