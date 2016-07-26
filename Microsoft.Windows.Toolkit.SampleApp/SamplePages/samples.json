@@ -180,7 +180,7 @@
       {
         "Name": "ParallaxBehavior",
         "Type": "ParallaxBehaviorPage",
-        "About": "Shows you how to implement the parallax behavior which uses composition",
+        "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
         "XamlCodeFile": "ParallaxBehaviorXaml.bind"
       }
