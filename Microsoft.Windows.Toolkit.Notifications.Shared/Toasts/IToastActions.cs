@@ -9,10 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-#if ANNIVERSARY_UPDATE
 using System.Collections.Generic;
-#endif
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
@@ -21,11 +18,9 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public interface IToastActions
     {
-#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// New in RS1: Custom context menu items, providing additional actions when the user right clicks the Toast notification.
+        /// New in Anniversary Update: Custom context menu items, providing additional actions when the user right clicks the Toast notification.
         /// </summary>
         IList<ToastContextMenuItem> ContextMenuItems { get; }
-#endif
     }
 }

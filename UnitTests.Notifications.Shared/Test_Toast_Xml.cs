@@ -154,7 +154,6 @@ namespace UnitTests.Notifications
             });
         }
 
-#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_ToastV2_Xml_Attribution()
         {
@@ -215,7 +214,6 @@ namespace UnitTests.Notifications
 
             AssertVisualPayload(@"<visual><binding template=""ToastGeneric""><text>My title</text><text>My body 1</text><text placement='attribution' lang='en-US'>cnn.com</text></binding></visual>", visual);
         }
-#endif
 
         [TestMethod]
         public void Test_ToastV2_BindingGeneric_BaseUri()
@@ -258,10 +256,8 @@ namespace UnitTests.Notifications
                 AppLogoOverride = null,
                 BaseUri = null,
                 Language = null,
-#if ANNIVERSARY_UPDATE
                 HeroImage = null,
                 Attribution = null
-#endif
             });
         }
 
@@ -341,7 +337,6 @@ namespace UnitTests.Notifications
             AssertAppLogoPayload(@"<image placement=""appLogoOverride"" src=""http://xbox.com/Avatar.jpg"" addImageQuery=""true""/>", appLogo);
         }
 
-#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_ToastV2_Xml_HeroImage_Default()
         {
@@ -407,7 +402,6 @@ namespace UnitTests.Notifications
 
             AssertHeroImagePayload("<image placement='hero' src='http://food.com/peanuts.jpg' addImageQuery='true' alt='peanuts'/>", hero);
         }
-#endif
 
         private static ToastContent GenerateFromVisual(ToastVisual visual)
         {
@@ -459,7 +453,6 @@ namespace UnitTests.Notifications
             });
         }
 
-#if ANNIVERSARY_UPDATE
         private static void AssertHeroImagePayload(string expectedHeroXml, ToastGenericHeroImage heroImage)
         {
             AssertVisualPayload(@"<visual><binding template=""ToastGeneric"">" + expectedHeroXml + "</binding></visual>", new ToastVisual()
@@ -470,7 +463,6 @@ namespace UnitTests.Notifications
                 }
             });
         }
-#endif
 
         [TestMethod]
         public void Test_Toast_Xml_Audio_Defaults()
@@ -692,7 +684,6 @@ namespace UnitTests.Notifications
             Assert.Fail("Exception should have been thrown.");
         }
 
-#if ANNIVERSARY_UPDATE
         [TestMethod]
         public void Test_Toast_Xml_Actions_SixTotal()
         {
@@ -833,7 +824,6 @@ namespace UnitTests.Notifications
 
             Assert.Fail("Exception should have been thrown.");
         }
-#endif
 
         [TestMethod]
         public void Test_Toast_Xml_Button_Defaults()
@@ -964,8 +954,7 @@ namespace UnitTests.Notifications
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
-
-#if ANNIVERSARY_UPDATE
+        
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
@@ -1032,7 +1021,6 @@ namespace UnitTests.Notifications
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' activationType='protocol'/>", item);
         }
-#endif
 
         [TestMethod]
         public void Test_Toast_Xml_TextBox_Defaults()
@@ -1204,7 +1192,7 @@ namespace UnitTests.Notifications
         private static void AssertInputPayload(string expectedInputXml, IToastInput textBox)
         {
             AssertActionsPayload("<actions>" + expectedInputXml + "</actions>", new ToastActionsCustom()
-            {
+            { 
                 Inputs = { textBox }
             });
         }
@@ -1216,8 +1204,7 @@ namespace UnitTests.Notifications
                 Buttons = { button }
             });
         }
-
-#if ANNIVERSARY_UPDATE
+        
         private static void AssertContextMenuItemPayload(string expectedContextMenuItemXml, ToastContextMenuItem item)
         {
             AssertActionsPayload("<actions>" + expectedContextMenuItemXml + "</actions>", new ToastActionsCustom()
@@ -1225,7 +1212,6 @@ namespace UnitTests.Notifications
                 ContextMenuItems = { item }
             });
         }
-#endif
 
         private static void AssertActionsPayload(string expectedActionsXml, IToastActions actions)
         {
