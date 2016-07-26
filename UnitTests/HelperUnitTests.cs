@@ -40,7 +40,7 @@ namespace UnitTests
         [TestMethod]
         public void TestIsInternetAvailable()
         {
-            Assert.IsTrue(ConnectionHelper.IsInternetAvailable());
+            Assert.IsTrue(ConnectionHelper.IsInternetAvailable);
         }
 
         [TestMethod]

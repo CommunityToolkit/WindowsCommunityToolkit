@@ -33,17 +33,20 @@ namespace Microsoft.Windows.Toolkit
         }
 
         /// <summary>
-        /// Check internet availability across all connections.
+        /// Gets a value indicating whether internet is available across all connections.
         /// </summary>
         /// <returns>True if internet can be reached.</returns>
-        public static bool IsInternetAvailable()
+        public static bool IsInternetAvailable
         {
-            if (!NetworkInterface.GetIsNetworkAvailable())
+            get
             {
-                return false;
-            }
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                {
+                    return false;
+                }
 
-            return NetworkInformation.GetInternetConnectionProfile() != null;
+                return NetworkInformation.GetInternetConnectionProfile() != null;
+            }
         }
     }
 }
