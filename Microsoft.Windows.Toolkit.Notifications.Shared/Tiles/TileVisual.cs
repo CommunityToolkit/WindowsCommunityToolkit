@@ -71,12 +71,10 @@ namespace Microsoft.Windows.Toolkit.Notifications
         /// </summary>
         public string LockDetailedStatus3 { get; set; }
 
-#if ANNIVERSARY_UPDATE
         /// <summary>
-        /// New in Anniversary Update: App-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile.
+        /// New in Anniversary Update: App-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile. On devices without the Anniversary Update, this will simply be ignored.
         /// </summary>
         public string Arguments { get; set; }
-#endif
 
         /// <summary>
         /// Provide an optional small binding to specify content for the small Tile size.
@@ -156,9 +154,7 @@ namespace Microsoft.Windows.Toolkit.Notifications
                 AddImageQuery = AddImageQuery,
                 ContentId = ContentId,
                 DisplayName = DisplayName,
-#if ANNIVERSARY_UPDATE
                 Arguments = Arguments
-#endif
             };
 
             if (TileSmall != null)

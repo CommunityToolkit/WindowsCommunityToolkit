@@ -49,7 +49,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
             });
 
             // If Adaptive Toast Notifications are supported
-#if ANNIVERSARY_UPDATE
             if (IsAdaptiveToastSupported())
             {
                 // Use the rich Tile-like visual layout
@@ -68,7 +67,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
 
             // Otherwise...
             else
-#endif
             {
                 // We'll just add two simple lines of text
                 binding.Children.Add(new AdaptiveText()
