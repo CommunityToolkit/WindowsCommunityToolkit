@@ -198,14 +198,14 @@
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png"
       },
-      //{
-      //  "Name": "Facebook Service",
-      //  "Type": "FacebookPage",
-      //  "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
-      //  "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Services/Services/Facebook",
-      //  "CodeFile": "FacebookCode.bind",
-      //  "Icon": "/SamplePages/Facebook Service/icon.png"
-      //},
+      {
+        "Name": "Facebook Service",
+        "Type": "FacebookPage",
+        "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Services/Services/Facebook",
+        "CodeFile": "FacebookCode.bind",
+        "Icon": "/SamplePages/Facebook Service/icon.png"
+      },
       {
         "Name": "Twitter Service",
         "Type": "TwitterPage",
