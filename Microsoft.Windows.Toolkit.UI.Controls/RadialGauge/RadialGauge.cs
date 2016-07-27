@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -153,6 +153,14 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty TickLengthProperty =
             DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
 
+        // Identifies the MinAngle dependency property.
+        public static readonly DependencyProperty MinAngleProperty =
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnFaceChanged));
+
+        // Identifies the MaxAngle dependency property.
+        public static readonly DependencyProperty MaxAngleProperty =
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnFaceChanged));
+
         /// <summary>
         /// Identifies the ValueAngle dependency property.
         /// </summary>
@@ -167,9 +175,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
-
-        private const double MinAngle = -150.0;
-        private const double MaxAngle = 150.0;
 
         private Compositor _compositor;
         private ContainerVisual _root;
@@ -365,6 +370,26 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the angle for the Minimum value, in degrees.
+        /// </summary>
+        /// <remarks>Proposed value range: -180 to 0. Probably requires retemplating the control.</remarks>
+        public int MinAngle
+        {
+            get { return (int)GetValue(MinAngleProperty); }
+            set { SetValue(MinAngleProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the angle for the Maximum value, in degrees.
+        /// </summary>
+        /// <remarks>Proposed value range: 0 to 180. Probably requires retemplating the control.</remarks>
+        public int MaxAngle
+        {
+            get { return (int)GetValue(MaxAngleProperty); }
+            set { SetValue(MaxAngleProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the angle of the needle.
         /// </summary>
         protected double ValueAngle
@@ -390,35 +415,35 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnValueChanged(DependencyObject d)
         {
-            RadialGauge c = (RadialGauge)d;
-            if (!double.IsNaN(c.Value))
+            RadialGauge radialGauge = (RadialGauge)d;
+            if (!double.IsNaN(radialGauge.Value))
             {
-                var middleOfScale = 100 - c.ScalePadding - (c.ScaleWidth / 2);
-                var valueText = c.GetTemplateChild(ValueTextPartName) as TextBlock;
-                c.ValueAngle = c.ValueToAngle(c.Value);
+                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                var valueText = radialGauge.GetTemplateChild(ValueTextPartName) as TextBlock;
+                radialGauge.ValueAngle = radialGauge.ValueToAngle(radialGauge.Value);
 
                 // Needle
-                if (c._needle != null)
+                if (radialGauge._needle != null)
                 {
-                    c._needle.RotationAngleInDegrees = (float)c.ValueAngle;
+                    radialGauge._needle.RotationAngleInDegrees = (float)radialGauge.ValueAngle;
                 }
 
                 // Trail
-                var trail = c.GetTemplateChild(TrailPartName) as Path;
+                var trail = radialGauge.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    if (c.ValueAngle > MinAngle)
+                    if (radialGauge.ValueAngle > radialGauge.MinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
                         var pg = new PathGeometry();
                         var pf = new PathFigure();
                         pf.IsClosed = false;
-                        pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
+                        pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
                         var seg = new ArcSegment();
                         seg.SweepDirection = SweepDirection.Clockwise;
-                        seg.IsLargeArc = c.ValueAngle > (180 + MinAngle);
+                        seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
                         seg.Size = new Size(middleOfScale, middleOfScale);
-                        seg.Point = c.ScalePoint(Math.Min(c.ValueAngle, MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                        seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
                         pf.Segments.Add(seg);
                         pg.Figures.Add(pf);
                         trail.Data = pg;
@@ -432,7 +457,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 // Value Text
                 if (valueText != null)
                 {
-                    valueText.Text = c.Value.ToString(c.ValueStringFormat);
+                    valueText.Text = radialGauge.Value.ToString(radialGauge.ValueStringFormat);
                 }
             }
         }
@@ -444,26 +469,26 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnScaleChanged(DependencyObject d)
         {
-            RadialGauge c = (RadialGauge)d;
+            RadialGauge radialGauge = (RadialGauge)d;
 
-            var scale = c.GetTemplateChild(ScalePartName) as Path;
+            var scale = radialGauge.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
                 var pg = new PathGeometry();
                 var pf = new PathFigure();
                 pf.IsClosed = false;
-                var middleOfScale = 100 - c.ScalePadding - (c.ScaleWidth / 2);
-                pf.StartPoint = c.ScalePoint(MinAngle, middleOfScale);
+                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
                 var seg = new ArcSegment();
                 seg.SweepDirection = SweepDirection.Clockwise;
                 seg.IsLargeArc = true;
                 seg.Size = new Size(middleOfScale, middleOfScale);
-                seg.Point = c.ScalePoint(MaxAngle, middleOfScale);
+                seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
                 pf.Segments.Add(seg);
                 pg.Figures.Add(pf);
                 scale.Data = pg;
 
-                OnFaceChanged(c);
+                OnFaceChanged(radialGauge);
             }
         }
 
@@ -474,53 +499,53 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnFaceChanged(DependencyObject d)
         {
-            RadialGauge c = (RadialGauge)d;
+            RadialGauge radialGauge = (RadialGauge)d;
 
-            var container = c.GetTemplateChild(ContainerPartName) as Grid;
+            var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
             if (container == null)
             {
                 // Bad template.
                 return;
             }
 
-            c._root = container.GetVisual();
-            c._root.Children.RemoveAll();
-            c._compositor = c._root.Compositor;
+            radialGauge._root = container.GetVisual();
+            radialGauge._root.Children.RemoveAll();
+            radialGauge._compositor = radialGauge._root.Compositor;
 
             // Ticks.
             SpriteVisual tick;
-            for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
+            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
             {
-                tick = c._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)c.TickWidth, (float)c.TickLength);
-                tick.Brush = c._compositor.CreateColorBrush(c.TickBrush.Color);
-                tick.Offset = new Vector3(100 - ((float)c.TickWidth / 2), 0.0f, 0);
-                tick.CenterPoint = new Vector3((float)c.TickWidth / 2, 100.0f, 0);
-                tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
-                c._root.Children.InsertAtTop(tick);
+                tick = radialGauge._compositor.CreateSpriteVisual();
+                tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
+                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
+                tick.Offset = new Vector3(100 - ((float)radialGauge.TickWidth / 2), 0.0f, 0);
+                tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 100.0f, 0);
+                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                radialGauge._root.Children.InsertAtTop(tick);
             }
 
             // Scale Ticks.
-            for (double i = c.Minimum; i <= c.Maximum; i += c.TickSpacing)
+            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
             {
-                tick = c._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)c.ScaleTickWidth, (float)c.ScaleWidth);
-                tick.Brush = c._compositor.CreateColorBrush(c.ScaleTickBrush.Color);
-                tick.Offset = new Vector3(100 - ((float)c.ScaleTickWidth / 2), (float)c.ScalePadding, 0);
-                tick.CenterPoint = new Vector3((float)c.ScaleTickWidth / 2, 100 - (float)c.ScalePadding, 0);
-                tick.RotationAngleInDegrees = (float)c.ValueToAngle(i);
-                c._root.Children.InsertAtTop(tick);
+                tick = radialGauge._compositor.CreateSpriteVisual();
+                tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
+                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
+                tick.Offset = new Vector3(100 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
+                tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 100 - (float)radialGauge.ScalePadding, 0);
+                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                radialGauge._root.Children.InsertAtTop(tick);
             }
 
             // Needle.
-            c._needle = c._compositor.CreateSpriteVisual();
-            c._needle.Size = new Vector2((float)c.NeedleWidth, (float)c.NeedleLength);
-            c._needle.Brush = c._compositor.CreateColorBrush(c.NeedleBrush.Color);
-            c._needle.CenterPoint = new Vector3((float)c.NeedleWidth / 2, (float)c.NeedleLength, 0);
-            c._needle.Offset = new Vector3(100 - ((float)c.NeedleWidth / 2), 100 - (float)c.NeedleLength, 0);
-            c._root.Children.InsertAtTop(c._needle);
+            radialGauge._needle = radialGauge._compositor.CreateSpriteVisual();
+            radialGauge._needle.Size = new Vector2((float)radialGauge.NeedleWidth, (float)radialGauge.NeedleLength);
+            radialGauge._needle.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.NeedleBrush.Color);
+            radialGauge._needle.CenterPoint = new Vector3((float)radialGauge.NeedleWidth / 2, (float)radialGauge.NeedleLength, 0);
+            radialGauge._needle.Offset = new Vector3(100 - ((float)radialGauge.NeedleWidth / 2), 100 - (float)radialGauge.NeedleLength, 0);
+            radialGauge._root.Children.InsertAtTop(radialGauge._needle);
 
-            OnValueChanged(c);
+            OnValueChanged(radialGauge);
         }
 
         private Point ScalePoint(double angle, double middleOfScale)
