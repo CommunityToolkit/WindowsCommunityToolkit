@@ -415,35 +415,35 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
 
         private static void OnValueChanged(DependencyObject d)
         {
-            RadialGauge radialGaugec = (RadialGauge)d;
-            if (!double.IsNaN(radialGaugec.Value))
+            RadialGauge radialGauge = (RadialGauge)d;
+            if (!double.IsNaN(radialGauge.Value))
             {
-                var middleOfScale = 100 - radialGaugec.ScalePadding - (radialGaugec.ScaleWidth / 2);
-                var valueText = radialGaugec.GetTemplateChild(ValueTextPartName) as TextBlock;
-                radialGaugec.ValueAngle = radialGaugec.ValueToAngle(radialGaugec.Value);
+                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                var valueText = radialGauge.GetTemplateChild(ValueTextPartName) as TextBlock;
+                radialGauge.ValueAngle = radialGauge.ValueToAngle(radialGauge.Value);
 
                 // Needle
-                if (radialGaugec._needle != null)
+                if (radialGauge._needle != null)
                 {
-                    radialGaugec._needle.RotationAngleInDegrees = (float)radialGaugec.ValueAngle;
+                    radialGauge._needle.RotationAngleInDegrees = (float)radialGauge.ValueAngle;
                 }
 
                 // Trail
-                var trail = radialGaugec.GetTemplateChild(TrailPartName) as Path;
+                var trail = radialGauge.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    if (radialGaugec.ValueAngle > radialGaugec.MinAngle)
+                    if (radialGauge.ValueAngle > radialGauge.MinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
                         var pg = new PathGeometry();
                         var pf = new PathFigure();
                         pf.IsClosed = false;
-                        pf.StartPoint = radialGaugec.ScalePoint(radialGaugec.MinAngle, middleOfScale);
+                        pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
                         var seg = new ArcSegment();
                         seg.SweepDirection = SweepDirection.Clockwise;
-                        seg.IsLargeArc = radialGaugec.ValueAngle > (180 + radialGaugec.MinAngle);
+                        seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
                         seg.Size = new Size(middleOfScale, middleOfScale);
-                        seg.Point = radialGaugec.ScalePoint(Math.Min(radialGaugec.ValueAngle, radialGaugec.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                        seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
                         pf.Segments.Add(seg);
                         pg.Figures.Add(pf);
                         trail.Data = pg;
@@ -457,7 +457,7 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
                 // Value Text
                 if (valueText != null)
                 {
-                    valueText.Text = radialGaugec.Value.ToString(radialGaugec.ValueStringFormat);
+                    valueText.Text = radialGauge.Value.ToString(radialGauge.ValueStringFormat);
                 }
             }
         }
