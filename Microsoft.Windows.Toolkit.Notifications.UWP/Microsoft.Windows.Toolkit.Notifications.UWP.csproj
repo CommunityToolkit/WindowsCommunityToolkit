@@ -120,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.Notifications.UWP.rd.xml" />
+    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.Notifications.rd.xml" />
   </ItemGroup>
   <Import Project="..\Microsoft.Windows.Toolkit.Notifications.Shared\Microsoft.Windows.Toolkit.Notifications.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
