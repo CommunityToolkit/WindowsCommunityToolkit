@@ -122,4 +122,19 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
+      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
+      <OutputPath>$(OutDir)</OutputPath>
+      <TargetPath>
+      </TargetPath>
+    </PropertyGroup>
+  </Target>
+  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <OutputPath>$(Saved_OutputPath)</OutputPath>
+      <TargetPath>$(Saved_TargetPath)</TargetPath>
+    </PropertyGroup>
+  </Target>
 </Project>
