@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Microsoft.Windows.Toolkit</id>
-    <version>0.0.0</version>
+    <version>$version$</version>
     <title>UWP Toolkit Services</title>
     <authors>Microsoft Corp</authors>
     <owners>Microsoft Corp</owners>

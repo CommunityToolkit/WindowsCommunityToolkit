@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Microsoft.Windows.Toolkit.UI</id>
-    <version>0.0.0</version>
+    <version>$version$</version>
     <title>UWP Toolkit Services</title>
     <authors>Microsoft Corp</authors>
     <owners>Microsoft Corp</owners>
@@ -14,7 +14,7 @@
     <copyright>Copyright 2016</copyright>
     <tags>UWP Toolkit Windows AppStudio Net Portable Twitter OAuth RSS Facebook Bing</tags>
     <dependencies>
-      <dependency id="Microsoft.Windows.Toolkit" />
+      <dependency id="Microsoft.Windows.Toolkit" version="$version$" />
     </dependencies>
   </metadata>
   <files>
