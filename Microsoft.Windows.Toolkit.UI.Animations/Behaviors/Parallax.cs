@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
 {
@@ -74,57 +75,9 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
             (sender as Parallax)?.SetBehavior();
         }
 
-        private static T GetChildOfType<T>(DependencyObject depObj) 
-            where T : DependencyObject
-        {
-            if (depObj == null)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-
-                var result = child as T ?? GetChildOfType<T>(child);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
-        }
-
         private void SetBehavior()
         {
-            if (Scroller == default(FrameworkElement))
-            {
-                return;
-            }
-
-            var scroller = Scroller as ScrollViewer;
-            if (scroller == null)
-            {
-                scroller = GetChildOfType<ScrollViewer>(Scroller);
-                if (scroller == null)
-                {
-                    return;
-                }
-            }
-
-            CompositionPropertySet scrollerViewerManipulation = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
-
-            Compositor compositor = scrollerViewerManipulation.Compositor;
-
-            var manipulationProperty = IsHorizontalEffect ? "X" : "Y";
-            var expression = compositor.CreateExpressionAnimation($"ScrollManipululation.Translation.{manipulationProperty} * ParallaxMultiplier");
-
-            expression.SetScalarParameter("ParallaxMultiplier", Multiplier);
-            expression.SetReferenceParameter("ScrollManipululation", scrollerViewerManipulation);
-
-            Visual textVisual = ElementCompositionPreview.GetElementVisual(AssociatedObject);
-            textVisual.StartAnimation($"Offset.{manipulationProperty}", expression);
+            AssociatedObject.Parallax(Scroller, IsHorizontalEffect, Multiplier);
         }
     }
 }
