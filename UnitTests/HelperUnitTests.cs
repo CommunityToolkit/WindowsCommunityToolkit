@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Windows.Toolkit;
+using Windows.Storage;
+using System.IO;
 
 namespace UnitTests
 {
@@ -47,6 +49,22 @@ namespace UnitTests
         public void TestIsInternetOnMeteredConnection()
         {
             Assert.IsFalse(ConnectionHelper.IsInternetOnMeteredConnection);
+        }
+
+        [TestMethod]
+        public async Task TestTextFileOperations()
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+
+            string myText = "Great information that the users wants to keep";
+
+            var storageFile = await StorageFileHelper.SaveTextToFileAsync(workingFolder, myText, "appFilename");
+
+            Assert.IsNotNull(storageFile);
+
+            string loadedText = await StorageFileHelper.GetTextFromFilePathAsync(workingFolder.Path + Path.DirectorySeparatorChar + "appFilename.txt");
+
+            Assert.AreEqual(myText, loadedText);
         }
 
         [TestMethod]
@@ -86,4 +104,5 @@ namespace UnitTests
         //}
 
     }
+
 }
