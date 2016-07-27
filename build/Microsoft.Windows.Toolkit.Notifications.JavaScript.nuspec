@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Microsoft.Windows.Toolkit.Notifications.JavaScript</id>
-    <version>0.0.0</version>
+    <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>microsoft, andrewbares</owners>
     <projectUrl>https://github.com/anbare/NotificationsExtensions/wiki</projectUrl>
