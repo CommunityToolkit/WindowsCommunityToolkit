@@ -137,7 +137,7 @@
         "Name": "OpacityBehavior",
         "Type": "OpacityBehaviorPage",
         "About": "Opacity of XAML elements using composition",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviorst",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
         "CodeFile": "OpacityBehaviorCode.bind",
         "XamlCodeFile": "OpacityBehaviorXaml.bind",
         "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
@@ -147,7 +147,8 @@
         "Type": "ScaleBehaviorPage",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
-        "XamlCodeFile": "ScaleBehaviorCode.bind",
+        "CodeFile": "ScaleBehaviorCode.bind",
+        "XamlCodeFile": "ScaleBehaviorXaml.bind",
         "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {

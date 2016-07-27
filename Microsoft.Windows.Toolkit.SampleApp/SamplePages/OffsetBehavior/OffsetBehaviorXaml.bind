@@ -17,7 +17,7 @@
 				OffsetX="@[OffsetX:DoubleSlider:0.0:0.0-500.0]" 
 				OffsetY="@[OffsetY:DoubleSlider:0.0:0.0-500.0]" 
 				OffsetZ="@[OffsetZ:DoubleSlider:0.0:0.0-500.0]" 
-				Duration="@[Duration:DoubleSlider:1.0:0.1-5.0]" 
+				Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]" 
 				Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]" 
 				AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
             </interactivity:Interaction.Behaviors>
