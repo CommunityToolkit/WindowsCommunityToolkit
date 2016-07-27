@@ -206,8 +206,6 @@
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
-    <Content Include="SamplePages\Carousel\icon.jpg" />
-    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
@@ -294,9 +292,6 @@
     </Compile>
     <Compile Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
-      <DependentUpon>CarouselPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ParallaxBehavior\ParallaxBehaviorPage.xaml.cs">
       <DependentUpon>ParallaxBehaviorPage.xaml</DependentUpon>
@@ -402,10 +397,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
