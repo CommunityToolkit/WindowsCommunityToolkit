@@ -55,6 +55,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations
 
             Element = element;
             _compositor = Visual.Compositor;
+            _animations = new Dictionary<string, CompositionAnimation>();
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
         }
         
