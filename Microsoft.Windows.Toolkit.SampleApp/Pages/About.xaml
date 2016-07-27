@@ -9,8 +9,7 @@
     <Grid Background="{StaticResource Brush-Grey-05}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" Margin="0,36,0,0">
-                <Image Source="ms-appx:///Assets/Win-App-Toolkit-logo-ccc.png" Width="160" Height="160" Margin="0,0,0,24"/>
-                <TextBlock Text="Microsoft UWP Toolkit Sample App" FontSize="36" Foreground="{StaticResource Brush-Grey-03}" FontWeight="Light" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="12,0"/>
+                <TextBlock Text="UWP Community Toolkit Sample App" FontSize="36" Foreground="{StaticResource Brush-Grey-03}" FontWeight="Light" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="12,0"/>
                 <TextBlock x:Name="Version" TextAlignment="Center" Margin="0,0,0,24"/>
                 <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="WrapWholeWords" Text="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo (https://github.com/Microsoft/WindowsAppToolkit). All Controls and helpers are available as NuGet packages." Margin="12,0,12,12"/>
 
