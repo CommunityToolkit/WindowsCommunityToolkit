@@ -17,13 +17,15 @@
       <reference file="Microsoft.Windows.Toolkit.Services.dll" />
     </references>
     <dependencies>
+      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" />
+      <dependency id="winsdkfb" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.dll" target="lib\portable-win81+wpa81" />
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pdb" target="lib\portable-win81+wpa81" />
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pri" target="lib\portable-win81+wpa81" />
-    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.xml" target="lib\portable-win81+wpa81" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.xml" target="lib\uap10.0" />
   </files>
 </package>
