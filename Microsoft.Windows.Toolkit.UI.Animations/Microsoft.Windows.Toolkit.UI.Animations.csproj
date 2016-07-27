@@ -55,6 +55,7 @@
     <Compile Include="Behaviors\Parallax.cs" />
     <Compile Include="Behaviors\Rotation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
+    <Compile Include="Core\AnimationManager.cs" />
     <Compile Include="Extensions\AnimationHelper.cs" />
     <Compile Include="Extensions\Composition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
