@@ -18,14 +18,6 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/VariableSizedGridView",
         "XamlCodeFile": "VariableSizedGridViewCode.bind",
         "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
-      },
-      {
-        "Name": "Carousel",
-        "Type": "CarouselPage",
-        "About": "A responsive carousel control for displaying content. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/Carousel",
-        "XamlCodeFile": "CarouselCode.bind",
-        "Icon": "/SamplePages/Carousel/icon.jpg"
       }
     ]
   },
