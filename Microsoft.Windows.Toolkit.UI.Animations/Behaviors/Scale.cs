@@ -135,7 +135,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 centerZ: (float)CenterZ,
                 scaleX: (float)ScaleX,
                 scaleY: (float)ScaleY,
-                scaleZ: (float)ScaleZ);
+                scaleZ: (float)ScaleZ)
+                .Start();
         }
     }
 }

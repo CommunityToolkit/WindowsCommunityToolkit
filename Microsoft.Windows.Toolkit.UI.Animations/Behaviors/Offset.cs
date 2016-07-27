@@ -85,7 +85,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 delay: Delay,
                 offsetX: (float)OffsetX,
                 offsetY: (float)OffsetY,
-                offsetZ: (float)OffsetZ);
+                offsetZ: (float)OffsetZ)
+                .Start();
         }
     }
 }

@@ -99,7 +99,8 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 value: (float)Value,
                 centerX: (float)CenterX,
                 centerY: (float)CenterY,
-                centerZ: (float)CenterZ);
+                centerZ: (float)CenterZ)
+                .Start();
         }
     }
 }
