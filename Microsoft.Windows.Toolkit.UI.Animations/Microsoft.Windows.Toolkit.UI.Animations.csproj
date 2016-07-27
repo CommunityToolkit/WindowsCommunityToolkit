@@ -62,10 +62,12 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
       <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
       <Name>Microsoft.Windows.Toolkit.UI</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Windows.Toolkit</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -135,4 +137,19 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
+      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
+      <OutputPath>$(OutDir)</OutputPath>
+      <TargetPath>
+      </TargetPath>
+    </PropertyGroup>
+  </Target>
+  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <OutputPath>$(Saved_OutputPath)</OutputPath>
+      <TargetPath>$(Saved_TargetPath)</TargetPath>
+    </PropertyGroup>
+  </Target>
 </Project>
