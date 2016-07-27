@@ -15,7 +15,9 @@ using System.Numerics;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
 {
@@ -260,6 +262,66 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
                 blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
                 blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
             };
+        }
+
+        /// <summary>
+        /// Creates a Parallax effect on the specified element based on the supplied scroller element.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="scrollerElement">The scroller element.</param>
+        /// <param name="isHorizontalEffect">if set to <c>true</c> [is horizontal effect].</param>
+        /// <param name="multiplier">The multiplier (how fast it scrolls).</param>
+        public static void Parallax(this UIElement element, FrameworkElement scrollerElement, bool isHorizontalEffect, float multiplier)
+        {
+            if (scrollerElement == default(FrameworkElement))
+            {
+                return;
+            }
+
+            var scroller = scrollerElement as ScrollViewer;
+            if (scroller == null)
+            {
+                scroller = GetChildOfType<ScrollViewer>(scrollerElement);
+                if (scroller == null)
+                {
+                    return;
+                }
+            }
+
+            CompositionPropertySet scrollerViewerManipulation = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
+
+            Compositor compositor = scrollerViewerManipulation.Compositor;
+
+            var manipulationProperty = isHorizontalEffect ? "X" : "Y";
+            var expression = compositor.CreateExpressionAnimation($"ScrollManipululation.Translation.{manipulationProperty} * ParallaxMultiplier");
+
+            expression.SetScalarParameter("ParallaxMultiplier", multiplier);
+            expression.SetReferenceParameter("ScrollManipululation", scrollerViewerManipulation);
+
+            Visual textVisual = ElementCompositionPreview.GetElementVisual(element);
+            textVisual.StartAnimation($"Offset.{manipulationProperty}", expression);
+        }
+
+        private static T GetChildOfType<T>(DependencyObject depObj)
+            where T : DependencyObject
+        {
+            if (depObj == null)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+
+                var result = child as T ?? GetChildOfType<T>(child);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 }
