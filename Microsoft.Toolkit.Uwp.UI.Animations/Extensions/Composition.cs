@@ -456,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             var scroller = scrollerElement as ScrollViewer;
             if (scroller == null)
             {
-                scroller = GetChildOfType<ScrollViewer>(scrollerElement);
+                scroller = scrollerElement.FindDescendant<ScrollViewer>();
                 if (scroller == null)
                 {
                     return;
@@ -475,28 +475,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             Visual textVisual = ElementCompositionPreview.GetElementVisual(element);
             textVisual.StartAnimation($"Offset.{manipulationProperty}", expression);
-        }
-
-        private static T GetChildOfType<T>(DependencyObject depObj)
-            where T : DependencyObject
-        {
-            if (depObj == null)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-
-                var result = child as T ?? GetChildOfType<T>(child);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
         }
     }
 }
