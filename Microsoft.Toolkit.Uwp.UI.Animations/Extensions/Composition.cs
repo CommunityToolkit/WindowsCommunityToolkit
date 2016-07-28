@@ -141,13 +141,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             var animationManager = new AnimationManager(associatedObject);
             return animationManager.Rotate(duration, delay, value, centerX, centerY, centerZ);
-
         }
 
         /// <summary>
         /// Rotates the specified UI Element.
         /// </summary>
-        /// <param name="associatedObject">The UI Element to rotate.</param>
+        /// <param name="animationManager">The animationmanager object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="value">The value in degrees to rotate.</param>
@@ -220,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <summary>
         /// Changes the Opacity of the specified UI Element.
         /// </summary>
-        /// <param name="associatedObject">The UI Element to change the opacity of.</param>
+        /// <param name="animationManager">The animationmanager object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
@@ -290,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <summary>
         /// Changes the Offset of the specified UI Element.
         /// </summary>
-        /// <param name="associatedObject">The specified UI Element.</param>
+        /// <param name="animationManager">The animationmanager object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="offsetX">The offset x.</param>
@@ -360,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="blurAmount">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
-        public static AnimationManager Blur(
+        public static CompositionEffectBrush Blur(
             this FrameworkElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -371,45 +370,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var animationManager = new AnimationManager(associatedObject);
-            return animationManager.Blur(duration, delay, blurAmount);
-        }
-
-        /// <summary>
-        /// Blurs the specified framework element.
-        /// </summary>
-        /// <param name="associatedObject">The associated object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
-        /// <param name="blurAmount">The blur amount.</param>
-        /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
-        /// <seealso cref="IsBlurSupported" />
-        public static AnimationManager Blur(
-            this AnimationManager animationManager,
-            double duration = 0.5d,
-            double delay = 0d,
-            double blurAmount = 0d)
-        {
-            if (animationManager == null)
-            {
-                return null;
-            }
-
             if (!IsBlurSupported)
             {
                 // The operating system doesn't support blur.
                 // Fail gracefully by not applying blur.
                 // See 'IsBlurSupported' property
-                return animationManager;
+                return null;
             }
 
-            var visual = animationManager.Visual;
-            var associatedObject = animationManager.Element as FrameworkElement;
-
-            if (associatedObject == null)
-            {
-                return animationManager;
-            }
+            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
 
             var compositor = visual?.Compositor;
             const string blurName = "Blur";
@@ -433,8 +402,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             {
                 if (blurBrush.Comment == blurName)
                 {
-                    animationManager.AddAnimation($"{blurName}.BlurAmount", blurAnimation);
-                    return animationManager;
+                    blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+                    return blurBrush;
                 }
             }
 
@@ -459,7 +428,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
 
             blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-            animationManager.AddAnimation($"{blurName}.BlurAmount", blurAnimation);
+            blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
 
             associatedObject.SizeChanged += (s, e) =>
             {
@@ -467,7 +436,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
             };
 
-            return animationManager;
+            return blurBrush;
         }
 
         /// <summary>
