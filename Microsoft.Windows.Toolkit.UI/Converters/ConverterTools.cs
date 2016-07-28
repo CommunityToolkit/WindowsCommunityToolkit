@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Toolkit.UI.Converters
         /// </summary>
         /// <param name="parameter">Parameter to cast to a boolean</param>
         /// <returns>Bool value or false if cast failed</returns>
-        internal static bool SafeParseBool(object parameter)
+        internal static bool TryParseBool(object parameter)
         {
             var parsed = false;
             if (parameter != null)
@@ -32,21 +32,6 @@ namespace Microsoft.Windows.Toolkit.UI.Converters
             }
 
             return parsed;
-        }
-
-        /// <summary>
-        /// Helper method to get the opposite of a visibility value
-        /// </summary>
-        /// <param name="target">Visibility value to convert</param>
-        /// <returns>Opposite value of current visibility</returns>
-        internal static Visibility Opposite(Visibility target)
-        {
-            if (target == Visibility.Visible)
-            {
-                return Visibility.Collapsed;
-            }
-
-            return Visibility.Visible;
         }
     }
 }
