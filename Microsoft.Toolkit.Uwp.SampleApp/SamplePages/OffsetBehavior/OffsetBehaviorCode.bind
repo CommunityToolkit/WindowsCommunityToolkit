@@ -1,0 +1,8 @@
+// Animate the toolkit logo
+ToolkitLogo.Offset(
+                duration: Duration,
+                delay: Delay,
+                offsetX: (float)OffsetX,
+                offsetY: (float)OffsetY,
+                offsetZ: (float)OffsetZ);
+

@@ -10,11 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Threading.Tasks;
-
+using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Windows.Toolkit;
-using Windows.Storage;
-using System.IO;
 
 namespace UnitTests
 {
@@ -54,15 +51,13 @@ namespace UnitTests
         [TestMethod]
         public async Task TestTextFileOperations()
         {
-            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+            string myText = "Great information that the user wants to keep";
 
-            string myText = "Great information that the users wants to keep";
-
-            var storageFile = await StorageFileHelper.SaveTextToFileAsync(workingFolder, myText, "appFilename");
+            var storageFile = await StorageFileHelper.SaveTextToLocalFileAsync(myText, "appFilename.txt");
 
             Assert.IsNotNull(storageFile);
 
-            string loadedText = await StorageFileHelper.GetTextFromFilePathAsync(workingFolder.Path + Path.DirectorySeparatorChar + "appFilename.txt");
+            string loadedText = await StorageFileHelper.ReadTextFromLocalFile("appFilename.txt");
 
             Assert.AreEqual(myText, loadedText);
         }
@@ -78,7 +73,7 @@ namespace UnitTests
         {
             Windows.UI.Color myColor = ColorHelper.ToColor("#3a4ab0");
 
-            Assert.IsTrue( myColor.ToHex().ToString() == "#FF3A4AB0");
+            Assert.IsTrue(myColor.ToHex() == "#FF3A4AB0");
         }
 
         [TestMethod]
@@ -88,21 +83,5 @@ namespace UnitTests
 
             Assert.IsTrue(myColor.ToHex().ToString() == "#FF3A4AB0");
         }
-
-        //[TestMethod]
-        //public void TestHSLColor()
-        //{
-        //    Windows.UI.Color myColor = ColorHelper.ToColor("#AABBCC");
-
-        //    HslColor hslColor = myColor.ToHsl();
-
-        //    Assert.IsTrue(  hslColor.A == 1 &&
-        //                    hslColor.H == 210 &&
-        //                    hslColor.S == 25 &&
-        //                    hslColor.L == 73
-        //        );
-        //}
-
     }
-
 }

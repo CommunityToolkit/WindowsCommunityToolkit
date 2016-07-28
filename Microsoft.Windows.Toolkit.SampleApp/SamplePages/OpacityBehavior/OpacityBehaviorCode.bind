@@ -1,2 +1,0 @@
-// Animate opacity:
-MyRectangle.Opacity(Duration, Delay, (float)Value);

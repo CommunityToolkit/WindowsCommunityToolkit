@@ -1,8 +1,0 @@
-// Animate the rectangle offset
-MyRectangle.Offset(
-                duration: Duration,
-                delay: Delay,
-                offsetX: (float)OffsetX,
-                offsetY: (float)OffsetY,
-                offsetZ: (float)OffsetZ);
-

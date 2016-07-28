@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Windows.Toolkit.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications;
 #if WINDOWS_UWP
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using Microsoft.Windows.Toolkit.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace UnitTests.Notifications
 {

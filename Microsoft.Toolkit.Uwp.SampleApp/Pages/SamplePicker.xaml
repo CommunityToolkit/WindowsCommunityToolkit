@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.Pages.SamplePicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sampleApp="using:Microsoft.Toolkit.Uwp.SampleApp"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="SampleTemplate" x:DataType="sampleApp:Sample">
+            <Grid Width="500" Height="100" Margin="6" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Top" Margin="0,0,12,0">
+                    <Image Source="{Binding Icon}" Height="100" Width="100" />
+                </Border>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
+                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="WrapWholeWords" Margin="0,4,0,0" />
+                </StackPanel>
+            </Grid>
+
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="{StaticResource Brush-Grey-04}"/>
+        <TextBlock Grid.Row="0" Margin="12"
+                   Text="{x:Bind ViewModel.Name, Mode=OneWay}" 
+                   FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+        <GridView Name="SamplesList" 
+                  Grid.Row="1" Margin="6"
+                  ItemsSource="{x:Bind ViewModel.Samples}" ItemTemplate="{StaticResource SampleTemplate}" 
+                  IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
+    </Grid>
+</Page>

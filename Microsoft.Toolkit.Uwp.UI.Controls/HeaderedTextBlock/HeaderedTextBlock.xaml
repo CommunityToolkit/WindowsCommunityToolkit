@@ -1,0 +1,53 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style x:Key="HeaderedTextBlockTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextLineBounds" Value="TrimToBaseline" />
+        <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="LineHeight" Value="28" />
+    </Style>
+
+    <Style x:Key="HeaderedTextBlockHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource HeaderedTextBlockTextStyle}">
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style TargetType="controls:HeaderedTextBlock">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
+        <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:HeaderedTextBlock">
+                    <StackPanel x:Name="Panel" Orientation="{TemplateBinding Orientation}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="OrientationStates">
+                                <VisualState x:Name="Vertical">
+                                </VisualState>
+                                <VisualState x:Name="Horizontal">
+                                    <VisualState.Setters>
+                                        <Setter Target="TextContent.Margin" Value="10,0,0,0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <TextBlock x:Name="HeaderContent" Text="{TemplateBinding Header}" Style="{TemplateBinding HeaderStyle}" />
+                        <TextBlock x:Name="TextContent" Text="{TemplateBinding Text}" Style="{TemplateBinding TextStyle}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

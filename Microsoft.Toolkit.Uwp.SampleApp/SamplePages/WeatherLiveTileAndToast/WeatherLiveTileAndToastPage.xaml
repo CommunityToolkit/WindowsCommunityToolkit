@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.WeatherLiveTileAndToastPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.UwpSampleApp.SamplePages.Notifications.WeatherLiveTile"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:visualizer="using:NotificationsVisualizerLibrary">
+
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Margin="20">
+
+            <Button
+                x:Name="ButtonPopToast"
+                Content="Pop Toast"
+                Click="ButtonPopToast_Click"
+                HorizontalAlignment="Stretch"/>
+            <Button
+                x:Name="ButtonPinTile"
+                Content="Pin Tile"
+                Click="ButtonPinTile_Click"
+                HorizontalAlignment="Stretch"
+                Margin="0,10,0,0"/>
+
+            <RichTextBlock Margin="0,10,0,0" Foreground="{StaticResource Brush-Grey-03}">
+                <Paragraph>The first button will pop a Toast notification displaying the weather forecast.</Paragraph>
+                <Paragraph/>
+                <Paragraph>The second button will pin a secondary Tile and send a notification to the Tile, displaying the weather forecast.</Paragraph>
+                <Paragraph/>
+                <Paragraph>The previews below show you what to expect on your Start menu and in the Toast notification.</Paragraph>
+                <Paragraph/>
+                <Paragraph FontSize="12">
+                    Check out
+                    <Hyperlink NavigateUri="http://www.microsoft.com/en-us/store/apps/notifications-visualizer/9nblggh5xsl1">Notifications Visualizer</Hyperlink> to learn more about Tile and Toast notifications.
+                </Paragraph>
+            </RichTextBlock>
+            
+            <!--Toast Preview-->
+            <visualizer:PreviewToast
+                x:Name="PreviewToastWeather"
+                MaxWidth="362"
+                HorizontalAlignment="Left"
+                Margin="0,20,0,0"/>
+
+            <StackPanel Margin="-2,10,-2,0">
+                <StackPanel.Resources>
+                    <Style TargetType="visualizer:PreviewTile">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <visualizer:PreviewTile
+                    x:Name="PreviewTileSmall"
+                    IsAnimationEnabled="False"
+                    TileSize="Small"/>
+
+                <visualizer:PreviewTile
+                    x:Name="PreviewTileMedium"
+                    IsAnimationEnabled="False"
+                    TileSize="Medium"/>
+
+                <visualizer:PreviewTile
+                    x:Name="PreviewTileWide"
+                    IsAnimationEnabled="False"
+                    TileSize="Wide"/>
+
+                <visualizer:PreviewTile
+                    x:Name="PreviewTileLarge"
+                    IsAnimationEnabled="False"
+                    TileSize="Large"/>
+
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

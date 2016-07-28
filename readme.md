@@ -20,7 +20,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 Please find what we plan for next iteration [here](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.1)
 
 ## Useful links
- - Official web site: 
+ - Official web site: https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit
  - Do you want to contribute? Here are our [guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
 ## Features
