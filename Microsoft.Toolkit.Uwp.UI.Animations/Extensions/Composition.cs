@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="scaleY">The scale y.</param>
         /// <param name="scaleZ">The scale z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Scale(
+        public static AnimationSet Scale(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -55,14 +55,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var animationManager = new AnimationManager(associatedObject);
-            return animationManager.Scale(duration, delay, centerX, centerY, centerZ, scaleX, scaleY, scaleZ);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Scale(duration, delay, centerX, centerY, centerZ, scaleX, scaleY, scaleZ);
         }
 
         /// <summary>
         /// Scales the specified UI Element.
         /// </summary>
-        /// <param name="animationManager">The animationmanager object.</param>
+        /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="centerX">The center x in pixels.</param>
@@ -72,8 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="scaleY">The scale y.</param>
         /// <param name="scaleZ">The scale z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Scale(
-            this AnimationManager animationManager,
+        public static AnimationSet Scale(
+            this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
             float centerX = 0f,
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             float scaleY = 0f,
             float scaleZ = 0f)
         {
-            if (animationManager == null)
+            if (animationSet == null)
             {
                 return null;
             }
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
             }
 
-            var visual = animationManager.Visual;
+            var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
             var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
 
@@ -109,9 +109,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             animation.DelayTime = TimeSpan.FromSeconds(delay);
             animation.InsertKeyFrame(1f, scaleVector);
 
-            animationManager.AddAnimation("Scale", animation);
+            animationSet.AddAnimation("Scale", animation);
 
-            return animationManager;
+            return animationSet;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Rotate(
+        public static AnimationSet Rotate(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -139,14 +139,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var animationManager = new AnimationManager(associatedObject);
-            return animationManager.Rotate(duration, delay, value, centerX, centerY, centerZ);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Rotate(duration, delay, value, centerX, centerY, centerZ);
         }
 
         /// <summary>
         /// Rotates the specified UI Element.
         /// </summary>
-        /// <param name="animationManager">The animationmanager object.</param>
+        /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="value">The value in degrees to rotate.</param>
@@ -154,8 +154,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Rotate(
-            this AnimationManager animationManager,
+        public static AnimationSet Rotate(
+            this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
             float value = 0f,
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             float centerY = 0f,
             float centerZ = 0f)
         {
-            if (animationManager == null)
+            if (animationSet == null)
             {
                 return null;
             }
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
             }
 
-            var visual = animationManager.Visual;
+            var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
 
             var compositor = visual?.Compositor;
@@ -188,9 +188,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             animation.DelayTime = TimeSpan.FromSeconds(delay);
             animation.InsertKeyFrame(1f, value);
 
-            animationManager.AddAnimation("RotationAngleInDegrees", animation);
+            animationSet.AddAnimation("RotationAngleInDegrees", animation);
 
-            return animationManager;
+            return animationSet;
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Opacity(
+        public static AnimationSet Opacity(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -212,25 +212,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var animationManager = new AnimationManager(associatedObject);
-            return animationManager.Opacity(duration, delay, value);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Opacity(duration, delay, value);
         }
 
         /// <summary>
         /// Changes the Opacity of the specified UI Element.
         /// </summary>
-        /// <param name="animationManager">The animationmanager object.</param>
+        /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Opacity(
-            this AnimationManager animationManager,
+        public static AnimationSet Opacity(
+            this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
             float value = 0f)
         {
-            if (animationManager == null)
+            if (animationSet == null)
             {
                 return null;
             }
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
             }
 
-            var visual = animationManager.Visual;
+            var visual = animationSet.Visual;
 
             var compositor = visual?.Compositor;
 
@@ -254,9 +254,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             animation.DelayTime = TimeSpan.FromSeconds(delay);
             animation.InsertKeyFrame(1f, value);
 
-            animationManager.AddAnimation("Opacity", animation);
+            animationSet.AddAnimation("Opacity", animation);
 
-            return animationManager;
+            return animationSet;
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="offsetY">The offset y.</param>
         /// <param name="offsetZ">The offset z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Offset(
+        public static AnimationSet Offset(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -282,29 +282,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var animationManager = new AnimationManager(associatedObject);
-            return animationManager.Offset(duration, delay, offsetX, offsetY, offsetZ);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Offset(duration, delay, offsetX, offsetY, offsetZ);
         }
 
         /// <summary>
         /// Changes the Offset of the specified UI Element.
         /// </summary>
-        /// <param name="animationManager">The animationmanager object.</param>
+        /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="offsetX">The offset x.</param>
         /// <param name="offsetY">The offset y.</param>
         /// <param name="offsetZ">The offset z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationManager Offset(
-            this AnimationManager animationManager,
+        public static AnimationSet Offset(
+            this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
             float offsetX = 0f,
             float offsetY = 0f,
             float offsetZ = 0f)
         {
-            if (animationManager == null)
+            if (animationSet == null)
             {
                 return null;
             }
@@ -314,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
             }
 
-            var visual = animationManager.Visual;
+            var visual = animationSet.Visual;
             var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
 
             var compositor = visual?.Compositor;
@@ -329,9 +329,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             animation.DelayTime = TimeSpan.FromSeconds(delay);
             animation.InsertKeyFrame(1f, offsetVector);
 
-            animationManager.AddAnimation("Offset", animation);
+            animationSet.AddAnimation("Offset", animation);
 
-            return animationManager;
+            return animationSet;
         }
 
         /// <summary>

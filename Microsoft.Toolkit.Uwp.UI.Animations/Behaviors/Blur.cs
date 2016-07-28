@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (Composition.IsBlurSupported)
             {
-                _frameworkElement?.Blur(duration: Duration, delay: Delay, blurAmount: (float)BlurAmount).StartAsync();
+                _frameworkElement?.Blur(duration: Duration, delay: Delay, blurAmount: (float)BlurAmount);
             }
         }
     }
