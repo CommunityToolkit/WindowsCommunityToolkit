@@ -56,7 +56,7 @@
     <Compile Include="Behaviors\Rotation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
-    <Compile Include="CompositionEffectAndAnimationPair.cs" />
+    <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="Extensions\Composition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
