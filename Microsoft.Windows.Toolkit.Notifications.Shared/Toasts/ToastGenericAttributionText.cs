@@ -19,11 +19,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     public sealed class ToastGenericAttributionText : IBaseText
     {
         /// <summary>
-        /// Initializes an attribution text element to be displayed on the Toast notification.
-        /// </summary>
-        public ToastGenericAttributionText() { }
-
-        /// <summary>
         /// The text to display.
         /// </summary>
         public string Text { get; set; }

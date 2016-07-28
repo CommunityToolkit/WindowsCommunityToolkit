@@ -18,11 +18,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastGenericHeroImage : IBaseImage
     {
-        /// <summary>
-        /// Initializes a hero image for the Toast notification.
-        /// </summary>
-        public ToastGenericHeroImage() { }
-
         private string _source;
 
         /// <summary>
