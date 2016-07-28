@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.Por
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.UWP", "UnitTests.Notifications.UWP\UnitTests.Notifications.UWP.csproj", "{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{F184302C-FBA2-484A-A8C0-1EF27305863A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{52f9acf2-55e7-4415-92bd-902cf85ce3da}*SharedItemsImports = 4
@@ -286,6 +288,26 @@ Global
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.ActiveCfg = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Build.0 = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Deploy.0 = Release|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|ARM.Build.0 = Debug|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|ARM.Deploy.0 = Debug|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x64.ActiveCfg = Debug|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x64.Build.0 = Debug|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x64.Deploy.0 = Debug|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x86.ActiveCfg = Debug|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x86.Build.0 = Debug|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Debug|x86.Deploy.0 = Debug|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|Any CPU.ActiveCfg = Release|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|ARM.ActiveCfg = Release|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|ARM.Build.0 = Release|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|ARM.Deploy.0 = Release|ARM
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x64.ActiveCfg = Release|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x64.Build.0 = Release|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x64.Deploy.0 = Release|x64
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x86.ActiveCfg = Release|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x86.Build.0 = Release|x86
+		{F184302C-FBA2-484A-A8C0-1EF27305863A}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Defines an object for storing and managing CompositionAnimations for an element
     /// </summary>
-    public class AnimationManager
+    public class AnimationSet
     {
         private Dictionary<string, CompositionAnimation> _animations;
         private Compositor _compositor;
@@ -42,10 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public UIElement Element { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnimationManager"/> class.
+        /// Initializes a new instance of the <see cref="AnimationSet"/> class.
         /// </summary>
         /// <param name="element">The associated element</param>
-        public AnimationManager(UIElement element)
+        public AnimationSet(UIElement element)
         {
             if (element == null)
             {
