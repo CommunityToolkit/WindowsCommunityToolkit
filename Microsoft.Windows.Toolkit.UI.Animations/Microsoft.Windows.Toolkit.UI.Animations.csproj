@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14388.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -52,9 +52,9 @@
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Opacity.cs" />
+    <Compile Include="Behaviors\Parallax.cs" />
     <Compile Include="Behaviors\Rotation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
-    <Compile Include="Extensions\AnimationHelper.cs" />
     <Compile Include="Extensions\Composition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,11 +62,16 @@
     <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
       <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
       <Name>Microsoft.Windows.Toolkit.UI</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Windows.Toolkit</Name>
+      <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Animations.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
@@ -132,4 +137,19 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
+      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
+      <OutputPath>$(OutDir)</OutputPath>
+      <TargetPath>
+      </TargetPath>
+    </PropertyGroup>
+  </Target>
+  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <OutputPath>$(Saved_OutputPath)</OutputPath>
+      <TargetPath>$(Saved_TargetPath)</TargetPath>
+    </PropertyGroup>
+  </Target>
 </Project>

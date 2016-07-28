@@ -27,8 +27,6 @@ namespace Microsoft.Windows.Toolkit.SampleApp
         private bool _isPaneOpen;
         private Sample _currentSample;
 
-        private bool _sampleHasPropertyDescriptor;
-
         public bool DisplayWaitRing
         {
             set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
@@ -68,6 +66,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
             if (pageType != null)
             {
+                InfoAreaPivot.Items.Clear();
                 ShowInfoArea();
 
                 var propertyDesc = await sample.GetPropertyDescriptorAsync();
@@ -79,26 +78,21 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 NavigationFrame.Navigate(pageType, propertyDesc);
 
                 _currentSample = sample;
-                _sampleHasPropertyDescriptor = propertyDesc != null;
 
-                if (_sampleHasPropertyDescriptor)
+                if (sample.HasXAMLCode)
                 {
-                    CodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
 
-                    if (!InfoAreaPivot.Items.Contains(PropertiesPivotItem))
-                    {
-                        InfoAreaPivot.Items.Insert(0, PropertiesPivotItem);
-                    }
+                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                    InfoAreaPivot.Items.Add(XamlPivotItem);
 
                     InfoAreaPivot.SelectedIndex = 0;
                 }
-                else
+
+                if (sample.HasCSharpCode)
                 {
-                    CodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
-                    if (InfoAreaPivot.Items.Contains(PropertiesPivotItem))
-                    {
-                        InfoAreaPivot.Items.Remove(PropertiesPivotItem);
-                    }
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                    InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
             }
         }
@@ -239,13 +233,14 @@ namespace Microsoft.Windows.Toolkit.SampleApp
                 return;
             }
 
-            if (_sampleHasPropertyDescriptor)
+            if (_currentSample.HasXAMLCode)
             {
-                CodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
             }
-            else
+
+            if (_currentSample.HasCSharpCode)
             {
-                CodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
             }
         }
     }

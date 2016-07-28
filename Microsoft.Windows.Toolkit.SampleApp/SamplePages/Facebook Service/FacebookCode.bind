@@ -1,5 +1,5 @@
 // Initialize service
-FacebookService.Instance.Initialize(AppIDText.Text, FacebookService.Instance.DevelopmentTimeWindowsStoreId);
+FacebookService.Instance.Initialize(AppIDText.Text);
 
 // Login to Facebook
 if (!await FacebookService.Instance.LoginAsync())

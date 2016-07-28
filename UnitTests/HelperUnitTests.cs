@@ -9,10 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System.IO;
 using System.Threading.Tasks;
-
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Windows.Toolkit;
+using Windows.Storage;
 
 namespace UnitTests
 {
@@ -40,7 +41,7 @@ namespace UnitTests
         [TestMethod]
         public void TestIsInternetAvailable()
         {
-            Assert.IsTrue(ConnectionHelper.IsInternetAvailable());
+            Assert.IsTrue(ConnectionHelper.IsInternetAvailable);
         }
 
         [TestMethod]
@@ -50,9 +51,41 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public async Task TestTextFileOperations()
+        {
+            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+
+            string myText = "Great information that the users wants to keep";
+
+            var storageFile = await StorageFileHelper.SaveTextToFileAsync(workingFolder, myText, "appFilename");
+
+            Assert.IsNotNull(storageFile);
+
+            string loadedText = await StorageFileHelper.GetTextFromFilePathAsync(workingFolder.Path + Path.DirectorySeparatorChar + "appFilename.txt");
+
+            Assert.AreEqual(myText, loadedText);
+        }
+
+        [TestMethod]
         public void TestStringToColor()
         {
             Assert.IsTrue("Red".ToColor().ToString() == "#FFFF0000");
+        }
+
+        [TestMethod]
+        public void TestHTMLColorNoAlpha()
+        {
+            Windows.UI.Color myColor = ColorHelper.ToColor("#3a4ab0");
+
+            Assert.IsTrue(myColor.ToHex() == "#FF3A4AB0");
+        }
+
+        [TestMethod]
+        public void TestHTMLColor()
+        {
+            Windows.UI.Color myColor = ColorHelper.ToColor("#ff3a4ab0");
+
+            Assert.IsTrue(myColor.ToHex().ToString() == "#FF3A4AB0");
         }
     }
 }

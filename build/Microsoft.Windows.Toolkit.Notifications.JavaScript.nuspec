@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Windows.Toolkit.Notifications.JavaScript</id>
+    <version>$version$</version>
+    <authors>Microsoft</authors>
+    <owners>microsoft, andrewbares</owners>
+    <projectUrl>https://github.com/anbare/NotificationsExtensions/wiki</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.</summary>
+    <description>The official NotificationsExtensions library from Microsoft. Supports JavaScript UWP projects (see NotificationsExtensions.Win10 for the C#/C++ version).
+
+Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
+
+Supports adaptive tiles and adaptive/interactive toasts for Windows 10!</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>notifications, win10, windows 10, tile, tiles, toast, toasts, badge, xml, uwp, javascript</tags>
+    <licenseUrl>https://raw.githubusercontent.com/anbare/NotificationsExtensions/master/LICENSE</licenseUrl>
+  </metadata>
+  
+  <files>
+
+    <!--For JavaScript UWP apps-->
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Notifications.WinRT\Microsoft.Windows.Toolkit.Notifications.winmd" target="lib\Windows"/>
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Notifications.WinRT\Microsoft.Windows.Toolkit.Notifications.pri" target="lib\Windows"/>
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Notifications.WinRT\Microsoft.Windows.Toolkit.Notifications.pdb" target="lib\Windows"/>
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Notifications.WinRT\Microsoft.Windows.Toolkit.Notifications.xml" target="lib\Windows"/>
+    <file src="..\bin\binaries\Microsoft.Windows.Toolkit.Notifications.WinRT\Microsoft.Windows.Toolkit.Notifications.xml" target="lib\Windows\Microsoft.Windows.Toolkit.Notifications.winmd.xml"/>
+    
+    <!--Need a targets file, since auto-generated reference uses CopyLocal, which makes it not work. This will mean we have duplicate
+    warnings, which generates a warning, but at least it's functional!-->
+    <file src="Microsoft.Windows.Toolkit.Notifications.JavaScript.targets" target="build\Windows\Microsoft.Windows.Toolkit.Notifications.JavaScript.targets"/>
+      
+  </files>
+
+</package>
