@@ -33,7 +33,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -50,7 +50,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -62,7 +62,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -79,7 +79,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,7 +91,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -108,7 +108,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.SampleApp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -514,9 +514,9 @@
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
       <Name>Microsoft.Windows.Toolkit.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit\Microsoft.Windows.Toolkit.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
-      <Name>Microsoft.Windows.Toolkit</Name>
+      <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
