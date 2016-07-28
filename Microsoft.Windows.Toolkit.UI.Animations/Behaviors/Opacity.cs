@@ -45,7 +45,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            AssociatedObject.Opacity(Duration, Delay, (float)Value).Start();
+            AssociatedObject.Opacity(Duration, Delay, (float)Value).StartAsync();
         }
     }
 }

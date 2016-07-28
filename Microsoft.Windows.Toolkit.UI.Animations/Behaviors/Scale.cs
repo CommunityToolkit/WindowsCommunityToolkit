@@ -136,7 +136,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 scaleX: (float)ScaleX,
                 scaleY: (float)ScaleY,
                 scaleZ: (float)ScaleZ)
-                .Start();
+                .StartAsync();
         }
     }
 }
