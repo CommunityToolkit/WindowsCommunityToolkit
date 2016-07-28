@@ -9,16 +9,12 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-#if ANNIVERSARY_UPDATE
 using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
-#endif
 
 namespace Microsoft.Windows.Toolkit.Notifications
 {
-#if ANNIVERSARY_UPDATE
     /// <summary>
-    /// Constructs a hero image for the Toast notification.
+    /// A hero image for the Toast notification.
     /// </summary>
     public sealed class ToastGenericHeroImage : IBaseImage
     {
@@ -52,5 +48,4 @@ namespace Microsoft.Windows.Toolkit.Notifications
             return el;
         }
     }
-#endif
 }

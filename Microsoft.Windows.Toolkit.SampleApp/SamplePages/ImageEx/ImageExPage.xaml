@@ -10,7 +10,7 @@
     <Page.Resources>
         <DataTemplate x:Key="PhotoTemplate">
             <Grid BorderBrush="Black" BorderThickness="1" Background="Black">
-                <controls:ImageEx
+                <controls:ImageEx x:Name="ImageExControl"
                     IsCacheEnabled="True"
                     Source="{Binding Thumbnail}"
                     Stretch="UniformToFill"
@@ -27,7 +27,7 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:VariableSizedGridView
-            Name="control"
+            Name="ImageExControl"
             Margin="0"
             ItemTemplate="{StaticResource PhotoTemplate}"
             Orientation="Horizontal"

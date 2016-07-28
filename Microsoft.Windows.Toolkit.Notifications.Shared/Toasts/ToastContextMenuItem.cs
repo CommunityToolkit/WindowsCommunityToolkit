@@ -9,7 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-#if ANNIVERSARY_UPDATE
 using System;
 
 namespace Microsoft.Windows.Toolkit.Notifications
@@ -85,4 +84,3 @@ namespace Microsoft.Windows.Toolkit.Notifications
         }
     }
 }
-#endif

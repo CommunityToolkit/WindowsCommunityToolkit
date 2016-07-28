@@ -7,7 +7,7 @@
 				"Name": "ResponsiveGridView",
 				"Type": "ResponsiveGridViewPage",
 				"About": "Presents content within a GridView to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
-				"CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+				"CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/ResponsiveGridView",
 				"XamlCodeFile": "ResponsiveGridViewCode.bind",
         "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
       },
@@ -15,17 +15,9 @@
         "Name": "VariableSizedGridView",
         "Type": "VariableSizedGridViewPage",
         "About": "Displays items that have different Width and Height values. You can control the number of rows, columns, orientation, and aspect ratio.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/VariableSizedGridView",
         "XamlCodeFile": "VariableSizedGridViewCode.bind",
         "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
-      },
-      {
-        "Name": "Carousel",
-        "Type": "CarouselPage",
-        "About": "A responsive carousel control for displaying content. You can control properties like the AspectRatio, MaxItems, MinHeight, MaxHeight, GradientOpacity and AlignmentX.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "CarouselCode.bind",
-        "Icon": "/SamplePages/Carousel/icon.jpg"
       }
     ]
   },
@@ -37,7 +29,7 @@
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/HamburgerMenu",
         "XamlCodeFile": "HamburgerMenuCode.bind",
         "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
       },
@@ -45,7 +37,7 @@
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
         "Icon": "/SamplePages/RangeSelector/icon.jpg"
       },
@@ -53,7 +45,7 @@
         "Name": "ImageEx",
         "Type": "ImageExPage",
         "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/ImageEx",
         "XamlCodeFile": "ImageExCode.bind",
         "Icon": "/SamplePages/ImageEx/icon.jpg"
       },
@@ -61,7 +53,7 @@
         "Name": "HeaderedTextBlock",
         "Type": "HeaderedTextBlockPage",
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
         "Icon": "/SamplePages/SearchBox/icon.jpg"
       },
@@ -69,7 +61,7 @@
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/icon.jpg"
       },
@@ -77,7 +69,7 @@
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/SlidableListItem",
         "XamlCodeFile": "SlidableListItemCode.bind",
         "Icon": "/SamplePages/SlidableListItem/icon.png"
       },
@@ -85,9 +77,17 @@
         "Name": "PullToRefreshListView",
         "Type": "PullToRefreshListViewPage",
         "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Controls/PullToRefreshListView",
         "XamlCodeFile": "PullToRefreshListViewCode.bind",
         "Icon": "/SamplePages/PullToRefreshListView/icon.png"
+      },
+      {
+        "Name": "RotatorTile",
+        "Type": "RotatorTilePage",
+        "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
+        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "XamlCodeFile": "RotatorTileCode.bind",
+        "Icon": "/SamplePages/RotatorTile/icon.png"
       }
     ]
   },
@@ -99,7 +99,7 @@
         "Name": "LiveTile",
         "Type": "LiveTilePage",
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
         "Icon": "/SamplePages/LiveTile/icon.jpg"
       },
@@ -107,7 +107,7 @@
         "Name": "Toast",
         "Type": "ToastPage",
         "About": "This shows how to send a Toast notification.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Notifications.Shared",
         "CodeFile": "ToastCode.bind",
         "Icon": "/SamplePages/Toast/icon.jpg"
       },
@@ -115,7 +115,7 @@
         "Name": "WeatherLiveTileAndToast",
         "Type": "WeatherLiveTileAndToastPage",
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Notifications.Shared",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/icon.jpg"
       }
@@ -128,42 +128,54 @@
       {
         "Name": "OpacityBehavior",
         "Type": "OpacityBehaviorPage",
-        "About": "Shows you how to implement the opacity behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "OpacityBehaviorCode.bind",
+        "About": "Opacity of XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "CodeFile": "OpacityBehaviorCode.bind",
+        "XamlCodeFile": "OpacityBehaviorXaml.bind",
         "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
       },
       {
         "Name": "ScaleBehavior",
         "Type": "ScaleBehaviorPage",
-        "About": "Shows you how to implement the scale behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "ScaleBehaviorCode.bind",
+        "About": "Scale of XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "CodeFile": "ScaleBehaviorCode.bind",
+        "XamlCodeFile": "ScaleBehaviorXaml.bind",
         "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {
         "Name": "OffsetBehavior",
         "Type": "OffsetBehaviorPage",
-        "About": "Shows you how to implement the offset behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "OffsetBehaviorCode.bind",
+        "About": "Offset of XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "CodeFile": "OffsetBehaviorCode.bind",
+        "XamlCodeFile": "OffsetBehaviorXaml.bind",
         "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
       },
       {
         "Name": "RotationBehavior",
         "Type": "RotationBehaviorPage",
-        "About": "Shows you how to implement the rotation behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "RotationBehaviorCode.bind",
+        "About": "Rotation on XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "CodeFile": "RotationBehaviorCode.bind",
+        "XamlCodeFile": "RotationBehaviorXaml.bind",
         "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
       },
       {
         "Name": "BlurBehavior",
         "Type": "BlurBehaviorPage",
-        "About": "Shows you how to implement the blur behavior which uses composition",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
-        "XamlCodeFile": "BlurBehaviorCode.bind",
+        "About": "Blur XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "CodeFile": "BlurBehaviorCode.bind",
+        "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/BlurBehavior/blurBehavior.gif"
+      },
+      {
+        "Name": "ParallaxBehavior",
+        "Type": "ParallaxBehaviorPage",
+        "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
+        "XamlCodeFile": "ParallaxBehaviorXaml.bind"
       }
     ]
   },
@@ -175,7 +187,7 @@
         "Name": "Bing Service",
         "Type": "BingPage",
         "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.UI.Animations/Behaviors",
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png"
       },
@@ -183,7 +195,7 @@
         "Name": "Facebook Service",
         "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/icon.png"
       },
@@ -191,7 +203,7 @@
         "Name": "Twitter Service",
         "Type": "TwitterPage",
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsAppToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Windows.Toolkit.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/icon.png"
       }
