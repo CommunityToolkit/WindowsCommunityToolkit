@@ -3,7 +3,7 @@
   <Identity Name="52b9212c-97a9-4639-9426-3e1ea9c1569e" Publisher="CN=davca" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="52b9212c-97a9-4639-9426-3e1ea9c1569e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Microsoft.Windows.Toolkit.SampleApp</DisplayName>
+    <DisplayName>Microsoft.Toolkit.Uwp.SampleApp</DisplayName>
     <PublisherDisplayName>davca</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,8 +14,8 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Microsoft.Windows.Toolkit.SampleApp.App">
-      <uap:VisualElements DisplayName="UWP Toolkit Sample Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Microsoft.Windows.Toolkit.SampleApp" BackgroundColor="#333333">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Microsoft.Toolkit.Uwp.SampleApp.App">
+      <uap:VisualElements DisplayName="UWP Toolkit Sample Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo. All Controls and helpers are available as NuGet packages." BackgroundColor="#333333">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" Square71x71Logo="Assets\Square71x71Logo.png">
         </uap:DefaultTile>

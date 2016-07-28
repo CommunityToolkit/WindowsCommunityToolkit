@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,12 +38,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Microsoft.Windows.Toolkit.Services.ruleset" />
-    <None Include="Microsoft.Windows.Toolkit.Services1.ruleset" />
+    <None Include="Microsoft.Toolkit.Uwp.Services.ruleset">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -111,14 +112,10 @@
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Microsoft.Windows.Toolkit.Services.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Microsoft.Windows.Toolkit.Services.symbols.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.Services.rd.xml" />
+    <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
@@ -133,7 +130,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -145,7 +142,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
     <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
@@ -157,7 +154,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
@@ -169,7 +166,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

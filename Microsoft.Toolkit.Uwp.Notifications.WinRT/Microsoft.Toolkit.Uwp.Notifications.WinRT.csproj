@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FB381278-F4AD-4703-A12A-C43EE0B231BD}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{B63C8A9A-E8F5-4759-8526-9B0D65C4BDB5}</ProjectGuid>
+    <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.Notifications</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.Notifications</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.Notifications</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.Notifications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -16,6 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -26,19 +27,16 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;ANNIVERSARY_UPDATE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -50,8 +48,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x86\Debug\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -63,7 +59,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -75,7 +70,6 @@
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -87,7 +81,6 @@
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -99,7 +92,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -111,18 +103,15 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Microsoft.Windows.Toolkit.Notifications.UWP.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.Notifications.rd.xml" />
   </ItemGroup>
-  <Import Project="..\Microsoft.Windows.Toolkit.Notifications.Shared\Microsoft.Windows.Toolkit.Notifications.Shared.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
