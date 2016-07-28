@@ -18,7 +18,7 @@ namespace Microsoft.Windows.Toolkit.UI
     /// <summary>
     /// Defines a collection of extensions methods for UI.
     /// </summary>
-    public static partial class Extensions
+    public static class VisualTreeExtensions
     {
         /// <summary>
         /// Find descendant control using its name.

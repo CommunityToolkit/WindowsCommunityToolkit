@@ -78,7 +78,7 @@ namespace Microsoft.Windows.Toolkit.UI
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> LoadFromCacheAsync(Uri uri)
+        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
         {
             Task busy;
             string key = BuildFileName(uri);
@@ -135,7 +135,11 @@ namespace Microsoft.Windows.Toolkit.UI
             if (await IsFileOutOfDate(baseFile, expirationDate))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                if (!await StreamHelper.DownloadHTTPStreamAsync(uri, baseFile))
+                try
+                {
+                    await StreamHelper.GetHTTPStreamToStorageFileAsync(uri, baseFile);
+                }
+                catch
                 {
                     await baseFile.DeleteAsync();
                 }
