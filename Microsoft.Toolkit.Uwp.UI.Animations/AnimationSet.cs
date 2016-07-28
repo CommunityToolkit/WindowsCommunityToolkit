@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class AnimationSet
     {
         private Dictionary<string, CompositionAnimation> _animations;
-        private List<CompositionEffectAndAnimationPair> _effectAnimations;
+        private List<EffectAnimationDefinition> _effectAnimations;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private System.Threading.ManualResetEvent _manualResetEvent;
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Element = element;
             _compositor = Visual.Compositor;
             _animations = new Dictionary<string, CompositionAnimation>();
-            _effectAnimations = new List<CompositionEffectAndAnimationPair>();
+            _effectAnimations = new List<EffectAnimationDefinition>();
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
         }
 
@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="propertyName">The property of the effect to be animated</param>
         public void AddEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
         {
-            var effect = new CompositionEffectAndAnimationPair()
+            var effect = new EffectAnimationDefinition()
             {
                 EffectBrush = effectBrush,
                 Animation = animation,
