@@ -19,6 +19,7 @@
     <dependencies>
       <dependency id="winsdkfb" version="0.10.20160621.3" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
+      <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
     </dependencies>
   </metadata>
   <files>
