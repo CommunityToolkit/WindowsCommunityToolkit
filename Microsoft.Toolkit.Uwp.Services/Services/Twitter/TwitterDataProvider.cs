@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var media_ids = string.Empty;
 
-                if (pictures != null)
+                if (pictures != null && pictures.Length > 0)
                 {
                     var ids = new List<string>();
                     foreach (var picture in pictures)
