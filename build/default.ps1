@@ -44,13 +44,13 @@ task Setup -description "Setup environment" {
     $script:version = $version
   }
   
-  Exec { .$nuget restore $packagesConfig "$sourceDir\Windows App Toolkit.sln" } "Error pre-installing NuGet packages"
+  Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
 }
 
 task Build -depends Clean, Setup -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
-  Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\Windows App Toolkit.sln" } "Error building $solutionFile"
+  Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
 }
 
 task PackNuGet -depends Build -description "Create the NuGet packages" {

@@ -7,8 +7,8 @@
     <ProjectGuid>{FB381278-F4AD-4703-A12A-C43EE0B231BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.Notifications</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.Notifications</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.Notifications</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.Notifications</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.notifications.uwp.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,7 +37,7 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;ANNIVERSARY_UPDATE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.notifications.uwp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -51,7 +51,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.notifications.uwp.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\x86\Debug\Microsoft.Windows.Toolkit.Notifications.XML</DocumentationFile>
+    <DocumentationFile>bin\x86\Debug\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
