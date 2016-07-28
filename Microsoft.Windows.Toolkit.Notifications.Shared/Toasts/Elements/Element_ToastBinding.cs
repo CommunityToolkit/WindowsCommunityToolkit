@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("binding")]
     internal sealed class Element_ToastBinding

@@ -13,10 +13,10 @@
 // ******************************************************************
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Core;
-using Microsoft.Windows.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Uwp.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// Data Provider for connecting to RSS feed.

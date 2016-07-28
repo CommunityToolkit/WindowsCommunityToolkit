@@ -13,9 +13,9 @@
 // ******************************************************************
 using System;
 using System.Reflection;
-using Microsoft.Windows.Toolkit.Services.Bing;
+using Microsoft.Toolkit.Uwp.Services.Bing;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// StringValue attribute.

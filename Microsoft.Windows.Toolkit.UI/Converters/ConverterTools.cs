@@ -11,7 +11,7 @@
 // ******************************************************************
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.UI.Converters
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
     /// Static class used to provide internal tools

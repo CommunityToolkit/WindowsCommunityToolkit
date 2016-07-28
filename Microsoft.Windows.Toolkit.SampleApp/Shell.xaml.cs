@@ -12,13 +12,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp
+namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
@@ -62,7 +62,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp
 
         public async Task NavigateToSampleAsync(Sample sample)
         {
-            var pageType = Type.GetType("Microsoft.Windows.Toolkit.SampleApp.SamplePages." + sample.Type);
+            var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
 
             if (pageType != null)
             {

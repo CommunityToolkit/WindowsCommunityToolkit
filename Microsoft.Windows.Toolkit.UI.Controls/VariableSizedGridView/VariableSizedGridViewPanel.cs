@@ -17,7 +17,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls.Primitives
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
     /// The VariableSizedGridPanel is used to support the <see cref="VariableSizedGridView"/> control.

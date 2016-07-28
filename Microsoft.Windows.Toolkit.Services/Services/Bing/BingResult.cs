@@ -13,7 +13,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Implementation of the Bing result class.

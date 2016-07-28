@@ -13,7 +13,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// Strongly typed object for presenting post data returned from service provider.

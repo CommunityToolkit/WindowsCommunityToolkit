@@ -14,7 +14,7 @@
 using System;
 using Windows.Web.Http;
 
-namespace Microsoft.Windows.Toolkit.Services.Exceptions
+namespace Microsoft.Toolkit.Uwp.Services.Exceptions
 {
     /// <summary>
     /// Exception for failed requests.

@@ -14,7 +14,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// This class offers general purpose methods.

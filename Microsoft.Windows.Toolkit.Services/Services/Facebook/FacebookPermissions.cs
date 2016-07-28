@@ -13,7 +13,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Services.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// List of user related data permissions

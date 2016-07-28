@@ -11,7 +11,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-namespace Microsoft.Windows.Toolkit.Services
+namespace Microsoft.Toolkit.Uwp.Services
 {
     /// <summary>
     /// Strong typed schema base class.

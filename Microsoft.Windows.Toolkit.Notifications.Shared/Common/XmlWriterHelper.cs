@@ -20,7 +20,7 @@ using System.Reflection;
 
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal static class XmlWriterHelper
     {

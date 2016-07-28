@@ -13,7 +13,7 @@
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
     /// A base class for all behaviors using composition.It contains some of the common propeties to set on a visual.

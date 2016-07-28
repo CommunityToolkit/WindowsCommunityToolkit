@@ -17,7 +17,7 @@ using System.Text;
 using Windows.Data.Xml.Dom;
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal abstract class BaseElement
     {

@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
     using global::Windows.UI.Xaml.Data;
     using global::Windows.UI.Xaml.Media;

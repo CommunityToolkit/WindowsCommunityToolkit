@@ -9,11 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     using System.Diagnostics;
 

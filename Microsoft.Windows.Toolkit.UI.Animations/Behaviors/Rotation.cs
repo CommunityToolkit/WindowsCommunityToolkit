@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
     /// Performs a rotation animation using composition.

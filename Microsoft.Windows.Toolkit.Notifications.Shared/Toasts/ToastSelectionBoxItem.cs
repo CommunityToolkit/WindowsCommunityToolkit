@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// A selection box item (an item that the user can select from the drop down list).

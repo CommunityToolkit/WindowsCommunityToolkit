@@ -11,7 +11,7 @@
 // ******************************************************************
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// New in 1511: Supported on Medium, Wide, and Large (Desktop and Mobile).

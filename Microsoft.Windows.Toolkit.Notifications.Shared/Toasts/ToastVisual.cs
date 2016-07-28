@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Defines the visual aspects of a Toast notification.

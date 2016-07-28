@@ -11,7 +11,7 @@
 // ******************************************************************
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("actions")]
     internal sealed class Element_ToastActions

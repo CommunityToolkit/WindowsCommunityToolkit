@@ -12,7 +12,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Windows.Toolkit.UI.Converters
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
     /// This class provides a binding converter to display formatted strings

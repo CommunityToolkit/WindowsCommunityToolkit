@@ -16,7 +16,7 @@ using System;
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// Twitter Timeline item.

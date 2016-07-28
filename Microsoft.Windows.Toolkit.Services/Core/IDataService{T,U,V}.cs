@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// Generic interface that all deployed service providers implement.

@@ -11,9 +11,9 @@
 // ******************************************************************
 using System;
 using System.Linq;
-using Microsoft.Windows.Toolkit.Notifications;
-using Microsoft.Windows.Toolkit.SampleApp.Common;
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using NotificationsVisualizerLibrary;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class LiveTilePage : Page
     {

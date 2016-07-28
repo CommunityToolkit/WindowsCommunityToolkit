@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
     public class DelegateCommand<T> : ICommand
     {

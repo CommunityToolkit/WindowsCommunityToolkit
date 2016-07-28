@@ -18,7 +18,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for streams.

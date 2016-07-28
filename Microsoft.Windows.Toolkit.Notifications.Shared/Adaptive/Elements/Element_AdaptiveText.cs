@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
+namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
     [NotificationXmlElement("text")]
     internal sealed class Element_AdaptiveText : IElement_TileBindingChild, IElement_AdaptiveSubgroupChild, IElement_ToastBindingChild

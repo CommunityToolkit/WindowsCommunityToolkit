@@ -13,7 +13,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Windows.Toolkit.UI.Converters
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
     /// This class converts a string value into a Visibility value (if the value is null or empty returns a collapsed value).

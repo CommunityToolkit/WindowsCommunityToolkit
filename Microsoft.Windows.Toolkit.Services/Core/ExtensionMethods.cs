@@ -15,9 +15,9 @@ using System;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Microsoft.Windows.Toolkit.Services.Bing;
+using Microsoft.Toolkit.Uwp.Services.Bing;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// This class offers general purpose methods.

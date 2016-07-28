@@ -14,10 +14,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// Class for connecting to Twitter.

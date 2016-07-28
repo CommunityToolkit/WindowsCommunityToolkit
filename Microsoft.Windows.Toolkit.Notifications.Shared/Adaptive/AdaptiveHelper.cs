@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Notifications.Adaptive
+namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive
 {
     internal static class AdaptiveHelper
     {

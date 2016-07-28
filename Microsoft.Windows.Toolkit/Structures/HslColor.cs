@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Defines a color in Hue/Saturation/Lightness (HSL) space.

@@ -9,11 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Windows.Toolkit;
-using Windows.Storage;
 
 namespace UnitTests
 {
@@ -53,15 +51,13 @@ namespace UnitTests
         [TestMethod]
         public async Task TestTextFileOperations()
         {
-            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
+            string myText = "Great information that the user wants to keep";
 
-            string myText = "Great information that the users wants to keep";
-
-            var storageFile = await StorageFileHelper.SaveTextToFileAsync(workingFolder, myText, "appFilename");
+            var storageFile = await StorageFileHelper.SaveTextToLocalFileAsync(myText, "appFilename.txt");
 
             Assert.IsNotNull(storageFile);
 
-            string loadedText = await StorageFileHelper.GetTextFromFilePathAsync(workingFolder.Path + Path.DirectorySeparatorChar + "appFilename.txt");
+            string loadedText = await StorageFileHelper.ReadTextFromLocalFile("appFilename.txt");
 
             Assert.AreEqual(myText, loadedText);
         }

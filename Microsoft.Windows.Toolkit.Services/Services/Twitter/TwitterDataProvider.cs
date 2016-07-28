@@ -20,7 +20,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Uwp.Services.Exceptions;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -29,7 +29,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// Data Provider for connecting to Twitter service.

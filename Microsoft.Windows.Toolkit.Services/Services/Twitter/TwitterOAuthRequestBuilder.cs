@@ -16,9 +16,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Microsoft.Windows.Toolkit.Services.OAuth;
+using Microsoft.Toolkit.Uwp.Services.OAuth;
 
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// OAuth request builder.

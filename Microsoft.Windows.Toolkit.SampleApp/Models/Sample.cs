@@ -18,11 +18,11 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.SampleApp
+namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {

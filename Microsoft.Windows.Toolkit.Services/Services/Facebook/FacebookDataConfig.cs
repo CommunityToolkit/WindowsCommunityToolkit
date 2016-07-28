@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Windows.Toolkit.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// Configuration object for specifying richer query information.

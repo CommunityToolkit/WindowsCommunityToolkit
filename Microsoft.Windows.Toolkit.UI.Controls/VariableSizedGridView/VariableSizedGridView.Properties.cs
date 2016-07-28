@@ -12,7 +12,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The VariableSizedGrid control allows to display items from a list using different values

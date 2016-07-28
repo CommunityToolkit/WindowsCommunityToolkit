@@ -7,8 +7,8 @@
     <ProjectGuid>{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.UI.Animations</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.UI.Animations</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Animations</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Animations</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14388.0</TargetPlatformVersion>
@@ -27,7 +27,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.Animations.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.UI.Animations.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Animations.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.Animations.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.Animations.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.UI.Animations.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

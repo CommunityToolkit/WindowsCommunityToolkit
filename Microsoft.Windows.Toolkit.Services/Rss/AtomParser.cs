@@ -15,9 +15,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// Parser for Atom endpoints.

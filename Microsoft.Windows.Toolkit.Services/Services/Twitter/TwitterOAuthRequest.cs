@@ -20,7 +20,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Windows.Toolkit.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// OAuth request.

@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// ContentControl providing functionality for sliding left or right to expose functions

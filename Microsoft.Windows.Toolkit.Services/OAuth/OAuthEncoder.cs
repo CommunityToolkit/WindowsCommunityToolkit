@@ -19,7 +19,7 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Windows.Toolkit.Services.OAuth
+namespace Microsoft.Toolkit.Uwp.Services.OAuth
 {
     /// <summary>
     /// OAuth Encoder.

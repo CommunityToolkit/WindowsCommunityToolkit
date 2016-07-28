@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal sealed class LimitedList<T> : IList<T>
     {

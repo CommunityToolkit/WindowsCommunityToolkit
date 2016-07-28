@@ -9,15 +9,22 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// A hero image for the Toast notification.
     /// </summary>
     public sealed class ToastGenericHeroImage : IBaseImage
     {
+        /// <summary>
+        /// Initializes a hero image for the Toast notification.
+        /// </summary>
+        public ToastGenericHeroImage()
+        {
+        }
+
         private string _source;
 
         /// <summary>

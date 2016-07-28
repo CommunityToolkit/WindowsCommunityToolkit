@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     using global::Windows.ApplicationModel;
 
@@ -382,6 +382,57 @@ namespace Microsoft.Windows.Toolkit
         }
 
         /// <summary>
+        /// Gets a byte array from a <see cref="StorageFile"/> based on a file path string.
+        /// </summary>
+        /// <param name="filePath">
+        /// The <see cref="string"/> file path.
+        /// </param>
+        /// <returns>
+        /// Returns the stored <see cref="byte"/> array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the <paramref name="filePath"/> is null or empty.
+        /// </exception>
+        public static async Task<byte[]> GetBytesFromFilePathAsync(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            var file = await StorageFile.GetFileFromPathAsync(filePath);
+            return await GetBytesFromFileAsync(file);
+        }
+
+        /// <summary>
+        /// Gets a byte array from a <see cref="StorageFile"/>.
+        /// </summary>
+        /// <param name="file">
+        /// The <see cref="StorageFile"/>.
+        /// </param>
+        /// <returns>
+        /// Returns the stored <see cref="byte"/> array.
+        /// </returns>
+        public static async Task<byte[]> GetBytesFromFileAsync(StorageFile file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+
+            using (IRandomAccessStream stream = await file.OpenReadAsync())
+            {
+                using (var reader = new DataReader(stream.GetInputStreamAt(0)))
+                {
+                    await reader.LoadAsync((uint)stream.Size);
+                    var bytes = new byte[stream.Size];
+                    reader.ReadBytes(bytes);
+                    return bytes;
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
         /// </summary>
         /// <param name="knownFolderId">Folder Id</param>
@@ -436,57 +487,6 @@ namespace Microsoft.Windows.Toolkit
             }
 
             return workingFolder;
-        }
-
-        /// <summary>
-        /// Gets a byte array from a <see cref="StorageFile"/> based on a file path string.
-        /// </summary>
-        /// <param name="filePath">
-        /// The <see cref="string"/> file path.
-        /// </param>
-        /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Exception thrown if the <paramref name="filePath"/> is null or empty.
-        /// </exception>
-        public static async Task<byte[]> GetBytesFromFilePathAsync(string filePath)
-        {
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            var file = await StorageFile.GetFileFromPathAsync(filePath);
-            return await GetBytesFromFileAsync(file);
-        }
-
-        /// <summary>
-        /// Gets a byte array from a <see cref="StorageFile"/>.
-        /// </summary>
-        /// <param name="file">
-        /// The <see cref="StorageFile"/>.
-        /// </param>
-        /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
-        /// </returns>
-        public static async Task<byte[]> GetBytesFromFileAsync(StorageFile file)
-        {
-            if (file == null)
-            {
-                return null;
-            }
-
-            using (IRandomAccessStream stream = await file.OpenReadAsync())
-            {
-                using (var reader = new DataReader(stream.GetInputStreamAt(0)))
-                {
-                    await reader.LoadAsync((uint)stream.Size);
-                    var bytes = new byte[stream.Size];
-                    reader.ReadBytes(bytes);
-                    return bytes;
-                }
-            }
         }
     }
 }

@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("visual")]
     internal sealed class Element_ToastVisual

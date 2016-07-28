@@ -14,7 +14,7 @@ using System;
 
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Exception returned when invalid notification content is provided.

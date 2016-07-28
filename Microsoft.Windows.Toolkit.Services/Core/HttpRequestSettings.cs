@@ -14,7 +14,7 @@
 using System;
 using System.Net;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// HttpRequestSettings for holding request settings.

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Microsoft.Windows.Toolkit.UI
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides methods and tools to cache images in a temporary local folder

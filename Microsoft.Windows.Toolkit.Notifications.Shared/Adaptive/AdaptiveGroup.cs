@@ -11,9 +11,9 @@
 // ******************************************************************
 using System;
 using System.Collections.Generic;
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.

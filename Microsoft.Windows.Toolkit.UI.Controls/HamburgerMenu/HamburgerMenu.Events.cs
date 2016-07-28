@@ -11,7 +11,7 @@
 // ******************************************************************
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using global::Windows.UI.Xaml;
 

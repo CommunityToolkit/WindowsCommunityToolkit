@@ -13,7 +13,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Windows.Toolkit.UI.Converters
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
     /// This class converts a boolean value into a Visibility enumeration.

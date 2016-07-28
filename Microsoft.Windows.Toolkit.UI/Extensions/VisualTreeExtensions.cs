@@ -13,7 +13,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Windows.Toolkit.UI
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Defines a collection of extensions methods for UI.

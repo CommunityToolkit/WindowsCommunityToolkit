@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     public class PropertyDescriptor
     {

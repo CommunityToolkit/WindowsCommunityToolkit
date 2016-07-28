@@ -1,10 +1,10 @@
-﻿<Page x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.ParallaxBehaviorPage"
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ParallaxBehaviorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Windows.Toolkit.UI.Animations.Behaviors"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

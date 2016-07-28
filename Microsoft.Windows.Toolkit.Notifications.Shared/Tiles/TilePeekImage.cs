@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+    using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
     /// <summary>
     /// A peek image that animates in from the top of the Tile.

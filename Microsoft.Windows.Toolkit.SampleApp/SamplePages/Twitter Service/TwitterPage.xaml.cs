@@ -11,13 +11,13 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Windows.Toolkit.Services.Twitter;
+using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {

@@ -13,9 +13,9 @@
 // ******************************************************************
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
-namespace Microsoft.Windows.Toolkit.Services
+namespace Microsoft.Toolkit.Uwp.Services
 {
     /// <summary>
     /// Base class for data providers in this library.

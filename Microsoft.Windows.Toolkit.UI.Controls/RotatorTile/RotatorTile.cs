@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Windows.Toolkit.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// An items control that presents enumerable content similar to the live tiles on the

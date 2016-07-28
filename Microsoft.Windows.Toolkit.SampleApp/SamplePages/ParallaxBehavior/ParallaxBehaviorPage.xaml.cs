@@ -11,11 +11,11 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

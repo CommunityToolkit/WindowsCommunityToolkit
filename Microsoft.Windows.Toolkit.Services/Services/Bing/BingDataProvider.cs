@@ -15,10 +15,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Core;
-using Microsoft.Windows.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Uwp.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
-namespace Microsoft.Windows.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Data Provider for connecting to Bing service.

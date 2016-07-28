@@ -15,11 +15,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Windows.Toolkit.UI.LayoutControls")]
+[assembly: AssemblyTitle("Microsoft.Toolkit.Uwp.UI.LayoutControls")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Windows.Toolkit.UI.LayoutControls")]
+[assembly: AssemblyProduct("Microsoft.Toolkit.Uwp.UI.LayoutControls")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
