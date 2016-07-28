@@ -1,5 +1,5 @@
 // Animate rotation:
-MyRectangle.Rotate(
+ToolkitLogo.Rotate(
                 duration: Duration,
                 delay: Delay,
                 value: (float)Value,

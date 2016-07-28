@@ -206,9 +206,13 @@
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
+    <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
+    <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
     <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
+    <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
+    <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -222,9 +226,7 @@
     <Content Include="SamplePages\WeatherLiveTileAndToast\icon.jpg" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
-    <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
     <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.bind" />
-    <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
     <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
@@ -232,9 +234,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
-    <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.bind" />
-    <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.bind" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />

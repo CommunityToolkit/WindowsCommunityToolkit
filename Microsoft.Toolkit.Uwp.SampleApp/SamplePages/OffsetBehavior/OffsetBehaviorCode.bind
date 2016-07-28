@@ -1,5 +1,5 @@
-// Animate the rectangle offset
-MyRectangle.Offset(
+// Animate the toolkit logo
+ToolkitLogo.Offset(
                 duration: Duration,
                 delay: Delay,
                 offsetX: (float)OffsetX,
