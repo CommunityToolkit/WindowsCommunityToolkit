@@ -100,7 +100,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 centerX: (float)CenterX,
                 centerY: (float)CenterY,
                 centerZ: (float)CenterZ)
-                .Start();
+                .StartAsync();
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
                 offsetX: (float)OffsetX,
                 offsetY: (float)OffsetY,
                 offsetZ: (float)OffsetZ)
-                .Start();
+                .StartAsync();
         }
     }
 }
