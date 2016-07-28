@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp</id>
+    <version>$version$</version>
+    <title>UWP Community Toolkit</title>
+    <authors>Microsoft Corp</authors>
+    <owners>Microsoft Corp</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>UWP Community Toolkit is a toolkit aimed to help UWP developers to create great Universal Windows Applications.</description>
+    <releaseNotes>First public release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP Toolkit Windows</tags>
+  </metadata>
+  <files>
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.xml" target="lib\uap10.0" />
+  </files>
+</package>

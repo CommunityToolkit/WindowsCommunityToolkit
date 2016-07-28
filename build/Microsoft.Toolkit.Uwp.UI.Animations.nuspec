@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp.UI.Animations</id>
+    <version>$version$</version>
+    <title>UWP Community Toolkit Animations</title>
+    <authors>Microsoft Corp</authors>
+    <owners>Microsoft Corp</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library provides helpers and services on top of Windows Composition. It is part of the UWP Community Toolkit.</description>
+    <releaseNotes>First public release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP Toolkit Windows Animations Composition</tags>
+    <dependencies>
+      <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
+      <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
+      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.1.0" />
+      <dependency id="Win2D.uwp" version="1.18.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.xml" target="lib\uap10.0" />
+  </files>
+</package>
