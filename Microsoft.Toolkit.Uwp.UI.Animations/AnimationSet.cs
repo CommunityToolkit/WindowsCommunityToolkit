@@ -12,8 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -27,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class AnimationSet
     {
         private Dictionary<string, CompositionAnimation> _animations;
+        private List<CompositionEffectAndAnimationPair> _effectAnimations;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private System.Threading.ManualResetEvent _manualResetEvent;
@@ -68,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Element = element;
             _compositor = Visual.Compositor;
             _animations = new Dictionary<string, CompositionAnimation>();
+            _effectAnimations = new List<CompositionEffectAndAnimationPair>();
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
         }
 
@@ -100,6 +100,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Visual.StartAnimation(anim.Key, anim.Value);
             }
 
+            foreach (var effect in _effectAnimations)
+            {
+                effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
+            }
+
             Task t = Task.Run(() =>
             {
                 _manualResetEvent.Reset();
@@ -130,6 +135,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Visual.StopAnimation(anim.Key);
             }
+
+            foreach (var effect in _effectAnimations)
+            {
+                effect.EffectBrush.StopAnimation(effect.PropertyName);
+            }
         }
 
         /// <summary>
@@ -146,6 +156,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     animation.Duration = TimeSpan.FromSeconds(duration);
                 }
             }
+
+            foreach (var effect in _effectAnimations)
+            {
+                var animation = effect.Animation as KeyFrameAnimation;
+                if (animation != null)
+                {
+                    animation.Duration = TimeSpan.FromSeconds(duration);
+                }
+            }
         }
 
         /// <summary>
@@ -157,6 +176,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             foreach (var anim in _animations)
             {
                 var animation = anim.Value as KeyFrameAnimation;
+                if (animation != null)
+                {
+                    animation.DelayTime = TimeSpan.FromSeconds(delayTime);
+                }
+            }
+
+            foreach (var effect in _effectAnimations)
+            {
+                var animation = effect.Animation as KeyFrameAnimation;
                 if (animation != null)
                 {
                     animation.DelayTime = TimeSpan.FromSeconds(delayTime);
@@ -184,6 +212,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 _animations.Remove(propertyName);
             }
+        }
+
+        /// <summary>
+        /// Adds an effect animation to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property animated</param>
+        /// <param name="animation">The animation to be applied</param>
+        /// <param name="propertyName">The property of the effect to be animated</param>
+        public void AddEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
+        {
+            var effect = new CompositionEffectAndAnimationPair()
+            {
+                EffectBrush = effectBrush,
+                Animation = animation,
+                PropertyName = propertyName
+            };
+
+            _effectAnimations.Add(effect);
         }
 
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)
