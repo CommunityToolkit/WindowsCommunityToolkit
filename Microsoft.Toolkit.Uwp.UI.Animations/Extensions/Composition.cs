@@ -359,13 +359,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="blurAmount">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
-        public static CompositionEffectBrush Blur(
+        public static AnimationSet Blur(
             this FrameworkElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
             double blurAmount = 0d)
         {
             if (associatedObject == null)
+            {
+                return null;
+            }
+
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Blur(duration, delay, blurAmount);
+        }
+
+        /// <summary>
+        /// Blurs the specified framework element.
+        /// </summary>
+        /// <param name="associatedObject">The associated object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay.</param>
+        /// <param name="blurAmount">The blur amount.</param>
+        /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
+        /// <seealso cref="IsBlurSupported" />
+        public static AnimationSet Blur(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            double blurAmount = 0d)
+        {
+            if (animationSet == null)
             {
                 return null;
             }
@@ -378,7 +402,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var visual = animationSet.Visual;
+            var associatedObject = animationSet.Element as FrameworkElement;
+
+            if (associatedObject == null)
+            {
+                return animationSet;
+            }
 
             var compositor = visual?.Compositor;
             const string blurName = "Blur";
@@ -402,8 +432,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             {
                 if (blurBrush.Comment == blurName)
                 {
-                    blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
-                    return blurBrush;
+                    animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
+                    return animationSet;
                 }
             }
 
@@ -428,7 +458,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
 
             blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-            blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+            animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
 
             associatedObject.SizeChanged += (s, e) =>
             {
@@ -436,7 +466,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
             };
 
-            return blurBrush;
+            return animationSet;
         }
 
         /// <summary>
