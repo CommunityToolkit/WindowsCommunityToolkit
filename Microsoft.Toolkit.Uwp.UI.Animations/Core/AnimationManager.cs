@@ -84,7 +84,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (_batch != null)
             {
-                _batch.End();
+                if (!_batch.IsEnded)
+                {
+                    _batch.End();
+                }
                 _batch.Completed -= Batch_Completed;
             }
 
@@ -114,7 +117,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (_batch != null)
             {
-                _batch.End();
+                if (!_batch.IsEnded)
+                {
+                    _batch.End();
+                }
                 _batch.Completed -= Batch_Completed;
             }
 
