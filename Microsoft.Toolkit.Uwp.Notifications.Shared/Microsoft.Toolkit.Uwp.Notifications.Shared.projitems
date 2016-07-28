@@ -6,7 +6,7 @@
     <SharedGUID>8bacd7a9-b205-4adf-bda9-763b30a66576</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Microsoft.Windows.Toolkit.Notifications</Import_RootNamespace>
+    <Import_RootNamespace>Microsoft.Toolkit.Uwp.Notifications</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveGroup.cs" />

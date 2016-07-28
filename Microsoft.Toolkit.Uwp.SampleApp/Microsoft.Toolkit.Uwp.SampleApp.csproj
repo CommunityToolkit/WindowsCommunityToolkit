@@ -7,8 +7,8 @@
     <ProjectGuid>{719C43C6-8753-4395-ADAA-2FCC70F76BF3}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.SampleApp</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.SampleApp</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.SampleApp</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -16,7 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Microsoft.Windows.Toolkit.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
@@ -33,7 +33,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -50,7 +50,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -62,7 +62,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -79,7 +79,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,7 +91,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -108,7 +108,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeAnalysisRuleSet>..\Microsoft.Windows.Toolkit\Microsoft.Toolkit.Uwp1.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -218,7 +218,7 @@
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ImageEx\icon.jpg" />
-    <None Include="Microsoft.Windows.Toolkit.SampleApp.ruleset" />
+    <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\icon.jpg" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
@@ -371,7 +371,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Microsoft.Windows.Toolkit.SampleApp_TemporaryKey.pfx" />
+    <None Include="Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -494,25 +494,25 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.Notifications.UWP\Microsoft.Windows.Toolkit.Notifications.UWP.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
       <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
-      <Name>Microsoft.Windows.Toolkit.Notifications.UWP</Name>
+      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.Services\Microsoft.Windows.Toolkit.Services.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
-      <Name>Microsoft.Windows.Toolkit.Services</Name>
+      <Name>Microsoft.Toolkit.Uwp.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Animations\Microsoft.Windows.Toolkit.UI.Animations.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
-      <Name>Microsoft.Windows.Toolkit.UI.Animations</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI.Controls\Microsoft.Windows.Toolkit.UI.Controls.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Windows.Toolkit.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.UI\Microsoft.Windows.Toolkit.UI.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
-      <Name>Microsoft.Windows.Toolkit.UI</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
