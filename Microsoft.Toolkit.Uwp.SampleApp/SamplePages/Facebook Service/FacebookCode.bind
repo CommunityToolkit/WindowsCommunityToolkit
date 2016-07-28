@@ -1,0 +1,20 @@
+// Initialize service
+FacebookService.Instance.Initialize(AppIDText.Text);
+
+// Login to Facebook
+if (!await FacebookService.Instance.LoginAsync())
+{
+    return;
+}
+
+// Get user's feed
+ListView.ItemsSource = await FacebookService.Instance.RequestAsync(FacebookDataConfig.MyFeed, 50);
+
+// Get current user profile picture
+ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+
+// Post a message on your wall
+await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+
+// Post a message with a picture on your wall
+await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);

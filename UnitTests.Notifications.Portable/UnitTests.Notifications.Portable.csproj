@@ -66,9 +66,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Toolkit.Notifications.Portable\Microsoft.Windows.Toolkit.Notifications.Portable.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications.Portable\Microsoft.Toolkit.Uwp.Notifications.Portable.csproj">
       <Project>{6e7022e2-3547-4bfa-ae96-e6b11477af16}</Project>
-      <Name>Microsoft.Windows.Toolkit.Notifications.Portable</Name>
+      <Name>Microsoft.Toolkit.Uwp.Notifications.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
