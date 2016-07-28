@@ -1,5 +1,5 @@
 // Animate scaling:
-MyRectangle.Scale(
+ToolkitLogo.Scale(
                 duration: Duration,
                 delay: Delay,
                 centerX: (float)CenterX,

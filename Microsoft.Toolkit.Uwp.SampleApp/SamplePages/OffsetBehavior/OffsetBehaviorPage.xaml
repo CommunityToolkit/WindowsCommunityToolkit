@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
+        <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Offset x:Name="Offset" 
                                   OffsetX="{Binding OffsetX.Value, Mode=TwoWay}" 
@@ -21,7 +21,7 @@
                                   Delay="{Binding Delay.Value, Mode=TwoWay}" 
                                   AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
             </interactivity:Interaction.Behaviors>
-        </Rectangle>
+        </Image>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="Apply" Margin="10">
                 <interactivity:Interaction.Behaviors>
