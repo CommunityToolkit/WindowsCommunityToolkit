@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp.Services</id>
+    <version>$version$</version>
+    <title>UWP Community Toolkit Services</title>
+    <authors>Microsoft Corp</authors>
+    <owners>Microsoft Corp</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <projectUrl>hhttps://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library enables access to diferent data source like Bing, Facebook, and Twitter. It is part of the UWP Community Toolkit.</description>
+    <releaseNotes>First public release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP Toolkit Windows Twitter OAuth Facebook Bing</tags>
+    <references>
+      <reference file="Microsoft.Toolkit.Uwp.Services.dll" />
+    </references>
+    <dependencies>
+      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.1.0" />
+      <dependency id="winsdkfb" version="0.10.20160621.3" />
+      <dependency id="Newtonsoft.Json" version="8.0.3" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.dll" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pdb" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pri" target="lib\uap10.0" />
+    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.xml" target="lib\uap10.0" />
+  </files>
+</package>
