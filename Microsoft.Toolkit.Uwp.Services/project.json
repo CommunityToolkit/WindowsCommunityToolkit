@@ -1,7 +1,6 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "Newtonsoft.Json": "9.0.1",
     "StyleCop.Analyzers": "1.0.0",
     "winsdkfb": "0.10.20160621.3"

@@ -17,7 +17,6 @@
       <reference file="Microsoft.Toolkit.Uwp.Services.dll" />
     </references>
     <dependencies>
-      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.1.0" />
       <dependency id="winsdkfb" version="0.10.20160621.3" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
     </dependencies>
