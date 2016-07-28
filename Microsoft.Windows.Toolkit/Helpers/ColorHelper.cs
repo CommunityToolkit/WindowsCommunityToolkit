@@ -15,7 +15,7 @@ using System.Reflection;
 
 using Windows.UI;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for colors.

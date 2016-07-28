@@ -22,7 +22,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public partial class CodeRenderer : Control
     {

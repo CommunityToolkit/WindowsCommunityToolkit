@@ -17,7 +17,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Windows.Toolkit.Services.OAuth
+namespace Microsoft.Toolkit.Uwp.Services.OAuth
 {
     /// <summary>
     /// OAuth Uri extensions.

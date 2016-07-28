@@ -13,7 +13,7 @@
 using Windows.Data.Xml.Dom;
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Base notification content interface to retrieve notification Xml as a string.

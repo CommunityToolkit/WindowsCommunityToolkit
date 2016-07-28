@@ -10,15 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Windows.Toolkit.UI.Animations.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.UI.Animations.Behaviors
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
     /// Performs an offset animation using composition.
     /// </summary>
-    /// <seealso cref="Microsoft.Windows.Toolkit.UI.Animations.Behaviors.CompositionBehaviorBase" />
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase" />
     /// <seealso>
     ///   <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>

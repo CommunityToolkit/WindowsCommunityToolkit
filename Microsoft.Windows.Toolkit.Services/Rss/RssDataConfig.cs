@@ -13,7 +13,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// Query configuration data.

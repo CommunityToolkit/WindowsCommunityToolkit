@@ -13,7 +13,7 @@
 // ******************************************************************
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Services
+namespace Microsoft.Toolkit.Uwp.Services
 {
     /// <summary>
     /// Parser interface.

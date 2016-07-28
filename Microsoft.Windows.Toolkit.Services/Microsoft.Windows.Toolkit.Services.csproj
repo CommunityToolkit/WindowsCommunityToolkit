@@ -7,8 +7,8 @@
     <ProjectGuid>{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Windows.Toolkit.Services</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Toolkit.Services</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.Services</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.Services</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,7 +37,7 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Microsoft.Windows.Toolkit.Services1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

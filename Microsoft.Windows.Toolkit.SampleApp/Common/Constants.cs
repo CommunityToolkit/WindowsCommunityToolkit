@@ -13,7 +13,7 @@
 using System;
 using Windows.UI;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
     public static class Constants
     {

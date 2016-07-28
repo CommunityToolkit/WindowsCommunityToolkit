@@ -14,7 +14,7 @@
 using Windows.Data.Xml.Dom;
 #endif
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Notification content object to display a number on a Tile's badge.

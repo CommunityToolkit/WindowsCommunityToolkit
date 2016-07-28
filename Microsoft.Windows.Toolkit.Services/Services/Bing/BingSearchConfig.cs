@@ -12,7 +12,7 @@
 //
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Search query configuration.

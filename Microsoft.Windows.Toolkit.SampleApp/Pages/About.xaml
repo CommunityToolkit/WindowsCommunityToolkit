@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Microsoft.Windows.Toolkit.SampleApp.Pages.About"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.Pages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

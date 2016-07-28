@@ -11,7 +11,7 @@
 // ******************************************************************
 using System.ComponentModel;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     // Need to use this class as ExpandoObject does not raise PropertyChanged event
     public class ValueHolder : INotifyPropertyChanged

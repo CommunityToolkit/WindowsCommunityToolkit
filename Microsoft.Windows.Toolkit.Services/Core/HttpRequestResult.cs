@@ -13,7 +13,7 @@
 // ******************************************************************
 using Windows.Web.Http;
 
-namespace Microsoft.Windows.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// HttpRequestResult type for hold request results.

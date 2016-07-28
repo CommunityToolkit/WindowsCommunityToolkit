@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Windows.Toolkit.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
@@ -21,7 +21,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp
+namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

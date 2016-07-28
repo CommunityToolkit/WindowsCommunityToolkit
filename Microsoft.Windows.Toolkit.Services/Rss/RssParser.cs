@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// RssParser.

@@ -13,9 +13,9 @@
 // ******************************************************************
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Windows.Toolkit.Services.Rss;
+using Microsoft.Toolkit.Uwp.Services.Rss;
 
-namespace Microsoft.Windows.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Parse Bing results into strong type.

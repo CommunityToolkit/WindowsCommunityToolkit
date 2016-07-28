@@ -17,17 +17,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Windows.Toolkit.Services.Core;
-using Microsoft.Windows.Toolkit.Services.Services.Facebook;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
-using Windows.Storage;
 using Windows.Storage.Streams;
 using winsdkfb;
 using winsdkfb.Graph;
 
-namespace Microsoft.Windows.Toolkit.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// Class for connecting to Facebook.

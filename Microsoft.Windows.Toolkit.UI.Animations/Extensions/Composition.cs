@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Windows.Toolkit.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
     /// <summary>
     /// These extension methods use composition to perform animation on visuals.

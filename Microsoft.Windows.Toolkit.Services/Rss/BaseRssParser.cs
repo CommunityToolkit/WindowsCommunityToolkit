@@ -13,9 +13,9 @@
 // ******************************************************************
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// Base class for Rss Parser(s).

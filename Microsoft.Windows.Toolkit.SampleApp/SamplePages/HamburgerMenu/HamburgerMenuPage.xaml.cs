@@ -11,14 +11,14 @@
 // ******************************************************************
 using System;
 
-using Microsoft.Windows.Toolkit.SampleApp.Data;
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuPage
     {

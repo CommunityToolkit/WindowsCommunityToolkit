@@ -12,13 +12,13 @@
 
 using System;
 using System.Collections.ObjectModel;
-using Microsoft.Windows.Toolkit.SampleApp.Models;
-using Microsoft.Windows.Toolkit.UI.Controls;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class PullToRefreshListViewPage
     {

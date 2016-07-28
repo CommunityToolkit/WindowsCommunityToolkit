@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// A selection box control, which lets users pick from a dropdown list of options.

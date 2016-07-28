@@ -12,7 +12,7 @@
 //
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// Class used to store JSON data response from Facebook

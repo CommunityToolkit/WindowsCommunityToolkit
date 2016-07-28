@@ -12,7 +12,7 @@
 //
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.Services.Facebook
+namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
     /// <summary>
     /// Strongly typed object for presenting picture data returned from service provider.

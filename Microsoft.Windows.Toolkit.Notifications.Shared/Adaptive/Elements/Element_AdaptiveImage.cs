@@ -9,7 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-namespace Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements
+namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
     [NotificationXmlElement("image")]
     internal sealed class Element_AdaptiveImage : IElement_TileBindingChild, IElement_ToastBindingChild, IElement_AdaptiveSubgroupChild

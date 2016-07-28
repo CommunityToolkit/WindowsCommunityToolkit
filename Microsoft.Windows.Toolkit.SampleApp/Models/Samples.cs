@@ -12,7 +12,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Microsoft.Windows.Toolkit.SampleApp
+namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class Samples
     {

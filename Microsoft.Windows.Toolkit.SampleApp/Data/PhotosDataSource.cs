@@ -20,7 +20,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Data
+namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
     [Bindable]
     public class PhotosDataSource

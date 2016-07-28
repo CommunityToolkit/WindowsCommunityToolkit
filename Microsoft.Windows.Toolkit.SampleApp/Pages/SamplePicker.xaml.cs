@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Pages
+namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 {
     public sealed partial class SamplePicker : INotifyPropertyChanged
     {

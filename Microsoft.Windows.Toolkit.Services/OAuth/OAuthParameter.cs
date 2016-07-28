@@ -13,7 +13,7 @@
 // ******************************************************************
 using System.Globalization;
 
-namespace Microsoft.Windows.Toolkit.Services.OAuth
+namespace Microsoft.Toolkit.Uwp.Services.OAuth
 {
     /// <summary>
     /// OAuth parameter.

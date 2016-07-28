@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Data
+namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
     public class PhotoDataItem
     {

@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Implements a weak event listener that allows the owner to be garbage

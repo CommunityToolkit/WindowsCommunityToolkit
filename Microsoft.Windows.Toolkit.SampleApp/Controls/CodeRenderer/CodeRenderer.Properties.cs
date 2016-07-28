@@ -11,7 +11,7 @@
 // ******************************************************************
 using Windows.UI.Xaml;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public partial class CodeRenderer
     {

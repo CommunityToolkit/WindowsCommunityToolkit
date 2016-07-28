@@ -12,9 +12,9 @@
 //
 // ******************************************************************
 using System;
-using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
-namespace Microsoft.Windows.Toolkit.Services.Rss
+namespace Microsoft.Toolkit.Uwp.Services.Rss
 {
     /// <summary>
     /// Implementation of the RssSchema class.

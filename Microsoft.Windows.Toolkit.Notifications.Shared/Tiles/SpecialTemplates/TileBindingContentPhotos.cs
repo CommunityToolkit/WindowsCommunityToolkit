@@ -11,7 +11,7 @@
 // ******************************************************************
 using System.Collections.Generic;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Animates through a slideshow of photos. Supported on all sizes.

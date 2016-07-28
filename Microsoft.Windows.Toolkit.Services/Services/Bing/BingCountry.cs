@@ -11,9 +11,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-using Microsoft.Windows.Toolkit.Services.Core;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
-namespace Microsoft.Windows.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Country filter for search query.

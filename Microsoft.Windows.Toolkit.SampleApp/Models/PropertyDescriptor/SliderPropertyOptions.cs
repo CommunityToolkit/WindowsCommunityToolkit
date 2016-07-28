@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     public class SliderPropertyOptions : PropertyOptions
     {

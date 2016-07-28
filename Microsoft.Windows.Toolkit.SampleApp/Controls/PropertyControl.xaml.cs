@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-using Microsoft.Windows.Toolkit.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -20,12 +20,12 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     using System.Linq;
     using System.Reflection;
 
-    using Microsoft.Windows.Toolkit.SampleApp.Common;
+    using Microsoft.Toolkit.Uwp.SampleApp.Common;
 
     public sealed partial class PropertyControl
     {

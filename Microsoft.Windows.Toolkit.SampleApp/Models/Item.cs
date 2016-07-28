@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Windows.Toolkit.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 
-namespace Microsoft.Windows.Toolkit.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     public class Item : BindableBase
     {

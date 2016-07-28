@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
-using Microsoft.Windows.Toolkit.Notifications.Adaptive.Elements;
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
-namespace Microsoft.Windows.Toolkit.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal static class BaseImageHelper
     {

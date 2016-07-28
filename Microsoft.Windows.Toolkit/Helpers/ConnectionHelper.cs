@@ -12,7 +12,7 @@
 using System.Net.NetworkInformation;
 using Windows.Networking.Connectivity;
 
-namespace Microsoft.Windows.Toolkit
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for connections.

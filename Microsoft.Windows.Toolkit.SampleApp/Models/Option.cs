@@ -11,7 +11,7 @@
 // ******************************************************************
 using System;
 
-namespace Microsoft.Windows.Toolkit.SampleApp
+namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Option
     {
