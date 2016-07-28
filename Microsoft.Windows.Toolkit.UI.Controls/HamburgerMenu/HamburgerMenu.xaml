@@ -27,7 +27,7 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}" />
-                                    <ListView Grid.Row="1" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
+                                    <ListView Grid.Row="1" SelectionMode="Single" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">

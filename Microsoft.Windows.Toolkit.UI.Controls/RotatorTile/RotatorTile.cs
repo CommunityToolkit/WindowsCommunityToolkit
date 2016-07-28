@@ -76,7 +76,6 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(RotatorTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RotatorTile"/> class.
         /// </summary>

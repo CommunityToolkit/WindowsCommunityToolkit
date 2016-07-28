@@ -18,11 +18,6 @@ namespace Microsoft.Windows.Toolkit.Notifications
     /// </summary>
     public sealed class ToastGenericAppLogo : IBaseImage
     {
-        /// <summary>
-        /// Initializes a logo that is displayed on your Toast notification.
-        /// </summary>
-        public ToastGenericAppLogo() { }
-
         private string _source;
 
         /// <summary>

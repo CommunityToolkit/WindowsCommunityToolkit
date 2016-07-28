@@ -9,12 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System.IO;
 using System.Threading.Tasks;
-
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Windows.Toolkit;
 using Windows.Storage;
-using System.IO;
 
 namespace UnitTests
 {
@@ -78,7 +77,7 @@ namespace UnitTests
         {
             Windows.UI.Color myColor = ColorHelper.ToColor("#3a4ab0");
 
-            Assert.IsTrue( myColor.ToHex().ToString() == "#FF3A4AB0");
+            Assert.IsTrue(myColor.ToHex() == "#FF3A4AB0");
         }
 
         [TestMethod]
@@ -88,21 +87,5 @@ namespace UnitTests
 
             Assert.IsTrue(myColor.ToHex().ToString() == "#FF3A4AB0");
         }
-
-        //[TestMethod]
-        //public void TestHSLColor()
-        //{
-        //    Windows.UI.Color myColor = ColorHelper.ToColor("#AABBCC");
-
-        //    HslColor hslColor = myColor.ToHsl();
-
-        //    Assert.IsTrue(  hslColor.A == 1 &&
-        //                    hslColor.H == 210 &&
-        //                    hslColor.S == 25 &&
-        //                    hslColor.L == 73
-        //        );
-        //}
-
     }
-
 }

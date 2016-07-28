@@ -153,11 +153,15 @@ namespace Microsoft.Windows.Toolkit.UI.Controls
         public static readonly DependencyProperty TickLengthProperty =
             DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
 
-        // Identifies the MinAngle dependency property.
+        /// <summary>
+        /// Identifies the MinAngle dependency property.
+        /// </summary>
         public static readonly DependencyProperty MinAngleProperty =
             DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnFaceChanged));
 
-        // Identifies the MaxAngle dependency property.
+        /// <summary>
+        /// Identifies the MaxAngle dependency property.
+        /// </summary>
         public static readonly DependencyProperty MaxAngleProperty =
             DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnFaceChanged));
 
