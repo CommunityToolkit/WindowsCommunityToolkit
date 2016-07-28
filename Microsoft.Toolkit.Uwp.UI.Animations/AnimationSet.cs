@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Occurs when all animations have completed
         /// </summary>
-        public event EventHandler AnimationsCompleted;
+        public event EventHandler Completed;
 
         /// <summary>
         /// Starts all animations on the backing Visual.
@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)
         {
             _manualResetEvent.Set();
-            AnimationsCompleted?.Invoke(this, new EventArgs());
+            Completed?.Invoke(this, new EventArgs());
         }
     }
 }
