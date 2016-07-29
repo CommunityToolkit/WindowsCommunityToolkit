@@ -20,10 +20,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.dll" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.pdb" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.pri" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.xml" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls\**\*.*" target="lib\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.dll" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.pdb" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.pri" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls\**\*.*" target="lib\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls" />
   </files>
 </package>
