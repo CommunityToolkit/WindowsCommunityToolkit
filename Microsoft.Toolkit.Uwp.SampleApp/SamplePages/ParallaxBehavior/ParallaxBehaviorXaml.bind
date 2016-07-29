@@ -1,41 +1,41 @@
-<Page x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.ParallaxBehavior.ParallaxSamplePage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ParallaxBehaviorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Windows.Toolkit.UI.Animations.Behaviors"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Image Source="ms-appx:///SamplePages/ParallaxBehavior/ParallaxBackground.png"
-           Stretch="Fill">
+  <Grid Background="{StaticResource Brush-White}">
+    <Image Source="ms-appx:///SamplePages/ParallaxBehavior/NeedleBackground.png"
+           Stretch="UniformToFill" HorizontalAlignment="Center" Opacity=".3">
       <interactivity:Interaction.Behaviors>
-        <behaviors:Parallax Scroller="{Binding ElementName=ItemsList}"
+        <behaviors:Parallax Scroller="{Binding ElementName=Scroller}"
                             Multiplier="@[Multiplier:DoubleSlider:0.3:0.0-1.0]"
                             IsHorizontalEffect="@[IsHorizontalEffect:Bool:False]"/>
       </interactivity:Interaction.Behaviors>
     </Image>
-    <ListView x:Name="ItemsList">
-      <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem">
-          <Setter Property="HorizontalContentAlignment"
-                  Value="Stretch"/>
-        </Style>
-      </ListView.ItemContainerStyle>
-      <ListView.ItemTemplate>
-        <DataTemplate x:DataType="x:String">
-          <Grid BorderThickness="0,0,0,1"
-                BorderBrush="Gray"
-                Height="50">
-            <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
-                       VerticalAlignment="Center">
-              <Run Text="This is number"/>
-              <Run Text="{Binding}"/>
-            </TextBlock>
-          </Grid>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+    <ScrollViewer HorizontalScrollMode="Enabled"
+                  HorizontalScrollBarVisibility="Visible"
+                      
+                  x:Name="Scroller">
+      <Grid Width="3000" Height="3000" Margin="48">
+        <StackPanel>
+          <TextBlock Text="Welcome to Seattle!" FontWeight="Light" FontSize="36" Margin="0,0,0,24"/>
+          <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet magna vitae turpis accumsan vehicula. Nulla malesuada dignissim nisl vel fermentum. Duis condimentum dapibus velit, a ultrices felis scelerisque ut. Ut dignissim nibh lectus, sit amet sollicitudin nunc porttitor et. Aenean fringilla felis ac est maximus vehicula. Nullam varius ultricies varius. Praesent ornare in elit nec rhoncus. Donec sed auctor leo, id laoreet dui. Curabitur rutrum luctus facilisis. Aliquam vel lacus ac purus malesuada tempor. Maecenas ante enim, iaculis quis ipsum sed, viverra sagittis augue. Mauris sollicitudin erat nec nunc tincidunt viverra. Aliquam ipsum eros, dapibus vel nisl efficitur, sagittis dictum est. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Aenean ut purus eget ex ornare varius. Suspendisse potenti. Suspendisse id libero semper, viverra diam vitae, lobortis purus. Aliquam eget justo euismod, congue lectus eu, imperdiet sapien. Morbi ac sollicitudin dolor, quis accumsan lectus. Mauris condimentum ornare massa lobortis finibus. Quisque hendrerit lacus id orci gravida egestas eget in magna. Ut sodales, nulla ut cursus pretium, enim magna porta mauris, in commodo arcu odio vel elit. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Suspendisse potenti. Morbi scelerisque eros ac egestas egestas. Maecenas nisi nunc, dapibus non rutrum vitae, consectetur a augue. Aenean ut diam in magna tempus pretium. Mauris suscipit feugiat libero, vitae gravida velit venenatis quis. Fusce tincidunt id mauris vitae cursus. Curabitur vitae sem sit amet enim ultricies gravida sed eget dolor. Sed a pulvinar elit, vitae gravida felis. Nulla at libero ipsum. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Duis tristique sapien vitae tellus pulvinar porta. Proin non diam eget erat suscipit fringilla. Integer non metus in libero posuere imperdiet sit amet in augue. Aenean faucibus molestie libero vel pretium. Suspendisse id orci nec lorem laoreet pharetra eget ac mi. Duis odio augue, vehicula nec dictum non, bibendum ut ligula. Ut viverra nibh ac ultrices consequat. Duis at purus sodales, ultricies nunc et, hendrerit nulla. Praesent malesuada erat mauris, eget pretium sapien hendrerit ac. Nunc pharetra nisi vel augue ornare, at iaculis nulla pretium. Maecenas vitae erat eros. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Cras bibendum, mauris quis scelerisque hendrerit, nisi turpis bibendum eros, vel facilisis mi nibh a justo. Aenean euismod lacus massa. Cras ac ante posuere, fermentum lorem et, pellentesque quam. Aenean ac libero ante. Mauris erat urna, efficitur eu sapien eu, tristique elementum eros. Aliquam sit amet efficitur metus, et sagittis turpis. Morbi dapibus ullamcorper tempor. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <Image Source="ms-appx:///SamplePages/ParallaxBehavior/NeedleBackground.png" Height="300" Width="300" Stretch="Uniform" HorizontalAlignment="Left" Margin="0,12,0,24" />
+          <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet magna vitae turpis accumsan vehicula. Nulla malesuada dignissim nisl vel fermentum. Duis condimentum dapibus velit, a ultrices felis scelerisque ut. Ut dignissim nibh lectus, sit amet sollicitudin nunc porttitor et. Aenean fringilla felis ac est maximus vehicula. Nullam varius ultricies varius. Praesent ornare in elit nec rhoncus. Donec sed auctor leo, id laoreet dui. Curabitur rutrum luctus facilisis. Aliquam vel lacus ac purus malesuada tempor. Maecenas ante enim, iaculis quis ipsum sed, viverra sagittis augue. Mauris sollicitudin erat nec nunc tincidunt viverra. Aliquam ipsum eros, dapibus vel nisl efficitur, sagittis dictum est. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Aenean ut purus eget ex ornare varius. Suspendisse potenti. Suspendisse id libero semper, viverra diam vitae, lobortis purus. Aliquam eget justo euismod, congue lectus eu, imperdiet sapien. Morbi ac sollicitudin dolor, quis accumsan lectus. Mauris condimentum ornare massa lobortis finibus. Quisque hendrerit lacus id orci gravida egestas eget in magna. Ut sodales, nulla ut cursus pretium, enim magna porta mauris, in commodo arcu odio vel elit. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Suspendisse potenti. Morbi scelerisque eros ac egestas egestas. Maecenas nisi nunc, dapibus non rutrum vitae, consectetur a augue. Aenean ut diam in magna tempus pretium. Mauris suscipit feugiat libero, vitae gravida velit venenatis quis. Fusce tincidunt id mauris vitae cursus. Curabitur vitae sem sit amet enim ultricies gravida sed eget dolor. Sed a pulvinar elit, vitae gravida felis. Nulla at libero ipsum. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Duis tristique sapien vitae tellus pulvinar porta. Proin non diam eget erat suscipit fringilla. Integer non metus in libero posuere imperdiet sit amet in augue. Aenean faucibus molestie libero vel pretium. Suspendisse id orci nec lorem laoreet pharetra eget ac mi. Duis odio augue, vehicula nec dictum non, bibendum ut ligula. Ut viverra nibh ac ultrices consequat. Duis at purus sodales, ultricies nunc et, hendrerit nulla. Praesent malesuada erat mauris, eget pretium sapien hendrerit ac. Nunc pharetra nisi vel augue ornare, at iaculis nulla pretium. Maecenas vitae erat eros. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+          <TextBlock Text="Cras bibendum, mauris quis scelerisque hendrerit, nisi turpis bibendum eros, vel facilisis mi nibh a justo. Aenean euismod lacus massa. Cras ac ante posuere, fermentum lorem et, pellentesque quam. Aenean ac libero ante. Mauris erat urna, efficitur eu sapien eu, tristique elementum eros. Aliquam sit amet efficitur metus, et sagittis turpis. Morbi dapibus ullamcorper tempor. " TextWrapping="WrapWholeWords" Width="1200" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
   </Grid>
 </Page>
