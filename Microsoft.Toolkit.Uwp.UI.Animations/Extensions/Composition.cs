@@ -338,7 +338,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// Gets a value indicating whether the platform supports blur.
         /// </summary>
         /// <remarks>
-        /// A check should always be made to IsBlurSupported prior to calling <seealso cref="Blur"/>,
+        /// A check should always be made to IsBlurSupported prior to calling Blur/>,
         /// since older operating systems will not support blurs.
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
@@ -377,7 +377,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <summary>
         /// Blurs the specified framework element.
         /// </summary>
-        /// <param name="associatedObject">The associated object.</param>
+        /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="blurAmount">The blur amount.</param>
