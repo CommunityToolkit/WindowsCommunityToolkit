@@ -9,7 +9,7 @@
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
     <projectUrl>hhttps://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This library enables access to diferent data source like Bing, Facebook, and Twitter. It is part of the UWP Community Toolkit.</description>
+    <description>This library enables access to different data sources like Bing, Facebook, and Twitter. It is part of the UWP Community Toolkit.</description>
     <releaseNotes>First public release.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>UWP Toolkit Windows Twitter OAuth Facebook Bing</tags>
