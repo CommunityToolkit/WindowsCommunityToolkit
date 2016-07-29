@@ -22,6 +22,12 @@ Framework "4.6x86"
 
 task default -depends ?
 
+task GetGitVersion -description "Get GitVersion..." {
+    # get gitversion from NuGet tools
+    WriteColoredOutput -ForegroundColor Green "Downloading GitVersion...`n"
+    Exec { .$nuget install -excludeversion  gitversion.commandline  -outputdirectory $toolsDir } "Error downloading GitVersion"
+}
+
 task Clean -description "Clean the output folder" {
   if (Test-Path -path $binDir) {
     WriteColoredOutput -ForegroundColor Green "Deleting Working Directory...`n"
@@ -30,20 +36,23 @@ task Clean -description "Clean the output folder" {
   }
   
   New-Item -Path $binDir -ItemType Directory | Out-Null
+
+  # Ensure assembly info's are original
+  gci $sourceDir -re -in AssemblyInfo.cs | %{ git checkout $_ } 
 }
 
-task Setup -description "Setup environment" {
-  WriteColoredOutput -ForegroundColor Green "Setup environment...`n"
-  
-  if ($isAppVeyor) {
-    $script:version = $version -replace '([0-9]+(\.[0-9]+){2}).*', ('$1-dev' + $env:APPVEYOR_BUILD_NUMBER)
-    
-    Update-AppveyorBuild -Version $script:version
-  }
-  else {
-    $script:version = $version
-  }
-  
+task Setup -depends GetGitVersion -description "Setup environment" {
+    WriteColoredOutput -ForegroundColor Green "Setup environment...`n"
+   
+    WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo's...`n"
+    Exec { .$toolsDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
+
+    $versionObj = .$toolsDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
+
+    $script:version = $versionObj.NuGetVersionV2
+
+    WriteColoredOutput -ForegroundColor Green "Build version: $script:version ..`n"
+
   Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
 }
 
@@ -51,6 +60,9 @@ task Build -depends Clean, Setup -description "Build all projects and get the as
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
   Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+
+  # Leave the repo clean after building - revert the assemblyinfo files
+  gci $sourceDir -re -in AssemblyInfo.cs | %{ git checkout $_ } 
 }
 
 task PackNuGet -depends Build -description "Create the NuGet packages" {
