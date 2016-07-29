@@ -1,6 +1,0 @@
-MainPackage=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\ARM\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_ARM_Debug.appx
-SymbolPackage=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\AppPackages\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_Debug_Test\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_ARM_Debug.appxsym
-ResourcePack=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\ARM\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_scale-100.appx
-ResourcePack=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\ARM\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_scale-125.appx
-ResourcePack=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\ARM\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_scale-150.appx
-ResourcePack=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\ARM\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_scale-400.appx
