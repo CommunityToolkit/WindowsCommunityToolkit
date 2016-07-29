@@ -1,2 +1,2 @@
 // Animate opacity:
-ToolkitLogo.Opacity(Duration, Delay, (float)Value);
+ToolkitLogo.Opacity(Duration, Delay, (float)Value).StartAsync();
