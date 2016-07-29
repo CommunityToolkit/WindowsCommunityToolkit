@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            return Initialize(oAuthTokens.AppId, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, oAuthTokens.WindowsStoreId);
+            return Initialize(oAuthTokens.AppId, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions, oAuthTokens.WindowsStoreId);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <param name="windowsStoreId">Windows Store SID</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, string windowsStoreId = null)
+        public bool Initialize(string appId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions, string windowsStoreId = null)
         {
             if (string.IsNullOrEmpty(appId))
             {
@@ -283,14 +283,61 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-        /// Enables posting data to the timeline of the underlying service provider instance.
+        /// Enables direct posting data to the timeline.
+        /// </summary>
+        /// <param name="title">Title of the post.</param>
+        /// <param name="message">Message of the post.</param>
+        /// <param name="description">Description of the post.</param>
+        /// <param name="link">Link contained as part of the post. Cannot be null</param>
+        /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
+        /// <returns>Task to support await of async call.</returns>
+        public async Task<bool> PostToFeedAsync(string title, string message, string description, string link, string pictureUrl = null)
+        {
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet { { "title", title }, { "message", link }, { "description", description }, { "link", link } };
+
+                if (!string.IsNullOrEmpty(pictureUrl))
+                {
+                    parameters.Add(new KeyValuePair<string, object>("picture", pictureUrl));
+                }
+
+                string path = FBSession.ActiveSession.User.Id + "/feed";
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPost>);
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.PostAsync();
+                if (result.Succeeded)
+                {
+                    var postResponse = result.Object as FacebookPost;
+                    if (postResponse != null)
+                    {
+                        return true;
+                    }
+                }
+
+                Debug.WriteLine(string.Format("Could not post. {0}", result.ErrorInfo?.ErrorUserMessage));
+                return false;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await PostToFeedAsync(title, description, link, pictureUrl);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Enables posting data to the timeline using Facebook dialog.
         /// </summary>
         /// <param name="title">Title of the post.</param>
         /// <param name="description">Description of the post.</param>
         /// <param name="link">Link contained as part of the post. Cannot be null</param>
         /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
         /// <returns>Task to support await of async call.</returns>
-        public async Task<bool> PostToFeedAsync(string title, string description, string link, string pictureUrl = null)
+        public async Task<bool> PostToFeedWithDialogAsync(string title, string description, string link, string pictureUrl = null)
         {
             if (Provider.LoggedIn)
             {
@@ -322,6 +369,37 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
+        /// Enables posting a picture to the timeline.
+        /// </summary>
+        /// <param name="title">Title of the post.</param>
+        /// <param name="message">Message of the post.</param>
+        /// <param name="description">Description of the post.</param>
+        /// <param name="pictureName">Picture name.</param>
+        /// <param name="pictureStream">Picture stream to upload.</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> PostToFeedAsync(string title, string message, string description, string pictureName, IRandomAccessStreamWithContentType pictureStream)
+        {
+            var pictureId = await PostPictureToFeedAsync(title, pictureName, pictureStream, true);
+            if (pictureId != null)
+            {
+                var link = await GetPictureLinkAsync(pictureId);
+                if (link != null)
+                {
+                    var success = await PostToFeedAsync(title, message, description, link);
+                    if (success)
+                    {
+                        await PublishPictureAsync(pictureId);
+                        return true;
+                    }
+                }
+
+                await DeletePictureAsync(pictureId);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Enables posting a picture to the timeline using the Facebook dialog.
         /// </summary>
         /// <param name="title">Title of the post.</param>
@@ -329,15 +407,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="pictureName">Picture name.</param>
         /// <param name="pictureStream">Picture stream to upload.</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> PostToFeedAsync(string title, string description, string pictureName, IRandomAccessStreamWithContentType pictureStream)
+        public async Task<bool> PostToFeedWithDialogAsync(string title, string description, string pictureName, IRandomAccessStreamWithContentType pictureStream)
         {
-            var pictureId = await PostPictureToFeedAsync(title, pictureName, pictureStream, false);
+            var pictureId = await PostPictureToFeedAsync(title, pictureName, pictureStream, true);
             if (pictureId != null)
             {
                 var link = await GetPictureLinkAsync(pictureId);
                 if (link != null)
                 {
-                    var success = await PostToFeedAsync(title, description, link);
+                    var success = await PostToFeedWithDialogAsync(title, description, link);
                     if (success)
                     {
                         await PublishPictureAsync(pictureId);
@@ -372,10 +450,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 var parameters = new PropertySet
                 {
                     { "source", facebookPictureStream },
-                    { "name", title }, { "published", published }
+                    { "name", title },
+                    { "published", published }
                 };
 
-                string path = "/" + FBSession.ActiveSession.User.Id + "/photos";
+                string path = FBSession.ActiveSession.User.Id + "/photos";
                 var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
@@ -442,14 +521,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
 
             if (Provider.LoggedIn)
             {
-                var parameters = new PropertySet();
-                parameters.Add("published", true);
+                var parameters = new PropertySet { { "published", true } };
 
                 string path = "/" + pictureId;
-                var factory = new FBJsonClassFactory(s =>
-                {
-                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
-                });
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.PostAsync();
@@ -485,10 +560,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 var parameters = new PropertySet();
 
                 string path = "/" + pictureId;
-                var factory = new FBJsonClassFactory(s =>
-                {
-                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
-                });
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.DeleteAsync();
@@ -521,14 +593,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
 
             if (Provider.LoggedIn)
             {
-                var parameters = new PropertySet();
-                parameters.Add("fields", "images, link");
+                var parameters = new PropertySet { { "fields", "images, link" } };
 
                 string path = "/" + pictureId;
-                var factory = new FBJsonClassFactory(s =>
-                {
-                    return JsonConvert.DeserializeObject<FacebookPicture>(s);
-                });
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.GetAsync();
