@@ -25,14 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ParallaxBehaviorPage()
         {
             this.InitializeComponent();
-
-            var list = new List<string>();
-            for (var i = 1; i < 100; i++)
-            {
-                list.Add(i.ToString());
-            }
-
-            ItemsList.ItemsSource = list;
         }
 
         /// <summary>
