@@ -1,2 +1,2 @@
 // Blur the toolkit logo
-ToolkitLogo.Blur(duration: 10, delay: 0, blurAmount: 10);
+ToolkitLogo.Blur(duration: 10, delay: 0, blurAmount: 10).StartAsync();
