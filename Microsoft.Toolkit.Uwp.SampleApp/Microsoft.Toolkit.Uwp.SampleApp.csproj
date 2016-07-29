@@ -208,6 +208,7 @@
     <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
     <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
     <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
+    <Content Include="SamplePages\ParallaxBehavior\NeedleBackground.png" />
     <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
     <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
