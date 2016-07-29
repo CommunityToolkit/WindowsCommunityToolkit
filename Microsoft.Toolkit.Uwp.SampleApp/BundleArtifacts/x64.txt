@@ -1,2 +1,0 @@
-MainPackage=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\bin\x64\Debug\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_x64_Debug.appx
-SymbolPackage=D:\Repos\WindowsAppToolkit\Microsoft.Windows.Toolkit.SampleApp\AppPackages\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_Debug_Test\Microsoft.Windows.Toolkit.SampleApp_1.0.0.0_x64_Debug.appxsym

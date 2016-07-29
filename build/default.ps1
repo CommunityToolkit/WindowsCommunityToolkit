@@ -16,17 +16,12 @@ properties {
   $nupkgDir = "$binDir\nupkg"
   
   $nuget = "$toolsDir\nuget\nuget.exe"
+  $gitversion = "$toolsDir\gitversion\gitversion.exe"
 }
 
 Framework "4.6x86"
 
 task default -depends ?
-
-task GetGitVersion -description "Get GitVersion..." {
-    # get gitversion from NuGet tools
-    WriteColoredOutput -ForegroundColor Green "Downloading GitVersion...`n"
-    Exec { .$nuget install -excludeversion  gitversion.commandline  -outputdirectory $toolsDir } "Error downloading GitVersion"
-}
 
 task Clean -description "Clean the output folder" {
   if (Test-Path -path $binDir) {
@@ -36,33 +31,48 @@ task Clean -description "Clean the output folder" {
   }
   
   New-Item -Path $binDir -ItemType Directory | Out-Null
-
-  # Ensure assembly info's are original
-  gci $sourceDir -re -in AssemblyInfo.cs | %{ git checkout $_ } 
 }
 
-task Setup -depends GetGitVersion -description "Setup environment" {
-    WriteColoredOutput -ForegroundColor Green "Setup environment...`n"
-   
-    WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo's...`n"
-    Exec { .$toolsDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
-
-    $versionObj = .$toolsDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
-
-    $script:version = $versionObj.NuGetVersionV2
-
-    WriteColoredOutput -ForegroundColor Green "Build version: $script:version ..`n"
-
+task Setup -description "Setup environment" {
+  WriteColoredOutput -ForegroundColor Green "Restoring NuGet packages...`n"
+  
   Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
 }
 
-task Build -depends Clean, Setup -description "Build all projects and get the assemblies" {
+task Version -description "Updates the version entries in AssemblyInfo.cs files" {
+  WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
+  
+  Get-ChildItem $sourceDir -re -in AssemblyInfo.cs | % {
+    git checkout $_
+  }
+  
+  WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo.cs files...`n"
+  
+  Exec { .$gitversion $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
+  
+  WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
+
+  $versionObj = .$gitversion | ConvertFrom-Json
+
+  $script:version = $versionObj.NuGetVersionV2
+  
+  if ($isAppVeyor) {
+    Update-AppveyorBuild -Version $script:version
+  }
+  
+  WriteColoredOutput -ForegroundColor Green "Build version: $script:version`n"
+}
+
+task Build -depends Clean, Setup, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
   Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+  
+  WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
 
-  # Leave the repo clean after building - revert the assemblyinfo files
-  gci $sourceDir -re -in AssemblyInfo.cs | %{ git checkout $_ } 
+  Get-ChildItem $sourceDir -re -in AssemblyInfo.cs | % {
+    git checkout $_
+  }
 }
 
 task PackNuGet -depends Build -description "Create the NuGet packages" {
@@ -71,7 +81,7 @@ task PackNuGet -depends Build -description "Create the NuGet packages" {
   Get-ChildItem $buildDir\*.nuspec | % {
     $fullFilename = $_.FullName
     
-    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Output "$nupkgDir" } "Error packaging $projectName"
+    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
   }
 }
 

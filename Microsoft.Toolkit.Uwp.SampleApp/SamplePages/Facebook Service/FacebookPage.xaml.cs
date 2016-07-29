@@ -68,7 +68,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, "Hello Facebook!", DescriptionText.Text, UrlText.Text);
+            var message = new MessageDialog("Post sent to facebook");
+            await message.ShowAsync();
         }
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
@@ -85,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var stream = await picture.OpenReadAsync())
                 {
-                    await FacebookService.Instance.PostToFeedAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);
+                    await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);
                 }
             }
         }

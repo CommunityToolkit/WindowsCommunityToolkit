@@ -21,11 +21,11 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10!</descrip
   <files>
 
     <!--For JavaScript UWP apps-->
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\Windows"/>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\Windows"/>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\Windows"/>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\Windows"/>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\Windows\Microsoft.Toolkit.Uwp.Notifications.winmd.xml"/>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\Windows"/>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\Windows"/>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\Windows"/>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\Windows"/>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\Windows\Microsoft.Toolkit.Uwp.Notifications.winmd.xml"/>
     
     <!--Need a targets file, since auto-generated reference uses CopyLocal, which makes it not work. This will mean we have duplicate
     warnings, which generates a warning, but at least it's functional!-->
