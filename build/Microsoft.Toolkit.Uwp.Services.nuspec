@@ -22,9 +22,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.dll" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pdb" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pri" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.dll" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pdb" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.pri" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.xml" target="lib\uap10.0" />
   </files>
 </package>
