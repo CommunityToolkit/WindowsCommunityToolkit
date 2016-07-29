@@ -4,8 +4,8 @@
     <id>Microsoft.Toolkit.Uwp.UI.Animations</id>
     <version>$version$</version>
     <title>UWP Community Toolkit Animations</title>
-    <authors>Microsoft Corp</authors>
-    <owners>Microsoft Corp</owners>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
