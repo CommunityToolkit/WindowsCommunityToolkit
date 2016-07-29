@@ -7,4 +7,4 @@ ToolkitLogo.Scale(
                 centerZ: (float)CenterZ,
                 scaleX: (float)ScaleX,
                 scaleY: (float)ScaleY,
-                scaleZ: (float)ScaleZ);
+                scaleZ: (float)ScaleZ).StartAsync();

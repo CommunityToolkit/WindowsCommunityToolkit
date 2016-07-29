@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="scaleY">The scale y.</param>
         /// <param name="scaleZ">The scale z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static Visual Scale(
+        public static AnimationSet Scale(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -55,32 +55,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Scale(duration, delay, centerX, centerY, centerZ, scaleX, scaleY, scaleZ);
+        }
+
+        /// <summary>
+        /// Scales the specified UI Element.
+        /// </summary>
+        /// <param name="animationSet">The animationSet object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="centerX">The center x in pixels.</param>
+        /// <param name="centerY">The center y in pixels.</param>
+        /// <param name="centerZ">The center z in pixels.</param>
+        /// <param name="scaleX">The scale x.</param>
+        /// <param name="scaleY">The scale y.</param>
+        /// <param name="scaleZ">The scale z.</param>
+        /// <returns>The visual of the UIElement.</returns>
+        public static AnimationSet Scale(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            float centerX = 0f,
+            float centerY = 0f,
+            float centerZ = 0f,
+            float scaleX = 0f,
+            float scaleY = 0f,
+            float scaleZ = 0f)
+        {
+            if (animationSet == null)
+            {
+                return null;
+            }
+
+            if (duration <= 0)
+            {
+                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+            }
+
+            var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
             var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
 
-            if (duration > 0)
+            var compositor = visual?.Compositor;
+
+            if (compositor == null)
             {
-                var compositor = visual?.Compositor;
-
-                if (compositor == null)
-                {
-                    return null;
-                }
-
-                var animation = compositor.CreateVector3KeyFrameAnimation();
-                animation.Duration = TimeSpan.FromSeconds(duration);
-                animation.DelayTime = TimeSpan.FromSeconds(delay);
-                animation.InsertKeyFrame(1f, scaleVector);
-
-                visual.StartAnimation("Scale", animation);
-            }
-            else
-            {
-                visual.Scale = scaleVector;
+                return null;
             }
 
-            return visual;
+            var animation = compositor.CreateVector3KeyFrameAnimation();
+            animation.Duration = TimeSpan.FromSeconds(duration);
+            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.InsertKeyFrame(1f, scaleVector);
+
+            animationSet.AddAnimation("Scale", animation);
+
+            return animationSet;
         }
 
         /// <summary>
@@ -94,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static Visual Rotate(
+        public static AnimationSet Rotate(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -108,31 +139,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Rotate(duration, delay, value, centerX, centerY, centerZ);
+        }
+
+        /// <summary>
+        /// Rotates the specified UI Element.
+        /// </summary>
+        /// <param name="animationSet">The animationSet object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="value">The value in degrees to rotate.</param>
+        /// <param name="centerX">The center x in pixels.</param>
+        /// <param name="centerY">The center y in pixels.</param>
+        /// <param name="centerZ">The center z in pixels.</param>
+        /// <returns>The visual of the UIElement.</returns>
+        public static AnimationSet Rotate(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            float value = 0f,
+            float centerX = 0f,
+            float centerY = 0f,
+            float centerZ = 0f)
+        {
+            if (animationSet == null)
+            {
+                return null;
+            }
+
+            if (duration <= 0)
+            {
+                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+            }
+
+            var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
 
-            if (duration > 0)
+            var compositor = visual?.Compositor;
+
+            if (compositor == null)
             {
-                var compositor = visual?.Compositor;
-
-                if (compositor == null)
-                {
-                    return null;
-                }
-
-                var animation = compositor.CreateScalarKeyFrameAnimation();
-                animation.Duration = TimeSpan.FromSeconds(duration);
-                animation.DelayTime = TimeSpan.FromSeconds(delay);
-                animation.InsertKeyFrame(1f, value);
-
-                visual.StartAnimation("RotationAngleInDegrees", animation);
-            }
-            else
-            {
-                visual.RotationAngleInDegrees = value;
+                return null;
             }
 
-            return visual;
+            var animation = compositor.CreateScalarKeyFrameAnimation();
+            animation.Duration = TimeSpan.FromSeconds(duration);
+            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.InsertKeyFrame(1f, value);
+
+            animationSet.AddAnimation("RotationAngleInDegrees", animation);
+
+            return animationSet;
         }
 
         /// <summary>
@@ -143,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static Visual Opacity(
+        public static AnimationSet Opacity(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -154,30 +212,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Opacity(duration, delay, value);
+        }
 
-            if (duration > 0)
+        /// <summary>
+        /// Changes the Opacity of the specified UI Element.
+        /// </summary>
+        /// <param name="animationSet">The animationSet object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>The visual of the UIElement.</returns>
+        public static AnimationSet Opacity(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            float value = 0f)
+        {
+            if (animationSet == null)
             {
-                var compositor = visual?.Compositor;
-
-                if (compositor == null)
-                {
-                    return null;
-                }
-
-                var animation = compositor.CreateScalarKeyFrameAnimation();
-                animation.Duration = TimeSpan.FromSeconds(duration);
-                animation.DelayTime = TimeSpan.FromSeconds(delay);
-                animation.InsertKeyFrame(1f, value);
-
-                visual.StartAnimation("Opacity", animation);
+                return null;
             }
-            else
+
+            if (duration <= 0)
             {
-                visual.Opacity = value;
+                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
             }
 
-            return visual;
+            var visual = animationSet.Visual;
+
+            var compositor = visual?.Compositor;
+
+            if (compositor == null)
+            {
+                return null;
+            }
+
+            var animation = compositor.CreateScalarKeyFrameAnimation();
+            animation.Duration = TimeSpan.FromSeconds(duration);
+            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.InsertKeyFrame(1f, value);
+
+            animationSet.AddAnimation("Opacity", animation);
+
+            return animationSet;
         }
 
         /// <summary>
@@ -190,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="offsetY">The offset y.</param>
         /// <param name="offsetZ">The offset z.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static Visual Offset(
+        public static AnimationSet Offset(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -203,38 +282,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Offset(duration, delay, offsetX, offsetY, offsetZ);
+        }
+
+        /// <summary>
+        /// Changes the Offset of the specified UI Element.
+        /// </summary>
+        /// <param name="animationSet">The animationSet object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay.</param>
+        /// <param name="offsetX">The offset x.</param>
+        /// <param name="offsetY">The offset y.</param>
+        /// <param name="offsetZ">The offset z.</param>
+        /// <returns>The visual of the UIElement.</returns>
+        public static AnimationSet Offset(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            float offsetX = 0f,
+            float offsetY = 0f,
+            float offsetZ = 0f)
+        {
+            if (animationSet == null)
+            {
+                return null;
+            }
+
+            if (duration <= 0)
+            {
+                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+            }
+
+            var visual = animationSet.Visual;
             var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
 
-            if (duration > 0)
+            var compositor = visual?.Compositor;
+
+            if (compositor == null)
             {
-                var compositor = visual?.Compositor;
-
-                if (compositor == null)
-                {
-                    return null;
-                }
-
-                var animation = compositor.CreateVector3KeyFrameAnimation();
-                animation.Duration = TimeSpan.FromSeconds(duration);
-                animation.DelayTime = TimeSpan.FromSeconds(delay);
-                animation.InsertKeyFrame(1f, offsetVector);
-
-                visual.StartAnimation("Offset", animation);
-            }
-            else
-            {
-                visual.Offset = offsetVector;
+                return null;
             }
 
-            return visual;
+            var animation = compositor.CreateVector3KeyFrameAnimation();
+            animation.Duration = TimeSpan.FromSeconds(duration);
+            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.InsertKeyFrame(1f, offsetVector);
+
+            animationSet.AddAnimation("Offset", animation);
+
+            return animationSet;
         }
 
         /// <summary>
         /// Gets a value indicating whether the platform supports blur.
         /// </summary>
         /// <remarks>
-        /// A check should always be made to IsBlurSupported prior to calling <seealso cref="Blur"/>,
+        /// A check should always be made to IsBlurSupported prior to calling Blur/>,
         /// since older operating systems will not support blurs.
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
@@ -255,13 +359,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="blurAmount">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
-        public static CompositionEffectBrush Blur(
+        public static AnimationSet Blur(
             this FrameworkElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
             double blurAmount = 0d)
         {
             if (associatedObject == null)
+            {
+                return null;
+            }
+
+            var animationSet = new AnimationSet(associatedObject);
+            return animationSet.Blur(duration, delay, blurAmount);
+        }
+
+        /// <summary>
+        /// Blurs the specified framework element.
+        /// </summary>
+        /// <param name="animationSet">The animationSet object.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="delay">The delay.</param>
+        /// <param name="blurAmount">The blur amount.</param>
+        /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
+        /// <seealso cref="IsBlurSupported" />
+        public static AnimationSet Blur(
+            this AnimationSet animationSet,
+            double duration = 0.5d,
+            double delay = 0d,
+            double blurAmount = 0d)
+        {
+            if (animationSet == null)
             {
                 return null;
             }
@@ -274,7 +402,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            var visual = ElementCompositionPreview.GetElementVisual(associatedObject);
+            var visual = animationSet.Visual;
+            var associatedObject = animationSet.Element as FrameworkElement;
+
+            if (associatedObject == null)
+            {
+                return animationSet;
+            }
 
             var compositor = visual?.Compositor;
             const string blurName = "Blur";
@@ -298,8 +432,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             {
                 if (blurBrush.Comment == blurName)
                 {
-                    blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
-                    return blurBrush;
+                    animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
+                    return animationSet;
                 }
             }
 
@@ -324,7 +458,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
 
             blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-            blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
+            animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
 
             associatedObject.SizeChanged += (s, e) =>
             {
@@ -332,7 +466,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
             };
 
-            return blurBrush;
+            return animationSet;
         }
 
         /// <summary>
@@ -352,7 +486,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             var scroller = scrollerElement as ScrollViewer;
             if (scroller == null)
             {
-                scroller = GetChildOfType<ScrollViewer>(scrollerElement);
+                scroller = scrollerElement.FindDescendant<ScrollViewer>();
                 if (scroller == null)
                 {
                     return;
@@ -371,28 +505,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             Visual textVisual = ElementCompositionPreview.GetElementVisual(element);
             textVisual.StartAnimation($"Offset.{manipulationProperty}", expression);
-        }
-
-        private static T GetChildOfType<T>(DependencyObject depObj)
-            where T : DependencyObject
-        {
-            if (depObj == null)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-
-                var result = child as T ?? GetChildOfType<T>(child);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
         }
     }
 }
