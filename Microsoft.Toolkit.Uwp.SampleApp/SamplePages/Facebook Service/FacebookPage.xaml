@@ -48,7 +48,7 @@
             <StackPanel Orientation="Vertical">
                 <TextBox Header="Title:" x:Name="TitleText"></TextBox>
                 <TextBox Header="Description:" x:Name="DescriptionText"></TextBox>
-                <TextBox Header="Url:" x:Name="UrlText" Text="https://github.com/Microsoft/WindowsAppToolkit"></TextBox>
+                <TextBox Header="Url:" x:Name="UrlText" Text="https://github.com/Microsoft/UWPCommunityToolkit"></TextBox>
                 <Button Content="Share text directly" x:Name="ShareButton" Click="ShareButton_OnClick" Margin="0,10,0,0"></Button>
                 <Button Content="Share with picture using dialog" x:Name="SharePictureButton" Click="SharePictureButton_OnClick" Margin="0,10,0,0"></Button> 
             </StackPanel>
