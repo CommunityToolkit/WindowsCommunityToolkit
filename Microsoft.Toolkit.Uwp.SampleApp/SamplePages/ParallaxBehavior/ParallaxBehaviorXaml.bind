@@ -1,41 +1,103 @@
-<Page x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.ParallaxBehavior.ParallaxSamplePage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ParallaxBehaviorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Windows.Toolkit.UI.Animations.Behaviors"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       mc:Ignorable="d">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Image Source="ms-appx:///SamplePages/ParallaxBehavior/ParallaxBackground.png"
-           Stretch="Fill">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="WideNarrowGroup">
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="521" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="BackdropImage.Height"
+                    Value="500"/>
+            <Setter Target="ContentPanel.Padding"
+                    Value="0,400,0,0" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="BackdropImage.Height"
+                    Value="400" />
+            <Setter Target="ContentPanel.Padding"
+                    Value="0,300,0,0" />
+            <Setter Target="OpacLayer.Height"
+                    Value="0" />
+            <Setter Target="PrimaryImage.MaxHeight"
+                    Value="250" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Image Source="ms-appx:///SamplePages/ParallaxBehavior/big-buck-bunny-background.jpg"
+           Stretch="UniformToFill"
+           VerticalAlignment="Top"
+           Height="300"
+           Margin="0,0,0,0"
+           x:Name="BackdropImage">
       <interactivity:Interaction.Behaviors>
-        <behaviors:Parallax Scroller="{Binding ElementName=ItemsList}"
+        <behaviors:Parallax Scroller="{Binding ElementName=Scroller}"
                             Multiplier="@[Multiplier:DoubleSlider:0.3:0.0-1.0]"
                             IsHorizontalEffect="@[IsHorizontalEffect:Bool:False]"/>
       </interactivity:Interaction.Behaviors>
     </Image>
-    <ListView x:Name="ItemsList">
-      <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem">
-          <Setter Property="HorizontalContentAlignment"
-                  Value="Stretch"/>
-        </Style>
-      </ListView.ItemContainerStyle>
-      <ListView.ItemTemplate>
-        <DataTemplate x:DataType="x:String">
-          <Grid BorderThickness="0,0,0,1"
-                BorderBrush="Gray"
-                Height="50">
-            <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
-                       VerticalAlignment="Center">
-              <Run Text="This is number"/>
-              <Run Text="{Binding}"/>
-            </TextBlock>
-          </Grid>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+    <ScrollViewer HorizontalScrollMode="Enabled"
+                  HorizontalScrollBarVisibility="Visible"
+                  x:Name="Scroller">
+      <RelativePanel x:Name="ContentPanel"
+                     Padding="0,150,0,0">
+        <Border Height="1200"
+                Background="#333333"
+                RelativePanel.AlignTopWithPanel="True"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"/>
+        <Image Source="ms-appx:///SamplePages/ParallaxBehavior/big-buck-bunny-poster.jpg"
+               x:Name="PrimaryImage"
+               MaxHeight="300"
+               MaxWidth="200"
+               Margin="6"
+               Stretch="Uniform" />
+        <TextBlock Text="Big Buck Bunny"
+                   Style="{StaticResource HeaderTextBlockStyle}"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   RelativePanel.RightOf="PrimaryImage"
+                   Margin="12,0"
+                   x:Name="Title"/>
+        <TextBlock Text="2008"
+                   x:Name="Year"
+                   Style="{StaticResource SubheaderTextBlockStyle}"
+                   Foreground="White"
+                   RelativePanel.Below="Title"
+                   RelativePanel.RightOf="PrimaryImage"
+                   Margin="6,0"/>
+
+        <TextBlock Text="Overview"
+                   x:Name="Overview"
+                   RelativePanel.Below="PrimaryImage"
+                   Margin="6,19"
+                   Style="{StaticResource SubheaderTextBlockStyle}"
+                   Foreground="White"
+                   FontWeight="Bold"/>
+
+        <TextBlock Text="Follow a day of the life of Big Buck Bunny when he meets three bullying rodents: Frank, Rinky, and Gamera. The rodents amuse themselves by harassing helpless creatures by throwing fruits, nuts and rocks at them. After the deaths of two of Bunny's favorite butterflies, and an offensive attack on Bunny himself, Bunny sets aside his gentle nature and orchestrates a complex plan for revenge."
+                   Style="{StaticResource BodyTextBlockStyle}"
+                   Width="{Binding ActualWidth, ElementName=Scroller}"
+                   Foreground="White"
+                   RelativePanel.Below="Overview"
+                   Margin="6,0"
+                   TextWrapping="NoWrap"/>
+      </RelativePanel>
+    </ScrollViewer>
   </Grid>
 </Page>
+

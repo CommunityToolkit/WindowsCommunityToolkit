@@ -208,7 +208,8 @@
     <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
     <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
     <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
-    <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
+    <Content Include="SamplePages\ParallaxBehavior\big-buck-bunny-background.jpg" />
+    <Content Include="SamplePages\ParallaxBehavior\big-buck-bunny-poster.jpg" />
     <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
@@ -264,6 +265,7 @@
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorXaml.bind" />
     <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorXaml.bind" />
+    <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
