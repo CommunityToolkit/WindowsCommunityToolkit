@@ -40,6 +40,10 @@ task Setup -description "Setup environment" {
 }
 
 task Version -description "Updates the version entries in AssemblyInfo.cs files" {
+  WriteColoredOutput -ForegroundColor Green "Downloading GitVersion...`n"
+  
+  Exec { .$nuget install -excludeversion gitversion.commandline -outputdirectory $tempDir } "Error downloading GitVersion"
+  
   WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
   
   Get-ChildItem $sourceDir -re -in AssemblyInfo.cs | % {
@@ -48,11 +52,11 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
   
   WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo.cs files...`n"
   
-  Exec { .$gitversion $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
+  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
   
   WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
 
-  $versionObj = .$gitversion | ConvertFrom-Json
+  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
 
   $script:version = $versionObj.NuGetVersionV2
   

@@ -1,0 +1,2 @@
+// Set parallax effect
+HeaderImage.Parallax(myScroller, isHorizontalEffect: false, multiplier: 0.3f).StartAsync(); 

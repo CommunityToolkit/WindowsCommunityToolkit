@@ -265,6 +265,7 @@
     <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\RotationBehavior\RotationBehaviorXaml.bind" />
     <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorXaml.bind" />
+    <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
