@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 list.Add(i.ToString());
             }
 
-            ItemsList.ItemsSource = list;
+            //ItemsList.ItemsSource = list;
         }
 
         /// <summary>
