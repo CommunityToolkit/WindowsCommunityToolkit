@@ -45,7 +45,7 @@
            Margin="0,0,0,0"
            x:Name="BackdropImage">
       <interactivity:Interaction.Behaviors>
-        <behaviors:Parallax Scroller="{Binding ElementName=ItemsList}"
+        <behaviors:Parallax Scroller="{Binding ElementName=Scroller}"
                             Multiplier="@[Multiplier:DoubleSlider:0.3:0.0-1.0]"
                             IsHorizontalEffect="@[IsHorizontalEffect:Bool:False]"/>
       </interactivity:Interaction.Behaviors>

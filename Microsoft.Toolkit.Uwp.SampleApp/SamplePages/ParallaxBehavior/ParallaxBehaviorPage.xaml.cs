@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -25,14 +24,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ParallaxBehaviorPage()
         {
             this.InitializeComponent();
-
-            var list = new List<string>();
-            for (var i = 1; i < 100; i++)
-            {
-                list.Add(i.ToString());
-            }
-
-            //ItemsList.ItemsSource = list;
         }
 
         /// <summary>
