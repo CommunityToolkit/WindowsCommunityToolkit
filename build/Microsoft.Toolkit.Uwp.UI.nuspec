@@ -18,9 +18,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.dll" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.pdb" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.pri" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.dll" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.pdb" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.pri" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.xml" target="lib\uap10.0" />
   </files>
 </package>

@@ -15,9 +15,9 @@
     <tags>UWP Toolkit Windows</tags>
   </metadata>
   <files>
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.dll" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pdb" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pri" target="lib\uap10.0" />
-    <file src="..\bin\binaries\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.dll" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pdb" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.pri" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.xml" target="lib\uap10.0" />
   </files>
 </package>

@@ -81,7 +81,7 @@ task PackNuGet -depends Build -description "Create the NuGet packages" {
   Get-ChildItem $buildDir\*.nuspec | % {
     $fullFilename = $_.FullName
     
-    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Output "$nupkgDir" } "Error packaging $projectName"
+    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
   }
 }
 
