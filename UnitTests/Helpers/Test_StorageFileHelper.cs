@@ -14,13 +14,15 @@ namespace UnitTests.Helpers
         private const string FILENAME = "filename.txt";
         private const string PACKAGEDFILEPATH = @"Assets\Samples\lorem.txt";
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Text_PackagedFile()
         {
             string loadedText = await StorageFileHelper.ReadTextFromPackagedFileAsync(PACKAGEDFILEPATH);
-            StringAssert.StartsWith(loadedText, SAMPLETEXT);
+            StringAssert.Contains(loadedText, SAMPLETEXT);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Text_LocalFolder()
         {
@@ -33,6 +35,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Text_LocalCacheFolder()
         {
@@ -45,6 +48,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Text_KnownFolder()
         {
@@ -57,6 +61,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Text_StorageFolder()
         {
@@ -64,14 +69,23 @@ namespace UnitTests.Helpers
             var storageFile = await StorageFileHelper.WriteTextToFileAsync(folder, SAMPLETEXT, FILENAME);
             Assert.IsNotNull(storageFile);
 
-            // Question - StorageFileHelper.ReadTextToFileAsync !?
-            var file = await folder.GetFileAsync(FILENAME);
-            var loadedText = await FileIO.ReadTextAsync(file);
+            var loadedText = await StorageFileHelper.ReadTextFromFileAsync(folder, FILENAME);
             Assert.AreEqual(SAMPLETEXT, loadedText);
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageFileHelper_Bytes_PackagedFile()
+        {
+            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromPackagedFileAsync(PACKAGEDFILEPATH);
+
+            string loadedText = Encoding.Unicode.GetString(loadedBytes);
+            StringAssert.Contains(loadedText, SAMPLETEXT);
+        }
+
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Bytes_LocalFolder()
         {
@@ -80,8 +94,7 @@ namespace UnitTests.Helpers
             var storageFile = await StorageFileHelper.WriteBytesToLocalFileAsync(unicodeBytes, FILENAME);
             Assert.IsNotNull(storageFile);
 
-            // Question - StorageFileHelper.ReadBytesFromLocalFileAsync !?
-            byte[] loadedBytes = await StorageFileHelper.GetBytesFromFileAsync(storageFile);
+            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromLocalFileAsync(FILENAME);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(SAMPLETEXT, loadedText);
@@ -89,6 +102,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Bytes_LocalCacheFolder()
         {
@@ -97,8 +111,7 @@ namespace UnitTests.Helpers
             var storageFile = await StorageFileHelper.WriteBytesToLocalCacheFileAsync(unicodeBytes, FILENAME);
             Assert.IsNotNull(storageFile);
 
-            // Question - StorageFileHelper.ReadBytesFromLocalCacheFileAsync !?
-            byte[] loadedBytes = await StorageFileHelper.GetBytesFromFileAsync(storageFile);
+            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromLocalCacheFileAsync(FILENAME);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(SAMPLETEXT, loadedText);
@@ -106,6 +119,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Bytes_KnownFolder()
         {
@@ -114,8 +128,7 @@ namespace UnitTests.Helpers
             var storageFile = await StorageFileHelper.WriteBytesToKnownFolderFileAsync(KnownFolderId.PicturesLibrary, unicodeBytes, FILENAME);
             Assert.IsNotNull(storageFile);
 
-            // Question - StorageFileHelper.ReadBytesFromKnownFolderAsync !?
-            byte[] loadedBytes = await StorageFileHelper.GetBytesFromFileAsync(storageFile);
+            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromKnownFoldersFileAsync(KnownFolderId.PicturesLibrary, FILENAME);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(SAMPLETEXT, loadedText);
@@ -123,6 +136,7 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public async Task Test_StorageFileHelper_Bytes_StorageFolder()
         {
@@ -132,8 +146,7 @@ namespace UnitTests.Helpers
             var storageFile = await StorageFileHelper.WriteBytesToFileAsync(folder, unicodeBytes, FILENAME);
             Assert.IsNotNull(storageFile);
 
-            // Question - Convention de nommage - Get/Read
-            byte[] loadedBytes = await StorageFileHelper.GetBytesFromFileAsync(storageFile);
+            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromFileAsync(folder, FILENAME);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(SAMPLETEXT, loadedText);

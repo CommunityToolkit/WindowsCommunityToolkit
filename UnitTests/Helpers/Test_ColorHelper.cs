@@ -7,42 +7,49 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_ColorHelper
     {
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_Predifined()
         {
             Assert.AreEqual("Red".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_Hex8Digits()
         {
             Assert.AreEqual("#FFFF0000".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_Hex6Digits()
         {
             Assert.AreEqual("#FF0000".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_Hex4Digits()
         {
             Assert.AreEqual("#FF00".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_Hex3Digits()
         {
             Assert.AreEqual("#F00".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToColor_ScreenColor()
         {
             Assert.AreEqual("sc#1.0,1.0,0,0".ToColor(), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToHex()
         {
@@ -50,6 +57,7 @@ namespace UnitTests.Helpers
             Assert.AreEqual(Windows.UI.Colors.Red.ToHex(), RED_HEX_VALUE);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToInt()
         {
@@ -57,6 +65,7 @@ namespace UnitTests.Helpers
             Assert.AreEqual(Windows.UI.Colors.Red.ToInt(), RED_INT_VALUE);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToHsl()
         {
@@ -69,6 +78,7 @@ namespace UnitTests.Helpers
             Assert.AreEqual(Windows.UI.Colors.Red.ToHsl(), hslRed);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToHsv()
         {
@@ -81,12 +91,14 @@ namespace UnitTests.Helpers
             Assert.AreEqual(Windows.UI.Colors.Red.ToHsv(), hsvRed);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_FromHsl()
         {
             Assert.AreEqual(ColorHelper.FromHsl(0.0, 1.0, 0.5), Windows.UI.Colors.Red);
         }
 
+        [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_FromHsv()
         {
