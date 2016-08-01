@@ -87,11 +87,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Starts all animations on the backing Visual.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
-        public Task StartAsync()
+        public async Task StartAsync()
         {
             foreach (var set in _animationSets)
             {
-                set.StartAsync().Wait();
+                await set.StartAsync();
             }
 
             if (_batch != null)
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             _batch.End();
 
-            return t;
+            await t;
         }
 
         /// <summary>
@@ -288,11 +288,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Existig animations and property changes will run first and new
-        /// new animations and property changes will wait before animating
+        /// Wait for existing animations to complete before running any others
         /// </summary>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet ContinueWith()
+        public AnimationSet Wait()
         {
             var savedAnimationSet = new AnimationSet(Element);
             savedAnimationSet._animations = _animations;
