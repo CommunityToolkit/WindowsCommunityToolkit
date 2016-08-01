@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -26,6 +27,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
+        private Dictionary<string, object> _directPropertyChanges;
+        private List<EffectDirectPropertyChangeDefinition> _directEffectPropertyChanges;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private System.Threading.ManualResetEvent _manualResetEvent;
@@ -48,14 +51,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (element == null)
             {
-                throw new NullReferenceException("element must not be null");
+                throw new NullReferenceException("Element must not be null");
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(element);
 
             if (visual == null)
             {
-                throw new NullReferenceException("visual must not be null");
+                throw new NullReferenceException("Visual must not be null");
             }
 
             Visual = visual;
@@ -69,6 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _animations = new Dictionary<string, CompositionAnimation>();
             _effectAnimations = new List<EffectAnimationDefinition>();
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
+            _directPropertyChanges = new Dictionary<string, object>();
+            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
         }
 
         /// <summary>
@@ -103,6 +108,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             foreach (var effect in _effectAnimations)
             {
                 effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
+            }
+
+            foreach (var property in _directPropertyChanges)
+            {
+                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
+            }
+
+            foreach (var definition in _directEffectPropertyChanges)
+            {
+                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
             }
 
             Task t = Task.Run(() =>
@@ -230,6 +245,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             };
 
             _effectAnimations.Add(effect);
+        }
+
+        /// <summary>
+        /// Adds a propertyChange to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="propertyName">The property to be animated on the backing Visual</param>
+        /// <param name="value">The value to be applied</param>
+        public void AddDirectPropertyChange(string propertyName, object value)
+        {
+            _directPropertyChanges[propertyName] = value;
+        }
+
+        /// <summary>
+        /// Removes a property change from being run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="propertyName">The property that no longer needs to be changed</param>
+        public void RemoveDirectPropertyChange(string propertyName)
+        {
+            if (_directPropertyChanges.ContainsKey(propertyName))
+            {
+                _directPropertyChanges.Remove(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Adds an effect propety change to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property changed</param>
+        /// <param name="value">The value to be applied</param>
+        /// <param name="propertyName">The property of the effect to be animated</param>
+        internal void AddEffectDirectPropertyChange(CompositionEffectBrush effectBrush, float value, string propertyName)
+        {
+            var definition = new EffectDirectPropertyChangeDefinition()
+            {
+                EffectBrush = effectBrush,
+                Value = value,
+                PropertyName = propertyName
+            };
+
+            _directEffectPropertyChanges.Add(definition);
         }
 
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)

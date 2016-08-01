@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// Defines an <see cref="EffectAnimationDefinition"/> which is used by
     /// <see cref="AnimationSet"/> to link effect animations to Visuals
     /// </summary>
-    public class EffectAnimationDefinition
+    internal class EffectAnimationDefinition
     {
         /// <summary>
         /// Gets or sets <see cref="CompositionEffectBrush"/> that will be animated

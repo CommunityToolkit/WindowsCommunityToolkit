@@ -58,6 +58,7 @@
     <Compile Include="AnimationSet.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="Composition.cs" />
+    <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
