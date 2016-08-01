@@ -29,6 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private List<EffectAnimationDefinition> _effectAnimations;
         private Dictionary<string, object> _directPropertyChanges;
         private List<EffectDirectPropertyChangeDefinition> _directEffectPropertyChanges;
+        private List<AnimationSet> _animationSets;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private System.Threading.ManualResetEvent _manualResetEvent;
@@ -74,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
             _directPropertyChanges = new Dictionary<string, object>();
             _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
+            _animationSets = new List<AnimationSet>();
         }
 
         /// <summary>
@@ -87,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
         public Task StartAsync()
         {
+            foreach (var set in _animationSets)
+            {
+                set.StartAsync().Wait();
+            }
+
             if (_batch != null)
             {
                 if (!_batch.IsEnded)
@@ -136,6 +143,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public void Stop()
         {
+            foreach (var set in _animationSets)
+            {
+                set.Stop();
+            }
+
             if (_batch != null)
             {
                 if (!_batch.IsEnded)
@@ -161,7 +173,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Ovewrites the duration on all animations to the specified value
         /// </summary>
         /// <param name="duration">The duration in seconds</param>
-        public void SetDurationForAll(double duration)
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDurationForAll(double duration)
         {
             foreach (var anim in _animations)
             {
@@ -180,13 +193,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     animation.Duration = TimeSpan.FromSeconds(duration);
                 }
             }
+
+            return this;
         }
 
         /// <summary>
         /// Ovewrites the delay time on all animations to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in seconds</param>
-        public void SetDelayForAll(double delayTime)
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDelayForAll(double delayTime)
         {
             foreach (var anim in _animations)
             {
@@ -205,6 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     animation.DelayTime = TimeSpan.FromSeconds(delayTime);
                 }
             }
+
+            return this;
         }
 
         /// <summary>
@@ -267,6 +285,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 _directPropertyChanges.Remove(propertyName);
             }
+        }
+
+        /// <summary>
+        /// Existig animations and property changes will run first and new
+        /// new animations and property changes will wait before animating
+        /// </summary>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet ContinueWith()
+        {
+            var savedAnimationSet = new AnimationSet(Element);
+            savedAnimationSet._animations = _animations;
+            savedAnimationSet._effectAnimations = _effectAnimations;
+            savedAnimationSet._directPropertyChanges = _directPropertyChanges;
+            savedAnimationSet._directEffectPropertyChanges = _directEffectPropertyChanges;
+
+            _animationSets.Add(savedAnimationSet);
+
+            _animations = new Dictionary<string, CompositionAnimation>();
+            _effectAnimations = new List<EffectAnimationDefinition>();
+            _directPropertyChanges = new Dictionary<string, object>();
+            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
+
+            return this;
         }
 
         /// <summary>
