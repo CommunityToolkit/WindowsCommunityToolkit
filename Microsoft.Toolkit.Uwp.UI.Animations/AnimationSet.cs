@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Wait for existing animations to complete before running any others
         /// </summary>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet Wait()
+        public AnimationSet Then()
         {
             var savedAnimationSet = new AnimationSet(Element);
             savedAnimationSet._animations = _animations;

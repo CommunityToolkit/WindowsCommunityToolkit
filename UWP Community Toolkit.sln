@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.Por
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.UWP", "UnitTests.Notifications.UWP\UnitTests.Notifications.UWP.csproj", "{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{92E6A770-DF34-4980-9959-1AC059A9730E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{52f9acf2-55e7-4415-92bd-902cf85ce3da}*SharedItemsImports = 4
@@ -286,6 +288,26 @@ Global
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.ActiveCfg = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Build.0 = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Deploy.0 = Release|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|ARM.Build.0 = Debug|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|ARM.Deploy.0 = Debug|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x64.ActiveCfg = Debug|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x64.Build.0 = Debug|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x64.Deploy.0 = Debug|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x86.ActiveCfg = Debug|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x86.Build.0 = Debug|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Debug|x86.Deploy.0 = Debug|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|Any CPU.ActiveCfg = Release|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|ARM.ActiveCfg = Release|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|ARM.Build.0 = Release|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|ARM.Deploy.0 = Release|ARM
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x64.ActiveCfg = Release|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x64.Build.0 = Release|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x64.Deploy.0 = Release|x64
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x86.ActiveCfg = Release|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x86.Build.0 = Release|x86
+		{92E6A770-DF34-4980-9959-1AC059A9730E}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
