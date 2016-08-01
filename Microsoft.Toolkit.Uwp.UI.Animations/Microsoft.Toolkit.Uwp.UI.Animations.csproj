@@ -51,13 +51,13 @@
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
-    <Compile Include="Behaviors\Opacity.cs" />
+    <Compile Include="Behaviors\Fade.cs" />
     <Compile Include="Behaviors\Parallax.cs" />
-    <Compile Include="Behaviors\Rotation.cs" />
+    <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
-    <Compile Include="Extensions\Composition.cs" />
+    <Compile Include="Composition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

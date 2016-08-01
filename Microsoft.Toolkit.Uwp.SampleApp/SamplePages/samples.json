@@ -120,13 +120,13 @@
     "Icon": "Icons/Behaviors.png",
     "Samples": [
       {
-        "Name": "OpacityBehavior",
-        "Type": "OpacityBehaviorPage",
+        "Name": "FadeBehavior",
+        "Type": "FadeBehaviorPage",
         "About": "Opacity of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "OpacityBehaviorCode.bind",
-        "XamlCodeFile": "OpacityBehaviorXaml.bind",
-        "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
+        "CodeFile": "FadeBehaviorCode.bind",
+        "XamlCodeFile": "FadeBehaviorXaml.bind",
+        "Icon": "/SamplePages/FadeBehavior/FadeBehavior.gif"
       },
       {
         "Name": "ScaleBehavior",
@@ -147,13 +147,13 @@
         "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
       },
       {
-        "Name": "RotationBehavior",
-        "Type": "RotationBehaviorPage",
+        "Name": "RotateBehavior",
+        "Type": "RotateBehaviorPage",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "RotationBehaviorCode.bind",
-        "XamlCodeFile": "RotationBehaviorXaml.bind",
-        "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
+        "CodeFile": "RotateBehaviorCode.bind",
+        "XamlCodeFile": "RotateBehaviorXaml.bind",
+        "Icon": "/SamplePages/RotateBehavior/rotateBehavior.gif"
       },
       {
         "Name": "BlurBehavior",

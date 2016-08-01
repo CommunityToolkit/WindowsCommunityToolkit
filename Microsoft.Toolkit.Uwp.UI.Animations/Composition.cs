@@ -13,13 +13,13 @@
 using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Effects;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// These extension methods use composition to perform animation on visuals.
@@ -90,14 +90,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             if (duration <= 0)
             {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(duration));
             }
 
             var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
             var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
 
-            var compositor = visual?.Compositor;
+            var compositor = visual.Compositor;
 
             if (compositor == null)
             {
@@ -170,13 +170,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             if (duration <= 0)
             {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(duration));
             }
 
             var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
 
-            var compositor = visual?.Compositor;
+            var compositor = visual.Compositor;
 
             if (compositor == null)
             {
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationSet Opacity(
+        public static AnimationSet Fade(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Opacity(duration, delay, value);
+            return animationSet.Fade(duration, delay, value);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The delay.</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationSet Opacity(
+        public static AnimationSet Fade(
             this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             if (duration <= 0)
             {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(duration));
             }
 
             var visual = animationSet.Visual;
@@ -311,7 +311,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             if (duration <= 0)
             {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(duration));
             }
 
             var visual = animationSet.Visual;
@@ -342,13 +342,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// since older operating systems will not support blurs.
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
-        public static bool IsBlurSupported
-        {
-            get
-            {
-                return global::Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
-            }
-        }
+        public static bool IsBlurSupported =>
+            ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
 
         /// <summary>
         /// Blurs the specified framework element.

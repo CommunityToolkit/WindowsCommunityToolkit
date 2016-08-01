@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the opacity behavior.
     /// </summary>
-    public sealed partial class OpacityBehaviorPage : Page
+    public sealed partial class FadeBehaviorPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpacityBehaviorPage"/> class.
+        /// Initializes a new instance of the <see cref="FadeBehaviorPage"/> class.
         /// </summary>
-        public OpacityBehaviorPage()
+        public FadeBehaviorPage()
         {
             this.InitializeComponent();
         }
