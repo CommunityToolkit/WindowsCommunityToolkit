@@ -116,11 +116,11 @@
     ]
   },
   {
-    "Name": "Behaviors",
+    "Name": "Composition",
     "Icon": "Icons/Behaviors.png",
     "Samples": [
       {
-        "Name": "FadeBehavior",
+        "Name": "Fade",
         "Type": "FadeBehaviorPage",
         "About": "Opacity of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -129,7 +129,7 @@
         "Icon": "/SamplePages/FadeBehavior/FadeBehavior.gif"
       },
       {
-        "Name": "ScaleBehavior",
+        "Name": "Scale",
         "Type": "ScaleBehaviorPage",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -138,7 +138,7 @@
         "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
       },
       {
-        "Name": "OffsetBehavior",
+        "Name": "Offset",
         "Type": "OffsetBehaviorPage",
         "About": "Offset of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -147,7 +147,7 @@
         "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
       },
       {
-        "Name": "RotateBehavior",
+        "Name": "Rotate",
         "Type": "RotateBehaviorPage",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -156,7 +156,7 @@
         "Icon": "/SamplePages/RotateBehavior/rotateBehavior.gif"
       },
       {
-        "Name": "BlurBehavior",
+        "Name": "Blur",
         "Type": "BlurBehaviorPage",
         "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -165,7 +165,7 @@
         "Icon": "/SamplePages/BlurBehavior/blurBehavior.gif"
       },
       {
-        "Name": "ParallaxBehavior",
+        "Name": "Parallax",
         "Type": "ParallaxBehaviorPage",
         "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
