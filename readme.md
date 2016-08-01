@@ -21,17 +21,17 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 Please find what we plan for next iteration [here](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.1)
 
 ##Getting started
-[Getting Started with the UWP Toolkit](en-us/uwp-commmunity-toolkit/get-started/get-started.md)
+[Getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md)
 
 ## NuGet Packages
-[List of nuget packages](en-us/uwp-commmunity-toolkit/get-started/nugetpackages.md) contains the list of nuget packages and what is included in each.
+[List of nuget packages](en-us/uwp-community-toolkit/get-started/nugetpackages.md) contains the list of nuget packages and what is included in each.
 
 ## Documentation
 Even our documentation is open source!  If you would like to contribute please visit the [UWP Community Toolkit Documentation Repo on Github](https://github.com/Microsoft/UWPCommunityToolkit-docs/) and submit a pull request.
 
 ## Useful links
  - Official web site: https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit
- - Do you want to contribute? Here are our [guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
+ - Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
 ## Controls and Features
 To get a complete list of supported controls, services and features, please visit our [documentation website](...).
