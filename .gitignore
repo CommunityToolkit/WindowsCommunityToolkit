@@ -213,3 +213,4 @@ ModelManifest.xml
 BundleArtifacts
 !/build
 /build/tools/GitVersion.CommandLine
+AppPackages
