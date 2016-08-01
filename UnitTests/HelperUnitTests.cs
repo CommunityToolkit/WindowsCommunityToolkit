@@ -53,11 +53,11 @@ namespace UnitTests
         {
             string myText = "Great information that the user wants to keep";
 
-            var storageFile = await StorageFileHelper.SaveTextToLocalFileAsync(myText, "appFilename.txt");
+            var storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(myText, "appFilename.txt");
 
             Assert.IsNotNull(storageFile);
 
-            string loadedText = await StorageFileHelper.ReadTextFromLocalFile("appFilename.txt");
+            string loadedText = await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt");
 
             Assert.AreEqual(myText, loadedText);
         }

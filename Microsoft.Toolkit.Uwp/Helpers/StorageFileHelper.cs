@@ -43,12 +43,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveTextToLocalFileAsync(
+        public static async Task<StorageFile> WriteTextToLocalFileAsync(
             string text,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
-            return await SaveTextToFileAsync(ApplicationData.Current.LocalFolder, text, fileName, options);
+            return await WriteTextToFileAsync(ApplicationData.Current.LocalFolder, text, fileName, options);
         }
 
         /// <summary>
@@ -69,12 +69,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveTextToLocalCacheFileAsync(
+        public static async Task<StorageFile> WriteTextToLocalCacheFileAsync(
             string text,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
-            return await SaveTextToFileAsync(ApplicationData.Current.LocalCacheFolder, text, fileName, options);
+            return await WriteTextToFileAsync(ApplicationData.Current.LocalCacheFolder, text, fileName, options);
         }
 
         /// <summary>
@@ -98,14 +98,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveTextToKnownFolderFileAsync(
+        public static async Task<StorageFile> WriteTextToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             string text,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await SaveTextToFileAsync(folder, text, fileName, options);
+            return await WriteTextToFileAsync(folder, text, fileName, options);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveTextToFileAsync(
+        public static async Task<StorageFile> WriteTextToFileAsync(
             StorageFolder fileLocation,
             string text,
             string fileName,
@@ -169,12 +169,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveBytesToLocalFileAsync(
+        public static async Task<StorageFile> WriteBytesToLocalFileAsync(
             byte[] bytes,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
-            return await SaveBytesToFileAsync(ApplicationData.Current.LocalFolder, bytes, fileName, options);
+            return await WriteBytesToFileAsync(ApplicationData.Current.LocalFolder, bytes, fileName, options);
         }
 
         /// <summary>
@@ -195,12 +195,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveBytesToLocalCacheFileAsync(
+        public static async Task<StorageFile> WriteBytesToLocalCacheFileAsync(
             byte[] bytes,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
-            return await SaveBytesToFileAsync(ApplicationData.Current.LocalCacheFolder, bytes, fileName, options);
+            return await WriteBytesToFileAsync(ApplicationData.Current.LocalCacheFolder, bytes, fileName, options);
         }
 
         /// <summary>
@@ -224,14 +224,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveBytesToKnownFolderFileAsync(
+        public static async Task<StorageFile> WriteBytesToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             byte[] bytes,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await SaveBytesToFileAsync(folder, bytes, fileName, options);
+            return await WriteBytesToFileAsync(folder, bytes, fileName, options);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> SaveBytesToFileAsync(
+        public static async Task<StorageFile> WriteBytesToFileAsync(
             StorageFolder fileLocation,
             byte[] bytes,
             string fileName,
@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="relativePath"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromPackagedFile(string relativePath)
+        public static async Task<string> ReadTextFromPackagedFileAsync(string relativePath)
         {
             if (string.IsNullOrWhiteSpace(relativePath))
             {
@@ -314,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="relativePath"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromLocalCacheFile(string relativePath)
+        public static async Task<string> ReadTextFromLocalCacheFileAsync(string relativePath)
         {
             if (string.IsNullOrWhiteSpace(relativePath))
             {
@@ -339,7 +339,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="relativePath"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromLocalFile(string relativePath)
+        public static async Task<string> ReadTextFromLocalFileAsync(string relativePath)
         {
             if (string.IsNullOrWhiteSpace(relativePath))
             {
@@ -367,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="relativePath"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromKnownFoldersFile(KnownFolderId knownFolderId, string relativePath)
+        public static async Task<string> ReadTextFromKnownFoldersFileAsync(KnownFolderId knownFolderId, string relativePath)
         {
             if (string.IsNullOrWhiteSpace(relativePath))
             {
