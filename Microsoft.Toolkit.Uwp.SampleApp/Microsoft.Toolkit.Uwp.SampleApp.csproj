@@ -233,6 +233,7 @@
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Blur\blurBehavior.gif" />
+    <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Offset\offsetBehavior.gif" />
     <Content Include="SamplePages\Fade\FadeBehavior.gif" />
     <Content Include="SamplePages\Parallax\NeedleBackground.png" />
@@ -245,7 +246,6 @@
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\Facebook Service\icon.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
