@@ -50,6 +50,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
+    <Compile Include="Helpers\DeepLinkParser.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
