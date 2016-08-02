@@ -12,7 +12,6 @@
 
 using System;
 using System.Reflection;
-
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
@@ -15,19 +13,6 @@ namespace UnitTests.Helpers
         private const string SAMPLETEXT = "Lorem ipsum dolor sit amet";
         private const string FILENAME = "filename.txt";
         private const string PACKAGEDFILEPATH = @"Assets\Samples\lorem.txt";
-
-        // **** public static async Task<IRandomAccessStream> GetHTTPStreamAsync(this Uri uri)
-        // **** public static async Task GetHTTPStreamToStorageFileAsync(Uri uri, StorageFile targetFile)
-        // **** public static async Task<IRandomAccessStream> GetPackagedFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
-        // **** public static async Task<IRandomAccessStream> GetLocalFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
-        // **** public static async Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
-        // **** public static async Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(KnownFolderId knownFolderId, string relativeFileName, FileAccessMode accessMode = FileAccessMode.Read)
-        // **** public static async Task<bool> IsPackagedFileExistsAsync(string relativeFileName)
-        // **** public static async Task<bool> IsLocalFileExistsAsync(string relativeFileName)
-        // **** public static async Task<bool> IsLocalCacheFileExistsAsync(string relativeFileName)
-        // **** public static async Task<bool> IsKnownFolderFileExistsAsync(KnownFolderId knownFolderId, string relativeFileName)
-        // public static async Task<bool> IsFileExistsAsync(StorageFolder workingFolder, string relativeFileName)
-        // **** public static async Task<string> ReadTextAsync(this IRandomAccessStream stream, Encoding encoding = null)
 
         [TestCategory("Helpers")]
         [TestMethod]

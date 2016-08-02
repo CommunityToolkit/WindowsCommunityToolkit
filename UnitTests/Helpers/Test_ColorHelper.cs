@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Toolkit.Uwp;
+﻿using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace UnitTests.Helpers
