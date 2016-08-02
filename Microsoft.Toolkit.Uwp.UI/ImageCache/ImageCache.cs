@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 try
                 {
-                    await StreamHelper.GetHTTPStreamToStorageFileAsync(uri, baseFile);
+                    await StreamHelper.GetHttpStreamToStorageFileAsync(uri, baseFile);
                 }
                 catch
                 {
