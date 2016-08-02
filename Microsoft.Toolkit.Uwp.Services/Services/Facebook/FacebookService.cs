@@ -323,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await PostToFeedAsync(title, description, link, pictureUrl);
+                return await PostToFeedAsync(title, message, description, link, pictureUrl);
             }
 
             return false;
@@ -362,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await PostToFeedAsync(title, description, link, pictureUrl);
+                return await PostToFeedWithDialogAsync(title, description, link, pictureUrl);
             }
 
             return false;
