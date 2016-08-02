@@ -150,10 +150,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
             }
 
-            _contentGrid = this.GetTemplateChild(PartContentGrid) as Grid;
-            _commandContainer = this.GetTemplateChild(PartCommandContainer) as Grid;
-            _leftCommandPanel = this.GetTemplateChild(PartLeftCommandPanel) as StackPanel;
-            _rightCommandPanel = this.GetTemplateChild(PartRightCommandPanel) as StackPanel;
+            _contentGrid = GetTemplateChild(PartContentGrid) as Grid;
+            _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
+            _leftCommandPanel = GetTemplateChild(PartLeftCommandPanel) as StackPanel;
+            _rightCommandPanel = GetTemplateChild(PartRightCommandPanel) as StackPanel;
 
             if (_contentGrid != null)
             {

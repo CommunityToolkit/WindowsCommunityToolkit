@@ -29,6 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             QueryType.SelectedIndex = 0;
 
             ShareBox.Visibility = Visibility.Collapsed;
+            HidePostPanel();
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -60,15 +61,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
 
+            HideCredentialsPanel();
+
             ShareBox.Visibility = Visibility.Visible;
+            ShowPostPanel();
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
+            ProfileImage.Visibility = Visibility.Visible;
             Shell.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await FacebookService.Instance.PostToFeedAsync(TitleText.Text, "Hello Facebook!", DescriptionText.Text, UrlText.Text);
+            await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
             var message = new MessageDialog("Post sent to facebook");
             await message.ShowAsync();
         }
@@ -90,6 +95,54 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
                 }
             }
+        }
+
+        private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (CredentialsBox.Visibility == Visibility.Visible)
+            {
+                HideCredentialsPanel();
+            }
+            else
+            {
+                ShowCredentialsPanel();
+            }
+        }
+
+        private void PostBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (PostPanel.Visibility == Visibility.Visible)
+            {
+                HidePostPanel();
+            }
+            else
+            {
+                ShowPostPanel();
+            }
+        }
+
+        private void ShowCredentialsPanel()
+        {
+            CredentialsBoxExpandButton.Content = "";
+            CredentialsBox.Visibility = Visibility.Visible;
+        }
+
+        private void HideCredentialsPanel()
+        {
+            CredentialsBoxExpandButton.Content = "";
+            CredentialsBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowPostPanel()
+        {
+            PostBoxExpandButton.Content = "";
+            PostPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HidePostPanel()
+        {
+            PostBoxExpandButton.Content = "";
+            PostPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

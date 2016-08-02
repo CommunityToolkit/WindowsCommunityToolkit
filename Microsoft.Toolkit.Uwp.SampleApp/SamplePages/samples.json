@@ -192,7 +192,7 @@
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/icon.png"
+        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png"
       },
       {
         "Name": "Twitter Service",
@@ -200,7 +200,7 @@
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
-        "Icon": "/SamplePages/Twitter Service/icon.png"
+        "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
       }
     ]
   }
