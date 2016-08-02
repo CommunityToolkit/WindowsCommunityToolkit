@@ -221,7 +221,7 @@
     <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-200.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="Icons\Behaviors.png" />
+    <Content Include="Icons\Animations.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
     <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
     <Content Include="Assets\Win-App-Toolkit-logo.png" />

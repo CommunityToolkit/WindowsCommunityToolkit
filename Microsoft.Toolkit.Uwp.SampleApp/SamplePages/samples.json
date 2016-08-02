@@ -116,8 +116,8 @@
     ]
   },
   {
-    "Name": "Composition",
-    "Icon": "Icons/Behaviors.png",
+    "Name": "Animations",
+    "Icon": "Icons/Animations.png",
     "Samples": [
       {
         "Name": "Fade",
