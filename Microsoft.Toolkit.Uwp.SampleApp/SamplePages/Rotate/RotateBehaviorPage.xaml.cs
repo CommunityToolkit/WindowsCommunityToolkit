@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the Rotation behavior.
     /// </summary>
-    public sealed partial class RotationBehaviorPage : Page
+    public sealed partial class RotateBehaviorPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RotationBehaviorPage"/> class.
+        /// Initializes a new instance of the <see cref="RotateBehaviorPage"/> class.
         /// </summary>
-        public RotationBehaviorPage()
+        public RotateBehaviorPage()
         {
             this.InitializeComponent();
         }

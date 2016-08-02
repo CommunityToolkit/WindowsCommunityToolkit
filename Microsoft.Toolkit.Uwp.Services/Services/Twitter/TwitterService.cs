@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
-        /// <param name="callbackUri">Callback URI.</param>
+        /// <param name="callbackUri">Callback URI. Has to match callback URI defined at apps.twitter.com (can be arbitrary).</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string consumerKey, string consumerSecret, string callbackUri)
         {
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="hashTag">Hash tag.</param>
         /// <param name="maxRecords">Upper record limit.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<Tweet>> SearchAsync(string hashTag, int maxRecords)
+        public async Task<IEnumerable<Tweet>> SearchAsync(string hashTag, int maxRecords = 20)
         {
             if (Provider.LoggedIn)
             {

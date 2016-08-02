@@ -232,16 +232,15 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
-    <Content Include="SamplePages\BlurBehavior\blurBehavior.gif" />
-    <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
-    <Content Include="SamplePages\OffsetBehavior\offsetBehavior.gif" />
-    <Content Include="SamplePages\OpacityBehavior\opacityBehavior.gif" />
-    <Content Include="SamplePages\ParallaxBehavior\NeedleBackground.png" />
-    <Content Include="SamplePages\ParallaxBehavior\ParallaxBackground.png" />
-    <Content Include="SamplePages\RotationBehavior\rotationBehavior.gif" />
+    <Content Include="SamplePages\Blur\blurBehavior.gif" />
+    <Content Include="SamplePages\Offset\offsetBehavior.gif" />
+    <Content Include="SamplePages\Fade\FadeBehavior.gif" />
+    <Content Include="SamplePages\Parallax\NeedleBackground.png" />
+    <Content Include="SamplePages\Parallax\ParallaxBackground.png" />
+    <Content Include="SamplePages\Rotate\RotateBehavior.gif" />
     <Content Include="SamplePages\RotatorTile\icon.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
-    <Content Include="SamplePages\ScaleBehavior\scaleBehavior.gif" />
+    <Content Include="SamplePages\Scale\scaleBehavior.gif" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -256,16 +255,16 @@
     <Content Include="SamplePages\WeatherLiveTileAndToast\icon.jpg" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
-    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorCode.bind" />
-    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorCode.bind" />
+    <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
+    <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
     <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\RangeSelector\icon.jpg" />
     <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
-    <Content Include="SamplePages\RotationBehavior\RotationBehaviorCode.bind" />
-    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorCode.bind" />
+    <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
+    <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
     <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
@@ -287,14 +286,14 @@
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
     <Content Include="SamplePages\RotatorTile\RotatorTileCode.bind" />
-    <Content Include="SamplePages\BlurBehavior\BlurBehaviorCode.bind" />
-    <Content Include="SamplePages\BlurBehavior\BlurBehaviorXaml.bind" />
-    <Content Include="SamplePages\OffsetBehavior\OffsetBehaviorXaml.bind" />
-    <Content Include="SamplePages\OpacityBehavior\OpacityBehaviorXaml.bind" />
-    <Content Include="SamplePages\ScaleBehavior\ScaleBehaviorXaml.bind" />
-    <Content Include="SamplePages\RotationBehavior\RotationBehaviorXaml.bind" />
-    <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorXaml.bind" />
-    <Content Include="SamplePages\ParallaxBehavior\ParallaxBehaviorCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
+    <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
+    <Content Include="SamplePages\Parallax\ParallaxBehaviorXaml.bind" />
+    <Content Include="SamplePages\Parallax\ParallaxBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -321,10 +320,10 @@
     <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
       <DependentUpon>BingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml.cs">
+    <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ParallaxBehavior\ParallaxBehaviorPage.xaml.cs">
+    <Compile Include="SamplePages\Parallax\ParallaxBehaviorPage.xaml.cs">
       <DependentUpon>ParallaxBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
@@ -339,11 +338,11 @@
     <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml.cs">
+    <Compile Include="SamplePages\Offset\OffsetBehaviorPage.xaml.cs">
       <DependentUpon>OffsetBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml.cs">
-      <DependentUpon>OpacityBehaviorPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
+      <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
@@ -364,10 +363,10 @@
     <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
       <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml.cs">
-      <DependentUpon>RotationBehaviorPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Rotate\RotateBehaviorPage.xaml.cs">
+      <DependentUpon>RotateBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml.cs">
+    <Compile Include="SamplePages\Scale\ScaleBehaviorPage.xaml.cs">
       <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
@@ -420,11 +419,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\BlurBehavior\BlurBehaviorPage.xaml">
+    <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ParallaxBehavior\ParallaxBehaviorPage.xaml">
+    <Page Include="SamplePages\Parallax\ParallaxBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -436,11 +435,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\OffsetBehavior\OffsetBehaviorPage.xaml">
+    <Page Include="SamplePages\Offset\OffsetBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\OpacityBehavior\OpacityBehaviorPage.xaml">
+    <Page Include="SamplePages\Fade\FadeBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -484,11 +483,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\RotationBehavior\RotationBehaviorPage.xaml">
+    <Page Include="SamplePages\Rotate\RotateBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ScaleBehavior\ScaleBehaviorPage.xaml">
+    <Page Include="SamplePages\Scale\ScaleBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

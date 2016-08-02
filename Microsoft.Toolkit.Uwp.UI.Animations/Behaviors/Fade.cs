@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
@@ -21,12 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class Opacity : CompositionBehaviorBase
+    public class Fade : CompositionBehaviorBase
     {
         /// <summary>
         /// The Opacity value of the associated object
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Opacity), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Fade), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Opacity.
@@ -45,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            AssociatedObject.Opacity(Duration, Delay, (float)Value)?.StartAsync();
+            AssociatedObject.Fade(Duration, Delay, (float)Value)?.StartAsync();
         }
     }
 }
