@@ -6,12 +6,12 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity" 
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors" 
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OpacityBehaviorPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.FadeBehaviorPage"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
-                <behaviors:Opacity x:Name="OpacityBehavior" 
+                <behaviors:Fade x:Name="OpacityBehavior" 
                                    Value="{Binding Value.Value, Mode=TwoWay}" 
                                    Duration="{Binding Duration.Value, Mode=TwoWay}" 
                                    Delay="{Binding Delay.Value, Mode=TwoWay}" 

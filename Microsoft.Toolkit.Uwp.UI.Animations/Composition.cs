@@ -13,13 +13,13 @@
 using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Effects;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// These extension methods use composition to perform animation on visuals.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
@@ -88,16 +88,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            if (duration <= 0)
-            {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
-            }
-
             var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
             var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
 
-            var compositor = visual?.Compositor;
+            if (duration <= 0)
+            {
+                animationSet.AddDirectPropertyChange("Scale", scaleVector);
+                return animationSet;
+            }
+
+            var compositor = visual.Compositor;
 
             if (compositor == null)
             {
@@ -119,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="associatedObject">The UI Element to rotate.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
@@ -148,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
@@ -168,15 +169,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            if (duration <= 0)
-            {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
-            }
-
             var visual = animationSet.Visual;
             visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
 
-            var compositor = visual?.Compositor;
+            if (duration <= 0)
+            {
+                animationSet.AddDirectPropertyChange("RotationAngleInDegrees", value);
+                return animationSet;
+            }
+
+            var compositor = visual.Compositor;
 
             if (compositor == null)
             {
@@ -198,10 +200,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="associatedObject">The UI Element to change the opacity of.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationSet Opacity(
+        public static AnimationSet Fade(
             this UIElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
@@ -213,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Opacity(duration, delay, value);
+            return animationSet.Fade(duration, delay, value);
         }
 
         /// <summary>
@@ -221,10 +223,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="value">The value.</param>
         /// <returns>The visual of the UIElement.</returns>
-        public static AnimationSet Opacity(
+        public static AnimationSet Fade(
             this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
@@ -237,7 +239,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 
             if (duration <= 0)
             {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
+                animationSet.AddDirectPropertyChange("Opacity", value);
+                return animationSet;
             }
 
             var visual = animationSet.Visual;
@@ -264,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="associatedObject">The specified UI Element.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="offsetX">The offset x.</param>
         /// <param name="offsetY">The offset y.</param>
         /// <param name="offsetZ">The offset z.</param>
@@ -291,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="offsetX">The offset x.</param>
         /// <param name="offsetY">The offset y.</param>
         /// <param name="offsetZ">The offset z.</param>
@@ -309,13 +312,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            if (duration <= 0)
-            {
-                throw new ArgumentOutOfRangeException("The argument duration must be greater than 0.");
-            }
-
             var visual = animationSet.Visual;
             var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
+
+            if (duration <= 0)
+            {
+                animationSet.AddDirectPropertyChange("Offset", offsetVector);
+                return animationSet;
+            }
 
             var compositor = visual?.Compositor;
 
@@ -342,20 +346,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// since older operating systems will not support blurs.
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
-        public static bool IsBlurSupported
-        {
-            get
-            {
-                return global::Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
-            }
-        }
+        public static bool IsBlurSupported =>
+            ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
 
         /// <summary>
         /// Blurs the specified framework element.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="blurAmount">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
@@ -379,7 +378,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="blurAmount">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
@@ -418,53 +417,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return null;
             }
 
-            // Create an animation to change the blur amount over time
-            var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
-            blurAnimation.InsertKeyFrame(1f, (float)blurAmount);
-            blurAnimation.Duration = TimeSpan.FromSeconds(duration);
-            blurAnimation.DelayTime = TimeSpan.FromSeconds(delay);
-
             // check to see if the visual already has a blur applied.
             var spriteVisual = ElementCompositionPreview.GetElementChildVisual(associatedObject) as SpriteVisual;
             var blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
 
-            if (blurBrush != null)
+            if (blurBrush == null || blurBrush.Comment != blurName)
             {
-                if (blurBrush.Comment == blurName)
+                var blurEffect = new GaussianBlurEffect
                 {
-                    animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
-                    return animationSet;
-                }
+                    Name = blurName,
+                    BlurAmount = 0f,
+                    Optimization = EffectOptimization.Balanced,
+                    BorderMode = EffectBorderMode.Hard,
+                    Source = new CompositionEffectSourceParameter("source")
+                };
+
+                // Create a brush to which I want to apply. I also have noted that BlurAmount should be left out of the compiled shader.
+                blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { $"{blurName}.BlurAmount" }).CreateBrush();
+                blurBrush.Comment = blurName;
+
+                // Set the source of the blur as a backdrop brush
+                blurBrush.SetSourceParameter("source", compositor.CreateBackdropBrush());
+
+                var blurSprite = compositor.CreateSpriteVisual();
+                blurSprite.Brush = blurBrush;
+                ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
+
+                blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
+
+                associatedObject.SizeChanged += (s, e) =>
+                {
+                    blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
+                };
             }
 
-            var blurEffect = new GaussianBlurEffect
+            if (duration <= 0)
             {
-                Name = blurName,
-                BlurAmount = 0f,
-                Optimization = EffectOptimization.Balanced,
-                BorderMode = EffectBorderMode.Hard,
-                Source = new CompositionEffectSourceParameter("source")
-            };
-
-            // Create a brush to which I want to apply. I also have noted that BlurAmount should be left out of the compiled shader.
-            blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { $"{blurName}.BlurAmount" }).CreateBrush();
-            blurBrush.Comment = blurName;
-
-            // Set the source of the blur as a backdrop brush
-            blurBrush.SetSourceParameter("source", compositor.CreateBackdropBrush());
-
-            var blurSprite = compositor.CreateSpriteVisual();
-            blurSprite.Brush = blurBrush;
-            ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
-
-            blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-            animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
-
-            associatedObject.SizeChanged += (s, e) =>
+                animationSet.AddEffectDirectPropertyChange(blurBrush, (float)blurAmount, $"{blurName}.BlurAmount");
+            }
+            else
             {
-                blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-                blurBrush.StartAnimation($"{blurName}.BlurAmount", blurAnimation);
-            };
+                // Create an animation to change the blur amount over time
+                var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
+                blurAnimation.InsertKeyFrame(1f, (float)blurAmount);
+                blurAnimation.Duration = TimeSpan.FromSeconds(duration);
+                blurAnimation.DelayTime = TimeSpan.FromSeconds(delay);
+
+                animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
+            }
 
             return animationSet;
         }

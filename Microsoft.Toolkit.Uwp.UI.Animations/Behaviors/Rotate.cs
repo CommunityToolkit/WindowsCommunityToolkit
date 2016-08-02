@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
@@ -18,27 +17,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <summary>
     /// Performs a rotation animation using composition.
     /// </summary>
-    public class Rotation : CompositionBehaviorBase
+    public class Rotate : CompositionBehaviorBase
     {
         /// <summary>
         /// The rotation of the associated object in degrees
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Rotation), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Rotate), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (x axis) of rotation for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (y axis) of rotation for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (z axis) of rotation for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterZProperty = DependencyProperty.Register("CenterZ", typeof(double), typeof(Rotation), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterZProperty = DependencyProperty.Register("CenterZ", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the center point (x axis) of the associated object.

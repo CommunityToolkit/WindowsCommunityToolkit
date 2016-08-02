@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var stream = await picture.OpenReadAsync())
                 {
-                    await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, picture.Name, stream);
+                    await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
                 }
             }
         }
