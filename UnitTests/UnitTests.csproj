@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
-    <Content Include="Assets\Sub\test.txt" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -149,6 +148,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
+      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI</Name>
