@@ -21,7 +21,7 @@
 
 	<Grid Background="{StaticResource Brush-Grey-05}">
 		<controls:ResponsiveGridView
-          Name="ResponsiveGridViewControl"
+          x:Name="ResponsiveGridViewControl"
           ItemHeight="{Binding ItemHeight.Value}"
           DesiredWidth="{Binding DesiredWidth.Value}"
           ItemTemplate="{StaticResource PhotosTemplate}"/>

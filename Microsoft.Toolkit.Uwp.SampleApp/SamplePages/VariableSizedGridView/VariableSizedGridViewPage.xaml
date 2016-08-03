@@ -23,7 +23,7 @@
 
 	<Grid Background="{StaticResource Brush-Grey-05}">
         <controls:VariableSizedGridView
-            Name="VariableSizedGridViewControl"
+            x:Name="VariableSizedGridViewControl"
             Margin="5"
             ItemTemplate="{StaticResource PhotoTemplate}"
             Orientation="{Binding Orientation.Value}"
