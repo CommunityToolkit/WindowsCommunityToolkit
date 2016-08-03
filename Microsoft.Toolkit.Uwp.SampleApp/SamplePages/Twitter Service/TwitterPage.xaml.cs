@@ -26,6 +26,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
 
             ShareBox.Visibility = Visibility.Collapsed;
+            SearchBox.Visibility = Visibility.Collapsed;
+            HideSearchPanel();
+            HideTweetPanel();
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -36,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
+                SearchBox.Visibility = Visibility.Collapsed;
                 Shell.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Twitter");
                 await error.ShowAsync();
@@ -43,9 +47,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             ShareBox.Visibility = Visibility.Visible;
+            SearchBox.Visibility = Visibility.Visible;
+
+            HideCredentialsPanel();
+            ShowSearchPanel();
+            ShowTweetPanel();
 
             var user = await TwitterService.Instance.GetUserAsync();
             ProfileImage.DataContext = user;
+            ProfileImage.Visibility = Visibility.Visible;
 
             ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
@@ -83,6 +93,78 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
                 }
             }
+        }
+
+        private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (CredentialsBox.Visibility == Visibility.Visible)
+            {
+                HideCredentialsPanel();
+            }
+            else
+            {
+                ShowCredentialsPanel();
+            }
+        }
+
+        private void TweetBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (TweetPanel.Visibility == Visibility.Visible)
+            {
+                HideTweetPanel();
+            }
+            else
+            {
+                ShowTweetPanel();
+            }
+        }
+
+        private void SearchBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (SearchPanel.Visibility == Visibility.Visible)
+            {
+                HideSearchPanel();
+            }
+            else
+            {
+                ShowSearchPanel();
+            }
+        }
+
+        private void ShowCredentialsPanel()
+        {
+            CredentialsBoxExpandButton.Content = "";
+            CredentialsBox.Visibility = Visibility.Visible;
+        }
+
+        private void HideCredentialsPanel()
+        {
+            CredentialsBoxExpandButton.Content = "";
+            CredentialsBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowTweetPanel()
+        {
+            TweetBoxExpandButton.Content = "";
+            TweetPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideTweetPanel()
+        {
+            TweetBoxExpandButton.Content = "";
+            TweetPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSearchPanel()
+        {
+            SearchBoxExpandButton.Content = "";
+            SearchPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideSearchPanel()
+        {
+            SearchBoxExpandButton.Content = "";
+            SearchPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -11,11 +11,7 @@
 // ******************************************************************
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string TRANSLATEPARTNAME = "Translate";
         private const string STACKPARTNAME = "Stack";
 
-        private static Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
+        private static readonly Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
         private int _currentIndex = -1; // current index in the items displayed
         private DispatcherTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
@@ -81,11 +77,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RotatorTile()
         {
-            this.DefaultStyleKey = typeof(RotatorTile);
+            DefaultStyleKey = typeof(RotatorTile);
 
-            this.Unloaded += RotatorTile_Unloaded;
-            this.Loaded += RotatorTile_Loaded;
-            this.SizeChanged += RotatorTile_SizeChanged;
+            Unloaded += RotatorTile_Unloaded;
+            Loaded += RotatorTile_Loaded;
+            SizeChanged += RotatorTile_SizeChanged;
         }
 
         /// <inheritdoc/>
@@ -98,14 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _stackPanel = GetTemplateChild(STACKPARTNAME) as StackPanel;
             if (_stackPanel != null)
             {
-                if (Direction == RotateDirection.Up)
-                {
-                    _stackPanel.Orientation = Orientation.Vertical;
-                }
-                else
-                {
-                    _stackPanel.Orientation = Orientation.Horizontal;
-                }
+                _stackPanel.Orientation = Direction == RotateDirection.Up ? Orientation.Vertical : Orientation.Horizontal;
             }
 
             if (ItemsSource != null)
@@ -138,25 +127,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Set clip to control
-            this.Clip = new RectangleGeometry() { Rect = new Rect(default(Point), e.NewSize) };
+            Clip = new RectangleGeometry() { Rect = new Rect(default(Point), e.NewSize) };
         }
 
         private void RotatorTile_Loaded(object sender, RoutedEventArgs e)
         {
             // Start timer after control has loaded
-            if (_timer != null)
-            {
-                _timer.Start();
-            }
+            _timer?.Start();
         }
 
         private void RotatorTile_Unloaded(object sender, RoutedEventArgs e)
         {
             // Stop timer and reset animation when control unloads
-            if (_timer != null)
-            {
-                _timer.Stop();
-            }
+            _timer?.Stop();
 
             if (_translate != null)
             {
@@ -207,22 +190,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var sb = new Storyboard();
             if (_translate != null)
             {
-                var anim = new DoubleAnimation();
-                anim.Duration = new Duration(TimeSpan.FromMilliseconds(500));
-                anim.From = 0;
-                if (Direction == RotatorTile.RotateDirection.Up)
+                var anim = new DoubleAnimation
                 {
-                    anim.To = -this.ActualHeight;
+                    Duration = new Duration(TimeSpan.FromMilliseconds(500)),
+                    From = 0
+                };
+                if (Direction == RotateDirection.Up)
+                {
+                    anim.To = -ActualHeight;
                 }
-                else if (Direction == RotatorTile.RotateDirection.Left)
+                else if (Direction == RotateDirection.Left)
                 {
-                    anim.To = -this.ActualWidth;
+                    anim.To = -ActualWidth;
                 }
 
                 anim.FillBehavior = FillBehavior.HoldEnd;
                 anim.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
                 Storyboard.SetTarget(anim, _translate);
-                if (Direction == RotatorTile.RotateDirection.Up)
+                if (Direction == RotateDirection.Up)
                 {
                     Storyboard.SetTargetProperty(anim, "Y");
                 }
@@ -370,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object ItemsSource
         {
-            get { return (object)GetValue(ItemsSourceProperty); }
+            get { return GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -395,17 +380,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newValue is INotifyCollectionChanged)
                 {
                     var incc = (INotifyCollectionChanged)newValue;
-                    _inccWeakEventListener = new WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs>(this);
-                    _inccWeakEventListener.OnEventAction = (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs);
-                    _inccWeakEventListener.OnDetachAction = (listener) => incc.CollectionChanged -= listener.OnEvent;
+                    _inccWeakEventListener = new WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs>(this)
+                    {
+                        OnEventAction = (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs),
+                        OnDetachAction = (listener) => incc.CollectionChanged -= listener.OnEvent
+                    };
                     incc.CollectionChanged += _inccWeakEventListener.OnEvent;
                 }
 
                 Start();
             }
-            else if (_timer != null)
+            else
             {
-                _timer.Stop();
+                _timer?.Stop();
             }
         }
 
@@ -484,7 +471,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
+            get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 

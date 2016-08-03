@@ -46,6 +46,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            if (e.PrelaunchActivated)
+            {
+                return;
+            }
+
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {

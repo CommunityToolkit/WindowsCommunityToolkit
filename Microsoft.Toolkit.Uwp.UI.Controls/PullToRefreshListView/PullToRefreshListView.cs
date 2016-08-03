@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _root = GetTemplateChild(PARTROOT) as Border;
-            _scroller = this.GetTemplateChild(PARTSCROLLER) as ScrollViewer;
+            _scroller = GetTemplateChild(PARTSCROLLER) as ScrollViewer;
             _contentTransform = GetTemplateChild(PARTCONTENTTRANSFORM) as CompositeTransform;
             _scrollerContent = GetTemplateChild(PARTSCROLLERCONTENT) as Grid;
             _refreshIndicatorBorder = GetTemplateChild(PARTREFRESHINDICATORBORDER) as Border;
