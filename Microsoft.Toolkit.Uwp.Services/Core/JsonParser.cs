@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// JsonParser type.
     /// </summary>
     /// <typeparam name="T">Data type to parse</typeparam>
-    public class JsonParser<T> : IParser<T>
+    internal class JsonParser<T> : IParser<T>
         where T : SchemaBase
     {
         /// <summary>

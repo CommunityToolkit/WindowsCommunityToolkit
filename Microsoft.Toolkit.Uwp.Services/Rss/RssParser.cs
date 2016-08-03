@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Rss
     /// <summary>
     /// RssParser.
     /// </summary>
-    public class RssParser : IParser<RssSchema>
+    internal class RssParser : IParser<RssSchema>
     {
         /// <summary>
         /// Parse string to strong type.

@@ -48,8 +48,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DelegateCommand{T}.cs" />
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
+    <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
     <Compile Include="Core\IOAuthDataService{T,U,V,W}.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
@@ -67,11 +67,9 @@
     <Compile Include="Services\Facebook\FacebookService.cs" />
     <Compile Include="Services\Twitter\TweetParser.cs" />
     <Compile Include="Services\Twitter\TwitterService.cs" />
-    <Compile Include="Core\DelegateCommand.cs" />
     <Compile Include="Core\InternalExtensionMethods.cs" />
     <Compile Include="Core\JsonParser.cs" />
     <Compile Include="Core\StringValueAttribute.cs" />
-    <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\DataProviderBase.cs" />
     <Compile Include="Exceptions\ParserNullException.cs" />
     <Compile Include="Exceptions\ConfigNullException.cs" />
@@ -87,8 +85,6 @@
     <Compile Include="Rss\AtomParser.cs" />
     <Compile Include="Rss\BaseRssParser.cs" />
     <Compile Include="Rss\Rss2Parser.cs" />
-    <Compile Include="Rss\RssDataConfig.cs" />
-    <Compile Include="Rss\RssDataProvider.cs" />
     <Compile Include="Rss\RssHelper.cs" />
     <Compile Include="Rss\RssParser.cs" />
     <Compile Include="Rss\RssSchema.cs" />
