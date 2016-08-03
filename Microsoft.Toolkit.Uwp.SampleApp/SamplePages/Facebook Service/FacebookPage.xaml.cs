@@ -33,22 +33,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             HidePostPanel();
         }
 
-        private async Task<bool> CheckInternetConnection()
-        {
-            if (!ConnectionHelper.IsInternetAvailable)
-            {
-                var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
-                await dialog.ShowAsync();
-
-                return false;
-            }
-
-            return true;
-        }
-
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await CheckInternetConnection())
+            if (!await Tools.CheckInternetConnection())
             {
                 return;
             }
@@ -97,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await CheckInternetConnection())
+            if (!await Tools.CheckInternetConnection())
             {
                 return;
             }
@@ -109,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await CheckInternetConnection())
+            if (!await Tools.CheckInternetConnection())
             {
                 return;
             }

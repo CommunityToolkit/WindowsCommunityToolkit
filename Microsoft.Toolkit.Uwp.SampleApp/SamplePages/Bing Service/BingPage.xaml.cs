@@ -26,11 +26,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!ConnectionHelper.IsInternetAvailable)
+            if (!await Tools.CheckInternetConnection())
             {
-                var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
-                await dialog.ShowAsync();
-
                 return;
             }
 
