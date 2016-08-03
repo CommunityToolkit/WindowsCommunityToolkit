@@ -60,6 +60,7 @@
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
+    <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
