@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -212,6 +212,7 @@
     <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png" />
+    <Content Include="Assets\ToolkitLogo.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png" />
@@ -222,9 +223,6 @@
     <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo.png" />
     <Content Include="Icons\About.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
