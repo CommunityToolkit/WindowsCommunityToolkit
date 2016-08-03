@@ -12,10 +12,10 @@
         <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Opacity x:Name="Opacity" 
-				Value="@[Value:DoubleSlider:0.0:0.0-1.0]" 
-				Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]" 
-				Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]" 
-				AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+                                   Value="@[Value:DoubleSlider:0.0:0.0-1.0]" 
+                                   Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]" 
+                                   Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]" 
+                                   AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
             </interactivity:Interaction.Behaviors>
         </Rectangle>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">

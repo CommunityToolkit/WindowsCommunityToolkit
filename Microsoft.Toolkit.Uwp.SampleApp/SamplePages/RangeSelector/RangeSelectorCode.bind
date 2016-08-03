@@ -15,21 +15,21 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition Width="250"></ColumnDefinition>
-                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" 
-					Text="{Binding RangeMin, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" 
-                    Foreground="Black"></TextBlock>
-            <controls:RangeSelector x:Name="RangeSelector" Grid.Column="1"
-                 Minimum="@[Minimum:Slider:0:0-100]" 
-                 Maximum="@[Maximum:Slider:100:0-100]">
+                       Text="{Binding RangeMin, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
+                       Foreground="Black"/>
+            <controls:RangeSelector x:Name="RangeSelector" 
+                                    Grid.Column="1"
+                                    Minimum="@[Minimum:Slider:0:0-100]" 
+                                    Maximum="@[Maximum:Slider:100:0-100]">
             </controls:RangeSelector>
             <TextBlock Grid.Column="2" 
-					Text="{Binding RangeMax, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
-                    Foreground="Black"></TextBlock>
+                       Text="{Binding RangeMax, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
+                       Foreground="Black"/>
         </Grid>
-        
     </Grid>
 </Page>
