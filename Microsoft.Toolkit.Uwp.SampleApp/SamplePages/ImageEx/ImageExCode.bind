@@ -10,15 +10,18 @@
     <Page.Resources>
         <DataTemplate x:Key="PhotoTemplate">
             <Grid BorderBrush="Black" BorderThickness="1">
-                <controls:ImageEx
-					IsCacheEnabled="True"
+                <controls:ImageEx 
+                    IsCacheEnabled="True"
                     Source="{Binding Thumbnail}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>  
-                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                           Text="{Binding Title}" FontSize="16"
-                           TextWrapping="Wrap" Foreground="White"></TextBlock>
+                <TextBlock 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Center"
+                    Text="{Binding Title}" FontSize="16"
+                    TextWrapping="Wrap" 
+                    Foreground="White"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>

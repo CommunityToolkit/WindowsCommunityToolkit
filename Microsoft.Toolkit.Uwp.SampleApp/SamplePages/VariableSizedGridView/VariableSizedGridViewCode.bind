@@ -21,13 +21,12 @@
         </DataTemplate>
     </Page.Resources>
 
-	<Grid Background="LightGray">
+    <Grid Background="LightGray">
         <controls:VariableSizedGridView
             Name="control"
             Margin="0"
             ItemTemplate="{StaticResource PhotoTemplate}"
             Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-            MaximumRowsOrColumns="@[MaximumRowsOrColumns:Slider:4:1-10]"            
-		/>
+            MaximumRowsOrColumns="@[MaximumRowsOrColumns:Slider:4:1-10]"/>
     </Grid>
 </Page>

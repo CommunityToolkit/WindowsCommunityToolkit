@@ -7,27 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<Page.Resources>
-		<DataTemplate x:Key="PhotosTemplate">
-			<Grid
-        Background="White"
-        BorderBrush="Black"
-        BorderThickness="1">
-				<Image
-            Source="{Binding Thumbnail}"
-            Stretch="UniformToFill"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
-			</Grid>
-		</DataTemplate>
-	</Page.Resources>
-
-
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<controls:ResponsiveGridView
-          Name="control"
-          ItemHeight="@[ItemHeight:Slider:200:50-500]"
-          DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
-          ItemTemplate="{StaticResource PhotosTemplate}"/>
-	</Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="PhotosTemplate">
+            <Grid
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <Image
+                    Source="{Binding Thumbnail}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:ResponsiveGridView Name="control"
+                                     ItemHeight="@[ItemHeight:Slider:200:50-500]"
+                                     DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
+                                     ItemTemplate="{StaticResource PhotosTemplate}"/>
+    </Grid>
 </Page>

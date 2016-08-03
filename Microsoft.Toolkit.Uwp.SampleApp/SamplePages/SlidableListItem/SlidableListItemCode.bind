@@ -11,22 +11,23 @@
 
     <Page.Resources>
         <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
-            <controls:SlidableListItem HorizontalAlignment="Stretch"
-                                       LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
-                                       RightIcon="@[RightIcon:Enum:Symbol.Delete]" 
-                                       LeftLabel="@[LeftLabel:String:Set Favourite]" 
-                                       RightLabel="@[RightLabel:String:Delete]"
-                                       LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
-                                       RightBackground="@[RightBackground:Brush:OrangeRed]"
-                                       LeftForeground ="@[LeftForeground:Brush:White]" 
-                                       RightForeground ="@[RightForeground:Brush:White]"
-                                       ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
-                                       MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
-                                       LeftCommand="{x:Bind ToggleFavorite}"
-                                       RightCommandRequested="SlidableListItem_RightCommandActivated">
+            <controls:SlidableListItem 
+                    HorizontalAlignment="Stretch"
+                    LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
+                    RightIcon="@[RightIcon:Enum:Symbol.Delete]" 
+                    LeftLabel="@[LeftLabel:String:Set Favourite]" 
+                    RightLabel="@[RightLabel:String:Delete]"
+                    LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
+                    RightBackground="@[RightBackground:Brush:OrangeRed]"
+                    LeftForeground ="@[LeftForeground:Brush:White]" 
+                    RightForeground ="@[RightForeground:Brush:White]"
+                    ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
+                    MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    LeftCommand="{x:Bind ToggleFavorite}"
+                    RightCommandRequested="SlidableListItem_RightCommandActivated">
                 <Grid Height="110" Background="Gray">
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"></CheckBox>
+                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"/>
                         <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
                     </StackPanel>
                 </Grid>
@@ -35,7 +36,11 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="listView" ItemTemplate="{StaticResource EmailsItemTemplate}" ItemsSource="{x:Bind _items, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="False">
+        <ListView x:Name="listView" 
+                  ItemTemplate="{StaticResource EmailsItemTemplate}" 
+                  ItemsSource="{x:Bind _items, Mode=OneWay}" 
+                  SelectionMode="None" 
+                  IsItemClickEnabled="False">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
