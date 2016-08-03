@@ -1,2 +1,8 @@
-// Blur the toolkit logo
-ToolkitLogo.Blur(duration: 10, delay: 0, blurAmount: 10).StartAsync();
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Blur can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+await ToolkitLogo.Blur(duration: 10, delay: 0, blurAmount: 10).StartAsync();
+

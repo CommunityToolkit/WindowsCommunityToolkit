@@ -10,7 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.Services.Bing;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -24,6 +26,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await Tools.CheckInternetConnection())
+            {
+                return;
+            }
+
             if (string.IsNullOrEmpty(SearchText.Text))
             {
                 return;
