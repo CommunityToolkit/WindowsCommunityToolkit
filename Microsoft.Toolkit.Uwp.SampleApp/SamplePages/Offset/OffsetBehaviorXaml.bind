@@ -10,26 +10,26 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle x:Name="MyRectangle" Fill="red" Height="100" Width="100" >
-            <interactivity:Interaction.Behaviors>
-                <behaviors:Offset x:Name="Offset" 
-				OffsetX="@[OffsetX:DoubleSlider:0.0:0.0-500.0]" 
-				OffsetY="@[OffsetY:DoubleSlider:0.0:0.0-500.0]" 
-				OffsetZ="@[OffsetZ:DoubleSlider:0.0:0.0-500.0]" 
-				Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]" 
-				Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]" 
-				AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
-            </interactivity:Interaction.Behaviors>
-        </Rectangle>
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Button Content="Apply" Margin="10">
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction TargetObject="{Binding ElementName=Offset}" MethodName="StartAnimation"/>
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </Button>
-        </StackPanel>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
+      <interactivity:Interaction.Behaviors>
+        <behaviors:Offset x:Name="Offset"
+            OffsetX="@[OffsetX:DoubleSlider:0.0:0.0-500.0]"
+            OffsetY="@[OffsetY:DoubleSlider:0.0:0.0-500.0]"
+            OffsetZ="@[OffsetZ:DoubleSlider:0.0:0.0-500.0]"
+            Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]"
+            Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]"
+            AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+      </interactivity:Interaction.Behaviors>
+    </Image>
+    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+      <Button Content="Apply" Margin="10">
+        <interactivity:Interaction.Behaviors>
+          <core:EventTriggerBehavior EventName="Click">
+            <core:CallMethodAction TargetObject="{Binding ElementName=Offset}" MethodName="StartAnimation"/>
+          </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </Grid>
 </Page>

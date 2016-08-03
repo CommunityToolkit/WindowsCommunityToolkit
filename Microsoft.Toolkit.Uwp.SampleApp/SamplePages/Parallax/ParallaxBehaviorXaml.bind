@@ -18,7 +18,6 @@
     </Image>
     <ScrollViewer HorizontalScrollMode="Enabled"
                   HorizontalScrollBarVisibility="Visible"
-                      
                   x:Name="Scroller">
       <Grid Width="3000" Height="3000" Margin="48">
         <StackPanel>

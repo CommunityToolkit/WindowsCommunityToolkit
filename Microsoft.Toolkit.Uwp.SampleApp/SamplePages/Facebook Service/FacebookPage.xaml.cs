@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Facebook;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -34,6 +35,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await Tools.CheckInternetConnection())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(AppIDText.Text))
+            {
+                return;
+            }
+
             Shell.Current.DisplayWaitRing = true;
             FacebookService.Instance.Initialize(AppIDText.Text);
             if (!await FacebookService.Instance.LoginAsync())
@@ -73,6 +84,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await Tools.CheckInternetConnection())
+            {
+                return;
+            }
+
             await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
             var message = new MessageDialog("Post sent to facebook");
             await message.ShowAsync();
@@ -80,6 +96,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await Tools.CheckInternetConnection())
+            {
+                return;
+            }
+
             var openPicker = new FileOpenPicker
             {
                 ViewMode = PickerViewMode.Thumbnail,
