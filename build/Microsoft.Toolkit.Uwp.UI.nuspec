@@ -9,7 +9,7 @@
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>his library provides UI services. It is part of the UWP Community Toolkit.</description>
+    <description>This library provides UI services. It is part of the UWP Community Toolkit.</description>
     <releaseNotes>First public release.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>UWP Toolkit Windows UI Converters</tags>

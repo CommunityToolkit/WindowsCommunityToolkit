@@ -15,10 +15,14 @@
                                         OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
 										PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
                                         RefreshRequested="ListView_RefreshCommand"
-                                        PullProgressChanged="ListView_PullProgressChanged">
+                                        PullProgressChanged="ListView_PullProgressChanged"
+                                        Width="320"
+                                        HorizontalAlignment="Center"
+                                        Margin="24"
+                                        Background="White">
             <controls:PullToRefreshListView.ItemTemplate>
-                <DataTemplate  x:DataType="data:Item">
-                    <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                <DataTemplate x:DataType="data:Item">
+                    <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords"/>
                 </DataTemplate>
             </controls:PullToRefreshListView.ItemTemplate>
             <controls:PullToRefreshListView.RefreshIndicatorContent>

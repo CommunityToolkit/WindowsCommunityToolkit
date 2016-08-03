@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -26,6 +27,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
+        private Dictionary<string, object> _directPropertyChanges;
+        private List<EffectDirectPropertyChangeDefinition> _directEffectPropertyChanges;
+        private List<AnimationSet> _animationSets;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private System.Threading.ManualResetEvent _manualResetEvent;
@@ -48,14 +52,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (element == null)
             {
-                throw new NullReferenceException("element must not be null");
+                throw new NullReferenceException("Element must not be null");
             }
 
             var visual = ElementCompositionPreview.GetElementVisual(element);
 
             if (visual == null)
             {
-                throw new NullReferenceException("visual must not be null");
+                throw new NullReferenceException("Visual must not be null");
             }
 
             Visual = visual;
@@ -69,6 +73,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _animations = new Dictionary<string, CompositionAnimation>();
             _effectAnimations = new List<EffectAnimationDefinition>();
             _manualResetEvent = new System.Threading.ManualResetEvent(false);
+            _directPropertyChanges = new Dictionary<string, object>();
+            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
+            _animationSets = new List<AnimationSet>();
         }
 
         /// <summary>
@@ -80,8 +87,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Starts all animations on the backing Visual.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
-        public Task StartAsync()
+        public async Task StartAsync()
         {
+            foreach (var set in _animationSets)
+            {
+                await set.StartAsync();
+            }
+
             if (_batch != null)
             {
                 if (!_batch.IsEnded)
@@ -105,6 +117,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
             }
 
+            foreach (var property in _directPropertyChanges)
+            {
+                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
+            }
+
+            foreach (var definition in _directEffectPropertyChanges)
+            {
+                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
+            }
+
             Task t = Task.Run(() =>
             {
                 _manualResetEvent.Reset();
@@ -113,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             _batch.End();
 
-            return t;
+            await t;
         }
 
         /// <summary>
@@ -121,6 +143,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public void Stop()
         {
+            foreach (var set in _animationSets)
+            {
+                set.Stop();
+            }
+
             if (_batch != null)
             {
                 if (!_batch.IsEnded)
@@ -146,7 +173,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Ovewrites the duration on all animations to the specified value
         /// </summary>
         /// <param name="duration">The duration in seconds</param>
-        public void SetDurationForAll(double duration)
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDurationForAll(double duration)
         {
             foreach (var anim in _animations)
             {
@@ -165,13 +193,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     animation.Duration = TimeSpan.FromSeconds(duration);
                 }
             }
+
+            return this;
         }
 
         /// <summary>
         /// Ovewrites the delay time on all animations to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in seconds</param>
-        public void SetDelayForAll(double delayTime)
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDelayForAll(double delayTime)
         {
             foreach (var anim in _animations)
             {
@@ -190,6 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     animation.DelayTime = TimeSpan.FromSeconds(delayTime);
                 }
             }
+
+            return this;
         }
 
         /// <summary>
@@ -230,6 +263,68 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             };
 
             _effectAnimations.Add(effect);
+        }
+
+        /// <summary>
+        /// Adds a propertyChange to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="propertyName">The property to be animated on the backing Visual</param>
+        /// <param name="value">The value to be applied</param>
+        public void AddDirectPropertyChange(string propertyName, object value)
+        {
+            _directPropertyChanges[propertyName] = value;
+        }
+
+        /// <summary>
+        /// Removes a property change from being run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="propertyName">The property that no longer needs to be changed</param>
+        public void RemoveDirectPropertyChange(string propertyName)
+        {
+            if (_directPropertyChanges.ContainsKey(propertyName))
+            {
+                _directPropertyChanges.Remove(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Wait for existing animations to complete before running any others
+        /// </summary>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet Then()
+        {
+            var savedAnimationSet = new AnimationSet(Element);
+            savedAnimationSet._animations = _animations;
+            savedAnimationSet._effectAnimations = _effectAnimations;
+            savedAnimationSet._directPropertyChanges = _directPropertyChanges;
+            savedAnimationSet._directEffectPropertyChanges = _directEffectPropertyChanges;
+
+            _animationSets.Add(savedAnimationSet);
+
+            _animations = new Dictionary<string, CompositionAnimation>();
+            _effectAnimations = new List<EffectAnimationDefinition>();
+            _directPropertyChanges = new Dictionary<string, object>();
+            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an effect propety change to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property changed</param>
+        /// <param name="value">The value to be applied</param>
+        /// <param name="propertyName">The property of the effect to be animated</param>
+        internal void AddEffectDirectPropertyChange(CompositionEffectBrush effectBrush, float value, string propertyName)
+        {
+            var definition = new EffectDirectPropertyChangeDefinition()
+            {
+                EffectBrush = effectBrush,
+                Value = value,
+                PropertyName = propertyName
+            };
+
+            _directEffectPropertyChanges.Add(definition);
         }
 
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)

@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI.Animations</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.14388.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,13 +51,14 @@
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
-    <Compile Include="Behaviors\Opacity.cs" />
+    <Compile Include="Behaviors\Fade.cs" />
     <Compile Include="Behaviors\Parallax.cs" />
-    <Compile Include="Behaviors\Rotation.cs" />
+    <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
-    <Compile Include="Extensions\Composition.cs" />
+    <Compile Include="Composition.cs" />
+    <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

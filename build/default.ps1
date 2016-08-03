@@ -9,8 +9,6 @@ properties {
   
   $isAppVeyor = Test-Path -Path env:\APPVEYOR
   
-  $version = "0.9.0"
-  
   $tempDir = "$binDir\temp"
   $binariesDir = "$binDir\binaries"
   $nupkgDir = "$binDir\nupkg"
@@ -86,6 +84,20 @@ task PackNuGet -depends Build -description "Create the NuGet packages" {
     $fullFilename = $_.FullName
     
     Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
+  }
+}
+
+task PackNuGetNoBuild -description "Create the NuGet packages with existing binaries" {
+  New-Item -Path $nupkgDir -ItemType Directory | Out-Null
+  
+  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
+
+  $version = $versionObj.NuGetVersionV2
+  
+  Get-ChildItem $buildDir\*.nuspec | % {
+    $fullFilename = $_.FullName
+    
+    Exec { .$nuget pack "$fullFilename" -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
   }
 }
 

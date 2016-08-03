@@ -116,56 +116,56 @@
     ]
   },
   {
-    "Name": "Behaviors",
-    "Icon": "Icons/Behaviors.png",
+    "Name": "Animations",
+    "Icon": "Icons/Animations.png",
     "Samples": [
       {
-        "Name": "OpacityBehavior",
-        "Type": "OpacityBehaviorPage",
+        "Name": "Fade",
+        "Type": "FadeBehaviorPage",
         "About": "Opacity of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "OpacityBehaviorCode.bind",
-        "XamlCodeFile": "OpacityBehaviorXaml.bind",
-        "Icon": "/SamplePages/OpacityBehavior/opacityBehavior.gif"
+        "CodeFile": "FadeBehaviorCode.bind",
+        "XamlCodeFile": "FadeBehaviorXaml.bind",
+        "Icon": "/SamplePages/Fade/FadeBehavior.gif"
       },
       {
-        "Name": "ScaleBehavior",
+        "Name": "Scale",
         "Type": "ScaleBehaviorPage",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "ScaleBehaviorCode.bind",
         "XamlCodeFile": "ScaleBehaviorXaml.bind",
-        "Icon": "/SamplePages/ScaleBehavior/scaleBehavior.gif"
+        "Icon": "/SamplePages/Scale/scaleBehavior.gif"
       },
       {
-        "Name": "OffsetBehavior",
+        "Name": "Offset",
         "Type": "OffsetBehaviorPage",
         "About": "Offset of XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "OffsetBehaviorCode.bind",
         "XamlCodeFile": "OffsetBehaviorXaml.bind",
-        "Icon": "/SamplePages/OffsetBehavior/offsetBehavior.gif"
+        "Icon": "/SamplePages/Offset/offsetBehavior.gif"
       },
       {
-        "Name": "RotationBehavior",
-        "Type": "RotationBehaviorPage",
+        "Name": "Rotate",
+        "Type": "RotateBehaviorPage",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "RotationBehaviorCode.bind",
-        "XamlCodeFile": "RotationBehaviorXaml.bind",
-        "Icon": "/SamplePages/RotationBehavior/rotationBehavior.gif"
+        "CodeFile": "RotateBehaviorCode.bind",
+        "XamlCodeFile": "RotateBehaviorXaml.bind",
+        "Icon": "/SamplePages/Rotate/rotateBehavior.gif"
       },
       {
-        "Name": "BlurBehavior",
+        "Name": "Blur",
         "Type": "BlurBehaviorPage",
         "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/BlurBehavior/blurBehavior.gif"
+        "Icon": "/SamplePages/Blur/blurBehavior.gif"
       },
       {
-        "Name": "ParallaxBehavior",
+        "Name": "Parallax",
         "Type": "ParallaxBehaviorPage",
         "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
@@ -192,7 +192,7 @@
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/icon.png"
+        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png"
       },
       {
         "Name": "Twitter Service",
@@ -200,7 +200,7 @@
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
-        "Icon": "/SamplePages/Twitter Service/icon.png"
+        "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
       }
     ]
   }
