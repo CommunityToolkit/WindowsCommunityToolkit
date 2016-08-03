@@ -1,8 +1,11 @@
-// Animate rotation:
-ToolkitLogo.Rotate(
-                duration: Duration,
-                delay: Delay,
-                value: (float)Value,
-                centerX: (float)CenterX,
-                centerY: (float)CenterY,
-                centerZ: (float)CenterZ).StartAsync();
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Rotate can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+await ToolkitLogo.Rotate(duration: 10, delay: 0, 
+						 value: 90.0f,
+						 centerX: 0.5f,
+						 centerY: 0.0f,
+						 centerZ: 0.5f).StartAsync();

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -31,8 +32,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             HideTweetPanel();
         }
 
+        private async Task<bool> CheckInternetConnection()
+        {
+            if (!ConnectionHelper.IsInternetAvailable)
+            {
+                var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
+                await dialog.ShowAsync();
+
+                return false;
+            }
+
+            return true;
+        }
+
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await CheckInternetConnection())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ConsumerKey.Text) || string.IsNullOrEmpty(ConsumerSecret.Text) || string.IsNullOrEmpty(CallbackUri.Text))
+            {
+                return;
+            }
+
             Shell.Current.DisplayWaitRing = true;
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
@@ -64,6 +88,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await CheckInternetConnection())
+            {
+                return;
+            }
+
             Shell.Current.DisplayWaitRing = true;
             await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
             Shell.Current.DisplayWaitRing = false;
@@ -71,6 +100,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await CheckInternetConnection())
+            {
+                return;
+            }
+
             Shell.Current.DisplayWaitRing = true;
             ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
             Shell.Current.DisplayWaitRing = false;
@@ -78,6 +112,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!await CheckInternetConnection())
+            {
+                return;
+            }
+
             FileOpenPicker openPicker = new FileOpenPicker
             {
                 ViewMode = PickerViewMode.Thumbnail,

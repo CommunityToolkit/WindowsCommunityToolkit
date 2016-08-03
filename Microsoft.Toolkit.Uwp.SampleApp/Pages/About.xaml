@@ -11,24 +11,25 @@
             <StackPanel HorizontalAlignment="Center" Margin="0,36,0,0">
                 <TextBlock Text="UWP Community Toolkit Sample App" FontSize="36" Foreground="{StaticResource Brush-Grey-03}" FontWeight="Light" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="12,0"/>
                 <TextBlock x:Name="Version" TextAlignment="Center" Margin="0,0,0,24"/>
-                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="WrapWholeWords" Text="This App is a showcase for the UWP Controls and helpers available from UWP Toolkit. You can find the source code in our GitHub repo. All Controls and helpers are available as NuGet packages." Margin="12,0,12,12"/>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="WrapWholeWords" Text="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub." Margin="12,0,12,12"/>
 
-                <TextBlock Text="App code" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Text="UWP Community Toolkit and Sample App code" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
                 <HyperlinkButton HorizontalAlignment="Center"
                             FontWeight="Light"
                             Foreground="{StaticResource Brush-Blue-01}"
-                            NavigateUri="https://github.com/Microsoft/UWPCommunityToolkit"
+                            NavigateUri="http://aka.ms/uwptoolkit"
                             FontSize="14" Margin="0,0,0,12">
-                    GitHub Repository
+                    Github repository
                 </HyperlinkButton>
-                <TextBlock Text="URL" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
+                
+                <TextBlock Text="Documentation" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
                 <HyperlinkButton
                             HorizontalAlignment="Center"
                             FontWeight="Light"
                             Foreground="{StaticResource Brush-Blue-01}"
-                            NavigateUri="https://dev.windows/com/uwptoolkit"
+                            NavigateUri="http://aka.ms/uwptoolkitdocs"
                             FontSize="14" Margin="0,0,0,12">
-                    https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit
+                    Documentation homepage
                 </HyperlinkButton>
 
                 <TextBlock Text="Dependencies" TextAlignment="Center" FontWeight="SemiBold" FontSize="16"/>
