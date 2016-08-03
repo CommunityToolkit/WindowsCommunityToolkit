@@ -1,7 +1,7 @@
 (intro needed)
 
 ## Where should I add new code?
-Any code for generating notifications that doesn't use WinRT API's should be written in the Microsoft.Windows.Toolkit.Notifications.Shared project.
+Any code for generating notifications that doesn't use WinRT API's should be written in the Microsoft.Toolkit.Uwp.Notifications.Shared project.
 
 UWP-specific code can be written in the WinRT project library.
 
