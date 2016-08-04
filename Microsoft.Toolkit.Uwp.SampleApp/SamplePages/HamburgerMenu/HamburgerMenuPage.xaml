@@ -31,7 +31,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{StaticResource Brush-Grey-05}" Margin="50" BorderThickness="1" BorderBrush="Black">
+    <Grid Background="{StaticResource Brush-Grey-05}" Padding="50">
         <controls:HamburgerMenu PaneBackground="{Binding PaneBackground.Value}" x:Name="HamburgerMenuControl"
                                 Foreground="White"
                                 ItemTemplate="{StaticResource ButtonTemplate}"

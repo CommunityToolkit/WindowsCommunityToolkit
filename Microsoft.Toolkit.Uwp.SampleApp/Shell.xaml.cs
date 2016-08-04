@@ -184,6 +184,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (NavigationFrame.CanGoBack)
             {
+                backRequestedEventArgs.Handled = true;
                 HideInfoArea();
                 NavigationFrame.GoBack();
             }

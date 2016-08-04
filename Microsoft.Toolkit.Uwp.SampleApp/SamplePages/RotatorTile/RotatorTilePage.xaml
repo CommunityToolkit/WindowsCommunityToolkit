@@ -43,42 +43,48 @@
                     <VisualState.Setters>
                         <Setter Target="Panel2.(Grid.Column)" Value="0" />
                         <Setter Target="Panel2.(Grid.Row)" Value="1" />
+                        <Setter Target="Panel1.Width" Value="250" />
+                        <Setter Target="Panel2.Width" Value="150" />
+                        <Setter Target="Tile1.Height" Value="150" />
+                        <Setter Target="Tile2.Height" Value="150" />
+                        <Setter Target="Panel1.Margin" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <StackPanel Grid.Column="0" x:Name="Panel1">
-                <controls:RotatorTile Background="LightGray" x:Name="Tile1" 
+                <StackPanel Grid.Column="0" x:Name="Panel1" Width="400" Margin="0,0,20,0">
+                    <controls:RotatorTile Background="LightGray" x:Name="Tile1" 
                             Direction="Up" 
-                            MaxWidth="400" Height="200" Margin="20"
+                            Height="200"
                             ItemTemplate="{StaticResource PhotoTemplate}" />
 
-                <Border Padding="5" Width="400" Height="75" Margin="20,0">
-                    <TextBlock Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-                </Border>
-            </StackPanel>
+                    <Border Padding="5" Height="75" Margin="20,20,20,20">
+                        <TextBlock Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    </Border>
+                </StackPanel>
 
-            <StackPanel Grid.Column="1" Grid.Row="0" x:Name="Panel2">
-                <controls:RotatorTile Background="LightGray" x:Name="Tile2"
+                <StackPanel Grid.Column="1" Grid.Row="0" x:Name="Panel2" Width="200">
+                    <controls:RotatorTile Background="LightGray" x:Name="Tile2"
                             Direction="Left"
-                            MaxWidth="200" Height="200" Margin="20"
+                            Height="200" 
                             ItemTemplate="{StaticResource PhotoTemplate}"/>
 
-                <Border Padding="5" Width="200" Height="75" Margin="20,0">
-                    <TextBlock Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-                </Border>
-            </StackPanel>
-
-        </Grid>
+                    <Border Padding="5" Height="75" Margin="20,20,20,0">
+                        <TextBlock Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
