@@ -8,7 +8,9 @@ Want to see the controls and behaviors in action before jumping into the code?  
 
 ## Questions / Feedback
 
-TODO: (UserVoice? Forum entry?)
+Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
+
+For suggestions and wishes please use our [UserVoice](https://aka.ms/uwpcommunitytoolkituservoice).
 
 ## Principles
  - Principle #1: As soon as a comparable toolkit control or a service is available in official SDK, we will plan to mark it as deprecated
@@ -27,11 +29,10 @@ Please find what we plan for next iteration [here](https://github.com/Microsoft/
 [List of nuget packages](en-us/uwp-community-toolkit/get-started/nugetpackages.md) contains the list of nuget packages and what is included in each.
 
 ## Documentation
-Even our documentation is open source!  If you would like to contribute please visit the [UWP Community Toolkit Documentation Repo on Github](https://github.com/Microsoft/UWPCommunityToolkit-docs/) and submit a pull request.
+Even our [documentation](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit) is open source!  If you would like to contribute please visit the [UWP Community Toolkit Documentation Repo on Github](https://github.com/Microsoft/UWPCommunityToolkit-docs/) and submit a pull request.
 
-## Useful links
- - Official web site: https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit
- - Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
+## Contributing
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
 ## Controls and Features
-To get a complete list of supported controls, services and features, please visit our [documentation website](...).
+To get a complete list of supported controls, services and features, please visit our [documentation website](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit).
