@@ -117,19 +117,17 @@ Helpers and services that are built on top of Windows Composition layer to provi
 ## Notifications
 
 ### Tiles
-[Adaptive Tile Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
-
-[Quickstart: Sending a local tile notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/10/05/quickstart-sending-a-local-tile-notification-in-windows-10/)
+- [Adaptive Tile Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
+- [Quickstart: Sending a local tile notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/10/05/quickstart-sending-a-local-tile-notification-in-windows-10/)
 
 ### Toasts
-[Interactive Toast Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
-[Quickstart: Sending a local toast notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/)
-=======
-Even our [documentation](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit) is open source!  If you would like to contribute please visit the [UWP Community Toolkit Documentation Repo on Github](https://github.com/Microsoft/UWPCommunityToolkit-docs/) and submit a pull request.
+- [Interactive Toast Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
+- [Quickstart: Sending a local toast notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/)
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
 ## Controls and Features
 To get a complete list of supported controls, services and features, please visit our [documentation website](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit).
->>>>>>> origin/master
+
+
