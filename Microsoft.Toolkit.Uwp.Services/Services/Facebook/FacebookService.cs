@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     /// <summary>
     /// Class for connecting to Facebook.
     /// </summary>
-    public class FacebookService : IOAuthDataService<FBSession, FacebookPost, FacebookDataConfig, FacebookOAuthTokens>
+    public class FacebookService
     {
         /// <summary>
         /// Field for tracking initialization status.
@@ -69,15 +69,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(FacebookOAuthTokens oAuthTokens)
+        public bool Initialize(FacebookOAuthTokens oAuthTokens, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions)
         {
             if (oAuthTokens == null)
             {
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            return Initialize(oAuthTokens.AppId, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions, oAuthTokens.WindowsStoreId);
+            return Initialize(oAuthTokens.AppId, requiredPermissions, oAuthTokens.WindowsStoreId);
         }
 
         /// <summary>
