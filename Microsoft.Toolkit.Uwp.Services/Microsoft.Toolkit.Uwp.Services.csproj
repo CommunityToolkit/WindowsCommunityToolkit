@@ -59,6 +59,8 @@
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\Twitter\TwitterErrors.cs" />
+    <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Services\Twitter\TwitterSearchParser.cs" />
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
     <Compile Include="Services\Twitter\Tweet.cs" />
+    <Compile Include="Services\Twitter\TwitterError.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
