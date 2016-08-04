@@ -27,7 +27,26 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid  Background="{StaticResource Brush-Grey-05}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="Panel2.(Grid.Column)" Value="0" />
+                        <Setter Target="Panel2.(Grid.Row)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -38,29 +57,27 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <controls:RotatorTile Background="LightGray" x:Name="Tile1" 
-                            ItemsSource="{x:Bind Photos}" Direction="Up" 
-                            Width="400" Height="200" Margin="20"
-                            ItemTemplate="{StaticResource PhotoTemplate}" 
-                            Grid.Column="0" Grid.Row="0" />
+            <StackPanel Grid.Column="0" x:Name="Panel1">
+                <controls:RotatorTile Background="LightGray" x:Name="Tile1" 
+                            Direction="Up" 
+                            MaxWidth="400" Height="200" Margin="20"
+                            ItemTemplate="{StaticResource PhotoTemplate}" />
 
-            <controls:RotatorTile Background="LightGray" x:Name="Tile2"
-                            ItemsSource="{x:Bind Photos}" Direction="Left"
-                            Width="200" Height="200" Margin="20"
-                            ItemTemplate="{StaticResource PhotoTemplate}"
-                            Grid.Column="1" Grid.Row="0" />
+                <Border Padding="5" Width="400" Height="75" Margin="20,0">
+                    <TextBlock Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+                </Border>
+            </StackPanel>
 
-            <!--Panels for showing more information about the current item-->
+            <StackPanel Grid.Column="1" Grid.Row="0" x:Name="Panel2">
+                <controls:RotatorTile Background="LightGray" x:Name="Tile2"
+                            Direction="Left"
+                            MaxWidth="200" Height="200" Margin="20"
+                            ItemTemplate="{StaticResource PhotoTemplate}"/>
 
-            <Border Background="White" Padding="5" Width="400" Height="75" Margin="20,0"
-                    Grid.Column="0" Grid.Row="1" >
-                <TextBlock Text="{Binding ElementName=Tile1, Path=SelectedItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-            </Border>
-
-            <Border Background="White" Padding="5" Width="200" Height="75" Margin="20,0"
-                    Grid.Column="1" Grid.Row="1" >
-                <TextBlock Text="{Binding ElementName=Tile2, Path=SelectedItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-            </Border>
+                <Border Padding="5" Width="200" Height="75" Margin="20,0">
+                    <TextBlock Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+                </Border>
+            </StackPanel>
 
         </Grid>
     </Grid>

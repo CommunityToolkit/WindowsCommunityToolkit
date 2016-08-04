@@ -15,6 +15,8 @@ Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issu
 
 If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
 
+Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
+
 ## Principles
 
  - Principle #1: As soon as a comparable toolkit control or a service is available in official SDK, we will plan to mark it as deprecated
@@ -30,16 +32,6 @@ Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunity
 ## Getting started
 
 Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
-
-## Documentation
-
-Even our documentation is open source!  If you would like to contribute please visit the [UWP Community Toolkit Documentation Repo on Github](https://github.com/Microsoft/UWPCommunityToolkit-docs/) and submit a pull request.
-
-## Useful links
-
- - Official web site: https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit
- - Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
-
 
 # Nuget Packages
 
@@ -129,5 +121,3 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
 
 ## Controls and Features
 To get a complete list of supported controls, services and features, please visit our [documentation website](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit).
-
-

@@ -9,6 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI;
 
 using Windows.UI.Xaml.Navigation;
@@ -22,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -33,17 +35,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await ImageCache.ClearAsync();
             });
 
-            Shell.Current.RegisterNewCommand("Reload content", (sender, args) =>
+            Shell.Current.RegisterNewCommand("Reload content", async (sender, args) =>
             {
-                LoadData();
+                await LoadDataAsync();
             });
 
-            LoadData();
+            await LoadDataAsync();
         }
 
-        private void LoadData()
+        private async Task LoadDataAsync()
         {
-            ImageExControl.ItemsSource = new Data.PhotosDataSource().GetItems(true);
+            ImageExControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync(true);
         }
     }
 }

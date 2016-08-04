@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,32 +9,22 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
-using Windows.UI.Xaml.Navigation;
+using System;
+using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
-    public sealed partial class ResponsiveGridViewPage
+    /// <summary>
+    /// Twitter specific exception.
+    /// </summary>
+    public class TwitterException : Exception
     {
-        public ResponsiveGridViewPage()
-        {
-            InitializeComponent();
-        }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
-            ResponsiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-        }
+        /// <summary>
+        /// Gets or sets the errors returned by Twitter
+        /// </summary>
+        public TwitterErrors Errors { get; set; }
     }
 }

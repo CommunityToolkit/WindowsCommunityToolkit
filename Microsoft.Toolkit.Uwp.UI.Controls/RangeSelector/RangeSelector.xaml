@@ -68,13 +68,30 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
+
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                           Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MinThumb"
+                                           Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MaxThumb"
+                                           Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <Border x:Name="OutOfRangeContentContainer" Height="24" Background="Transparent" Margin="12,0">
                             <Rectangle x:Name="BackgroundElement" Height="2" Fill="{TemplateBinding Background}" />
                         </Border>
-                        <Canvas x:Name="ContainerCanvas" Margin="12,0">
+                        <Canvas x:Name="ContainerCanvas" Margin="12,0" Background="Transparent" >
                             <Rectangle x:Name="ActiveRectangle" Fill="{TemplateBinding Foreground}" Height="2" Canvas.Top="11" />
                             <Thumb x:Name="MinThumb" Background="{TemplateBinding Foreground}" Style="{StaticResource SliderThumbStyle}" />
                             <Thumb x:Name="MaxThumb" Background="{TemplateBinding Foreground}" Style="{StaticResource SliderThumbStyle}" />

@@ -1,21 +1,30 @@
-Ôªø// ******************************************************************
+// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED ‚ÄúAS IS‚Äù, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// THE CODE IS PROVIDED ìAS ISî, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 // IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
-{
-    public class OptionMenuItem
-    {
-        public string Name { get; set; }
+using Newtonsoft.Json;
 
-        public string Glyph { get; set; }
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
+{
+    /// <summary>
+    /// Twitter errors type.
+    /// </summary>
+    public class TwitterErrors
+    {
+        /// <summary>
+        /// Gets or sets the list of errors
+        /// </summary>
+        [JsonProperty("errors")]
+        public TwitterError[] Errors { get; set; }
     }
 }

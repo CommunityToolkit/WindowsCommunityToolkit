@@ -18,7 +18,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
 using Newtonsoft.Json;
@@ -81,13 +80,14 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Returns user data.</returns>
         public async Task<TwitterUser> GetUserAsync(string screenName = null)
         {
+            string rawResult = null;
             try
             {
                 var userScreenName = screenName ?? UserScreenName;
                 var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, tokens);
+                rawResult = await request.ExecuteGetAsync(uri, tokens);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
             catch (WebException wex)
@@ -113,6 +113,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 throw;
             }
+            catch
+            {
+                if (!string.IsNullOrEmpty(rawResult))
+                {
+                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+
+                    throw new TwitterException { Errors = errors };
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -126,12 +137,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
             where TSchema : SchemaBase
         {
+            string rawResult = null;
             try
             {
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, tokens);
+                rawResult = await request.ExecuteGetAsync(uri, tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -157,6 +169,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     {
                         throw new OAuthKeysRevokedException();
                     }
+                }
+
+                throw;
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(rawResult))
+                {
+                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+
+                    throw new TwitterException { Errors = errors };
                 }
 
                 throw;
