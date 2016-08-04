@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Collections.Generic;
+using System.Threading;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -23,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -33,8 +34,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-        }
 
-        public IEnumerable<Data.PhotoDataItem> Photos { get; } = new Data.PhotosDataSource().GetItems(true);
+            var pictures = await new Data.PhotosDataSource().GetItemsAsync(true);
+
+            Tile1.ItemsSource = pictures;
+            Tile2.ItemsSource = pictures;
+        }
     }
 }

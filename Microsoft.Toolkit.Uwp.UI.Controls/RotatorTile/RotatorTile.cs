@@ -67,10 +67,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(RotateDirection), typeof(RotateDirection), typeof(RotatorTile), new PropertyMetadata(RotateDirection.Up));
 
         /// <summary>
-        /// Identifies the <see cref="SelectedItem"/> property.
+        /// Identifies the <see cref="CurrentItem"/> property.
         /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(RotatorTile), new PropertyMetadata(null, OnSelectedItemPropertyChanged));
+        public static readonly DependencyProperty CurrentItemProperty =
+            DependencyProperty.Register(nameof(CurrentItem), typeof(object), typeof(RotatorTile), new PropertyMetadata(null, OnCurrentItemPropertyChanged));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RotatorTile"/> class.
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateNextItem()
         {
             _currentIndex++;
-            SelectedItem = GetItemAt(_currentIndex);
+            CurrentItem = GetItemAt(_currentIndex);
         }
 
         private void RotateToNextItem()
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _timer.Start();
             _suppressFlipOnSet = true;
-            SelectedItem = currentItem;
+            CurrentItem = currentItem;
             _suppressFlipOnSet = false;
         }
 
@@ -456,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_currentIndex >= e.OldStartingIndex && _currentIndex < endIndex)
                 {
                     // The current item was moved. Get its new location
-                    _currentIndex = GetIndexOf(SelectedItem);
+                    _currentIndex = GetIndexOf(CurrentItem);
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
@@ -469,13 +469,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the currently selected visible item
         /// </summary>
-        public object SelectedItem
+        public object CurrentItem
         {
-            get { return GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get { return GetValue(CurrentItemProperty); }
+            set { SetValue(CurrentItemProperty, value); }
         }
 
-        private static void OnSelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCurrentItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (RotatorTile)d;
             if (ctrl._suppressFlipOnSet)

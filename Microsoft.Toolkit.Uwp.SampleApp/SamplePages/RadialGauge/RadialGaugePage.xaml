@@ -16,18 +16,18 @@
             </Grid.ColumnDefinitions>
             <controls:RadialGauge x:Name="RadialGaugeControl"
                                   Grid.Column="1"
-                                  Value="{Binding Value.Value, Mode=TwoWay}"
+                                  Value="{Binding Value.Value, Mode=OneWay}"
                                   Minimum="0"
                                   Maximum="180"
-                                  TickSpacing="{Binding TickSpacing.Value, Mode=TwoWay}"
-                                  ScaleWidth="{Binding ScaleWidth.Value, Mode=TwoWay}"
+                                  TickSpacing="{Binding TickSpacing.Value, Mode=OneWay}"
+                                  ScaleWidth="{Binding ScaleWidth.Value, Mode=OneWay}"
                                   Unit="Units"
                                   TickBrush="Gainsboro"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   UnitBrush="Black"
                                   ValueBrush="Black"
-                                  NeedleWidth="{Binding NeedleWidth.Value, Mode=TwoWay}"
-                                  TickLength="{Binding TickLength.Value, Mode=TwoWay}" />
+                                  NeedleWidth="{Binding NeedleWidth.Value, Mode=OneWay}"
+                                  TickLength="{Binding TickLength.Value, Mode=OneWay}" />
         </Grid>
     </Grid>
 </Page>

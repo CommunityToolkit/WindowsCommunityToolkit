@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            ResponsiveGridViewControl.ItemsSource = new Data.PhotosDataSource().GetItems();
+            ResponsiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }

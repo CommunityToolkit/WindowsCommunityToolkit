@@ -12,8 +12,8 @@
                Stretch="UniformToFill" HorizontalAlignment="Center" Opacity=".3">
             <interactivity:Interaction.Behaviors>
                 <behaviors:Parallax Scroller="{Binding ElementName=Scroller}"
-                                    Multiplier="{Binding Multiplier.Value, Mode=TwoWay}"
-                                    IsHorizontalEffect="{Binding IsHorizontalEffect.Value, Mode=TwoWay}" />
+                                    Multiplier="{Binding Multiplier.Value, Mode=OneWay}"
+                                    IsHorizontalEffect="{Binding IsHorizontalEffect.Value, Mode=OneWay}" />
             </interactivity:Interaction.Behaviors>
         </Image>
         <ScrollViewer HorizontalScrollMode="Enabled"

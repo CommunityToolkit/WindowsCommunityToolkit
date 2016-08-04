@@ -111,7 +111,7 @@
             </Grid.RowDefinitions>
             <Grid x:Name="DemoAreaGrid">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="UWP Community Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="UWP Community Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}" TextWrapping="Wrap"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sample App" Margin="0" FontSize="18.667" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
