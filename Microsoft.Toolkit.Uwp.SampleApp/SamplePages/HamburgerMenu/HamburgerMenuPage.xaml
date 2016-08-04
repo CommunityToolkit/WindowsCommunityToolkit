@@ -19,14 +19,14 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="OptionTemplate">
+        <DataTemplate x:Key="OptionTemplate" x:DataType="data:OptionMenuItem">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{Binding Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
     </Page.Resources>

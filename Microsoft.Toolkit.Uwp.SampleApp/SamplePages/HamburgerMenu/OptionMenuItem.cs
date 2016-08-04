@@ -9,16 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
 
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
     public class OptionMenuItem
     {

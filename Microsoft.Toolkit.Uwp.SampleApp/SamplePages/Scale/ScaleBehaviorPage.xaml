@@ -13,15 +13,15 @@
         <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Scale x:Name="Scale" 
-                                 ScaleX="{Binding ScaleX.Value, Mode=TwoWay}" 
-                                 ScaleY="{Binding ScaleY.Value, Mode=TwoWay}" 
-                                 ScaleZ="{Binding ScaleZ.Value, Mode=TwoWay}" 
-                                 CenterX="{Binding CenterX.Value, Mode=TwoWay}" 
-                                 CenterY="{Binding CenterY.Value, Mode=TwoWay}" 
-                                 CenterZ="{Binding CenterZ.Value, Mode=TwoWay}" 
-                                 Duration="{Binding Duration.Value, Mode=TwoWay}" 
-                                 Delay="{Binding Delay.Value, Mode=TwoWay}" 
-                                 AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
+                                 ScaleX="{Binding ScaleX.Value, Mode=OneWay}" 
+                                 ScaleY="{Binding ScaleY.Value, Mode=OneWay}" 
+                                 ScaleZ="{Binding ScaleZ.Value, Mode=OneWay}" 
+                                 CenterX="{Binding CenterX.Value, Mode=OneWay}" 
+                                 CenterY="{Binding CenterY.Value, Mode=OneWay}" 
+                                 CenterZ="{Binding CenterZ.Value, Mode=OneWay}" 
+                                 Duration="{Binding Duration.Value, Mode=OneWay}" 
+                                 Delay="{Binding Delay.Value, Mode=OneWay}" 
+                                 AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"/>
             </interactivity:Interaction.Behaviors>
         </Image>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">

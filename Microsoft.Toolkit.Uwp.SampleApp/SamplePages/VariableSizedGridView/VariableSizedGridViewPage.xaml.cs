@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            VariableSizedGridViewControl.ItemsSource = new Data.PhotosDataSource().GetItems();
+            VariableSizedGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }

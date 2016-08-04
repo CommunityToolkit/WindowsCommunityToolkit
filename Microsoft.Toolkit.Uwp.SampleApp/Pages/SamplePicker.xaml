@@ -23,12 +23,12 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="SmallSampleTemplate" x:DataType="sampleApp:Sample">
-            <Grid Width="400" Height="90" Margin="6" >
+            <Grid MinHeight="80" MaxHeight="110" Margin="6" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Top" Margin="0,0,6,0">
+                <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Center" Margin="0,0,6,0">
                     <Image Source="{Binding Icon}" Height="80" Width="80" />
                 </Border>
                 <StackPanel Grid.Column="1">
@@ -55,6 +55,13 @@
 
                     <VisualState.Setters>
                         <Setter Target="SamplesList.ItemTemplate" Value="{StaticResource SmallSampleTemplate}" />
+                        <Setter Target="SamplesList.ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <StackPanel></StackPanel>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -74,6 +81,7 @@
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0"></Setter>
                 </Style>
             </GridView.ItemContainerStyle>
         </GridView>

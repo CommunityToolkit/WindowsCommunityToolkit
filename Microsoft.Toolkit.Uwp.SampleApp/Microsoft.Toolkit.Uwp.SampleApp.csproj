@@ -373,7 +373,9 @@
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs" />
+    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs" >
+      <DependentUpon>RadialGaugePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
       <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
     </Compile>

@@ -10,10 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -149,6 +151,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_containerCanvas != null)
             {
                 _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
+                _containerCanvas.PointerEntered += ContainerCanvas_PointerEntered;
+                _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
             }
 
             VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", false);
@@ -156,6 +160,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
             base.OnApplyTemplate();
+        }
+
+        private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Normal", false);
+        }
+
+        private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "PointerOver", false);
         }
 
         private void OutOfRangeContentContainer_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -521,11 +535,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MinThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
+            var mousePositionX = Window.Current.CoreWindow.PointerPosition.X - Window.Current.CoreWindow.Bounds.Left;
+            var visual = _containerCanvas.TransformToVisual(Window.Current.Content);
+            var screenCoords = visual.TransformPoint(new Point(0, 0));
+
+            if (mousePositionX < screenCoords.X)
+            {
+                RangeMin = Minimum;
+                return;
+            }
+
+            if (mousePositionX > screenCoords.X + _containerCanvas.ActualWidth)
+            {
+                RangeMin = Maximum;
+                return;
+            }
+
             RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), Canvas.GetLeft(_minThumb) + e.HorizontalChange);
         }
 
         private void MaxThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
+            var mousePositionX = Window.Current.CoreWindow.PointerPosition.X - Window.Current.CoreWindow.Bounds.Left;
+            var visual = _containerCanvas.TransformToVisual(Window.Current.Content);
+            var screenCoords = visual.TransformPoint(new Point(0, 0));
+
+            if (mousePositionX < screenCoords.X)
+            {
+                RangeMax = Minimum;
+                return;
+            }
+
+            if (mousePositionX > screenCoords.X + _containerCanvas.ActualWidth)
+            {
+                RangeMax = Maximum;
+                return;
+            }
+
             RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), _containerCanvas.ActualWidth, Canvas.GetLeft(_maxThumb) + e.HorizontalChange);
         }
 
