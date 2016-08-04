@@ -11,7 +11,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
       <interactivity:Interaction.Behaviors>
-        <behaviors:Opacity x:Name="Opacity"
+        <behaviors:Fade x:Name="Fade"
             Value="@[Value:DoubleSlider:0.0:0.0-1.0]"
             Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]"
             Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]"
@@ -22,7 +22,7 @@
       <Button Content="Apply" Margin="10">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Opacity}" MethodName="StartAnimation"/>
+            <core:CallMethodAction TargetObject="{Binding ElementName=Fade}" MethodName="StartAnimation"/>
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
       </Button>
