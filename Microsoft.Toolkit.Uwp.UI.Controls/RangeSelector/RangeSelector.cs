@@ -260,9 +260,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = Minimum;
             }
 
-            if (RangeMax < Minimum)
+            if (RangeMax > Maximum)
             {
-                RangeMax = Minimum;
+                RangeMax = Maximum;
             }
 
             if (RangeMin > Maximum)
@@ -270,9 +270,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = Maximum;
             }
 
-            if (RangeMax > Maximum)
+            if (RangeMax < Minimum)
             {
-                RangeMax = Maximum;
+                RangeMax = Minimum;
             }
 
             if (RangeMax < RangeMin)
@@ -408,6 +408,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
+            rangeSelector._minSet = true;
+
             if (rangeSelector == null || !rangeSelector._valuesAssigned)
             {
                 return;
@@ -415,7 +417,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var newValue = (double)e.NewValue;
 
-            rangeSelector._minSet = true;
             if (rangeSelector._valuesAssigned)
             {
                 if (newValue < rangeSelector.Minimum)
@@ -466,6 +467,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
+            rangeSelector._maxSet = true;
+
             if (rangeSelector == null || !rangeSelector._valuesAssigned)
             {
                 return;
@@ -473,7 +476,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var newValue = (double)e.NewValue;
 
-            rangeSelector._maxSet = true;
             if (rangeSelector._valuesAssigned)
             {
                 if (newValue < rangeSelector.Minimum)
