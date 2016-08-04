@@ -260,9 +260,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = Minimum;
             }
 
-            if (RangeMax > Maximum)
+            if (RangeMax < Minimum)
             {
-                RangeMax = Maximum;
+                RangeMax = Minimum;
             }
 
             if (RangeMin > Maximum)
@@ -270,9 +270,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = Maximum;
             }
 
-            if (RangeMax < Minimum)
+            if (RangeMax > Maximum)
             {
-                RangeMax = Minimum;
+                RangeMax = Maximum;
             }
 
             if (RangeMax < RangeMin)
