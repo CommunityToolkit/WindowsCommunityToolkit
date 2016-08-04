@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            RootGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+            RootGrid.RowDefinitions[1].Height = new GridLength(32);
         }
 
         public void HideInfoArea()

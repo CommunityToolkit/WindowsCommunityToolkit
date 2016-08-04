@@ -16,8 +16,8 @@
 										PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
                                         RefreshRequested="ListView_RefreshCommand"
                                         PullProgressChanged="ListView_PullProgressChanged"
-                                        Width="320"
                                         HorizontalAlignment="Center"
+                                        MinWidth="200"
                                         Margin="24"
                                         Background="White">
             <controls:PullToRefreshListView.ItemTemplate>

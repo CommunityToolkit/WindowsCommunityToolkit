@@ -106,8 +106,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
                 <RowDefinition/>
+                <RowDefinition Height="32"/>
             </Grid.RowDefinitions>
             <Grid x:Name="DemoAreaGrid">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">

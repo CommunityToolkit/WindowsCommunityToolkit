@@ -25,7 +25,10 @@
                                        MouseSlidingEnabled="{Binding DataContext.MouseSlidingEnabled.Value, ElementName=Root, Mode=OneWay}"
                                        LeftCommand="{x:Bind ToggleFavorite}"
                                        RightCommandRequested="SlidableListItem_RightCommandActivated"
-                                       ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}">
+                                       ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}"
+                                       MinWidth="300"
+                                       MaxWidth="800"
+                                       >
                 <Grid Height="110" Background="{StaticResource ResourceKey=Brush-Grey-04}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="48"/>
@@ -40,8 +43,8 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{StaticResource Brush-Grey-05}" x:Name="Root">
-        <ListView x:Name="listView" SelectionMode="None" IsItemClickEnabled="False" HorizontalAlignment="Center" MinWidth="400" MaxWidth="800" Margin="24" ItemsSource="{x:Bind _items, Mode=OneWay}"  ItemTemplate="{StaticResource EmailsItemTemplate}">
+    <Grid Background="{StaticResource Brush-Grey-05}" x:Name="Root" Padding="24">
+        <ListView x:Name="listView" SelectionMode="None" IsItemClickEnabled="False" HorizontalAlignment="Center" ItemsSource="{x:Bind _items, Mode=OneWay}"  ItemTemplate="{StaticResource EmailsItemTemplate}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
