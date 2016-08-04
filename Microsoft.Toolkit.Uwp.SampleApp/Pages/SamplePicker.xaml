@@ -18,14 +18,47 @@
                 </Border>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
-                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="WrapWholeWords" Margin="0,4,0,0" />
+                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,4,0,0" />
                 </StackPanel>
             </Grid>
-
+        </DataTemplate>
+        <DataTemplate x:Key="SmallSampleTemplate" x:DataType="sampleApp:Sample">
+            <Grid Width="400" Height="90" Margin="6" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Top" Margin="0,0,6,0">
+                    <Image Source="{Binding Icon}" Height="80" Width="80" />
+                </Border>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="16" VerticalAlignment="Top" FontWeight="Light" />
+                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="12" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,2,0,0" />
+                </StackPanel>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{StaticResource Brush-Grey-05}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="SamplesList.ItemTemplate" Value="{StaticResource SmallSampleTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -35,8 +68,14 @@
                    Text="{x:Bind ViewModel.Name, Mode=OneWay}" 
                    FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
         <GridView Name="SamplesList" 
-                  Grid.Row="1" Margin="6"
+                  Grid.Row="1" Padding="6"
                   ItemsSource="{x:Bind ViewModel.Samples}" ItemTemplate="{StaticResource SampleTemplate}" 
-                  IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick" />
+                  IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
     </Grid>
 </Page>

@@ -109,6 +109,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     rootFrame.Navigate(typeof(Shell), e.Arguments);
                 }
 
+                // Status bar
+                if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
+                    ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
+                {
+                    StatusBar statusBar = StatusBar.GetForCurrentView();
+
+                    // Hide the status bar
+                    await statusBar.HideAsync();
+                }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
