@@ -101,6 +101,7 @@ Helpers and services that are built on top of Windows Composition layer to provi
 - [ImageCache] (helpers/imagecache.md)
 - [StorageFiles](helpers/storagefiles.md)
 - [Streams](helpers/streams.md)
+- [VisualTreeExtensions](helpers/visualtreeextensions.md)
 - [WeakEventListener](helpers/weakeventlistener.md)
 
 ## Services
