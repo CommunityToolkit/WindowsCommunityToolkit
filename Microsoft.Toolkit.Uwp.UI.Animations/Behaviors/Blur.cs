@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The Blur value of the associated object
         /// </summary>
-        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register("BlurAmount", typeof(double), typeof(Blur), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Blur), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Blur.
@@ -59,10 +59,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <value>
         /// The Blur.
         /// </value>
-        public double BlurAmount
+        public double Value
         {
-            get { return (double)GetValue(BlurAmountProperty); }
-            set { SetValue(BlurAmountProperty, value); }
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (Composition.IsBlurSupported)
             {
-                _frameworkElement?.Blur(duration: Duration, delay: Delay, blurAmount: (float)BlurAmount)?.StartAsync();
+                _frameworkElement?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
             }
         }
     }
