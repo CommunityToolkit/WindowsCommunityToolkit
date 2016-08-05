@@ -12,7 +12,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
       <interactivity:Interaction.Behaviors>
-        <behaviors:Rotation x:Name="Rotation"
+        <behaviors:Rotate x:Name="Rotate"
               Value="@[Value:DoubleSlider:0.0:0.0-360.0]"
               CenterX="@[CenterX:DoubleSlider:0.0:0.0-100.0]"
               CenterY="@[CenterY:DoubleSlider:0.0:0.0-100.0]"
@@ -26,7 +26,7 @@
       <Button Content="Apply" Margin="10">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Rotation}" MethodName="StartAnimation"/>
+            <core:CallMethodAction TargetObject="{Binding ElementName=Rotate}" MethodName="StartAnimation"/>
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
       </Button>

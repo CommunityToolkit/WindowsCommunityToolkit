@@ -13,7 +13,6 @@
 // ******************************************************************
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
