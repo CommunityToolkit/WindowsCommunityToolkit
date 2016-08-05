@@ -74,37 +74,40 @@ Helpers and services that are built on top of Windows Composition layer to provi
 
 ## Animations
 
-- [Blur](animations/blur.htm)
-- [Offset](animations/offset.htm)
-- [Opacity](animations/opacity.htm)
-- [Parallel](animations/parallax.htm)
-- [Rotation](animations/rotation.htm)
-- [Scale](animations/scale.htm)
+- [Blur](animations/blur.md)
+- [Offset](animations/offset.md)
+- [Fade](animations/fade.md)
+- [Parallel](animations/parallax.md)
+- [Rotate](animations/rotate.md)
+- [Scale](animations/scale.md)
 
 ## Controls
 
-- [HamburgerMenu](controls/hamburgerMenu.htm)
-- [HeaderedTextBlock](controls/headeredTextBlock.htm)
-- [ImageEX](controls/ImageEx.htm)
-- [PullToRefreshListView](controls/PullToRefreshListView.htm)
-- [RadialGauge](controls/RadialGauge.htm)
-- [RangeSelecter](controls/RangeSelector..htm)
-- [ResponsiveGridView](controls/ResponsiveGridView.htm)
-- [SlideableListItem](controls/SlideableListItem.htm)
-- [VariableSizeGridView](controls/VariableSizeGridView.htm)
+- [HamburgerMenu](controls/hamburgerMenu.md)
+- [HeaderedTextBlock](controls/headeredTextBlock.md)
+- [ImageEX](controls/ImageEx.md)
+- [PullToRefreshListView](controls/PullToRefreshListView.md)
+- [RadialGauge](controls/RadialGauge.md)
+- [RangeSelecter](controls/RangeSelector.md)
+- [ResponsiveGridView](controls/ResponsiveGridView.md)
+- [RotatorTile](controls/RotatorTile.md)
+- [SlideableListItem](controls/SlideableListItem.md)
+- [VariableSizeGridView](controls/VariableSizeGridView.md)
 
 ## Code Helpers
 
-- [Colors](helpers/colors.htm)
-- [Connection](helpers/connectionHelper.htm)
-- [StorageFiles](helpers/storagefiles.htm)
-- [Streams](helpers/streams.htm)
+- [Colors](helpers/colors.md)
+- [Connection](helpers/connectionHelper.md)
+- [ImageCache] (helpers/imagecache.md)
+- [StorageFiles](helpers/storagefiles.md)
+- [Streams](helpers/streams.md)
+- [WeakEventListener](helpers/weakeventlistener.md)
 
 ## Services
 
-- [Bing](services/bing.htm)
-- [Facebook](services/facebook.htm)
-- [Twitter](services/twitter.htm)
+- [Bing](services/bing.md)
+- [Facebook](services/facebook.md)
+- [Twitter](services/twitter.md)
 
 ## Notifications
 
