@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
-        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="config">BingSearchConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<BingResult>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
