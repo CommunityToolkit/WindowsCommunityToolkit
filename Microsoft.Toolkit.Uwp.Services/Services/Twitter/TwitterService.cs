@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Class for connecting to Twitter.
     /// </summary>
-    public class TwitterService : IOAuthDataService<TwitterDataProvider, Tweet, TwitterDataConfig, TwitterOAuthTokens>
+    public class TwitterService
     {
         /// <summary>
         /// Private singleton field for TwitterDataProvider.
