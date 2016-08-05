@@ -15,7 +15,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// Performs an opacity animation using composition.
+    /// Performs an fade animation using composition.
     /// </summary>
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>

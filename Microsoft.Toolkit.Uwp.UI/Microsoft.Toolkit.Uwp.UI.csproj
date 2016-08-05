@@ -55,7 +55,6 @@
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="ImageCache\ImageCache.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
-    <Compile Include="Extensions\Extensions.Transform.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
