@@ -27,28 +27,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static class Composition
     {
         /// <summary>
-        /// Scales the specified UI Element.
+        /// Animates the scale of the the specified UIElement.
         /// </summary>
-        /// <param name="associatedObject">The associated object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <param name="associatedObject">The associated UIElement.</param>
+        /// <param name="scaleX">The scale on the x axis.</param>
+        /// <param name="scaleY">The scale on the y axis.</param>
+        /// <param name="scaleZ">The scale on the z axis.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
-        /// <param name="scaleX">The scale x.</param>
-        /// <param name="scaleY">The scale y.</param>
-        /// <param name="scaleZ">The scale z.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="duration">The duration in millisecond.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Scale(
             this UIElement associatedObject,
-            double duration = 0.5d,
-            double delay = 0d,
+            float scaleX = 0f,
+            float scaleY = 0f,
+            float scaleZ = 0f,
             float centerX = 0f,
             float centerY = 0f,
             float centerZ = 0f,
-            float scaleX = 0f,
-            float scaleY = 0f,
-            float scaleZ = 0f)
+            double duration = 500d,
+            double delay = 0d)
         {
             if (associatedObject == null)
             {
@@ -56,32 +58,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Scale(duration, delay, centerX, centerY, centerZ, scaleX, scaleY, scaleZ);
+            return animationSet.Scale(scaleX, scaleY, scaleZ, centerX, centerY, centerZ, duration, delay);
         }
 
         /// <summary>
-        /// Scales the specified UI Element.
+        /// Animates the scale of the the specified UIElement.
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <param name="scaleX">The scale on the x axis.</param>
+        /// <param name="scaleY">The scale on the y axis.</param>
+        /// <param name="scaleZ">The scale on the z axis.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
-        /// <param name="scaleX">The scale x.</param>
-        /// <param name="scaleY">The scale y.</param>
-        /// <param name="scaleZ">The scale z.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Scale(
             this AnimationSet animationSet,
-            double duration = 0.5d,
-            double delay = 0d,
+            float scaleX = 0f,
+            float scaleY = 0f,
+            float scaleZ = 0f,
             float centerX = 0f,
             float centerY = 0f,
             float centerZ = 0f,
-            float scaleX = 0f,
-            float scaleY = 0f,
-            float scaleZ = 0f)
+            double duration = 500d,
+            double delay = 0d)
         {
             if (animationSet == null)
             {
@@ -106,8 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, scaleVector);
 
             animationSet.AddAnimation("Scale", animation);
@@ -116,24 +120,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Rotates the specified UI Element.
+        /// Animates the rotation in degrees of the the UIElement.
         /// </summary>
         /// <param name="associatedObject">The UI Element to rotate.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Rotate(
             this UIElement associatedObject,
-            double duration = 0.5d,
-            double delay = 0d,
             float value = 0f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f)
+            float centerZ = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (associatedObject == null)
             {
@@ -141,28 +147,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Rotate(duration, delay, value, centerX, centerY, centerZ);
+            return animationSet.Rotate(value, centerX, centerY, centerZ, duration, delay);
         }
 
         /// <summary>
-        /// Rotates the specified UI Element.
+        /// Animates the rotation in degrees of the the UIElement.
         /// </summary>
-        /// <param name="animationSet">The animationSet object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="centerZ">The center z in pixels.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Rotate(
             this AnimationSet animationSet,
-            double duration = 0.5d,
-            double delay = 0d,
             float value = 0f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f)
+            float centerZ = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (animationSet == null)
             {
@@ -186,8 +194,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, value);
 
             animationSet.AddAnimation("RotationAngleInDegrees", animation);
@@ -196,18 +204,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Changes the Opacity of the specified UI Element.
+        /// Animates the opacity of the the UIElement.
         /// </summary>
         /// <param name="associatedObject">The UI Element to change the opacity of.</param>
-        /// <param name="duration">The duration.</param>
+        /// <param name="value">The fade value, between 0 and 1.</param>
+        /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="value">The value.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Fade(
             this UIElement associatedObject,
-            double duration = 0.5d,
-            double delay = 0d,
-            float value = 0f)
+            float value = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (associatedObject == null)
             {
@@ -215,22 +225,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Fade(duration, delay, value);
+            return animationSet.Fade(value, duration, delay);
         }
 
         /// <summary>
-        /// Changes the Opacity of the specified UI Element.
+        /// Animates the opacity of the the UIElement.
         /// </summary>
-        /// <param name="animationSet">The animationSet object.</param>
-        /// <param name="duration">The duration.</param>
+        /// <param name="animationSet">The animation set.</param>
+        /// <param name="value">The fade value, between 0 and 1.</param>
+        /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="value">The value.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Fade(
             this AnimationSet animationSet,
-            double duration = 0.5d,
-            double delay = 0d,
-            float value = 0f)
+            float value = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (animationSet == null)
             {
@@ -253,8 +265,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, value);
 
             animationSet.AddAnimation("Opacity", animation);
@@ -263,22 +275,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Changes the Offset of the specified UI Element.
+        /// Animates the offset of the the UIElement.
         /// </summary>
         /// <param name="associatedObject">The specified UI Element.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="offsetX">The offset x.</param>
-        /// <param name="offsetY">The offset y.</param>
-        /// <param name="offsetZ">The offset z.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="offsetX">The offset on the x axis.</param>
+        /// <param name="offsetY">The offset on the y axis.</param>
+        /// <param name="offsetZ">The offset on the z axis.</param>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Offset(
             this UIElement associatedObject,
-            double duration = 0.5d,
-            double delay = 0d,
             float offsetX = 0f,
             float offsetY = 0f,
-            float offsetZ = 0f)
+            float offsetZ = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (associatedObject == null)
             {
@@ -286,26 +300,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Offset(duration, delay, offsetX, offsetY, offsetZ);
+            return animationSet.Offset(offsetX, offsetY, offsetZ, duration, delay);
         }
 
         /// <summary>
-        /// Changes the Offset of the specified UI Element.
+        /// Animates the offset of the the UIElement.
         /// </summary>
-        /// <param name="animationSet">The animationSet object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="offsetX">The offset x.</param>
-        /// <param name="offsetY">The offset y.</param>
-        /// <param name="offsetZ">The offset z.</param>
-        /// <returns>The visual of the UIElement.</returns>
+        /// <param name="animationSet">The animation set.</param>
+        /// <param name="offsetX">The offset on the x axis.</param>
+        /// <param name="offsetY">The offset on the y axis.</param>
+        /// <param name="offsetZ">The offset on the z axis.</param>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An AnimationSet.
+        /// </returns>
         public static AnimationSet Offset(
             this AnimationSet animationSet,
-            double duration = 0.5d,
-            double delay = 0d,
             float offsetX = 0f,
             float offsetY = 0f,
-            float offsetZ = 0f)
+            float offsetZ = 0f,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (animationSet == null)
             {
@@ -329,8 +345,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromSeconds(duration);
-            animation.DelayTime = TimeSpan.FromSeconds(delay);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, offsetVector);
 
             animationSet.AddAnimation("Offset", animation);
@@ -350,19 +366,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
 
         /// <summary>
-        /// Blurs the specified framework element.
+        /// Animates the gaussian blur of the the UIElement.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="value">The blur amount.</param>
-        /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An Animation Set.
+        /// </returns>
         /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this FrameworkElement associatedObject,
-            double duration = 0.5d,
-            double delay = 0d,
-            double value = 0d)
+            double value = 0d,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (associatedObject == null)
             {
@@ -374,19 +392,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Blurs the specified framework element.
+        /// Animates the gaussian blur of the the UIElement.
         /// </summary>
-        /// <param name="animationSet">The animationSet object.</param>
-        /// <param name="duration">The duration.</param>
-        /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The blur amount.</param>
-        /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
+        /// <param name="duration">The duration in milliseconds.</param>
+        /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <returns>
+        /// An Animation Set.
+        /// </returns>
         /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this AnimationSet animationSet,
-            double duration = 0.5d,
-            double delay = 0d,
-            double value = 0d)
+            double value = 0d,
+            double duration = 500d,
+            double delay = 0d)
         {
             if (animationSet == null)
             {
@@ -460,8 +480,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 // Create an animation to change the blur amount over time
                 var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
                 blurAnimation.InsertKeyFrame(1f, (float)value);
-                blurAnimation.Duration = TimeSpan.FromSeconds(duration);
-                blurAnimation.DelayTime = TimeSpan.FromSeconds(delay);
+                blurAnimation.Duration = TimeSpan.FromMilliseconds(duration);
+                blurAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
 
                 animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
             }
