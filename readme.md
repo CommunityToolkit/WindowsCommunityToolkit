@@ -92,7 +92,6 @@ Helpers and services that are built on top of Windows Composition layer to provi
 - [AdaptiveGridView](controls/AdaptiveGridView.md)
 - [RotatorTile](controls/RotatorTile.md)
 - [SlideableListItem](controls/SlideableListItem.md)
-- [VariableSizeGridView](controls/VariableSizeGridView.md)
 
 ## Code Helpers
 
