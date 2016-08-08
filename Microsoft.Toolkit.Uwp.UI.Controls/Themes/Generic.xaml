@@ -4,7 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenu.xaml"/>
 		<ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView/AdaptiveGridView.xaml"/>
-		<ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/VariableSizedGridView/VariableSizedGridView.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector/RangeSelector.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml"/>
