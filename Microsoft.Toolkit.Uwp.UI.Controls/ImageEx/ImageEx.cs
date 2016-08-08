@@ -91,6 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             ImageFailed?.Invoke(this, e);
+            VisualStateManager.GoToState(this, "Failed", true);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

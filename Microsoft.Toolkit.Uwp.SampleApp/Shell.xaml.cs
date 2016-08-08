@@ -52,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
             _currentSample = null;
+            CommandArea.Children.Clear();
         }
 
         public void ShowOnlyHeader(string title)
@@ -102,11 +103,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var commandButton = new Button
             {
                 Content = name,
-                Margin = new Thickness(10, 5, 10, 5),
-                Foreground = Title.Foreground
+                Margin = new Thickness(10),
+                Foreground = Title.Foreground,
+                MinWidth = 150
             };
 
             commandButton.Click += action;
+
+            CommandArea.Children.Add(commandButton);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
