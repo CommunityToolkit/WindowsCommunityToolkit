@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
         {
             Task busy;
-            string key = BuildFileName(uri);
+            string key = GetCacheFileName(uri);
 
             lock (_concurrentTasks)
             {
@@ -119,6 +119,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             return CreateBitmapImage(key);
         }
 
+        /// <summary>
+        /// Gets the local cache file name associated with a specified Uri.
+        /// </summary>
+        /// <param name="uri">Uri of the resource.</param>
+        /// <returns>Filename associated with the Uri.</returns>
+        public static string GetCacheFileName(Uri uri)
+        {
+            ulong uriHash = CreateHash64(uri);
+
+            return $"{uriHash}.jpg";
+        }
+
         private static BitmapImage CreateBitmapImage(string fileName)
         {
             return new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
@@ -130,14 +142,14 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             var folder = await GetCacheFolderAsync();
 
-            string fileName = BuildFileName(uri);
+            string fileName = GetCacheFileName(uri);
             var baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
             if (await IsFileOutOfDate(baseFile, expirationDate))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 try
                 {
-                    await StreamHelper.GetHTTPStreamToStorageFileAsync(uri, baseFile);
+                    await StreamHelper.GetHttpStreamToStorageFileAsync(uri, baseFile);
                 }
                 catch
                 {
@@ -176,13 +188,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return _cacheFolder;
-        }
-
-        private static string BuildFileName(Uri uri)
-        {
-            ulong uriHash = CreateHash64(uri);
-
-            return $"{uriHash}.jpg";
         }
 
         private static ulong CreateHash64(Uri uri)

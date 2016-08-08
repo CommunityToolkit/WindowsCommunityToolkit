@@ -12,6 +12,24 @@
                     <Grid Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Failed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="Opacity" 
+                                            Storyboard.TargetName="Image">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="0"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames 
+                                            Storyboard.TargetProperty="Opacity" 
+                                            Storyboard.TargetName="PlaceholderImage">
+                                            <DiscreteObjectKeyFrame 
+                                                KeyTime="0" 
+                                                Value="1"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>                                
                                 <VisualState x:Name="Loading">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames 

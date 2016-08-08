@@ -4,20 +4,12 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
 			{
-				"Name": "ResponsiveGridView",
-				"Type": "ResponsiveGridViewPage",
-				"About": "Presents content within a GridView to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
-				"CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ResponsiveGridView",
-				"XamlCodeFile": "ResponsiveGridViewCode.bind",
-        "Icon": "/SamplePages/ResponsiveGridView/icon.jpg"
-      },
-      {
-        "Name": "VariableSizedGridView",
-        "Type": "VariableSizedGridViewPage",
-        "About": "Displays items that have different Width and Height values. You can control the number of rows, columns, orientation, and aspect ratio.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/VariableSizedGridView",
-        "XamlCodeFile": "VariableSizedGridViewCode.bind",
-        "Icon": "/SamplePages/VariableSizedGridView/icon.jpg"
+				"Name": "AdaptiveGridView",
+				"Type": "AdaptiveGridViewPage",
+				"About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
+				"CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
+				"XamlCodeFile": "AdaptiveGridViewCode.bind",
+        "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png"
       },
       {
         "Name": "HamburgerMenu",
@@ -25,7 +17,7 @@
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
         "XamlCodeFile": "HamburgerMenuCode.bind",
-        "Icon": "/SamplePages/HamburgerMenu/icon.jpg"
+        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png"
       },
       {
         "Name": "RangeSelector",
@@ -33,7 +25,7 @@
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
-        "Icon": "/SamplePages/RangeSelector/icon.jpg"
+        "Icon": "/SamplePages/RangeSelector/RangeSelector.png"
       },
       {
         "Name": "ImageEx",
@@ -41,7 +33,7 @@
         "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx",
         "XamlCodeFile": "ImageExCode.bind",
-        "Icon": "/SamplePages/ImageEx/icon.jpg"
+        "Icon": "/SamplePages/ImageEx/ImageEx.png"
       },
       {
         "Name": "HeaderedTextBlock",
@@ -49,7 +41,7 @@
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
-        "Icon": "/SamplePages/SearchBox/icon.jpg"
+        "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
       },
       {
         "Name": "RadialGauge",
@@ -57,7 +49,7 @@
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
-        "Icon": "/SamplePages/RadialGauge/icon.jpg"
+        "Icon": "/SamplePages/RadialGauge/RadialGauge.png"
       },
       {
         "Name": "SlidableListItem",
@@ -65,7 +57,7 @@
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem",
         "XamlCodeFile": "SlidableListItemCode.bind",
-        "Icon": "/SamplePages/SlidableListItem/icon.png"
+        "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png"
       },
       {
         "Name": "PullToRefreshListView",
@@ -73,7 +65,7 @@
         "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
         "XamlCodeFile": "PullToRefreshListViewCode.bind",
-        "Icon": "/SamplePages/PullToRefreshListView/icon.png"
+        "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png"
       },
       {
         "Name": "RotatorTile",
@@ -81,7 +73,7 @@
         "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
         "XamlCodeFile": "RotatorTileCode.bind",
-        "Icon": "/SamplePages/RotatorTile/icon.png"
+        "Icon": "/SamplePages/RotatorTile/RotatorTile.png"
       }
     ]
   },
@@ -111,7 +103,7 @@
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
-        "Icon": "/SamplePages/WeatherLiveTileAndToast/icon.jpg"
+        "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png"
       }
     ]
   },
@@ -126,7 +118,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "FadeBehaviorCode.bind",
         "XamlCodeFile": "FadeBehaviorXaml.bind",
-        "Icon": "/SamplePages/Fade/FadeBehavior.gif"
+        "Icon": "/SamplePages/Fade/FadeBehavior.png"
       },
       {
         "Name": "Scale",
@@ -135,7 +127,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "ScaleBehaviorCode.bind",
         "XamlCodeFile": "ScaleBehaviorXaml.bind",
-        "Icon": "/SamplePages/Scale/scaleBehavior.gif"
+        "Icon": "/SamplePages/Scale/scaleBehavior.png"
       },
       {
         "Name": "Offset",
@@ -144,7 +136,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "OffsetBehaviorCode.bind",
         "XamlCodeFile": "OffsetBehaviorXaml.bind",
-        "Icon": "/SamplePages/Offset/offsetBehavior.gif"
+        "Icon": "/SamplePages/Offset/offsetBehavior.png"
       },
       {
         "Name": "Rotate",
@@ -153,7 +145,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "RotateBehaviorCode.bind",
         "XamlCodeFile": "RotateBehaviorXaml.bind",
-        "Icon": "/SamplePages/Rotate/rotateBehavior.gif"
+        "Icon": "/SamplePages/Rotate/rotateBehavior.png"
       },
       {
         "Name": "Blur",
@@ -162,7 +154,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.gif"
+        "Icon": "/SamplePages/Blur/blurBehavior.png"
       },
       {
         "Name": "Parallax",
@@ -170,7 +162,8 @@
         "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "XamlCodeFile": "ParallaxBehaviorXaml.bind",
-        "CodeFile": "ParallaxBehaviorCode.bind"
+        "CodeFile": "ParallaxBehaviorCode.bind",
+        "Icon": "/SamplePages/Parallax/ParallaxBehavior.png"
       }
     ]
   },

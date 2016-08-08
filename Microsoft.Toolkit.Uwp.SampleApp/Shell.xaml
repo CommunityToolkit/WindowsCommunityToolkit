@@ -106,12 +106,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
                 <RowDefinition/>
+                <RowDefinition Height="32"/>
             </Grid.RowDefinitions>
             <Grid x:Name="DemoAreaGrid">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="UWP Community Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="UWP Community Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}" TextWrapping="Wrap"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sample App" Margin="0" FontSize="18.667" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
@@ -131,16 +131,19 @@
                 </Grid>
                 <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot" SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
-                        <controlsLocal:PropertyControl x:Name="Properties"/>
+                        <Grid>
+                            <controlsLocal:PropertyControl x:Name="Properties"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Name="CommandArea"></StackPanel>
+                        </Grid>
                     </PivotItem>
-                    
+
                     <PivotItem Header="XAML" x:Name="XamlPivotItem">
                         <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
                     </PivotItem>
-                    
+
                     <PivotItem Header="CODE" x:Name="CSharpPivotItem">
                         <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
-                    </PivotItem>                    
+                    </PivotItem>
                 </Pivot>
             </Grid>
             <Grid x:Name="waitRing" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2">

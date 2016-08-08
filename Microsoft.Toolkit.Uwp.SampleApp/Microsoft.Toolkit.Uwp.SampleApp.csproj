@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -212,6 +212,7 @@
     <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png" />
+    <Content Include="Assets\ToolkitLogo.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png" />
@@ -222,9 +223,6 @@
     <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo-ccc.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo-emboss.png" />
-    <Content Include="Assets\Win-App-Toolkit-logo.png" />
     <Content Include="Icons\About.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
@@ -232,43 +230,43 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
-    <Content Include="SamplePages\Blur\blurBehavior.gif" />
+    <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
-    <Content Include="SamplePages\Offset\offsetBehavior.gif" />
-    <Content Include="SamplePages\Fade\FadeBehavior.gif" />
+    <Content Include="SamplePages\Fade\FadeBehavior.png" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
+    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\Parallax\mountain.png" />
     <Content Include="SamplePages\Parallax\NeedleBackground.png" />
-    <Content Include="SamplePages\Parallax\ParallaxBackground.png" />
-    <Content Include="SamplePages\Rotate\RotateBehavior.gif" />
-    <Content Include="SamplePages\RotatorTile\icon.png" />
+    <Content Include="SamplePages\Parallax\ParallaxBehavior.png" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
+    <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
+    <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
+    <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
-    <Content Include="SamplePages\Scale\scaleBehavior.gif" />
+    <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
+    <Content Include="SamplePages\Scale\ScaleBehavior.png" />
+    <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
-    <Content Include="SamplePages\HamburgerMenu\icon.jpg" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
-    <Content Include="SamplePages\ImageEx\icon.jpg" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
-    <Content Include="SamplePages\WeatherLiveTileAndToast\icon.jpg" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
-    <Content Include="SamplePages\PullToRefreshListView\icon.PNG" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
-    <Content Include="SamplePages\RadialGauge\icon.jpg" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
-    <Content Include="SamplePages\RangeSelector\icon.jpg" />
-    <Content Include="SamplePages\ResponsiveGridView\icon.jpg" />
     <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
-    <Content Include="SamplePages\SlidableListItem\icon.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
-    <Content Include="SamplePages\VariableSizedGridView\icon.jpg" />
-    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <None Include="project.json" />
@@ -280,7 +278,7 @@
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
-    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.bind" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
@@ -303,6 +301,7 @@
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
+    <Compile Include="Common\Tools.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
@@ -372,9 +371,8 @@
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs" />
-    <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
-      <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
+      <DependentUpon>RadialGaugePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
@@ -389,8 +387,8 @@
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml.cs">
-      <DependentUpon>ResponsiveGridViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml.cs">
+      <DependentUpon>AdaptiveGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
@@ -495,10 +493,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -507,7 +501,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml">
+    <Page Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -542,7 +536,14 @@
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -11,15 +11,15 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/UWPCommunityToolkitSampleAppStoreLogo.scale-150.png" Height="100" Width="100" >
+        <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Offset x:Name="Offset" 
-                                  OffsetX="{Binding OffsetX.Value, Mode=TwoWay}" 
-                                  OffsetY="{Binding OffsetY.Value, Mode=TwoWay}" 
-                                  OffsetZ="{Binding OffsetZ.Value, Mode=TwoWay}" 
-                                  Duration="{Binding Duration.Value, Mode=TwoWay}" 
-                                  Delay="{Binding Delay.Value, Mode=TwoWay}" 
-                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"/>
+                                  OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                  OffsetY="{Binding OffsetY.Value, Mode=OneWay}" 
+                                  OffsetZ="{Binding OffsetZ.Value, Mode=OneWay}" 
+                                  Duration="{Binding Duration.Value, Mode=OneWay}" 
+                                  Delay="{Binding Delay.Value, Mode=OneWay}" 
+                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"/>
             </interactivity:Interaction.Behaviors>
         </Image>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">

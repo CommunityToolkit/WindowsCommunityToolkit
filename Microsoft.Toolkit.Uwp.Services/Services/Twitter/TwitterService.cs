@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Class for connecting to Twitter.
     /// </summary>
-    public class TwitterService : IOAuthDataService<TwitterDataProvider, Tweet, TwitterDataConfig, TwitterOAuthTokens>
+    public class TwitterService
     {
         /// <summary>
         /// Private singleton field for TwitterDataProvider.
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
         /// <param name="config">TwitterDataConfig instance.</param>
-        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <param name="maxRecords">Upper limit of records to return. Up to a maximum of 200 per distinct request.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
         {

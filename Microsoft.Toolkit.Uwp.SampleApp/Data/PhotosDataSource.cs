@@ -29,31 +29,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
         private static bool _isOnlineCached;
 
-        public IEnumerable<PhotoDataItem> GetItems(bool online = false)
+        public async Task<ObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false)
         {
             CheckCacheState(online);
 
             if (_photos == null)
             {
-                Load(online);
+                await LoadAsync(online);
             }
 
             return _photos;
         }
 
-        public IEnumerable<IEnumerable<PhotoDataItem>> GetGroupedItems(bool online = false)
+        public async Task<ObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false)
         {
             CheckCacheState(online);
 
             if (_groupedPhotos == null)
             {
-                Load(online);
+                await LoadAsync(online);
             }
 
             return _groupedPhotos;
         }
 
-        private static async void Load(bool online)
+        private static async Task LoadAsync(bool online)
         {
             _isOnlineCached = online;
             _photos = new ObservableCollection<PhotoDataItem>();

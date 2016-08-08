@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AdaptiveGridViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+	<Page.Resources>
+		<DataTemplate x:Key="PhotosTemplate">
+			<Grid Background="White" BorderBrush="Black" BorderThickness="1">
+				<Image Source="{Binding Thumbnail}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+			</Grid>
+		</DataTemplate>
+	</Page.Resources>
+
+
+	<Grid Background="{StaticResource Brush-Grey-05}">
+		<controls:AdaptiveGridView
+          x:Name="AdaptiveGridViewControl"
+          ItemHeight="{Binding ItemHeight.Value}"
+          DesiredWidth="{Binding DesiredWidth.Value}"
+          ItemTemplate="{StaticResource PhotosTemplate}"/>
+	</Grid>
+</Page>
+ 

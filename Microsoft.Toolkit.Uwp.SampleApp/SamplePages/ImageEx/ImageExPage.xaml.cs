@@ -9,41 +9,94 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Toolkit.Uwp.UI;
 
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ImageExPage
     {
+        private ObservableCollection<PhotoDataItem> photos;
+        private int imageIndex;
+
         public ImageExPage()
         {
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Reset Cache", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
             {
-                ImageExControl.ItemsSource = null;
-                System.GC.Collect(); // Force GC to free file locks
+                AddImage(false, true);
+            });
+
+            Shell.Current.RegisterNewCommand("Image with placeholder (invalid link or offline)", (sender, args) =>
+            {
+                AddImage(true, true);
+            });
+
+            Shell.Current.RegisterNewCommand("Image without placeholder", (sender, args) =>
+            {
+                AddImage(false, false);
+            });
+
+            Shell.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
+            {
+                Container.Children.Clear();
+                GC.Collect(); // Force GC to free file locks
                 await ImageCache.ClearAsync();
             });
 
-            Shell.Current.RegisterNewCommand("Reload content", (sender, args) =>
-            {
-                LoadData();
-            });
+            await LoadDataAsync();
 
-            LoadData();
+            AddImage(false, true);
         }
 
-        private void LoadData()
+        private async Task LoadDataAsync()
         {
-            ImageExControl.ItemsSource = new Data.PhotosDataSource().GetItems(true);
+            photos = await new PhotosDataSource().GetItemsAsync(true);
+        }
+
+        private void AddImage(bool broken, bool placeholder)
+        {
+            var newImage = new ImageEx
+            {
+                IsCacheEnabled = true,
+                Stretch = Stretch.UniformToFill,
+                Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                MaxWidth = 300,
+                Background = new SolidColorBrush(Colors.Transparent)
+            };
+
+            if (placeholder)
+            {
+                newImage.PlaceholderSource = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ImageExPlaceholder.jpg"));
+                newImage.PlaceholderStretch = Stretch.UniformToFill;
+            }
+
+            Container.Children.Add(newImage);
+
+            // Move to next image
+            imageIndex++;
+            if (imageIndex >= photos.Count)
+            {
+                imageIndex = 0;
+            }
         }
     }
 }

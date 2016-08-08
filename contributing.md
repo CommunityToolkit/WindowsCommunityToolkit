@@ -10,6 +10,13 @@ You can always add to an API; you cannot ever remove anything from one. If the d
 
 That's why many of the guidelines of this document are obvious and serve only one purpose: Simplicity.
 
+## A good pull request
+Every contribution has to come with:
+
+* A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
+* A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
+* Unit tests (If applicable)
+
 ## General rules
 
 * DO NOT require that users perform any extensive initialization before they can start programming basic scenarios.

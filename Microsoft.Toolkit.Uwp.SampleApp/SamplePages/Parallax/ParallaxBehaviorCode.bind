@@ -1,2 +1,8 @@
-// Set parallax effect
-HeaderImage.Parallax(myScroller, isHorizontalEffect: false, multiplier: 0.3f).StartAsync(); 
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Parallax can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+// myScroller needs to be a scrollable control (like a ScrollViewer or a ListView)
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+await ToolkitLogo.Parallax(myScroller, isHorizontalEffect: false, multiplier: 0.3f).StartAsync();

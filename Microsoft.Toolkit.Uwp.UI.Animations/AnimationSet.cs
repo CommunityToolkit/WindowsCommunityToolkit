@@ -176,6 +176,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>AnimationSet to allow chaining</returns>
         public AnimationSet SetDurationForAll(double duration)
         {
+            if (duration <= 0)
+            {
+                duration = 0.01;
+            }
+
             foreach (var anim in _animations)
             {
                 var animation = anim.Value as KeyFrameAnimation;

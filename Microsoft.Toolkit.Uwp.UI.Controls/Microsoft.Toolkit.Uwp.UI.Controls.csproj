@@ -70,11 +70,8 @@
     <Compile Include="RangeSelector\RangeChangedEventArgs.cs" />
     <Compile Include="RangeSelector\RangeSelector.cs" />
     <Compile Include="SlidableListItem\SlidableListItem.cs" />
-    <Compile Include="VariableSizedGridView\VariableSizedGridView.Properties.cs" />
-    <Compile Include="VariableSizedGridView\VariableSizedGridView.cs" />
-    <Compile Include="VariableSizedGridView\VariableSizedGridViewPanel.cs" />
-    <Compile Include="ResponsiveGridView\ResponsiveGridView.Properties.cs" />
-    <Compile Include="ResponsiveGridView\ResponsiveGridView.cs" />
+    <Compile Include="AdaptiveGridView\AdaptiveGridView.Properties.cs" />
+    <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
@@ -107,15 +104,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResponsiveGridView\ResponsiveGridView.xaml">
+    <Page Include="AdaptiveGridView\AdaptiveGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SlidableListItem\SlidableListItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VariableSizedGridView\VariableSizedGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

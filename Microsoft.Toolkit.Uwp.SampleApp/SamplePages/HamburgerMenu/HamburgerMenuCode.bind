@@ -1,11 +1,11 @@
 <Page
-    x:Class="Microsoft.Windows.Toolkit.SampleApp.SamplePages.HamburgerMenuPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.HamburgerMenuPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Windows.Toolkit.UI.Controls"
-    xmlns:data="using:Microsoft.Windows.Toolkit.SampleApp.Data"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate" x:DataType="data:PhotoDataItem">
@@ -14,8 +14,14 @@
                     <ColumnDefinition Width="48"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12"></Image>
-                <TextBlock Grid.Column="1" Text="{x:Bind Title}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <Image Source="{x:Bind Thumbnail}" 
+                       Stretch="UniformToFill" 
+                       Margin="12,12,11,12"/>
+                <TextBlock Grid.Column="1" 
+                           Text="{x:Bind Title}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>
 
@@ -25,8 +31,14 @@
                     <ColumnDefinition Width="48"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{Binding Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="White" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                <FontIcon Grid.Column="0" 
+                          Margin="12,12,11,12" 
+                          FontFamily="Segoe MDL2 Assets" 
+                          Glyph="{Binding Glyph}" Foreground="White" />
+                <TextBlock Grid.Column="1" 
+                           Text="{Binding Name}" 
+                           Foreground="White" 
+                           FontSize="16" VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -38,21 +50,20 @@
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
                                 ItemClick="HamburgerMenu_OnItemClick"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-								OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
-								DisplayMode="@[DisplayMode:Enum:SplitViewDisplayMode.CompactInline]"
-								CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
-								HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
-								IsPaneOpen="@[IsPaneOpen:Bool:False]"
-                                >
+                                OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
+                                DisplayMode="@[DisplayMode:Enum:SplitViewDisplayMode.CompactInline]"
+                                CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
+                                HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
+                                IsPaneOpen="@[IsPaneOpen:Bool:False]">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Border Background="Black" Grid.Row="0">
-                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
-                <Image x:Name="Image" Grid.Row="1"></Image>
+                <Image x:Name="Image" Grid.Row="1"/>
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

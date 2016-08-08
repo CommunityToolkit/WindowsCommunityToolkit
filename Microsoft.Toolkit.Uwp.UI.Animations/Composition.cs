@@ -355,14 +355,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="blurAmount">The blur amount.</param>
+        /// <param name="value">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this FrameworkElement associatedObject,
             double duration = 0.5d,
             double delay = 0d,
-            double blurAmount = 0d)
+            double value = 0d)
         {
             if (associatedObject == null)
             {
@@ -370,7 +370,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Blur(duration, delay, blurAmount);
+            return animationSet.Blur(duration, delay, value);
         }
 
         /// <summary>
@@ -379,14 +379,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
-        /// <param name="blurAmount">The blur amount.</param>
+        /// <param name="value">The blur amount.</param>
         /// <returns>The Composition Effect Brush of the blur so you can control animations manually.</returns>
         /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this AnimationSet animationSet,
             double duration = 0.5d,
             double delay = 0d,
-            double blurAmount = 0d)
+            double value = 0d)
         {
             if (animationSet == null)
             {
@@ -453,13 +453,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (duration <= 0)
             {
-                animationSet.AddEffectDirectPropertyChange(blurBrush, (float)blurAmount, $"{blurName}.BlurAmount");
+                animationSet.AddEffectDirectPropertyChange(blurBrush, (float)value, $"{blurName}.BlurAmount");
             }
             else
             {
                 // Create an animation to change the blur amount over time
                 var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
-                blurAnimation.InsertKeyFrame(1f, (float)blurAmount);
+                blurAnimation.InsertKeyFrame(1f, (float)value);
                 blurAnimation.Duration = TimeSpan.FromSeconds(duration);
                 blurAnimation.DelayTime = TimeSpan.FromSeconds(delay);
 
