@@ -12,14 +12,6 @@
         "Icon": "/SamplePages/ResponsiveGridView/ResponsiveGridView.png"
       },
       {
-        "Name": "VariableSizedGridView",
-        "Type": "VariableSizedGridViewPage",
-        "About": "Displays items that have different Width and Height values. You can control the number of rows, columns, orientation, and aspect ratio.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/VariableSizedGridView",
-        "XamlCodeFile": "VariableSizedGridViewCode.bind",
-        "Icon": "/SamplePages/VariableSizedGridView/VariableSizedGridView.png"
-      },
-      {
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",

@@ -7,34 +7,14 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotoTemplate">
-            <Grid BorderBrush="Black" BorderThickness="1">
-                <controls:ImageEx 
-                    IsCacheEnabled="True"
-                    Source="{Binding Thumbnail}"
-                    Stretch="UniformToFill"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>  
-                <TextBlock 
-                    VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Center"
-                    Text="{Binding Title}" FontSize="16"
-                    TextWrapping="Wrap" 
-                    Foreground="White"/>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <controls:VariableSizedGridView
-            Name="control"
-            Margin="0"
-            ItemTemplate="{StaticResource PhotoTemplate}"
-            Orientation="Horizontal"
-            MaximumRowsOrColumns="4"
-            AspectRatio="1"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"/>
+      <controls:ImageEx x:Name="ImageExControl1"
+          IsCacheEnabled="True"
+          Source="{Binding Thumbnail}"
+          Stretch="UniformToFill"
+          PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+          PlaceholderStretch="UniformToFill"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"/>
     </Grid>
 </Page>

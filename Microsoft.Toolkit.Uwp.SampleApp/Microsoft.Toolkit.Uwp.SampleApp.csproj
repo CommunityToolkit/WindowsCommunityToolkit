@@ -257,7 +257,6 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
-    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridView.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
@@ -268,7 +267,6 @@
     <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
-    <Content Include="SamplePages\VariableSizedGridView\VariableSizedGridViewCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <None Include="project.json" />
@@ -373,11 +371,8 @@
     <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
       <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs" >
+    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml.cs">
-      <DependentUpon>VariableSizedGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
@@ -497,10 +492,6 @@
     <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\VariableSizedGridView\VariableSizedGridViewPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
