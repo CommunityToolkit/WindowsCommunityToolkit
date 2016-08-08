@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
         private static bool _isOnlineCached;
 
-        public async Task<IEnumerable<PhotoDataItem>> GetItemsAsync(bool online = false)
+        public async Task<ObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false)
         {
             CheckCacheState(online);
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             return _photos;
         }
 
-        public async Task<IEnumerable<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false)
+        public async Task<ObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false)
         {
             CheckCacheState(online);
 
