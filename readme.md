@@ -21,9 +21,9 @@ If you have specific feature requests or would like to vote on what others are r
 
 ## Principles
 
- - Principle #1: As soon as a comparable feature is available in the Windows SDK for Windows 10, we will mark it as deprecated.
- - Principle #2: We want to keep the toolkit useful and not bloated with too specific services that will become hard to maintain.
- - Principle #3: All controls / services are supported for 2 Windows SDK release cycles or until another Principle supersedes it.
+ - Principle #1: The toolkit will be kept simple.
+ - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
+ - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
