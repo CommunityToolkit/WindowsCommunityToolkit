@@ -15,9 +15,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ResponsiveGridViewPage
+    public sealed partial class AdaptiveGridViewPage
     {
-        public ResponsiveGridViewPage()
+        public AdaptiveGridViewPage()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            ResponsiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }
