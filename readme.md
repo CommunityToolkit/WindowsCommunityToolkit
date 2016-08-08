@@ -1,39 +1,19 @@
 UWP Community Toolkit
 ===========
 
-The UWP Community Toolkit is a collection of XAML controls, behaviors and services collected to make building UWP applications for Windows 10 faster and easier than ever before.
+The UWP Community Toolkit is a collection of helper functions, custom controls and app services that simplify or demonstrate common developer tasks. Build UWP applications for Windows 10 faster and easier than ever before.
 
 ![Control Overview](githubresources/images/UWP-community-toolkit-overview.png "Sample Image")
-
-## Windows 10 Store App
-
-Want to see the controls and behaviors in action before jumping into the code?  We have published the [UWP Toolkit Sample Application](https://www.microsoft.com/store/apps/9nblggh4tlcq) to the Windows 10 store.  Download the app and play with the controls live to see what they do before ever writing a line of code.
-
-## Feedback and Requests
-
-Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
-
-If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
-
-Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
-
-## Principles
-
- - Principle #1: As soon as a comparable toolkit control or a service is available in official SDK, we will plan to mark it as deprecated
- - Principle #2: We want to keep the toolkit useful and not bloated with too specific services that will become hard to maintain
- - Principle #3: All controls / services are supported for 2 Windows SDK release cycles or until another Principle supersedes it.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Roadmap
-
-Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.1), and feel free to ask questions.
 
 ## Getting started
 
 Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
 
-# Nuget Packages
+## UWP Community Toolkit Sample App
+
+Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
+
+## Nuget Packages
 
 NuGet is a standard package manager for .Net applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manger*, *Mange NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
 
@@ -69,10 +49,9 @@ Helpers and services that are built on top of Windows Composition layer to provi
 
 **Microsoft.Toolkit.Uwp.UI.Controls**
 
+## Features
 
-# Controls, Animations and Code Helpers
-
-## Animations
+### Animations
 
 - [Blur](animations/blur.md)
 - [Offset](animations/offset.md)
@@ -81,7 +60,7 @@ Helpers and services that are built on top of Windows Composition layer to provi
 - [Rotate](animations/rotate.md)
 - [Scale](animations/scale.md)
 
-## Controls
+### Controls
 
 - [HamburgerMenu](controls/hamburgerMenu.md)
 - [HeaderedTextBlock](controls/headeredTextBlock.md)
@@ -93,7 +72,7 @@ Helpers and services that are built on top of Windows Composition layer to provi
 - [RotatorTile](controls/RotatorTile.md)
 - [SlideableListItem](controls/SlideableListItem.md)
 
-## Code Helpers
+### Code Helpers
 
 - [Colors](helpers/colors.md)
 - [Connection](helpers/connectionHelper.md)
@@ -103,24 +82,33 @@ Helpers and services that are built on top of Windows Composition layer to provi
 - [VisualTreeExtensions](helpers/visualtreeextensions.md)
 - [WeakEventListener](helpers/weakeventlistener.md)
 
-## Services
+### Services
 
 - [Bing](services/bing.md)
 - [Facebook](services/facebook.md)
 - [Twitter](services/twitter.md)
 
-## Notifications
+### Notifications
+- [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
+- [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
 
-### Tiles
-- [Adaptive Tile Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
-- [Quickstart: Sending a local tile notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/10/05/quickstart-sending-a-local-tile-notification-in-windows-10/)
+## Feedback and Requests
 
-### Toasts
-- [Interactive Toast Notifications Documentation](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
-- [Quickstart: Sending a local toast notification](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/)
+Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
+
+If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
 
-## Controls and Features
-To get a complete list of supported controls, services and features, please visit our [documentation website](https://developer.microsoft.com/en-us/windows/windows-apps/uwp-community-toolkit).
+## Principles
+
+ - Principle #1: The toolkit will be kept simple.
+ - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
+ - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Roadmap
+
+Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.1), and feel free to ask questions.
