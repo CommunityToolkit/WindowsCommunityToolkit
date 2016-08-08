@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the
+    /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
     /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
     /// to different form factors automatically.
     /// </summary>
@@ -25,19 +25,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
-    public sealed partial class ResponsiveGridView : Control
+    public sealed partial class AdaptiveGridView : Control
     {
         private int _columns;
         private bool _isInitialized;
         private ListViewBase _listView;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResponsiveGridView"/> class.
+        /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
-        public ResponsiveGridView()
+        public AdaptiveGridView()
         {
             IsTabStop = false;
-            DefaultStyleKey = typeof(ResponsiveGridView);
+            DefaultStyleKey = typeof(AdaptiveGridView);
         }
 
         private void RecalculateLayout(double containerWidth)

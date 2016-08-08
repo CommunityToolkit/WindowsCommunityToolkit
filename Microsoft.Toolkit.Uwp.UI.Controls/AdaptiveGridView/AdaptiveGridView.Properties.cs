@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Windows.Input;
 
     /// <summary>
-    /// The ResponsiveGridView control allows to present information within a Grid View perfectly adjusting the
+    /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
     /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
     /// to different form factors automatically.
     /// </summary>
@@ -29,59 +29,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
-    public sealed partial class ResponsiveGridView
+    public sealed partial class AdaptiveGridView
     {
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemClickCommandProperty =
-            DependencyProperty.Register(nameof(ItemClickCommand), typeof(ICommand), typeof(ResponsiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ItemClickCommand), typeof(ICommand), typeof(AdaptiveGridView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(ResponsiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(AdaptiveGridView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ItemTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(ResponsiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(AdaptiveGridView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ItemHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemHeightProperty =
-            DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(ResponsiveGridView), new PropertyMetadata(0D));
+            DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D));
 
         /// <summary>
         /// Identifies the <see cref="OneRowModeEnabled"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OneRowModeEnabledProperty =
-            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(ResponsiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
+            DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
         /// Identifies the <see cref="VerticalScroll"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty VerticalScrollProperty =
-            DependencyProperty.Register(nameof(VerticalScroll), typeof(ScrollMode), typeof(ResponsiveGridView), new PropertyMetadata(ScrollMode.Auto));
+            DependencyProperty.Register(nameof(VerticalScroll), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
 
         /// <summary>
         /// Identifies the <see cref="ItemWidth"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ItemWidthProperty =
-            DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(ResponsiveGridView), new PropertyMetadata(0D));
+            DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D));
 
         /// <summary>
         /// Identifies the <see cref="DesiredWidth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DesiredWidthProperty =
-            DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(ResponsiveGridView), new PropertyMetadata(0D, DesiredWidthChanged));
+            DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D, DesiredWidthChanged));
 
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
-            var self = d as ResponsiveGridView;
+            var self = d as AdaptiveGridView;
 
             if ((bool)newValue)
             {
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var self = d as ResponsiveGridView;
+            var self = d as AdaptiveGridView;
             if (self._isInitialized)
             {
                 self.RecalculateLayout(self._listView.ActualWidth);

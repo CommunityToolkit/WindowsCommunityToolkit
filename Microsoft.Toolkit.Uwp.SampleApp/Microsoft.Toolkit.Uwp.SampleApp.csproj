@@ -243,7 +243,7 @@
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
-    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridView.png" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
@@ -278,7 +278,7 @@
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
-    <Content Include="SamplePages\ResponsiveGridView\ResponsiveGridViewCode.bind" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
@@ -387,8 +387,8 @@
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml.cs">
-      <DependentUpon>ResponsiveGridViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml.cs">
+      <DependentUpon>AdaptiveGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
@@ -501,7 +501,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ResponsiveGridView\ResponsiveGridViewPage.xaml">
+    <Page Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
