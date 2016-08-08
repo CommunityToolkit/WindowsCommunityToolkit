@@ -9,6 +9,10 @@ The UWP Community Toolkit is a collection of helper functions, custom controls a
 
 Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
+## Getting started
+
+Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
+
 ## Feedback and Requests
 
 Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
@@ -26,10 +30,6 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 ## Roadmap
 
 Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.1), and feel free to ask questions.
-
-## Getting started
-
-Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
 
 # Nuget Packages
 
