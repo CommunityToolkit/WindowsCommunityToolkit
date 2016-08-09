@@ -206,7 +206,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Ovewrites the duration on all animations to the specified value
+        /// Ovewrites the duration on all animations after last Then()
+        /// to the specified value
         /// </summary>
         /// <param name="duration">The duration in miliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
@@ -265,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Ovewrites the delay time on all animations in the last segment after Then()
+        /// Ovewrites the delay time on all animations after last Then()
         /// to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in seconds</param>
