@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// These extension methods use composition to perform animation on visuals.
+    /// These extension methods perform animation on UIElements
     /// </summary>
     public static partial class AnimationExtensions
     {
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 blurAnimation.Duration = TimeSpan.FromMilliseconds(duration);
                 blurAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
 
-                animationSet.AddEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
+                animationSet.AddCompositionEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
             }
 
             return animationSet;

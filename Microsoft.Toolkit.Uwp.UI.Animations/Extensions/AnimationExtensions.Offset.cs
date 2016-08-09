@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// These extension methods use composition to perform animation on visuals.
+    /// These extension methods perform animation on UIElements
     /// </summary>
     public static partial class AnimationExtensions
     {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (duration <= 0)
             {
-                animationSet.AddDirectPropertyChange("Offset", offsetVector);
+                animationSet.AddCompositionDirectPropertyChange("Offset", offsetVector);
                 return animationSet;
             }
 
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, offsetVector);
 
-            animationSet.AddAnimation("Offset", animation);
+            animationSet.AddCompositionAnimation("Offset", animation);
 
             return animationSet;
         }

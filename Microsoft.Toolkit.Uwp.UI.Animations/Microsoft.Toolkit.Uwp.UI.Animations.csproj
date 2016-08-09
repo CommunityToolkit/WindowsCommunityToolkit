@@ -58,6 +58,7 @@
     <Compile Include="AnimationSet.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
+    <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\AnimationExtensions.Parallax.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />

@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// These extension methods use composition to perform animation on visuals.
+    /// These extension methods perform animation on UIElements
     /// </summary>
     public static partial class AnimationExtensions
     {
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (duration <= 0)
             {
-                animationSet.AddDirectPropertyChange("RotationAngleInDegrees", value);
+                animationSet.AddCompositionDirectPropertyChange("RotationAngleInDegrees", value);
                 return animationSet;
             }
 
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
             animation.InsertKeyFrame(1f, value);
 
-            animationSet.AddAnimation("RotationAngleInDegrees", animation);
+            animationSet.AddCompositionAnimation("RotationAngleInDegrees", animation);
 
             return animationSet;
         }
