@@ -12,7 +12,10 @@
 
 using System;
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -38,9 +41,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </returns>
         public static AnimationSet Scale(
             this UIElement associatedObject,
-            float scaleX = 0f,
-            float scaleY = 0f,
-            float scaleZ = 0f,
+            float scaleX = 1f,
+            float scaleY = 1f,
+            float scaleZ = 1f,
             float centerX = 0f,
             float centerY = 0f,
             float centerZ = 0f,
@@ -87,29 +90,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            var visual = animationSet.Visual;
-            visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
-            var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
-
-            if (duration <= 0)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                animationSet.AddCompositionDirectPropertyChange("Scale", scaleVector);
-                return animationSet;
+                var element = animationSet.Element;
+                var transform = element.RenderTransform as CompositeTransform;
+
+                if (transform == null)
+                {
+                    transform = new CompositeTransform();
+                    element.RenderTransform = transform;
+                }
+
+                transform.CenterX = centerX;
+                transform.CenterY = centerY;
+
+                var animationX = new DoubleAnimation();
+                var animationY = new DoubleAnimation();
+
+                animationX.To = scaleX;
+                animationY.To = scaleY;
+
+                animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
+                animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
+                animationX.EasingFunction = animationY.EasingFunction = _defaultStoryboardEasingFunction;
+
+                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.ScaleX)", animationX);
+                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.ScaleY)", animationY);
             }
-
-            var compositor = visual.Compositor;
-
-            if (compositor == null)
+            else
             {
-                return null;
+                var visual = animationSet.Visual;
+                visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
+                var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
+
+                if (duration <= 0)
+                {
+                    animationSet.AddCompositionDirectPropertyChange("Scale", scaleVector);
+                    return animationSet;
+                }
+
+                var compositor = visual.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateVector3KeyFrameAnimation();
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+                animation.InsertKeyFrame(1f, scaleVector);
+
+                animationSet.AddCompositionAnimation("Scale", animation);
             }
-
-            var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.InsertKeyFrame(1f, scaleVector);
-
-            animationSet.AddCompositionAnimation("Scale", animation);
 
             return animationSet;
         }

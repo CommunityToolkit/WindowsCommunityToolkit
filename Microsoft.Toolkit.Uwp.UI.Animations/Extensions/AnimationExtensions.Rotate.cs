@@ -12,7 +12,10 @@
 
 using System;
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -79,28 +82,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            var visual = animationSet.Visual;
-            visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
-
-            if (duration <= 0)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                animationSet.AddCompositionDirectPropertyChange("RotationAngleInDegrees", value);
-                return animationSet;
+                var element = animationSet.Element;
+                var transform = element.RenderTransform as CompositeTransform;
+
+                if (transform == null)
+                {
+                    transform = new CompositeTransform();
+                    element.RenderTransform = transform;
+                }
+
+                transform.CenterX = centerX;
+                transform.CenterY = centerY;
+
+                var animation = new DoubleAnimation();
+
+                animation.To = value;
+
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.BeginTime = TimeSpan.FromMilliseconds(delay);
+                animation.EasingFunction = _defaultStoryboardEasingFunction;
+
+                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.Rotation)", animation);
             }
-
-            var compositor = visual.Compositor;
-
-            if (compositor == null)
+            else
             {
-                return null;
+                var visual = animationSet.Visual;
+                visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
+
+                if (duration <= 0)
+                {
+                    animationSet.AddCompositionDirectPropertyChange("RotationAngleInDegrees", value);
+                    return animationSet;
+                }
+
+                var compositor = visual.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateScalarKeyFrameAnimation();
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+                animation.InsertKeyFrame(1f, value);
+
+                animationSet.AddCompositionAnimation("RotationAngleInDegrees", animation);
             }
-
-            var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.InsertKeyFrame(1f, value);
-
-            animationSet.AddCompositionAnimation("RotationAngleInDegrees", animation);
 
             return animationSet;
         }

@@ -12,7 +12,9 @@
 
 using System;
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -67,27 +69,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (duration <= 0)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                animationSet.AddCompositionDirectPropertyChange("Opacity", value);
-                return animationSet;
+                var element = animationSet.Element;
+
+                var animation = new DoubleAnimation();
+
+                animation.To = value;
+
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.BeginTime = TimeSpan.FromMilliseconds(delay);
+                animation.EasingFunction = _defaultStoryboardEasingFunction;
+
+                animationSet.AddStoryboardAnimation("Opacity", animation);
             }
-
-            var visual = animationSet.Visual;
-
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
+            else
             {
-                return null;
+                if (duration <= 0)
+                {
+                    animationSet.AddCompositionDirectPropertyChange("Opacity", value);
+                    return animationSet;
+                }
+
+                var visual = animationSet.Visual;
+
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateScalarKeyFrameAnimation();
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+                animation.InsertKeyFrame(1f, value);
+
+                animationSet.AddCompositionAnimation("Opacity", animation);
             }
-
-            var animation = compositor.CreateScalarKeyFrameAnimation();
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.InsertKeyFrame(1f, value);
-
-            animationSet.AddCompositionAnimation("Opacity", animation);
 
             return animationSet;
         }
