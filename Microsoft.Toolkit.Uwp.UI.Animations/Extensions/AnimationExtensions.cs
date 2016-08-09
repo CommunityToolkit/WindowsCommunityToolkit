@@ -9,6 +9,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public static partial class AnimationExtensions
     {
+        private static EasingFunctionBase _defaultStoryboardEasingFunction = new CubicEase();
+
         /// <summary>
         /// Begins a Storyboard animation and returns a task that completes when the
         /// animaton is complete

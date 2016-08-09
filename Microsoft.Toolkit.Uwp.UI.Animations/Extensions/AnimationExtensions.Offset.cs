@@ -12,7 +12,10 @@
 
 using System;
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -75,28 +78,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            var visual = animationSet.Visual;
-            var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
-
-            if (duration <= 0)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                animationSet.AddCompositionDirectPropertyChange("Offset", offsetVector);
-                return animationSet;
+                var element = animationSet.Element;
+                var transform = element.RenderTransform as CompositeTransform;
+
+                if (transform == null)
+                {
+                    transform = new CompositeTransform();
+                    element.RenderTransform = transform;
+                }
+
+                var animationX = new DoubleAnimation();
+                var animationY = new DoubleAnimation();
+
+                animationX.To = offsetX;
+                animationY.To = offsetY;
+
+                animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
+                animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
+                animationX.EasingFunction = animationY.EasingFunction = _defaultStoryboardEasingFunction;
+
+                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.TranslateX)", animationX);
+                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.TranslateY)", animationY);
             }
-
-            var compositor = visual?.Compositor;
-
-            if (compositor == null)
+            else
             {
-                return null;
+                var visual = animationSet.Visual;
+                var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
+
+                if (duration <= 0)
+                {
+                    animationSet.AddCompositionDirectPropertyChange("Offset", offsetVector);
+                    return animationSet;
+                }
+
+                var compositor = visual?.Compositor;
+
+                if (compositor == null)
+                {
+                    return null;
+                }
+
+                var animation = compositor.CreateVector3KeyFrameAnimation();
+                animation.Duration = TimeSpan.FromMilliseconds(duration);
+                animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+                animation.InsertKeyFrame(1f, offsetVector);
+
+                animationSet.AddCompositionAnimation("Offset", animation);
             }
-
-            var animation = compositor.CreateVector3KeyFrameAnimation();
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.InsertKeyFrame(1f, offsetVector);
-
-            animationSet.AddCompositionAnimation("Offset", animation);
 
             return animationSet;
         }

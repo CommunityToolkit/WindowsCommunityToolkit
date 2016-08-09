@@ -355,6 +355,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
+        public void AddStoryboardAnimation(string propertyPath, Timeline timeline)
+        {
+            if (_storyboardAnimations.ContainsKey(propertyPath))
+            {
+                var previousAnimation = _storyboardAnimations[propertyPath];
+                _storyboard.Children.Remove(previousAnimation);
+                _storyboardAnimations.Remove(propertyPath);
+            }
+
+            _storyboardAnimations.Add(propertyPath, timeline);
+            _storyboard.Children.Add(timeline);
+
+            Storyboard.SetTarget(timeline, Element);
+            Storyboard.SetTargetProperty(timeline, propertyPath);
+        }
+
         /// <summary>
         /// Adds an effect propety change to be run on <see cref="StartAsync"/>
         /// </summary>
