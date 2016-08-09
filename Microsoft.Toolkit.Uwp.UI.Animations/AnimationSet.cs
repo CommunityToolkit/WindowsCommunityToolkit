@@ -355,6 +355,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
+        /// <summary>
+        /// Adds a storyboard animation to be run on <see cref="StartAsync"/>
+        /// </summary>
+        /// <param name="propertyPath">The property to be animated with Storyboards</param>
+        /// <param name="timeline">The timeline object to be added to storyboard</param>
         public void AddStoryboardAnimation(string propertyPath, Timeline timeline)
         {
             if (_storyboardAnimations.ContainsKey(propertyPath))
