@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Blur(duration, delay, value);
+            return animationSet.Blur(value, duration, delay);
         }
 
         /// <summary>
