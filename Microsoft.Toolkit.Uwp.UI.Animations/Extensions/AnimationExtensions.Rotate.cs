@@ -85,13 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
                 var element = animationSet.Element;
-                var transform = element.RenderTransform as CompositeTransform;
-
-                if (transform == null)
-                {
-                    transform = new CompositeTransform();
-                    element.RenderTransform = transform;
-                }
+                var transform = GetAttachedCompositeTransform(element);
 
                 transform.CenterX = centerX;
                 transform.CenterY = centerY;
@@ -104,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animation.BeginTime = TimeSpan.FromMilliseconds(delay);
                 animation.EasingFunction = _defaultStoryboardEasingFunction;
 
-                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.Rotation)", animation);
+                animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "Rotation"), animation);
             }
             else
             {

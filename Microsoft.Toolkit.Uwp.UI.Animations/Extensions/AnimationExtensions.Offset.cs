@@ -81,13 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
                 var element = animationSet.Element;
-                var transform = element.RenderTransform as CompositeTransform;
-
-                if (transform == null)
-                {
-                    transform = new CompositeTransform();
-                    element.RenderTransform = transform;
-                }
+                var transform = GetAttachedCompositeTransform(element);
 
                 var animationX = new DoubleAnimation();
                 var animationY = new DoubleAnimation();
@@ -99,8 +93,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
                 animationX.EasingFunction = animationY.EasingFunction = _defaultStoryboardEasingFunction;
 
-                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.TranslateX)", animationX);
-                animationSet.AddStoryboardAnimation("(UIElement.RenderTransform).(CompositeTransform.TranslateY)", animationY);
+                animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateX"), animationX);
+                animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateY"), animationY);
             }
             else
             {

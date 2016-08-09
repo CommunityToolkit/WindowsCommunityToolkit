@@ -13,8 +13,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;

@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -18,14 +17,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the scale behavior.
     /// </summary>
-    public sealed partial class ScaleBehaviorPage : Page
+    public sealed partial class ScaleBehaviorPage
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaleBehaviorPage"/> class.
         /// </summary>
         public ScaleBehaviorPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>

@@ -90,6 +90,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler Completed;
 
         /// <summary>
+        /// Stats all animations. This method is not awaitable.
+        /// </summary>
+        public async void Start()
+        {
+            await StartAsync();
+        }
+
+        /// <summary>
         /// Starts all animations on the backing Visual.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
