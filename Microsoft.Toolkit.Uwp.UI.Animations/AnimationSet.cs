@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="duration">The duration in miliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet SetDurationForAll(double duration)
+        public AnimationSet Duration(double duration)
         {
             if (duration <= 0)
             {
@@ -250,11 +250,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Ovewrites the delay time on all animations to the specified value
+        /// Ovewrites the duration on all animations to the specified value
+        /// </summary>
+        /// <param name="duration">The duration in miliseconds</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet DurationForAll(double duration)
+        {
+            foreach (var set in _animationSets)
+            {
+                set.Duration(duration);
+            }
+
+            return Duration(duration);
+        }
+
+        /// <summary>
+        /// Ovewrites the delay time on all animations in the last segment after Then()
+        /// to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in seconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet SetDelayForAll(double delayTime)
+        public AnimationSet Delay(double delayTime)
         {
             if (delayTime < 0)
             {
@@ -291,6 +307,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Ovewrites the delay time on all animations to the specified value
+        /// </summary>
+        /// <param name="delayTime">The delay time in seconds</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet DelayForAll(double delayTime)
+        {
+            foreach (var set in _animationSets)
+            {
+                set.Delay(delayTime);
+            }
+
+            return Delay(delayTime);
         }
 
         /// <summary>
