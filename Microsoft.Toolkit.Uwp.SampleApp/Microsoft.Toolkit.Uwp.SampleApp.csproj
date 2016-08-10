@@ -237,9 +237,6 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
-    <Content Include="SamplePages\Parallax\mountain.png" />
-    <Content Include="SamplePages\Parallax\NeedleBackground.png" />
-    <Content Include="SamplePages\Parallax\ParallaxBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
@@ -290,8 +287,6 @@
     <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
-    <Content Include="SamplePages\Parallax\ParallaxBehaviorXaml.bind" />
-    <Content Include="SamplePages\Parallax\ParallaxBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -321,9 +316,6 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Parallax\ParallaxBehaviorPage.xaml.cs">
-      <DependentUpon>ParallaxBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -418,10 +410,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Parallax\ParallaxBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

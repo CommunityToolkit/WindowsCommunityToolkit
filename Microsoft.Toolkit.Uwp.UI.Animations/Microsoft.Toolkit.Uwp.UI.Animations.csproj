@@ -52,7 +52,6 @@
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Fade.cs" />
-    <Compile Include="Behaviors\Parallax.cs" />
     <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />
     <Compile Include="Extensions\AnimationExtensions.Offset.cs" />
-    <Compile Include="Extensions\AnimationExtensions.Parallax.cs" />
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
     <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
     <Compile Include="Extensions\AnimationTools.cs" />
