@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Ovewrites the duration on all animations after last Then()
         /// to the specified value
         /// </summary>
-        /// <param name="duration">The duration in miliseconds</param>
+        /// <param name="duration">The duration in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
         public AnimationSet Duration(double duration)
         {
@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Ovewrites the duration on all animations to the specified value
         /// </summary>
-        /// <param name="duration">The duration in miliseconds</param>
+        /// <param name="duration">The duration in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
         public AnimationSet DurationForAll(double duration)
         {
