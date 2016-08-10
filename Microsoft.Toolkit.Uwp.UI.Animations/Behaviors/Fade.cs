@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            AssociatedObject.Fade((float)Value, Duration, Delay)?.StartAsync();
+            AssociatedObject.Fade((float)Value, Duration, Delay)?.Start();
         }
     }
 }

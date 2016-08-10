@@ -27,6 +27,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public class AnimationSet
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
+        /// </summary>
+        public static bool AlwaysUseComposition { get; set; }
+
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
         private Dictionary<string, object> _directPropertyChanges;

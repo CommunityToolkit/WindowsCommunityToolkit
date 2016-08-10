@@ -31,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
-        /// <param name="centerZ">The center z in pixels.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -42,7 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float value = 0f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -52,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Rotate(value, centerX, centerY, centerZ, duration, delay);
+            return animationSet.Rotate(value, centerX, centerY, duration, delay);
         }
 
         /// <summary>
@@ -62,7 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The value in degrees to rotate.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
-        /// <param name="centerZ">The center z in pixels.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -73,7 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float value = 0f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -82,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+            if (!AnimationSet.AlwaysUseComposition && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
                 var element = animationSet.Element;
                 var transform = GetAttachedCompositeTransform(element);
@@ -90,20 +86,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 transform.CenterX = centerX;
                 transform.CenterY = centerY;
 
-                var animation = new DoubleAnimation();
-
-                animation.To = value;
-
-                animation.Duration = TimeSpan.FromMilliseconds(duration);
-                animation.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animation.EasingFunction = _defaultStoryboardEasingFunction;
+                var animation = new DoubleAnimation
+                {
+                    To = value,
+                    Duration = TimeSpan.FromMilliseconds(duration),
+                    BeginTime = TimeSpan.FromMilliseconds(delay),
+                    EasingFunction = _defaultStoryboardEasingFunction
+                };
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "Rotation"), animation);
             }
             else
             {
                 var visual = animationSet.Visual;
-                visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
+                visual.CenterPoint = new Vector3(centerX, centerY, 0);
 
                 if (duration <= 0)
                 {

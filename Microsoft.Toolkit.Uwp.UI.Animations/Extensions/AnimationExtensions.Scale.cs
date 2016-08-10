@@ -30,10 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="associatedObject">The associated UIElement.</param>
         /// <param name="scaleX">The scale on the x axis.</param>
         /// <param name="scaleY">The scale on the y axis.</param>
-        /// <param name="scaleZ">The scale on the z axis.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
-        /// <param name="centerZ">The center z in pixels.</param>
         /// <param name="duration">The duration in millisecond.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -43,10 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this UIElement associatedObject,
             float scaleX = 1f,
             float scaleY = 1f,
-            float scaleZ = 1f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -56,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Scale(scaleX, scaleY, scaleZ, centerX, centerY, centerZ, duration, delay);
+            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay);
         }
 
         /// <summary>
@@ -65,10 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="scaleX">The scale on the x axis.</param>
         /// <param name="scaleY">The scale on the y axis.</param>
-        /// <param name="scaleZ">The scale on the z axis.</param>
         /// <param name="centerX">The center x in pixels.</param>
         /// <param name="centerY">The center y in pixels.</param>
-        /// <param name="centerZ">The center z in pixels.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -78,10 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             float scaleX = 0f,
             float scaleY = 0f,
-            float scaleZ = 0f,
             float centerX = 0f,
             float centerY = 0f,
-            float centerZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -90,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+            if (!AnimationSet.AlwaysUseComposition && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
                 var element = animationSet.Element;
                 var transform = GetAttachedCompositeTransform(element);
@@ -114,8 +106,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             else
             {
                 var visual = animationSet.Visual;
-                visual.CenterPoint = new Vector3(centerX, centerY, centerZ);
-                var scaleVector = new Vector3(scaleX, scaleY, scaleZ);
+                visual.CenterPoint = new Vector3(centerX, centerY, 0);
+                var scaleVector = new Vector3(scaleX, scaleY, 1.0f);
 
                 if (duration <= 0)
                 {

@@ -15,14 +15,15 @@
                 <behaviors:Scale x:Name="Scale" 
                                  ScaleX="{Binding ScaleX.Value, Mode=OneWay}" 
                                  ScaleY="{Binding ScaleY.Value, Mode=OneWay}" 
-                                 ScaleZ="{Binding ScaleZ.Value, Mode=OneWay}" 
                                  CenterX="{Binding CenterX.Value, Mode=OneWay}" 
                                  CenterY="{Binding CenterY.Value, Mode=OneWay}" 
-                                 CenterZ="{Binding CenterZ.Value, Mode=OneWay}" 
                                  Duration="{Binding Duration.Value, Mode=OneWay}" 
                                  Delay="{Binding Delay.Value, Mode=OneWay}" 
                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"/>
             </interactivity:Interaction.Behaviors>
+            <Image.RenderTransform>
+                <TranslateTransform X="50" Y="-50"></TranslateTransform>
+            </Image.RenderTransform>
         </Image>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="Apply" Margin="10">

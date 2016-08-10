@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Numerics;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
@@ -69,17 +68,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+            if (!AnimationSet.AlwaysUseComposition && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                var element = animationSet.Element;
-
-                var animation = new DoubleAnimation();
-
-                animation.To = value;
-
-                animation.Duration = TimeSpan.FromMilliseconds(duration);
-                animation.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animation.EasingFunction = _defaultStoryboardEasingFunction;
+                var animation = new DoubleAnimation
+                {
+                    To = value,
+                    Duration = TimeSpan.FromMilliseconds(duration),
+                    BeginTime = TimeSpan.FromMilliseconds(delay),
+                    EasingFunction = _defaultStoryboardEasingFunction
+                };
 
                 animationSet.AddStoryboardAnimation("Opacity", animation);
             }

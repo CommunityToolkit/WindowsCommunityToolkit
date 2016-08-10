@@ -11,6 +11,7 @@
 // ******************************************************************
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -41,6 +42,57 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
+
+            Shell.Current.RegisterNewCommand("Restore", async (sender, args) =>
+            {
+                await ToolkitLogo.Rotate(value: 0f).Scale(scaleX: 1.0f, scaleY: 1.0f).Offset(offsetX: 0).Blur(value: 0).StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim", async (sender, args) =>
+            {
+                await ToolkitLogo.Rotate(value: 90f).Scale(scaleX: 5.0f, scaleY: 1.0f).Offset(offsetX: 150).StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim 2", async (sender, args) =>
+            {
+                await ToolkitLogo.Rotate(value: 90f).Then().Scale(scaleX: 5.0f, scaleY: 1.0f).Then().Offset(offsetX: 150).StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim 3", async (sender, args) =>
+            {
+                await ToolkitLogo.Rotate(value: 90f).Then().Scale(scaleX: 5.0f, scaleY: 1.0f).Then().Offset(offsetX: 150).Then().Blur(value: 2).StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim 4", async (sender, args) =>
+            {
+                await ToolkitLogo.Rotate(value: 90f).StartAsync();
+                await ToolkitLogo.Scale(scaleX: 5.0f, scaleY: 1.0f).StartAsync();
+                await ToolkitLogo.Offset(offsetX: 150).StartAsync();
+                await ToolkitLogo.Blur(value: 2).StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim 5", async (sender, args) =>
+            {
+                var anim = ToolkitLogo.Rotate(value: 90f).Then().Scale(scaleX: 5.0f, scaleY: 1.0f).Then().Blur(value: 2).Then().Offset(offsetX: 150);
+
+                anim.DurationForAll(5000);
+
+                await anim.StartAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Anim 6", (sender, args) =>
+            {
+                var anim = ToolkitLogo.Rotate(value: 90f).Then().Scale(scaleX: 5.0f, scaleY: 1.0f).Then().Blur(value: 2).Then().Offset(offsetX: 150);
+
+                anim.Start();
+
+                anim.Stop();
+            });
+
+            Shell.Current.RegisterNewCommand("Switch mode", (sender, args) =>
+            {
+                AnimationSet.AlwaysUseComposition = !AnimationSet.AlwaysUseComposition;
+            });
         }
     }
 }

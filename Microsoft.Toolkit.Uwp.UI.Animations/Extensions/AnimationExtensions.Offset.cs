@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="associatedObject">The specified UI Element.</param>
         /// <param name="offsetX">The offset on the x axis.</param>
         /// <param name="offsetY">The offset on the y axis.</param>
-        /// <param name="offsetZ">The offset on the z axis.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -40,7 +39,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this UIElement associatedObject,
             float offsetX = 0f,
             float offsetY = 0f,
-            float offsetZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -50,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Offset(offsetX, offsetY, offsetZ, duration, delay);
+            return animationSet.Offset(offsetX, offsetY, duration, delay);
         }
 
         /// <summary>
@@ -59,7 +57,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="animationSet">The animation set.</param>
         /// <param name="offsetX">The offset on the x axis.</param>
         /// <param name="offsetY">The offset on the y axis.</param>
-        /// <param name="offsetZ">The offset on the z axis.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <returns>
@@ -69,7 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             float offsetX = 0f,
             float offsetY = 0f,
-            float offsetZ = 0f,
             double duration = 500d,
             double delay = 0d)
         {
@@ -78,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+            if (!AnimationSet.AlwaysUseComposition && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
                 var element = animationSet.Element;
                 var transform = GetAttachedCompositeTransform(element);
@@ -99,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             else
             {
                 var visual = animationSet.Visual;
-                var offsetVector = new Vector3(offsetX, offsetY, offsetZ);
+                var offsetVector = new Vector3(offsetX, offsetY, 0);
 
                 if (duration <= 0)
                 {
