@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
         public static bool IsBlurSupported =>
-            ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.CreateEffectFactory));
+            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Animates the gaussian blur of the the UIElement.
