@@ -16,6 +16,7 @@ Every contribution has to come with:
 * A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
+* You tested your code with SDK 10586 and SDK 14393
 
 ## General rules
 
