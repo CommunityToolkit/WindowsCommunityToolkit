@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            if (!AnimationSet.AlwaysUseComposition)
+            if (!AnimationSet.UseComposition)
             {
                 var element = animationSet.Element;
                 var transform = GetAttachedCompositeTransform(element);
