@@ -13,10 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -25,14 +27,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public class AnimationSet
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
+        /// </summary>
+        public static bool AlwaysUseComposition { get; set; }
+
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
         private Dictionary<string, object> _directPropertyChanges;
         private List<EffectDirectPropertyChangeDefinition> _directEffectPropertyChanges;
         private List<AnimationSet> _animationSets;
+        private Storyboard _storyboard;
+        private Dictionary<string, Timeline> _storyboardAnimations;
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
-        private System.Threading.ManualResetEvent _manualResetEvent;
+        private ManualResetEvent _manualResetEvent;
 
         /// <summary>
         /// Gets the <see cref="Visual"/> object that backs the XAML element
@@ -76,12 +85,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _directPropertyChanges = new Dictionary<string, object>();
             _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _animationSets = new List<AnimationSet>();
+            _storyboard = new Storyboard();
+            _storyboardAnimations = new Dictionary<string, Timeline>();
         }
 
         /// <summary>
         /// Occurs when all animations have completed
         /// </summary>
         public event EventHandler Completed;
+
+        /// <summary>
+        /// Stats all animations. This method is not awaitable.
+        /// </summary>
+        public async void Start()
+        {
+            await StartAsync();
+        }
 
         /// <summary>
         /// Starts all animations on the backing Visual.
@@ -127,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
             }
 
-            Task t = Task.Run(() =>
+            Task compositionTask = Task.Run(() =>
             {
                 _manualResetEvent.Reset();
                 _manualResetEvent.WaitOne();
@@ -135,7 +154,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             _batch.End();
 
-            await t;
+            var storyboardTask = _storyboard.BeginAsync();
+
+            await Task.WhenAll(compositionTask, storyboardTask);
         }
 
         /// <summary>
@@ -167,26 +188,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 effect.EffectBrush.StopAnimation(effect.PropertyName);
             }
+
+            _storyboard.Stop();
         }
 
         /// <summary>
-        /// Ovewrites the duration on all animations to the specified value
+        /// Wait for existing animations to complete before running any others
         /// </summary>
-        /// <param name="duration">The duration in seconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet SetDurationForAll(double duration)
+        public AnimationSet Then()
+        {
+            var savedAnimationSet = new AnimationSet(Element);
+            savedAnimationSet._animations = _animations;
+            savedAnimationSet._effectAnimations = _effectAnimations;
+            savedAnimationSet._directPropertyChanges = _directPropertyChanges;
+            savedAnimationSet._directEffectPropertyChanges = _directEffectPropertyChanges;
+            savedAnimationSet._storyboard = _storyboard;
+            savedAnimationSet._storyboardAnimations = _storyboardAnimations;
+
+            _animationSets.Add(savedAnimationSet);
+
+            _animations = new Dictionary<string, CompositionAnimation>();
+            _effectAnimations = new List<EffectAnimationDefinition>();
+            _directPropertyChanges = new Dictionary<string, object>();
+            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
+            _storyboard = new Storyboard();
+            _storyboardAnimations = new Dictionary<string, Timeline>();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Ovewrites the duration on all animations after last Then()
+        /// to the specified value
+        /// </summary>
+        /// <param name="duration">The duration in miliseconds</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet Duration(double duration)
         {
             if (duration <= 0)
             {
-                duration = 0.01;
+                duration = 1;
             }
+
+            var timespan = TimeSpan.FromMilliseconds(duration);
 
             foreach (var anim in _animations)
             {
                 var animation = anim.Value as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = TimeSpan.FromSeconds(duration);
+                    animation.Duration = timespan;
                 }
             }
 
@@ -195,7 +247,76 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = effect.Animation as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = TimeSpan.FromSeconds(duration);
+                    animation.Duration = timespan;
+                }
+            }
+
+            foreach (var timeline in _storyboardAnimations)
+            {
+                var animation = timeline.Value as DoubleAnimation;
+                if (animation != null)
+                {
+                    animation.Duration = timespan;
+                }
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Ovewrites the duration on all animations to the specified value
+        /// </summary>
+        /// <param name="duration">The duration in miliseconds</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet DurationForAll(double duration)
+        {
+            foreach (var set in _animationSets)
+            {
+                set.Duration(duration);
+            }
+
+            return Duration(duration);
+        }
+
+        /// <summary>
+        /// Ovewrites the delay time on all animations after last Then()
+        /// to the specified value
+        /// </summary>
+        /// <param name="delayTime">The delay time in seconds</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet Delay(double delayTime)
+        {
+            if (delayTime < 0)
+            {
+                delayTime = 0;
+            }
+
+            var timespan = TimeSpan.FromMilliseconds(delayTime);
+
+            foreach (var anim in _animations)
+            {
+                var animation = anim.Value as KeyFrameAnimation;
+                if (animation != null)
+                {
+                    animation.DelayTime = timespan;
+                }
+            }
+
+            foreach (var effect in _effectAnimations)
+            {
+                var animation = effect.Animation as KeyFrameAnimation;
+                if (animation != null)
+                {
+                    animation.DelayTime = timespan;
+                }
+            }
+
+            foreach (var timeline in _storyboardAnimations)
+            {
+                var animation = timeline.Value as DoubleAnimation;
+                if (animation != null)
+                {
+                    animation.BeginTime = timespan;
                 }
             }
 
@@ -207,27 +328,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="delayTime">The delay time in seconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet SetDelayForAll(double delayTime)
+        public AnimationSet DelayForAll(double delayTime)
         {
-            foreach (var anim in _animations)
+            foreach (var set in _animationSets)
             {
-                var animation = anim.Value as KeyFrameAnimation;
-                if (animation != null)
-                {
-                    animation.DelayTime = TimeSpan.FromSeconds(delayTime);
-                }
+                set.Delay(delayTime);
             }
 
-            foreach (var effect in _effectAnimations)
-            {
-                var animation = effect.Animation as KeyFrameAnimation;
-                if (animation != null)
-                {
-                    animation.DelayTime = TimeSpan.FromSeconds(delayTime);
-                }
-            }
-
-            return this;
+            return Delay(delayTime);
         }
 
         /// <summary>
@@ -235,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="propertyName">The property to be animated on the backing Visual</param>
         /// <param name="animation">The animation to be applied</param>
-        public void AddAnimation(string propertyName, CompositionAnimation animation)
+        public void AddCompositionAnimation(string propertyName, CompositionAnimation animation)
         {
             _animations[propertyName] = animation;
         }
@@ -244,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Removes an animation from being run on <see cref="StartAsync"/>
         /// </summary>
         /// <param name="propertyName">The property that no longer needs to be animated</param>
-        public void RemoveAnimation(string propertyName)
+        public void RemoveCompositionAnimation(string propertyName)
         {
             if (_animations.ContainsKey(propertyName))
             {
@@ -258,7 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property animated</param>
         /// <param name="animation">The animation to be applied</param>
         /// <param name="propertyName">The property of the effect to be animated</param>
-        public void AddEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
+        public void AddCompositionEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
         {
             var effect = new EffectAnimationDefinition()
             {
@@ -275,7 +383,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="propertyName">The property to be animated on the backing Visual</param>
         /// <param name="value">The value to be applied</param>
-        public void AddDirectPropertyChange(string propertyName, object value)
+        public void AddCompositionDirectPropertyChange(string propertyName, object value)
         {
             _directPropertyChanges[propertyName] = value;
         }
@@ -284,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Removes a property change from being run on <see cref="StartAsync"/>
         /// </summary>
         /// <param name="propertyName">The property that no longer needs to be changed</param>
-        public void RemoveDirectPropertyChange(string propertyName)
+        public void RemoveCompositionDirectPropertyChange(string propertyName)
         {
             if (_directPropertyChanges.ContainsKey(propertyName))
             {
@@ -293,25 +401,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Wait for existing animations to complete before running any others
+        /// Adds a storyboard animation to be run on <see cref="StartAsync"/>
         /// </summary>
-        /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet Then()
+        /// <param name="propertyPath">The property to be animated with Storyboards</param>
+        /// <param name="timeline">The timeline object to be added to storyboard</param>
+        public void AddStoryboardAnimation(string propertyPath, Timeline timeline)
         {
-            var savedAnimationSet = new AnimationSet(Element);
-            savedAnimationSet._animations = _animations;
-            savedAnimationSet._effectAnimations = _effectAnimations;
-            savedAnimationSet._directPropertyChanges = _directPropertyChanges;
-            savedAnimationSet._directEffectPropertyChanges = _directEffectPropertyChanges;
+            if (_storyboardAnimations.ContainsKey(propertyPath))
+            {
+                var previousAnimation = _storyboardAnimations[propertyPath];
+                _storyboard.Children.Remove(previousAnimation);
+                _storyboardAnimations.Remove(propertyPath);
+            }
 
-            _animationSets.Add(savedAnimationSet);
+            _storyboardAnimations.Add(propertyPath, timeline);
+            _storyboard.Children.Add(timeline);
 
-            _animations = new Dictionary<string, CompositionAnimation>();
-            _effectAnimations = new List<EffectAnimationDefinition>();
-            _directPropertyChanges = new Dictionary<string, object>();
-            _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
-
-            return this;
+            Storyboard.SetTarget(timeline, Element);
+            Storyboard.SetTargetProperty(timeline, propertyPath);
         }
 
         /// <summary>

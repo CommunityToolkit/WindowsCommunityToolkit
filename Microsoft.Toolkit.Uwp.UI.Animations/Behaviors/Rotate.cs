@@ -35,11 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
-        /// The center (z axis) of rotation for associated object
-        /// </summary>
-        public static readonly DependencyProperty CenterZProperty = DependencyProperty.Register("CenterZ", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
-
-        /// <summary>
         /// Gets or sets the center point (x axis) of the associated object.
         /// </summary>
         /// <value>
@@ -64,18 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the center point (z axis) of the associated object.
-        /// </summary>
-        /// <value>
-        /// The center point (z axis) of the associated object.
-        /// </value>
-        public double CenterZ
-        {
-            get { return (double)GetValue(CenterZProperty); }
-            set { SetValue(CenterZProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the Rotation in degrees.
         /// </summary>
         /// <value>
@@ -97,9 +80,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 delay: Delay,
                 value: (float)Value,
                 centerX: (float)CenterX,
-                centerY: (float)CenterY,
-                centerZ: (float)CenterZ)?
-                .StartAsync();
+                centerY: (float)CenterY)?
+                .Start();
         }
     }
 }

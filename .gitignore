@@ -212,5 +212,9 @@ _Pvt_Extensions/
 ModelManifest.xml
 BundleArtifacts
 !/build
+<<<<<<< HEAD
+/build/tools/GitVersion.CommandLine
+=======
 /build/tools/GitVersion.CommandLine
 AppPackages
+>>>>>>> ec8c12ad94197ae91af0d9b9be61cd3c164afc95
