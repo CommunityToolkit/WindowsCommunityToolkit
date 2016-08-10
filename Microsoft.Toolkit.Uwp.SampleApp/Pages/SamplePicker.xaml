@@ -8,13 +8,13 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SampleTemplate" x:DataType="sampleApp:Sample">
-            <Grid Width="500" Height="100" Margin="6" >
+            <Grid Width="500" Height="120" Margin="6" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource Brush-Grey-04}" VerticalAlignment="Top" Margin="0,0,12,0">
-                    <Image Source="{Binding Icon}" Height="100" Width="100" />
+                    <Image Source="{Binding Icon}" Height="120" Width="120" />
                 </Border>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
