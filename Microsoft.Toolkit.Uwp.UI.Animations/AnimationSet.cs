@@ -224,21 +224,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="duration">The duration in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet Duration(double duration)
+        public AnimationSet SetDuration(double duration)
         {
             if (duration <= 0)
             {
                 duration = 1;
             }
 
-            var timespan = TimeSpan.FromMilliseconds(duration);
+            return SetDuration(TimeSpan.FromMilliseconds(duration));
+        }
 
+        /// <summary>
+        /// Ovewrites the duration on all animations after last Then()
+        /// to the specified value
+        /// </summary>
+        /// <param name="duration"><see cref="TimeSpan"/> for the duration</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDuration(TimeSpan duration)
+        {
             foreach (var anim in _animations)
             {
                 var animation = anim.Value as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = timespan;
+                    animation.Duration = duration;
                 }
             }
 
@@ -247,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = effect.Animation as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = timespan;
+                    animation.Duration = duration;
                 }
             }
 
@@ -256,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = timeline.Value as DoubleAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = timespan;
+                    animation.Duration = duration;
                 }
             }
 
@@ -268,37 +277,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="duration">The duration in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet DurationForAll(double duration)
+        public AnimationSet SetDurationForAll(double duration)
         {
             foreach (var set in _animationSets)
             {
-                set.Duration(duration);
+                set.SetDuration(duration);
             }
 
-            return Duration(duration);
+            return SetDuration(duration);
+        }
+
+        /// <summary>
+        /// Ovewrites the duration on all animations to the specified value
+        /// </summary>
+        /// <param name="duration"><see cref="TimeSpan"/> for the duration</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDurationForAll(TimeSpan duration)
+        {
+            foreach (var set in _animationSets)
+            {
+                set.SetDuration(duration);
+            }
+
+            return SetDuration(duration);
         }
 
         /// <summary>
         /// Ovewrites the delay time on all animations after last Then()
         /// to the specified value
         /// </summary>
-        /// <param name="delayTime">The delay time in seconds</param>
+        /// <param name="delayTime">The delay time in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet Delay(double delayTime)
+        public AnimationSet SetDelay(double delayTime)
         {
             if (delayTime < 0)
             {
                 delayTime = 0;
             }
 
-            var timespan = TimeSpan.FromMilliseconds(delayTime);
+            return this.SetDelay(TimeSpan.FromMilliseconds(delayTime));
+        }
 
+        /// <summary>
+        /// Ovewrites the delay time on all animations after last Then()
+        /// to the specified value
+        /// </summary>
+        /// <param name="delayTime"><see cref="TimeSpan"/> for how much to delay</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDelay(TimeSpan delayTime)
+        {
             foreach (var anim in _animations)
             {
                 var animation = anim.Value as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.DelayTime = timespan;
+                    animation.DelayTime = delayTime;
                 }
             }
 
@@ -307,7 +340,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = effect.Animation as KeyFrameAnimation;
                 if (animation != null)
                 {
-                    animation.DelayTime = timespan;
+                    animation.DelayTime = delayTime;
                 }
             }
 
@@ -316,7 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = timeline.Value as DoubleAnimation;
                 if (animation != null)
                 {
-                    animation.BeginTime = timespan;
+                    animation.BeginTime = delayTime;
                 }
             }
 
@@ -326,16 +359,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Ovewrites the delay time on all animations to the specified value
         /// </summary>
-        /// <param name="delayTime">The delay time in seconds</param>
+        /// <param name="delayTime">The delay time in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
-        public AnimationSet DelayForAll(double delayTime)
+        public AnimationSet SetDelayForAll(double delayTime)
         {
             foreach (var set in _animationSets)
             {
-                set.Delay(delayTime);
+                set.SetDelay(delayTime);
             }
 
-            return Delay(delayTime);
+            return SetDelay(delayTime);
+        }
+
+        /// <summary>
+        /// Ovewrites the delay time on all animations to the specified value
+        /// </summary>
+        /// <param name="delayTime"><see cref="TimeSpan"/> for how much to delay</param>
+        /// <returns>AnimationSet to allow chaining</returns>
+        public AnimationSet SetDelayForAll(TimeSpan delayTime)
+        {
+            foreach (var set in _animationSets)
+            {
+                set.SetDelay(delayTime);
+            }
+
+            return SetDelay(delayTime);
         }
 
         /// <summary>
