@@ -16,7 +16,6 @@
                 <behaviors:Offset x:Name="Offset" 
                                   OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
                                   OffsetY="{Binding OffsetY.Value, Mode=OneWay}" 
-                                  OffsetZ="{Binding OffsetZ.Value, Mode=OneWay}" 
                                   Duration="{Binding Duration.Value, Mode=OneWay}" 
                                   Delay="{Binding Delay.Value, Mode=OneWay}" 
                                   AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"/>

@@ -57,8 +57,15 @@
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
-    <Compile Include="Composition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
+    <Compile Include="Extensions\AnimationExtensions.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Fade.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Offset.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Parallax.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
+    <Compile Include="Extensions\AnimationTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

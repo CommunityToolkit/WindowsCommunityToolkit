@@ -16,9 +16,8 @@
               Value="@[Value:DoubleSlider:0.0:0.0-360.0]"
               CenterX="@[CenterX:DoubleSlider:0.0:0.0-100.0]"
               CenterY="@[CenterY:DoubleSlider:0.0:0.0-100.0]"
-              CenterZ="@[CenterZ:DoubleSlider:0.0:0.0-100.0]"
-              Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]"
-              Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]"
+              Duration="@[Duration:DoubleSlider:1000.0:0.0-5000.0]"
+              Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
               AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
       </interactivity:Interaction.Behaviors>
     </Image>
