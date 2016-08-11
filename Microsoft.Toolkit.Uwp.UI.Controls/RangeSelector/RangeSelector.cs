@@ -73,6 +73,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<RangeChangedEventArgs> ValueChanged;
 
         /// <summary>
+        /// Event raised when lower or upper range thumbs start being dragged.
+        /// </summary>
+        public event DragStartedEventHandler ThumbDragStarted;
+
+        /// <summary>
+        /// Event raised when lower or upper range thumbs end being dragged.
+        /// </summary>
+        public event DragCompletedEventHandler ThumbDragCompleted;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RangeSelector"/> class.
         /// Create a default range selector control.
         /// </summary>
@@ -560,6 +570,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
+            ThumbDragStarted?.Invoke(this, e);
             _absolutePosition = Canvas.GetLeft(_minThumb);
             Canvas.SetZIndex(_minThumb, 10);
             Canvas.SetZIndex(_maxThumb, 0);
@@ -570,6 +581,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MaxThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
+            ThumbDragStarted?.Invoke(this, e);
             _absolutePosition = Canvas.GetLeft(_maxThumb);
             Canvas.SetZIndex(_minThumb, 0);
             Canvas.SetZIndex(_maxThumb, 10);
@@ -579,6 +591,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
+            ThumbDragCompleted?.Invoke(this, e);
             ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
 
             VisualStateManager.GoToState(this, "Normal", true);

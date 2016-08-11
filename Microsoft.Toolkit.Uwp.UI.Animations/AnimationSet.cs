@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Defines an object for storing and managing CompositionAnimations for an element
     /// </summary>
-    public class AnimationSet: IDisposable
+    public class AnimationSet : IDisposable
     {
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
