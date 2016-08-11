@@ -16,9 +16,8 @@
         <behaviors:Offset x:Name="Offset"
             OffsetX="@[OffsetX:DoubleSlider:0.0:0.0-500.0]"
             OffsetY="@[OffsetY:DoubleSlider:0.0:0.0-500.0]"
-            OffsetZ="@[OffsetZ:DoubleSlider:0.0:0.0-500.0]"
-            Duration="@[Duration:DoubleSlider:1.0:0.0-5.0]"
-            Delay="@[Delay:DoubleSlider:0.0:0.0-5.0]"
+            Duration="@[Duration:DoubleSlider:1000:0-5000]"
+            Delay="@[Delay:DoubleSlider:0:0-5000]"
             AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
       </interactivity:Interaction.Behaviors>
     </Image>

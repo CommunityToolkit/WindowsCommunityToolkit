@@ -155,15 +155,6 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png"
-      },
-      {
-        "Name": "Parallax",
-        "Type": "ParallaxBehaviorPage",
-        "About": "Parallax XAML behavior using composition to move a background image at a different scroll rate behind a list",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "XamlCodeFile": "ParallaxBehaviorXaml.bind",
-        "CodeFile": "ParallaxBehaviorCode.bind",
-        "Icon": "/SamplePages/Parallax/ParallaxBehavior.png"
       }
     ]
   },

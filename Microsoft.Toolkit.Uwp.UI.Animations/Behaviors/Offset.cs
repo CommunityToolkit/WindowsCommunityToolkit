@@ -34,11 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register("OffsetY", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
-        /// The Offset on the z axis of the associated object
-        /// </summary>
-        public static readonly DependencyProperty OffsetZProperty = DependencyProperty.Register("OffsetZ", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
-
-        /// <summary>
         /// Gets or sets the Offset x.
         /// </summary>
         /// <value>
@@ -63,18 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the Offset z.
-        /// </summary>
-        /// <value>
-        /// The Offset z.
-        /// </value>
-        public double OffsetZ
-        {
-            get { return (double)GetValue(OffsetZProperty); }
-            set { SetValue(OffsetZProperty, value); }
-        }
-
-        /// <summary>
         /// Starts the animation.
         /// </summary>
         public override void StartAnimation()
@@ -83,9 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 duration: Duration,
                 delay: Delay,
                 offsetX: (float)OffsetX,
-                offsetY: (float)OffsetY,
-                offsetZ: (float)OffsetZ)?
-                .StartAsync();
+                offsetY: (float)OffsetY).Start();
         }
     }
 }
