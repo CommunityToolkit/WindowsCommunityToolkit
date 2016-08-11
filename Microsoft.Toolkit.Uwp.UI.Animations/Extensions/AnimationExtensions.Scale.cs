@@ -68,8 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </returns>
         public static AnimationSet Scale(
             this AnimationSet animationSet,
-            float scaleX = 0f,
-            float scaleY = 0f,
+            float scaleX = 1f,
+            float scaleY = 1f,
             float centerX = 0f,
             float centerY = 0f,
             double duration = 500d,
