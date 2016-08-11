@@ -5,10 +5,10 @@
     <version>$version$</version>
     <title>UWP Community Toolkit Controls</title>
     <authors>Microsoft</authors>
-    <owners>Microsoft</owners>
-    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>This library provides XAML user controls. It is part of the UWP Community Toolkit.</description>
     <releaseNotes>First public release.</releaseNotes>
     <copyright>Copyright 2016</copyright>

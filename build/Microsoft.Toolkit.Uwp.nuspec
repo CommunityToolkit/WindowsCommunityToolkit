@@ -5,10 +5,10 @@
     <version>$version$</version>
     <title>UWP Community Toolkit</title>
     <authors>Microsoft</authors>
-    <owners>Microsoft</owners>
-    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>UWP Community Toolkit is a toolkit aimed to help UWP developers to create great Universal Windows Applications.</description>
     <releaseNotes>First public release.</releaseNotes>
     <copyright>Copyright 2016</copyright>

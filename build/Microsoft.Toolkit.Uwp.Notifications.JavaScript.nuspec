@@ -4,9 +4,10 @@
     <id>Microsoft.Toolkit.Uwp.Notifications.JavaScript</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
-    <owners>microsoft, andrewbares</owners>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.</summary>
     <description>The official NotificationsExtensions library from Microsoft. Supports JavaScript UWP projects (see NotificationsExtensions.Win10 for the C#/C++ version).
 
@@ -15,7 +16,6 @@ Generate tile, toast, and badge notifications for Windows 10 via code, with the 
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10!</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>notifications, win10, windows 10, tile, tiles, toast, toasts, badge, xml, uwp, javascript</tags>
-    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
   </metadata>
   
   <files>

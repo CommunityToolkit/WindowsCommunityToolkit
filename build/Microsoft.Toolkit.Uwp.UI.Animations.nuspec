@@ -5,13 +5,13 @@
     <version>$version$</version>
     <title>UWP Community Toolkit Animations</title>
     <authors>Microsoft</authors>
-    <owners>Microsoft</owners>
-    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit</licenseUrl>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This library provides helpers and services on top of Windows Composition. It is part of the UWP Community Toolkit.</description>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>This library provides helpers and services on top of Windows Composition and XAML storyboards. It is part of the UWP Community Toolkit.</description>
     <releaseNotes>First public release.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows Animations Composition</tags>
     <dependencies>
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
