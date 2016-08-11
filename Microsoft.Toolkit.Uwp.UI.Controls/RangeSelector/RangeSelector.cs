@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -67,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _maxSet;
         private bool _pointerManipulatingMin;
         private bool _pointerManipulatingMax;
+        private double _absolutePosition;
 
         /// <summary>
         /// Event raised when lower or upper range values are changed.
@@ -537,44 +539,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MinThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            var mousePositionX = Window.Current.CoreWindow.PointerPosition.X - Window.Current.CoreWindow.Bounds.Left;
-            var visual = _containerCanvas.TransformToVisual(Window.Current.Content);
-            var screenCoords = visual.TransformPoint(new Point(0, 0));
+            _absolutePosition += e.HorizontalChange;
 
-            if (mousePositionX < screenCoords.X)
-            {
-                RangeMin = Minimum;
-                return;
-            }
-
-            if (mousePositionX > screenCoords.X + _containerCanvas.ActualWidth)
-            {
-                RangeMin = Maximum;
-                return;
-            }
-
-            RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), Canvas.GetLeft(_minThumb) + e.HorizontalChange);
+            RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
         }
 
         private void MaxThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            var mousePositionX = Window.Current.CoreWindow.PointerPosition.X - Window.Current.CoreWindow.Bounds.Left;
-            var visual = _containerCanvas.TransformToVisual(Window.Current.Content);
-            var screenCoords = visual.TransformPoint(new Point(0, 0));
+            _absolutePosition += e.HorizontalChange;
 
-            if (mousePositionX < screenCoords.X)
-            {
-                RangeMax = Minimum;
-                return;
-            }
-
-            if (mousePositionX > screenCoords.X + _containerCanvas.ActualWidth)
-            {
-                RangeMax = Maximum;
-                return;
-            }
-
-            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), _containerCanvas.ActualWidth, Canvas.GetLeft(_maxThumb) + e.HorizontalChange);
+            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), _containerCanvas.ActualWidth, _absolutePosition);
         }
 
         private double DragThumb(Thumb thumb, double min, double max, double nextPos)
@@ -589,6 +563,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
+            _absolutePosition = Canvas.GetLeft(_minThumb);
             Canvas.SetZIndex(_minThumb, 10);
             Canvas.SetZIndex(_maxThumb, 0);
             _oldValue = RangeMin;
@@ -598,6 +573,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MaxThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
+            _absolutePosition = Canvas.GetLeft(_maxThumb);
             Canvas.SetZIndex(_minThumb, 0);
             Canvas.SetZIndex(_maxThumb, 10);
             _oldValue = RangeMax;
