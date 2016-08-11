@@ -27,11 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public class AnimationSet
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
-        /// </summary>
-        public static bool UseComposition { get; set; }
-
         private Dictionary<string, CompositionAnimation> _animations;
         private List<EffectAnimationDefinition> _effectAnimations;
         private Dictionary<string, object> _directPropertyChanges;
@@ -42,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private Compositor _compositor;
         private CompositionScopedBatch _batch;
         private ManualResetEvent _manualResetEvent;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
+        /// </summary>
+        public static bool UseComposition { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Visual"/> object that backs the XAML element
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Starts all animations on the backing Visual.
+        /// Starts all animations and returns an awaitable task.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
         public async Task StartAsync()
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Stops all animations on the backing Visual.
+        /// Stops all animations.
         /// </summary>
         public void Stop()
         {
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Wait for existing animations to complete before running any others
+        /// Wait for existing animations to complete before running new animations
         /// </summary>
         /// <returns>AnimationSet to allow chaining</returns>
         public AnimationSet Then()
@@ -387,17 +387,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds an animation to be run on <see cref="StartAsync"/>
+        /// Adds a composition animation to be run on <see cref="StartAsync"/>
         /// </summary>
         /// <param name="propertyName">The property to be animated on the backing Visual</param>
-        /// <param name="animation">The animation to be applied</param>
+        /// <param name="animation">The <see cref="CompositionAnimation"/> to be applied</param>
         public void AddCompositionAnimation(string propertyName, CompositionAnimation animation)
         {
             _animations[propertyName] = animation;
         }
 
         /// <summary>
-        /// Removes an animation from being run on <see cref="StartAsync"/>
+        /// Removes a composition animation from being run on <see cref="Visual"/> property
         /// </summary>
         /// <param name="propertyName">The property that no longer needs to be animated</param>
         public void RemoveCompositionAnimation(string propertyName)
@@ -409,7 +409,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds an effect animation to be run on <see cref="StartAsync"/>
+        /// Adds a composition effect animation to be run on backing <see cref="Visual"/>
         /// </summary>
         /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property animated</param>
         /// <param name="animation">The animation to be applied</param>
@@ -427,7 +427,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds a propertyChange to be run on <see cref="StartAsync"/>
+        /// Adds a composition property that will change instantaneously
         /// </summary>
         /// <param name="propertyName">The property to be animated on the backing Visual</param>
         /// <param name="value">The value to be applied</param>
@@ -437,7 +437,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Removes a property change from being run on <see cref="StartAsync"/>
+        /// Removes a composition property change
         /// </summary>
         /// <param name="propertyName">The property that no longer needs to be changed</param>
         public void RemoveCompositionDirectPropertyChange(string propertyName)
@@ -449,7 +449,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds a storyboard animation to be run on <see cref="StartAsync"/>
+        /// Adds a storyboard animation to be run
         /// </summary>
         /// <param name="propertyPath">The property to be animated with Storyboards</param>
         /// <param name="timeline">The timeline object to be added to storyboard</param>
