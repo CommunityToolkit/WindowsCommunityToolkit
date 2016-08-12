@@ -123,19 +123,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 _batch.Completed -= Batch_Completed;
             }
 
-            _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            _batch.Completed += Batch_Completed;
-
-            foreach (var anim in _animations)
-            {
-                Visual.StartAnimation(anim.Key, anim.Value);
-            }
-
-            foreach (var effect in _effectAnimations)
-            {
-                effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
-            }
-
             foreach (var property in _directPropertyChanges)
             {
                 typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
@@ -146,17 +133,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
             }
 
-            Task compositionTask = Task.Run(() =>
+            List<Task> tasks = new List<Task>();
+
+            if (_animations.Count > 0 || _effectAnimations.Count > 0)
             {
-                _manualResetEvent.Reset();
-                _manualResetEvent.WaitOne();
-            });
+                _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+                _batch.Completed += Batch_Completed;
 
-            _batch.End();
+                foreach (var anim in _animations)
+                {
+                    Visual.StartAnimation(anim.Key, anim.Value);
+                }
 
-            var storyboardTask = _storyboard.BeginAsync();
+                foreach (var effect in _effectAnimations)
+                {
+                    effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
+                }
 
-            await Task.WhenAll(compositionTask, storyboardTask);
+                Task compositionTask = Task.Run(() =>
+                {
+                    _manualResetEvent.Reset();
+                    _manualResetEvent.WaitOne();
+                });
+
+                _batch.End();
+
+                tasks.Add(compositionTask);
+            }
+
+            tasks.Add(_storyboard.BeginAsync());
+
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>
