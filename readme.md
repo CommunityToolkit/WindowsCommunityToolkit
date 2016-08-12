@@ -69,7 +69,7 @@ Helpers and services that are built on top of Windows Composition layer to provi
 * [RadialGauge](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/radialgauge.htm)
 * [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
 * [RotatorTile](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rotatortile.htm)
-* [SlideableListItem](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/slideablelistitem.htm)
+* [SlideableListItem](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/slidablelistitem.htm)
 
 ### Code Helpers
 
