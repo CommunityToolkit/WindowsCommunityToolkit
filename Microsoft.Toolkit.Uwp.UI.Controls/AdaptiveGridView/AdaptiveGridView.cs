@@ -50,13 +50,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _columns = CalculateColumns(containerWidth, DesiredWidth);
 
-            // If there's less items than there's columns,
-            // reduce the column count;
+            // If there's less items than there's columns, reduce the column count;
             if (_listView != null && _listView.Items != null
                 && _listView.Items.Count > 0 && _listView.Items.Count < _columns)
             {
                 _columns = _listView.Items.Count;
             }
+
             ItemWidth = (containerWidth / _columns) - 5;
         }
 
@@ -92,7 +92,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_listView != null && !double.IsNaN(_listView.ActualWidth))
             {
-                // If the items count changes, check if more or less columns needs to be rendered, in case we were hitting a min-limit.
+                // If the item count changes, check if more or less columns needs to be rendered,
+                // in case we were having fewer items than columns.
                 RecalculateLayout(_listView.ActualWidth);
             }
         }
