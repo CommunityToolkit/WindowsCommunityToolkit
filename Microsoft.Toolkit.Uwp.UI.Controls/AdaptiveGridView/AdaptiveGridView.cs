@@ -48,55 +48,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (_columns == 0)
-            {
-                _columns = CalculateColumns(containerWidth, DesiredWidth);
-            }
-            else
-            {
-                var desiredColumns = CalculateColumns(containerWidth, DesiredWidth);
-                if (desiredColumns != _columns)
-                {
-                    _columns = desiredColumns;
-                }
-            }
+            _columns = CalculateColumns(containerWidth, DesiredWidth);
 
-            // Determine the amount of items
             // If there's less items than there's columns,
-            // fix the ItemWidth to DesiredWidth;
-            int count = 0;
-            if (_listView != null)
+            // reduce the column count;
+            if (_listView != null && _listView.Items != null
+                && _listView.Items.Count > 0 && _listView.Items.Count < _columns)
             {
-                count = _listView.Items.Count;
+                _columns = _listView.Items.Count;
             }
-            else if (ItemsSource is System.Collections.ICollection)
-            {
-                count = (ItemsSource as System.Collections.ICollection).Count;
-            }
-            else if (ItemsSource is System.Array)
-            {
-                count = (ItemsSource as System.Array).Length;
-            }
-            else if (ItemsSource is System.Collections.IEnumerable)
-            {
-                var enumerable = ((System.Collections.IEnumerable)ItemsSource).GetEnumerator();
-                while (count < _columns && enumerable.MoveNext())
-                {
-                    // All we need to know is if there's less than columns, so we'll stop when reaching _columns
-                    count++;
-                }
-            }
-
-            if (count < _columns && count != 0)
-            {
-                // If there aren't enough items to fill the column, set the fixed size
-                // as the largest an item would be before introducing one less column
-                ItemWidth = (DesiredWidth / count * (count + 1)) - 5;
-            }
-            else
-            {
-                ItemWidth = (containerWidth / _columns) - 5;
-            }
+            ItemWidth = (containerWidth / _columns) - 5;
         }
 
         /// <summary>
@@ -111,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _listView.SizeChanged -= ListView_SizeChanged;
                 _listView.ItemClick -= ListView_ItemClick;
+                _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
                 _listView = null;
             }
 
@@ -119,10 +81,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
+                _listView.Items.VectorChanged += ListViewItems_VectorChanged;
             }
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
+        }
+
+        private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+        {
+            if (_listView != null && !double.IsNaN(_listView.ActualWidth))
+            {
+                // If the items count changes, check if more or less columns needs to be rendered, in case we were hitting a min-limit.
+                RecalculateLayout(_listView.ActualWidth);
+            }
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
