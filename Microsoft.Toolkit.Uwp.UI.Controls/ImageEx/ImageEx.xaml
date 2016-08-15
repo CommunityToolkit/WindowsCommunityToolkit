@@ -4,8 +4,8 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="controls:ImageEx">
-        <Setter Property="Background" Value="Black" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">
