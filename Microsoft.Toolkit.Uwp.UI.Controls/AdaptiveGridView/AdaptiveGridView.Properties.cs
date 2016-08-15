@@ -62,10 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
-        /// Identifies the <see cref="VerticalScroll"/> dependency property.
+        /// Identifies the <see cref="VerticalScrollMode"/> dependency property.
         /// </summary>
-        private static readonly DependencyProperty VerticalScrollProperty =
-            DependencyProperty.Register(nameof(VerticalScroll), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
+        private static readonly DependencyProperty VerticalScrollModeProperty =
+            DependencyProperty.Register(nameof(VerticalScrollMode), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
 
         /// <summary>
         /// Identifies the <see cref="ItemWidth"/> dependency property.
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     };
 
                     self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    self.VerticalScroll = ScrollMode.Disabled;
+                    self.VerticalScrollMode = ScrollMode.Disabled;
                 }
             }
         }
@@ -173,10 +173,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event ItemClickEventHandler ItemClick;
 
-        private ScrollMode VerticalScroll
+        private ScrollMode VerticalScrollMode
         {
-            get { return (ScrollMode)GetValue(VerticalScrollProperty); }
-            set { SetValue(VerticalScrollProperty, value); }
+            get { return (ScrollMode)GetValue(VerticalScrollModeProperty); }
+            set { SetValue(VerticalScrollModeProperty, value); }
         }
 
         private double ItemWidth
