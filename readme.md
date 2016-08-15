@@ -21,72 +21,54 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
 
-### Base Toolkit (code only) 
-
-UWP Community Toolkit main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class.
-
-**Microsoft.Toolkit.Uwp**
-
-### Notifications Package
-
-Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax.
-
-**Microsoft.Toolkit.Uwp.Notifications**
-
-**Microsoft.Toolkit.Uwp.Notifications.Javascript**
-
-### Services Package
-This NuGet package includes the service helpers for Bing, Facebook, and Twitter.
-
-**Microsoft.Toolkit.Uwp.Services**
-
-### UI Packages
-Helpers and services that are built on top of Windows Composition layer to provide animations and XAML controls.
-
-**Microsoft.Toolkit.Uwp.UI**
-
-**Microsoft.Toolkit.Uwp.UI.Animations**
-
-**Microsoft.Toolkit.Uwp.UI.Controls**
+| NuGet Package Name | description |
+| --- | --- |
+| [Microsoft.Toolkit.Uwp]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
+| [Microsoft.Toolkit.Uwp.Notifications]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
+| Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
+| [Microsoft.Toolkit.Uwp.Services]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
+| [Microsoft.Toolkit.Uwp.UI]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| [Microsoft.Toolkit.Uwp.UI.Animations]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
+| [Microsoft.Toolkit.Uwp.UI.Controls]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI_Controls.htm) | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 
 ## Features
 
 ### Animations
 
-- [Blur](animations/blur.md)
-- [Offset](animations/offset.md)
-- [Fade](animations/fade.md)
-- [Parallel](animations/parallax.md)
-- [Rotate](animations/rotate.md)
-- [Scale](animations/scale.md)
+* [Blur](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/blur.htm)
+* [Offset](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/offset.htm)
+* [Fade](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/fade.htm)
+* [Rotate](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/rotate.htm)
+* [Scale](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/scale.htm)
 
 ### Controls
 
-- [HamburgerMenu](controls/hamburgerMenu.md)
-- [HeaderedTextBlock](controls/headeredTextBlock.md)
-- [ImageEX](controls/ImageEx.md)
-- [PullToRefreshListView](controls/PullToRefreshListView.md)
-- [RadialGauge](controls/RadialGauge.md)
-- [RangeSelecter](controls/RangeSelector.md)
-- [AdaptiveGridView](controls/AdaptiveGridView.md)
-- [RotatorTile](controls/RotatorTile.md)
-- [SlideableListItem](controls/SlideableListItem.md)
+* [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
+* [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
+* [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
+* [ImageEX](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
+* [PullToRefreshListView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/pulltorefreshlistview.htm)
+* [RadialGauge](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/radialgauge.htm)
+* [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
+* [RotatorTile](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rotatortile.htm)
+* [SlideableListItem](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/slidablelistitem.htm)
 
 ### Code Helpers
 
-- [Colors](helpers/colors.md)
-- [Connection](helpers/connectionHelper.md)
-- [ImageCache] (helpers/imagecache.md)
-- [StorageFiles](helpers/storagefiles.md)
-- [Streams](helpers/streams.md)
-- [VisualTreeExtensions](helpers/visualtreeextensions.md)
-- [WeakEventListener](helpers/weakeventlistener.md)
+* [Colors](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/colors.htm)
+* [Connection](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/connectionhelper.htm)
+* [Converters](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/converters.htm)
+* [ImageCache](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/imagecache.htm)
+* [StorageFiles](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/storagefiles.htm)
+* [Streams](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/streams.htm)
+* [VisualTreeExtensions](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/visualtreeextensions.htm)
+* [WeakEventListener](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/weakeventlistener.htm)
 
 ### Services
 
-- [Bing](services/bing.md)
-- [Facebook](services/facebook.md)
-- [Twitter](services/twitter.md)
+* [Bing](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/bing.htm)
+* [Facebook](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/facebook.htm)
+* [Twitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter.htm)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)

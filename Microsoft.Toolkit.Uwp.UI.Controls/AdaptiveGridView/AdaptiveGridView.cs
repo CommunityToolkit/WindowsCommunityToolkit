@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -47,17 +48,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (_columns == 0)
+            _columns = CalculateColumns(containerWidth, DesiredWidth);
+
+            // If there's less items than there's columns, reduce the column count;
+            if (_listView != null && _listView.Items != null
+                && _listView.Items.Count > 0 && _listView.Items.Count < _columns)
             {
-                _columns = CalculateColumns(containerWidth, DesiredWidth);
-            }
-            else
-            {
-                var desiredColumns = CalculateColumns(containerWidth, DesiredWidth);
-                if (desiredColumns != _columns)
-                {
-                    _columns = desiredColumns;
-                }
+                _columns = _listView.Items.Count;
             }
 
             ItemWidth = (containerWidth / _columns) - 5;
@@ -75,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _listView.SizeChanged -= ListView_SizeChanged;
                 _listView.ItemClick -= ListView_ItemClick;
+                _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
                 _listView = null;
             }
 
@@ -83,10 +81,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
+                _listView.Items.VectorChanged += ListViewItems_VectorChanged;
             }
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
+        }
+
+        private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+        {
+            if (_listView != null && !double.IsNaN(_listView.ActualWidth))
+            {
+                // If the item count changes, check if more or less columns needs to be rendered,
+                // in case we were having fewer items than columns.
+                RecalculateLayout(_listView.ActualWidth);
+            }
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
