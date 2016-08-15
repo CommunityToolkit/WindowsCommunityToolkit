@@ -7,7 +7,7 @@ The UWP Community Toolkit is a collection of helper functions, custom controls a
 
 ## Getting started
 
-Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
+Please read the [getting Started with the UWP Toolkit](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/get-started/get-started.htm) page for more detailed information about using the toolkit.
 
 ## UWP Community Toolkit Sample App
 
