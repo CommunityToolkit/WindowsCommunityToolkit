@@ -76,9 +76,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ## Feedback and Requests
 
-Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
-
-If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
+Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions, comments or feature requests.
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
