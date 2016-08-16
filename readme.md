@@ -1,13 +1,13 @@
 UWP Community Toolkit
 ===========
 
-The UWP Community Toolkit is a collection of helper functions, custom controls and app services that simplify or demonstrate common developer tasks. Build UWP applications for Windows 10 faster and easier than ever before.
+The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
 ![Control Overview](githubresources/images/UWP-community-toolkit-overview.png "Sample Image")
 
 ## Getting started
 
-Please read the [getting Started with the UWP Toolkit](en-us/uwp-community-toolkit/get-started/get-started.md) page for more detailed information about using the toolkit.
+Please read the [getting Started with the UWP Toolkit](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/getting-started.htm) page for more detailed information about using the toolkit.
 
 ## UWP Community Toolkit Sample App
 
@@ -23,13 +23,13 @@ Once you search you should see a list similar to the one below (versions may be 
 
 | NuGet Package Name | description |
 | --- | --- |
-| [Microsoft.Toolkit.Uwp]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
-| [Microsoft.Toolkit.Uwp.Notifications]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
+| [Microsoft.Toolkit.Uwp](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
+| [Microsoft.Toolkit.Uwp.Notifications](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
-| [Microsoft.Toolkit.Uwp.Services]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
-| [Microsoft.Toolkit.Uwp.UI]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
-| [Microsoft.Toolkit.Uwp.UI.Animations]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| [Microsoft.Toolkit.Uwp.UI.Controls]({{site.baseurl}}/{{page.lang}}/api/Microsoft_Toolkit_Uwp_UI_Controls.htm) | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| [Microsoft.Toolkit.Uwp.Services](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
+| [Microsoft.Toolkit.Uwp.UI](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| [Microsoft.Toolkit.Uwp.UI.Animations](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
+| [Microsoft.Toolkit.Uwp.UI.Controls](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Controls.htm) | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 
 ## Features
 
