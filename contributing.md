@@ -6,7 +6,7 @@ A developer should be able to quickly and easily learn to use the API.
 
 Simplicity and a low barrier to entry are must-have features of every API. If you have any second thoughts about the complexity of a design, it is almost always much better to cut the feature from the current release and spend more time to get the design right for the next release. 
 
-You can always add to an API; you cannot ever remove anything from one. If the design does not feel right, and you ship it anyway, you are likely to regret having done so.
+You can always add to an API, you cannot ever remove anything from one. If the design does not feel right, and you ship it anyway, you are likely to regret having done so.
 
 That's why many of the guidelines of this document are obvious and serve only one purpose: Simplicity.
 
@@ -18,6 +18,8 @@ Every contribution has to come with:
 * Unit tests (If applicable)
 * You tested your code with SDK 10586 and SDK 14393
 * PR has to target dev branch
+
+PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
 
 ## General rules
 

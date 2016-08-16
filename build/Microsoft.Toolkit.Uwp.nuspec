@@ -9,9 +9,9 @@
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>UWP Community Toolkit is a toolkit aimed to help UWP developers to create great Universal Windows Applications.</description>
+    <description>The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.</description>
     <releaseNotes>First public release.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows</tags>
   </metadata>
   <files>
