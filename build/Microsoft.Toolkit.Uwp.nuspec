@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.</description>
     <releaseNotes>First public release.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows</tags>
   </metadata>
   <files>
