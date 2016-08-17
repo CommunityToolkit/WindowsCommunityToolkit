@@ -39,17 +39,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The duration of the animation.
         /// </summary>
-        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register("Duration", typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(nameof(Duration), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The delay of the animation.
         /// </summary>
-        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register("Delay", typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(nameof(Delay), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The property sets if the animation should automatically start.
         /// </summary>
-        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register("AutomaticallyStart", typeof(bool), typeof(CompositionBehaviorBase), new PropertyMetadata(true, PropertyChangedCallback));
+        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase), new PropertyMetadata(true, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets a value indicating whether [automatically start] on the animation is set.

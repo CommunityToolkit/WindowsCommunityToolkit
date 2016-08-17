@@ -15,11 +15,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public partial class CodeRenderer
     {
-        public static readonly DependencyProperty HtmlSourceProperty = DependencyProperty.Register("HtmlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, HtmlSourceChanged));
-        public static readonly DependencyProperty CSharpSourceProperty = DependencyProperty.Register("CSharpSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, CSharpSourceChanged));
-        public static readonly DependencyProperty JsonSourceProperty = DependencyProperty.Register("JsonSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, JsonSourceChanged));
-        public static readonly DependencyProperty XamlSourceProperty = DependencyProperty.Register("XamlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XamlSourceChanged));
-        public static readonly DependencyProperty XmlSourceProperty = DependencyProperty.Register("XmlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XmlSourceChanged));
+        public static readonly DependencyProperty HtmlSourceProperty = DependencyProperty.Register(nameof(HtmlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, HtmlSourceChanged));
+        public static readonly DependencyProperty CSharpSourceProperty = DependencyProperty.Register(nameof(CSharpSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, CSharpSourceChanged));
+        public static readonly DependencyProperty JsonSourceProperty = DependencyProperty.Register(nameof(JsonSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, JsonSourceChanged));
+        public static readonly DependencyProperty XamlSourceProperty = DependencyProperty.Register(nameof(XamlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XamlSourceChanged));
+        public static readonly DependencyProperty XmlSourceProperty = DependencyProperty.Register(nameof(XmlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XmlSourceChanged));
 
         public string HtmlSource
         {

@@ -36,25 +36,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OverscrollLimit"/> property.
         /// </summary>
         public static readonly DependencyProperty OverscrollLimitProperty =
-            DependencyProperty.Register("OverscrollLimit", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(0.4, OverscrollLimitPropertyChanged));
+            DependencyProperty.Register(nameof(OverscrollLimit), typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(0.4, OverscrollLimitPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="PullThreshold"/> property.
         /// </summary>
         public static readonly DependencyProperty PullThresholdProperty =
-            DependencyProperty.Register("PullThreshold", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(100.0));
+            DependencyProperty.Register(nameof(PullThreshold), typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(100.0));
 
         /// <summary>
         /// Identifies the <see cref="RefreshCommand"/> property.
         /// </summary>
         public static readonly DependencyProperty RefreshCommandProperty =
-            DependencyProperty.Register("RefreshCommand", typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RefreshCommand), typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="RefreshIndicatorContent"/> property.
         /// </summary>
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
-            DependencyProperty.Register("RefreshIndicatorContent", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
         private const string PARTROOT = "Root";
         private const string PARTSCROLLER = "ScrollViewer";
