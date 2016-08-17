@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Toolkit.Uwp.Notifications.JavaScript</id>
+    <id>Microsoft.Toolkit.Uwp.Notifications.JavaScript</id>    
+    <title>UWP Community Toolkit Notifications</title>
     <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
