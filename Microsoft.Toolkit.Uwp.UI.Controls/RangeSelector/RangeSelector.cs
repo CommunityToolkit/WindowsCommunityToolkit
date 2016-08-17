@@ -35,22 +35,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the Minimum dependency property.
         /// </summary>
-        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, MinimumChangedCallback));
+        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, MinimumChangedCallback));
 
         /// <summary>
         /// Identifies the Maximum dependency property.
         /// </summary>
-        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, MaximumChangedCallback));
+        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, MaximumChangedCallback));
 
         /// <summary>
         /// Identifies the RangeMin dependency property.
         /// </summary>
-        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register("RangeMin", typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, RangeMinChangedCallback));
+        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register(nameof(RangeMin), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, RangeMinChangedCallback));
 
         /// <summary>
         /// Identifies the RangeMax dependency property.
         /// </summary>
-        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register("RangeMax", typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
+        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
 
         private const double Epsilon = 0.01;
 

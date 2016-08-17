@@ -22,17 +22,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The rotation of the associated object in degrees
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Rotate), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(Rotate), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (x axis) of rotation for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register(nameof(CenterX), typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (y axis) of rotation for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register(nameof(CenterY), typeof(double), typeof(Rotate), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the center point (x axis) of the associated object.
