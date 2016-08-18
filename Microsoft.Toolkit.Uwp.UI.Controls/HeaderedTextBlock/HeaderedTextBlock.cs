@@ -10,6 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class HeaderedTextBlock : Control
     {
         private TextBlock _headerContent;
+        private TextBlock _textContent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderedTextBlock"/> class.
@@ -27,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _headerContent = GetTemplateChild("HeaderContent") as TextBlock;
+            _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
         }
@@ -38,6 +40,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _headerContent.Visibility = string.IsNullOrWhiteSpace(_headerContent.Text)
                                                      ? Visibility.Collapsed
                                                      : Visibility.Visible;
+            }
+
+            if (_textContent != null)
+            {
+                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text)
+                                                    ? Visibility.Collapsed
+                                                    : Visibility.Visible;
             }
         }
 
