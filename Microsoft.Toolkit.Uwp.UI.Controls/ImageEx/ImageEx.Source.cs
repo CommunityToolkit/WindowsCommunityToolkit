@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
         private Uri _uri;
         private bool _isHttpSource;
@@ -64,11 +64,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (source == null)
                 {
-                    VisualStateManager.GoToState(this, "Unloaded", true);
+                    VisualStateManager.GoToState(this, UnloadedState, true);
                     return;
                 }
 
-                VisualStateManager.GoToState(this, "Loading", true);
+                VisualStateManager.GoToState(this, LoadingState, true);
 
                 var sourceString = source as string;
                 if (sourceString != null)
@@ -89,8 +89,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _image.Source = source as ImageSource;
                 }
-
-                VisualStateManager.GoToState(this, "Loaded", true);
             }
         }
 
