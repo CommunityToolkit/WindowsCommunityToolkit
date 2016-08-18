@@ -13,17 +13,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Blades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register("Blades", typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>(), PropertyChangedCallback));
+        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>(), PropertyChangedCallback));
 
         /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register("ActiveBlades", typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>()));
+        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>()));
 
         /// <summary>
         /// Identifies the <see cref="ToggleBlade"/> attached property.
         /// </summary>
-        public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached("ToggleBlade", typeof(string), typeof(BladeControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a collection of blades

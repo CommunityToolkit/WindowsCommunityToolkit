@@ -3,7 +3,7 @@
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// An page that shows how to use the Blade Control
     /// </summary>
     public sealed partial class BladePage : Page
     {

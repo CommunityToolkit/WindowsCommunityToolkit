@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            _closeButton.Tapped -= CloseButtonOnTap;
             _closeButton.Tapped += CloseButtonOnTap;
         }
 
