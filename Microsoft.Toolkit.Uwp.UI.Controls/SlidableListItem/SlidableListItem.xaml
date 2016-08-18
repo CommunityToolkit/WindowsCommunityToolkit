@@ -13,7 +13,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">
                     <Grid>
-                        <Grid x:Name="CommandContainer" Margin="1">
+                        <Grid x:Name="CommandContainer" Margin="1" x:DeferLoadStrategy="Lazy">
                             <StackPanel x:Name="LeftCommandPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <SymbolIcon Symbol="{TemplateBinding LeftIcon}" Foreground="{TemplateBinding LeftForeground}"></SymbolIcon>
                                 <TextBlock FontSize="15" Margin="10,0,0,0" Text="{TemplateBinding LeftLabel}" Foreground="{TemplateBinding LeftForeground}"></TextBlock>
