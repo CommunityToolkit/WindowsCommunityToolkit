@@ -5,6 +5,7 @@
     <version>$version$</version>
     <title>UWP Community Toolkit</title>
     <authors>Microsoft</authors>
+    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/build/nuget.png</iconUrl>
     <owners>microsoft, nugetuwptoolkit</owners>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
