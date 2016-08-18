@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_textContent != null)
             {
-                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text)
+                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text) && HideTextIfEmpty
                                                     ? Visibility.Collapsed
                                                     : Visibility.Visible;
             }

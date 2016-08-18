@@ -54,6 +54,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(Orientation.Vertical, (d, e) => { ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue); }));
 
         /// <summary>
+        /// Defines the <see cref="HideTextIfEmpty"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HideTextIfEmptyProperty = DependencyProperty.Register(
+            nameof(HideTextIfEmpty),
+            typeof(bool),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
+
+
+        /// <summary>
         /// Gets or sets the header style.
         /// </summary>
         public Style HeaderStyle
@@ -132,5 +142,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetValue(OrientationProperty, value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Text TextBlock is hidden if its value is empty
+        /// </summary>
+        public bool HideTextIfEmpty
+        {
+            get
+            {
+                return (bool)GetValue(HideTextIfEmptyProperty);
+            }
+
+            set
+            {
+                SetValue(HideTextIfEmptyProperty, value);
+            }
+        }
+
     }
 }
