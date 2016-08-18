@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header),
             typeof(string),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateHeader(); }));
+            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
         /// Defines the <see cref="Text"/> dependency property.
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Text),
             typeof(string),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
         /// Defines the <see cref="Orientation"/> dependency property.

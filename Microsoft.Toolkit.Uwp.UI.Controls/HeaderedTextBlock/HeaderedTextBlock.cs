@@ -31,14 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateVisibility();
         }
 
-        private void UpdateHeader()
-        {
-            if (_headerContent != null)
-            {
-                UpdateVisibility();
-            }
-        }
-
         private void UpdateVisibility()
         {
             if (_headerContent != null)
