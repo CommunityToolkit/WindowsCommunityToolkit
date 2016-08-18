@@ -62,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(HeaderedTextBlock),
             new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
-
         /// <summary>
         /// Gets or sets the header style.
         /// </summary>
@@ -158,6 +157,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetValue(HideTextIfEmptyProperty, value);
             }
         }
-
     }
 }

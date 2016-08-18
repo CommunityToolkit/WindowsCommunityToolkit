@@ -38,7 +38,7 @@
                 </controls:Blade>
 
                 <controls:Blade Title="Default blade"
-                                BladeID="BladeTest1"
+                                BladeId="BladeTest1"
                                 IsOpen="False">
                     <controls:Blade.Element>
                         <TextBlock HorizontalAlignment="Center"
@@ -49,7 +49,7 @@
                 </controls:Blade>
 
                 <controls:Blade Title="Custom title bar"
-                                BladeID="BladeTest2"
+                                BladeId="BladeTest2"
                                 IsOpen="False"
                                 TitleBarBackground="CornflowerBlue"
                                 TitleBarForeground="White">
@@ -62,7 +62,7 @@
                 </controls:Blade>
 
                 <controls:Blade Title="Custom close button color"
-                                BladeID="BladeTest3"
+                                BladeId="BladeTest3"
                                 CloseButtonBackground="Black"
                                 CloseButtonForeground="White"
                                 IsOpen="False">

@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(Blade), new PropertyMetadata(default(bool), IsOpenChangedCallback));
 
         /// <summary>
-        /// Identifies the <see cref="BladeID"/> dependency property.
+        /// Identifies the <see cref="BladeId"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty BladeIDProperty = DependencyProperty.Register(nameof(BladeID), typeof(string), typeof(Blade), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty BladeIdProperty = DependencyProperty.Register(nameof(BladeId), typeof(string), typeof(Blade), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Identifies the <see cref="TitleBarForeground"/> dependency property
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Brush CloseButtonForeground
         {
-            get { return (Brush) GetValue(CloseButtonForegroundProperty); }
+            get { return (Brush)GetValue(CloseButtonForegroundProperty); }
             set { SetValue(CloseButtonForegroundProperty, value); }
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Brush TitleBarForeground
         {
-            get { return (Brush) GetValue(TitleBarForegroundProperty); }
+            get { return (Brush)GetValue(TitleBarForegroundProperty); }
             set { SetValue(TitleBarForegroundProperty, value); }
         }
 
@@ -127,12 +127,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the Blade ID, this needs to be set in order to use the attached property to toggle a blade
+        /// Gets or sets the Blade Id, this needs to be set in order to use the attached property to toggle a blade
         /// </summary>
-        public string BladeID
+        public string BladeId
         {
-            get { return (string)GetValue(BladeIDProperty); }
-            set { SetValue(BladeIDProperty, value); }
+            get { return (string)GetValue(BladeIdProperty); }
+            set { SetValue(BladeIdProperty, value); }
         }
 
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

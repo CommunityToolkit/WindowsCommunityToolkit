@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
             string bladeName = GetToggleBlade(pressedButton);
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Blades.FirstOrDefault(_ => _.BladeID == bladeName);
+            var blade = container.Blades.FirstOrDefault(_ => _.BladeId == bladeName);
 
             if (blade == null)
             {
