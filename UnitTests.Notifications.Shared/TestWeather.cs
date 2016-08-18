@@ -4,25 +4,22 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UnitTests.Notifications
 {
     [TestClass]
     public class TestWeather
     {
-        private const string IMAGE_MOSTLY_CLOUDY = "Assets\\Tiles\\Mostly Cloudy.png";
-        private const string IMAGE_SUNNY = "Assets\\Tiles\\Sunny.png";
-        private const string IMAGE_CLOUDY = "Assets\\Tiles\\Cloudy.png";
+        private const string ImageMostlyCloudy = "Assets\\Tiles\\Mostly Cloudy.png";
+        private const string ImageSunny = "Assets\\Tiles\\Sunny.png";
+        private const string ImageCloudy = "Assets\\Tiles\\Cloudy.png";
 
-        private const string BACKGROUND_IMAGE_MOSTLY_CLOUDY = "Assets\\Tiles\\Mostly Cloudy-Background.jpg";
+        private const string BackgroundImageMostlyCloudy = "Assets\\Tiles\\Mostly Cloudy-Background.jpg";
 
         [TestMethod]
         public void TestWeatherTile()
         {
-            var backgroundImage = BACKGROUND_IMAGE_MOSTLY_CLOUDY;
+            var backgroundImage = BackgroundImageMostlyCloudy;
             int overlay = 30;
 
             TileBindingContentAdaptive smallContent = new TileBindingContentAdaptive()
@@ -57,9 +54,9 @@ namespace UnitTests.Notifications
                     {
                         Children =
                         {
-                            GenerateMediumSubgroup("Mon", IMAGE_MOSTLY_CLOUDY, 63, 42),
+                            GenerateMediumSubgroup("Mon", ImageMostlyCloudy, 63, 42),
 
-                            GenerateMediumSubgroup("Tue", IMAGE_CLOUDY, 57, 38)
+                            GenerateMediumSubgroup("Tue", ImageCloudy, 57, 38)
                         }
                     }
                 }
@@ -76,15 +73,15 @@ namespace UnitTests.Notifications
                     {
                         Children =
                         {
-                            GenerateWideSubgroup("Mon", IMAGE_MOSTLY_CLOUDY, 63, 42),
+                            GenerateWideSubgroup("Mon", ImageMostlyCloudy, 63, 42),
 
-                            GenerateWideSubgroup("Tue", IMAGE_CLOUDY, 57, 38),
+                            GenerateWideSubgroup("Tue", ImageCloudy, 57, 38),
 
-                            GenerateWideSubgroup("Wed", IMAGE_SUNNY, 59, 43),
+                            GenerateWideSubgroup("Wed", ImageSunny, 59, 43),
 
-                            GenerateWideSubgroup("Thu", IMAGE_SUNNY, 62, 42),
+                            GenerateWideSubgroup("Thu", ImageSunny, 62, 42),
 
-                            GenerateWideSubgroup("Fri", IMAGE_SUNNY, 71, 66)
+                            GenerateWideSubgroup("Fri", ImageSunny, 71, 66)
                         }
                     }
                 }
@@ -107,7 +104,7 @@ namespace UnitTests.Notifications
                                 HintWeight = 30,
                                 Children =
                                 {
-                                    new AdaptiveImage() { Source = IMAGE_MOSTLY_CLOUDY }
+                                    new AdaptiveImage() { Source = ImageMostlyCloudy }
                                 }
                             },
 
@@ -149,13 +146,13 @@ namespace UnitTests.Notifications
                     {
                         Children =
                         {
-                            GenerateLargeSubgroup("Tue", IMAGE_CLOUDY, 57, 38),
+                            GenerateLargeSubgroup("Tue", ImageCloudy, 57, 38),
 
-                            GenerateLargeSubgroup("Wed", IMAGE_SUNNY, 59, 43),
+                            GenerateLargeSubgroup("Wed", ImageSunny, 59, 43),
 
-                            GenerateLargeSubgroup("Thu", IMAGE_SUNNY, 62, 42),
+                            GenerateLargeSubgroup("Thu", ImageSunny, 62, 42),
 
-                            GenerateLargeSubgroup("Fri", IMAGE_SUNNY, 71, 66)
+                            GenerateLargeSubgroup("Fri", ImageSunny, 71, 66)
                         }
                     }
                 }
@@ -198,8 +195,8 @@ namespace UnitTests.Notifications
             string expectedPayload = $@"<?xml version=""1.0"" encoding=""utf-8""?><tile><visual displayName=""Seattle""><binding template=""TileSmall"" hint-textStacking=""center"">{GenerateStringBackgroundImage()}<text hint-align=""center"" hint-style=""body"">Mon</text><text hint-align=""center"" hint-style=""base"">63°</text></binding><binding template=""TileMedium"" branding=""name"">{GenerateStringBackgroundImage()}<group>";
 
             // Medium tile subgroups
-            expectedPayload += GenerateStringMediumSubgroup("Mon", IMAGE_MOSTLY_CLOUDY, 63, 42);
-            expectedPayload += GenerateStringMediumSubgroup("Tue", IMAGE_CLOUDY, 57, 38);
+            expectedPayload += GenerateStringMediumSubgroup("Mon", ImageMostlyCloudy, 63, 42);
+            expectedPayload += GenerateStringMediumSubgroup("Tue", ImageCloudy, 57, 38);
 
             expectedPayload += "</group></binding>";
 
@@ -210,11 +207,11 @@ namespace UnitTests.Notifications
             expectedPayload += "<group>";
 
             // Wide tile subgroups
-            expectedPayload += GenerateStringWideSubgroup("Mon", IMAGE_MOSTLY_CLOUDY, 63, 42);
-            expectedPayload += GenerateStringWideSubgroup("Tue", IMAGE_CLOUDY, 57, 38);
-            expectedPayload += GenerateStringWideSubgroup("Wed", IMAGE_SUNNY, 59, 43);
-            expectedPayload += GenerateStringWideSubgroup("Thu", IMAGE_SUNNY, 62, 42);
-            expectedPayload += GenerateStringWideSubgroup("Fri", IMAGE_SUNNY, 71, 66);
+            expectedPayload += GenerateStringWideSubgroup("Mon", ImageMostlyCloudy, 63, 42);
+            expectedPayload += GenerateStringWideSubgroup("Tue", ImageCloudy, 57, 38);
+            expectedPayload += GenerateStringWideSubgroup("Wed", ImageSunny, 59, 43);
+            expectedPayload += GenerateStringWideSubgroup("Thu", ImageSunny, 62, 42);
+            expectedPayload += GenerateStringWideSubgroup("Fri", ImageSunny, 71, 66);
 
             expectedPayload += "</group></binding>";
 
@@ -223,16 +220,16 @@ namespace UnitTests.Notifications
             // Large tile
             expectedPayload += @"<binding template=""TileLarge"" branding=""nameAndLogo"">";
             expectedPayload += GenerateStringBackgroundImage();
-            expectedPayload += $@"<group><subgroup hint-weight=""30""><image src=""{IMAGE_MOSTLY_CLOUDY}"" /></subgroup><subgroup><text hint-style=""base"">Monday</text><text>63° / 42°</text><text hint-style=""captionSubtle"">20% chance of rain</text><text hint-style=""captionSubtle"">Winds 5 mph NE</text></subgroup></group>";
+            expectedPayload += $@"<group><subgroup hint-weight=""30""><image src=""{ImageMostlyCloudy}"" /></subgroup><subgroup><text hint-style=""base"">Monday</text><text>63° / 42°</text><text hint-style=""captionSubtle"">20% chance of rain</text><text hint-style=""captionSubtle"">Winds 5 mph NE</text></subgroup></group>";
 
             expectedPayload += "<text />";
             expectedPayload += "<group>";
 
             // Large tile subgroups
-            expectedPayload += GenerateStringLargeSubgroup("Tue", IMAGE_CLOUDY, 57, 38);
-            expectedPayload += GenerateStringLargeSubgroup("Wed", IMAGE_SUNNY, 59, 43);
-            expectedPayload += GenerateStringLargeSubgroup("Thu", IMAGE_SUNNY, 62, 42);
-            expectedPayload += GenerateStringLargeSubgroup("Fri", IMAGE_SUNNY, 71, 66);
+            expectedPayload += GenerateStringLargeSubgroup("Tue", ImageCloudy, 57, 38);
+            expectedPayload += GenerateStringLargeSubgroup("Wed", ImageSunny, 59, 43);
+            expectedPayload += GenerateStringLargeSubgroup("Thu", ImageSunny, 62, 42);
+            expectedPayload += GenerateStringLargeSubgroup("Fri", ImageSunny, 71, 66);
 
             expectedPayload += "</group></binding></visual></tile>";
             
@@ -242,7 +239,7 @@ namespace UnitTests.Notifications
 
         private static string GenerateStringBackgroundImage()
         {
-            return $@"<image src=""{BACKGROUND_IMAGE_MOSTLY_CLOUDY}"" placement=""background"" hint-overlay=""30""/>";
+            return $@"<image src=""{BackgroundImageMostlyCloudy}"" placement=""background"" hint-overlay=""30""/>";
         }
 
         private static string GenerateStringMediumSubgroup(string day, string image, int high, int low)
