@@ -70,7 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
             if (_listView != null)
             {
-                this.SelectedItems = null;
                 _listView.SizeChanged -= ListView_SizeChanged;
                 _listView.ItemClick -= ListView_ItemClick;
                 _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
@@ -80,48 +79,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _listView = GetTemplateChild("ListView") as ListViewBase;
             if (_listView != null)
             {
-                this.SelectedItems = new List<object>();
-                _listView.SelectionMode = SelectionMode;
-                _listView.IsItemClickEnabled = IsItemClickEnabled;
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
-                _listView.SelectionChanged += ListViewItems_SelectionChanged;
                 _listView.Items.VectorChanged += ListViewItems_VectorChanged;
             }
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
-        }
-
-        private void ListViewItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Only update SelectedItem (singular) property when SelectionMode is set to Single and AddedItems count is one.
-            if (SelectionMode == ListViewSelectionMode.Single)
-            {
-                if (e.AddedItems.Count == 1)
-                {
-                    SelectedItem = e.AddedItems[0];
-                }
-
-                return;
-            }
-
-            // Just in case, check the collection and initialize a new instance if it is null.
-            if (SelectedItems == null)
-            {
-                SelectedItems = new List<object>();
-            }
-
-            // Modify the collection with new objects.
-            foreach (var item in e.RemovedItems)
-            {
-                SelectedItems.Remove(item);
-            }
-
-            foreach (var item in e.AddedItems)
-            {
-                SelectedItems.Add(item);
-            }
         }
 
         private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)

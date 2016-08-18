@@ -17,8 +17,8 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
-    using System.Windows.Input;
     using System.Collections.Generic;
+    using System.Windows.Input;
 
     /// <summary>
     /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
@@ -157,11 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the selected multiple objects in the collection.
         /// </summary>
         /// <value>The object that is used to store selected multiple items. Default is an empty IList collection of object.</value>
-        public IList<object> SelectedItems
-        {
-            get { return (IList<object>)GetValue(SelectedItemsProperty); }
-            set { SetValue(SelectedItemsProperty, value); }
-        }
+        public IList<object> SelectedItems { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
