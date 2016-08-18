@@ -189,7 +189,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (NavigationFrame.CanGoBack)
             {
                 backRequestedEventArgs.Handled = true;
-                HideInfoArea();
+
+                var previousPage = NavigationFrame.BackStack.Last();
+
+                if (previousPage.SourcePageType == typeof(SamplePicker))
+                {
+                    HideInfoArea();
+                }
+                else
+                {
+                    ShowInfoArea();
+                }
+
                 NavigationFrame.GoBack();
             }
         }
