@@ -46,7 +46,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
 * [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
 * [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
-* [ImageEX](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
+* [ImageEx](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
 * [PullToRefreshListView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/pulltorefreshlistview.htm)
 * [RadialGauge](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/radialgauge.htm)
 * [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
