@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
@@ -18,8 +19,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
         {
             Button pressedButton = sender as Button;
             string bladeName = GetToggleBlade(pressedButton);
-            BladeControl container = pressedButton.FindAscendant<BladeControl>();
+            BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
             var blade = container.Blades.FirstOrDefault(_ => _.BladeID == bladeName);
+
+            if (blade == null)
+            {
+                throw new KeyNotFoundException($"Could not find a blade with ID {bladeName}");
+            }
 
             if (blade.IsOpen)
             {

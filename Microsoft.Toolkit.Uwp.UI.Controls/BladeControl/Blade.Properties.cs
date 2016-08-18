@@ -1,7 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The Blade is used as a child in the BladeControl
@@ -42,6 +43,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
         /// Identifies the <see cref="BladeID"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BladeIDProperty = DependencyProperty.Register("BladeID", typeof(string), typeof(Blade), new PropertyMetadata(default(string)));
+
+        /// <summary>
+        /// Identifies the <see cref="TitleBarForeground"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty TitleBarForegroundProperty = DependencyProperty.Register("TitleBarForeground", typeof(Brush), typeof(Blade), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        /// <summary>
+        /// Identifies the <see cref="CloseButtonForeground"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register("CloseButtonForeground", typeof(Brush), typeof(Blade), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        /// <summary>
+        /// Gets or sets the foreground color of the close button
+        /// </summary>
+        public Brush CloseButtonForeground
+        {
+            get { return (Brush) GetValue(CloseButtonForegroundProperty); }
+            set { SetValue(CloseButtonForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the titlebar foreground color
+        /// </summary>
+        public Brush TitleBarForeground
+        {
+            get { return (Brush) GetValue(TitleBarForegroundProperty); }
+            set { SetValue(TitleBarForegroundProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the visual content of this blade

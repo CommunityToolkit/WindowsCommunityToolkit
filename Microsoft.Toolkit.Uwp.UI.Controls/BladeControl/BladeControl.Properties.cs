@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list

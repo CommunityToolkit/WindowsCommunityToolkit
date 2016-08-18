@@ -45,14 +45,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Compile Include="Blade\Blade.cs" />
-    <Compile Include="Blade\Blade.Properties.cs" />
-    <Compile Include="Blade\BladeControl.cs" />
-    <Compile Include="Blade\BladeControl.Events.cs" />
-    <Compile Include="Blade\BladeControl.Properties.cs" />
+    <Compile Include="BladeControl\Blade.cs" />
+    <Compile Include="BladeControl\Blade.Properties.cs" />
+    <Compile Include="BladeControl\BladeControl.cs" />
+    <Compile Include="BladeControl\BladeControl.Events.cs" />
+    <Compile Include="BladeControl\BladeControl.Properties.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
-    <Compile Include="Blade\Blade.Events.cs" />
+    <Compile Include="BladeControl\Blade.Events.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -80,6 +80,11 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

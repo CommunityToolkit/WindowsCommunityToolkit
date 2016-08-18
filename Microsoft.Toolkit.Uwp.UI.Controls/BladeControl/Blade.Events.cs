@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The Blade is used as a child in the BladeControl

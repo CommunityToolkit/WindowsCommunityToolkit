@@ -1,7 +1,9 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The Blade is used as a child in the BladeControl
@@ -17,6 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Blade
         public Blade()
         {
             DefaultStyleKey = typeof(Blade);
+            BorderBrush = new SolidColorBrush(Colors.DarkGray);
+            BorderThickness = new Thickness(1);
         }
 
         /// <summary>
