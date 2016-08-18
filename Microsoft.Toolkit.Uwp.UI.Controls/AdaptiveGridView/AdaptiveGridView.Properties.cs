@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
     using System.Windows.Input;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
@@ -31,6 +32,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public sealed partial class AdaptiveGridView
     {
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedItems"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList<object>), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectionMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectionModeProperty =
+            DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewSelectionMode), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="IsItemClickEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsItemClickEnabledProperty =
+            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
         /// </summary>
@@ -129,6 +154,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the selected multiple objects in the collection.
+        /// </summary>
+        /// <value>The object that is used to store selected multiple items. Default is an empty IList collection of object.</value>
+        public IList<object> SelectedItems
+        {
+            get { return (IList<object>)GetValue(SelectedItemsProperty); }
+            set { SetValue(SelectedItemsProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
+        /// </summary>
+        /// <value>Default is false.</value>
+        public bool IsItemClickEnabled
+        {
+            get { return (bool)GetValue(IsItemClickEnabledProperty); }
+            set { SetValue(IsItemClickEnabledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SelectionMode property of ListViewBase. Does not support runtime changes at the moment.
+        /// </summary>
+        /// <value>Default is single which allows users to only pick single item in the collection.</value>
+        public ListViewSelectionMode SelectionMode
+        {
+            get { return (ListViewSelectionMode)GetValue(SelectionModeProperty); }
+            set { SetValue(SelectionModeProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the height of each item in the grid.
         /// </summary>
         /// <value>The height of the item.</value>
@@ -136,6 +191,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(ItemHeightProperty); }
             set { SetValue(ItemHeightProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the single selected object when the SelectionMode is set to Single.
+        /// </summary>
+        /// <value>Stores the single selected item. Default is null.</value>
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
