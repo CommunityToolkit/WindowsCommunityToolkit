@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:PullToRefreshListView x:Name="listView"
+        <controls:PullToRefreshListView x:Name="ListView"
                                         ItemsSource="{x:Bind _items}"
                                         OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
 										PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
