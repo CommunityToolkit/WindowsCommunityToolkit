@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Text),
             typeof(string),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateText(); }));
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Defines the <see cref="Orientation"/> dependency property.
