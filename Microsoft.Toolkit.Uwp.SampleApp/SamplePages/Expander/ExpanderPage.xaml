@@ -8,8 +8,8 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:Expander Background="#D0D0D0" Header="Expand Down"
-                           x:Name="expander">
+        <controls:Expander  Header="Expand Down"
+                            x:Name="expander">
             <Border Width="300"
                     Height="300"
                     Background="Blue" />

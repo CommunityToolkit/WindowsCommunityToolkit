@@ -17,6 +17,28 @@
                 <ControlTemplate TargetType="local:Expander">
                     <Grid x:Name="ExpanderRoot"
                           Background="{TemplateBinding Background}">
+                        <Grid.Resources>
+                            <Storyboard x:Name="AnimateInContentDown">
+                                <PopInThemeAnimation FromVerticalOffset="-100"
+                                                     FromHorizontalOffset="0"
+                                                     TargetName="ContentRoot" />
+                            </Storyboard>
+                            <Storyboard x:Name="AnimateInContentUp">
+                                <PopInThemeAnimation FromVerticalOffset="1100"
+                                                     FromHorizontalOffset="0"
+                                                     TargetName="ContentRoot" />
+                            </Storyboard>
+                            <Storyboard x:Name="AnimateInContentRight">
+                                <PopInThemeAnimation FromVerticalOffset="0"
+                                                     FromHorizontalOffset="-100"
+                                                     TargetName="ContentRoot" />
+                            </Storyboard>
+                            <Storyboard x:Name="AnimateInContentLeft">
+                                <PopInThemeAnimation FromVerticalOffset="0"
+                                                     FromHorizontalOffset="100"
+                                                     TargetName="ContentRoot" />
+                            </Storyboard>
+                        </Grid.Resources>
                         <VisualStateManager.VisualStateGroups>
 
                             <VisualStateGroup x:Name="CommonStates">
@@ -49,16 +71,73 @@
                                         </Setter>
                                     </VisualState.Setters>
                                 </VisualState>
+                                <VisualState x:Name="CollapsedLeft">
+                                    <VisualState.Setters>
+
+                                        <Setter Target="ExpanderButton.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.HorizontalAlignment"
+                                                Value="Center" />
+                                        <Setter Target="ExpanderButton.(Grid.Column)"
+                                                Value="1" />
+                                        <Setter Target="HeaderRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="ContentRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.(Grid.ColumnSpan)"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.(Grid.ColumnSpan)"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.(Grid.Column)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
+                                                          Glyph="&#xE00E;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="ExpandedLeft">
+                                    <VisualState.Setters>
+
+                                        <Setter Target="ExpanderButton.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.HorizontalAlignment"
+                                                Value="Center" />
+                                        <Setter Target="ExpanderButton.(Grid.Column)"
+                                                Value="1" />
+                                        <Setter Target="HeaderRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="ContentRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.(Grid.ColumnSpan)"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.(Grid.ColumnSpan)"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.(Grid.Column)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
+                                                          Glyph="&#xE00F;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Target="ContentRoot.Visibility"
+                                                Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="CollapsedRight">
                                     <VisualState.Setters>
-                                        <Setter Target="ExpanderButton.(RelativePanel.RightOf)"
-                                                Value="{x:Null}" />
-                                        <Setter Target="ExpanderButton.(RelativePanel.AlignVerticalCenterWith)"
-                                                Value="{x:Null}" />
-                                        <Setter Target="ExpanderButton.(RelativePanel.AlignHorizontalCenterWith)"
-                                                Value="HeaderContentPresenter" />
-                                        <Setter Target="ExpanderButton.(RelativePanel.Above)"
-                                                Value="HeaderContentPresenter" />
+
+                                        <Setter Target="ExpanderButton.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.(Grid.Column)"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.HorizontalAlignment"
+                                                Value="Center" />
                                         <Setter Target="HeaderRoot.(Grid.Row)"
                                                 Value="0" />
                                         <Setter Target="ContentRoot.(Grid.Row)"
@@ -69,35 +148,39 @@
                                                 Value="1" />
                                         <Setter Target="ContentRoot.(Grid.Column)"
                                                 Value="1" />
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
+                                                          Glyph="&#xE00F;" />
+                                            </Setter.Value>
+                                        </Setter>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="ExpandedRight">
                                     <VisualState.Setters>
-                                        <Setter Target="ExpanderButton.Grid.Column"
-                                                Value="0" />
-                                        <Setter Target="ExpanderButton.Grid.Row"
+
+                                        <Setter Target="ExpanderButton.(Grid.Row)"
                                                 Value="0" />
                                         <Setter Target="ExpanderButton.HorizontalAlignment"
                                                 Value="Center" />
-                                        <Setter Target="HeaderContentPresenter.HorizontalAlignment"
-                                                Value="Center" />
-                                        <Setter Target="HeaderContentPresenter.Grid.Row"
-                                                Value="1" />
-                                        <Setter Target="HeaderRoot.Grid.Row"
+                                        <Setter Target="ExpanderButton.(Grid.Column)"
                                                 Value="0" />
-                                        <Setter Target="ContentRoot.Grid.Row"
+                                        <Setter Target="HeaderRoot.(Grid.Row)"
                                                 Value="0" />
-                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
+                                        <Setter Target="ContentRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.(Grid.ColumnSpan)"
                                                 Value="1" />
-                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
+                                        <Setter Target="ContentRoot.(Grid.ColumnSpan)"
                                                 Value="1" />
-                                        <Setter Target="ContentRoot.Grid.Column"
+                                        <Setter Target="ContentRoot.(Grid.Column)"
                                                 Value="1" />
                                         <Setter Target="ExpanderButton.Content">
                                             <Setter.Value>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets"
                                                           Margin="8"
-                                                          Glyph="&#xE010;" />
+                                                          Glyph="&#xE00E;" />
                                             </Setter.Value>
                                         </Setter>
                                         <Setter Target="ContentRoot.Visibility"
@@ -113,6 +196,7 @@
                                                           Glyph="&#xE010;" />
                                             </Setter.Value>
                                         </Setter>
+
                                         <Setter Target="ContentRoot.Visibility"
                                                 Value="Visible" />
                                         <Setter Target="HeaderRoot.Grid.Row"
@@ -138,22 +222,23 @@
 
 
                         <!--Header Area-->
-                        <RelativePanel x:Name="HeaderRoot"
-                                       Grid.ColumnSpan="2"
-                                       Grid.Row="0">
-                            <!--<Grid.RowDefinitions>
+                        <Grid x:Name="HeaderRoot"
+                              Grid.ColumnSpan="2"
+                              Grid.Row="0">
+                            <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>-->
+                            </Grid.ColumnDefinitions>
 
                             <ContentPresenter x:Name="HeaderContentPresenter"
                                               x:DeferLoadStrategy="Lazy"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Left"
+                                              Grid.Row="1"
                                               Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                               Margin="8,0"
                                               Content="{TemplateBinding Header}"
@@ -162,8 +247,8 @@
 
                             <Button x:Name="ExpanderButton"
                                     BorderThickness="0"
-                                    RelativePanel.RightOf="HeaderContentPresenter"
-                                    RelativePanel.AlignVerticalCenterWith="HeaderContentPresenter"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
                                     HorizontalAlignment="Left"
                                     Background="Transparent"
                                     VerticalAlignment="Center">
@@ -171,7 +256,7 @@
                                           Margin="8"
                                           Glyph="&#xE011;" />
                             </Button>
-                        </RelativePanel>
+                        </Grid>
 
 
                         <!--Content Area-->
@@ -179,6 +264,7 @@
                               Grid.ColumnSpan="2"
                               Visibility="Collapsed"
                               Grid.Row="1">
+
                             <Border Child="{TemplateBinding Content}" />
                         </Grid>
 
