@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The Opacity value of the associated object
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(Fade), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(Fade), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Opacity.

@@ -34,73 +34,73 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indetifies the <see cref="ActivationWidth"/> property
         /// </summary>
         public static readonly DependencyProperty ActivationWidthProperty =
-            DependencyProperty.Register("ActivationWidth", typeof(double), typeof(SlidableListItem), new PropertyMetadata(80));
+            DependencyProperty.Register(nameof(ActivationWidth), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80));
 
         /// <summary>
         /// Indeifies the <see cref="LeftIcon"/> property
         /// </summary>
         public static readonly DependencyProperty LeftIconProperty =
-            DependencyProperty.Register("LeftIcon", typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Favorite));
+            DependencyProperty.Register(nameof(LeftIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Favorite));
 
         /// <summary>
         /// Indetifies the <see cref="RightIcon"/> property
         /// </summary>
         public static readonly DependencyProperty RightIconProperty =
-            DependencyProperty.Register("RightIcon", typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Delete));
+            DependencyProperty.Register(nameof(RightIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Delete));
 
         /// <summary>
         /// Indetifies the <see cref="LeftLabel"/> property
         /// </summary>
         public static readonly DependencyProperty LeftLabelProperty =
-            DependencyProperty.Register("LeftLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(LeftLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Indetifies the <see cref="RightLabel"/> property
         /// </summary>
         public static readonly DependencyProperty RightLabelProperty =
-            DependencyProperty.Register("RightLabel", typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(RightLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Indetifies the <see cref="LeftForeground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftForegroundProperty =
-            DependencyProperty.Register("LeftForeground", typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(LeftForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         /// <summary>
         /// Indetifies the <see cref="RightForeground"/> property
         /// </summary>
         public static readonly DependencyProperty RightForegroundProperty =
-            DependencyProperty.Register("RightForeground", typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(RightForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         /// <summary>
         /// Indetifies the <see cref="LeftBackground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftBackgroundProperty =
-            DependencyProperty.Register("LeftBackground", typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.LightGray)));
+            DependencyProperty.Register(nameof(LeftBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.LightGray)));
 
         /// <summary>
         /// Identifies the <see cref="RightBackground"/> property
         /// </summary>
         public static readonly DependencyProperty RightBackgroundProperty =
-            DependencyProperty.Register("RightBackground", typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+            DependencyProperty.Register(nameof(RightBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
 
         /// <summary>
         /// Identifies the <see cref="MouseSlidingEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty MouseSlidingEnabledProperty =
-            DependencyProperty.Register("MouseSlidingEnabled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(MouseSlidingEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the <see cref="LeftCommand"/> property
         /// </summary>
         public static readonly DependencyProperty LeftCommandProperty =
-            DependencyProperty.Register("LeftCommand", typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(LeftCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="RightCommand"/> property
         /// </summary>
         public static readonly DependencyProperty RightCommandProperty =
-            DependencyProperty.Register("RightCommand", typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RightCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
 
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";

@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PlaceholderSource"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderSourceProperty = DependencyProperty.Register(
-            "PlaceholderSource",
+            nameof(PlaceholderSource),
             typeof(ImageSource),
             typeof(ImageEx),
             new PropertyMetadata(default(ImageSource)));
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PlaceholderStretch"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(
-            "PlaceholderStretch",
+            nameof(PlaceholderStretch),
             typeof(Stretch),
             typeof(ImageEx),
             new PropertyMetadata(default(Stretch)));
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
             DependencyProperty.Register(
-                "PlaceholderAnimationDuration",
+                nameof(PlaceholderAnimationDuration),
                 typeof(Duration),
                 typeof(ImageEx),
                 new PropertyMetadata(TimeSpan.Zero));
