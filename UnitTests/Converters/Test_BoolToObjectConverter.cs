@@ -1,6 +1,6 @@
-﻿using Windows.UI;
-using Microsoft.Toolkit.Uwp.UI.Converters;
+﻿using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -173,6 +173,142 @@ namespace UnitTests.Converters
             var result = converter.Convert(true, typeof(Brush), null, "en-us");
             Assert.IsInstanceOfType(result, typeof(SolidColorBrush));
             Assert.AreEqual(Colors.Green, ((SolidColorBrush)result).Color);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackVisible()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), null, "en-us");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackCollapsed()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), null, "en-us");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackVisibleWithNegateTrue()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), "true", "en-us");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackCollapseWithNegateTrue()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), "true", "en-us");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackVisibleWithNegateFalse()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), "false", "en-us");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackCollaspedWithNegateFalse()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = Visibility.Visible,
+                FalseValue = Visibility.Collapsed
+            };
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), "false", "en-us");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackBrush()
+        {
+            var greenBrush = new SolidColorBrush(Colors.Green);
+            var redBrush = new SolidColorBrush(Colors.Red);
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = greenBrush,
+                FalseValue = redBrush
+            };
+            var result = converter.ConvertBack(greenBrush, typeof(Brush), null, "en-us");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackBrush2()
+        {
+            var greenBrush = new SolidColorBrush(Colors.Green);
+            var redBrush = new SolidColorBrush(Colors.Red);
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = greenBrush,
+                FalseValue = redBrush
+            };
+            var result = converter.ConvertBack(redBrush, typeof(Brush), null, "en-us");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackRefTypeWithTypeConversion()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = "ms-appx:///Assets/True.png",
+                FalseValue = "ms-appx:///Assets/False.png"
+            };
+
+            var result = converter.ConvertBack(converter.TrueValue, typeof(ImageSource), null, "en-us");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_ConvertBackRefTypeWithTypeConversion2()
+        {
+            var converter = new BoolToObjectConverter
+            {
+                TrueValue = "ms-appx:///Assets/True.png",
+                FalseValue = "ms-appx:///Assets/False.png"
+            };
+
+            var result = converter.ConvertBack(converter.FalseValue, typeof(ImageSource), null, "en-us");
+            Assert.AreEqual(false, result);
         }
     }
 }

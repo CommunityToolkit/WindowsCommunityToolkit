@@ -10,8 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Reflection;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
@@ -49,12 +49,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 boolValue = !boolValue;
             }
 
-            return XamlBindingHelper.ConvertValue(targetType, boolValue ? TrueValue : FalseValue);
+            return ConverterTools.Convert(boolValue ? TrueValue : FalseValue, targetType);
         }
 
         /// <summary>
-        /// Not implemented
+        /// Convert back the value to a boolean
         /// </summary>
+        /// <remarks>If the <paramref name="value"/> parameter is a reference type, <see cref="TrueValue"/> must match its reference to return true.</remarks>
         /// <param name="value">The target data being passed to the source.</param>
         /// <param name="targetType">The type of the target property, as a type reference (System.Type for Microsoft .NET, a TypeName helper struct for Visual C++ component extensions (C++/CX)).</param>
         /// <param name="parameter">An optional parameter to be used to invert the converter logic.</param>
@@ -62,7 +63,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <returns>The value to be passed to the source object.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            bool result = Equals(value, ConverterTools.Convert(TrueValue, targetType));
+
+            if (ConverterTools.TryParseBool(parameter))
+            {
+                result = !result;
+            }
+
+            return result;
         }
     }
 }

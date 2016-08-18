@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 isEmpty = !isEmpty;
             }
 
-            return XamlBindingHelper.ConvertValue(targetType, isEmpty ? EmptyValue : NotEmptyValue);
+            return ConverterTools.Convert(isEmpty ? EmptyValue : NotEmptyValue, targetType);
         }
 
         /// <summary>
