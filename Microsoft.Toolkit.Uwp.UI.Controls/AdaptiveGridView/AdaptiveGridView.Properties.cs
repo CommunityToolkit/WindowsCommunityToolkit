@@ -32,6 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public sealed partial class AdaptiveGridView
     {
+        public static readonly DependencyProperty SelectedIndexProperty =
+            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
@@ -133,6 +136,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
+
         /// <summary>
         /// Gets or sets the desired width of each item
         /// </summary>
@@ -154,9 +164,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the selected multiple objects in the collection.
+        /// Gets the selected multiple objects in the collection.
         /// </summary>
-        /// <value>The object that is used to store selected multiple items. Default is an empty IList collection of object.</value>
+        /// <value>The object that is used to store selected multiple items.</value>
         public IList<object> SelectedItems { get; }
 
         /// <summary>
@@ -170,9 +180,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the SelectionMode property of ListViewBase. Does not support runtime changes at the moment.
+        /// Gets or sets the SelectionMode property of ListViewBase.
         /// </summary>
-        /// <value>Default is single which allows users to only pick single item in the collection.</value>
+        /// <value>Default is None.</value>
         public ListViewSelectionMode SelectionMode
         {
             get { return (ListViewSelectionMode)GetValue(SelectionModeProperty); }

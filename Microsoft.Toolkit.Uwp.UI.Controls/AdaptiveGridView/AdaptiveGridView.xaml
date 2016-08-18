@@ -9,6 +9,7 @@
                     <Grid>
 						<ContentPresenter x:Name="templateProxy" Width="{TemplateBinding ItemWidth}" Height="{TemplateBinding ItemHeight}" ContentTemplate="{TemplateBinding ItemTemplate}" Visibility="Collapsed" />
                         <GridView HorizontalAlignment="Stretch" x:Name="ListView" IsItemClickEnabled="{TemplateBinding IsItemClickEnabled}" SelectionMode="{TemplateBinding SelectionMode}" IsSwipeEnabled="False" IsTabStop="False"
+                          SelectedIndex="{TemplateBinding SelectedIndex}"
                           ScrollViewer.VerticalScrollMode="{TemplateBinding VerticalScrollMode}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ItemsSource="{TemplateBinding ItemsSource}">
                             <GridView.ItemTemplate>
