@@ -19,8 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public Blade()
         {
             DefaultStyleKey = typeof(Blade);
-            BorderBrush = new SolidColorBrush(Colors.DarkGray);
-            BorderThickness = new Thickness(1);
         }
 
         /// <summary>

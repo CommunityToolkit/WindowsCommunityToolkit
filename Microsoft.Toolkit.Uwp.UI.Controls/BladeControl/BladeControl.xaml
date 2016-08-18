@@ -37,6 +37,8 @@
     </Style>
 
     <Style TargetType="controls:Blade">
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Blade">
