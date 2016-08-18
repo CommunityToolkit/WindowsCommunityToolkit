@@ -23,13 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Extension of ListView that allows "Pull To Refresh" on touch devices
     /// </summary>
-    [TemplatePart(Name = PARTROOT, Type = typeof(Border))]
-    [TemplatePart(Name = PARTSCROLLER, Type = typeof(ScrollViewer))]
-    [TemplatePart(Name = PARTCONTENTTRANSFORM, Type = typeof(CompositeTransform))]
-    [TemplatePart(Name = PARTSCROLLERCONTENT, Type = typeof(Grid))]
-    [TemplatePart(Name = PARTREFRESHINDICATORBORDER, Type = typeof(Border))]
-    [TemplatePart(Name = PARTINDICATORTRANSFORM, Type = typeof(CompositeTransform))]
-    [TemplatePart(Name = PARTDEFAULTINDICATORCONTENT, Type = typeof(TextBlock))]
+    [TemplatePart(Name = PartRoot, Type = typeof(Border))]
+    [TemplatePart(Name = PartScroller, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = PartContentTransform, Type = typeof(CompositeTransform))]
+    [TemplatePart(Name = PartScrollerContent, Type = typeof(Grid))]
+    [TemplatePart(Name = PartRefreshIndicatorBorder, Type = typeof(Border))]
+    [TemplatePart(Name = PartIndicatorTransform, Type = typeof(CompositeTransform))]
+    [TemplatePart(Name = PartDefaultIndicatorContent, Type = typeof(TextBlock))]
     public class PullToRefreshListView : ListView
     {
         /// <summary>
@@ -56,13 +56,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
             DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
-        private const string PARTROOT = "Root";
-        private const string PARTSCROLLER = "ScrollViewer";
-        private const string PARTCONTENTTRANSFORM = "ContentTransform";
-        private const string PARTSCROLLERCONTENT = "ScrollerContent";
-        private const string PARTREFRESHINDICATORBORDER = "RefreshIndicator";
-        private const string PARTINDICATORTRANSFORM = "RefreshIndicatorTransform";
-        private const string PARTDEFAULTINDICATORCONTENT = "DefaultIndicatorContent";
+        private const string PartRoot = "Root";
+        private const string PartScroller = "ScrollViewer";
+        private const string PartContentTransform = "ContentTransform";
+        private const string PartScrollerContent = "ScrollerContent";
+        private const string PartRefreshIndicatorBorder = "RefreshIndicator";
+        private const string PartIndicatorTransform = "RefreshIndicatorTransform";
+        private const string PartDefaultIndicatorContent = "DefaultIndicatorContent";
 
         private Border _root;
         private Border _refreshIndicatorBorder;
@@ -126,13 +126,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
             }
 
-            _root = GetTemplateChild(PARTROOT) as Border;
-            _scroller = GetTemplateChild(PARTSCROLLER) as ScrollViewer;
-            _contentTransform = GetTemplateChild(PARTCONTENTTRANSFORM) as CompositeTransform;
-            _scrollerContent = GetTemplateChild(PARTSCROLLERCONTENT) as Grid;
-            _refreshIndicatorBorder = GetTemplateChild(PARTREFRESHINDICATORBORDER) as Border;
-            _refreshIndicatorTransform = GetTemplateChild(PARTINDICATORTRANSFORM) as CompositeTransform;
-            _defaultIndicatorContent = GetTemplateChild(PARTDEFAULTINDICATORCONTENT) as TextBlock;
+            _root = GetTemplateChild(PartRoot) as Border;
+            _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
+            _contentTransform = GetTemplateChild(PartContentTransform) as CompositeTransform;
+            _scrollerContent = GetTemplateChild(PartScrollerContent) as Grid;
+            _refreshIndicatorBorder = GetTemplateChild(PartRefreshIndicatorBorder) as Border;
+            _refreshIndicatorTransform = GetTemplateChild(PartIndicatorTransform) as CompositeTransform;
+            _defaultIndicatorContent = GetTemplateChild(PartDefaultIndicatorContent) as TextBlock;
 
             if (_root != null &&
                 _scroller != null &&
