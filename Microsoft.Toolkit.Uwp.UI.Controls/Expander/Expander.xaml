@@ -18,53 +18,107 @@
                     <Grid x:Name="ExpanderRoot"
                           Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="ExpandedStates">
-                                <VisualState x:Name="Collapsed">
+
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="CollapsedDown" />
+                                <VisualState x:Name="ExpandedDown">
                                     <VisualState.Setters>
                                         <Setter Target="ExpanderButton.Content">
                                             <Setter.Value>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets"
-                                                          Glyph="&#xE011;" />
+                                                          Margin="8"
+                                                          Glyph="&#xE010;" />
                                             </Setter.Value>
                                         </Setter>
+                                        <Setter Target="ContentRoot.Visibility"
+                                                Value="Visible" />
+                                        <Setter Target="HeaderRoot.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="ContentRoot.Grid.Row"
+                                                Value="1" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Expanded">
+                                <VisualState x:Name="CollapsedUp">
                                     <VisualState.Setters>
                                         <Setter Target="ExpanderButton.Content">
                                             <Setter.Value>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
                                                           Glyph="&#xE010;" />
                                             </Setter.Value>
                                         </Setter>
                                     </VisualState.Setters>
                                 </VisualState>
-
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="ExpandDirectionStates">
-                                <VisualState x:Name="ExpandDirection_Down">
+                                <VisualState x:Name="CollapsedRight">
                                     <VisualState.Setters>
-                                        <Setter Target="HeaderRoot.Grid.Row"
+                                        <Setter Target="ExpanderButton.(RelativePanel.RightOf)"
+                                                Value="{x:Null}" />
+                                        <Setter Target="ExpanderButton.(RelativePanel.AlignVerticalCenterWith)"
+                                                Value="{x:Null}" />
+                                        <Setter Target="ExpanderButton.(RelativePanel.AlignHorizontalCenterWith)"
+                                                Value="HeaderContentPresenter" />
+                                        <Setter Target="ExpanderButton.(RelativePanel.Above)"
+                                                Value="HeaderContentPresenter" />
+                                        <Setter Target="HeaderRoot.(Grid.Row)"
                                                 Value="0" />
-                                        <Setter Target="ContentRoot.Grid.Row"
+                                        <Setter Target="ContentRoot.(Grid.Row)"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.(Grid.ColumnSpan)"
                                                 Value="1" />
-                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
-                                                Value="2" />
-                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
-                                                Value="2" />
+                                        <Setter Target="ContentRoot.(Grid.ColumnSpan)"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.(Grid.Column)"
+                                                Value="1" />
                                     </VisualState.Setters>
-
                                 </VisualState>
-                                <VisualState x:Name="ExpandDirection_Up">
+                                <VisualState x:Name="ExpandedRight">
                                     <VisualState.Setters>
+                                        <Setter Target="ExpanderButton.Grid.Column"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="ExpanderButton.HorizontalAlignment"
+                                                Value="Center" />
+                                        <Setter Target="HeaderContentPresenter.HorizontalAlignment"
+                                                Value="Center" />
+                                        <Setter Target="HeaderContentPresenter.Grid.Row"
+                                                Value="1" />
+                                        <Setter Target="HeaderRoot.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="ContentRoot.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.Grid.Column"
+                                                Value="1" />
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
+                                                          Glyph="&#xE010;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Target="ContentRoot.Visibility"
+                                                Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="ExpandedUp">
+                                    <VisualState.Setters>
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Margin="8"
+                                                          Glyph="&#xE010;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Target="ContentRoot.Visibility"
+                                                Value="Visible" />
                                         <Setter Target="HeaderRoot.Grid.Row"
                                                 Value="1" />
                                         <Setter Target="ContentRoot.Grid.Row"
                                                 Value="0" />
-                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
-                                                Value="2" />
-                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
-                                                Value="2" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -84,29 +138,47 @@
 
 
                         <!--Header Area-->
-                        <RelativePanel x:Name="HeaderRoot">
+                        <RelativePanel x:Name="HeaderRoot"
+                                       Grid.ColumnSpan="2"
+                                       Grid.Row="0">
+                            <!--<Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>-->
 
                             <ContentPresenter x:Name="HeaderContentPresenter"
                                               x:DeferLoadStrategy="Lazy"
-                                              RelativePanel.LeftOf="ExpanderButton"
-                                              Grid.Row="0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
                                               Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                              Margin="0,0,0,8"
-                                              Grid.ColumnSpan="2"
+                                              Margin="8,0"
                                               Content="{TemplateBinding Header}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                                               FontWeight="Normal" />
 
                             <Button x:Name="ExpanderButton"
-                                    RelativePanel.RightOf="HeaderContent">
+                                    BorderThickness="0"
+                                    RelativePanel.RightOf="HeaderContentPresenter"
+                                    RelativePanel.AlignVerticalCenterWith="HeaderContentPresenter"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent"
+                                    VerticalAlignment="Center">
                                 <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Margin="8"
                                           Glyph="&#xE011;" />
                             </Button>
                         </RelativePanel>
 
 
                         <!--Content Area-->
-                        <Grid x:Name="ContentRoot">
+                        <Grid x:Name="ContentRoot"
+                              Grid.ColumnSpan="2"
+                              Visibility="Collapsed"
+                              Grid.Row="1">
                             <Border Child="{TemplateBinding Content}" />
                         </Grid>
 

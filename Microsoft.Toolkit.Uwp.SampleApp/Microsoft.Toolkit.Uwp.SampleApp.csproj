@@ -231,6 +231,7 @@
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\Expander\Expander.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
@@ -287,6 +288,7 @@
     <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
+    <Content Include="SamplePages\Expander\ExpanderCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -316,6 +318,9 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
+      <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -412,6 +417,10 @@
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Expander\ExpanderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RotatorTile\RotatorTilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -532,9 +541,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SamplePages\Expander\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

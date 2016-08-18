@@ -23,16 +23,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the expander is expanded
         /// </summary>
-        public event RoutedEventHandler ExpanderExpanded;
+        public event RoutedEventHandler Expanded;
 
         /// <summary>
         /// Event raised when the expander is collapsed
         /// </summary>
-        public event RoutedEventHandler ExpanderCollapsed;
+        public event RoutedEventHandler Collapsed;
 
-        private void ExpanderButton_Clicked(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

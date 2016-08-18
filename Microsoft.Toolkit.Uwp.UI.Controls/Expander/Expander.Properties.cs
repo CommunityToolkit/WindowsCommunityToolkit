@@ -30,12 +30,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register("ExpandDirection", typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down));
 
         /// <summary>
+        /// Identifies the <see cref="Header"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(Expander), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(Expander), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets a value that specifies whether the expander is expanded to its full size.
         /// </summary>
         public bool IsExpanded
         {
-            get { return (bool)GetValue(IsExpandedProperty); }
-            set { SetValue(IsExpandedProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsExpandedProperty);
+            }
+
+            set
+            {
+                SetValue(IsExpandedProperty, value);
+                UpdateVisualState();
+            }
         }
 
         /// <summary>
@@ -43,8 +61,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public ExpandDirection ExpandDirection
         {
-            get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
-            set { SetValue(ExpandDirectionProperty, value); }
+            get
+            {
+                return (ExpandDirection)GetValue(ExpandDirectionProperty);
+            }
+
+            set
+            {
+                SetValue(ExpandDirectionProperty, value);
+                UpdateVisualState();
+            }
         }
+
+        /// <summary>
+        /// Gets or sets the content for the control's header.
+        /// </summary>
+        public object Header
+        {
+            get
+            {
+                return (object)GetValue(HeaderProperty);
+            }
+
+            set
+            {
+                SetValue(HeaderProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the template for the control's header.
+        /// </summary>
+        public DataTemplate HeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
+        }
+
+
     }
 }
