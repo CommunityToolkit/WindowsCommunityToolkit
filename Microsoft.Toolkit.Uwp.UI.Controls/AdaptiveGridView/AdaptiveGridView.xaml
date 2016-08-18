@@ -2,19 +2,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
-	<Style TargetType="controls:AdaptiveGridView">
+    <Style TargetType="controls:AdaptiveGridView">
         <Setter Property="Template">
             <Setter.Value>
-				<ControlTemplate TargetType="controls:AdaptiveGridView">
+                <ControlTemplate TargetType="controls:AdaptiveGridView">
                     <Grid>
-						<ContentPresenter x:Name="templateProxy" Width="{TemplateBinding ItemWidth}" Height="{TemplateBinding ItemHeight}" ContentTemplate="{TemplateBinding ItemTemplate}" Visibility="Collapsed" />
-						<GridView HorizontalAlignment="Stretch" x:Name="ListView" IsItemClickEnabled="True" SelectionMode="None" IsSwipeEnabled="False" IsTabStop="False"
+                        <ContentPresenter x:Name="templateProxy" Width="{TemplateBinding ItemWidth}" Height="{TemplateBinding ItemHeight}" ContentTemplate="{TemplateBinding ItemTemplate}" Visibility="Collapsed" />
+                        <GridView HorizontalAlignment="Stretch" x:Name="ListView" IsItemClickEnabled="True" SelectionMode="None" IsSwipeEnabled="False" IsTabStop="False"
                           ScrollViewer.VerticalScrollMode="{TemplateBinding VerticalScrollMode}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ItemsSource="{TemplateBinding ItemsSource}">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-									<ContentPresenter Width="{Binding Width, ElementName=templateProxy}" Height="{Binding Height, ElementName=templateProxy}" ContentTemplate="{Binding ContentTemplate, ElementName=templateProxy}" />
-								</DataTemplate>
+                                    <ContentPresenter Width="{Binding Width, ElementName=templateProxy}" Height="{Binding Height, ElementName=templateProxy}" ContentTemplate="{Binding ContentTemplate, ElementName=templateProxy}" />
+                                </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView> 
                     </Grid>

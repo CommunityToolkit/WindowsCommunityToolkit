@@ -1,0 +1,118 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <Style TargetType="local:Expander">
+        <Setter Property="ExpandDirection"
+                Value="Down" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Expander">
+                    <Grid x:Name="ExpanderRoot"
+                          Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ExpandedStates">
+                                <VisualState x:Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Glyph="&#xE011;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Expanded">
+                                    <VisualState.Setters>
+                                        <Setter Target="ExpanderButton.Content">
+                                            <Setter.Value>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                                          Glyph="&#xE010;" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ExpandDirectionStates">
+                                <VisualState x:Name="ExpandDirection_Down">
+                                    <VisualState.Setters>
+                                        <Setter Target="HeaderRoot.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="ContentRoot.Grid.Row"
+                                                Value="1" />
+                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
+                                                Value="2" />
+                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
+                                                Value="2" />
+                                    </VisualState.Setters>
+
+                                </VisualState>
+                                <VisualState x:Name="ExpandDirection_Up">
+                                    <VisualState.Setters>
+                                        <Setter Target="HeaderRoot.Grid.Row"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.Grid.Row"
+                                                Value="0" />
+                                        <Setter Target="HeaderRoot.Grid.ColumnSpan"
+                                                Value="2" />
+                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
+                                                Value="2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="TopRow"
+                                           Height="Auto" />
+                            <RowDefinition x:Name="BottomRow"
+                                           Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="LeftColumn"
+                                              Width="Auto" />
+                            <ColumnDefinition x:Name="RightColumn"
+                                              Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <!--Header Area-->
+                        <RelativePanel x:Name="HeaderRoot">
+
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                                              x:DeferLoadStrategy="Lazy"
+                                              RelativePanel.LeftOf="ExpanderButton"
+                                              Grid.Row="0"
+                                              Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                              Margin="0,0,0,8"
+                                              Grid.ColumnSpan="2"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              FontWeight="Normal" />
+
+                            <Button x:Name="ExpanderButton"
+                                    RelativePanel.RightOf="HeaderContent">
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE011;" />
+                            </Button>
+                        </RelativePanel>
+
+
+                        <!--Content Area-->
+                        <Grid x:Name="ContentRoot">
+                            <Border Child="{TemplateBinding Content}" />
+                        </Grid>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
