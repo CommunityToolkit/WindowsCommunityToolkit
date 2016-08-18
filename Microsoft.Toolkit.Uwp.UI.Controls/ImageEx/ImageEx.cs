@@ -25,12 +25,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = "Loaded", GroupName = "CommonStates")]
     [TemplateVisualState(Name = "Unloaded", GroupName = "CommonStates")]
     [TemplatePart(Name = "Image", Type = typeof(Image))]
-    [TemplatePart(Name = "PlaceholderImage", Type = typeof(Image))]
     [TemplatePart(Name = "Progress", Type = typeof(ProgressRing))]
     public sealed partial class ImageEx : Control
     {
         private Image _image;
-        private Image _placeholderImage;
         private ProgressRing _progress;
 
         private bool _isInitialized;
@@ -56,7 +54,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _image = GetTemplateChild("Image") as Image;
-            _placeholderImage = GetTemplateChild("PlaceholderImage") as Image;
             _progress = GetTemplateChild("Progress") as ProgressRing;
 
             _isInitialized = true;
