@@ -44,7 +44,6 @@ namespace UnitTests.Notifications
                 }
             };
 
-
             TileBindingContentAdaptive mediumContent = new TileBindingContentAdaptive()
             {
                 BackgroundImage = new TileBackgroundImage() { Source = backgroundImage, HintOverlay = overlay },
@@ -55,14 +54,11 @@ namespace UnitTests.Notifications
                         Children =
                         {
                             GenerateMediumSubgroup("Mon", ImageMostlyCloudy, 63, 42),
-
                             GenerateMediumSubgroup("Tue", ImageCloudy, 57, 38)
                         }
                     }
                 }
             };
-
-
 
             TileBindingContentAdaptive wideContent = new TileBindingContentAdaptive()
             {
@@ -74,21 +70,14 @@ namespace UnitTests.Notifications
                         Children =
                         {
                             GenerateWideSubgroup("Mon", ImageMostlyCloudy, 63, 42),
-
                             GenerateWideSubgroup("Tue", ImageCloudy, 57, 38),
-
                             GenerateWideSubgroup("Wed", ImageSunny, 59, 43),
-
                             GenerateWideSubgroup("Thu", ImageSunny, 62, 42),
-
                             GenerateWideSubgroup("Fri", ImageSunny, 71, 66)
                         }
                     }
                 }
             };
-
-
-
 
             TileBindingContentAdaptive largeContent = new TileBindingContentAdaptive()
             {
@@ -147,19 +136,13 @@ namespace UnitTests.Notifications
                         Children =
                         {
                             GenerateLargeSubgroup("Tue", ImageCloudy, 57, 38),
-
                             GenerateLargeSubgroup("Wed", ImageSunny, 59, 43),
-
                             GenerateLargeSubgroup("Thu", ImageSunny, 62, 42),
-
                             GenerateLargeSubgroup("Fri", ImageSunny, 71, 66)
                         }
                     }
                 }
             };
-
-
-
 
             TileContent content = new TileContent()
             {
@@ -200,7 +183,6 @@ namespace UnitTests.Notifications
 
             expectedPayload += "</group></binding>";
 
-
             // Wide tile
             expectedPayload += @"<binding template=""TileWide"" branding=""nameAndLogo"">";
             expectedPayload += GenerateStringBackgroundImage();
@@ -214,8 +196,6 @@ namespace UnitTests.Notifications
             expectedPayload += GenerateStringWideSubgroup("Fri", ImageSunny, 71, 66);
 
             expectedPayload += "</group></binding>";
-
-
 
             // Large tile
             expectedPayload += @"<binding template=""TileLarge"" branding=""nameAndLogo"">";
@@ -233,7 +213,6 @@ namespace UnitTests.Notifications
 
             expectedPayload += "</group></binding></visual></tile>";
             
-
             AssertHelper.AssertTile(expectedPayload, content);
         }
 
