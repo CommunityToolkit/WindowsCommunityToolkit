@@ -132,8 +132,12 @@
                 <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot" SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
                             <controlsLocal:PropertyControl x:Name="Properties"/>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Name="CommandArea"></StackPanel>
+                            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" x:Name="CommandArea"></StackPanel>
                         </Grid>
                     </PivotItem>
 
