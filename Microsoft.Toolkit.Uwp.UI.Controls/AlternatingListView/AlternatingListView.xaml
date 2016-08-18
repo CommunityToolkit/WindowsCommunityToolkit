@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style TargetType="controls:AlternatingListView" >
+        <Setter Property="OddRowBackground" Value="White" />
+        <Setter Property="EvenRowBackground" Value="SlateGray" />
+    </Style>
+</ResourceDictionary>

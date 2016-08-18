@@ -12,6 +12,14 @@
         "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png"
       },
       {
+        "Name": "AlternatingListView",
+        "Type": "AlternatingListViewPage",
+        "About": "AlternatingListView is derived from the built in ListView in the Universal Windows Platform. It allows to set 2 differenct brushes as background for even and odd item list rows.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AlternatingListView",
+        "XamlCodeFile": "AlternatingListViewCode.bind",
+        "Icon": "/SamplePages/AlternatingListView/AlternatingListView.png"
+      },
+      {
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",

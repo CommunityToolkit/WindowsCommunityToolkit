@@ -11,7 +11,7 @@
 
     <Grid>
         <controls:PullToRefreshListView 
-                Name="listView"
+                Name="ListView"
                 ItemsSource="{x:Bind _items}"
                 OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
                 PullThreshold="@[PullThreshold:Slider:100:50-300]"

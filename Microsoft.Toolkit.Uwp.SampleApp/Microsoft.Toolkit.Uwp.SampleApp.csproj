@@ -228,6 +228,7 @@
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\AlternatingListView\AlternatingListView.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeControl\Blade.png" />
@@ -289,6 +290,7 @@
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
+    <Content Include="SamplePages\AlternatingListView\AlternatingListViewCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -313,6 +315,9 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
+    <Compile Include="SamplePages\AlternatingListView\AlternatingListViewPage.xaml.cs">
+      <DependentUpon>AlternatingListViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
       <DependentUpon>BingPage.xaml</DependentUpon>
     </Compile>
@@ -407,6 +412,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\AlternatingListView\AlternatingListViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
