@@ -9,8 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-using System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -18,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class converts a collection size to visibility.
     /// </summary>
-    public class CollectionVisibilityConverter : CollectionEmptinessToObjectConverter
+    public class CollectionVisibilityConverter : EmptyCollectionToObjectConverter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionVisibilityConverter"/> class.

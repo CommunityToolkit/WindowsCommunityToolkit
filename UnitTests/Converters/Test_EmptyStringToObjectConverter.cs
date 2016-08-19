@@ -9,185 +9,185 @@ using UITestMethod = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppCo
 namespace UnitTests.Converters
 {
     [TestClass]
-    public class Test_CollectionEmptinessToObjectConverter
+    public class Test_EmptyStringToObjectConverter
     {
-        private static readonly object NullCollection = null;
-        private static readonly object EmptyCollection = new object[0];
-        private static readonly object NotEmptyCollection = new[] { new object() };
+        private static readonly object NullString = null;
+        private static readonly object EmptyString = string.Empty;
+        private static readonly object NotEmptyString = "Hello, world";
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNullCollectionToVisibility()
+        public void Test_ConvertNullStringToVisibility()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(NullCollection, typeof(Visibility), null, "en-us");
+            var result = converter.Convert(NullString, typeof(Visibility), null, "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToVisibility()
+        public void Test_ConvertNotEmptyStringToVisibility()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(EmptyCollection, typeof(Visibility), null, "en-us");
+            var result = converter.Convert(EmptyString, typeof(Visibility), null, "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertEmptyCollectionToVisibility()
+        public void Test_ConvertEmptyStringToVisibility()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(EmptyCollection, typeof(Visibility), null, "en-us");
+            var result = converter.Convert(EmptyString, typeof(Visibility), null, "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToVisibilityWithNegateTrue()
+        public void Test_ConvertNotEmptyStringToVisibilityWithNegateTrue()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(NotEmptyCollection, typeof(Visibility), "true", "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(Visibility), "true", "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertEmptyCollectionToVisibilityWithNegateTrue()
+        public void Test_ConvertEmptyStringToVisibilityWithNegateTrue()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(EmptyCollection, typeof(Visibility), "true", "en-us");
+            var result = converter.Convert(EmptyString, typeof(Visibility), "true", "en-us");
             Assert.AreEqual(Visibility.Visible, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToVisibilityWithNegateFalse()
+        public void Test_ConvertNotEmptyStringToVisibilityWithNegateFalse()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(NotEmptyCollection, typeof(Visibility), "false", "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(Visibility), "false", "en-us");
             Assert.AreEqual(Visibility.Visible, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertEmptyCollectionToVisibilityWithNegateFalse()
+        public void Test_ConvertEmptyStringToVisibilityWithNegateFalse()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(EmptyCollection, typeof(Visibility), "false", "en-us");
+            var result = converter.Convert(EmptyString, typeof(Visibility), "false", "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToVisibilityWithInvalidNegate()
+        public void Test_ConvertNotEmptyStringToVisibilityWithInvalidNegate()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(NotEmptyCollection, typeof(Visibility), 42, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(Visibility), 42, "en-us");
             Assert.AreEqual(Visibility.Visible, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertEmptyCollectionToVisibilityWithInvalidNegate()
+        public void Test_ConvertEmptyStringToVisibilityWithInvalidNegate()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = Visibility.Visible,
                 EmptyValue = Visibility.Collapsed
             };
-            var result = converter.Convert(EmptyCollection, typeof(Visibility), 42, "en-us");
+            var result = converter.Convert(EmptyString, typeof(Visibility), 42, "en-us");
             Assert.AreEqual(Visibility.Collapsed, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToBrush()
+        public void Test_ConvertNotEmptyStringToBrush()
         {
             var greenBrush = new SolidColorBrush(Colors.Green);
             var redBrush = new SolidColorBrush(Colors.Red);
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = greenBrush,
                 EmptyValue = redBrush
             };
-            var result = converter.Convert(NotEmptyCollection, typeof(Brush), null, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(Brush), null, "en-us");
             Assert.AreEqual(greenBrush, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertEmptyCollectionToBrush()
+        public void Test_ConvertEmptyStringToBrush()
         {
             var greenBrush = new SolidColorBrush(Colors.Green);
             var redBrush = new SolidColorBrush(Colors.Red);
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = greenBrush,
                 EmptyValue = redBrush
             };
-            var result = converter.Convert(EmptyCollection, typeof(Brush), null, "en-us");
+            var result = converter.Convert(EmptyString, typeof(Brush), null, "en-us");
             Assert.AreEqual(redBrush, result);
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToBitmapImageWithTypeConversion()
+        public void Test_ConvertNotEmptyStringToBitmapImageWithTypeConversion()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
-                NotEmptyValue = "ms-appx:///Assets/NotEmptyCollection.png",
-                EmptyValue = "ms-appx:///Assets/EmptyCollection.png"
+                NotEmptyValue = "ms-appx:///Assets/NotEmptyString.png",
+                EmptyValue = "ms-appx:///Assets/EmptyString.png"
             };
 
-            var result = converter.Convert(NotEmptyCollection, typeof(ImageSource), null, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(ImageSource), null, "en-us");
             Assert.IsInstanceOfType(result, typeof(BitmapImage));
             Assert.AreEqual(converter.NotEmptyValue, ((BitmapImage)result).UriSource.ToString());
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_ConvertNotEmptyCollectionToBrushWithTypeConversion()
+        public void Test_ConvertNotEmptyStringToBrushWithTypeConversion()
         {
-            var converter = new CollectionEmptinessToObjectConverter
+            var converter = new EmptyStringToObjectConverter
             {
                 NotEmptyValue = "Green",
                 EmptyValue = "Red"
             };
 
-            var result = converter.Convert(NotEmptyCollection, typeof(Brush), null, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(Brush), null, "en-us");
             Assert.IsInstanceOfType(result, typeof(SolidColorBrush));
             Assert.AreEqual(Colors.Green, ((SolidColorBrush)result).Color);
         }

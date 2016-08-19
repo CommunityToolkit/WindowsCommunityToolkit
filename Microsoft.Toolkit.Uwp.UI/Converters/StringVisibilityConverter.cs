@@ -9,8 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-using System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -18,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class converts a string value into a Visibility value (if the value is null or empty returns a collapsed value).
     /// </summary>
-    public class StringVisibilityConverter : StringEmptinessToObjectConverter
+    public class StringVisibilityConverter : EmptyStringToObjectConverter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringVisibilityConverter"/> class.
