@@ -101,6 +101,23 @@ task PackNuGetNoBuild -description "Create the NuGet packages with existing bina
   }
 }
 
+task PublishNuget -depends PackNuGet -description "Publish the NuGet packages to the remote repositories" {
+  Get-ChildItem $nupkgDir\*.nupkg | % {
+    $nupkg = $_.FullName
+    
+    if ($isAppVeyor) {
+      WriteColoredOutput -ForegroundColor Green "Archiving '$nupkg' artifact...`n"
+      
+      Push-AppveyorArtifact $nupkg
+    }
+    else {
+      WriteColoredOutput -ForegroundColor Green "Publishing '$nupkg'...`n"
+      
+      Exec { .$nuget push "$nupkg" } "Error publishing '$nupkg'"
+    }
+  }
+}
+
 task ? -description "Show the help screen" {
   WriteDocumentation
 }
