@@ -31,6 +31,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class SlidableListItem : ContentControl
     {
         /// <summary>
+        /// Indetifies the <see cref="IsLeftSwipeEnabled"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsLeftSwipeEnabledProperty =
+            DependencyProperty.Register("IsLeftSwipeEnabled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+
+        /// <summary>
+        /// Indetifies the <see cref="IsRightSwipeEnabled"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsRightSwipeEnabledProperty =
+            DependencyProperty.Register("IsRightSwipeEnabled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+
+        /// <summary>
         /// Indetifies the <see cref="ActivationWidth"/> property
         /// </summary>
         public static readonly DependencyProperty ActivationWidthProperty =
@@ -244,16 +256,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
-            {
+            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsRightSwipeEnabled && !IsLeftSwipeEnabled))
+            { // If mouse sliding is not enabled OR both swipe options disabled, don't measure anything.
                 return;
             }
 
-            _transform.TranslateX += e.Delta.Translation.X;
-            var abs = Math.Abs(_transform.TranslateX);
+            var abs = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
 
-            if (_transform.TranslateX > 0)
-            {
+            if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
+            { // Swiping from left to right.
+                _transform.TranslateX += e.Delta.Translation.X;
                 if (_commandContainer != null)
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
@@ -271,8 +283,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _leftCommandTransform.TranslateX = 20;
                 }
             }
-            else
-            {
+            else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
+            { // Swiping from right to left.
+                _transform.TranslateX += e.Delta.Translation.X;
                 if (_commandContainer != null)
                 {
                     _commandContainer.Background = RightBackground as SolidColorBrush;
@@ -290,6 +303,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _rightCommandTransform.TranslateX = -20;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether swiping left is enabled or not.
+        /// </summary>
+        public bool IsLeftSwipeEnabled
+        {
+            get { return (bool)GetValue(IsLeftSwipeEnabledProperty); }
+            set { SetValue(IsLeftSwipeEnabledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether swiping right is enabled or not.
+        /// </summary>
+        public bool IsRightSwipeEnabled
+        {
+            get { return (bool)GetValue(IsRightSwipeEnabledProperty); }
+            set { SetValue(IsRightSwipeEnabledProperty, value); }
         }
 
         /// <summary>
