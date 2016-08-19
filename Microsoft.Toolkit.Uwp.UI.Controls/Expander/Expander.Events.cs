@@ -9,7 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Windows.UI.Xaml;
+using System;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -19,16 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Expander : ContentControl
     {
-
         /// <summary>
         /// Event raised when the expander is expanded
         /// </summary>
-        public event RoutedEventHandler Expanded;
+        public event EventHandler Expanded;
 
         /// <summary>
         /// Event raised when the expander is collapsed
         /// </summary>
-        public event RoutedEventHandler Collapsed;
-
+        public event EventHandler Collapsed;
     }
 }

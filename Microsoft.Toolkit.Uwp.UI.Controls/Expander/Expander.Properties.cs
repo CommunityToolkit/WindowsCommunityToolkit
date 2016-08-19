@@ -22,22 +22,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="IsExpanded"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(Expander), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(Expander), new PropertyMetadata(false, new PropertyChangedCallback(IsExpanded_Changed)));
 
         /// <summary>
         /// Identifies the <see cref="ExpandDirection"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register("ExpandDirection", typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down));
+        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, new PropertyChangedCallback(ExpandDirection_Changed)));
 
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(Expander), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(Expander), new PropertyMetadata(null, new PropertyChangedCallback(Header_Changed)));
 
         /// <summary>
         /// Identifies the <see cref="HeaderTemplate"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(Expander), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(Expander), new PropertyMetadata(null, new PropertyChangedCallback(Header_Changed)));
+
+        private static void Header_Changed(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var expander = obj as Expander;
+            expander.UpdateVisualState();
+        }
+
+        private static void ExpandDirection_Changed(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var expander = obj as Expander;
+            expander.UpdateVisualState();
+        }
+
+        private static void IsExpanded_Changed(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var expander = obj as Expander;
+            expander.UpdateVisualState();
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets a value that specifies whether the expander is expanded to its full size.
@@ -52,7 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(IsExpandedProperty, value);
-                UpdateVisualState();
             }
         }
 
@@ -69,7 +86,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(ExpandDirectionProperty, value);
-                UpdateVisualState();
             }
         }
 
@@ -86,7 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(HeaderProperty, value);
-                UpdateVisualState();
             }
         }
 
@@ -98,6 +113,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
             set { SetValue(HeaderTemplateProperty, value); }
         }
-
     }
 }

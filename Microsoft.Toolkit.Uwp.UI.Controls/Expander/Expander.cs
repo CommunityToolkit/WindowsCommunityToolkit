@@ -9,8 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -18,21 +21,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents a control that displays a header that has a collapsible window that displays content.
     /// </summary>
-    [TemplateVisualState(Name = "ExpandedDown", GroupName = "CommonStates")]
-    [TemplateVisualState(Name = "CollapsedDown", GroupName = "CommonStates")]
-    [TemplateVisualState(Name = "ExpandedUp", GroupName = "CommonStates")]
-    [TemplateVisualState(Name = "CollapsedUp", GroupName = "CommonStates")]
-    [TemplatePart(Name = "ExpanderButton", Type = typeof(Button))]
-    [TemplatePart(Name = "HeaderContentPresenter", Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = "AnimateInContentDown", Type = typeof(Storyboard))]
-    [TemplatePart(Name = "AnimateInContentUp", Type = typeof(Storyboard))]
-    [TemplatePart(Name = "AnimateInContentLeft", Type = typeof(Storyboard))]
-    [TemplatePart(Name = "AnimateInContentRight", Type = typeof(Storyboard))]
+    [TemplatePart(Name = EXPANDERBUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = ANIMATEINCONTENTDOWN, Type = typeof(Storyboard))]
+    [TemplatePart(Name = ANIMATEINCONTENTUP, Type = typeof(Storyboard))]
+    [TemplatePart(Name = ANIMATEINCONTENTLEFT, Type = typeof(Storyboard))]
+    [TemplatePart(Name = ANIMATEINCONTENTRIGHT, Type = typeof(Storyboard))]
     public partial class Expander : ContentControl
     {
-        private ContentPresenter _headerContentPresenter;
-        private Button _expanderButton;
+        private const string ANIMATEINCONTENTDOWN = "AnimateInContentDown";
+        private const string ANIMATEINCONTENTUP = "AnimateInContentUp";
+        private const string ANIMATEINCONTENTLEFT = "AnimateInContentLeft";
+        private const string ANIMATEINCONTENTRIGHT = "AnimateInContentRight";
+        private const string EXPANDERBUTTON = "ExpanderButton";
+        private const string HEADERROOT = "HeaderRoot";
 
+        private const string VSEXPANDEDUP = "ExpandedUp";
+        private const string VSEXPANDEDDOWN = "ExpandedDown";
+        private const string VSEXPANDEDLEFT = "ExpandedLeft";
+        private const string VSEXPANDEDRIGHT = "ExpandedRight";
+
+        private const string VSCOLLAPSEDUP = "CollapsedUp";
+        private const string VSCOLLAPSEDDOWN = "CollapsedDown";
+        private const string VSCOLLAPSEDLEFT = "CollapsedLeft";
+        private const string VSCOLLAPSEDRIGHT = "CollapsedRight";
+
+        private ToggleButton _headerRoot;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Expander"/> class.
@@ -49,39 +62,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (_expanderButton != null)
+            if (_headerRoot != null)
             {
-                _expanderButton.Click -= ExpanderButton_Click;
+                _headerRoot.Checked -= HeaderRoot_Checked;
+                _headerRoot.Unchecked -= HeaderRoot_Unchecked;
             }
 
-            _expanderButton = GetTemplateChild("ExpanderButton") as Button;
+            _headerRoot = GetTemplateChild(HEADERROOT) as ToggleButton;
 
-            _headerContentPresenter = GetTemplateChild("HeaderContentPresenter") as ContentPresenter;
-
-            if (_expanderButton != null)
+            if (_headerRoot != null)
             {
-                _expanderButton.Click += ExpanderButton_Click;
+                if (IsExpanded)
+                {
+                    _headerRoot.IsChecked = true;
+                }
+
+                var b = new Binding() { Path = new PropertyPath("IsChecked"), Source = _headerRoot, Mode = BindingMode.TwoWay };
+                this.SetBinding(IsExpandedProperty, b);
+                _headerRoot.Checked += HeaderRoot_Checked;
+                _headerRoot.Unchecked += HeaderRoot_Unchecked;
             }
 
             UpdateVisualState();
         }
 
-        private void ExpanderButton_Click(object sender, RoutedEventArgs e)
+        private void HeaderRoot_Unchecked(object sender, RoutedEventArgs e)
         {
-            this.IsExpanded = !this.IsExpanded;
-            if (this.IsExpanded)
+            if (Collapsed != null)
             {
-                if (this.Expanded != null)
-                {
-                    this.Expanded.Invoke(this, new RoutedEventArgs());
-                }
+                Collapsed.Invoke(this, new EventArgs());
             }
-            else
+        }
+
+        private void HeaderRoot_Checked(object sender, RoutedEventArgs e)
+        {
+            if (Expanded != null)
             {
-                if (this.Collapsed != null)
-                {
-                    this.Collapsed.Invoke(this, new RoutedEventArgs());
-                }
+                Expanded.Invoke(this, new EventArgs());
             }
         }
 
@@ -90,34 +107,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdateVisualState()
         {
-
-            switch (this.ExpandDirection)
+            switch (ExpandDirection)
             {
                 case ExpandDirection.Down:
                     {
-                        VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedDown" : "CollapsedDown", true);
-                        (GetTemplateChild("AnimateInContentDown") as Storyboard)?.Begin();
+                        VisualStateManager.GoToState(this, this.IsExpanded ? VSEXPANDEDDOWN : VSCOLLAPSEDDOWN, true);
+                        (GetTemplateChild(ANIMATEINCONTENTDOWN) as Storyboard)?.Begin();
                         break;
                     }
 
                 case ExpandDirection.Up:
                     {
-                        VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedUp" : "CollapsedUp", true);
-                        (GetTemplateChild("AnimateInContentUp") as Storyboard)?.Begin();
+                        VisualStateManager.GoToState(this, this.IsExpanded ? VSEXPANDEDUP : VSCOLLAPSEDUP, true);
+                        (GetTemplateChild(ANIMATEINCONTENTUP) as Storyboard)?.Begin();
                         break;
                     }
 
                 case ExpandDirection.Right:
                     {
-                        VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedRight" : "CollapsedRight", true);
-                        (GetTemplateChild("AnimateInContentRight") as Storyboard)?.Begin();
+                        VisualStateManager.GoToState(this, this.IsExpanded ? VSEXPANDEDRIGHT : VSCOLLAPSEDRIGHT, true);
+                        (GetTemplateChild(ANIMATEINCONTENTRIGHT) as Storyboard)?.Begin();
                         break;
                     }
 
                 case ExpandDirection.Left:
                     {
-                        VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedLeft" : "CollapsedLeft", true);
-                        (GetTemplateChild("AnimateInContentLeft") as Storyboard)?.Begin();
+                        VisualStateManager.GoToState(this, this.IsExpanded ? VSEXPANDEDLEFT : VSCOLLAPSEDLEFT, true);
+                        (GetTemplateChild(ANIMATEINCONTENTLEFT) as Storyboard)?.Begin();
                         break;
                     }
             }
