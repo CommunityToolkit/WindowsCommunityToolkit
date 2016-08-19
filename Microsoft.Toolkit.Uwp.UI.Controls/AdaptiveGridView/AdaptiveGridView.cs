@@ -75,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listView.SizeChanged -= ListView_SizeChanged;
                 _listView.ItemClick -= ListView_ItemClick;
                 _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
+                _listView.SelectionChanged -= ListView_SelectionChanged;
                 _listView = null;
             }
 
@@ -102,20 +103,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Mode = BindingMode.TwoWay
             };
 
-            var isItemClickEnabledBinding = new Binding()
-            {
-                Source = this,
-                Path = new PropertyPath("IsItemClickEnabled"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var selectionModeBinding = new Binding()
-            {
-                Source = this,
-                Path = new PropertyPath("SelectionMode"),
-                Mode = BindingMode.TwoWay
-            };
-
             var selectionIndexBinding = new Binding()
             {
                 Source = this,
@@ -123,8 +110,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Mode = BindingMode.TwoWay
             };
 
-            _listView.SetBinding(ListViewBase.SelectionModeProperty, selectionModeBinding);
-            _listView.SetBinding(ListViewBase.IsItemClickEnabledProperty, isItemClickEnabledBinding);
             _listView.SetBinding(Selector.SelectedItemProperty, selectedItemBinding);
             _listView.SetBinding(Selector.SelectedIndexProperty, selectionIndexBinding);
         }

@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -54,13 +55,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SelectionMode"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectionModeProperty =
-            DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewSelectionMode), typeof(AdaptiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewSelectionMode), typeof(AdaptiveGridView), new PropertyMetadata(ListViewSelectionMode.None));
 
         /// <summary>
         /// Identifies the <see cref="IsItemClickEnabled"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsItemClickEnabledProperty =
-            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
