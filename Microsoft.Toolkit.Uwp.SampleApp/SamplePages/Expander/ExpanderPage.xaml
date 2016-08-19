@@ -10,9 +10,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:Expander  Header="Expand Down"
                             x:Name="expander">
-            <Border Width="300"
-                    Height="300"
-                    Background="Blue" />
+            <FontIcon FontFamily="Segoe MDL2 Assets" x:Name="expandedContent"  FontSize="200" Foreground="Red" Margin="20"
+                      Glyph="&#xE76E;" />
         </controls:Expander>
     </Grid>
 </Page>

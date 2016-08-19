@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 expander.ExpandDirection = UI.Controls.ExpandDirection.Down;
                 expander.Header = "Expand Down";
+                expandedContent.Glyph = "&#xE76E;";
                 expander.VerticalAlignment = VerticalAlignment.Top;
                 expander.HorizontalAlignment = HorizontalAlignment.Stretch;
             });
@@ -56,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 expander.VerticalAlignment = VerticalAlignment.Bottom;
                 expander.HorizontalAlignment = HorizontalAlignment.Stretch;
             });
+            
 
             Shell.Current.RegisterNewCommand("Expand content Left", (sender, args) =>
             {

@@ -79,9 +79,11 @@
                                         <Setter Target="ExpanderButton.HorizontalAlignment"
                                                 Value="Center" />
                                         <Setter Target="ExpanderButton.(Grid.Column)"
-                                                Value="1" />
+                                                Value="0" />
                                         <Setter Target="HeaderRoot.(Grid.Row)"
                                                 Value="0" />
+                                        <Setter Target="HeaderRoot.(Grid.Column)"
+                                                Value="1" />
                                         <Setter Target="ContentRoot.(Grid.Row)"
                                                 Value="0" />
                                         <Setter Target="HeaderRoot.(Grid.ColumnSpan)"
@@ -106,8 +108,10 @@
                                                 Value="0" />
                                         <Setter Target="ExpanderButton.HorizontalAlignment"
                                                 Value="Center" />
-                                        <Setter Target="ExpanderButton.(Grid.Column)"
+                                        <Setter Target="HeaderRoot.(Grid.Column)"
                                                 Value="1" />
+                                        <Setter Target="ExpanderButton.(Grid.Column)"
+                                                Value="0" />
                                         <Setter Target="HeaderRoot.(Grid.Row)"
                                                 Value="0" />
                                         <Setter Target="ContentRoot.(Grid.Row)"

@@ -95,14 +95,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ExpandDirection.Down:
                     {
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedDown" : "CollapsedDown", true);
-                        (GetTemplateChild("AnimateInContentDown") as Storyboard).Begin();
+                        (GetTemplateChild("AnimateInContentDown") as Storyboard)?.Begin();
                         break;
                     }
 
                 case ExpandDirection.Up:
                     {
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedUp" : "CollapsedUp", true);
-                        (GetTemplateChild("AnimateInContentUp") as Storyboard).Begin();
+                        (GetTemplateChild("AnimateInContentUp") as Storyboard)?.Begin();
                         break;
                     }
 
@@ -110,14 +110,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
 
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedRight" : "CollapsedRight", true);
-                        (GetTemplateChild("AnimateInContentRight") as Storyboard).Begin();
+                        (GetTemplateChild("AnimateInContentRight") as Storyboard)?.Begin();
                         break;
                     }
                 case ExpandDirection.Left:
                     {
 
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedLeft" : "CollapsedLeft", true);
-                        (GetTemplateChild("AnimateInContentLeft") as Storyboard).Begin();
+                        (GetTemplateChild("AnimateInContentLeft") as Storyboard)?.Begin();
                         break;
                     }
             }
