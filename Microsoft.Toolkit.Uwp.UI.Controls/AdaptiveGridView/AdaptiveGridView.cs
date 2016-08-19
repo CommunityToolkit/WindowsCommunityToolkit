@@ -12,6 +12,8 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -82,10 +84,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
                 _listView.Items.VectorChanged += ListViewItems_VectorChanged;
+                _listView.SelectionChanged += ListView_SelectionChanged;
             }
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
+            InitializeBindings();
+        }
+
+        private void InitializeBindings()
+        {
+            // Set bindings from base control.
+            var selectedItemBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("SelectedItem"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var isItemClickEnabledBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("IsItemClickEnabled"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var selectionModeBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("SelectionMode"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var selectionIndexBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("SelectedIndex"),
+                Mode = BindingMode.TwoWay
+            };
+
+            _listView.SetBinding(ListViewBase.SelectionModeProperty, selectionModeBinding);
+            _listView.SetBinding(ListViewBase.IsItemClickEnabledProperty, isItemClickEnabledBinding);
+            _listView.SetBinding(Selector.SelectedItemProperty, selectedItemBinding);
+            _listView.SetBinding(Selector.SelectedIndexProperty, selectionIndexBinding);
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _selectedItems = _listView.SelectedItems;
+            SelectionChanged?.Invoke(this, e);
         }
 
         private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
