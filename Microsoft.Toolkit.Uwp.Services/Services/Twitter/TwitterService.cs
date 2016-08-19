@@ -25,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     public class TwitterService
     {
         /// <summary>
-        /// Private singleton field for TwitterDataProvider.
+        /// Private field for TwitterDataProvider.
         /// </summary>
-        private static TwitterDataProvider twitterDataProvider;
+        private TwitterDataProvider twitterDataProvider;
 
         /// <summary>
         /// Field for tracking oAuthTokens.
@@ -41,9 +41,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterService"/> class.
-        /// Default private constructor.
         /// </summary>
-        private TwitterService()
+        public TwitterService()
         {
         }
 
