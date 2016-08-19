@@ -40,40 +40,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Expand content Down", (sender, args) =>
-            {
-                expander.ExpandDirection = UI.Controls.ExpandDirection.Down;
-                expander.Header = "Expand Down";
-                expandedContent.Glyph = "&#xE76E;";
-                expander.VerticalAlignment = VerticalAlignment.Top;
-                expander.HorizontalAlignment = HorizontalAlignment.Stretch;
-            });
-
-            Shell.Current.RegisterNewCommand("Expand content Up", (sender, args) =>
-            {
-                expander.ExpandDirection = UI.Controls.ExpandDirection.Up;
-                expander.Header = "Expand Up";
-                expander.VerticalAlignment = VerticalAlignment.Bottom;
-                expander.HorizontalAlignment = HorizontalAlignment.Stretch;
-            });
-            
-
-            Shell.Current.RegisterNewCommand("Expand content Left", (sender, args) =>
-            {
-                expander.ExpandDirection = UI.Controls.ExpandDirection.Left;
-                expander.Header = "Expand Left";
-                expander.VerticalAlignment = VerticalAlignment.Stretch;
-                expander.HorizontalAlignment = HorizontalAlignment.Right;
-            });
-
-            Shell.Current.RegisterNewCommand("Expand content Right", (sender, args) =>
-            {
-                expander.ExpandDirection = UI.Controls.ExpandDirection.Right;
-                expander.Header = "Expand Right";
-                expander.VerticalAlignment = VerticalAlignment.Stretch;
-                expander.HorizontalAlignment = HorizontalAlignment.Left;
-            });
         }
     }
 }

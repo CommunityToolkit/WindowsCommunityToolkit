@@ -86,6 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(HeaderProperty, value);
+                UpdateVisualState();
             }
         }
 
@@ -97,7 +98,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
             set { SetValue(HeaderTemplateProperty, value); }
         }
-
 
     }
 }

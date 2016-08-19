@@ -63,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _expanderButton.Click += ExpanderButton_Click;
             }
 
+            UpdateVisualState();
         }
 
         private void ExpanderButton_Click(object sender, RoutedEventArgs e)
@@ -108,22 +109,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 case ExpandDirection.Right:
                     {
-
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedRight" : "CollapsedRight", true);
                         (GetTemplateChild("AnimateInContentRight") as Storyboard)?.Begin();
                         break;
                     }
+
                 case ExpandDirection.Left:
                     {
-
                         VisualStateManager.GoToState(this, this.IsExpanded ? "ExpandedLeft" : "CollapsedLeft", true);
                         (GetTemplateChild("AnimateInContentLeft") as Storyboard)?.Begin();
                         break;
                     }
             }
-
-
         }
-
     }
 }

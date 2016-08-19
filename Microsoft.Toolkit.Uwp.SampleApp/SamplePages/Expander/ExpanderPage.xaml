@@ -9,9 +9,55 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:Expander  Header="Expand Down"
+                            Foreground="Black"
+                            Margin="150,0"
                             x:Name="expander">
-            <FontIcon FontFamily="Segoe MDL2 Assets" x:Name="expandedContent"  FontSize="200" Foreground="Red" Margin="20"
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      x:Name="expandedContent"
+                      FontSize="200"
+                      Foreground="Red"
+                      Margin="20"
                       Glyph="&#xE76E;" />
+        </controls:Expander>
+
+        <controls:Expander  Header="Expand Up"
+                            ExpandDirection="Up"
+                            VerticalAlignment="Bottom"
+                            Background="#737373"
+                            Foreground="White"
+                            Margin="150,0">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      FontSize="200"
+                      Foreground="Red"
+                      Margin="20"
+                      Glyph="&#xE99A;" />
+        </controls:Expander>
+
+        <controls:Expander  Header="Expand Left"
+                            ExpandDirection="Left"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right"
+                            Margin="0,150"
+                            Background="LightGreen"
+                            Foreground="Black">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      FontSize="200"
+                      Foreground="White"
+                      Margin="20"
+                      Glyph="&#xEBD2;" />
+        </controls:Expander>
+        <controls:Expander  Header="Expand Right"
+                            ExpandDirection="Right"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Left"
+                            Background="Orange"
+                            Margin="0,150"
+                            Foreground="Black">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      FontSize="200"
+                      Foreground="Black"
+                      Margin="20"
+                      Glyph="&#xEA5E;" />
         </controls:Expander>
     </Grid>
 </Page>
