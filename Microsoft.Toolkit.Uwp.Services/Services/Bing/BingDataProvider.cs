@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
                     queryTypeParameter = string.Empty;
                     break;
                 case BingQueryType.News:
-                    queryTypeParameter = "news/";
+                    queryTypeParameter = "/news";
                     break;
             }
 
