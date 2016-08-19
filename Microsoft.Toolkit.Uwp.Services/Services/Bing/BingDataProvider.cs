@@ -42,9 +42,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             var countryValue = config.Country.GetStringValue();
             var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
+            var newsParameter = !config.News ? string.Empty : "news/";
             var settings = new HttpRequestSettings
             {
-                RequestedUri = new Uri($"{BaseUrl}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
+                RequestedUri = new Uri($"{BaseUrl}{newsParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
             };
 
             HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
