@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             var countryValue = config.Country.GetStringValue();
             var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
-            var newsParameter = !config.News ? string.Empty : "news/";
+            var newsParameter = config.Search == BingSearch.News ? "news/" : string.Empty;
             var settings = new HttpRequestSettings
             {
                 RequestedUri = new Uri($"{BaseUrl}{newsParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
