@@ -32,8 +32,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public sealed partial class AdaptiveGridView
     {
+        /// <summary>
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(AdaptiveGridView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(AdaptiveGridView), new PropertyMetadata(-1));
 
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
@@ -136,7 +139,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-
+        /// <summary>
+        /// Gets or sets the index of the selected object.
+        /// </summary>
+        /// <value>The index of the selected item in the collection. Default is -1 when initialized.</value>
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }
@@ -163,11 +169,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemClickCommandProperty, value); }
         }
 
+        internal IList<object> _selectedItems { get; set; }
         /// <summary>
         /// Gets the selected multiple objects in the collection.
         /// </summary>
         /// <value>The object that is used to store selected multiple items.</value>
-        public IList<object> SelectedItems { get; }
+        public IList<object> SelectedItems => _selectedItems;
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
@@ -243,6 +250,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event raised when an item is clicked
         /// </summary>
         public event ItemClickEventHandler ItemClick;
+
+        /// <summary>
+        /// Event raised when an item is added or removed to/from the collection.
+        /// </summary>
+        public event SelectionChangedEventHandler SelectionChanged;
 
         private ScrollMode VerticalScrollMode
         {
