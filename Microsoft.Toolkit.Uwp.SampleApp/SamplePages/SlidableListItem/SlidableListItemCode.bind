@@ -23,6 +23,8 @@
                     RightForeground ="@[RightForeground:Brush:White]"
                     ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
                     MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    IsSwipeRightEnabled="@[IsRightSwipeEnabled:Bool:true]"
+                    IsSwipeLeftEnabled="@[IsLeftSwipeEnabled:Bool:true]"
                     LeftCommand="{x:Bind ToggleFavorite}"
                     RightCommandRequested="SlidableListItem_RightCommandActivated">
                 <Grid Height="110" Background="Gray">
