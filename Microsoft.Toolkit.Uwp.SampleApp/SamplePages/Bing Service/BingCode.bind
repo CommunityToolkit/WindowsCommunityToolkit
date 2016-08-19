@@ -7,7 +7,7 @@ var searchConfig = new BingSearchConfig
 {
     Country = BingCountry.UnitedStates,
     Query = SearchText.Text,
-	QueryType = BingQueryType.Search
+    QueryType = BingQueryType.Search
 };
 
 ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
