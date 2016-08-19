@@ -24,6 +24,7 @@
           x:Name="AdaptiveGridViewControl"
           ItemHeight="{Binding ItemHeight.Value}"
           DesiredWidth="{Binding DesiredWidth.Value}"
+          SelectionMode="{Binding SelectionMode.Value,Mode=TwoWay}"
           ItemTemplate="{StaticResource PhotosTemplate}"/>
 	</Grid>
 </Page>
