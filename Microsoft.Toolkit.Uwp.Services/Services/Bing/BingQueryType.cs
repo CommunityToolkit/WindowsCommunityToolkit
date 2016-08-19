@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
     /// <summary>
     /// Search filter for search query.
     /// </summary>
-    public enum BingSearch
+    public enum BingQueryType
     {
         /// <summary>
         /// Search

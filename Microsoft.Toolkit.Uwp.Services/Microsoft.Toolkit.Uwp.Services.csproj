@@ -53,7 +53,7 @@
     <Compile Include="Core\IDataService{T,U,V}.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
     <Compile Include="Services\Bing\BingResult.cs" />
-    <Compile Include="Services\Bing\BingSearch.cs" />
+    <Compile Include="Services\Bing\BingQueryType.cs" />
     <Compile Include="Services\Bing\BingSearchConfig.cs" />
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />

@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         public string Query { get; set; }
 
         /// <summary>
-        /// Gets or sets search query search mode.
+        /// Gets or sets search query type.
         /// </summary>
-        public BingSearch Search { get; set; }
+        public BingQueryType QueryType { get; set; }
     }
 }
