@@ -15,7 +15,7 @@ Want to see the toolkit in action before jumping into the code?  Download and pl
 
 ## Nuget Packages
 
-NuGet is a standard package manager for .Net applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manger*, *Mange NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
+NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
 
 Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
 
@@ -24,8 +24,8 @@ Once you search you should see a list similar to the one below (versions may be 
 | NuGet Package Name | description |
 | --- | --- |
 | [Microsoft.Toolkit.Uwp](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
-| [Microsoft.Toolkit.Uwp.Notifications](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
-| Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
+| [Microsoft.Toolkit.Uwp.Notifications](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
+| Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript. |
 | [Microsoft.Toolkit.Uwp.Services](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
 | [Microsoft.Toolkit.Uwp.UI](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
 | [Microsoft.Toolkit.Uwp.UI.Animations](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
@@ -46,7 +46,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
 * [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
 * [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
-* [ImageEX](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
+* [ImageEx](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
 * [PullToRefreshListView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/pulltorefreshlistview.htm)
 * [RadialGauge](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/radialgauge.htm)
 * [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
@@ -76,10 +76,12 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ## Feedback and Requests
 
-Please use [Github issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions, comments or feature requests.
+Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
+
+If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
 
 ## Contributing
-Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md)
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
 
 ## Principles
 

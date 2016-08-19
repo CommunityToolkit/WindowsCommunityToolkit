@@ -11,19 +11,19 @@ namespace UnitTests.Services
     [TestClass]
     public class Test_BingService
     {
+        private const string Query = @"Windows 10";
+
         [TestCategory("Services")]
         [TestMethod]
         public async Task Test_BingService_Request()
         {
-            const string QUERY = @"Windows 10";
-
             BingSearchConfig config = new BingSearchConfig();
             config.Country = BingCountry.France;
-            config.Query = QUERY;
+            config.Query = Query;
 
             var results = await BingService.Instance.RequestAsync(config, 50);
 
-            Assert.AreEqual(results.Count(), 50);
+            Assert.AreEqual(results.Count, 50);
         }
     }
 }

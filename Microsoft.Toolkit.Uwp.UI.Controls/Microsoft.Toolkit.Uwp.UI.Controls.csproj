@@ -45,11 +45,17 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="BladeControl\Blade.cs" />
+    <Compile Include="BladeControl\Blade.Properties.cs" />
+    <Compile Include="BladeControl\BladeControl.cs" />
+    <Compile Include="BladeControl\BladeControl.Events.cs" />
+    <Compile Include="BladeControl\BladeControl.Properties.cs" />
     <Compile Include="Expander\Expander.cs" />
     <Compile Include="Expander\Expander.Enums.cs" />
     <Compile Include="Expander\Expander.Properties.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="BladeControl\Blade.Events.cs" />
     <Compile Include="Expander\Expander.Events.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
@@ -78,6 +84,11 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Expander\Expander.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

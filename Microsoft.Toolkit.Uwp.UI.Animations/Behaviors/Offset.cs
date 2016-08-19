@@ -26,12 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The Offset on the x axis of the associated object
         /// </summary>
-        public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register("OffsetX", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The Offset on the y axis of the associated object
         /// </summary>
-        public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register("OffsetY", typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(Offset), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Offset x.

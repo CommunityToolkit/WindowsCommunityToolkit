@@ -52,16 +52,14 @@ namespace UnitTests.Helpers
         [TestMethod]
         public void Test_ColorHelper_ToHex()
         {
-            const string RED_HEX_VALUE = "#FFFF0000";
-            Assert.AreEqual(Windows.UI.Colors.Red.ToHex(), RED_HEX_VALUE);
+            Assert.AreEqual(Windows.UI.Colors.Red.ToHex(), "#FFFF0000");
         }
 
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ColorHelper_ToInt()
         {
-            const int RED_INT_VALUE = -65536;
-            Assert.AreEqual(Windows.UI.Colors.Red.ToInt(), RED_INT_VALUE);
+            Assert.AreEqual(Windows.UI.Colors.Red.ToInt(), -65536);
         }
 
         [TestCategory("Helpers")]
