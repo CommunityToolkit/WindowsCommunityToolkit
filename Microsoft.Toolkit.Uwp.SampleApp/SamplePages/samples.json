@@ -95,7 +95,7 @@
                 "Name": "Expander",
                 "Type": "ExpanderPage",
                 "About": "A headered control that displays a header that has a collapsible window that displays content.",
-                "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
+                "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander",
                 "XamlCodeFile": "ExpanderCode.bind",
                 "Icon": "/SamplePages/Expander/Expander.png"
             }
