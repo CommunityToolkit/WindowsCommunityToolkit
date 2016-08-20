@@ -22,8 +22,9 @@
 	<Grid Background="{StaticResource Brush-Grey-05}">
 		<controls:AdaptiveGridView
           x:Name="AdaptiveGridViewControl"
-          ItemHeight="{Binding ItemHeight.Value}"
+          ItemHeight="{Binding ItemHeight.Value, Mode=TwoWay}"
           DesiredWidth="{Binding DesiredWidth.Value}"
+          ItemAspectRatio="{Binding ItemAspectRatio.Value}"
           OneRowModeEnabled="{Binding OneRowModeEnabled.Value}"
           ItemTemplate="{StaticResource PhotosTemplate}"/>
 	</Grid>

@@ -79,6 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DesiredWidthProperty =
             DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D, DesiredWidthChanged));
 
+        /// <summary>
+        /// Identifies the <see cref="ItemAspectRatio"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemAspectRatioProperty =
+            DependencyProperty.Register(nameof(ItemAspectRatio), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D, ItemAspectRatioChanged));
+
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
             var self = d as AdaptiveGridView;
@@ -125,6 +131,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static void ItemAspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var self = d as AdaptiveGridView;
+            if (self._isInitialized)
+            {
+                var newRatio = (double)e.NewValue;
+                if (newRatio == 0)
+                {
+                    var b = new Binding()
+                    {
+                        Source = self,
+                        Path = new PropertyPath(nameof(ItemHeight))
+                    };
+
+                    self._templateProxy.SetBinding(FrameworkElement.HeightProperty, b);
+                }
+                else
+                {
+                    self._templateProxy.ClearValue(FrameworkElement.HeightProperty);
+                }
+
+                self.RecalculateLayout(self._listView.ActualWidth);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the desired width of each item
         /// </summary>
@@ -133,6 +164,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(DesiredWidthProperty); }
             set { SetValue(DesiredWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the desired aspect ratio of each item
+        /// </summary>
+        /// <value>The ratio of item width divided by item height, or 0 for no fixed aspect ratio.</value>
+        /// <example>Use an aspect ratio of 1.0 to make square items.</example>
+        /// <example>Use the Golden Ratio of 1.618 to make items that are wider than they are tall.</example>
+        /// <example>Use an aspect ratio of 0 to set your own value in <c ref="ItemHeight"/>.</example>
+        public double ItemAspectRatio
+        {
+            get { return (double)GetValue(ItemAspectRatioProperty); }
+            set { SetValue(ItemAspectRatioProperty, value); }
         }
 
         /// <summary>

@@ -25,6 +25,7 @@
         <controls:AdaptiveGridView Name="control"
                                      ItemHeight="@[ItemHeight:Slider:200:50-500]"
                                      DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
+                                     ItemAspectRatio="@[ItemAspectRatio:DoubleSlider:0:0-5]"
                                      OneRowModeEnabled="@[OneRowModeEnabled:Bool:False]"
                                      ItemTemplate="{StaticResource PhotosTemplate}"/>
     </Grid>
