@@ -6,6 +6,7 @@
     <title>UWP Community Toolkit Services</title>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
+    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>

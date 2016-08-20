@@ -21,16 +21,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
-    [TemplateVisualState(Name = "Loading", GroupName = "CommonStates")]
-    [TemplateVisualState(Name = "Loaded", GroupName = "CommonStates")]
-    [TemplateVisualState(Name = "Unloaded", GroupName = "CommonStates")]
-    [TemplatePart(Name = "Image", Type = typeof(Image))]
-    [TemplatePart(Name = "PlaceholderImage", Type = typeof(Image))]
-    [TemplatePart(Name = "Progress", Type = typeof(ProgressRing))]
+    [TemplateVisualState(Name = LoadingState, GroupName = CommonGroup)]
+    [TemplateVisualState(Name = LoadedState, GroupName = CommonGroup)]
+    [TemplateVisualState(Name = UnloadedState, GroupName = CommonGroup)]
+    [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
+    [TemplatePart(Name = PartImage, Type = typeof(Image))]
+    [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public sealed partial class ImageEx : Control
     {
+        private const string PartImage = "Image";
+        private const string PartProgress = "Progress";
+        private const string CommonGroup = "CommonStates";
+        private const string LoadingState = "Loading";
+        private const string LoadedState = "Loaded";
+        private const string UnloadedState = "Unloaded";
+        private const string FailedState = "Failed";
+
         private Image _image;
-        private Image _placeholderImage;
         private ProgressRing _progress;
 
         private bool _isInitialized;
@@ -55,9 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _image.ImageFailed -= OnImageFailed;
             }
 
-            _image = GetTemplateChild("Image") as Image;
-            _placeholderImage = GetTemplateChild("PlaceholderImage") as Image;
-            _progress = GetTemplateChild("Progress") as ProgressRing;
+            _image = GetTemplateChild(PartImage) as Image;
+            _progress = GetTemplateChild(PartProgress) as ProgressRing;
 
             _isInitialized = true;
 
@@ -86,12 +92,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageOpened?.Invoke(this, e);
+            VisualStateManager.GoToState(this, LoadedState, true);
         }
 
         private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             ImageFailed?.Invoke(this, e);
-            VisualStateManager.GoToState(this, "Failed", true);
+            VisualStateManager.GoToState(this, FailedState, true);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

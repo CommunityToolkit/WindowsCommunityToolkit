@@ -4,5 +4,5 @@
 // C# - Blur can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
-await ToolkitLogo.Blur(duration: 10, delay: 0, value: 10).StartAsync();
+await ToolkitLogo.Blur(value: 10, duration: 10, delay: 0).StartAsync();
 

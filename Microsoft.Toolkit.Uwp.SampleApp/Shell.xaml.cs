@@ -189,7 +189,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (NavigationFrame.CanGoBack)
             {
                 backRequestedEventArgs.Handled = true;
-                HideInfoArea();
+
+                var previousPage = NavigationFrame.BackStack.Last();
+
+                if (previousPage.SourcePageType == typeof(SamplePicker))
+                {
+                    HideInfoArea();
+                }
+                else
+                {
+                    ShowInfoArea();
+                }
+
                 NavigationFrame.GoBack();
             }
         }
@@ -220,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
         {
             var option = e.ClickedItem as Option;
-            if (option != null)
+            if (option != null && NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }

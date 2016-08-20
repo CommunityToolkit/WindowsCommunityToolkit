@@ -10,9 +10,9 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StreamHelper
     {
-        private const string SAMPLETEXT = "Lorem ipsum dolor sit amet";
-        private const string FILENAME = "filename.txt";
-        private const string PACKAGEDFILEPATH = @"Assets\Samples\lorem.txt";
+        private const string SampleText = "Lorem ipsum dolor sit amet";
+        private const string Filename = "filename.txt";
+        private const string PackagedFilePath = @"Assets\Samples\lorem.txt";
 
         [TestCategory("Helpers")]
         [TestMethod]
@@ -29,7 +29,7 @@ namespace UnitTests.Helpers
         public async Task Test_StreamHelper_GetHttpStreamToStorageFile()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.CreateFileAsync(FILENAME, CreationCollisionOption.ReplaceExisting);
+            StorageFile file = await folder.CreateFileAsync(Filename, CreationCollisionOption.ReplaceExisting);
 
             await StreamHelper.GetHttpStreamToStorageFileAsync(new Uri("http://dev.windows.com"), file);
 
@@ -43,12 +43,12 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_PackagedFile()
         {
-            Assert.IsTrue(await StreamHelper.IsPackagedFileExistsAsync(PACKAGEDFILEPATH));
+            Assert.IsTrue(await StreamHelper.IsPackagedFileExistsAsync(PackagedFilePath));
 
-            using (var stream = await StreamHelper.GetPackagedFileStreamAsync(PACKAGEDFILEPATH))
+            using (var stream = await StreamHelper.GetPackagedFileStreamAsync(PackagedFilePath))
             {
                 var loadedText = await stream.ReadTextAsync(Encoding.Unicode);
-                StringAssert.Contains(loadedText, SAMPLETEXT);
+                StringAssert.Contains(loadedText, SampleText);
             }
         }
 
@@ -56,17 +56,17 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_LocalFolder()
         {
-            Assert.IsFalse(await StreamHelper.IsLocalFileExistsAsync(FILENAME));
+            Assert.IsFalse(await StreamHelper.IsLocalFileExistsAsync(Filename));
 
-            var storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(SAMPLETEXT, FILENAME);
+            var storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsLocalFileExistsAsync(FILENAME));
+            Assert.IsTrue(await StreamHelper.IsLocalFileExistsAsync(Filename));
 
-            using (var stream = await StreamHelper.GetLocalFileStreamAsync(FILENAME))
+            using (var stream = await StreamHelper.GetLocalFileStreamAsync(Filename))
             {
                 var loadedText = await stream.ReadTextAsync(Encoding.UTF8);
-                StringAssert.Contains(loadedText, SAMPLETEXT);
+                StringAssert.Contains(loadedText, SampleText);
             }
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
@@ -76,17 +76,17 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_LocalCacheFolder()
         {
-            Assert.IsFalse(await StreamHelper.IsLocalCacheFileExistsAsync(FILENAME));
+            Assert.IsFalse(await StreamHelper.IsLocalCacheFileExistsAsync(Filename));
 
-            var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(SAMPLETEXT, FILENAME);
+            var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsLocalCacheFileExistsAsync(FILENAME));
+            Assert.IsTrue(await StreamHelper.IsLocalCacheFileExistsAsync(Filename));
 
-            using (var stream = await StreamHelper.GetLocalCacheFileStreamAsync(FILENAME))
+            using (var stream = await StreamHelper.GetLocalCacheFileStreamAsync(Filename))
             {
                 var loadedText = await stream.ReadTextAsync(Encoding.UTF8);
-                StringAssert.Contains(loadedText, SAMPLETEXT);
+                StringAssert.Contains(loadedText, SampleText);
             }
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
@@ -98,17 +98,17 @@ namespace UnitTests.Helpers
         {
             var folder = KnownFolderId.PicturesLibrary;
 
-            Assert.IsFalse(await StreamHelper.IsKnownFolderFileExistsAsync(folder, FILENAME));
+            Assert.IsFalse(await StreamHelper.IsKnownFolderFileExistsAsync(folder, Filename));
 
-            var storageFile = await StorageFileHelper.WriteTextToKnownFolderFileAsync(folder, SAMPLETEXT, FILENAME);
+            var storageFile = await StorageFileHelper.WriteTextToKnownFolderFileAsync(folder, SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsKnownFolderFileExistsAsync(folder, FILENAME));
+            Assert.IsTrue(await StreamHelper.IsKnownFolderFileExistsAsync(folder, Filename));
 
-            using (var stream = await StreamHelper.GetKnowFoldersFileStreamAsync(folder, FILENAME))
+            using (var stream = await StreamHelper.GetKnowFoldersFileStreamAsync(folder, Filename))
             {
                 var loadedText = await stream.ReadTextAsync(Encoding.UTF8);
-                StringAssert.Contains(loadedText, SAMPLETEXT);
+                StringAssert.Contains(loadedText, SampleText);
             }
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
