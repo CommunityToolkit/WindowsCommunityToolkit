@@ -83,18 +83,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var self = d as AdaptiveGridView;
 
-            if ((bool)newValue)
+            if (self._isInitialized)
             {
-                if (self._isInitialized)
+                var oneRowMode = (bool)newValue;
+
+                if (oneRowMode)
                 {
                     var b = new Binding()
                     {
                         Source = self,
-                        Path = new PropertyPath("ItemHeight")
+                        Path = new PropertyPath(nameof(ItemHeight))
                     };
 
                     self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    self.VerticalScrollMode = ScrollMode.Disabled;
+                    ScrollViewer.SetVerticalScrollMode(self._listView, ScrollMode.Disabled);
+
+                    // Scroll to the top of the viewport
+                    var scroller = self._listView.FindDescendant<ScrollViewer>();
+                    scroller?.ChangeView(horizontalOffset: null, verticalOffset: 0, zoomFactor: null, disableAnimation: true);
+                }
+                else
+                {
+                    var b = new Binding
+                    {
+                        Source = self,
+                        Path = new PropertyPath(nameof(VerticalScrollMode))
+                    };
+
+                    self._listView.ClearValue(GridView.MaxHeightProperty);
+                    self._listView.SetBinding(ScrollViewer.VerticalScrollModeProperty, b);
                 }
             }
         }
