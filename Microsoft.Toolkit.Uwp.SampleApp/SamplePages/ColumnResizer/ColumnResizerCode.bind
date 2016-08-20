@@ -14,6 +14,8 @@
       <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
 
+    <TextBlock TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Column Resizer Control, try to change the resizer to see the effect</TextBlock>
+
     <controls:ColumnResizer
         Grid.Column="1"
         Width="11"
