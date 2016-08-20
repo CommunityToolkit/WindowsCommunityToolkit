@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var self = d as AdaptiveGridView;
 
-            if (self._isInitialized)
+            if (self._isInitialized && self._listView != null)
             {
                 var oneRowMode = (bool)newValue;
 
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var self = d as AdaptiveGridView;
-            if (self._isInitialized)
+            if (self._isInitialized && self._listView != null)
             {
                 self.RecalculateLayout(self._listView.ActualWidth);
             }
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void ItemAspectRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var self = d as AdaptiveGridView;
-            if (self._isInitialized)
+            if (self._isInitialized && self._listView != null && self._templateProxy != null)
             {
                 var newRatio = (double)e.NewValue;
                 if (newRatio == 0)

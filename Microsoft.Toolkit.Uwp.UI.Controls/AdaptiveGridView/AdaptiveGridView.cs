@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ItemWidth = (containerWidth / _columns) - 5;
 
-            if (ItemAspectRatio > 0)
+            if (ItemAspectRatio > 0 && _templateProxy != null)
             {
                 var safeRatio = Math.Min(100.0, Math.Max(0.01, ItemAspectRatio));
                 _templateProxy.Height = ItemWidth / safeRatio;
