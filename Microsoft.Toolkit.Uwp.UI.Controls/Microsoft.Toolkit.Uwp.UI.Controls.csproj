@@ -51,6 +51,7 @@
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
     <Compile Include="ColumnResizer\ColumnResizer.cs" />
+    <Compile Include="ColumnResizer\ColumnResizer.Events.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />

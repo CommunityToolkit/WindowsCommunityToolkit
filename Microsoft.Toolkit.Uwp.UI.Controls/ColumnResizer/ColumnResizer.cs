@@ -1,60 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-
-// The Templated Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234235
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// ColumnResizer is a UI control that add the resizing functionality to a Grid Column.
+    /// </summary>
     [TemplatePart(Name = RESIZERNAME, Type = typeof(Grid))]
-    public sealed class ColumnResizer : Control
+    public partial class ColumnResizer : Control
     {
-        public ColumnResizer()
-        {
-            this.DefaultStyleKey = typeof(ColumnResizer);
-        }
-
         private const string RESIZERNAME = "Resizer";
+        private const int FixedOffset = 5;
+        private const double EnteredOpacity = .7;
+        private const double DefaultOpacity = 1;
 
-        private Grid _resizer;
         private readonly CoreCursor _resizeCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
         private readonly CoreCursor _arrowCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-        private readonly double _enteredOpacity = .7;
-        private readonly double _defaultOpacity = 1;
-        private const int FixedOffset = 5;
+        private Grid _resizer;
+        private bool _isResizing;
 
         /// <summary>
         /// Gets Column Resizer Container Grid
         /// </summary>
         private Grid Resizable => _resizer.FindVisualAscendant<Grid>();
 
-        private bool _isResizing;
-
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            _resizer = GetTemplateChild(RESIZERNAME) as Grid;
-            if (_resizer == null)
-            {
-                return;
-            }
-
-            _resizer.PointerPressed += _resizer_PointerPressed;
-            _resizer.PointerEntered += _resizer_PointerEntered;
-            _resizer.PointerExited += _resizer_PointerExited;
-
-            Resizable.PointerReleased += _resizable_PointerReleased;
-            Resizable.PointerMoved += _resizable_PointerMoved;
-        }
-
+        /// <summary>
+        /// Gets the current Column definition of the parent Grid
+        /// </summary>
         private ColumnDefinition CurrentColumn
         {
             get
@@ -64,41 +38,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _resizable_PointerMoved(object sender, PointerRoutedEventArgs e)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColumnResizer"/> class.
+        /// </summary>
+        public ColumnResizer()
         {
-            if (_isResizing)
+            this.DefaultStyleKey = typeof(ColumnResizer);
+        }
+
+        /// <summary>
+        /// Override default OnApplyTemplate to capture children controls
+        /// </summary>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _resizer = GetTemplateChild(RESIZERNAME) as Grid;
+            if (_resizer == null)
             {
-                var point = e.GetCurrentPoint(Resizable);
-                if (point.Position.X - FixedOffset >= 0)
-                {
-                    CurrentColumn.Width = new GridLength(point.Position.X - FixedOffset);
-                }
+                return;
             }
-        }
 
-        private void _resizable_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            _isResizing = false;
-        }
+            // Resizer Events Registration
+            _resizer.PointerPressed += Resizer_PointerPressed;
+            _resizer.PointerEntered += Resizer_PointerEntered;
+            _resizer.PointerExited += Resizer_PointerExited;
 
-        private void _resizer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (!_isResizing)
-            {
-                _isResizing = true;
-            }
-        }
-
-        private void _resizer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Window.Current.CoreWindow.PointerCursor = _resizeCursor;
-            _resizer.Opacity = _enteredOpacity;
-        }
-
-        private void _resizer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Window.Current.CoreWindow.PointerCursor = _arrowCursor;
-            _resizer.Opacity = _defaultOpacity;
+            // Parent Grid (Resizable) Events Registration
+            Resizable.PointerReleased += Resizable_PointerReleased;
+            Resizable.PointerMoved += Resizable_PointerMoved;
         }
     }
 }
