@@ -248,6 +248,8 @@
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
+    <Content Include="SamplePages\TreeView\TreeView.png" />
+    <Content Include="SamplePages\TreeView\TreeViewCode.bind" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
@@ -330,6 +332,10 @@
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TreeView\FileSystemViewModel.cs" />
+    <Compile Include="SamplePages\TreeView\TreeViewPage.xaml.cs">
+      <DependentUpon>TreeViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
@@ -441,6 +447,10 @@
     <Page Include="SamplePages\Toast\ToastPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TreeView\TreeViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
