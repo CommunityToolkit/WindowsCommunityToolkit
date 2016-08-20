@@ -59,8 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                var columnResizerColumnProperty = (int)_resizer.GetValue(Grid.ColumnProperty);
-                return Resizable.ColumnDefinitions[columnResizerColumnProperty];
+                var columnResizerColumnProperty = Grid.GetColumn(this);
+                return Resizable.ColumnDefinitions[columnResizerColumnProperty - 1];
             }
         }
 
