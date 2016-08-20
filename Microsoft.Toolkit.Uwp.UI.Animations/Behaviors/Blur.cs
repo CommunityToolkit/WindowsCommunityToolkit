@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The Blur value of the associated object
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(Blur), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(Blur), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the Blur.
