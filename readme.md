@@ -52,6 +52,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
 * [RotatorTile](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rotatortile.htm)
 * [SlideableListItem](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/slidablelistitem.htm)
+* [ColumnResizer](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/ColumnResizer.htm)
 
 ### Code Helpers
 
