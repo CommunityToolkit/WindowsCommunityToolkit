@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int _columns;
         private bool _isInitialized;
         private ListViewBase _listView;
+        private FrameworkElement _templateProxy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -43,7 +45,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RecalculateLayout(double containerWidth)
         {
-            if (containerWidth == 0 || DesiredWidth == 0)
+            if (containerWidth == 0)
+            {
+                return;
+            }
+
+            if (DesiredWidth <= 0 && ItemAspectRatio <= 0)
             {
                 return;
             }
@@ -58,6 +65,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ItemWidth = (containerWidth / _columns) - 5;
+
+            if (ItemAspectRatio > 0 && _templateProxy != null)
+            {
+                var safeRatio = Math.Min(100.0, Math.Max(0.01, ItemAspectRatio));
+                _templateProxy.Height = ItemWidth / safeRatio;
+                ItemHeight = _templateProxy.Height;
+            }
         }
 
         /// <summary>
@@ -83,6 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listView.ItemClick += ListView_ItemClick;
                 _listView.Items.VectorChanged += ListViewItems_VectorChanged;
             }
+
+            _templateProxy = GetTemplateChild("templateProxy") as FrameworkElement;
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
