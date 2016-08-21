@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// ColumnResizer is a UI control that add the resizing functionality to a Grid Column.
+    /// Represents the control that redistributes space between columns or rows of a Grid control.
     /// </summary>
     public partial class GridSplitter
     {

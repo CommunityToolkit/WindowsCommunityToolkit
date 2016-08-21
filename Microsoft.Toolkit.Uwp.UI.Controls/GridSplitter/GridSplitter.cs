@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// ColumnResizer is a UI control that add the resizing functionality to a Grid Column.
+    /// Represents the control that redistributes space between columns or rows of a Grid control.
     /// </summary>
     [TemplatePart(Name = SPLITTERRNAME, Type = typeof(Thumb))]
     public partial class GridSplitter : Control
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Thumb _splitter;
 
         /// <summary>
-        /// Gets Column Resizer Container Grid
+        /// Gets GridSplitter Container Grid
         /// </summary>
         private Grid Resizable => this.Parent as Grid;
 
@@ -47,6 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets the current Row definition of the parent Grid
+        /// </summary>
         private RowDefinition CurrentRow
         {
             get
