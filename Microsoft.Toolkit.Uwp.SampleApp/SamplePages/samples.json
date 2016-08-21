@@ -84,12 +84,12 @@
         "Icon": "/SamplePages/BladeControl/Blade.png"
       },
       {
-        "Name": "ColumnResizer",
-        "Type": "ColumnResizerPage",
-        "About": "ColumnResizer is a UI control that add the resizing functionality to a Grid Column",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ColumnResizer",
-        "XamlCodeFile": "ColumnResizerCode.bind",
-        "Icon": "/SamplePages/ColumnResizer/ColumnResizer.png"
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter is a UI control that add the resizing functionality to a Grid Column",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       }
     ]
   },
