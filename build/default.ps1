@@ -58,10 +58,6 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
 
   $script:version = $versionObj.NuGetVersionV2
   
-  if ($isAppVeyor) {
-    Update-AppveyorBuild -Version $script:version
-  }
-  
   WriteColoredOutput -ForegroundColor Green "Build version: $script:version`n"
 }
 
