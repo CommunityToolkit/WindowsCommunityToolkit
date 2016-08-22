@@ -50,7 +50,7 @@
             Foreground="White"
             Background="Gray" Height="11"
             HorizontalAlignment="Stretch" 
-              VerticalAlignment="Bottom">
+            VerticalAlignment="Bottom">
         </controls:GridSplitter>
         
     </Grid>
