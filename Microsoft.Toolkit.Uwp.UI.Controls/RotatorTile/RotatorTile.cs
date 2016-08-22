@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="RotationDelayInSeconds"/> property.
         /// </summary>
         public static readonly DependencyProperty RotationDelayInSecondsProperty =
-            DependencyProperty.Register("RotationDelayInSeconds", typeof(int), typeof(RotatorTile), new PropertyMetadata(null, OnRotationDelayInSecondsPropertyChanged));
+            DependencyProperty.Register("RotationDelayInSeconds", typeof(int), typeof(RotatorTile), new PropertyMetadata(5, OnRotationDelayInSecondsPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -482,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnRotationDelayInSecondsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Update new timer value.
-            var ctrl = (RotatorTile)d;
+            var ctrl = d as RotatorTile;
             if (ctrl?._timer != null)
             {
                 ctrl._timer.Interval = TimeSpan.FromSeconds(ctrl.RotationDelayInSeconds);
