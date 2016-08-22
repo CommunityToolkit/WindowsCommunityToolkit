@@ -62,12 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
-        /// Identifies the <see cref="VerticalScrollMode"/> dependency property.
-        /// </summary>
-        private static readonly DependencyProperty VerticalScrollModeProperty =
-            DependencyProperty.Register(nameof(VerticalScrollMode), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
-
-        /// <summary>
         /// Identifies the <see cref="ItemWidth"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ItemWidthProperty =
@@ -94,7 +88,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     };
 
                     self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    self.VerticalScrollMode = ScrollMode.Disabled;
+                    ScrollViewer.SetVerticalScrollMode(self, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(self, ScrollBarVisibility.Hidden);
                 }
             }
         }
@@ -172,12 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event raised when an item is clicked
         /// </summary>
         public event ItemClickEventHandler ItemClick;
-
-        private ScrollMode VerticalScrollMode
-        {
-            get { return (ScrollMode)GetValue(VerticalScrollModeProperty); }
-            set { SetValue(VerticalScrollModeProperty, value); }
-        }
 
         private double ItemWidth
         {
