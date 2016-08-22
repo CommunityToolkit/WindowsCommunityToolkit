@@ -37,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string TranslatePartName = "Translate";
         private const string StackPartName = "Stack";
 
-        private static readonly Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
         private int _currentIndex = -1; // current index in the items displayed
         private DispatcherTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
@@ -47,6 +46,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private StackPanel _stackPanel; // StackPanel that contains the live tile elements
         private bool _suppressFlipOnSet; // Prevents the SelectedItem change handler to cause a flip
         private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
+
+        /// <summary>
+        /// Identifies the <see cref="RotationDelayInSeconds"/> property.
+        /// </summary>
+        public static readonly DependencyProperty RotationDelayInSecondsProperty =
+            DependencyProperty.Register("RotationDelayInSeconds", typeof(int), typeof(RotatorTile), new PropertyMetadata(5));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -153,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Timer_Tick(object sender, object e)
         {
             var item = GetItemAt(_currentIndex + 1);
-            _timer.Interval = TimeSpan.FromSeconds(_randomizer.Next(5) + 5); // randomize next flip
+            _timer.Interval = TimeSpan.FromSeconds(RotationDelayInSeconds);
             UpdateNextItem();
         }
 
@@ -339,9 +344,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_timer == null)
             {
-                _timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
+                _timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(RotationDelayInSeconds) };
                 _timer.Tick += Timer_Tick;
-                _timer.Interval = TimeSpan.FromSeconds(_randomizer.Next(5) + 5);
             }
 
             _timer.Start();
@@ -510,6 +514,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (RotateDirection)GetValue(RotateDirectionProperty); }
             set { SetValue(RotateDirectionProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the duration for tile rotation.
+        /// </summary>
+        public int RotationDelayInSeconds
+        {
+            get { return (int)GetValue(RotationDelayInSecondsProperty); }
+            set { SetValue(RotationDelayInSecondsProperty, value); }
         }
 
         /// <summary>
