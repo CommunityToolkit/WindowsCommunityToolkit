@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             horizontalChange = Math.Round(horizontalChange / dragIncrement) * dragIncrement;
             verticalChange = Math.Round(verticalChange / dragIncrement) * dragIncrement;
 
-            // Directly update the grid
+            // Update the grid
             MoveSplitter(horizontalChange, verticalChange);
         }
     }
