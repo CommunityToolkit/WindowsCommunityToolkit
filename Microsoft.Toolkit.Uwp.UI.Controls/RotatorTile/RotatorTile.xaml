@@ -31,5 +31,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="RotationDelayInSeconds">
+        </Setter>
     </Style>
 </ResourceDictionary>
