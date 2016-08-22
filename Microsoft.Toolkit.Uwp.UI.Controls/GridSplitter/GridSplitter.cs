@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string SPLITTERRNAME = "Splitter";
         private const string ICONDISPLAYNAME = "IconDisplay";
+        private const double Eps = 0.00000153;
 
         // Symbol GripperBarVertical in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
@@ -29,6 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly CoreCursor ArrowCursor = new CoreCursor(CoreCursorType.Arrow, 1);
         private Thumb _splitter;
         private TextBlock _iconDisplay;
+
+        // Data used for holding resizing options
+        private ResizeData _resizeData;
 
         /// <summary>
         /// Gets GridSplitter Container Grid

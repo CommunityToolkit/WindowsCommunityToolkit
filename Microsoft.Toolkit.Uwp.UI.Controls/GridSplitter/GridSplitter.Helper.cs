@@ -15,6 +15,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
+        // Gets Column or Row definition at index from grid based on resize direction
+        private static DependencyObject GetGridDefinition(Grid grid, int index, GridResizeDirection direction)
+        {
+            return direction == GridResizeDirection.Columns ? (DependencyObject)grid.ColumnDefinitions[index] : (DependencyObject)grid.RowDefinitions[index];
+        }
+
+        // Gets Column or Row definition at index from grid based on resize direction
+        private static void SetDefinitionLength(DependencyObject definition, GridLength length)
+        {
+            definition.SetValue(definition is ColumnDefinition ? ColumnDefinition.WidthProperty : RowDefinition.HeightProperty, length);
+        }
 
         private void UpdateDisplayIcon()
         {
@@ -119,11 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     : RowDefinition.HeightProperty)).IsStar;
         }
 
-        // Gets Column or Row definition at index from grid based on resize direction
-        private static DependencyObject GetGridDefinition(Grid grid, int index, GridResizeDirection direction)
-        {
-            return direction == GridResizeDirection.Columns ? (DependencyObject)grid.ColumnDefinitions[index] : (DependencyObject)grid.RowDefinitions[index];
-        }
+       
 
         // Retrieves the ActualWidth or ActualHeight of the definition depending on its type Column or Row
         private double GetActualLength(DependencyObject definition)
@@ -133,11 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return column == null ? ((RowDefinition)definition).ActualHeight : column.ActualWidth;
         }
 
-        // Gets Column or Row definition at index from grid based on resize direction
-        private static void SetDefinitionLength(DependencyObject definition, GridLength length)
-        {
-            definition.SetValue(definition is ColumnDefinition ? ColumnDefinition.WidthProperty : RowDefinition.HeightProperty, length);
-        }
+        
 
         #endregion
 
@@ -295,15 +298,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         }
 
-        private const double eps = 0.00000153;
-        internal static bool AreClose(double value1, double value2)
-        {
-            if (value1 == value2) return true;
-
-            double diff = value1 - value2;
-            return (diff < eps) && (diff > -eps);
-        }
-
         private void InitializeData()
         {
             if (Resizable != null)
@@ -319,23 +313,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!SetupDefinitionsToResize())
                 {
                     // Unable to resize, clear data
-                    //_resizeData = null;
-                    return;
+                    _resizeData = null;
                 }
             }
         }
 
         private bool SetupDefinitionsToResize()
         {
-            int splitterIndex, index1, index2;
-            var isColumn = _resizeData.ResizeDirection == GridResizeDirection.Columns;
-            int gridSpan = (int)GetValue(_resizeData.ResizeDirection == GridResizeDirection.Columns ? Grid.ColumnSpanProperty : Grid.RowSpanProperty);
+            var gridSpan = (int)GetValue(_resizeData.ResizeDirection == GridResizeDirection.Columns ? Grid.ColumnSpanProperty : Grid.RowSpanProperty);
 
             if (gridSpan == 1)
             {
-                splitterIndex = (int)GetValue(_resizeData.ResizeDirection == GridResizeDirection.Columns ? Grid.ColumnProperty : Grid.RowProperty);
+                var splitterIndex = (int)GetValue(_resizeData.ResizeDirection == GridResizeDirection.Columns ? Grid.ColumnProperty : Grid.RowProperty);
 
                 // Select the columns based on Behavior
+                int index1;
+                int index2;
                 switch (_resizeData.ResizeBehavior)
                 {
                     case GridResizeBehavior.PreviousAndCurrent:
@@ -356,29 +349,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Get # of rows/columns in the resize direction
-                int count = (_resizeData.ResizeDirection == GridResizeDirection.Columns) ? _resizeData.Grid.ColumnDefinitions.Count : _resizeData.Grid.RowDefinitions.Count;
+                var count = (_resizeData.ResizeDirection == GridResizeDirection.Columns) ? _resizeData.Grid.ColumnDefinitions.Count : _resizeData.Grid.RowDefinitions.Count;
 
                 if (index1 >= 0 && index2 < count)
                 {
                     _resizeData.SplitterIndex = splitterIndex;
-
                     _resizeData.Definition1Index = index1;
                     _resizeData.Definition1 = GetGridDefinition(_resizeData.Grid, index1, _resizeData.ResizeDirection);
-                    _resizeData.OriginalDefinition1Length = (GridLength)_resizeData.Definition1.GetValue(
-                        isColumn ?
-                        ColumnDefinition.WidthProperty :
-                        RowDefinition.HeightProperty);  //save Size if user cancels
-                    _resizeData.OriginalDefinition1ActualLength = GetActualLength(_resizeData.Definition1);
-
                     _resizeData.Definition2Index = index2;
                     _resizeData.Definition2 = GetGridDefinition(_resizeData.Grid, index2, _resizeData.ResizeDirection);
-                    _resizeData.OriginalDefinition2Length = (GridLength)_resizeData.Definition2.GetValue(
-                        isColumn ?
-                        ColumnDefinition.WidthProperty :
-                        RowDefinition.HeightProperty); ;  //save Size if user cancels
-                    _resizeData.OriginalDefinition2ActualLength = GetActualLength(_resizeData.Definition2);
 
-                    // Determine how to resize the columns 
+                    // Determine how to resize the columns
                     bool isStar1 = IsStar(_resizeData.Definition1);
                     bool isStar2 = IsStar(_resizeData.Definition2);
                     if (isStar1 && isStar2)
@@ -395,67 +376,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return true;
                 }
             }
+
             return false;
         }
-
-        #endregion
-
-
-
-        #region Data
-
-
-        // GridSplitter has special Behavior when columns are fixed
-        // If the left column is fixed, splitter will only resize that column
-        // Else if the right column is fixed, splitter will only resize the right column
-        private enum SplitBehavior
-        {
-            Split, // Both columns/rows are star lengths
-            Resize1, // resize 1 only
-            Resize2, // resize 2 only
-        }
-
-        // Only store resize data if we are resizing
-        private class ResizeData
-        {
-            // The constraints to keep the Preview within valid ranges
-            public double MinChange;
-            public double MaxChange;
-
-            // The grid to Resize
-            public Grid Grid;
-
-            // cache of Resize Direction and Behavior
-            public GridResizeDirection ResizeDirection;
-            public GridResizeBehavior ResizeBehavior;
-
-            // The columns/rows to resize
-            public DependencyObject Definition1;
-            public DependencyObject Definition2;
-
-            // Are the columns/rows star lengths
-            public SplitBehavior SplitBehavior;
-
-            // The index of the splitter
-            public int SplitterIndex;
-
-            // The indices of the columns/rows
-            public int Definition1Index;
-            public int Definition2Index;
-
-            // The original lengths of Definition1 and Definition2 (to restore lengths if user cancels resize)
-            public GridLength OriginalDefinition1Length;
-            public GridLength OriginalDefinition2Length;
-            public double OriginalDefinition1ActualLength;
-            public double OriginalDefinition2ActualLength;
-
-            // The minimum of Width/Height of Splitter.  Used to ensure splitter 
-            //isn't hidden by resizing a row/column smaller than the splitter
-            public double SplitterLength;
-        }
-
-        // Data used for resizing
-        private ResizeData _resizeData;
 
         #endregion
     }
