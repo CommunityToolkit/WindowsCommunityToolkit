@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
+                // No need to check for the Column Min width because it is automatically respected
                 var newWidth = CurrentColumn.ActualWidth + e.HorizontalChange;
 
                 if (newWidth > 0)
@@ -48,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
+                // No need to check for the Row Min height because it is automatically respected
                 var newHeight = CurrentRow.ActualHeight + e.VerticalChange;
 
                 if (newHeight > 0)
