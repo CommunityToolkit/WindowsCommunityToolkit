@@ -19,11 +19,11 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Column Resizer Control, try to change the resizer to see the effect</TextBlock>
-        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Column Resizer Control, try to change the resizer to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200"</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
-        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Column Resizer Control, try to change the resizer to see the effect</TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Column Resizer Control, try to change the resizer to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
