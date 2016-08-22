@@ -1,4 +1,6 @@
-﻿using Windows.UI.Core;
+﻿using System;
+using System.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Thumb _splitter;
         private TextBlock _iconDisplay;
 
+        private GridResizeDirection _resizeDirection;
+        private GridResizeBehavior _resizeBehavior;
+
         /// <summary>
         /// Gets GridSplitter Container Grid
         /// </summary>
@@ -45,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return null;
                 }
 
-                var gridSplitterTargetedColumnIndex = Grid.GetColumn(this);
+                var gridSplitterTargetedColumnIndex = GetTargetedColumn();
 
                 if ((gridSplitterTargetedColumnIndex >= 0)
                     && (gridSplitterTargetedColumnIndex < Resizable.ColumnDefinitions.Count))
@@ -69,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return null;
                 }
 
-                var gridSplitterTargetedRowIndex = Grid.GetRow(this);
+                var gridSplitterTargetedRowIndex = GetTargetedRow();
 
                 if ((gridSplitterTargetedRowIndex >= 0)
                     && (gridSplitterTargetedRowIndex < Resizable.RowDefinitions.Count))
@@ -110,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _resizeDirection = GetEffectiveResizeDirection();
+            _resizeBehavior = GetEffectiveResizeBehavior();
             UpdateDisplayIcon();
 
             // Register Events
@@ -119,15 +125,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
-                // To overcome the relative column width resize issues etc: Width=*
-                CurrentColumn.Width = new GridLength(CurrentColumn.ActualWidth);
+                if (CurrentColumn != null)
+                {
+                    // To overcome the relative column width resize issues etc: Width=*
+                    CurrentColumn.Width = new GridLength(CurrentColumn.ActualWidth);
+                }
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
-                // To overcome the relative row height resize issues etc: height=*
-                CurrentRow.Height = new GridLength(CurrentRow.ActualHeight);
+                if (CurrentColumn != null)
+                {
+                    // To overcome the relative row height resize issues etc: height=*
+                    CurrentRow.Height = new GridLength(CurrentRow.ActualHeight);
+                }
             }
-
         }
 
         private void UpdateDisplayIcon()
@@ -145,6 +156,94 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _iconDisplay.Text = GripperBarHorizontal;
             }
+        }
+
+        // Return the targeted Column based on the resize behavior
+        private int GetTargetedColumn()
+        {
+            var currentIndex = Grid.GetColumn(this);
+            switch (_resizeBehavior)
+            {
+                case GridResizeBehavior.CurrentAndNext:
+                    return currentIndex;
+                case GridResizeBehavior.PreviousAndCurrent:
+                    return currentIndex - 1;
+                default:
+                    return -1;
+            }
+        }
+
+        // Return the targeted Row based on the resize behavior
+        private int GetTargetedRow()
+        {
+            return Grid.GetRow(this);
+        }
+
+        // Converts BasedOnAlignment direction to Rows, Columns, or Both depending on its width/height
+        private GridResizeDirection GetEffectiveResizeDirection()
+        {
+            GridResizeDirection direction = ResizeDirection;
+
+            if (direction == GridResizeDirection.Auto)
+            {
+                // When HorizontalAlignment is Left, Right or Center, resize Columns
+                if (HorizontalAlignment != HorizontalAlignment.Stretch)
+                {
+                    direction = GridResizeDirection.Columns;
+                }
+                else if (VerticalAlignment != VerticalAlignment.Stretch)
+                {
+                    direction = GridResizeDirection.Rows;
+                }
+
+                // Fall back to Width vs Height
+                else if (ActualWidth <= ActualHeight)
+                {
+                    direction = GridResizeDirection.Columns;
+                }
+                else
+                {
+                    direction = GridResizeDirection.Rows;
+                }
+            }
+
+            return direction;
+        }
+
+        // Convert BasedOnAlignment to Next/Prev/Both depending on alignment and Direction
+        private GridResizeBehavior GetEffectiveResizeBehavior()
+        {
+            GridResizeBehavior resizeBehavior = ResizeBehavior;
+
+            if (resizeBehavior == GridResizeBehavior.BasedOnAlignment)
+            {
+                if (_resizeDirection == GridResizeDirection.Columns)
+                {
+                    switch (HorizontalAlignment)
+                    {
+                        case HorizontalAlignment.Left:
+                            resizeBehavior = GridResizeBehavior.PreviousAndCurrent;
+                            break;
+                        default:
+                            resizeBehavior = GridResizeBehavior.CurrentAndNext;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (VerticalAlignment)
+                    {
+                        case VerticalAlignment.Top:
+                            resizeBehavior = GridResizeBehavior.PreviousAndCurrent;
+                            break;
+                        default:
+                            resizeBehavior = GridResizeBehavior.CurrentAndNext;
+                            break;
+                    }
+                }
+            }
+
+            return resizeBehavior;
         }
     }
 }

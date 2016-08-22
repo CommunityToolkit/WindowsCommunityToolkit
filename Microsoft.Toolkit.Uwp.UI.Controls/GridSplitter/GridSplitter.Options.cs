@@ -7,51 +7,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
+        /// <summary>
+        /// Identifies the <see cref="ResizeDirection"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ResizeDirectionProperty
             = DependencyProperty.Register(
                                             nameof(ResizeDirection),
                                             typeof(GridResizeDirection),
                                             typeof(GridSplitter),
-                                            new PropertyMetadata(GridResizeDirection.Auto, ResizeDirectionOnChange));
+                                            new PropertyMetadata(GridResizeDirection.Auto, OnResizeDirectionChange));
 
-        private static void ResizeDirectionOnChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)o;
-            gridSplitter._resizeDirection = gridSplitter.GetEffectiveResizeDirection();
-        }
-
-        private GridResizeDirection GetEffectiveResizeDirection()
-        {
-            GridResizeDirection direction = ResizeDirection;
-
-            if (direction == GridResizeDirection.Auto)
-            {
-                // When HorizontalAlignment is Left, Right or Center, resize Columns
-                if (HorizontalAlignment != HorizontalAlignment.Stretch)
-                {
-                    direction = GridResizeDirection.Columns;
-                }
-                else if (VerticalAlignment != VerticalAlignment.Stretch)
-                {
-                    direction = GridResizeDirection.Rows;
-                }
-
-                // Fall back to Width vs Height
-                else if (ActualWidth <= ActualHeight)
-                {
-                    direction = GridResizeDirection.Columns;
-                }
-                else
-                {
-                    direction = GridResizeDirection.Rows;
-                }
-
-            }
-
-            return direction;
-        }
-
-        private GridResizeDirection _resizeDirection;
+        /// <summary>
+        /// Identifies the <see cref="ResizeBehavior"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ResizeBehaviorProperty
+            = DependencyProperty.Register(
+                                            nameof(ResizeBehavior),
+                                            typeof(GridResizeBehavior),
+                                            typeof(GridSplitter),
+                                            new PropertyMetadata(GridResizeBehavior.BasedOnAlignment, OnResizeBehaviorChange));
 
         /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.
@@ -61,6 +35,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (GridResizeDirection)GetValue(ResizeDirectionProperty); }
 
             set { SetValue(ResizeDirectionProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets which Columns or Rows the Splitter resizes.
+        /// </summary>
+        public GridResizeBehavior ResizeBehavior
+        {
+            get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
+
+            set { SetValue(ResizeBehaviorProperty, value); }
+        }
+
+        private static void OnResizeDirectionChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)o;
+            gridSplitter._resizeDirection = gridSplitter.GetEffectiveResizeDirection();
+        }
+
+        private static void OnResizeBehaviorChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)o;
+            gridSplitter._resizeBehavior = gridSplitter.GetEffectiveResizeBehavior();
         }
     }
 
@@ -83,8 +79,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Resize rows when dragging Splitter.
         /// </summary>
-        Rows,
+        Rows
+    }
 
-        // NOTE: if you add or remove any values in this enum, be sure to update GridSplitter.IsValidResizeDirection()
+    /// <summary>
+    /// Enum to indicate what Columns or Rows the GridSplitter resizes
+    /// </summary>
+    public enum GridResizeBehavior
+    {
+        /// <summary>
+        /// Determine which columns or rows to resize based on its Alignment.
+        /// </summary>
+        BasedOnAlignment,
+
+        /// <summary>
+        /// Resize the current and next Columns or Rows.
+        /// </summary>
+        CurrentAndNext,
+
+        /// <summary>
+        /// Resize the previous and current Columns or Rows.
+        /// </summary>
+        PreviousAndCurrent
     }
 }

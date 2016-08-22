@@ -34,6 +34,25 @@
                 HorizontalAlignment="Right" >
         </controls:GridSplitter>
 
+        <!--Column Grid Splitter-->
+        <controls:GridSplitter 
+                Width="11"
+                Background="Gray"
+                Foreground="White" 
+                FontSize="11"
+                HorizontalAlignment="Left" >
+        </controls:GridSplitter>
+
+        <!--Column Grid Splitter-->
+        <controls:GridSplitter 
+            Grid.Column="1"
+                Width="11"
+                Background="Gray"
+                Foreground="White" 
+                FontSize="11"
+                HorizontalAlignment="Left" >
+        </controls:GridSplitter>
+
         <!--Row Grid Splitter-->
         <controls:GridSplitter 
             Foreground="White"

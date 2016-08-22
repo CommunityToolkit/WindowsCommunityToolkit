@@ -27,13 +27,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Splitter_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (CurrentColumn == null)
-            {
-                return;
-            }
-
             if (_resizeDirection == GridResizeDirection.Columns)
             {
+                if (CurrentColumn == null)
+                {
+                    return;
+                }
+
                 var newWidth = CurrentColumn.ActualWidth + e.HorizontalChange;
 
                 if (newWidth > 0)
@@ -43,6 +43,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
+                if (CurrentRow == null)
+                {
+                    return;
+                }
+
                 var newHeight = CurrentRow.ActualHeight + e.VerticalChange;
 
                 if (newHeight > 0)
