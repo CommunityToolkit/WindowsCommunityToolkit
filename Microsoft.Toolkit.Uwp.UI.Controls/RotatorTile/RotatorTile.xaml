@@ -32,6 +32,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="RotationDelayInSeconds">
+            <Setter.Value>5</Setter.Value>
         </Setter>
     </Style>
 </ResourceDictionary>
