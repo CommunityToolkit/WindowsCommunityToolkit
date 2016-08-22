@@ -36,7 +36,6 @@
 
         <!--Row Grid Splitter-->
         <controls:GridSplitter 
-            ResizeDirection="Rows"
             Foreground="White"
             Background="Gray" Height="11"
             HorizontalAlignment="Stretch" 

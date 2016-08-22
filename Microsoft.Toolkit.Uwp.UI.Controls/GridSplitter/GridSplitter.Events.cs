@@ -15,11 +15,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Splitter_DragStarted(object sender, DragStartedEventArgs e)
         {
-            if (ResizeDirection == ResizeDirection.Columns)
+            if (_resizeDirection == GridResizeDirection.Columns)
             {
                 Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
             }
-            else if (ResizeDirection == ResizeDirection.Rows)
+            else if (_resizeDirection == GridResizeDirection.Rows)
             {
                 Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (ResizeDirection == ResizeDirection.Columns)
+            if (_resizeDirection == GridResizeDirection.Columns)
             {
                 var newWidth = CurrentColumn.ActualWidth + e.HorizontalChange;
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     CurrentColumn.Width = new GridLength(newWidth);
                 }
             }
-            else if (ResizeDirection == ResizeDirection.Rows)
+            else if (_resizeDirection == GridResizeDirection.Rows)
             {
                 var newHeight = CurrentRow.ActualHeight + e.VerticalChange;
 
