@@ -13,13 +13,14 @@
                     <Grid x:Name="ContainerGrid">
                         <Thumb 
                            x:Name="Splitter"
-                           
                            Width="{TemplateBinding Width}"
                            Background="{TemplateBinding Background}">
+                            
                         </Thumb>
 
                         <TextBlock HorizontalAlignment="Center" 
                                    x:Name="IconDisplay"     
+                                   IsHitTestVisible="False"
                                    VerticalAlignment="Center" 
                                    FontSize="{TemplateBinding FontSize}" 
                                    Foreground="{TemplateBinding Foreground}" 
