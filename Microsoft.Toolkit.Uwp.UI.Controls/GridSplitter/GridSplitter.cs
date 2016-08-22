@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -17,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string SPLITTERRNAME = "Splitter";
         private const string ICONDISPLAYNAME = "IconDisplay";
-        private const double Eps = 0.00000153;
+        private const double Epsilon = 0.00000153;
 
         // Symbol GripperBarVertical in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
@@ -28,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
         private static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
         private static readonly CoreCursor ArrowCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+        private static DisplayInformation _dpi;
         private Thumb _splitter;
         private TextBlock _iconDisplay;
 
@@ -37,14 +36,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets GridSplitter Container Grid
         /// </summary>
-        private Grid Resizable => this.Parent as Grid;
+        private Grid Resizable => Parent as Grid;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GridSplitter"/> class.
         /// </summary>
         public GridSplitter()
         {
-            this.DefaultStyleKey = typeof(GridSplitter);
+            DefaultStyleKey = typeof(GridSplitter);
         }
 
         /// <inheritdoc />

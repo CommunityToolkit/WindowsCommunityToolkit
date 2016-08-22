@@ -3,9 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-
-
-
     <Style TargetType="local:GridSplitter">
         <Setter Property="Template">
             <Setter.Value>

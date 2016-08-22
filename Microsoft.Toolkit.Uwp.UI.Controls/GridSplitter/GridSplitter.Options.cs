@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                             typeof(GridSplitter),
                                             new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
-
         /// <summary>
         /// Identifies the <see cref="DragIncrement"/> dependency property.
         /// </summary>
