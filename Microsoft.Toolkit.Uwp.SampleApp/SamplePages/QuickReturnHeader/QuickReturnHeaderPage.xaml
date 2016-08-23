@@ -1,0 +1,31 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.QuickReturnHeaderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
+            <ListView.Header>
+                <controls:QuickReturnHeader TargetListView="{x:Bind listView}" IsQuickReturnEnabled="{Binding Enabled.Value}">
+                    <StackPanel Padding="12" Background="#F0F0F0">
+                        <TextBlock Text="Header 1" />
+                        <TextBlock Text="Header 2" />
+                        <TextBlock Text="Header 3" />
+                        <TextBlock Text="Header 4" />
+                        <TextBlock Text="Header 5" />
+                        <TextBlock Text="Header 6" />
+                    </StackPanel>
+                </controls:QuickReturnHeader>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Item">
+                    <TextBlock Text="{x:Bind Title}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

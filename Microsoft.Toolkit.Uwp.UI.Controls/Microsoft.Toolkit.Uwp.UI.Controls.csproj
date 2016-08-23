@@ -68,6 +68,7 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
+    <Compile Include="QuickReturnHeader\QuickReturnHeader.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PullToRefreshListView\PullToRefreshListView.cs" />
