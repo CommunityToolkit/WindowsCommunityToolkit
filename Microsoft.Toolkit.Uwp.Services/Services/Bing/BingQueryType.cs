@@ -11,27 +11,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
-    /// Search query configuration.
+    /// Search filter for search query.
     /// </summary>
-    public class BingSearchConfig
+    public enum BingQueryType
     {
         /// <summary>
-        /// Gets or sets search query country.
+        /// Search
         /// </summary>
-        public BingCountry Country { get; set; }
+        Search,
 
         /// <summary>
-        /// Gets or sets search query.
+        /// News
         /// </summary>
-        public string Query { get; set; }
-
-        /// <summary>
-        /// Gets or sets search query type.
-        /// </summary>
-        public BingQueryType QueryType { get; set; }
+        News
     }
 }
