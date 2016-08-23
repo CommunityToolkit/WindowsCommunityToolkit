@@ -87,20 +87,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var imageSource = source as ImageSource;
-                    if (imageSource != null)
+                    var imageUri = source as Uri;
+                    if (imageUri != null)
                     {
-                        _image.Source = imageSource;
+                        _uri = imageUri;
+
+                        await LoadImageAsync();
                     }
                     else
                     {
-                        var imageUri = source as Uri;
-                        if (imageUri != null)
-                        {
-                            _uri = imageUri;
-
-                            await LoadImageAsync();
-                        }
+                        _image.Source = source as ImageSource;
                     }
                 }
             }
