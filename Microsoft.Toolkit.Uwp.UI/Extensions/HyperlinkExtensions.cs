@@ -16,15 +16,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (hyperlink != null)
             {
+                hyperlink.Click -= OnHyperlinkClicked;
+
                 ICommand command = args.NewValue as ICommand;
 
                 if (command != null)
                 {
                     hyperlink.Click += OnHyperlinkClicked;
-                }
-                else
-                {
-                    hyperlink.Click -= OnHyperlinkClicked;
                 }
             }
         }
