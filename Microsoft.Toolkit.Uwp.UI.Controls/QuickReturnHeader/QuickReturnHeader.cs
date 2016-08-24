@@ -53,6 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
+            SizeChanged -= QuickReturnHeader_SizeChanged;
+            SizeChanged += QuickReturnHeader_SizeChanged;
+
             if (TargetListView != null)
             {
                 scrollViewer = GetScrollViewer(TargetListView);
@@ -64,41 +67,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (scrollViewer != null)
             {
-                scrollViewer.ViewChanged += (sender, args) =>
-                {
-                    if (animationProperties != null)
-                    {
-                        float oldOffsetY = 0.0f;
-                        animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
-
-                        var delta = scrollViewer.VerticalOffset - previousVerticalScrollOffset;
-                        previousVerticalScrollOffset = scrollViewer.VerticalOffset;
-
-                        var newOffsetY = oldOffsetY - (float)delta;
-
-                        // Keep values within negativ header size and 0
-                        FrameworkElement header = (FrameworkElement)TargetListView.Header;
-                        newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
-                        newOffsetY = Math.Min(0, newOffsetY);
-
-                        if (oldOffsetY != newOffsetY)
-                        {
-                            animationProperties.InsertScalar("OffsetY", newOffsetY);
-                        }
-                    }
-                };
+                scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+                scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
-
-            SizeChanged += (sender, args) =>
-            {
-                if (TargetListView != null)
-                {
-                    if (IsQuickReturnEnabled)
-                    {
-                        StartAnimation();
-                    }
-                }
-            };
         }
 
         private static ScrollViewer GetScrollViewer(DependencyObject o)
@@ -133,6 +104,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 me.StopAnimation();
+            }
+        }
+
+        private void QuickReturnHeader_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (TargetListView != null)
+            {
+                if (IsQuickReturnEnabled)
+                {
+                    StartAnimation();
+                }
+            }
+        }
+
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (animationProperties != null)
+            {
+                float oldOffsetY = 0.0f;
+                animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
+
+                var delta = scrollViewer.VerticalOffset - previousVerticalScrollOffset;
+                previousVerticalScrollOffset = scrollViewer.VerticalOffset;
+
+                var newOffsetY = oldOffsetY - (float)delta;
+
+                // Keep values within negativ header size and 0
+                FrameworkElement header = (FrameworkElement)TargetListView.Header;
+                newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
+                newOffsetY = Math.Min(0, newOffsetY);
+
+                if (oldOffsetY != newOffsetY)
+                {
+                    animationProperties.InsertScalar("OffsetY", newOffsetY);
+                }
             }
         }
 
