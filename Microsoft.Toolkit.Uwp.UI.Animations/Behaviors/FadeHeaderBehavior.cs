@@ -35,7 +35,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            AssignFadeAnimation();
+            AssociatedObject.Loaded += AssociatedObjectOnLoaded;
+        }
+
+        /// <summary>
+        /// Called when the behavior is being detached from its <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// </summary>
+        /// <remarks>
+        /// Override this to unhook functionality from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
+        /// </remarks>
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            AssociatedObject.Loaded -= AssociatedObjectOnLoaded;
         }
 
         /// <summary>
@@ -60,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         /// <remarks>
         /// Set this using the header of a ListView or GridView. You can use the entire root of the header or an element within the header.
-        /// 
+        ///
         /// Using this example Header:
         /// <ListView.Header>
         ///     <Grid Name="MyHeader">
@@ -76,6 +88,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             set { SetValue(HeaderElementProperty, value); }
         }
 
+        /// <summary>
+        /// Called when the associated object is loaded.
+        /// </summary>
+        /// <param name="sender">The associated object</param>
+        /// <param name="routedEventArgs">The <see cref="RoutedEventArgs"/> instance containing the event data</param>
+        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            AssignFadeAnimation();
+        }
+
+        /// <summary>
+        /// Uses Composition API to get the UIElement and sets an ExpressionAnimation
+        /// The ExpressionAnimation uses the height of the UIElement to calculate an opacity value
+        /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
+        /// is entirely scrolled off.
+        /// </summary>
         private void AssignFadeAnimation()
         {
             // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
