@@ -124,25 +124,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return;
             }
 
-            // Implicit detection of a header if AssociatedObject is, or derived from, a ListView
+            // Implicit operation: Find the Header object of the control if it uses ListViewBase
             if (HeaderElement == null)
             {
-                ListView listView = AssociatedObject as ListView ?? AssociatedObject.FindDescendant<ListView>();
+                var listElement = AssociatedObject as ListViewBase ?? AssociatedObject.FindDescendant<ListViewBase>();
 
-                if (listView != null)
+                if (listElement != null)
                 {
-                    HeaderElement = listView.Header as UIElement;
-                }
-            }
-
-            // Implicit detection of a header if AssociatedObject is, or derived from, a GridView
-            if (HeaderElement == null)
-            {
-                GridView gridView = AssociatedObject as GridView ?? AssociatedObject.FindDescendant<GridView>();
-
-                if (gridView != null)
-                {
-                    HeaderElement = gridView.Header as UIElement;
+                    HeaderElement = listElement.Header as UIElement;
                 }
             }
 
