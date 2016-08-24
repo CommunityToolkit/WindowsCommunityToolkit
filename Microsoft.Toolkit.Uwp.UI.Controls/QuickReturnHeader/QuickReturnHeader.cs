@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 animationProperties.InsertScalar("OffsetY", 0.0f);
             }
 
-            var expressionAnimation = compositor.CreateExpressionAnimation("animationProperties.OffsetY - ScrollingProperties.Translation.Y");
+            var expressionAnimation = compositor.CreateExpressionAnimation("Floor(animationProperties.OffsetY - ScrollingProperties.Translation.Y)");
 
             expressionAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
             expressionAnimation.SetReferenceParameter("animationProperties", animationProperties);
