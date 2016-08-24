@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
@@ -23,7 +24,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public FadeHeaderBehaviorPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            // If you wanted to use C# instead of XAML to attach the behavior, you can do it like this
+            // Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
         }
 
         /// <summary>
@@ -49,11 +53,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// Generates sample data for the ListView
         /// </summary>
         /// <returns>List of strings titles using the loop number that generated the item</returns>
-        private List<string> GenerateItems()
+        private static List<string> GenerateItems()
         {
             var list = new List<string>();
 
-            for (int i = 1; i < 21; i++)
+            for (var i = 1; i < 21; i++)
             {
                 list.Add($"Item {i}");
             }

@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Xaml.Interactivity;
+using Windows.Foundation.Metadata;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
-    using Microsoft.Xaml.Interactivity;
-    using Windows.Foundation.Metadata;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Hosting;
-
     /// <summary>
     /// Performs an fade animation on a ListView or GridView Header using composition.
     /// </summary>
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// The UIElement that will be faded.
         /// </summary>
         public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
-            "HeaderElement", typeof(UIElement), typeof(FadeHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
+            nameof(HeaderElement), typeof(UIElement), typeof(FadeHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the target element for the Fading behavior.
@@ -124,14 +124,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return;
             }
 
-            var scrollerViewerManipulation = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
-            var compositor = scrollerViewerManipulation.Compositor;
+            // Implicit detection of a header if AssociatedObject is, or derived from, a ListView
+            if (HeaderElement == null)
+            {
+                ListView listView = AssociatedObject as ListView ?? AssociatedObject.FindDescendant<ListView>();
+
+                if (listView != null)
+                {
+                    HeaderElement = listView.Header as UIElement;
+                }
+            }
+
+            // Implicit detection of a header if AssociatedObject is, or derived from, a GridView
+            if (HeaderElement == null)
+            {
+                GridView gridView = AssociatedObject as GridView ?? AssociatedObject.FindDescendant<GridView>();
+
+                if (gridView != null)
+                {
+                    HeaderElement = gridView.Header as UIElement;
+                }
+            }
+
+            // If no header is set or detected, return.
+            if (HeaderElement == null)
+            {
+                return;
+            }
+
+            // Get the ScrollViewer's ManipulationPropertySet
+            var scrollViewerManipulationPropSet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
+            var compositor = scrollViewerManipulationPropSet.Compositor;
 
             // Use the ScrollViewer's Y offset and the header's height to calculate the opacity percentage. Clamp it between 0% and 100%
-            var opacityExpression = compositor.CreateExpressionAnimation("Clamp(1 - (-ScrollManipululation.Translation.Y / HeaderHeight), 0, 1)");
+            var opacityExpression = compositor.CreateExpressionAnimation("Clamp(1 - (-ScrollManipulationPropSet.Translation.Y / HeaderHeight), 0, 1)");
 
             // Get the ScrollViewerManipulation Reference
-            opacityExpression.SetReferenceParameter("ScrollManipululation", scrollerViewerManipulation);
+            opacityExpression.SetReferenceParameter("ScrollManipulationPropSet", scrollViewerManipulationPropSet);
 
             // Pass in the height of the header as a Scalar
             opacityExpression.SetScalarParameter("HeaderHeight", (float)HeaderElement.RenderSize.Height);

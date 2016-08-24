@@ -1,23 +1,47 @@
-// XAML Target ListView or GridView Header UIElement
-<Grid x:Name="MyHeader"
-      MinHeight="100"
-      Background="{StaticResource Brush-Blue-01}">
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-        <TextBlock Text="This is the header"
-                   TextAlignment="Center"
-                   FontWeight="Bold"
-                   Style="{ThemeResource TitleTextBlockStyle}"
-                   Foreground="{StaticResource Brush-White}" />
-        <TextBlock Text="It will fade as you scroll up"
-                   Style="{ThemeResource SubtitleTextBlockStyle}"
-                   Foreground="{StaticResource Brush-White}" />
-    </StackPanel>
-</Grid>
+// XAML Target ListView or GridView
+// This behavior can be used implicitly (automatic detection of a header) or explicitly (passing in the HeaderElement). 
 
+//Implicit usage
+<interactivity:Interaction.Behaviors>
+    <behaviors:FadeHeaderBehavior />
+</interactivity:Interaction.Behaviors>
 
-// Behavior implementation. The behavior will automatically detect the header's height and use it to calulate the appropriate fade.
-<behaviors:FadeHeaderBehavior HeaderElement="MyHeader" />
+// Explicit usage
+<interactivity:Interaction.Behaviors>
+    <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=MyHeaderGrid}" />
+</interactivity:Interaction.Behaviors>
 
-// C# Implementation
-Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior { HeaderElement = MyHeader });
+//Here is an example of an Implicit implementation
+<ListView x:Name="MyListView">
+    <interactivity:Interaction.Behaviors>
+        <behaviors:FadeHeaderBehavior />
+    </interactivity:Interaction.Behaviors>
+    <ListView.Header>
+        <Grid x:Name="MyHeaderGrid"
+                      MinHeight="250"
+                      Background="{StaticResource Brush-Blue-01}">
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Margin="20,0">
+                <TextBlock Text="This Is The Header"
+                           TextAlignment="Center"
+                           FontWeight="Bold"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Foreground="{StaticResource Brush-White}"
+                           Margin="0,5" />
+                <TextBlock Text="It starts with 100% opacity but will fade to 0% as you scroll up."
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Foreground="{StaticResource Brush-White}"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </ListView.Header>
+</ListView>
+
+// C# Usage
+// Implicit Implementation
+Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
+
+// Explicit Implementation
+Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior { HeaderElement = MyHeaderGrid });
