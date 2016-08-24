@@ -33,13 +33,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             var frameworkElement = AssociatedObject as FrameworkElement;
             if (frameworkElement != null)
             {
-                frameworkElement.Loaded += (sender, e) =>
-                {
-                    if (AutomaticallyStart)
-                    {
-                        StartAnimation();
-                    }
-                };
+                frameworkElement.Loaded += OnFrameworkElementLoaded;
+            }
+        }
+
+        /// <summary>
+        /// Called while the behavior is detaching from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// </summary>
+        /// <remarks>
+        /// Override this to finalize and free everything associated to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
+        /// </remarks>
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+
+            var frameworkElement = AssociatedObject as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                frameworkElement.Loaded -= OnFrameworkElementLoaded;
+            }
+        }
+
+        private void OnFrameworkElementLoaded(object sender, RoutedEventArgs e)
+        {
+            if (AutomaticallyStart)
+            {
+                StartAnimation();
             }
         }
 
