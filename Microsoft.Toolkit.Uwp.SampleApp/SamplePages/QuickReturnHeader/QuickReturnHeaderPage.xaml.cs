@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public QuickReturnHeaderPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
