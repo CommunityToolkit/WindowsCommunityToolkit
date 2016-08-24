@@ -30,9 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             base.OnAttached();
 
-            if (AutomaticallyStart)
+            var frameworkElement = AssociatedObject as FrameworkElement;
+            if (frameworkElement != null)
             {
-                StartAnimation();
+                frameworkElement.Loaded += (sender, e) =>
+                {
+                    if (AutomaticallyStart)
+                    {
+                        StartAnimation();
+                    }
+                };
             }
         }
 
