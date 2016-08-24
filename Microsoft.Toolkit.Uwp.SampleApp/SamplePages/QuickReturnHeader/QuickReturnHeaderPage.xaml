@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
-                <controls:QuickReturnHeader TargetListView="{x:Bind listView}" IsQuickReturnEnabled="{Binding Enabled.Value}">
+                <controls:QuickReturnHeader TargetListView="{x:Bind listView}" IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}" IsSticky="{Binding IsSticky.Value}">
                     <StackPanel Padding="12" Background="#F0F0F0">
                         <TextBlock Text="Header 1" />
                         <TextBlock Text="Header 2" />

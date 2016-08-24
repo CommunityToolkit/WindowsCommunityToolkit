@@ -23,12 +23,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class QuickReturnHeader : ContentControl
     {
-        private ScrollViewer _scrollViewer;
-        private double _previousVerticalScrollOffset;
-        private CompositionPropertySet _scrollProperties;
-        private CompositionPropertySet _animationProperties;
-        private Visual _headerVisual;
-
         public QuickReturnHeader()
         {
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -53,6 +47,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Identifies the <see cref="IsSticky"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsStickyProperty =
+            DependencyProperty.Register(nameof(IsSticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnIsStickyChanged));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the quick return header should always be visible.
+        /// If true the header is always visible.
+        /// If false the header will move out of view when scrolling down.
+        /// Default is false.
+        /// </summary>
+        public bool IsSticky
+        {
+            get { return (bool)GetValue(IsStickyProperty); }
+            set { SetValue(IsStickyProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the ListView this header belongs to
         /// </summary>
         public ListView TargetListView { get; set; }
@@ -62,10 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Show()
         {
-            if (_headerVisual != null && _scrollViewer != null)
+            if (headerVisual != null && scrollViewer != null)
             {
-                FrameworkElement header = (FrameworkElement)TargetListView.Header;
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
+                previousVerticalScrollOffset = scrollViewer.VerticalOffset;
+
+                animationProperties.InsertScalar("OffsetY", 0.0f);
             }
         }
 
@@ -76,17 +89,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (TargetListView != null)
             {
-                _scrollViewer = GetScrollViewer(TargetListView);
+                scrollViewer = GetScrollViewer(TargetListView);
 
                 // Place items below header
                 var panel = TargetListView.ItemsPanelRoot;
                 Canvas.SetZIndex(panel, -1);
             }
 
-            if (_scrollViewer != null)
+            if (scrollViewer != null)
             {
-                _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
-                _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+                scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+                scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
         }
 
@@ -115,13 +128,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var me = d as QuickReturnHeader;
 
-            if (me.IsQuickReturnEnabled)
+            if (me.TargetListView != null)
             {
-                me.StartAnimation();
+                if (me.IsQuickReturnEnabled)
+                {
+                    me.StartAnimation();
+                }
+                else
+                {
+                    me.StopAnimation();
+                }
             }
-            else
+        }
+
+        private static void OnIsStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var me = d as QuickReturnHeader;
+
+            if (me.TargetListView != null)
             {
                 me.StopAnimation();
+
+                if (me.IsQuickReturnEnabled)
+                {
+                    me.StartAnimation();
+                }
             }
         }
 
@@ -129,6 +160,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (TargetListView != null)
             {
+                StopAnimation();
+
                 if (IsQuickReturnEnabled)
                 {
                     StartAnimation();
@@ -138,67 +171,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (_animationProperties != null)
+            if (animationProperties != null)
             {
-                float oldOffsetY = 0.0f;
-                _animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
-
-                var delta = _scrollViewer.VerticalOffset - _previousVerticalScrollOffset;
-                _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-                var newOffsetY = oldOffsetY - (float)delta;
-
-                // Keep values within negativ header size and 0
-                FrameworkElement header = (FrameworkElement)TargetListView.Header;
-                newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
-                newOffsetY = Math.Min(0, newOffsetY);
-
-                if (oldOffsetY != newOffsetY)
+                if (!IsSticky)
                 {
-                    _animationProperties.InsertScalar("OffsetY", newOffsetY);
+                    float oldOffsetY = 0.0f;
+                    animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
+
+                    var delta = scrollViewer.VerticalOffset - previousVerticalScrollOffset;
+                    previousVerticalScrollOffset = scrollViewer.VerticalOffset;
+
+                    var newOffsetY = oldOffsetY - (float)delta;
+
+                    // Keep values within negativ header size and 0
+                    FrameworkElement header = (FrameworkElement)TargetListView.Header;
+                    newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
+                    newOffsetY = Math.Min(0, newOffsetY);
+
+                    if (oldOffsetY != newOffsetY)
+                    {
+                        animationProperties.InsertScalar("OffsetY", newOffsetY);
+                    }
                 }
             }
         }
 
         private void StartAnimation()
         {
-            if (_scrollProperties == null)
+            if (scrollProperties == null)
             {
-                _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
+                scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
             }
 
-            var compositor = _scrollProperties.Compositor;
+            var compositor = scrollProperties.Compositor;
 
-            if (_animationProperties == null)
+            if (animationProperties == null)
             {
-                _animationProperties = compositor.CreatePropertySet();
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
+                animationProperties = compositor.CreatePropertySet();
             }
 
-            var expressionAnimation = compositor.CreateExpressionAnimation("Floor(animationProperties.OffsetY - ScrollingProperties.Translation.Y)");
+            previousVerticalScrollOffset = scrollViewer.VerticalOffset;
 
-            expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
-            expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
+            animationProperties.InsertScalar("OffsetY", 0.0f);
 
-            _headerVisual = ElementCompositionPreview.GetElementVisual((UIElement)TargetListView.Header);
+            ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation("Floor(animationProperties.OffsetY - ScrollingProperties.Translation.Y)");
+            expressionAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
+            expressionAnimation.SetReferenceParameter("animationProperties", animationProperties);
 
-            if (_headerVisual != null && IsQuickReturnEnabled)
+            headerVisual = ElementCompositionPreview.GetElementVisual((UIElement)TargetListView.Header);
+
+            if (headerVisual != null && IsQuickReturnEnabled)
             {
-                _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
+                headerVisual.StartAnimation("Offset.Y", expressionAnimation);
             }
         }
 
         private void StopAnimation()
         {
-            if (_headerVisual != null)
+            if (headerVisual != null)
             {
-                _headerVisual.StopAnimation("Offset.Y");
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
+                headerVisual.StopAnimation("Offset.Y");
+                animationProperties.InsertScalar("OffsetY", 0.0f);
 
-                var offset = _headerVisual.Offset;
+                var offset = headerVisual.Offset;
                 offset.Y = 0.0f;
-                _headerVisual.Offset = offset;
+                headerVisual.Offset = offset;
             }
         }
+
+        private ScrollViewer scrollViewer;
+        private double previousVerticalScrollOffset;
+        private CompositionPropertySet scrollProperties;
+        private CompositionPropertySet animationProperties;
+        private Visual headerVisual;
     }
 }
