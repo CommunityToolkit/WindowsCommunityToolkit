@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="IsQuickReturnEnabled"/> property.
         /// </summary>
         public static readonly DependencyProperty IsQuickReturnEnabledProperty =
-            DependencyProperty.Register("IsQuickReturnEnabled", typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnIsQuickReturnEnabledChanged));
+            DependencyProperty.Register(nameof(IsQuickReturnEnabled), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnIsQuickReturnEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether the quick return header is enabled.
