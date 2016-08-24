@@ -51,6 +51,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public ListView TargetListView { get; set; }
 
+        /// <summary>
+        /// Show the header
+        /// </summary>
+        public void Show()
+        {
+            if (headerVisual != null && scrollViewer != null)
+            {
+                FrameworkElement header = (FrameworkElement)TargetListView.Header;
+                animationProperties.InsertScalar("OffsetY", 0.0f);
+            }
+        }
+
         protected override void OnApplyTemplate()
         {
             SizeChanged -= QuickReturnHeader_SizeChanged;
