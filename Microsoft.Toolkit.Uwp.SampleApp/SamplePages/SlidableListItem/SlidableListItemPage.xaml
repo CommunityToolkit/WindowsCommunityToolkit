@@ -23,6 +23,8 @@
                                        LeftForeground ="{Binding DataContext.LeftForeground.Value, ElementName=Root, Mode=OneWay}" 
                                        RightForeground ="{Binding DataContext.RightForeground.Value, ElementName=Root, Mode=OneWay}"
                                        MouseSlidingEnabled="{Binding DataContext.MouseSlidingEnabled.Value, ElementName=Root, Mode=OneWay}"
+                                       IsRightSwipeEnabled="{Binding DataContext.IsRightSwipeEnabled.Value, ElementName=Root, Mode=OneWay}"
+                                       IsLeftSwipeEnabled="{Binding DataContext.IsLeftSwipeEnabled.Value, ElementName=Root, Mode=OneWay}"
                                        LeftCommand="{x:Bind ToggleFavorite}"
                                        RightCommandRequested="SlidableListItem_RightCommandActivated"
                                        ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}"
