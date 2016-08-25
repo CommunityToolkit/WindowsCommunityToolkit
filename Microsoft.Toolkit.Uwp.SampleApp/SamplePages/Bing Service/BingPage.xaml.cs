@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public BingPage()
         {
             InitializeComponent();
+
+            QueryType.ItemsSource = new[] { "Bing Search", "Bing News" };
+            QueryType.SelectedIndex = 0;
         }
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
@@ -36,11 +39,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            BingQueryType queryType;
+            switch (QueryType.SelectedIndex)
+            {
+                case 1:
+                    queryType = BingQueryType.News;
+                    break;
+                default:
+                    queryType = BingQueryType.Search;
+                    break;
+            }
+
             Shell.Current.DisplayWaitRing = true;
             var searchConfig = new BingSearchConfig
             {
                 Country = BingCountry.UnitedStates,
-                Query = SearchText.Text
+                Query = SearchText.Text,
+                QueryType = queryType
             };
 
             ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);

@@ -4,8 +4,7 @@
 // C# - Rotate can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
-await ToolkitLogo.Rotate(duration: 10, delay: 0, 
-						 value: 90.0f,
+await ToolkitLogo.Rotate(value: 90.0f,
 						 centerX: 0.5f,
 						 centerY: 0.0f,
-						 centerZ: 0.5f).StartAsync();
+						 duration: 10, delay: 0).StartAsync();
