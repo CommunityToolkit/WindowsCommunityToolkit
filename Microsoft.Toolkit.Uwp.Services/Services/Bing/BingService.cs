@@ -23,16 +23,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
     /// </summary>
     public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>
     {
-        /// <summary>
-        /// Private singleton field for BingDataProvider.
-        /// </summary>
-        private static BingDataProvider bingDataProvider;
+        private BingDataProvider bingDataProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BingService"/> class.
-        /// Default private constructor.
         /// </summary>
-        private BingService()
+        public BingService()
         {
         }
 

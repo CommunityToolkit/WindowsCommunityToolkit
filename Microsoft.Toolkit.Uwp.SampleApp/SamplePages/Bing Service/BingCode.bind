@@ -6,7 +6,8 @@ if (string.IsNullOrEmpty(SearchText.Text))
 var searchConfig = new BingSearchConfig
 {
     Country = BingCountry.UnitedStates,
-    Query = SearchText.Text
+    Query = SearchText.Text,
+    QueryType = BingQueryType.Search
 };
 
 ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);

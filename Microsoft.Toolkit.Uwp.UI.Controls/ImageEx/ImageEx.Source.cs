@@ -70,25 +70,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 VisualStateManager.GoToState(this, LoadingState, true);
 
-                var sourceString = source as string;
-                if (sourceString != null)
+                var imageSource = source as ImageSource;
+                if (imageSource != null)
                 {
-                    string url = sourceString;
-                    if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
-                    {
-                        _isHttpSource = IsHttpUri(_uri);
-                        if (!_isHttpSource && !_uri.IsAbsoluteUri)
-                        {
-                            _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
-                        }
+                    _image.Source = imageSource;
+                    return;
+                }
 
-                        await LoadImageAsync();
+                _uri = source as Uri;
+                if (_uri == null)
+                {
+                    var url = source as string ?? source.ToString();
+                    if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
+                    {
+                        VisualStateManager.GoToState(this, FailedState, true);
+                        return;
                     }
                 }
-                else
+
+                _isHttpSource = IsHttpUri(_uri);
+                if (!_isHttpSource && !_uri.IsAbsoluteUri)
                 {
-                    _image.Source = source as ImageSource;
+                    _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
+
+                await LoadImageAsync();
             }
         }
 

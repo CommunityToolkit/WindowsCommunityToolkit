@@ -11,6 +11,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services
                     .ToList();
             }
 
-            return new TSchema[0];
+            return Array.Empty<TSchema>();
         }
 
         /// <summary>

@@ -8,9 +8,14 @@
 				<ControlTemplate TargetType="controls:AdaptiveGridView">
                     <Grid>
 						<ContentPresenter x:Name="templateProxy" Width="{TemplateBinding ItemWidth}" Height="{TemplateBinding ItemHeight}" ContentTemplate="{TemplateBinding ItemTemplate}" Visibility="Collapsed" />
-						<GridView HorizontalAlignment="Stretch" x:Name="ListView" IsItemClickEnabled="True" SelectionMode="None" IsSwipeEnabled="False" IsTabStop="False"
-                          ScrollViewer.VerticalScrollMode="{TemplateBinding VerticalScrollMode}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                          ItemsSource="{TemplateBinding ItemsSource}">
+                        <GridView HorizontalAlignment="Stretch" x:Name="ListView"
+                                  IsItemClickEnabled="{TemplateBinding IsItemClickEnabled}"
+                                  SelectionMode="{TemplateBinding SelectionMode}"
+                                  IsSwipeEnabled="False"
+                                  IsTabStop="False"
+                                  ScrollViewer.VerticalScrollMode="{TemplateBinding VerticalScrollMode}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  ItemsSource="{TemplateBinding ItemsSource}">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
 									<ContentPresenter Width="{Binding Width, ElementName=templateProxy}" Height="{Binding Height, ElementName=templateProxy}" ContentTemplate="{Binding ContentTemplate, ElementName=templateProxy}" />
