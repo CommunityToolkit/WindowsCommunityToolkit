@@ -49,6 +49,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
 
         /// <summary>
+        /// Identifies the <see cref="MinRandomDuration"/> property.
+        /// </summary>
+        public static readonly DependencyProperty MinRandomDurationProperty =
+            DependencyProperty.Register(nameof(MinRandomDuration), typeof(int), typeof(RotatorTile), new PropertyMetadata(default(int)));
+
+        /// <summary>
+        /// Identifies the <see cref="MinRandomDuration"/> property.
+        /// </summary>
+        public static readonly DependencyProperty MaxRandomDurationProperty =
+            DependencyProperty.Register(nameof(MaxRandomDuration), typeof(int), typeof(RotatorTile), new PropertyMetadata(default(int)));
+
+        /// <summary>
         /// Identifies the <see cref="RotationDelay"/> property.
         /// </summary>
         public static readonly DependencyProperty RotationDelayProperty =
@@ -106,6 +118,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null)
             {
                 Start();
+            }
+
+            if (MinRandomDuration > MaxRandomDuration)
+            {
+                throw new ArgumentException("MinRandomDuration can't be bigger than MaxRandomDuration");
+            }else if (MinRandomDuration == MaxRandomDuration)
+            {
+                throw new ArgumentException("MinRandomDuration and MaxRandomDuration can't be equal.");
+            }else if (MinRandomDuration < 0 || MaxRandomDuration < 0)
+            {
+                throw new ArgumentException("MinRandomDuration or MaxRandomDuration can't be negative.");
             }
 
             base.OnApplyTemplate();
@@ -360,7 +383,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
-            return RotationDelay == TimeSpan.Zero ? TimeSpan.FromSeconds(_randomizer.Next(5, 10)) : RotationDelay;
+            return RotationDelay == TimeSpan.Zero ? TimeSpan.FromSeconds(_randomizer.Next(MinRandomDuration, MaxRandomDuration)) : RotationDelay;
         }
 
         /// <summary>
@@ -542,6 +565,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (TimeSpan)GetValue(RotationDelayProperty); }
             set { SetValue(RotationDelayProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the minimum duration for randomizer to use in rotation duration generating.
+        /// </summary>
+        public int MinRandomDuration
+        {
+            get { return (int)GetValue(MinRandomDurationProperty); }
+            set { SetValue(MinRandomDurationProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum duration for randomizer to use in rotation duration generating.
+        /// </summary>
+        public int MaxRandomDuration
+        {
+            get { return (int)GetValue(MaxRandomDurationProperty); }
+            set { SetValue(MaxRandomDurationProperty, value); }
         }
 
         /// <summary>
