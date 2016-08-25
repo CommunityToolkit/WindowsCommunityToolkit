@@ -25,6 +25,8 @@
         <controls:AdaptiveGridView Name="control"
                                      ItemHeight="@[ItemHeight:Slider:200:50-500]"
                                      DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
+                                     SelectionMode="@[SelectionMode:Enum:ListViewSelectionMode.Single]"
+                                     IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
                                      ItemTemplate="{StaticResource PhotosTemplate}"/>
     </Grid>
 </Page>
