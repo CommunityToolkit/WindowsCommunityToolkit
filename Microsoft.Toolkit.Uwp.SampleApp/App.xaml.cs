@@ -15,6 +15,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
+using Windows.Graphics.Display;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -79,6 +80,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     titleBar.ForegroundColor = lightGreyBrush;
                 }
             }
+
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.PortraitFlipped;
 
             Frame rootFrame = Window.Current.Content as Frame;
 
