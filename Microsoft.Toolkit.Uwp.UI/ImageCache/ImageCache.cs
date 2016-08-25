@@ -11,10 +11,12 @@
 // ******************************************************************
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -24,11 +26,29 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public static class ImageCache
     {
+        /// <summary>
+        /// Helper class used to store BitmapImages to in-memory cache
+        /// </summary>
+        protected class MemoryCacheItem
+        {
+            /// <summary>
+            /// Gets or sets dateTime when image was last stored to in-memory cache
+            /// </summary>
+            public DateTime LastUpdated { get; set; }
+
+            /// <summary>
+            /// Gets or sets BitmapImage of in-memory cached item
+            /// </summary>
+            public BitmapImage Image { get; set; }
+        }
+
         private const string CacheFolderName = "ImageCache";
 
         private static readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-        private static readonly Dictionary<string, Task> _concurrentTasks = new Dictionary<string, Task>();
+        private static readonly Dictionary<string, Task<BitmapImage>> _concurrentTasks = new Dictionary<string, Task<BitmapImage>>();
         private static StorageFolder _cacheFolder;
+        private static OrderedDictionary _memoryCache = new OrderedDictionary();
+        private static int _maxMemoryCacheSize = 0;
 
         static ImageCache()
         {
@@ -39,6 +59,26 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets or sets the life duration of every cache entry.
         /// </summary>
         public static TimeSpan CacheDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the size of additional in-memory cache. Set it to 0 to disable in-memory caching. It is 0 by default.
+        /// </summary>
+        public static int MaxMemoryCacheSize
+        {
+            get
+            {
+                return _maxMemoryCacheSize;
+            }
+
+            set
+            {
+                _maxMemoryCacheSize = value;
+                lock (_memoryCache)
+                {
+                    FixMemoryCacheSize();
+                }
+            }
+        }
 
         /// <summary>
         /// call this method to clear the entire cache.
@@ -71,6 +111,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 // Just ignore errors for now
             }
+
+            lock (_memoryCache)
+            {
+                // clears expired items in in-memory cache
+                foreach (var k in _memoryCache.Keys)
+                {
+                    if (((MemoryCacheItem)_memoryCache[k]).LastUpdated < expirationDate)
+                    {
+                        _memoryCache.Remove(k);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -80,8 +132,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>a BitmapImage</returns>
         public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
         {
-            Task busy;
+            Task<BitmapImage> busy;
             string key = GetCacheFileName(uri);
+            BitmapImage image = null;
 
             lock (_concurrentTasks)
             {
@@ -91,14 +144,14 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
-                    busy = EnsureFileAsync(uri);
+                    busy = GetFromCacheOrDownloadAsync(uri);
                     _concurrentTasks.Add(key, busy);
                 }
             }
 
             try
             {
-                await busy;
+                image = await busy;
             }
             catch (Exception ex)
             {
@@ -116,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            return CreateBitmapImage(key);
+            return image;
         }
 
         /// <summary>
@@ -131,29 +184,122 @@ namespace Microsoft.Toolkit.Uwp.UI
             return $"{uriHash}.jpg";
         }
 
-        private static BitmapImage CreateBitmapImage(string fileName)
+        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri)
         {
-            return new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
-        }
-
-        private static async Task EnsureFileAsync(Uri uri)
-        {
+            BitmapImage image = null;
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
 
-            var folder = await GetCacheFolderAsync();
+            var key = GetCacheFileName(uri);
 
-            string fileName = GetCacheFileName(uri);
-            var baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
-            if (await IsFileOutOfDate(baseFile, expirationDate))
+            if (MaxMemoryCacheSize > 0)
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                try
+                image = GetFromMemoryCache(key);
+            }
+
+            if (image == null)
+            {
+                var folder = await GetCacheFolderAsync();
+
+                var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
+                if (await IsFileOutOfDate(baseFile, expirationDate))
                 {
-                    await StreamHelper.GetHttpStreamToStorageFileAsync(uri, baseFile);
+                    baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
+                    try
+                    {
+                        using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
+                        {
+                            image = new BitmapImage();
+                            image.SetSource(webStream);
+
+                            webStream.Seek(0);
+                            using (var reader = new DataReader(webStream))
+                            {
+                                await reader.LoadAsync((uint)webStream.Size);
+                                var buffer = new byte[(int)webStream.Size];
+                                reader.ReadBytes(buffer);
+                                await FileIO.WriteBytesAsync(baseFile, buffer);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        await baseFile.DeleteAsync();
+                    }
                 }
-                catch
+                else
                 {
-                    await baseFile.DeleteAsync();
+                    using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        image = new BitmapImage();
+                        image.SetSource(fileStream);
+                    }
+                }
+
+                if (MaxMemoryCacheSize > 0 && image != null)
+                {
+                    StoreToMemoryCache(key, image);
+                }
+            }
+
+            return image;
+        }
+
+        private static BitmapImage GetFromMemoryCache(string key)
+        {
+            BitmapImage resImage = null;
+            lock (_memoryCache)
+            {
+                if (_memoryCache.Contains(key))
+                {
+                    var mci = _memoryCache[key] as MemoryCacheItem;
+                    if (mci.LastUpdated > DateTime.Now.Subtract(CacheDuration))
+                    {
+                        resImage = mci.Image as BitmapImage;
+                    }
+                    else
+                    {
+                        _memoryCache.Remove(key);
+                    }
+                }
+            }
+
+            return resImage;
+        }
+
+        private static void StoreToMemoryCache(string key, BitmapImage image)
+        {
+            lock (_memoryCache)
+            {
+                var mci = new MemoryCacheItem()
+                {
+                    LastUpdated = DateTime.Now,
+                    Image = image
+                };
+                if (_memoryCache.Contains(key))
+                {
+                    _memoryCache[key] = mci;
+                }
+                else
+                {
+                    _memoryCache.Add(key, mci);
+                }
+
+                FixMemoryCacheSize();
+            }
+        }
+
+        private static void FixMemoryCacheSize()
+        {
+            if (MaxMemoryCacheSize <= 0)
+            {
+                _memoryCache.Clear();
+            }
+            else
+            {
+                var removeCount = _memoryCache.Count - MaxMemoryCacheSize;
+                for (var i = 1; i <= removeCount; i++)
+                {
+                    _memoryCache.RemoveAt(0);
                 }
             }
         }
