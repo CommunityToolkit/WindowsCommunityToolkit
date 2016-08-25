@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
