@@ -6,12 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
-    xmlns:Converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SlidableListItemPage"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
             <controls:SlidableListItem LeftIcon="{Binding DataContext.LeftIcon.Value, ElementName=Root, Mode=OneWay}" 
                                        RightIcon="{Binding DataContext.RightIcon.Value, ElementName=Root, Mode=OneWay}" 
