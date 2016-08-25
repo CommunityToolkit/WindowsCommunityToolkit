@@ -16,11 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Splitter_DragStarted(object sender, DragStartedEventArgs e)
         {
-            if (_resizeData.ResizeDirection == GridResizeDirection.Columns)
+            if (_resizeDirection == GridResizeDirection.Columns)
             {
                 Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
             }
-            else if (_resizeData.ResizeDirection == GridResizeDirection.Rows)
+            else if (_resizeDirection == GridResizeDirection.Rows)
             {
                 Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
@@ -28,16 +28,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Splitter_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double horizontalChange = e.HorizontalChange;
-            double verticalChange = e.VerticalChange;
+            if (_resizeDirection == GridResizeDirection.Columns)
+            {
+                if (CurrentColumn == null)
+                {
+                    return;
+                }
 
-            // Round change to nearest multiple of DragIncrement
-            double dragIncrement = DragIncrement;
-            horizontalChange = Math.Round(horizontalChange / dragIncrement) * dragIncrement;
-            verticalChange = Math.Round(verticalChange / dragIncrement) * dragIncrement;
+                // No need to check for the Column Min width because it is automatically respected
+                var newWidth = CurrentColumn.ActualWidth + e.HorizontalChange;
 
-            // Update the grid
-            MoveSplitter(horizontalChange, verticalChange);
+                if (newWidth > 0)
+                {
+                    CurrentColumn.Width = new GridLength(newWidth);
+                }
+            }
+            else if (_resizeDirection == GridResizeDirection.Rows)
+            {
+                if (CurrentRow == null)
+                {
+                    return;
+                }
+
+                // No need to check for the Row Min height because it is automatically respected
+                var newHeight = CurrentRow.ActualHeight + e.VerticalChange;
+
+                if (newHeight > 0)
+                {
+                    CurrentRow.Height = new GridLength(newHeight);
+                }
+            }
         }
     }
 }

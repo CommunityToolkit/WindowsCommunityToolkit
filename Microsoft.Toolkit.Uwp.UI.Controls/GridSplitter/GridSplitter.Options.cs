@@ -12,30 +12,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ResizeDirectionProperty
             = DependencyProperty.Register(
-                                            nameof(ResizeDirection),
-                                            typeof(GridResizeDirection),
-                                            typeof(GridSplitter),
-                                            new PropertyMetadata(GridResizeDirection.Auto, OnResizeDirectionChange));
+                nameof(ResizeDirection),
+                typeof(GridResizeDirection),
+                typeof(GridSplitter),
+                new PropertyMetadata(GridResizeDirection.Auto, OnResizeDirectionChange));
 
         /// <summary>
         /// Identifies the <see cref="ResizeBehavior"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ResizeBehaviorProperty
             = DependencyProperty.Register(
-                                            nameof(ResizeBehavior),
-                                            typeof(GridResizeBehavior),
-                                            typeof(GridSplitter),
-                                            new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
-
-        /// <summary>
-        /// Identifies the <see cref="DragIncrement"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty DragIncrementProperty =
-                    DependencyProperty.Register(
-                                nameof(DragIncrement),
-                                typeof(double),
-                                typeof(GridSplitter),
-                                new PropertyMetadata(1.0));
+                nameof(ResizeBehavior),
+                typeof(GridResizeBehavior),
+                typeof(GridSplitter),
+                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment, OnResizeBehaviorChange));
 
         /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.
@@ -57,20 +47,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ResizeBehaviorProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets units to Restricts splitter to move a multiple of the specified units.
-        /// </summary>
-        public double DragIncrement
-        {
-            get { return (double)GetValue(DragIncrementProperty); }
-            set { SetValue(DragIncrementProperty, value); }
-        }
-
         private static void OnResizeDirectionChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)o;
-            gridSplitter.InitializeData();
-            gridSplitter.UpdateDisplayIcon();
+            gridSplitter._resizeDirection = gridSplitter.GetEffectiveResizeDirection();
+        }
+
+        private static void OnResizeBehaviorChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)o;
+            gridSplitter._resizeBehavior = gridSplitter.GetEffectiveResizeBehavior();
         }
     }
 }
