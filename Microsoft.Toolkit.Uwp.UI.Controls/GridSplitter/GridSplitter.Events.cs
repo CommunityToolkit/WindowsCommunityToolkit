@@ -35,12 +35,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
-                // No need to check for the Column Min width because it is automatically respected
-                var newWidth = CurrentColumn.ActualWidth + e.HorizontalChange;
-
-                if (newWidth > 0)
+                // if current column has fixed width then resize it
+                if (!IsStarColumn(CurrentColumn))
                 {
-                    CurrentColumn.Width = new GridLength(newWidth);
+                    // No need to check for the Column Min width because it is automatically respected
+                    SetColumnWidth(CurrentColumn, e.HorizontalChange, GridUnitType.Pixel);
+                }
+
+                // if sibling column has fixed width then resize it
+                else if (!IsStarColumn(SiblingColumn))
+                {
+                    SetColumnWidth(SiblingColumn, e.HorizontalChange * -1, GridUnitType.Pixel);
+                }
+
+                // if both column haven't fixed width (auto *)
+                else
+                {
+                    // change current column width to the new width with respecting the auto
+                    // change sibling column width to the new width relative to current column
+                    // respect the other star column width by setting it's width to it's actual width with stars
+                    foreach (var columnDefinition in Resizable.ColumnDefinitions)
+                    {
+                        if (columnDefinition == CurrentColumn)
+                        {
+                            SetColumnWidth(CurrentColumn, e.HorizontalChange, GridUnitType.Star);
+                        }
+                        else if (SiblingColumn == CurrentColumn)
+                        {
+                            SetColumnWidth(SiblingColumn, e.HorizontalChange * -1, GridUnitType.Star);
+                        }
+                        else
+                        {
+                            columnDefinition.Width = new GridLength(columnDefinition.ActualWidth, GridUnitType.Star);
+                        }
+                    }
                 }
             }
             else if (_resizeDirection == GridResizeDirection.Rows)

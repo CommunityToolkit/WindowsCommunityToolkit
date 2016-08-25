@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -33,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Enum to indicate what Columns or Rows the GridSplitter resizes
         /// </summary>
+        [Flags]
         public enum GridResizeBehavior
         {
             /// <summary>
@@ -48,7 +50,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// <summary>
             /// Resize the previous and current Columns or Rows.
             /// </summary>
-            PreviousAndCurrent
+            PreviousAndCurrent,
+
+            /// <summary>
+            /// Resize the previous and next Columns or Rows.
+            /// </summary>
+            PreviousAndNext
         }
     }
 }

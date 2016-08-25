@@ -3,6 +3,7 @@ using System.Collections;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -11,15 +12,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
-        private static bool AreClose(double value1, double value2)
+        private static bool IsStarColumn(DependencyObject definition)
         {
-            if (Math.Abs(value1 - value2) < Epsilon)
-            {
-                return true;
-            }
+            return ((GridLength)definition.GetValue(ColumnDefinition.WidthProperty)).IsStar;
+        }
 
-            double delta = value1 - value2;
-            return (delta < Epsilon) && (delta > -Epsilon);
+        private static bool IsStarRow(DependencyObject definition)
+        {
+            return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
+        }
+
+        private void SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
+        {
+            var newWidth = columnDefinition.ActualWidth + horizontalChange;
+            if (newWidth > ActualWidth)
+            {
+                columnDefinition.Width = new GridLength(newWidth, unitType);
+            }
         }
 
         private void UpdateDisplayIcon()
@@ -47,8 +56,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case GridResizeBehavior.CurrentAndNext:
                     return currentIndex;
-                case GridResizeBehavior.PreviousAndCurrent:
+                case GridResizeBehavior.PreviousAndCurrent | GridResizeBehavior.PreviousAndNext:
                     return currentIndex - 1;
+                default:
+                    return -1;
+            }
+        }
+
+        private int GetSiblingColumn()
+        {
+            var currentIndex = Grid.GetColumn(this);
+            switch (_resizeBehavior)
+            {
+                case GridResizeBehavior.CurrentAndNext | GridResizeBehavior.PreviousAndNext:
+                    return currentIndex + 1;
+                case GridResizeBehavior.PreviousAndCurrent:
+                    return currentIndex;
                 default:
                     return -1;
             }
@@ -105,8 +128,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         case HorizontalAlignment.Left:
                             resizeBehavior = GridResizeBehavior.PreviousAndCurrent;
                             break;
-                        default:
+                        case HorizontalAlignment.Right:
                             resizeBehavior = GridResizeBehavior.CurrentAndNext;
+                            break;
+                        default:
+                            resizeBehavior = GridResizeBehavior.PreviousAndNext;
                             break;
                     }
                 }
@@ -117,23 +143,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         case VerticalAlignment.Top:
                             resizeBehavior = GridResizeBehavior.PreviousAndCurrent;
                             break;
-                        default:
+                        case VerticalAlignment.Bottom:
                             resizeBehavior = GridResizeBehavior.CurrentAndNext;
+                            break;
+                        default:
+                            resizeBehavior = GridResizeBehavior.PreviousAndNext;
                             break;
                     }
                 }
             }
 
             return resizeBehavior;
-        }
-
-        // Returns true if the row/column has a Star length
-        private bool IsStar(DependencyObject definition)
-        {
-            return ((GridLength)definition.GetValue(
-                _resizeDirection == GridResizeDirection.Columns
-                    ? ColumnDefinition.WidthProperty
-                    : RowDefinition.HeightProperty)).IsStar;
         }
     }
 }

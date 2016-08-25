@@ -12,10 +12,19 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <!--<ColumnDefinition MinWidth="200" Width="400"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>-->
+
+            <!--<ColumnDefinition MinWidth="200"></ColumnDefinition>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>-->
+
             <ColumnDefinition MinWidth="200"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="12"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
@@ -26,14 +35,14 @@
         <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
         <!--Column Grid Splitter-->
-        <controls:GridSplitter 
+        <!--<controls:GridSplitter 
             Grid.Column="1"
                 Width="11"
                 Background="Gray"
                 Foreground="White" 
                 FontSize="11"
                 HorizontalAlignment="Right" >
-        </controls:GridSplitter>
+        </controls:GridSplitter>-->
 
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
@@ -41,8 +50,7 @@
                 Width="11"
                 Background="Gray"
                 Foreground="White" 
-                FontSize="11"
-                HorizontalAlignment="Left" >
+                FontSize="11">
         </controls:GridSplitter>
 
         <!--Row Grid Splitter-->
@@ -52,6 +60,6 @@
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Bottom">
         </controls:GridSplitter>
-        
+
     </Grid>
 </Page>
