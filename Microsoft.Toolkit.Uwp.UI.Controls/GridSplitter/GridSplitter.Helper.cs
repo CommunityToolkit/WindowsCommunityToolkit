@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Converts BasedOnAlignment direction to Rows, Columns, or Both depending on its width/height
+        // Checks the control alignment and Width/Height to detect the control resize direction columns/rows
         private GridResizeDirection GetResizeDirection()
         {
             GridResizeDirection direction = ResizeDirection;
@@ -147,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     direction = GridResizeDirection.Columns;
                 }
+
+                // When VerticalAlignment is Top, Bottom or Center, resize Rows
                 else if (VerticalAlignment != VerticalAlignment.Stretch)
                 {
                     direction = GridResizeDirection.Rows;
@@ -166,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return direction;
         }
 
-        // Convert BasedOnAlignment to Next/Prev/Both depending on alignment and Direction
+        // Get the resize behavior (Which columns/rows should be resized) based on alignment and Direction
         private GridResizeBehavior GetResizeBehavior()
         {
             GridResizeBehavior resizeBehavior = ResizeBehavior;

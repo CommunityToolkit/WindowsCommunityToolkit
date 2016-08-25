@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string SPLITTERRNAME = "Splitter";
         private const string ICONDISPLAYNAME = "IconDisplay";
-        private const double Epsilon = 0.00000153;
 
         // Symbol GripperBarVertical in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
