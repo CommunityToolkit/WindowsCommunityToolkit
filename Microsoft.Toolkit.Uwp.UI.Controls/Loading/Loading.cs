@@ -36,7 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 ContentGrid.Children.Clear();
                 if (LoadingBackground == null && LoadingOpacity == 0d)
+                {
                     BackgroundGrid = null;
+                }
                 else
                 {
                     BackgroundGrid.Background = LoadingBackground;
@@ -47,7 +49,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Animation.Begin();
 
                 var contentControl = LoadingContent?.LoadContent() as FrameworkElement;
-                if (contentControl == null) return;
+                if (contentControl == null)
+                {
+                    return;
+                }
 
                 contentControl.HorizontalAlignment = LoadingHorizontalAlignment;
                 contentControl.VerticalAlignment = LoadingVerticalAlignment;
@@ -132,7 +137,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             opacityAnimation.KeyFrames.Add(opacityFrame2);
 
             visibilityAnimation.KeyFrames.Add(visibilityFrame);
-            if (!IsLoading) visibilityAnimation.KeyFrames.Add(visibilityFrameEnd);
+            if (!IsLoading)
+            {
+                visibilityAnimation.KeyFrames.Add(visibilityFrameEnd);
+            }
 
             Storyboard.SetTargetProperty(scaleYAnimation, "(ContentGrid.RenderTransform).(CompositeTransform.TranslateY)");
             Storyboard.SetTargetProperty(opacityAnimation, "(RootGrid.Opacity)");
