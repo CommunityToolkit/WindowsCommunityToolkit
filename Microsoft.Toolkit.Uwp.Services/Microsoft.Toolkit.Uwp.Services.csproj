@@ -46,6 +46,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
@@ -59,6 +60,14 @@
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\MicrosoftGraph\AzureAD\AuthenticationHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\Common\MicrosoftGraphHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\Core\MicrosoftGraphCoreService.cs" />
+    <Compile Include="Services\MicrosoftGraph\Extensions\MicrosoftGraphExtensions.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageProperties.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageServices.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserProperties.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserServices.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />

@@ -1,5 +1,7 @@
 ﻿{
   "dependencies": {
+    "Microsoft.Graph": "1.0.1",
+    "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.19.208020213",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Newtonsoft.Json": "9.0.1",
     "StyleCop.Analyzers": "1.0.0",
