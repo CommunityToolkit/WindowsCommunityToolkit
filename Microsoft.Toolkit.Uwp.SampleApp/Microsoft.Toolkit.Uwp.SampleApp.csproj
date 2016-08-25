@@ -234,6 +234,7 @@
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
@@ -290,7 +291,12 @@
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
+<<<<<<< HEAD
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
+=======
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+>>>>>>> refs/remotes/Microsoft/dev
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -324,8 +330,13 @@
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="SamplePages\GridSplitter\GridSplitterPage.xaml.cs">
       <DependentUpon>GridSplitterPage.xaml</DependentUpon>
+=======
+    <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
+      <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
+>>>>>>> refs/remotes/Microsoft/dev
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -427,9 +438,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< HEAD
     <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+=======
+    <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+>>>>>>> refs/remotes/Microsoft/dev
     </Page>
     <Page Include="SamplePages\RotatorTile\RotatorTilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
