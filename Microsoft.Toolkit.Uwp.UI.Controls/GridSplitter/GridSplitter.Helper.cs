@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
-                // setting the Column min width to the width of the grid
+                // setting the Column min width to the width of the GridSplitter
                 var currentIndex = Grid.GetColumn(this);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.ColumnDefinitions.Count))
@@ -54,12 +54,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     splitterColumn.MinWidth = ActualWidth;
                 }
 
-                // Changing the icon text
+                // Changing the icon text GripperBarVertical
                 _iconDisplay.Text = GripperBarVertical;
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
-                // setting the Row min height to the height of the grid
+                // setting the Row min height to the height of the GridSplitter
                 var currentIndex = Grid.GetRow(this);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.RowDefinitions.Count))
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     splitterRow.MinHeight = ActualHeight;
                 }
 
-                // Changing the icon text
+                // Changing the icon text to GripperBarHorizontal
                 _iconDisplay.Text = GripperBarHorizontal;
             }
         }
@@ -101,6 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return GetSiblingIndex(currentIndex);
         }
 
+        // Gets index based on resize behavior for first targeted row/column
         private int GetTargetIndex(int currentIndex)
         {
             switch (_resizeBehavior)
@@ -116,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        // Gets index based on resize behavior for second targeted row/column
         private int GetSiblingIndex(int currentIndex)
         {
             switch (_resizeBehavior)
@@ -150,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     direction = GridResizeDirection.Rows;
                 }
 
-                // Fall back to Width vs Height
+                // Check Width vs Height
                 else if (ActualWidth <= ActualHeight)
                 {
                     direction = GridResizeDirection.Columns;
@@ -186,6 +188,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             break;
                     }
                 }
+
+                // resize direction is vertical
                 else
                 {
                     switch (VerticalAlignment)
