@@ -123,10 +123,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (MinRandomDuration > MaxRandomDuration)
             {
                 throw new ArgumentException("MinRandomDuration can't be bigger than MaxRandomDuration");
-            }else if (MinRandomDuration == MaxRandomDuration)
+            }
+            else if (MinRandomDuration == MaxRandomDuration)
             {
                 throw new ArgumentException("MinRandomDuration and MaxRandomDuration can't be equal.");
-            }else if (MinRandomDuration < 0 || MaxRandomDuration < 0)
+            }
+            else if (MinRandomDuration < 0 || MaxRandomDuration < 0)
             {
                 throw new ArgumentException("MinRandomDuration or MaxRandomDuration can't be negative.");
             }
