@@ -265,15 +265,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
             { // Swiping from left to right.
-                _transform.TranslateX += e.Delta.Translation.X;
                 if (_commandContainer != null && _transform.TranslateX > 0)
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
+                    _leftCommandPanel.Opacity = 1;
+                    _rightCommandPanel.Opacity = 0;
                 }
 
-                _leftCommandPanel.Opacity = 1;
-                _rightCommandPanel.Opacity = 0;
-
+                _transform.TranslateX += e.Delta.Translation.X;
                 if (abs < ActivationWidth)
                 {
                     _leftCommandTransform.TranslateX = _transform.TranslateX / 2;
@@ -285,15 +284,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
             { // Swiping from right to left.
-                _transform.TranslateX += e.Delta.Translation.X;
                 if (_commandContainer != null && _transform.TranslateX < 0)
                 {
                     _commandContainer.Background = RightBackground as SolidColorBrush;
+                    _rightCommandPanel.Opacity = 1;
+                    _leftCommandPanel.Opacity = 0;
                 }
 
-                _rightCommandPanel.Opacity = 1;
-                _leftCommandPanel.Opacity = 0;
-
+                _transform.TranslateX += e.Delta.Translation.X;
                 if (abs < ActivationWidth)
                 {
                     _rightCommandTransform.TranslateX = _transform.TranslateX / 2;
