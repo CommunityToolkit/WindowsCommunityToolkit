@@ -110,6 +110,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the Sibling Column definition of the parent Grid
+        /// </summary>
+        private RowDefinition SiblingRow
+        {
+            get
+            {
+                if (Resizable == null)
+                {
+                    return null;
+                }
+
+                var gridSplitterSiblingRowIndex = GetSiblingRow();
+
+                if ((gridSplitterSiblingRowIndex >= 0)
+                    && (gridSplitterSiblingRowIndex < Resizable.ColumnDefinitions.Count))
+                {
+                    return Resizable.RowDefinitions[gridSplitterSiblingRowIndex];
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GridSplitter"/> class.
         /// </summary>
         public GridSplitter()
@@ -125,6 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_splitter != null)
             {
                 // Unhook registered events
+                _splitter.Loaded -= GridSplitter_Loaded;
                 _splitter.DragStarted -= Splitter_DragStarted;
                 _splitter.DragDelta -= Splitter_DragDelta;
                 _splitter.DragCompleted -= Splitter_DragCompleted;
@@ -137,31 +162,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _resizeDirection = GetEffectiveResizeDirection();
-            _resizeBehavior = GetEffectiveResizeBehavior();
-            UpdateDisplayIcon();
-
             // Register Events
+            _splitter.Loaded += GridSplitter_Loaded;
             _splitter.DragStarted += Splitter_DragStarted;
             _splitter.DragDelta += Splitter_DragDelta;
             _splitter.DragCompleted += Splitter_DragCompleted;
-
-            //if (_resizeDirection == GridResizeDirection.Columns)
-            //{
-            //    if (CurrentColumn != null)
-            //    {
-            //        // To overcome the relative column width resize issues etc: Width=*
-            //        CurrentColumn.Width = new GridLength(CurrentColumn.ActualWidth);
-            //    }
-            //}
-            //else if (_resizeDirection == GridResizeDirection.Rows)
-            //{
-            //    if (CurrentColumn != null)
-            //    {
-            //        // To overcome the relative row height resize issues etc: height=*
-            //        CurrentRow.Height = new GridLength(CurrentRow.ActualHeight);
-            //    }
-            //}
         }
     }
 }

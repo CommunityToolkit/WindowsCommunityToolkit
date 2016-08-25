@@ -34,7 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Enum to indicate what Columns or Rows the GridSplitter resizes
         /// </summary>
-        [Flags]
         public enum GridResizeBehavior
         {
             /// <summary>

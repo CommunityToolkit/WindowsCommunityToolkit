@@ -10,39 +10,21 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition MinHeight="100"></RowDefinition>
+            <RowDefinition Height="11"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <!--<ColumnDefinition MinWidth="200" Width="400"></ColumnDefinition>
-            <ColumnDefinition ></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>-->
-
-            <!--<ColumnDefinition MinWidth="200"></ColumnDefinition>
-            <ColumnDefinition Width="400"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>-->
-
             <ColumnDefinition MinWidth="200"></ColumnDefinition>
-            <ColumnDefinition Width="12"></ColumnDefinition>
+            <ColumnDefinition Width="11"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200"</TextBlock>
+        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
         <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
-        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
-
-        <!--Column Grid Splitter-->
-        <!--<controls:GridSplitter 
-            Grid.Column="1"
-                Width="11"
-                Background="Gray"
-                Foreground="White" 
-                FontSize="11"
-                HorizontalAlignment="Right" >
-        </controls:GridSplitter>-->
+        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
@@ -50,15 +32,16 @@
                 Width="11"
                 Background="Gray"
                 Foreground="White" 
-                FontSize="11">
+                FontSize="13">
         </controls:GridSplitter>
 
         <!--Row Grid Splitter-->
         <controls:GridSplitter 
             Foreground="White"
+            Grid.Row="1"
             Background="Gray" Height="11"
             HorizontalAlignment="Stretch" 
-            VerticalAlignment="Bottom">
+            FontSize="13">
         </controls:GridSplitter>
 
     </Grid>

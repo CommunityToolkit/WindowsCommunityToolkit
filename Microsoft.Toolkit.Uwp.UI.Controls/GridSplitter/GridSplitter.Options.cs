@@ -50,13 +50,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnResizeDirectionChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)o;
-            gridSplitter._resizeDirection = gridSplitter.GetEffectiveResizeDirection();
+            gridSplitter._resizeDirection = gridSplitter.GetResizeDirection();
         }
 
         private static void OnResizeBehaviorChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)o;
-            gridSplitter._resizeBehavior = gridSplitter.GetEffectiveResizeBehavior();
+            gridSplitter._resizeBehavior = gridSplitter.GetResizeBehavior();
         }
     }
 }

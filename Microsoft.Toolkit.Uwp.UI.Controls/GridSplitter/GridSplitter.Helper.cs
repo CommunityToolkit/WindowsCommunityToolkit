@@ -12,12 +12,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
-        private static bool IsStarColumn(DependencyObject definition)
+        private static bool IsStarColumn(ColumnDefinition definition)
         {
             return ((GridLength)definition.GetValue(ColumnDefinition.WidthProperty)).IsStar;
         }
 
-        private static bool IsStarRow(DependencyObject definition)
+        private static bool IsStarRow(RowDefinition definition)
         {
             return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
         }
@@ -31,7 +31,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void UpdateDisplayIcon()
+        private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
+        {
+            var newHeight = rowDefinition.ActualHeight + verticalChange;
+            if (newHeight > ActualHeight)
+            {
+                rowDefinition.Height = new GridLength(newHeight, unitType);
+            }
+        }
+
+        private void InitControl()
         {
             if (_iconDisplay == null)
             {
@@ -40,10 +49,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
+                // setting the Column min width to the width of the grid
+                var currentIndex = Grid.GetColumn(this);
+                if ((currentIndex >= 0)
+                       && (currentIndex < Resizable.ColumnDefinitions.Count))
+                {
+                    var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
+                    splitterColumn.MinWidth = ActualWidth;
+                }
+
+                // Changing the icon text
                 _iconDisplay.Text = GripperBarVertical;
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
+                // setting the Row min height to the height of the grid
+                var currentIndex = Grid.GetRow(this);
+                if ((currentIndex >= 0)
+                       && (currentIndex < Resizable.RowDefinitions.Count))
+                {
+                    var splitterRow = Resizable.RowDefinitions[currentIndex];
+                    splitterRow.MinHeight = ActualHeight;
+                }
+
+                // Changing the icon text
                 _iconDisplay.Text = GripperBarHorizontal;
             }
         }
@@ -52,23 +81,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int GetTargetedColumn()
         {
             var currentIndex = Grid.GetColumn(this);
+            return GetTargetIndex(currentIndex);
+        }
+
+        // Return the sibling Row based on the resize behavior
+        private int GetTargetedRow()
+        {
+            var currentIndex = Grid.GetRow(this);
+            return GetTargetIndex(currentIndex);
+        }
+
+        // Return the sibling Column based on the resize behavior
+        private int GetSiblingColumn()
+        {
+            var currentIndex = Grid.GetColumn(this);
+            return GetSiblingIndex(currentIndex);
+        }
+
+        // Return the sibling Row based on the resize behavior
+        private int GetSiblingRow()
+        {
+            var currentIndex = Grid.GetRow(this);
+            return GetSiblingIndex(currentIndex);
+        }
+
+        private int GetTargetIndex(int currentIndex)
+        {
             switch (_resizeBehavior)
             {
                 case GridResizeBehavior.CurrentAndNext:
                     return currentIndex;
-                case GridResizeBehavior.PreviousAndCurrent | GridResizeBehavior.PreviousAndNext:
+                case GridResizeBehavior.PreviousAndNext:
+                    return currentIndex - 1;
+                case GridResizeBehavior.PreviousAndCurrent:
                     return currentIndex - 1;
                 default:
                     return -1;
             }
         }
 
-        private int GetSiblingColumn()
+        private int GetSiblingIndex(int currentIndex)
         {
-            var currentIndex = Grid.GetColumn(this);
             switch (_resizeBehavior)
             {
-                case GridResizeBehavior.CurrentAndNext | GridResizeBehavior.PreviousAndNext:
+                case GridResizeBehavior.CurrentAndNext:
+                    return currentIndex + 1;
+                case GridResizeBehavior.PreviousAndNext:
                     return currentIndex + 1;
                 case GridResizeBehavior.PreviousAndCurrent:
                     return currentIndex;
@@ -77,14 +135,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Return the targeted Row based on the resize behavior
-        private int GetTargetedRow()
-        {
-            return Grid.GetRow(this);
-        }
-
         // Converts BasedOnAlignment direction to Rows, Columns, or Both depending on its width/height
-        private GridResizeDirection GetEffectiveResizeDirection()
+        private GridResizeDirection GetResizeDirection()
         {
             GridResizeDirection direction = ResizeDirection;
 
@@ -115,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // Convert BasedOnAlignment to Next/Prev/Both depending on alignment and Direction
-        private GridResizeBehavior GetEffectiveResizeBehavior()
+        private GridResizeBehavior GetResizeBehavior()
         {
             GridResizeBehavior resizeBehavior = ResizeBehavior;
 

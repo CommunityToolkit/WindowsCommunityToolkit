@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -12,6 +13,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void Splitter_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = ArrowCursor;
+        }
+
+        private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
+        {
+            _resizeDirection = GetResizeDirection();
+            _resizeBehavior = GetResizeBehavior();
+            InitControl();
         }
 
         private void Splitter_DragStarted(object sender, DragStartedEventArgs e)
@@ -30,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_resizeDirection == GridResizeDirection.Columns)
             {
-                if (CurrentColumn == null)
+                if (CurrentColumn == null || SiblingColumn == null)
                 {
                     return;
                 }
@@ -60,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SetColumnWidth(CurrentColumn, e.HorizontalChange, GridUnitType.Star);
                         }
-                        else if (SiblingColumn == CurrentColumn)
+                        else if (columnDefinition == SiblingColumn)
                         {
                             SetColumnWidth(SiblingColumn, e.HorizontalChange * -1, GridUnitType.Star);
                         }
@@ -73,17 +81,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
-                if (CurrentRow == null)
+                if (CurrentRow == null || SiblingRow == null)
                 {
                     return;
                 }
 
-                // No need to check for the Row Min height because it is automatically respected
-                var newHeight = CurrentRow.ActualHeight + e.VerticalChange;
-
-                if (newHeight > 0)
+                // if current row has fixed height then resize it
+                if (!IsStarRow(CurrentRow))
                 {
-                    CurrentRow.Height = new GridLength(newHeight);
+                    // No need to check for the row Min height because it is automatically respected
+                    SetRowHeight(CurrentRow, e.VerticalChange, GridUnitType.Pixel);
+                }
+
+                // if sibling row has fixed width then resize it
+                else if (!IsStarRow(SiblingRow))
+                {
+                    SetRowHeight(SiblingRow, e.VerticalChange * -1, GridUnitType.Pixel);
+                }
+
+                // if both row haven't fixed height (auto *)
+                else
+                {
+                    // change current row height to the new height with respecting the auto
+                    // change sibling row height to the new height relative to current row
+                    // respect the other star row height by setting it's height to it's actual height with stars
+                    foreach (var rowDefinition in Resizable.RowDefinitions)
+                    {
+                        if (rowDefinition == CurrentRow)
+                        {
+                            SetRowHeight(CurrentRow, e.VerticalChange, GridUnitType.Star);
+                        }
+                        else if (rowDefinition == SiblingRow)
+                        {
+                            SetRowHeight(SiblingRow, e.VerticalChange * -1, GridUnitType.Star);
+                        }
+                        else
+                        {
+                            rowDefinition.Height = new GridLength(rowDefinition.ActualHeight, GridUnitType.Star);
+                        }
+                    }
                 }
             }
         }
