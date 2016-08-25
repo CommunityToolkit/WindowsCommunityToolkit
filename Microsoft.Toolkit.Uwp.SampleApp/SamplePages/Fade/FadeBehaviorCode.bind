@@ -4,5 +4,5 @@
 // C# - Fade can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
-await ToolkitLogo.Fade(duration: 10, delay: 0, value: 0.5f).StartAsync();
+await ToolkitLogo.Fade(value: 0.5f, duration: 10, delay: 0).StartAsync();
 

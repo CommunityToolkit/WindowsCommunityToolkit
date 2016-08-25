@@ -4,8 +4,7 @@
 // C# - Offset can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
-await ToolkitLogo.Offset(duration: 10, delay: 0, 
-						 offsetX: 1.0f,
+await ToolkitLogo.Offset(offsetX: 1.0f,
 						 offsetY: 1.1f,
-						 offsetZ: 0.5f).StartAsync();
+						 duration: 10, delay: 0).StartAsync();
 

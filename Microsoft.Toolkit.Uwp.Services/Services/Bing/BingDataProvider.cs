@@ -42,10 +42,26 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
+<<<<<<< HEAD
             var locParameter = string.IsNullOrEmpty(countryValue) ? $"loc:{CultureInfo.CurrentCulture.Name.Split('-')[1].ToLower()}+" : $"loc:{countryValue}+";
+=======
+            var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
+            var queryTypeParameter = string.Empty;
+
+            switch (config.QueryType)
+            {
+                case BingQueryType.Search:
+                    queryTypeParameter = string.Empty;
+                    break;
+                case BingQueryType.News:
+                    queryTypeParameter = "/news";
+                    break;
+            }
+
+>>>>>>> refs/remotes/Microsoft/dev
             var settings = new HttpRequestSettings
             {
-                RequestedUri = new Uri($"{BaseUrl}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
+                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
             };
 
             HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
