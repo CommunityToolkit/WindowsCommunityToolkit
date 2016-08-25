@@ -106,6 +106,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (IsCacheEnabled && _isHttpSource)
                 {
                     _image.Source = await ImageCache.GetFromCacheAsync(_uri);
+                    if (_image.Source != null)
+                    {
+                        VisualStateManager.GoToState(this, LoadedState, true);
+                    }
+                    else
+                    {
+                        VisualStateManager.GoToState(this, FailedState, true);
+                    }
                 }
                 else
                 {
