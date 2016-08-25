@@ -82,6 +82,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeControl/Blade.png"
+      },
+      {
+        "Name": "TreeView",
+        "Type": "TreeViewPage",
+        "About": "TreeView",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TreeView",
+        "XamlCodeFile": "TreeViewCode.bind",
+        "Icon": "/SamplePages/TreeView/TreeView.png"
       }
     ]
   },

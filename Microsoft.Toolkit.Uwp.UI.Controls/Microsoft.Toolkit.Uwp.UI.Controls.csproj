@@ -45,6 +45,16 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Common\InteractionHelper.cs" />
+    <Compile Include="Common\IUpdateVisualState.cs" />
+    <Compile Include="Common\PropertyChangeEventSource.cs" />
+    <Compile Include="Common\RoutedPropertyChangedEventArgs{T}.cs" />
+    <Compile Include="Common\ScrollExtensions.cs" />
+    <Compile Include="Common\VisualStates.cs" />
+    <Compile Include="Data\DataTemplateExtensions.cs" />
+    <Compile Include="Data\HierarchicalDataTemplate.cs" />
+    <Compile Include="HeaderedItemsControl\HeaderedItemsControl.cs" />
+    <Compile Include="HeaderedItemsControl\ItemsControlHelper.cs" />
     <Compile Include="BladeControl\Blade.cs" />
     <Compile Include="BladeControl\Blade.Properties.cs" />
     <Compile Include="BladeControl\BladeControl.cs" />
@@ -53,6 +63,10 @@
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
+    <Compile Include="TreeView\TreeView.cs" />
+    <Compile Include="TreeView\TreeViewAutomationPeer.cs" />
+    <Compile Include="TreeView\TreeViewItem.cs" />
+    <Compile Include="TreeView\TreeViewItemAutomationPeer.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -127,6 +141,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="TreeView\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TreeView\TreeViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
