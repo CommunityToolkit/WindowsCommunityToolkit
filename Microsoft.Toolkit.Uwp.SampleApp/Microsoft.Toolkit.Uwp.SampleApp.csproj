@@ -233,6 +233,7 @@
     <Content Include="SamplePages\BladeControl\Blade.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
@@ -291,6 +292,8 @@
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
     <Content Include="SamplePages\QuickReturnHeader\QuickReturnHeaderCode.bind" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -326,6 +329,9 @@
     </Compile>
     <Compile Include="SamplePages\QuickReturnHeader\QuickReturnHeaderPage.xaml.cs">
       <DependentUpon>QuickReturnHeaderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
+      <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -428,6 +434,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\QuickReturnHeader\QuickReturnHeaderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

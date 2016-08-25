@@ -3,13 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:Converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:twitter="using:Microsoft.Toolkit.Uwp.Services.Twitter"
     mc:Ignorable="d">
     <Page.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-
         <DataTemplate x:Key="TwitterSchemaTemplate" x:DataType="twitter:Tweet">
             <Border Margin="12,0,12,12" Padding="12" Background="White" BorderBrush="#FFCCCCCC" BorderThickness="1" CornerRadius="4">
                 <Grid>
