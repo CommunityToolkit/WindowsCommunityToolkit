@@ -54,7 +54,7 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
   
   WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
 
-  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
+  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe /nofetch | ConvertFrom-Json
 
   $script:version = $versionObj.NuGetVersionV2
   
