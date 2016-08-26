@@ -111,7 +111,7 @@
                             <ColumnDefinition Width="48"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="{Binding From}" FontSize="15" FontWeight="Medium"/>
+                            <TextBlock Text="{Binding From.EmailAddress.Name}" FontSize="15" FontWeight="Medium"/>
                             <TextBlock Text="{Binding Subject}" FontSize="10" FontWeight="Normal" Foreground="Blue"/>
                             <TextBlock Text="{Binding BodyPreview}" Opacity="0.6" FontSize="10" TextWrapping="NoWrap"
                                    FontWeight="Normal"/>

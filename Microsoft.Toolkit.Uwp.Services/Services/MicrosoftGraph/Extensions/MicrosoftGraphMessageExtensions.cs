@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Retrieve the user's emails
         /// </summary>
         /// <param name="graphClient">Microsoft Graph Client's instance</param>
-        /// <param name="topMessages">The number of messages to return in a response</param>
+        /// <param name="topMessages">The number of messages to return in the response</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>A strongly type including a list of the messages</returns>
@@ -52,9 +52,37 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 return await graphClient.Me.Messages.Request().Top(topMessages).OrderBy(OrderBy).GetAsync(cancellationToken);
             }
 
-            string selectedProperties = MicrosoftGraphHelper.FormatString<MicrosoftGraphMessageFields>(selectFields);
+            string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
 
             return await graphClient.Me.Messages.Request().Top(topMessages).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
+        }
+
+        /// <summary>
+        /// IUserMessagesCollectionPage extension collecting the next page of messages
+        /// </summary>
+        /// <param name="nextPage">Instance of IUserMessagesCollectionPage</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>the next collection of messages or null if there are anymore messages</returns>
+        public static async Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage,CancellationToken cancellationToken)
+        {
+            if (nextPage.NextPageRequest != null)
+            {
+                return await nextPage.NextPageRequest.GetAsync(cancellationToken);
+            }
+
+            // anymore messages
+            return null;
+        }
+
+        /// <summary>
+        /// IUserMessagesCollectionPage extension collecting the next page of messages
+        /// </summary>
+        /// <param name="nextPage">Instance of IUserMessagesCollectionPage</param>        
+        /// <returns>the next collection of messages or null if there are anymore messages</returns>
+        public static async Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage)
+        {
+
+            return await nextPage.NextPageAsync(CancellationToken.None);
         }
     }
 }

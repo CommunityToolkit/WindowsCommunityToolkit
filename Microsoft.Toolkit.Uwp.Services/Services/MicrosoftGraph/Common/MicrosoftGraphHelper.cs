@@ -12,35 +12,27 @@
 //
 // ******************************************************************
 
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.AzureAD;
-using System.Text;
-
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+    using System.Net.Http.Headers;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.Graph;
+    using Microsoft.Toolkit.Uwp.Services.AzureAD;
+
     /// <summary>
-    /// 
+    /// Microsoft Graph Helper
     /// </summary>
     public class MicrosoftGraphHelper
     {
-        public static async Task<GraphServiceClient> GetGraphClientForCurrentSigninUserAsync(string appClientId)
-        {
-            return new GraphServiceClient(
-                  new DelegateAuthenticationProvider(
-                     async (requestMessage) =>
-                     {
-                         // requestMessage.Headers.Add("outlook.timezone", "Romance Standard Time");
-                         requestMessage.Headers.Authorization =
-                                            new AuthenticationHeaderValue(
-                                                     "bearer",
-                                                     await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false));
-                         return;
-                     }));
-        }
 
-        internal static string FormatString<T>(T[] t)
+        /// <summary>
+        /// Build string with an array's items
+        /// </summary>
+        /// <typeparam name="T">enum type</typeparam>
+        /// <param name="t">an array of enum containing the fields</param>
+        /// <returns>a string with all fields separate by a comma.</returns>
+        internal static string BuildString<T>(T[] t)
         {
             StringBuilder sb = new StringBuilder();
 

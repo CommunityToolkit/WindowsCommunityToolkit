@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 return await graphClient.Me.Request().GetAsync(cancellationToken);
             }
 
-            string selectedProperties = MicrosoftGraphHelper.FormatString<MicrosoftGraphUserFields>(selectFields);
+            string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
 
             return await graphClient.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
         }

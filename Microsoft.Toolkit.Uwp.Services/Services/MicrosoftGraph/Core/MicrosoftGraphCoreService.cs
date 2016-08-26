@@ -88,14 +88,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false)
-                                                     );
+                                                     await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
         }
 
         /// <summary>
-        /// Log user from Azure AD and Get Microsoft Graph access token.
+        /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
         /// <see cref="Http://graph.microsoft.io/en-us/docs/authorization/permission_scopes"/>
