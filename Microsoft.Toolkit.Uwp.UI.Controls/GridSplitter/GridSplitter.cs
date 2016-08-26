@@ -134,10 +134,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Unhook registered events
             Loaded -= GridSplitter_Loaded;
-            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
 
             // Register Events
             Loaded += GridSplitter_Loaded;
+
+            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }
     }
 }
