@@ -50,7 +50,7 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
   
   WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo.cs files...`n"
   
-  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
+  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo /nofetch } "Error updating GitVersion"
   
   WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
 
