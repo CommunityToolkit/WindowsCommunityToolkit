@@ -237,6 +237,7 @@
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
@@ -276,7 +277,9 @@
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
-    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />

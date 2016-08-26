@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -20,6 +21,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
+
             foreach (var key in Resources.Keys)
             {
                 Templates.Add(Resources[key.ToString()] as DataTemplate);

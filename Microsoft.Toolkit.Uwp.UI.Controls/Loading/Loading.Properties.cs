@@ -10,39 +10,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed partial class Loading
     {
-        /// <summary>
-        /// LoadingVerticalAlignmentProperty
-        /// </summary>
         public static readonly DependencyProperty LoadingVerticalAlignmentProperty = DependencyProperty.Register(
             "LoadingVerticalAlignment", typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
 
-        /// <summary>
-        /// LoadingHorizontalAlignmentProperty
-        /// </summary>
         public static readonly DependencyProperty LoadingHorizontalAlignmentProperty = DependencyProperty.Register(
             "LoadingHorizontalAlignment", typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
 
-        /// <summary>
-        /// LoadingContentProperty
-        /// </summary>
         public static readonly DependencyProperty LoadingContentProperty = DependencyProperty.Register(
             "LoadingContent", typeof(DataTemplate), typeof(Loading), new PropertyMetadata(default(DataTemplate), LoadingContentPropertyChanged));
 
-        /// <summary>
-        /// IsLoadingProperty
-        /// </summary>
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
             "IsLoading", typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
-        /// <summary>
-        /// LoadingOpacityProperty
-        /// </summary>
         public static readonly DependencyProperty LoadingOpacityProperty = DependencyProperty.Register(
             "LoadingOpacity", typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
 
-        /// <summary>
-        /// LoadingBackgroundProperty
-        /// </summary>
         public static readonly DependencyProperty LoadingBackgroundProperty = DependencyProperty.Register(
             "LoadingBackground", typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
 

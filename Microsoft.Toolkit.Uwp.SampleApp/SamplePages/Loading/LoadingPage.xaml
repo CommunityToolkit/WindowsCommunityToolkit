@@ -65,8 +65,9 @@
             </GridView>
         </StackPanel>
 
-        <controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="Left" LoadingVerticalAlignment="Bottom"
-                          LoadingBackground="White" LoadingOpacity="{Binding OpacityForLoadingControl.Value}">
+        <controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
+                          LoadingVerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
+                          LoadingBackground="{Binding LoadingBackground.Value}" LoadingOpacity="{Binding OpacityForLoadingControl.Value}">
         </controls:Loading>
     </Grid>
 </Page>
