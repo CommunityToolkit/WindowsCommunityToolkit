@@ -8,11 +8,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
                     <Grid Background="{TemplateBinding Background}">
-
-                        <ContentPresenter VerticalAlignment="Stretch"
-                                          Content="{TemplateBinding Element}"/>
+                        <ContentPresenter Content="{TemplateBinding Element}"/>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
