@@ -65,7 +65,21 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>A stream containing the user's photo</returns>
         public static async Task<System.IO.Stream> GetMePhotoAsync(this GraphServiceClient graphClient, CancellationToken cancellationToken)
         {
-            return await graphClient.Me.Photo.Content.Request().GetAsync(cancellationToken);
+            System.IO.Stream photo = null;
+            try
+            {
+                photo = await graphClient.Me.Photo.Content.Request().GetAsync(cancellationToken);
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                // Swallow error in case of no photo found
+                if (!ex.Error.Code.Equals("ErrorItemNotFound"))
+                {
+                    throw;
+                }
+            }
+
+            return photo;
         }
 
         /// <summary>

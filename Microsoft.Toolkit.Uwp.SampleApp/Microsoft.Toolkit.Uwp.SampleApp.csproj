@@ -238,6 +238,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />

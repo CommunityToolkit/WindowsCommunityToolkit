@@ -39,9 +39,9 @@ MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
 MicrosoftGraphUserFields[] selectedFields = { MicrosoftGraphMessageProperties.Id,
-                            MicrosoftGraphMessageProperties.From,
-                            MicrosoftGraphMessageProperties.Subject,
-                            MicrosoftGraphMessageProperties.BodyPreview};
+                                              MicrosoftGraphMessageProperties.From,
+                                              MicrosoftGraphMessageProperties.Subject,
+                                              MicrosoftGraphMessageProperties.BodyPreview};
 
 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
