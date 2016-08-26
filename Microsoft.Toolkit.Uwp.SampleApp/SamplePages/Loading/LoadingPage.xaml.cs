@@ -1,44 +1,48 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Loading
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoadingPage : INotifyPropertyChanged
+    public sealed partial class LoadingPage
     {
-        private bool _isBusy;
-
         public LoadingPage()
         {
             this.InitializeComponent();
         }
 
-        public bool IsBusy
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            get { return _isBusy; }
-            set
+            foreach (var key in Resources.Keys)
             {
-                _isBusy = value;
-                OnPropertyChanged();
+                Templates.Add(Resources[key.ToString()] as DataTemplate);
             }
+
+            GridViewControl.ItemsSource = Templates;
+            LoadingControl.LoadingContent = Templates.FirstOrDefault();
+
+            base.OnNavigatedTo(e);
         }
+
+        public List<DataTemplate> Templates { get; set; } = new List<DataTemplate>();
 
         private async void ShowLoadingDialogDelegateAsync(object sender, TappedRoutedEventArgs e)
         {
-            IsBusy = true;
+            LoadingControl.IsLoading = true;
             await Task.Delay(3000);
-            IsBusy = false;
+            LoadingControl.IsLoading = false;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void GridViewControl_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            LoadingControl.LoadingContent = (sender as GridView).SelectedItem as DataTemplate;
         }
     }
 }
