@@ -38,11 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InitControl()
         {
-            if (_iconDisplay == null)
-            {
-                return;
-            }
-
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 // setting the Column min width to the width of the GridSplitter
@@ -53,9 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
                     splitterColumn.MinWidth = ActualWidth;
                 }
-
-                // Changing the icon text VerticalIconText
-                _iconDisplay.Text = VerticalIconText;
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
@@ -67,9 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var splitterRow = Resizable.RowDefinitions[currentIndex];
                     splitterRow.MinHeight = ActualHeight;
                 }
-
-                // Changing the icon text to VerticalIconText
-                _iconDisplay.Text = HorizontalIconText;
             }
         }
 

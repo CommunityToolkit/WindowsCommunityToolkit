@@ -35,6 +35,17 @@
                 Background="Gray"
                 Foreground="White" 
                 FontSize="13">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" 
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"  
+                                    Text="&#xE784;"
+                                   Foreground="Black" 
+                                   FontFamily="Segoe MDL2 Assets">
+                    </TextBlock>
+                </Grid>
+            </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
         <!--Row Grid Splitter-->
@@ -46,6 +57,17 @@
             Background="Gray" Height="11"
             HorizontalAlignment="Stretch" 
             FontSize="13">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center"     
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"  
+                                    Text="&#xE76F;"
+                                   Foreground="Black" 
+                                   FontFamily="Segoe MDL2 Assets">
+                    </TextBlock>
+                </Grid>
+            </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
     </Grid>

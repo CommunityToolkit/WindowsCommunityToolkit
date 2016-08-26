@@ -7,21 +7,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
-                    <Grid x:Name="ContainerGrid">
-                        <Thumb 
-                           x:Name="Splitter"
-                           Width="{TemplateBinding Width}"
-                           Background="{TemplateBinding Background}">
-                            
-                        </Thumb>
+                    <Grid Background="{TemplateBinding Background}">
 
-                        <TextBlock HorizontalAlignment="Center" 
-                                   x:Name="IconDisplay"     
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center" 
-                                   FontSize="{TemplateBinding FontSize}" 
-                                   Foreground="{TemplateBinding Foreground}" 
-                                   FontFamily="Segoe MDL2 Assets"></TextBlock>
+                        <ContentPresenter VerticalAlignment="Stretch"
+                                          Content="{TemplateBinding Element}"/>
                     </Grid>
 
                 </ControlTemplate>

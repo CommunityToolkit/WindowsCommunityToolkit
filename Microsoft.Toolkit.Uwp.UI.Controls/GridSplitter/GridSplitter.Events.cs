@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -15,13 +16,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InitControl();
         }
 
-        private void GridSplitter_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
-            // restore previous state
-            Window.Current.CoreWindow.PointerCursor = _previousCursor;
+            // saving the previous state
+            _previousCursor = Window.Current.CoreWindow.PointerCursor;
+
+            if (_resizeDirection == GridResizeDirection.Columns)
+            {
+                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
+            }
+            else if (_resizeDirection == GridResizeDirection.Rows)
+            {
+                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
+            }
+
+            base.OnManipulationStarted(e);
         }
 
-        private void GridSplitter_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = _previousCursor;
+
+            base.OnManipulationCompleted(e);
+        }
+
+        protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
         {
             var horizontalChange = e.Delta.Translation.X;
             var verticalChange = e.Delta.Translation.Y;
@@ -111,21 +130,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-        }
 
-        private void GridSplitter_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
-        {
-            // saving the previous state
-            _previousCursor = Window.Current.CoreWindow.PointerCursor;
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
-            }
+            base.OnManipulationDelta(e);
         }
     }
 }
