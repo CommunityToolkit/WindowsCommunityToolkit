@@ -147,10 +147,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_splitter != null)
             {
                 // Unhook registered events
-                _splitter.Loaded -= GridSplitter_Loaded;
-                _splitter.DragStarted -= Splitter_DragStarted;
-                _splitter.DragDelta -= Splitter_DragDelta;
-                _splitter.DragCompleted -= Splitter_DragCompleted;
+                Loaded -= GridSplitter_Loaded;
+                ManipulationStarted -= GridSplitter_ManipulationStarted;
+                ManipulationDelta -= GridSplitter_ManipulationDelta;
+                ManipulationCompleted -= GridSplitter_ManipulationCompleted;
             }
 
             _splitter = GetTemplateChild(SplitterName) as Thumb;
@@ -160,11 +160,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.TranslateX | Windows.UI.Xaml.Input.ManipulationModes.TranslateY;
+
             // Register Events
-            _splitter.Loaded += GridSplitter_Loaded;
-            _splitter.DragStarted += Splitter_DragStarted;
-            _splitter.DragDelta += Splitter_DragDelta;
-            _splitter.DragCompleted += Splitter_DragCompleted;
+            Loaded += GridSplitter_Loaded;
+            ManipulationStarted += GridSplitter_ManipulationStarted;
+            ManipulationDelta += GridSplitter_ManipulationDelta;
+            ManipulationCompleted += GridSplitter_ManipulationCompleted;
         }
     }
 }

@@ -15,29 +15,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InitControl();
         }
 
-        private void Splitter_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            // saving the previous state
-            _previousCursor = Window.Current.CoreWindow.PointerCursor;
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
-            }
-        }
-
-        private void Splitter_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void GridSplitter_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
             // restore previous state
             Window.Current.CoreWindow.PointerCursor = _previousCursor;
         }
 
-        private void Splitter_DragDelta(object sender, DragDeltaEventArgs e)
+        private void GridSplitter_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
+            var horizontalChange = e.Delta.Translation.X;
+            var verticalChange = e.Delta.Translation.Y;
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 if (CurrentColumn == null || SiblingColumn == null)
@@ -49,13 +36,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!IsStarColumn(CurrentColumn))
                 {
                     // No need to check for the Column Min width because it is automatically respected
-                    SetColumnWidth(CurrentColumn, e.HorizontalChange, GridUnitType.Pixel);
+                    SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel);
                 }
 
                 // if sibling column has fixed width then resize it
                 else if (!IsStarColumn(SiblingColumn))
                 {
-                    SetColumnWidth(SiblingColumn, e.HorizontalChange * -1, GridUnitType.Pixel);
+                    SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel);
                 }
 
                 // if both column haven't fixed width (auto *)
@@ -68,11 +55,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (columnDefinition == CurrentColumn)
                         {
-                            SetColumnWidth(CurrentColumn, e.HorizontalChange, GridUnitType.Star);
+                            SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Star);
                         }
                         else if (columnDefinition == SiblingColumn)
                         {
-                            SetColumnWidth(SiblingColumn, e.HorizontalChange * -1, GridUnitType.Star);
+                            SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Star);
                         }
                         else
                         {
@@ -92,13 +79,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!IsStarRow(CurrentRow))
                 {
                     // No need to check for the row Min height because it is automatically respected
-                    SetRowHeight(CurrentRow, e.VerticalChange, GridUnitType.Pixel);
+                    SetRowHeight(CurrentRow, verticalChange, GridUnitType.Pixel);
                 }
 
                 // if sibling row has fixed width then resize it
                 else if (!IsStarRow(SiblingRow))
                 {
-                    SetRowHeight(SiblingRow, e.VerticalChange * -1, GridUnitType.Pixel);
+                    SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel);
                 }
 
                 // if both row haven't fixed height (auto *)
@@ -111,11 +98,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (rowDefinition == CurrentRow)
                         {
-                            SetRowHeight(CurrentRow, e.VerticalChange, GridUnitType.Star);
+                            SetRowHeight(CurrentRow, verticalChange, GridUnitType.Star);
                         }
                         else if (rowDefinition == SiblingRow)
                         {
-                            SetRowHeight(SiblingRow, e.VerticalChange * -1, GridUnitType.Star);
+                            SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Star);
                         }
                         else
                         {
@@ -123,6 +110,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                     }
                 }
+            }
+        }
+
+        private void GridSplitter_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        {
+            // saving the previous state
+            _previousCursor = Window.Current.CoreWindow.PointerCursor;
+
+            if (_resizeDirection == GridResizeDirection.Columns)
+            {
+                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
+            }
+            else if (_resizeDirection == GridResizeDirection.Rows)
+            {
+                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
         }
     }
