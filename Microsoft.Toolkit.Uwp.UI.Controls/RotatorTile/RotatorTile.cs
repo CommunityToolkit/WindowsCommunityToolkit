@@ -52,13 +52,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MinRandomDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty MinRandomDurationProperty =
-            DependencyProperty.Register(nameof(MinRandomDuration), typeof(int), typeof(RotatorTile), new PropertyMetadata(default(int)));
+            DependencyProperty.Register(nameof(MinRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
 
         /// <summary>
         /// Identifies the <see cref="MinRandomDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty MaxRandomDurationProperty =
-            DependencyProperty.Register(nameof(MaxRandomDuration), typeof(int), typeof(RotatorTile), new PropertyMetadata(default(int)));
+            DependencyProperty.Register(nameof(MaxRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
 
         /// <summary>
         /// Identifies the <see cref="RotationDelay"/> property.
@@ -127,10 +127,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (MinRandomDuration == MaxRandomDuration)
             {
                 throw new ArgumentException("MinRandomDuration and MaxRandomDuration can't be equal.");
-            }
-            else if (MinRandomDuration < 0 || MaxRandomDuration < 0)
-            {
-                throw new ArgumentException("MinRandomDuration or MaxRandomDuration can't be negative.");
             }
 
             base.OnApplyTemplate();
@@ -385,7 +381,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
-            return RotationDelay == TimeSpan.Zero ? TimeSpan.FromSeconds(_randomizer.Next(MinRandomDuration, MaxRandomDuration)) : RotationDelay;
+            if (RotationDelay.Equals(TimeSpan.Zero))
+            { // Random TimeSpan will be generated between MinRandomDuration and MaxRandomDuration.
+                var diff = MaxRandomDuration - MinRandomDuration;
+                var randomExtraSeconds = _randomizer.Next(0, (int)diff.TotalSeconds);
+                return MinRandomDuration + TimeSpan.FromSeconds(randomExtraSeconds);
+            }
+            else
+            {
+                return RotationDelay;
+            }
         }
 
         /// <summary>
@@ -572,18 +577,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the minimum duration for randomizer to use in rotation duration generating.
         /// </summary>
-        public int MinRandomDuration
+        public TimeSpan MinRandomDuration
         {
-            get { return (int)GetValue(MinRandomDurationProperty); }
+            get { return (TimeSpan)GetValue(MinRandomDurationProperty); }
             set { SetValue(MinRandomDurationProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the maximum duration for randomizer to use in rotation duration generating.
         /// </summary>
-        public int MaxRandomDuration
+        public TimeSpan MaxRandomDuration
         {
-            get { return (int)GetValue(MaxRandomDurationProperty); }
+            get { return (TimeSpan)GetValue(MaxRandomDurationProperty); }
             set { SetValue(MaxRandomDurationProperty, value); }
         }
 
