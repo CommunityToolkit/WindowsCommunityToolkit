@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            HamburgerMenuControl.ItemsSource = (await new PhotosDataSource().GetItemsAsync()).Take(5);
+            HamburgerMenuControl.ItemsSource = await new PhotosDataSource().GetItemsAsync(maxCount: 5);
 
             HamburgerMenuControl.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
         }
