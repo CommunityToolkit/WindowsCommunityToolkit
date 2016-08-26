@@ -8,11 +8,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
-        private static void Splitter_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            Window.Current.CoreWindow.PointerCursor = ArrowCursor;
-        }
-
         private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
         {
             _resizeDirection = GetResizeDirection();
@@ -22,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Splitter_DragStarted(object sender, DragStartedEventArgs e)
         {
+            // saving the previous state
+            _previousCursor = Window.Current.CoreWindow.PointerCursor;
+
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
@@ -30,6 +28,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
+        }
+
+        private void Splitter_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            // restore previous state
+            Window.Current.CoreWindow.PointerCursor = _previousCursor;
         }
 
         private void Splitter_DragDelta(object sender, DragDeltaEventArgs e)

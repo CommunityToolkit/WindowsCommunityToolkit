@@ -20,16 +20,18 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
-        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
-        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
-        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="WrapWholeWords">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
             Grid.Column="1"
                 Width="11"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
                 Background="Gray"
                 Foreground="White" 
                 FontSize="13">
@@ -39,6 +41,8 @@
         <controls:GridSplitter 
             Foreground="White"
             Grid.Row="1"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
             Background="Gray" Height="11"
             HorizontalAlignment="Stretch" 
             FontSize="13">

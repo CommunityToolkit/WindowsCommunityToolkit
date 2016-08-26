@@ -8,12 +8,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents the control that redistributes space between columns or rows of a Grid control.
     /// </summary>
-    [TemplatePart(Name = SPLITTERRNAME, Type = typeof(Thumb))]
-    [TemplatePart(Name = ICONDISPLAYNAME, Type = typeof(Thumb))]
+    [TemplatePart(Name = SplitterName, Type = typeof(Thumb))]
+    [TemplatePart(Name = IconDisplayName, Type = typeof(Thumb))]
     public partial class GridSplitter : Control
     {
-        private const string SPLITTERRNAME = "Splitter";
-        private const string ICONDISPLAYNAME = "IconDisplay";
+        private const string SplitterName = "Splitter";
+        private const string IconDisplayName = "IconDisplay";
 
         // Symbol GripperBarVertical in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
         private static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
-        private static readonly CoreCursor ArrowCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+        private CoreCursor _previousCursor;
         private Thumb _splitter;
         private TextBlock _iconDisplay;
 
@@ -153,8 +153,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _splitter.DragCompleted -= Splitter_DragCompleted;
             }
 
-            _splitter = GetTemplateChild(SPLITTERRNAME) as Thumb;
-            _iconDisplay = GetTemplateChild(ICONDISPLAYNAME) as TextBlock;
+            _splitter = GetTemplateChild(SplitterName) as Thumb;
+            _iconDisplay = GetTemplateChild(IconDisplayName) as TextBlock;
             if (_splitter == null)
             {
                 return;

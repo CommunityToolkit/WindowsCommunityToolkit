@@ -54,8 +54,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     splitterColumn.MinWidth = ActualWidth;
                 }
 
-                // Changing the icon text GripperBarVertical
-                _iconDisplay.Text = GripperBarVertical;
+                // Changing the icon text VerticalIconText
+                _iconDisplay.Text = VerticalIconText;
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
@@ -68,8 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     splitterRow.MinHeight = ActualHeight;
                 }
 
-                // Changing the icon text to GripperBarHorizontal
-                _iconDisplay.Text = GripperBarHorizontal;
+                // Changing the icon text to VerticalIconText
+                _iconDisplay.Text = HorizontalIconText;
             }
         }
 
