@@ -27,26 +27,48 @@
     <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
     <!--Column Grid Splitter-->
-    <controls:GridSplitter
-        Grid.Column="1"
-            Width="11"
-        ResizeBehavior="BasedOnAlignment"
-        ResizeDirection="Auto"
-            Background="Gray"
-            Foreground="White"
-            FontSize="13">
-    </controls:GridSplitter>
+        <controls:GridSplitter 
+            Grid.Column="1"
+                Width="11"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
+                Background="Gray"
+                Foreground="White" 
+                FontSize="13">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" 
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"  
+                                    Text="&#xE784;"
+                                   Foreground="Black" 
+                                   FontFamily="Segoe MDL2 Assets">
+                    </TextBlock>
+                </Grid>
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
 
-    <!--Row Grid Splitter-->
-    <controls:GridSplitter
-        Foreground="White"
-        Grid.Row="1"
-        ResizeBehavior="BasedOnAlignment"
-        ResizeDirection="Auto"
-        Background="Gray" Height="11"
-        HorizontalAlignment="Stretch"
-        FontSize="13">
-    </controls:GridSplitter>
+        <!--Row Grid Splitter-->
+        <controls:GridSplitter 
+            Foreground="White"
+            Grid.Row="1"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
+            Background="Gray" Height="11"
+            HorizontalAlignment="Stretch" 
+            FontSize="13">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center"     
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"  
+                                    Text="&#xE76F;"
+                                   Foreground="Black" 
+                                   FontFamily="Segoe MDL2 Assets">
+                    </TextBlock>
+                </Grid>
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
 
   </Grid>
 </Page>
