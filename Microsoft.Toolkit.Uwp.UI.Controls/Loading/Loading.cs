@@ -16,9 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Loading()
         {
-            this.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            this.VerticalContentAlignment = VerticalAlignment.Stretch;
-
             LoadingVerticalAlignment = VerticalAlignment.Stretch;
             LoadingHorizontalAlignment = HorizontalAlignment.Stretch;
 

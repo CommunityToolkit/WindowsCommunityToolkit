@@ -11,22 +11,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class Loading
     {
         public static readonly DependencyProperty LoadingVerticalAlignmentProperty = DependencyProperty.Register(
-            "LoadingVerticalAlignment", typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
+            nameof(LoadingVerticalAlignment), typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
 
         public static readonly DependencyProperty LoadingHorizontalAlignmentProperty = DependencyProperty.Register(
-            "LoadingHorizontalAlignment", typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
+            nameof(LoadingHorizontalAlignment), typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
 
         public static readonly DependencyProperty LoadingContentProperty = DependencyProperty.Register(
-            "LoadingContent", typeof(DataTemplate), typeof(Loading), new PropertyMetadata(default(DataTemplate), LoadingContentPropertyChanged));
+            nameof(LoadingContent), typeof(DataTemplate), typeof(Loading), new PropertyMetadata(default(DataTemplate), LoadingContentPropertyChanged));
 
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
-            "IsLoading", typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
+            nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
         public static readonly DependencyProperty LoadingOpacityProperty = DependencyProperty.Register(
-            "LoadingOpacity", typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
+            nameof(LoadingOpacity), typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
 
         public static readonly DependencyProperty LoadingBackgroundProperty = DependencyProperty.Register(
-            "LoadingBackground", typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
+            nameof(LoadingBackground), typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
 
         private Grid RootGrid { get; }
 
