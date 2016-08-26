@@ -59,9 +59,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FacebookService"/> class.
-        /// Default private constructor.
         /// </summary>
-        private FacebookService()
+        public FacebookService()
         {
         }
 
