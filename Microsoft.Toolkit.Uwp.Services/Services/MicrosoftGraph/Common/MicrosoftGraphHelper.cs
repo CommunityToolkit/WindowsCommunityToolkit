@@ -39,5 +39,23 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          return;
                      }));
         }
+
+        internal static string FormatString<T>(T[] t)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var field in t)
+            {
+                sb.Append(field.ToString());
+                sb.Append(",");
+            }
+
+            string tempo = sb.ToString();
+
+            // Remove the trailing comma character
+            int lastPosition = tempo.Length - 1;
+
+            return tempo.Substring(0, lastPosition);
+        }
     }
 }

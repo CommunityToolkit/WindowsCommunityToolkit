@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     using Microsoft.Graph;
 
     /// <summary>
-    ///  Class for using to Office 365 Microsoft Graph Messages API
+    ///  Class using Office 365 Microsoft Graph Messages API
     /// </summary>
     public partial class MicrosoftGraphService
     {
