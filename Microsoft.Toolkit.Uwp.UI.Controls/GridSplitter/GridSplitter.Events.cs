@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InitControl();
         }
 
+        /// <inheritdoc />
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
             // saving the previous state
@@ -32,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnManipulationStarted(e);
         }
 
+        /// <inheritdoc />
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = _previousCursor;
@@ -39,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnManipulationCompleted(e);
         }
 
+        /// <inheritdoc />
         protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
         {
             var horizontalChange = e.Delta.Translation.X;
