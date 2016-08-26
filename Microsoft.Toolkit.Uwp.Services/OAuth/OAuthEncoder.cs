@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OAuth
         /// <returns>Hash string.</returns>
         public static string GenerateHash(string input, string key)
         {
-            MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm("HMAC_SHA1");
+            MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm(MacAlgorithmNames.HmacSha1);
             IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(key, BinaryStringEncoding.Utf8);
             CryptographicKey cryptoKey = mac.CreateKey(keyMaterial);
             IBuffer hash = CryptographicEngine.Sign(cryptoKey, CryptographicBuffer.ConvertStringToBinary(input, BinaryStringEncoding.Utf8));

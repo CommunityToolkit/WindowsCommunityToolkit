@@ -24,18 +24,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// An items control that presents enumerable content similar to the live tiles on the
     /// start menu.
     /// </summary>
-    [TemplatePart(Name = SCROLLERPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = CURRENTPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = NEXTPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = TRANSLATEPARTNAME, Type = typeof(TranslateTransform))]
-    [TemplatePart(Name = STACKPARTNAME, Type = typeof(StackPanel))]
+    [TemplatePart(Name = ScrollerPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = CurrentPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = NextPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = TranslatePartName, Type = typeof(TranslateTransform))]
+    [TemplatePart(Name = StackPartName, Type = typeof(StackPanel))]
     public sealed class RotatorTile : Control
     {
-        private const string SCROLLERPARTNAME = "Scroller";
-        private const string CURRENTPARTNAME = "Current";
-        private const string NEXTPARTNAME = "Next";
-        private const string TRANSLATEPARTNAME = "Translate";
-        private const string STACKPARTNAME = "Stack";
+        private const string ScrollerPartName = "Scroller";
+        private const string CurrentPartName = "Current";
+        private const string NextPartName = "Next";
+        private const string TranslatePartName = "Translate";
+        private const string StackPartName = "Stack";
 
         private static readonly Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
         private int _currentIndex = -1; // current index in the items displayed
@@ -87,11 +87,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
-            _scroller = GetTemplateChild(SCROLLERPARTNAME) as FrameworkElement;
-            _currentElement = GetTemplateChild(CURRENTPARTNAME) as FrameworkElement;
-            _nextElement = GetTemplateChild(NEXTPARTNAME) as FrameworkElement;
-            _translate = GetTemplateChild(TRANSLATEPARTNAME) as TranslateTransform;
-            _stackPanel = GetTemplateChild(STACKPARTNAME) as StackPanel;
+            _scroller = GetTemplateChild(ScrollerPartName) as FrameworkElement;
+            _currentElement = GetTemplateChild(CurrentPartName) as FrameworkElement;
+            _nextElement = GetTemplateChild(NextPartName) as FrameworkElement;
+            _translate = GetTemplateChild(TranslatePartName) as TranslateTransform;
+            _stackPanel = GetTemplateChild(StackPartName) as StackPanel;
             if (_stackPanel != null)
             {
                 _stackPanel.Orientation = Direction == RotateDirection.Up ? Orientation.Vertical : Orientation.Horizontal;

@@ -146,18 +146,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_contentGrid != null)
             {
+                _contentGrid.ManipulationStarted -= ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
-                _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
+                _contentGrid.ManipulationCompleted -= ContentGrid_ManipulationCompleted;
             }
 
             _contentGrid = GetTemplateChild(PartContentGrid) as Grid;
-            _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
-            _leftCommandPanel = GetTemplateChild(PartLeftCommandPanel) as StackPanel;
-            _rightCommandPanel = GetTemplateChild(PartRightCommandPanel) as StackPanel;
 
             if (_contentGrid != null)
             {
                 _transform = _contentGrid.RenderTransform as CompositeTransform;
+                _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
 
@@ -171,22 +170,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentStoryboard.Children.Add(_contentAnimation);
             }
 
-            if (_commandContainer != null)
-            {
-                _commandContainer.Background = LeftBackground as SolidColorBrush;
-            }
-
-            if (_leftCommandPanel != null)
-            {
-                _leftCommandTransform = _leftCommandPanel.RenderTransform as CompositeTransform;
-            }
-
-            if (_rightCommandPanel != null)
-            {
-                _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
-            }
-
             base.OnApplyTemplate();
+        }
+
+        private void ContentGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
+            {
+                return;
+            }
+
+            if (_commandContainer == null)
+            {
+                _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
+                if (_commandContainer != null)
+                {
+                    _commandContainer.Background = LeftBackground as SolidColorBrush;
+                }
+            }
+
+            if (_leftCommandPanel == null)
+            {
+                _leftCommandPanel = GetTemplateChild(PartLeftCommandPanel) as StackPanel;
+                if (_leftCommandPanel != null)
+                {
+                    _leftCommandTransform = _leftCommandPanel.RenderTransform as CompositeTransform;
+                }
+            }
+
+            if (_rightCommandPanel == null)
+            {
+                _rightCommandPanel = GetTemplateChild(PartRightCommandPanel) as StackPanel;
+                if (_rightCommandPanel != null)
+                {
+                    _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
+                }
+            }
         }
 
         /// <summary>

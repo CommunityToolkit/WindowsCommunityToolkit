@@ -11,13 +11,13 @@ namespace UnitTests.Notifications
     [TestClass]
     public class TestMail
     {
-        private const string FIRST_FROM = "Jennifer Parker";
-        private const string FIRST_SUBJECT = "Photos from our trip";
-        private const string FIRST_BODY = "Check out these awesome photos I took while in New Zealand!";
+        private const string FirstFrom = "Jennifer Parker";
+        private const string FirstSubject = "Photos from our trip";
+        private const string FirstBody = "Check out these awesome photos I took while in New Zealand!";
 
-        private const string SECOND_FROM = "Steve Bosniak";
-        private const string SECOND_SUBJECT = "Build 2015 Dinner";
-        private const string SECOND_BODY = "Want to go out for dinner after Build tonight?";
+        private const string SecondFrom = "Steve Bosniak";
+        private const string SecondSubject = "Build 2015 Dinner";
+        private const string SecondBody = "Want to go out for dinner after Build tonight?";
 
         [TestCategory("EndToEnd/Mail")]
         [TestMethod]
@@ -107,7 +107,7 @@ namespace UnitTests.Notifications
 
         private static string GenerateXmlGroups(bool makeLarge)
         {
-            return GenerateXmlGroup(FIRST_FROM, FIRST_SUBJECT, FIRST_BODY, makeLarge) + "<text />" + GenerateXmlGroup(SECOND_FROM, SECOND_SUBJECT, SECOND_BODY, makeLarge);
+            return GenerateXmlGroup(FirstFrom, FirstSubject, FirstBody, makeLarge) + "<text />" + GenerateXmlGroup(SecondFrom, SecondSubject, SecondBody, makeLarge);
         }
 
         private static string GenerateXmlGroup(string from, string subject, string body, bool makeLarge)
@@ -131,12 +131,12 @@ namespace UnitTests.Notifications
 
         private static AdaptiveGroup GenerateFirstMessage(bool makeLarge)
         {
-            return GenerateMessage(FIRST_FROM, FIRST_SUBJECT, FIRST_BODY, makeLarge);
+            return GenerateMessage(FirstFrom, FirstSubject, FirstBody, makeLarge);
         }
 
         private static AdaptiveGroup GenerateSecondMessage(bool makeLarge)
         {
-            return GenerateMessage(SECOND_FROM, SECOND_SUBJECT, SECOND_BODY, makeLarge);
+            return GenerateMessage(SecondFrom, SecondSubject, SecondBody, makeLarge);
         }
 
         private static AdaptiveGroup GenerateMessage(string from, string subject, string body, bool makeLarge)

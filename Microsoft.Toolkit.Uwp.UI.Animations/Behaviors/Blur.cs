@@ -44,7 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-
             _frameworkElement = AssociatedObject as FrameworkElement;
         }
 

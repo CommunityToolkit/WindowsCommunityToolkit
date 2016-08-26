@@ -11,13 +11,12 @@
 // ******************************************************************
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp
 {
-    using global::Windows.ApplicationModel;
-
     /// <summary>
     /// This class provides static helper methods for <see cref="StorageFile" />.
     /// </summary>
@@ -41,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteTextToLocalFileAsync(
+        public static Task<StorageFile> WriteTextToLocalFileAsync(
             string text,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
@@ -52,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalFolder;
-            return await WriteTextToFileAsync(folder, text, fileName, options);
+            return folder.WriteTextToFileAsync(text, fileName, options);
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteTextToLocalCacheFileAsync(
+        public static Task<StorageFile> WriteTextToLocalCacheFileAsync(
             string text,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
@@ -84,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalCacheFolder;
-            return await WriteTextToFileAsync(ApplicationData.Current.LocalCacheFolder, text, fileName, options);
+            return folder.WriteTextToFileAsync(text, fileName, options);
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteTextToKnownFolderFileAsync(
+        public static Task<StorageFile> WriteTextToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             string text,
             string fileName,
@@ -120,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await WriteTextToFileAsync(folder, text, fileName, options);
+            return folder.WriteTextToFileAsync(text, fileName, options);
         }
 
         /// <summary>
@@ -184,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteBytesToLocalFileAsync(
+        public static Task<StorageFile> WriteBytesToLocalFileAsync(
             byte[] bytes,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
@@ -195,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalFolder;
-            return await WriteBytesToFileAsync(folder, bytes, fileName, options);
+            return folder.WriteBytesToFileAsync(bytes, fileName, options);
         }
 
         /// <summary>
@@ -216,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteBytesToLocalCacheFileAsync(
+        public static Task<StorageFile> WriteBytesToLocalCacheFileAsync(
             byte[] bytes,
             string fileName,
             CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
@@ -227,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalCacheFolder;
-            return await WriteBytesToFileAsync(folder, bytes, fileName, options);
+            return folder.WriteBytesToFileAsync(bytes, fileName, options);
         }
 
         /// <summary>
@@ -251,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
-        public static async Task<StorageFile> WriteBytesToKnownFolderFileAsync(
+        public static Task<StorageFile> WriteBytesToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             byte[] bytes,
             string fileName,
@@ -263,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await WriteBytesToFileAsync(folder, bytes, fileName, options);
+            return folder.WriteBytesToFileAsync(bytes, fileName, options);
         }
 
         /// <summary>
@@ -321,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromPackagedFileAsync(string fileName)
+        public static Task<string> ReadTextFromPackagedFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -329,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = Package.Current.InstalledLocation;
-            return await ReadTextFromFileAsync(folder, fileName);
+            return folder.ReadTextFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -344,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromLocalCacheFileAsync(string fileName)
+        public static Task<string> ReadTextFromLocalCacheFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -352,7 +351,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalCacheFolder;
-            return await ReadTextFromFileAsync(folder, fileName);
+            return folder.ReadTextFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -367,7 +366,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromLocalFileAsync(string fileName)
+        public static Task<string> ReadTextFromLocalFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -375,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalFolder;
-            return await ReadTextFromFileAsync(folder, fileName);
+            return folder.ReadTextFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -393,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<string> ReadTextFromKnownFoldersFileAsync(
+        public static Task<string> ReadTextFromKnownFoldersFileAsync(
             KnownFolderId knownFolderId,
             string fileName)
         {
@@ -403,7 +402,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await ReadTextFromFileAsync(folder, fileName);
+            return folder.ReadTextFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -446,7 +445,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<byte[]> ReadBytesFromPackagedFileAsync(string fileName)
+        public static Task<byte[]> ReadBytesFromPackagedFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -454,7 +453,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = Package.Current.InstalledLocation;
-            return await ReadBytesFromFileAsync(folder, fileName);
+            return folder.ReadBytesFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -469,7 +468,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<byte[]> ReadBytesFromLocalCacheFileAsync(string fileName)
+        public static Task<byte[]> ReadBytesFromLocalCacheFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -477,7 +476,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalCacheFolder;
-            return await ReadBytesFromFileAsync(folder, fileName);
+            return folder.ReadBytesFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -492,7 +491,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<byte[]> ReadBytesFromLocalFileAsync(string fileName)
+        public static Task<byte[]> ReadBytesFromLocalFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -500,7 +499,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = ApplicationData.Current.LocalFolder;
-            return await ReadBytesFromFileAsync(folder, fileName);
+            return folder.ReadBytesFromFileAsync(fileName);
         }
 
         /// <summary>
@@ -518,7 +517,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<byte[]> ReadBytesFromKnownFoldersFileAsync(
+        public static Task<byte[]> ReadBytesFromKnownFoldersFileAsync(
             KnownFolderId knownFolderId,
             string fileName)
         {
@@ -528,7 +527,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var folder = GetFolderFromKnownFolderId(knownFolderId);
-            return await ReadBytesFromFileAsync(folder, fileName);
+            return folder.ReadBytesFromFileAsync(fileName);
         }
 
         /// <summary>

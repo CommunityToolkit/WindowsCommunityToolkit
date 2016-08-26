@@ -4,10 +4,8 @@
 // C# - Scale can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
-await ToolkitLogo.Scale(duration: 10, delay: 0, 
-						 centerX: 0.5f,
-						 centerY: 0.0f,
-						 centerZ: 0.5f,
-						 scaleX: 2.0f,
-						 scaleY: 0.1f,
-						 scaleZ: 2.0f).StartAsync();
+await ToolkitLogo.Scale(centerX: 0.5f,
+						centerY: 0.0f,
+						scaleX: 2.0f,
+						scaleY: 0.1f,
+						duration: 10, delay: 0).StartAsync();

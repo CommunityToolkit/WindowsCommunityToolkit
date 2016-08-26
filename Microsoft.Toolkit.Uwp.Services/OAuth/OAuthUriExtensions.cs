@@ -14,8 +14,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.Services.OAuth
 {
@@ -31,14 +32,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OAuth
         /// <returns>Dictionary of query parameters.</returns>
         public static IDictionary<string, string> GetQueryParams(this Uri uri)
         {
-            var result = new Dictionary<string, string>();
-
-            foreach (Match item in Regex.Matches(uri.Query, @"(?<key>[^&?=]+)=(?<value>[^&?=]+)"))
-            {
-                result.Add(item.Groups["key"].Value, item.Groups["value"].Value);
-            }
-
-            return result;
+            return new WwwFormUrlDecoder(uri.Query).ToDictionary(decoderEntry => decoderEntry.Name, decoderEntry => decoderEntry.Value);
         }
 
         /// <summary>
