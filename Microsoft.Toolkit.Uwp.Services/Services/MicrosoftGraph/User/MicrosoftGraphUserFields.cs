@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// <summary>
     /// User's Fields 
     /// </summary>
-    public enum MicrosoftGraphUserProperties
+    public enum MicrosoftGraphUserFields
     {
 
         AboutMe,

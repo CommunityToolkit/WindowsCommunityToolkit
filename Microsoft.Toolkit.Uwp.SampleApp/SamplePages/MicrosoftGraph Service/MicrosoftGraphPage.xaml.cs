@@ -45,7 +45,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
 
             // Retrieve user's info from Azure Active Directory
-            var user = await MicrosoftGraphService.Instance.GetUserAsync();
+            MicrosoftGraphUserFields[] selectFields = { MicrosoftGraphUserFields.DisplayName, MicrosoftGraphUserFields.Id };
+            var user = await MicrosoftGraphService.Instance.GetUserAsync(selectFields);
             UserPanel.DataContext = user;
 
             using (Stream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
@@ -72,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             string txtTop = TopText.Text;
             Graph.IUserMessagesCollectionPage messages = null;
+            MicrosoftGraphMessageFields[] selectedFields = { MicrosoftGraphMessageFields.Id, MicrosoftGraphMessageFields.Subject };
             if (string.IsNullOrEmpty(txtTop))
             {
                 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync();
@@ -79,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             int top = Convert.ToInt32(txtTop);
 
-            messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(top);
+            messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(top, selectedFields);
             MessagesList.ItemsSource = messages;
             Shell.Current.DisplayWaitRing = false;
         }

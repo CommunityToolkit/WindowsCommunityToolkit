@@ -16,6 +16,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.AzureAD;
+using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -34,8 +35,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false)
-                                                     );
+                                                     await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
         }

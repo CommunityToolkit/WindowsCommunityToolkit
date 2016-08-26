@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="top">The number of items to return in a result set.</param> 
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>a Collection of Pages containing the messages</returns>
-        public async Task<IUserMessagesCollectionPage> GetUserMessagesAsync(int top = 10, string[] selectFields = null)
+        public async Task<IUserMessagesCollectionPage> GetUserMessagesAsync(int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
             return await this.GetUserMessagesAsync(CancellationToken.None, top, selectFields);
         }
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="top">The number of items to return in a result set.</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>a Collection of Pages containing the messages</returns>
-        public async Task<IUserMessagesCollectionPage> GetUserMessagesAsync(CancellationToken cancellationToken, int top = 10, string[] selectFields = null)
+        public async Task<IUserMessagesCollectionPage> GetUserMessagesAsync(CancellationToken cancellationToken, int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
             return await graphserviceClient.GetUserMessagesAsync(top, selectFields, cancellationToken);
         }

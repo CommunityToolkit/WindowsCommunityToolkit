@@ -14,12 +14,12 @@ var user = await MicrosoftGraphService.Instance.GetUserAsync();
 UserPanel.DataContext = user;
 
 // You can also select any fields you want in the response
-string[] selectedFields = { nameof(MicrosoftGraphUserProperties.Id),
-                              nameof(MicrosoftGraphUserProperties.DisplayName),
-                              nameof(MicrosoftGraphUserProperties.JobTitle),
-                              nameof(MicrosoftGraphUserProperties.Mail),
-                              nameof(MicrosoftGraphUserProperties.Department),
-                              nameof(MicrosoftGraphUserProperties.PreferredLanguage)};
+MicrosoftGraphMessageFields[] selectedFields = { MicrosoftGraphUserProperties.Id,
+												 MicrosoftGraphUserProperties.DisplayName,
+												 MicrosoftGraphUserProperties.JobTitle,
+												 MicrosoftGraphUserProperties.Mail,
+												 MicrosoftGraphUserProperties.Department,
+												 MicrosoftGraphUserProperties.PreferredLanguage};
 UserPanel.DataContext = user;
 
 // Retrieve the user's photo         
@@ -38,10 +38,10 @@ messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
-string[] selectedFields = { nameof(MicrosoftGraphMessageProperties.Id),
-                            nameof(MicrosoftGraphMessageProperties.From),
-                            nameof(MicrosoftGraphMessageProperties.Subject),
-                            nameof(MicrosoftGraphMessageProperties.BodyPreview)};
+MicrosoftGraphUserFields[] selectedFields = { MicrosoftGraphMessageProperties.Id,
+                            MicrosoftGraphMessageProperties.From,
+                            MicrosoftGraphMessageProperties.Subject,
+                            MicrosoftGraphMessageProperties.BodyPreview};
 
 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;

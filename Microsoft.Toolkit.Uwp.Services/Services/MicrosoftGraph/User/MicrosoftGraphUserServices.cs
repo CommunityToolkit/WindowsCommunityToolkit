@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>Strongly type User info from the service</returns>
-        public async Task<Graph.User> GetUserAsync(string[] selectFields = null)
+        public async Task<Graph.User> GetUserAsync(MicrosoftGraphUserFields[] selectFields = null)
         {
             return await this.GetUserAsync(CancellationToken.None, selectFields);
         }
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>Strongly type User info from the service</returns>
-        public async Task<Graph.User> GetUserAsync(CancellationToken cancellationToken, string[] selectFields = null)
+        public async Task<Graph.User> GetUserAsync(CancellationToken cancellationToken, MicrosoftGraphUserFields[] selectFields = null)
         {
             return await graphserviceClient.GetMeProfileAsync(selectFields, cancellationToken);
         }
