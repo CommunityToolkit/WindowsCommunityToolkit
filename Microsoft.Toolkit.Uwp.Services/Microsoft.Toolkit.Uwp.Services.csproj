@@ -63,8 +63,7 @@
     <Compile Include="Services\MicrosoftGraph\AzureAD\AuthenticationHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\Common\MicrosoftGraphHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\Core\MicrosoftGraphCoreService.cs" />
-    <Compile Include="Services\MicrosoftGraph\Extensions\MicrosoftGraphMessageExtensions.cs" />
-    <Compile Include="Services\MicrosoftGraph\Extensions\MicrosoftGraphUserExtensions.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageExtensions.cs" />
     <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageFields.cs" />
     <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageServices.cs" />
     <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserFields.cs" />

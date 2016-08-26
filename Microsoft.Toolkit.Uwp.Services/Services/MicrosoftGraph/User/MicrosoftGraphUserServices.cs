@@ -14,6 +14,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+    using Graph;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -44,7 +45,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Strongly type User info from the service</returns>
         public async Task<Graph.User> GetUserAsync(CancellationToken cancellationToken, MicrosoftGraphUserFields[] selectFields = null)
         {
-            return await graphserviceClient.GetMeProfileAsync(selectFields, cancellationToken);
+            if (selectFields == null)
+            {
+                return await graphServiceClient.Me.Request().GetAsync(cancellationToken);
+            }
+
+            string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
+
+            return await graphServiceClient.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
         }
 
         /// <summary>
@@ -54,7 +62,22 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>A stream containing the user's photo</returns>
         public async Task<System.IO.Stream> GetUserPhotoAsync(CancellationToken cancellationToken)
         {
-            return await graphserviceClient.GetMePhotoAsync(cancellationToken);
+            
+            System.IO.Stream photo = null;
+            try
+            {
+                photo = await graphServiceClient.Me.Photo.Content.Request().GetAsync(cancellationToken);
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                // Swallow error in case of no photo found
+                if (!ex.Error.Code.Equals("ErrorItemNotFound"))
+                {
+                    throw;
+                }
+            }
+
+            return photo;
         }
 
         /// <summary>
@@ -64,6 +87,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public async Task<System.IO.Stream> GetUserPhotoAsync()
         {
             return await this.GetUserPhotoAsync(CancellationToken.None);
+        }
+      
+
+        public async Task<IGraphServiceUsersCollectionPage> GetUsersAsync(int top=10)
+        {
+            return await graphServiceClient.Users.Request().Top(top).GetAsync();
         }
     }
 }

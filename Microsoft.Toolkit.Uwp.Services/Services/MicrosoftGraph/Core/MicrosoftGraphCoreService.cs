@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Microsoft Graph client instance.
         /// </summary>
-        private GraphServiceClient graphserviceClient = null;
+        private GraphServiceClient graphServiceClient = null;
 
         /// <summary>
         /// Initialize Microsoft Graph.
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             this.appClientId = appClientId;
 
-            graphserviceClient = CreateGraphClient(appClientId);
+            graphServiceClient = CreateGraphClient(appClientId);
             isInitialized = true;
             return true;
         }

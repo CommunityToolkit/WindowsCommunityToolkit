@@ -23,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// </summary>
     public partial class MicrosoftGraphService
     {
+        private const string OrderBy = "receivedDateTime desc";
+
         /// <summary>
         /// Retrieve user's emails.
         /// <para>(default=10)</para>
@@ -47,7 +49,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>a Collection of Pages containing the messages</returns>
         public async Task<IUserMessagesCollectionPage> GetUserMessagesAsync(CancellationToken cancellationToken, int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
-            return await graphserviceClient.GetUserMessagesAsync(top, selectFields, cancellationToken);
+            if (selectFields == null)
+            {
+                return await graphServiceClient.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
+            }
+
+            string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
+
+            return await graphServiceClient.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
         }
     }
 }
