@@ -25,7 +25,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="SelectedItemCountTextBlock" Margin="0,12" Text="{x:Bind NO_SELECTED_ITEM_STRING}" FontFamily="Segoe UI Light" FontSize="21" HorizontalAlignment="Center" />
+        <TextBlock x:Name="SelectedItemCountTextBlock" Margin="0,12" Text="You haven't selected any items" FontFamily="Segoe UI Light" FontSize="21" HorizontalAlignment="Center" />
         
         <controls:AdaptiveGridView
           Grid.Row="1"
