@@ -105,13 +105,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
-                    _image.Source = await ImageCache.GetFromCacheAsync(_uri);
-                    if (_image.Source != null)
+                    try
                     {
+                        _image.Source = await ImageCache.GetFromCacheAsync(_uri);
+                        ImageOpenedEx?.Invoke(this, new ImageOpenedExEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }
-                    else
+                    catch (Exception e)
                     {
+                        ImageFailedEx?.Invoke(this, new ImageFailedExEventArgs(e));
                         VisualStateManager.GoToState(this, FailedState, true);
                     }
                 }

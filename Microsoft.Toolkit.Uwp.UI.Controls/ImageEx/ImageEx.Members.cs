@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
 using Windows.Media.Casting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -35,12 +36,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised if the image failed loading.
         /// </summary>
+        [Obsolete("This event is obsolete; use ImageFailedEx event instead")]
         public event ExceptionRoutedEventHandler ImageFailed;
 
         /// <summary>
         /// Event raised when the image is successfully loaded and opened.
         /// </summary>
+        [Obsolete("This event is obsolete; use ImageOpenedEx event instead")]
         public event RoutedEventHandler ImageOpened;
+
+        /// <summary>
+        /// Event raised if the image failed loading.
+        /// </summary>
+        public event ImageFailedExEventHandler ImageFailedEx;
+
+        /// <summary>
+        /// Event raised when the image is successfully loaded and opened.
+        /// </summary>
+        public event ImageOpenedExEventHandler ImageOpenedEx;
 
         /// <summary>
         /// Gets or sets the stretch of the image.
