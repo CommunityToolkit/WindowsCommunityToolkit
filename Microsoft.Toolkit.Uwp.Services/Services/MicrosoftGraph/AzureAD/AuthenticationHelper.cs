@@ -50,6 +50,11 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         private string tokenForUser = null;
 
         /// <summary>
+        /// Store the refrehs token
+        /// </summary>
+        private string refreshToken = null;
+
+        /// <summary>
         /// Store The lifetime in seconds of the access token.
         /// </summary>
         /// <remarks>By default the life time of the first access token is 3600 (1h)</remarks>
@@ -64,18 +69,26 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         /// <returns>An oauth2 access token.</returns>
         internal async Task<string> GetUserTokenAsync(string appClientId)
         {
-            if (tokenForUser == null || expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            // For the first use get an access token prompting the user, after one hour
+            // refresh silently the token
+            if (tokenForUser == null)
             {
-                // For the first use get an access token prompting the user, after one hour
-                // refresh silently the token
                 AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.RefreshSession);
                 tokenForUser = userAuthnResult.AccessToken;
                 expiration = userAuthnResult.ExpiresOn;
+                refreshToken = userAuthnResult.RefreshToken;
+            }
+
+            if (expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenByRefreshTokenAsync(refreshToken, appClientId);
+                tokenForUser = userAuthnResult.AccessToken;
+                expiration = userAuthnResult.ExpiresOn;
+                refreshToken = userAuthnResult.RefreshToken;
             }
 
             return tokenForUser;
         }
-
     }
 
 }

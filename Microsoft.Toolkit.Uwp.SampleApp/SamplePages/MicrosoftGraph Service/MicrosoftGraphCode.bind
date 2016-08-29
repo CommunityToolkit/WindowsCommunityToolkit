@@ -14,12 +14,16 @@ var user = await MicrosoftGraphService.Instance.GetUserAsync();
 UserPanel.DataContext = user;
 
 // You can also select any fields you want in the response
-MicrosoftGraphMessageFields[] selectedFields = { MicrosoftGraphUserProperties.Id,
-												 MicrosoftGraphUserProperties.DisplayName,
-												 MicrosoftGraphUserProperties.JobTitle,
-												 MicrosoftGraphUserProperties.Mail,
-												 MicrosoftGraphUserProperties.Department,
-												 MicrosoftGraphUserProperties.PreferredLanguage};
+MicrosoftGraphMessageFields[] selectedFields = 
+	{
+		MicrosoftGraphUserProperties.Id,
+		MicrosoftGraphUserProperties.DisplayName,
+		MicrosoftGraphUserProperties.JobTitle,
+		MicrosoftGraphUserProperties.Mail,
+		MicrosoftGraphUserProperties.Department,
+		MicrosoftGraphUserProperties.PreferredLanguage
+	};
+
 UserPanel.DataContext = user;     
 var user =await MicrosoftGraphService.Instance.GetUserAsync(selectedFields);
 
@@ -45,10 +49,13 @@ messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
-MicrosoftGraphUserFields[] selectedFields = { MicrosoftGraphMessageProperties.Id,
-                                              MicrosoftGraphMessageProperties.From,
-                                              MicrosoftGraphMessageProperties.Subject,
-                                              MicrosoftGraphMessageProperties.BodyPreview};
+	MicrosoftGraphUserFields[] selectedFields = 
+	{ 
+		MicrosoftGraphMessageProperties.Id,
+		MicrosoftGraphMessageProperties.From,
+		MicrosoftGraphMessageProperties.Subject,
+		MicrosoftGraphMessageProperties.BodyPreview
+	};
 
 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
