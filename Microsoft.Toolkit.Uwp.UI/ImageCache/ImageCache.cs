@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
         /// <returns>a BitmapImage</returns>
-        internal static async Task<BitmapImage> GetFromCacheOrDieAsync(Uri uri)
+        public static async Task<BitmapImage> GetFromCacheOrDieAsync(Uri uri)
         {
             Task<BitmapImage> busy;
             string key = GetCacheFileName(uri);
