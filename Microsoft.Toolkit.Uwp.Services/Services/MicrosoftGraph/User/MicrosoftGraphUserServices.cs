@@ -17,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     using Graph;
     using System.Threading;
     using System.Threading.Tasks;
+    using Windows.Storage.Streams;
+    using System.IO;
+
 
     /// <summary>
     ///  Class for using  Office 365 Microsoft Graph User API
@@ -60,13 +63,18 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>A stream containing the user's photo</returns>
-        public async Task<System.IO.Stream> GetUserPhotoAsync(CancellationToken cancellationToken)
+        public async Task<IRandomAccessStream> GetUserPhotoAsync(CancellationToken cancellationToken)
         {
 
-            System.IO.Stream photo = null;
+            IRandomAccessStream windowsPhotoStream = null;
             try
             {
+                System.IO.Stream photo = null;
                 photo = await graphServiceClient.Me.Photo.Content.Request().GetAsync(cancellationToken);
+                if (photo != null)
+                {
+                    windowsPhotoStream = photo.AsRandomAccessStream();
+                }
             }
             catch (Microsoft.Graph.ServiceException ex)
             {
@@ -77,14 +85,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 }
             }
 
-            return photo;
+            return windowsPhotoStream;
         }
 
         /// <summary>
         /// Retrieve the user's Photo
         /// </summary>
         /// <returns>A stream containing the user's photo</returns>
-        public async Task<System.IO.Stream> GetUserPhotoAsync()
+        public async Task<IRandomAccessStream> GetUserPhotoAsync()
         {
             return await this.GetUserPhotoAsync(CancellationToken.None);
         }

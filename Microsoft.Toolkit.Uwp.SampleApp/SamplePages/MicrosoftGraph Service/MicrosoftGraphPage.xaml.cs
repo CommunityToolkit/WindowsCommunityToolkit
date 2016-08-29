@@ -7,6 +7,7 @@
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media.Imaging;
+    using Windows.Storage.Streams;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -46,13 +47,12 @@
             var user = await MicrosoftGraphService.Instance.GetUserAsync();
             UserPanel.DataContext = user;
 
-            using (Stream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+            using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
             {
                BitmapImage photo = new BitmapImage();
                if (photoStream != null)
                 {
-                    photoStream.Position = 0;
-                    await photo.SetSourceAsync(photoStream.AsRandomAccessStream());
+                    await photo.SetSourceAsync(photoStream);
                 }
                else
                 {

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// </summary>
     public partial class MicrosoftGraphService
     {
-        private MicrosoftGraphService()
+        public MicrosoftGraphService()
         {
         }
 

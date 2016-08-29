@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 return await nextPage.NextPageRequest.GetAsync(cancellationToken);
             }
 
-            // anymore messages
+            // no more messages
             return null;
         }
 

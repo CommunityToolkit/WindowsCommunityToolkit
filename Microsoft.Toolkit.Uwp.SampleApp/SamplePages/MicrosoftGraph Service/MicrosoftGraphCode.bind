@@ -20,17 +20,24 @@ MicrosoftGraphMessageFields[] selectedFields = { MicrosoftGraphUserProperties.Id
 												 MicrosoftGraphUserProperties.Mail,
 												 MicrosoftGraphUserProperties.Department,
 												 MicrosoftGraphUserProperties.PreferredLanguage};
-UserPanel.DataContext = user;
-
-// Retrieve the user's photo         
+UserPanel.DataContext = user;     
 var user =await MicrosoftGraphService.Instance.GetUserAsync(selectedFields);
 
-using (Stream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+// Retrieve the user's photo    
+
+using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
 {
    BitmapImage photo = new BitmapImage();
-   photoStream.Position = 0;
-   await photo.SetSourceAsync(photoStream.AsRandomAccessStream());
-   this.Photo.Source = photo;
+   if (photoStream != null)
+    {
+        await photo.SetSourceAsync(photoStream);
+    }
+   else
+    {
+        photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
+    }
+
+    this.Photo.Source = photo;
 }
 
 // Get the top 10 messages
