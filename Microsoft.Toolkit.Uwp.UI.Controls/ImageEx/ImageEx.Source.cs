@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     try
                     {
-                        _image.Source = await ImageCache.GetFromCacheOrDieAsync(_uri);
+                        _image.Source = await ImageCache.GetFromCacheAsync(_uri, true);
                         ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }

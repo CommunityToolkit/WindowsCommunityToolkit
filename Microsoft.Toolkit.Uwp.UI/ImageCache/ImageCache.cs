@@ -126,23 +126,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it. If imagge cannot be loaded this method will return null.
-        /// </summary>
-        /// <param name="uri">Uri of the image.</param>
-        /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
-        {
-            try
-            {
-                return await GetFromCacheOrDieAsync(uri);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Gets the local cache file name associated with a specified Uri.
         /// </summary>
         /// <param name="uri">Uri of the resource.</param>
@@ -155,11 +138,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it. If image cannot be loaded an exception will be thrown.
+        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheOrDieAsync(Uri uri)
+        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
             Task<BitmapImage> busy;
             string key = GetCacheFileName(uri);
@@ -185,7 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw ex;
+                if (throwOnError)
+                {
+                    throw ex;
+                }
             }
             finally
             {
