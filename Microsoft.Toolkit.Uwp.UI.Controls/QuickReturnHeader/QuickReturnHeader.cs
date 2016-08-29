@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _animationProperties.InsertScalar("OffsetY", 0.0f);
 
-            ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation("Floor(animationProperties.OffsetY - ScrollingProperties.Translation.Y)");
+            ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation($"max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, headerVisual.Size.Y)");
             expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
             expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
 
