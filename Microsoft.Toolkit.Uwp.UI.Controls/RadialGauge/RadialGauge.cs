@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Shapes;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System.Numerics;
+    using Windows.UI.Xaml.Input;
 
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
@@ -44,6 +45,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0, OnScaleChanged));
+
+        /// <summary>
+        /// Identifies the optional StepSize property.
+        /// </summary>
+        public static readonly DependencyProperty StepSizeProperty =
+            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
+
+        // Identifies the IsInteractive dependency property.
+        public static readonly DependencyProperty IsInteractiveProperty =
+            DependencyProperty.Register(nameof(IsInteractive), typeof(bool), typeof(RadialGauge), new PropertyMetadata(false, OnInteractivityChanged));
 
         /// <summary>
         /// Identifies the ScaleWidth dependency property.
@@ -209,6 +220,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(MaximumProperty); }
             set { SetValue(MaximumProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the (optional) step size.
+        /// </summary>
+        public double StepSize
+        {
+            get { return (double)GetValue(StepSizeProperty); }
+            set { SetValue(StepSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control changes its value on interaction.
+        /// </summary>
+        public bool IsInteractive
+        {
+            get { return (bool)GetValue(IsInteractiveProperty); }
+            set { SetValue(IsInteractiveProperty, value); }
         }
 
         /// <summary>
@@ -422,6 +451,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
             if (!double.IsNaN(radialGauge.Value))
             {
+                if (radialGauge.StepSize != 0)
+                {
+                    radialGauge.Value = radialGauge.RoundToMultiple(radialGauge.Value, radialGauge.StepSize);
+                }
+
                 var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                 var valueText = radialGauge.GetTemplateChild(ValueTextPartName) as TextBlock;
                 radialGauge.ValueAngle = radialGauge.ValueToAngle(radialGauge.Value);
@@ -463,6 +497,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     valueText.Text = radialGauge.Value.ToString(radialGauge.ValueStringFormat);
                 }
+            }
+        }
+
+        private static void OnInteractivityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RadialGauge radialGauge = (RadialGauge)d;
+
+            if (radialGauge.IsInteractive)
+            {
+                radialGauge.Tapped += radialGauge.RadialGauge_Tapped;
+                radialGauge.ManipulationDelta += radialGauge.RadialGauge_ManipulationDelta;
+                radialGauge.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+            }
+            else
+            {
+                radialGauge.Tapped -= radialGauge.RadialGauge_Tapped;
+                radialGauge.ManipulationDelta -= radialGauge.RadialGauge_ManipulationDelta;
+                radialGauge.ManipulationMode = ManipulationModes.None;
             }
         }
 
@@ -552,6 +604,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnValueChanged(radialGauge);
         }
 
+        private void RadialGauge_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            SetGaugeValueFromPoint(e.Position);
+        }
+
+        private void RadialGauge_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            SetGaugeValueFromPoint(e.GetPosition(this));
+        }
+
+        private void SetGaugeValueFromPoint(Point p)
+        {
+            var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
+
+            var angle = Math.Atan2(pt.X, pt.Y) * 180 / Math.PI;
+            if (angle < MinAngle || angle > MaxAngle)
+            {
+                // Ignore positions outside the scale angle.
+                return;
+            }
+
+            Value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+        }
+
         private Point ScalePoint(double angle, double middleOfScale)
         {
             return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
@@ -572,6 +648,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return ((value - Minimum) / (Maximum - Minimum) * (MaxAngle - MinAngle)) + MinAngle;
+        }
+
+        private double RoundToMultiple(double number, double multiple)
+        {
+            double modulo = number % multiple;
+            if ((multiple - modulo) <= modulo)
+            {
+                modulo = multiple - modulo;
+            }
+            else
+            {
+                modulo *= -1;
+            }
+
+            return number + modulo;
         }
     }
 }
