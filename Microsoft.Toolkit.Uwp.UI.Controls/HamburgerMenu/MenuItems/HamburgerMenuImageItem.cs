@@ -10,12 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
-{
-    public class OptionMenuItem
-    {
-        public string Name { get; set; }
+using System;
+using Windows.UI.Xaml.Media.Imaging;
 
-        public string Glyph { get; set; }
+namespace Microsoft.Toolkit.Uwp.UI.Controls
+{
+    /// <summary>
+    /// The HamburgerMenuItem provides an image based implementation for HamburgerMenu entries.
+    /// </summary>
+    public class HamburgerMenuImageItem : HamburgerMenuItem
+    {
+        /// <summary>
+        /// Gets or sets gets of sets a value that specifies the glyph to use from Segoe MDL2 Assets font.
+        /// </summary>
+        public BitmapImage Thumbnail { get; set; }
     }
 }
