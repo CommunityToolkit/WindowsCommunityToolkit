@@ -10,9 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
-
+using System.Linq;
+using System.Reflection;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,13 +23,10 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
-    using System.Linq;
-    using System.Reflection;
-
-    using Microsoft.Toolkit.Uwp.SampleApp.Common;
-
     public sealed partial class PropertyControl
     {
+        private Sample _currentSample;
+
         public PropertyControl()
         {
             InitializeComponent();
@@ -36,13 +34,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private async void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            var sample = DataContext as Sample;
+            if (args.NewValue == _currentSample)
+            {
+                return;
+            }
+
+            _currentSample = DataContext as Sample;
 
             RootPanel.Children.Clear();
 
-            if (sample != null)
+            if (_currentSample != null)
             {
-                var propertyDesc = await sample.GetPropertyDescriptorAsync();
+                var propertyDesc = await _currentSample.GetPropertyDescriptorAsync();
 
                 if (propertyDesc == null)
                 {

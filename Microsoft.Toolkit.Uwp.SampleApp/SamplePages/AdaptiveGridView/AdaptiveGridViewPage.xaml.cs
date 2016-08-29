@@ -21,8 +21,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class AdaptiveGridViewPage
     {
-        public string NO_SELECTED_ITEM_STRING = "You haven't selected any items";
-
         public AdaptiveGridViewPage()
         {
             InitializeComponent();
@@ -48,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SelectedItemCountTextBlock.Text = AdaptiveGridViewControl.SelectedItems.Any()
                 ? $"You have selected {AdaptiveGridViewControl.SelectedItems.Count} items."
-                : NO_SELECTED_ITEM_STRING;
+                : "You haven't selected any items";
         }
 
         private async void AdaptiveGridViewControl_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
