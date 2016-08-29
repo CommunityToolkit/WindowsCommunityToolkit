@@ -74,17 +74,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 DataContext = sample;
                 Title.Text = sample.Name;
 
-                Properties.Visibility = (propertyDesc != null && propertyDesc.Options.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
-
                 NavigationFrame.Navigate(pageType, propertyDesc);
 
                 _currentSample = sample;
+
+                if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                {
+                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                }
 
                 if (sample.HasXAMLCode)
                 {
                     XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
 
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
                     InfoAreaPivot.Items.Add(XamlPivotItem);
 
                     InfoAreaPivot.SelectedIndex = 0;
