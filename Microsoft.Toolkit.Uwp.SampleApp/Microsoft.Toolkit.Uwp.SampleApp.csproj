@@ -325,6 +325,7 @@
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
       <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
     </Compile>

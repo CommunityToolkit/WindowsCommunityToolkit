@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         private string tokenForUser = null;
 
         /// <summary>
-        /// Store the refrehs token
+        /// Store the refresh token
         /// </summary>
         private string refreshToken = null;
 

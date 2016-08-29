@@ -14,6 +14,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+    using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
     using Graph;
@@ -49,6 +50,19 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
 
             return await nextPage.NextPageAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>      
+        /// <param name="source"></param>
+        /// <param name="dest"></param>
+        public static void AddTo(this IUserMessagesCollectionPage source, ObservableCollection<Graph.Message> dest)
+        {
+            foreach (var item in source)
+            {
+                dest.Add(item);
+            }
         }
     }
 }

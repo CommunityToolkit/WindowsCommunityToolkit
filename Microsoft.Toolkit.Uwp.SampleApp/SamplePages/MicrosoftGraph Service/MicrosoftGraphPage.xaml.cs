@@ -8,6 +8,10 @@
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media.Imaging;
     using Windows.Storage.Streams;
+    using System.Threading;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Windows.UI.Core;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -68,6 +72,11 @@
             ClientIdBox.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Store the collection of messages
+        /// </summary>
+        private Graph.IUserMessagesCollectionPage messages = null;
+
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnection())
@@ -75,19 +84,66 @@
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
             string txtTop = TopText.Text;
-            Graph.IUserMessagesCollectionPage messages = null;
-
+            int top = 0;
             if (string.IsNullOrEmpty(txtTop))
             {
-                messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync();
+                top = 10;
+            }
+            else
+            {
+                top = Convert.ToInt32(txtTop);
             }
 
-            int top = Convert.ToInt32(txtTop);
+            bool isFirstCall = true;
 
-            messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(top);
-            MessagesList.ItemsSource = messages;
+            var incrementalCollection = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
+              {
+                  return Task.Run<ObservableCollection<Graph.Message>>(async () =>
+                    {
+                        ObservableCollection<Graph.Message> intermediateList = new ObservableCollection<Graph.Message>();
+                        if (isFirstCall)
+                        {
+                            messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(cts, top);
+
+                            isFirstCall = false;
+                        }
+                        else
+                        {
+                            messages = await messages.NextPageAsync(cts);
+                        }
+
+                        if (cts.IsCancellationRequested)
+                        {
+                            return intermediateList;
+                        }
+                        if (messages != null)
+                        {
+                            messages.AddTo(intermediateList);
+                        }
+
+                        return intermediateList;
+                    });
+              });
+
+            MessagesList.ItemsSource = incrementalCollection;
+        }
+
+        private async void GetNextMessagesButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await Tools.CheckInternetConnection())
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+
+            messages = await messages.NextPageAsync();
+            if (messages != null)
+            {
+                MessagesList.ItemsSource = messages;
+            }
+
             Shell.Current.DisplayWaitRing = false;
         }
 
@@ -121,5 +177,7 @@
                 box.Visibility = Visibility.Visible;
             }
         }
+
+      
     }
 }
