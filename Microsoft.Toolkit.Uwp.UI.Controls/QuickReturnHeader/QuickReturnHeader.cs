@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _animationProperties = compositor.CreatePropertySet();
             }
-            
+
             _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
             _headerVisual = ElementCompositionPreview.GetElementVisual((UIElement)TargetListView.Header);
 
