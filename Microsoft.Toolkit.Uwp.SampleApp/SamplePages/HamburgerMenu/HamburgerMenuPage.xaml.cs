@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
-
+using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            HamburgerMenuControl.ItemsSource = await new PhotosDataSource().GetItemsAsync();
+            HamburgerMenuControl.ItemsSource = await new PhotosDataSource().GetItemsAsync(maxCount: 5);
 
             HamburgerMenuControl.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
         }
