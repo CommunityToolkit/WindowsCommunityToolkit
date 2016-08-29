@@ -1,36 +1,29 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
-    <Style TargetType="controls:AdaptiveGridView">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+	<Style TargetType="controls:AdaptiveGridView">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:AdaptiveGridView">
+				<ControlTemplate TargetType="controls:AdaptiveGridView">
                     <Grid>
-                        <ContentPresenter Width="{TemplateBinding ItemWidth}"
-                                          Height="{TemplateBinding ItemHeight}"
-                                          x:Name="templateProxy"
-                                          ContentTemplate="{TemplateBinding ItemTemplate}"
-                                          Visibility="Collapsed" />
-                        <GridView HorizontalAlignment="Stretch"
-                                  x:Name="ListView"
+						<ContentPresenter x:Name="templateProxy" Width="{TemplateBinding ItemWidth}" Height="{TemplateBinding ItemHeight}" ContentTemplate="{TemplateBinding ItemTemplate}" Visibility="Collapsed" />
+
+                        <GridView HorizontalAlignment="Stretch" x:Name="ListView"
                                   IsItemClickEnabled="{TemplateBinding IsItemClickEnabled}"
+                                  SelectionMode="{TemplateBinding SelectionMode}"
                                   IsSwipeEnabled="False"
                                   IsTabStop="False"
-                                  ItemsSource="{TemplateBinding ItemsSource}"
-                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                  ScrollViewer.VerticalScrollMode="{TemplateBinding VerticalScrollMode}"
-                                  SelectionMode="{TemplateBinding SelectionMode}">
+                                  ScrollViewer.VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                  ScrollViewer.VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                  ItemsSource="{TemplateBinding ItemsSource}">
+
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <ContentPresenter Width="{Binding Width,
-                                                                      ElementName=templateProxy}"
-                                                      Height="{Binding Height,
-                                                                       ElementName=templateProxy}"
-                                                      ContentTemplate="{Binding ContentTemplate,
-                                                                                ElementName=templateProxy}" />
-                                </DataTemplate>
+									<ContentPresenter Width="{Binding Width, ElementName=templateProxy}" Height="{Binding Height, ElementName=templateProxy}" ContentTemplate="{Binding ContentTemplate, ElementName=templateProxy}" />
+								</DataTemplate>
                             </GridView.ItemTemplate>
-                        </GridView>
+                        </GridView> 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
