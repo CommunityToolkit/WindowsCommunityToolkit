@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public LoadingPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             GridViewControl.ItemsSource = Templates;
-            LoadingControl.LoadingContent = Templates.FirstOrDefault();
+            LoadingContentControl.ContentTemplate = Templates.FirstOrDefault();
 
             base.OnNavigatedTo(e);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void GridViewControl_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            LoadingControl.LoadingContent = (sender as GridView).SelectedItem as DataTemplate;
+            LoadingContentControl.ContentTemplate = (sender as GridView).SelectedItem as DataTemplate;
         }
     }
 }

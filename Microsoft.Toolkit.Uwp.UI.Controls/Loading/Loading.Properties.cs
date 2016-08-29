@@ -11,30 +11,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class Loading
     {
         public static readonly DependencyProperty LoadingVerticalAlignmentProperty = DependencyProperty.Register(
-            "LoadingVerticalAlignment", typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
+            nameof(LoadingVerticalAlignment), typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
 
         public static readonly DependencyProperty LoadingHorizontalAlignmentProperty = DependencyProperty.Register(
-            "LoadingHorizontalAlignment", typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
-
-        public static readonly DependencyProperty LoadingContentProperty = DependencyProperty.Register(
-            "LoadingContent", typeof(DataTemplate), typeof(Loading), new PropertyMetadata(default(DataTemplate), LoadingContentPropertyChanged));
+            nameof(LoadingHorizontalAlignment), typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
 
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
-            "IsLoading", typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
+            nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
         public static readonly DependencyProperty LoadingOpacityProperty = DependencyProperty.Register(
-            "LoadingOpacity", typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
+            nameof(LoadingOpacity), typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
 
         public static readonly DependencyProperty LoadingBackgroundProperty = DependencyProperty.Register(
-            "LoadingBackground", typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
+            nameof(LoadingBackground), typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
 
-        private Grid RootGrid { get; }
-
-        private Grid BackgroundGrid { get; set; }
-
-        private Grid ContentGrid { get; }
-
-        private Storyboard Animation { get; set; }
+        private Grid _rootGrid;
+        private Grid _backgroundGrid;
+        private ContentPresenter _contentGrid;
 
         /// <summary>
         /// Gets or sets loadingVerticalAlignment
@@ -52,15 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (HorizontalAlignment)GetValue(LoadingHorizontalAlignmentProperty); }
             set { SetValue(LoadingHorizontalAlignmentProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets loadingContent
-        /// </summary>
-        public DataTemplate LoadingContent
-        {
-            get { return (DataTemplate)GetValue(LoadingContentProperty); }
-            set { SetValue(LoadingContentProperty, value); }
         }
 
         /// <summary>
@@ -92,12 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as Loading)?.CreateLoadingControl();
-        }
-
-        private static void LoadingContentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as Loading)?.CreateLoadingControl();
+            var control = (d as Loading);
+            control?.OnApplyTemplate();
         }
     }
 }

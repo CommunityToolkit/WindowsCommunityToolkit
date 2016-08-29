@@ -15,7 +15,7 @@
                         <Image Source="../../Assets/ToolkitLogo.png" Height="50" />
                         <ProgressRing IsActive="True" Foreground="Blue" />
                     </Grid>
-                    <TextBlock Text="It's ok, we are working on it :)" VerticalAlignment="Center" />
+                    <TextBlock Text="It's ok, we are working on it :)" Foreground="Black" VerticalAlignment="Center" />
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="AhotnerTemplate">
@@ -23,7 +23,7 @@
                     <Grid Margin="0,0,8,0">
                         <ProgressRing IsActive="True" Foreground="Aqua" />
                     </Grid>
-                    <TextBlock Text="It's ok, we are working on it :)" VerticalAlignment="Center" />
+                    <TextBlock Text="It's ok, we are working on it :)" Foreground="Black" VerticalAlignment="Center" />
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>
@@ -68,6 +68,7 @@
         <controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="@[LoadingContentHorizontalAlignment:Enum:HorizontalAlignment.Left:Left.Right.Center.Stretch]" 
                           LoadingVerticalAlignment="@[LoadingContentVerticalAlignment:Enum:VerticalAlignment.Bottom:Stretch.Center.Top.Bottom]"
                           LoadingBackground="@[LoadingBackground:Brush:White]" LoadingOpacity="@[OpacityForLoadingControl:DoubleSlider:0.5:0-1]">
+          <ContentControl x:Name="LoadingContentControl"/>
         </controls:Loading>
     </Grid>
 </Page>
