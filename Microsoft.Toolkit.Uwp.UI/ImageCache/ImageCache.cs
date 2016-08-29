@@ -132,17 +132,26 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>a BitmapImage</returns>
         public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
         {
-            BitmapImage image = null;
             try
             {
-                image = await GetFromCacheOrDieAsync(uri);
+                return await GetFromCacheOrDieAsync(uri);
             }
             catch
             {
                 return null;
             }
+        }
 
-            return image;
+        /// <summary>
+        /// Gets the local cache file name associated with a specified Uri.
+        /// </summary>
+        /// <param name="uri">Uri of the resource.</param>
+        /// <returns>Filename associated with the Uri.</returns>
+        public static string GetCacheFileName(Uri uri)
+        {
+            ulong uriHash = CreateHash64(uri);
+
+            return $"{uriHash}.jpg";
         }
 
         /// <summary>
@@ -150,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheOrDieAsync(Uri uri)
+        internal static async Task<BitmapImage> GetFromCacheOrDieAsync(Uri uri)
         {
             Task<BitmapImage> busy;
             string key = GetCacheFileName(uri);
@@ -192,18 +201,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             return image;
         }
 
-        /// <summary>
-        /// Gets the local cache file name associated with a specified Uri.
-        /// </summary>
-        /// <param name="uri">Uri of the resource.</param>
-        /// <returns>Filename associated with the Uri.</returns>
-        public static string GetCacheFileName(Uri uri)
-        {
-            ulong uriHash = CreateHash64(uri);
-
-            return $"{uriHash}.jpg";
-        }
-
         private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri)
         {
             BitmapImage image = null;
@@ -241,9 +238,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                             }
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
                         await baseFile.DeleteAsync();
+                        throw e;
                     }
                 }
                 else

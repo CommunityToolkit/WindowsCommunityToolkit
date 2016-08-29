@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public delegate void ImageFailedExEventHandler(object sender, ImageFailedExEventArgs e);
 
+    /// <summary>
+    /// Provides data for the <see cref="ImageEx"/> ImageFailed event.
+    /// </summary>
     public class ImageFailedExEventArgs : EventArgs
     {
         public ImageFailedExEventArgs(Exception errorException)
         {
             ErrorException = errorException;
-            if (ErrorException != null)
-            {
-                ErrorMessage = ErrorException.Message;
-            }
-            else
-            {
-                ErrorMessage = null;
-            }
+            ErrorMessage = ErrorException?.Message;
         }
 
+        /// <summary>
+        /// Gets the exception that caused the error condition.
+        /// </summary>
         public Exception ErrorException { get; private set; }
 
+        /// <summary>
+        /// Gets the reason for the error condition.
+        /// </summary>
         public string ErrorMessage { get; private set; }
     }
 }
