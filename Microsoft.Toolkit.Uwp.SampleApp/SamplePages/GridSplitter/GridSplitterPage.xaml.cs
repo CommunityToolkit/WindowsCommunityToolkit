@@ -1,4 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -7,6 +9,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public GridSplitterPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
         }
     }
 }

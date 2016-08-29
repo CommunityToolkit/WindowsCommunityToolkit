@@ -30,22 +30,9 @@
         <controls:GridSplitter 
             Grid.Column="1"
                 Width="11"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto"
                 Background="Gray"
                 Foreground="White" 
                 FontSize="13">
-            <controls:GridSplitter.Element>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center" 
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center"  
-                                    Text="&#xE784;"
-                                   Foreground="Black" 
-                                   FontFamily="Segoe MDL2 Assets">
-                    </TextBlock>
-                </Grid>
-            </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
         <!--Row Grid Splitter-->
@@ -62,8 +49,8 @@
                     <TextBlock HorizontalAlignment="Center"     
                                    IsHitTestVisible="False"
                                    VerticalAlignment="Center"  
-                                    Text="&#xE76F;"
-                                   Foreground="Black" 
+                                   Text="&#xE76F;"
+                                   Foreground="White" 
                                    FontFamily="Segoe MDL2 Assets">
                     </TextBlock>
                 </Grid>
