@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>A stream containing the user's photo</returns>
         public async Task<System.IO.Stream> GetUserPhotoAsync(CancellationToken cancellationToken)
         {
-            
+
             System.IO.Stream photo = null;
             try
             {
@@ -88,9 +88,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             return await this.GetUserPhotoAsync(CancellationToken.None);
         }
-      
 
-        public async Task<IGraphServiceUsersCollectionPage> GetUsersAsync(int top=10)
+        /// <summary>
+        /// Under construction
+        /// </summary>
+        /// <param name="top">The number of items to return in a result set.</param>
+        /// <returns>a Collection of Pages containing the users</returns>
+        public async Task<IGraphServiceUsersCollectionPage> GetUsersAsync(int top = 10)
         {
             return await graphServiceClient.Users.Request().Top(top).GetAsync();
         }
