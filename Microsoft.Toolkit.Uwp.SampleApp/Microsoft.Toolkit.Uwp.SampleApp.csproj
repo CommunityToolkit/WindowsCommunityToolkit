@@ -278,9 +278,7 @@
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
-    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind"/>
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
@@ -295,9 +293,7 @@
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
-    <Content Include="SamplePages\Loading\LoadingCode.bind">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="SamplePages\Loading\LoadingCode.bind"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
