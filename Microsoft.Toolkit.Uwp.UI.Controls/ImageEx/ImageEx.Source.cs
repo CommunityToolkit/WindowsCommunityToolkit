@@ -108,12 +108,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     try
                     {
                         _image.Source = await ImageCache.GetFromCacheAsync(_uri);
-                        ImageOpenedEx?.Invoke(this, new ImageOpenedExEventArgs());
+                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }
                     catch (Exception e)
                     {
-                        ImageFailedEx?.Invoke(this, new ImageFailedExEventArgs(e));
+                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
                         VisualStateManager.GoToState(this, FailedState, true);
                     }
                 }

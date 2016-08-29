@@ -2,14 +2,14 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public delegate void ImageFailedExEventHandler(object sender, ImageFailedExEventArgs e);
+    public delegate void ImageExFailedEventHandler(object sender, ImageExFailedEventArgs e);
 
     /// <summary>
     /// Provides data for the <see cref="ImageEx"/> ImageFailed event.
     /// </summary>
-    public class ImageFailedExEventArgs : EventArgs
+    public class ImageExFailedEventArgs : EventArgs
     {
-        public ImageFailedExEventArgs(Exception errorException)
+        public ImageExFailedEventArgs(Exception errorException)
         {
             ErrorException = errorException;
             ErrorMessage = ErrorException?.Message;
