@@ -60,3 +60,9 @@ MessagesList.ItemsSource = messages;
 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
 
+// Once you get the first X messages you can query for the next x messages
+ messages = await messages.NextPageAsync();
+ if (messages != null) // if null no more messages are available
+ {
+     MessagesList.ItemsSource = messages;
+ }
