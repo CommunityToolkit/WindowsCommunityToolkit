@@ -16,9 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty LoadingHorizontalAlignmentProperty = DependencyProperty.Register(
             nameof(LoadingHorizontalAlignment), typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
 
-        public static readonly DependencyProperty LoadingContentProperty = DependencyProperty.Register(
-            nameof(LoadingContent), typeof(DataTemplate), typeof(Loading), new PropertyMetadata(default(DataTemplate), LoadingContentPropertyChanged));
-
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
             nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
@@ -28,13 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty LoadingBackgroundProperty = DependencyProperty.Register(
             nameof(LoadingBackground), typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
 
-        private Grid RootGrid { get; }
-
-        private Grid BackgroundGrid { get; set; }
-
-        private Grid ContentGrid { get; }
-
-        private Storyboard Animation { get; set; }
+        private Grid _rootGrid;
+        private Grid _backgroundGrid;
+        private ContentPresenter _contentGrid;
 
         /// <summary>
         /// Gets or sets loadingVerticalAlignment
@@ -52,15 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (HorizontalAlignment)GetValue(LoadingHorizontalAlignmentProperty); }
             set { SetValue(LoadingHorizontalAlignmentProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets loadingContent
-        /// </summary>
-        public DataTemplate LoadingContent
-        {
-            get { return (DataTemplate)GetValue(LoadingContentProperty); }
-            set { SetValue(LoadingContentProperty, value); }
         }
 
         /// <summary>
@@ -92,12 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as Loading)?.CreateLoadingControl();
-        }
-
-        private static void LoadingContentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as Loading)?.CreateLoadingControl();
+            var control = (d as Loading);
+            control?.OnApplyTemplate();
         }
     }
 }

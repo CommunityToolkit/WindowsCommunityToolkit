@@ -104,7 +104,6 @@
     <Page Include="Loading\Loading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="RotatorTile\RotatorTile.xaml">
       <Generator>MSBuild:Compile</Generator>
