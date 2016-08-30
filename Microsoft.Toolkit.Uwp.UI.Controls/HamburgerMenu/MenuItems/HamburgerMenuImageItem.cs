@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -21,8 +21,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class HamburgerMenuImageItem : HamburgerMenuItem
     {
         /// <summary>
+        /// Identifies the <see cref="Thumbnail"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(BitmapImage), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets gets of sets a value that specifies the glyph to use from Segoe MDL2 Assets font.
         /// </summary>
-        public BitmapImage Thumbnail { get; set; }
+        public BitmapImage Thumbnail
+        {
+            get
+            {
+                return (BitmapImage)GetValue(ThumbnailProperty);
+            }
+
+            set
+            {
+                SetValue(ThumbnailProperty, value);
+            }
+        }
     }
 }
