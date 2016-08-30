@@ -1,0 +1,99 @@
+﻿using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+
+// The Content Dialog item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+{
+    public sealed partial class SendMessageContentDialog : ContentDialog
+    {
+
+        MicrosoftGraphService instance;
+
+        public SendMessageContentDialog(MicrosoftGraphService instance)
+        {
+            this.InitializeComponent();
+            this.instance = instance;
+        }
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+
+        }
+        private string GetHtmlMessage()
+        {
+            return @"By <a href='https://blogs.windows.com/buildingapps/author/giorgio-sardo/' >Giorgio Sardo</a> <p>Recently, we released the Windows Anniversary Update and a new <a href='https://developer.microsoft.com/en-us/windows/downloads'>Windows Software Developer Kit (SDK) for Windows 10</a> containing tools, app templates, platform controls, Windows Runtime APIs, emulators and much more, to help create innovative and compelling Universal Windows apps.</p>";
+        }
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            char separator = ';';
+            if (string.IsNullOrEmpty(TxtTo.Text.Trim()))
+            {
+                await DisplayMessageAsync("Need at least one email address");
+                return;
+            }
+
+            string[] toRecipients = TxtTo.Text.Split(separator);
+            string[] ccRecipients = null;
+            if (!string.IsNullOrEmpty(TxtCc.Text.Trim()))
+            {
+                ccRecipients = TxtCc.Text.Split(separator);
+            }
+
+            string subject = TxtSubject.Text;
+            string content;
+            richEditBoxContent.Document.GetText(Windows.UI.Text.TextGetOptions.None, out content);
+            try
+            {
+                await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);
+                // Sending a second message in html format
+                await MicrosoftGraphService.Instance.SendMessageAsync("Introducing the UWP Community Toolkit",GetHtmlMessage(),BodyType.Html, toRecipients, ccRecipients);
+
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                await DisplayAuthorizationErrorMessage(ex, "Send mail as user");
+            }
+
+            await DisplayMessageAsync("Succeeded!");
+
+        }
+
+        private async Task DisplayMessageAsync(string message)
+        {
+            MessageDialog msg = new MessageDialog(message);
+            await msg.ShowAsync();
+        }
+
+        private async Task DisplayAuthorizationErrorMessage(Microsoft.Graph.ServiceException ex, string additionalMessage)
+        {
+            MessageDialog error = null;
+            if (ex.Error.Code.Equals("ErrorAccessDenied"))
+            {
+                error = new MessageDialog($"{ex.Error.Code}\nCheck in Azure Active Directory portal the '{additionalMessage}' Delegated Permissions");
+            }
+            else
+            {
+                error = new MessageDialog(ex.Error.Message);
+            }
+
+            await error.ShowAsync();
+        }
+    }
+}

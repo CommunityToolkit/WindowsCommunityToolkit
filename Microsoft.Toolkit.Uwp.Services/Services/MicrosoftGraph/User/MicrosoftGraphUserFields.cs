@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         BusinessPhones,
 
         /// <summary>
-        /// The city in which the user is located. 
+        /// The city in which the user is located.
         /// </summary>
         City,
 
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         CompanyName,
 
         /// <summary>
-        /// The country/region in which the user is located; for example, “US” or “UK”. 
+        /// The country/region in which the user is located; for example, “US” or “UK”.
         /// </summary>
         Country,
 
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         JobTitle,
 
         /// <summary>
-        /// The SMTP address for the user, for example, "jeff@contoso.onmicrosoft.com". Read-Only
+        /// The SMTP address for the user, for example, 'jeff@contoso.onmicrosoft.com'. Read-Only
         /// </summary>
         Mail,
 
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         OnPremisesImmutableId,
 
         /// <summary>
-        /// Indicates the last time at which the object was synced with the on-premises directory; for example: "2013-02-16T03:04:54Z". The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 would look like this: '2014-01-01T00:00:00Z'. Read-only.
+        /// Indicates the last time at which the object was synced with the on-premises directory; for example: '2013-02-16T03:04:54Z'. The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 would look like this: '2014-01-01T00:00:00Z'. Read-only.
         /// </summary>
         OnPremisesLastSyncDateTime,
 
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         OnPremisesSyncEnabled,
 
         /// <summary>
-        /// Specifies password policies for the user. This value is an enumeration with one possible value being “DisableStrongPassword”, which allows weaker passwords than the default policy to be specified. “DisablePasswordExpiration” can also be specified. The two may be specified together; for example: "DisablePasswordExpiration, DisableStrongPassword".
+        /// Specifies password policies for the user. This value is an enumeration with one possible value being “DisableStrongPassword”, which allows weaker passwords than the default policy to be specified. “DisablePasswordExpiration” can also be specified. The two may be specified together; for example: 'DisablePasswordExpiration, DisableStrongPassword'.
         /// </summary>
         PasswordPolicies,
 
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         PostalCode,
 
         /// <summary>
-        /// The preferred language for the user. Should follow ISO 639-1 Code; for example "en-US".
+        /// The preferred language for the user. Should follow ISO 639-1 Code; for example 'en-US'.
         /// </summary>
         PreferredLanguage,
 
@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         Surname,
 
         /// <summary>
-        /// A two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries.  Examples include: "US", "FR", and "GB".
+        /// A two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries.  Examples include: 'US', 'FR', and 'GB'.
         /// </summary>
         UsageLocation,
 

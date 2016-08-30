@@ -45,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private bool isInitialized;
 
         /// <summary>
+        /// Field for tracking if the user is connected.
+        /// </summary>
+        private bool isConnected;
+
+        /// <summary>
         /// Field to store Azure AD Application clientid
         /// </summary>
         private string appClientId;
@@ -57,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
-        /// <param name="appClientId">Azure AD's App client id</param>
+        /// <param name='appClientId'>Azure AD's App client id</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appClientId)
         {
@@ -76,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create Microsoft Graph client
         /// </summary>
-        /// <param name="appClientId">Azure AD's App client id</param>
+        /// <param name='appClientId'>Azure AD's App client id</param>
         /// <returns>instance of the GraphServiceclient</returns>
         public GraphServiceClient CreateGraphClient(string appClientId)
         {
@@ -84,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                         // requestMessage.Headers.Add("outlook.timezone", "Romance Standard Time");
+                         // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
@@ -97,10 +102,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
-        /// <see cref="Http://graph.microsoft.io/en-us/docs/authorization/permission_scopes"/>
+        /// <see cref='Http://graph.microsoft.io/en-us/docs/authorization/permission_scopes'/>
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
+            isConnected = false;
             if (!isInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -109,10 +115,21 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             var accessToken = await AuthenticationHelper.Instance.GetUserTokenAsync(appClientId);
             if (string.IsNullOrEmpty(accessToken))
             {
-                return false;
+                return isConnected;
             }
 
-            return true;
+            MicrosoftGraphUserFields[] selectedFields =
+            {
+                MicrosoftGraphUserFields.Id
+            };
+            isConnected = true;
+            var user = await this.GetUserAsync(selectedFields);
+            if (user == null)
+            {
+                isConnected = false;
+            }
+
+            return isConnected;
         }
     }
 }

@@ -18,6 +18,7 @@ using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+
     /// <summary>
     /// Message's Fields
     /// </summary>

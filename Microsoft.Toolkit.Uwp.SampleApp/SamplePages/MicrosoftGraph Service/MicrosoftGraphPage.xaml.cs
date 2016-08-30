@@ -1,17 +1,18 @@
 ﻿namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+    using Windows.Storage.Streams;
+    using Windows.UI.Core;
     using Windows.UI.Popups;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media.Imaging;
-    using Windows.Storage.Streams;
-    using System.Threading;
-    using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
-    using Windows.UI.Core;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -27,6 +28,7 @@
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (!await Tools.CheckInternetConnection())
             {
                 return;
@@ -44,29 +46,38 @@
             }
 
             Shell.Current.DisplayWaitRing = true;
-
-            // Retrieve user's info from Azure Active Directory
-            // MicrosoftGraphUserFields[] selectFields = { MicrosoftGraphUserFields.DisplayName, MicrosoftGraphUserFields.Department, MicrosoftGraphUserFields.JobTitle, MicrosoftGraphUserFields.Id };
-            // var user = await MicrosoftGraphService.Instance.GetUserAsync(selectFields);
-            var user = await MicrosoftGraphService.Instance.GetUserAsync();
-            UserPanel.DataContext = user;
-
-            using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+            try
             {
-               BitmapImage photo = new BitmapImage();
-               if (photoStream != null)
-                {
-                    await photo.SetSourceAsync(photoStream);
-                }
-               else
-                {
-                    photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
-                }
+                // Retrieve user's info from Azure Active Directory
+                // MicrosoftGraphUserFields[] selectFields = { MicrosoftGraphUserFields.DisplayName, MicrosoftGraphUserFields.Department, MicrosoftGraphUserFields.JobTitle, MicrosoftGraphUserFields.Id };
+                // var user = await MicrosoftGraphService.Instance.GetUserAsync(selectFields);
+                var user = await MicrosoftGraphService.Instance.GetUserAsync();
+                UserPanel.DataContext = user;
 
-                this.Photo.Source = photo;
+                using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+                {
+                    BitmapImage photo = new BitmapImage();
+                    if (photoStream != null)
+                    {
+                        await photo.SetSourceAsync(photoStream);
+                    }
+                    else
+                    {
+                        photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
+                    }
+
+                    this.Photo.Source = photo;
+                }
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                await DisplayAuthorizationErrorMessage(ex, "Sign in and read user profile");
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
             }
 
-            Shell.Current.DisplayWaitRing = false;
             MessagesBox.Visibility = Visibility.Visible;
             UserBox.Visibility = Visibility.Visible;
             ClientIdBox.Visibility = Visibility.Collapsed;
@@ -104,7 +115,17 @@
                         ObservableCollection<Graph.Message> intermediateList = new ObservableCollection<Graph.Message>();
                         if (isFirstCall)
                         {
-                            messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(cts, top);
+                            try
+                            {
+                                messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(cts, top);
+                            }
+                            catch (Microsoft.Graph.ServiceException ex)
+                            {
+                                if (!this.Dispatcher.HasThreadAccess)
+                                {
+                                   await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessage(ex, "Read user mail"); }));
+                                }
+                            }
 
                             isFirstCall = false;
                         }
@@ -127,6 +148,27 @@
               });
 
             MessagesList.ItemsSource = incrementalCollection;
+        }
+
+        private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            SendMessageContentDialog sendMessageDialog = new SendMessageContentDialog(MicrosoftGraphService.Instance);
+            await sendMessageDialog.ShowAsync();
+        }
+
+        private async Task DisplayAuthorizationErrorMessage(Microsoft.Graph.ServiceException ex, string additionalMessage)
+        {
+            MessageDialog error = null;
+            if (ex.Error.Code.Equals("ErrorAccessDenied"))
+            {
+                error = new MessageDialog($"{ex.Error.Code}\nCheck in Azure Active Directory portal the '{additionalMessage}' Delegated Permissions");
+            }
+            else
+            {
+                error = new MessageDialog(ex.Error.Message);
+            }
+
+            await error.ShowAsync();
         }
 
         private async void GetNextMessagesButton_Click(object sender, RoutedEventArgs e)
@@ -177,7 +219,5 @@
                 box.Visibility = Visibility.Visible;
             }
         }
-
-      
     }
 }

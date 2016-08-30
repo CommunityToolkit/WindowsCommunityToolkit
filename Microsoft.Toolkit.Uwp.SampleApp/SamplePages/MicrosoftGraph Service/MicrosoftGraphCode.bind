@@ -14,21 +14,20 @@ var user = await MicrosoftGraphService.Instance.GetUserAsync();
 UserPanel.DataContext = user;
 
 // You can also select any fields you want in the response
-MicrosoftGraphMessageFields[] selectedFields = 
+MicrosoftGraphUserFields[] selectedFields = 
 	{
-		MicrosoftGraphUserProperties.Id,
-		MicrosoftGraphUserProperties.DisplayName,
-		MicrosoftGraphUserProperties.JobTitle,
-		MicrosoftGraphUserProperties.Mail,
-		MicrosoftGraphUserProperties.Department,
-		MicrosoftGraphUserProperties.PreferredLanguage
+		MicrosoftGraphUserFields.Id,
+		MicrosoftGraphUserFields.DisplayName,
+		MicrosoftGraphUserFields.JobTitle,
+		MicrosoftGraphUserFields.Mail,
+		MicrosoftGraphUserFields.Department,
+		MicrosoftGraphUserFields.PreferredLanguage
 	};
 
-UserPanel.DataContext = user;     
 var user =await MicrosoftGraphService.Instance.GetUserAsync(selectedFields);
+UserPanel.DataContext = user;     
 
-// Retrieve the user's photo    
-
+// Retrieve the user's photo 
 using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
 {
    BitmapImage photo = new BitmapImage();
@@ -49,20 +48,24 @@ messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
-	MicrosoftGraphUserFields[] selectedFields = 
-	{ 
-		MicrosoftGraphMessageProperties.Id,
-		MicrosoftGraphMessageProperties.From,
-		MicrosoftGraphMessageProperties.Subject,
-		MicrosoftGraphMessageProperties.BodyPreview
-	};
+MicrosoftGraphMessageProperties[] selectedFields = 
+{ 
+	MicrosoftGraphMessageProperties.Id,
+	MicrosoftGraphMessageProperties.From,
+	MicrosoftGraphMessageProperties.Subject,
+	MicrosoftGraphMessageProperties.BodyPreview
+};
 
 messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
 
-// Once you get the first X messages you can query for the next x messages
- messages = await messages.NextPageAsync();
- if (messages != null) // if null no more messages are available
- {
-     MessagesList.ItemsSource = messages;
- }
+//Send a message
+string[] toRecipients = "user1@contoso.com;user2@contoso.com";
+string subject = "This is the subject of my message;
+string content = "This is the content of my message";
+
+await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Text, toRecipients);
+
+//You can also send a message in thml format
+string content = ""
+await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Html, toRecipients);

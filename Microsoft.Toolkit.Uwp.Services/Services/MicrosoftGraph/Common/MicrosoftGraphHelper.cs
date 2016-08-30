@@ -29,8 +29,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Build string with an array's items
         /// </summary>
-        /// <typeparam name="T">enum type</typeparam>
-        /// <param name="t">an array of enum containing the fields</param>
+        /// <typeparam name='T'>enum type</typeparam>
+        /// <param name='t'>an array of enum containing the fields</param>
         /// <returns>a string with all fields separate by a comma.</returns>
         internal static string BuildString<T>(T[] t)
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             foreach (var field in t)
             {
                 sb.Append(field.ToString());
-                sb.Append(",");
+                sb.Append(',');
             }
 
             string tempo = sb.ToString();

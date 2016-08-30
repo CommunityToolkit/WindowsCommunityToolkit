@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     using System.Threading;
     using System.Threading.Tasks;
     using Graph;
+    using System.Collections.Generic;
 
     /// <summary>
     /// GraphServiceClient Extensions
@@ -30,11 +31,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="nextPage">Instance of IUserMessagesCollectionPage</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>the next collection of messages or null if there are anymore messages</returns>
-        public static async Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage,CancellationToken cancellationToken)
+        public static Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage, CancellationToken cancellationToken)
         {
             if (nextPage.NextPageRequest != null)
             {
-                return await nextPage.NextPageRequest.GetAsync(cancellationToken);
+                return nextPage.NextPageRequest.GetAsync(cancellationToken);
             }
 
             // no more messages
@@ -53,15 +54,34 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// 
-        /// </summary>      
-        /// <param name="source"></param>
-        /// <param name="dest"></param>
+        /// Add items from source to dest
+        /// </summary>
+        /// <param name="source">A collection of messages</param>
+        /// <param name="dest">The destination collection</param>
         public static void AddTo(this IUserMessagesCollectionPage source, ObservableCollection<Graph.Message> dest)
         {
             foreach (var item in source)
             {
                 dest.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Create a list of recipients
+        /// </summary>
+        /// <param name="source">A collection of email addresses</param>
+        /// <param name="dest">A collection of Microsoft Graph recipients</param>
+        public static void CopyTo(this string[] source, List<Recipient> dest)
+        {
+            foreach (var recipient in source)
+            {
+                dest.Add(new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = recipient,
+                    }
+                });
             }
         }
     }
