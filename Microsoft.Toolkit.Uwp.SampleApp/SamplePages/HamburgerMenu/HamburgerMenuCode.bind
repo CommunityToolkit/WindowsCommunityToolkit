@@ -14,8 +14,16 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{Binding Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{x:Bind Label}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                <FontIcon Grid.Column="0" 
+                          Margin="12,12,11,12" 
+                          FontFamily="Segoe MDL2 Assets" 
+                          Glyph="{Binding Glyph}" 
+                          Foreground="White" />
+                <TextBlock Grid.Column="1" 
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
@@ -26,7 +34,11 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding Glyph}" Stretch="UniformToFill" Margin="12,12,11,12" />
-                <TextBlock Grid.Column="1" Text="{x:Bind Label}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" 
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -46,17 +58,17 @@
           <!--Items-->
           <controls:HamburgerMenu.ItemsSource>
             <controls:HamburgerMenuItemCollection>
-              <controls:HamburgerMenuGlyphItem Label="Big four summer heat" Glyph="/Assets/Photos/BigFourSummerHeat.png"></controls:HamburgerMenuGlyphItem>
-              <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin" Glyph="/Assets/Photos/BisonBadlandsChillin.png"></controls:HamburgerMenuGlyphItem>
-              <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon" Glyph="/Assets/Photos/GiantSlabInOregon.png"></controls:HamburgerMenuGlyphItem>
-              <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom" Glyph="/Assets/Photos/LakeAnnMushroom.png"></controls:HamburgerMenuGlyphItem>
+              <controls:HamburgerMenuGlyphItem Label="Big four summer heat" Glyph="/Assets/Photos/BigFourSummerHeat.png"/>
+              <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin" Glyph="/Assets/Photos/BisonBadlandsChillin.png"/>
+              <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon" Glyph="/Assets/Photos/GiantSlabInOregon.png"/>
+              <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom" Glyph="/Assets/Photos/LakeAnnMushroom.png"/>
             </controls:HamburgerMenuItemCollection>
           </controls:HamburgerMenu.ItemsSource>
 
           <!--Options-->
           <controls:HamburgerMenu.OptionsItemsSource>
             <controls:HamburgerMenuItemCollection>
-              <controls:HamburgerMenuGlyphItem Label="About" Glyph=""></controls:HamburgerMenuGlyphItem>
+              <controls:HamburgerMenuGlyphItem Label="About" Glyph=""/>
             </controls:HamburgerMenuItemCollection>
           </controls:HamburgerMenu.OptionsItemsSource>
 
@@ -67,7 +79,10 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Border Background="Black" Grid.Row="0">
-                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="Header" 
+                               FontSize="24" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
                 </Border>
                 <Image x:Name="Image" Grid.Row="1"/>
             </Grid>

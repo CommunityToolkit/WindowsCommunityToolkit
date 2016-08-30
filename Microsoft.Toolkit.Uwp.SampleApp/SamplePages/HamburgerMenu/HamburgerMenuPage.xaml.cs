@@ -11,11 +11,10 @@
 // ******************************************************************
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

@@ -39,10 +39,10 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
         <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Height="100" Width="100" Stretch="Uniform" Source="/SamplePages/Twitter Service/TwitterLogo.png" Margin="24"/>
                 <Border CornerRadius="50" x:Name="ProfileImage" Height="100" Width="100" Visibility="Collapsed">
@@ -60,32 +60,32 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    
+
                     <!-- Credentials area -->
                     <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                            <Grid Background="#FFCCCCCC">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
                             <Button x:Name="CredentialsBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="CredentialsBoxExpandButton_OnClick"/>
-                                <TextBlock Grid.Column="1" Text="Credentials" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                            </Grid>
-
-                            <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
-                                <HyperlinkButton Content="Show me how to get these values" NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter" Margin="0,0,0,15"></HyperlinkButton>
-                            <TextBox Header="Consumer Key:" x:Name="ConsumerKey" Margin="0,0,0,12"/>
-                                <TextBox Header="Consumer Secret:" x:Name="ConsumerSecret" Margin="0,0,0,12"/>
-                                <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>
-                                <Button Content="Connect" x:Name="ConnectButton" Click="ConnectButton_OnClick" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
-                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="Credentials" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
                         </Grid>
-                    
+
+                        <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
+                            <HyperlinkButton Content="Show me how to get these values" NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter" Margin="0,0,0,15"/>
+                            <TextBox Header="Consumer Key:" x:Name="ConsumerKey" Margin="0,0,0,12"/>
+                            <TextBox Header="Consumer Secret:" x:Name="ConsumerSecret" Margin="0,0,0,12"/>
+                            <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>
+                            <Button Content="Connect" x:Name="ConnectButton" Click="ConnectButton_OnClick" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                        </StackPanel>
+                    </Grid>
+
                     <!-- Tweet area -->
                     <Grid Grid.Row="1" x:Name="ShareBox">
                         <Grid.RowDefinitions>
@@ -101,7 +101,7 @@
                             <Button x:Name="TweetBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="TweetBoxExpandButton_OnClick"/>
                             <TextBlock Grid.Column="1" Text="Tweet" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
                         </Grid>
-                        
+
                         <StackPanel Grid.Row="1" Margin="24" x:Name="TweetPanel">
                             <TextBox Header="Tweet" x:Name="TweetText" Margin="0,0,0,12"/>
                             <StackPanel Orientation="Horizontal">
@@ -110,7 +110,7 @@
                             </StackPanel>
                         </StackPanel>
                     </Grid>
-                    
+
                     <!-- Search area -->
                     <Grid Grid.Row="2" x:Name="SearchBox">
                         <Grid.RowDefinitions>
@@ -132,7 +132,7 @@
                             <Button Content="Search" x:Name="SearchButton" Click="SearchButton_OnClick" Margin="0,10,0,0"></Button>
                         </StackPanel>
                     </Grid>
-                    
+
                     <!-- Results area -->
                     <ListView Grid.Row="3" ItemTemplate="{StaticResource TwitterSchemaTemplate}" x:Name="ListView" Margin="0,12,0,0" SelectionMode="None" IsItemClickEnabled="False">
                         <ListView.ItemContainerStyle>
