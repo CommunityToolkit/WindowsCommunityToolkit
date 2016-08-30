@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 duration: Duration,
                 delay: Delay,
                 offsetX: (float)OffsetX,
-                offsetY: (float)OffsetY).Start();
+                offsetY: (float)OffsetY)?.Start();
         }
     }
 }
