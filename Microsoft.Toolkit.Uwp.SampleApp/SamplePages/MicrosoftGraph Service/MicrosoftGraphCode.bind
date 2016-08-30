@@ -66,6 +66,6 @@ string content = "This is the content of my message";
 
 await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Text, toRecipients);
 
-//You can also send a message in thml format
-string content = ""
+// You can also send a message in html format
+string content = "Hello <b>World</b>";
 await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Html, toRecipients);
