@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -206,6 +207,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Search in Windows
             var proxyType = VerticalAlignment.Center;
             var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls
+            var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
+            assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {

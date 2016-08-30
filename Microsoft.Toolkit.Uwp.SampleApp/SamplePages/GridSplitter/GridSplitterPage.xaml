@@ -28,9 +28,11 @@
 
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
-            Grid.Column="1"
+            
                 Width="11"
                 Background="Gray"
+            Grid.Column="{Binding Column.Value}"
+          ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
                 Foreground="White" 
                 FontSize="13">
         </controls:GridSplitter>

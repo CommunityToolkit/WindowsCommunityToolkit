@@ -28,10 +28,12 @@
 
     <!--Column Grid Splitter-->
         <controls:GridSplitter 
-            Grid.Column="1"
+            
                 Width="11"
                 Background="Gray"
                 Foreground="White" 
+                Grid.Column="@[Column:Slider:1:0-2]"
+                ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
                 FontSize="13">
         </controls:GridSplitter>
 

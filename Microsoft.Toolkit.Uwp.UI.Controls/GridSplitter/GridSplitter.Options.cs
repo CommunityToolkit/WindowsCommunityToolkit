@@ -69,6 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnResizeDirectionChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)o;
+
+            // TODO never changed !!
+            var newValue = (GridResizeDirection)e.NewValue;
             gridSplitter._resizeDirection = gridSplitter.GetResizeDirection();
         }
 
