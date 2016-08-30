@@ -54,6 +54,8 @@
     <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
+    <Compile Include="IncrementalLoading\IIncrementalSource.cs" />
+    <Compile Include="IncrementalLoading\IncrementalLoadingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />
