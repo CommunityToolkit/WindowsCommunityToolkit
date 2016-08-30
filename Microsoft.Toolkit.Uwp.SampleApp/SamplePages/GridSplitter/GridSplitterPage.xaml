@@ -31,8 +31,9 @@
             
                 Width="11"
                 Background="Gray"
-            Grid.Column="{Binding Column.Value}"
-          ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
+                Grid.Column="{Binding Column.Value}"
+                ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
+                ResizeBehavior="{Binding ResizeBehavior.Value,Mode=TwoWay}"
                 Foreground="White" 
                 FontSize="13">
         </controls:GridSplitter>

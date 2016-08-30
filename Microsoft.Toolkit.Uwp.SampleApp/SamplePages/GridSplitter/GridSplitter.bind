@@ -34,6 +34,7 @@
                 Foreground="White" 
                 Grid.Column="@[Column:Slider:1:0-2]"
                 ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
+                ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"
                 FontSize="13">
         </controls:GridSplitter>
 
