@@ -98,7 +98,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid x:Name="BackgroundGrid" Background="{TemplateBinding LoadingBackground}" Opacity="{TemplateBinding LoadingOpacity}"/>
-                        <ContentPresenter x:Name="ContentGrid" HorizontalAlignment="{TemplateBinding LoadingHorizontalAlignment}" VerticalAlignment="{TemplateBinding LoadingVerticalAlignment}">
+                        <ContentPresenter x:Name="ContentGrid" HorizontalContentAlignment="{TemplateBinding LoadingHorizontalAlignment}" VerticalContentAlignment="{TemplateBinding LoadingVerticalAlignment}">
                             <ContentPresenter.RenderTransform>
                                 <CompositeTransform></CompositeTransform>
                             </ContentPresenter.RenderTransform>

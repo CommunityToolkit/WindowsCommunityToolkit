@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
@@ -19,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var propertyDesc = e.Parameter as PropertyDescriptor;
 
@@ -28,29 +24,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            foreach (var key in Resources.Keys)
-            {
-                Templates.Add(Resources[key.ToString()] as DataTemplate);
-            }
+            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
 
-            GridViewControl.ItemsSource = Templates;
-            LoadingContentControl.ContentTemplate = Templates.FirstOrDefault();
+            Shell.Current.RegisterNewCommand("Loading control with wait ring", async (sender, args) =>
+            {
+                LoadingContentControl.ContentTemplate = Resources["WaitListTemplate"] as DataTemplate;
+                await ShowLoadingDialogAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Loading control with progressbar", async (sender, args) =>
+            {
+                LoadingContentControl.ContentTemplate = Resources["ProgressBarTemplate"] as DataTemplate;
+                await ShowLoadingDialogAsync();
+            });
+
+            Shell.Current.RegisterNewCommand("Loading control with logo", async (sender, args) =>
+            {
+                LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
+                await ShowLoadingDialogAsync();
+            });
 
             base.OnNavigatedTo(e);
         }
 
-        public List<DataTemplate> Templates { get; set; } = new List<DataTemplate>();
-
-        private async void ShowLoadingDialogDelegateAsync(object sender, TappedRoutedEventArgs e)
+        private async Task ShowLoadingDialogAsync()
         {
             LoadingControl.IsLoading = true;
             await Task.Delay(3000);
             LoadingControl.IsLoading = false;
-        }
-
-        private void GridViewControl_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            LoadingContentControl.ContentTemplate = (sender as GridView).SelectedItem as DataTemplate;
         }
     }
 }
