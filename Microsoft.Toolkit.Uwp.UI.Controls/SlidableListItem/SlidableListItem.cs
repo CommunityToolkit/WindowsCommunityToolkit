@@ -31,6 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class SlidableListItem : ContentControl
     {
         /// <summary>
+        /// Indetifies the <see cref="IsOffsetLimited"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsOffsetLimitedProperty =
+            DependencyProperty.Register(nameof(IsOffsetLimited), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+
+        /// <summary>
         /// Indetifies the <see cref="IsLeftSwipeEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsLeftSwipeEnabledProperty =
@@ -272,14 +278,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _rightCommandPanel.Opacity = 0;
                 }
 
-                _transform.TranslateX += e.Delta.Translation.X;
-                if (abs < ActivationWidth)
+                var swipeThreshold = _leftCommandPanel.ActualWidth + 24;
+                if (IsOffsetLimited && _transform.TranslateX < swipeThreshold)
                 {
-                    _leftCommandTransform.TranslateX = _transform.TranslateX / 2;
+                    var sub = _transform.TranslateX + e.Delta.Translation.X;
+                    if (sub > swipeThreshold)
+                    {
+                        _transform.TranslateX += swipeThreshold - _transform.TranslateX;
+                        return;
+                    }
+
+                    if ((_transform.TranslateX + e.Delta.Translation.X) > swipeThreshold)
+                    {
+                        _transform.TranslateX = swipeThreshold;
+                    }
+                    else if (sub < swipeThreshold)
+                    {
+                        _transform.TranslateX += e.Delta.Translation.X;
+                    }
                 }
-                else
+                else if (!IsOffsetLimited)
                 {
-                    _leftCommandTransform.TranslateX = 20;
+                    _transform.TranslateX += e.Delta.Translation.X;
                 }
             }
             else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
@@ -291,16 +311,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _leftCommandPanel.Opacity = 0;
                 }
 
-                _transform.TranslateX += e.Delta.Translation.X;
-                if (abs < ActivationWidth)
+                var swipeThreshold = _rightCommandPanel.ActualWidth + 24;
+                if (IsOffsetLimited && Math.Abs(_transform.TranslateX) < swipeThreshold)
                 {
-                    _rightCommandTransform.TranslateX = _transform.TranslateX / 2;
+                    var sub = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
+                    if (sub > swipeThreshold)
+                    {
+                        _transform.TranslateX += -(swipeThreshold - (_transform.TranslateX * -1));
+                        return;
+                    }
+
+                    if ((_transform.TranslateX + e.Delta.Translation.X) > swipeThreshold)
+                    {
+                        _transform.TranslateX = swipeThreshold;
+                    }
+                    else if (sub < swipeThreshold)
+                    {
+                        _transform.TranslateX += e.Delta.Translation.X;
+                    }
                 }
-                else
+                else if (!IsOffsetLimited)
                 {
-                    _rightCommandTransform.TranslateX = -20;
+                    _transform.TranslateX += e.Delta.Translation.X;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether maximum swipe offset is limited or not.
+        /// </summary>
+        public bool IsOffsetLimited
+        {
+            get { return (bool)GetValue(IsOffsetLimitedProperty); }
+            set { SetValue(IsOffsetLimitedProperty, value); }
         }
 
         /// <summary>

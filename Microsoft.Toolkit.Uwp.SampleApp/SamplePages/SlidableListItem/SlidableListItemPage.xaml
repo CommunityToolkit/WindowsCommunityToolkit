@@ -18,6 +18,7 @@
                                        LeftLabel="{Binding DataContext.LeftLabel.Value, ElementName=Root, Mode=OneWay}" 
                                        RightLabel="{Binding DataContext.RightLabel.Value, ElementName=Root, Mode=OneWay}" 
                                        HorizontalAlignment="Stretch"
+                                       IsOffsetLimited="{Binding DataContext.IsOffsetLimited.Value, ElementName=Root, Mode=OneWay}"
                                        LeftBackground="{Binding DataContext.LeftBackground.Value, ElementName=Root, Mode=OneWay}" 
                                        RightBackground="{Binding DataContext.RightBackground.Value, ElementName=Root, Mode=OneWay}"
                                        LeftForeground ="{Binding DataContext.LeftForeground.Value, ElementName=Root, Mode=OneWay}" 
