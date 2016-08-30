@@ -226,7 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
             expressionAnimation.SetReferenceParameter("headerVisual", _headerVisual);
 
-
             if (_headerVisual != null && IsQuickReturnEnabled)
             {
                 _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
