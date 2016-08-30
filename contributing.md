@@ -13,6 +13,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 ## A good pull request
 Every contribution has to come with:
 
+* Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
 * A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
@@ -20,6 +21,8 @@ Every contribution has to come with:
 * PR has to target dev branch
 
 PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
+
+Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-unwg9jaovwyr) to your Visual Studio.
 
 ## General rules
 

@@ -9,7 +9,8 @@
                     <Viewbox>
                         <Grid x:Name="PART_Container"
                               Height="200"
-                              Width="200">
+                              Width="200"
+                              Background="Transparent">
 
                             <!-- Scale -->
                             <Path Name="PART_Scale"
