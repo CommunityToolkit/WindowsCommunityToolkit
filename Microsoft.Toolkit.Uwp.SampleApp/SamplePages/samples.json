@@ -68,6 +68,14 @@
         "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png"
       },
       {
+        "Name": "EmptyPlaceholderListView",
+        "Type": "EmptyPlaceholderListViewPage",
+        "About": "EmptyPlaceholderListView is derived from the built in ListView in the Universal Windows Platform. It enables a placeholder control to be displayed when collection is empty.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/EmptyPlaceholderListView",
+        "XamlCodeFile": "EmptyPlaceholderListViewCode.bind",
+        "Icon": "/SamplePages/EmptyPlaceholderListView/EmptyPlaceholderListView.png"
+      },
+      {
         "Name": "RotatorTile",
         "Type": "RotatorTilePage",
         "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
