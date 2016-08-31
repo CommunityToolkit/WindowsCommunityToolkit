@@ -68,6 +68,8 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
+    <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
+    <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
     <Compile Include="Loading\Loading.cs" />
     <Compile Include="Loading\Loading.Properties.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
