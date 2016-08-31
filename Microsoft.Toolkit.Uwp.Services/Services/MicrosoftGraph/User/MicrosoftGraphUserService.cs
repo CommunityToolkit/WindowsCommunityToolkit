@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     using Windows.Storage.Streams;
 
     /// <summary>
-    ///  Class for using  Office 365 Microsoft Graph User API
+    ///  Class for using Office 365 Microsoft Graph User API
     /// </summary>
     public class MicrosoftGraphUserService
     {
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve user data.
+        /// Retrieve current connected user's data.
         /// <para>Permission Scopes:
         /// User.Read (Sign in and read user profile)</para>
         /// </summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve user"s data.
+        /// Retrieve current connected user's data.
         /// <para>Permission Scopes:
         /// User.Read (Sign in and read user profile)</para>
         /// </summary>
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve the user's Photo
+        /// Retrieve current connected user's photo.
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>A stream containing the user"s photo</returns>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve the user"s Photo
+        /// Retrieve current connected user's photo.
         /// </summary>
         /// <returns>A stream containing the user"s photo</returns>
         public Task<IRandomAccessStream> GetPhotoAsync()

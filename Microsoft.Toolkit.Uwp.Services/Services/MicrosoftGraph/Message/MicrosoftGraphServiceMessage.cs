@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve user"s emails.
+        /// Retrieve current connected user's emails.
         /// <para>(default=10)</para>
         /// <para>Permission Scope: Mail.Read (Read user mail)</para>
         /// </summary>
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Retrieve user"s emails.
+        /// Retrieve current connected user's emails.
         /// <para>(default=10)</para>
         /// <para>Permission Scope : Mail.Read (Read user mail)</para>
         /// </summary>
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Send an message
+        /// Send a message
         /// <para> Permission Scope: (Send mail as user)</para>
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
