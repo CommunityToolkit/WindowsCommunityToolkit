@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             finally
             {
-                lock (_concurrentTasks)
+                lock (_concurrencyLock)
                 {
                     if (_concurrentTasks.ContainsKey(key))
                     {
