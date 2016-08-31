@@ -126,11 +126,24 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Gets the local cache file name associated with a specified Uri.
+        /// </summary>
+        /// <param name="uri">Uri of the resource.</param>
+        /// <returns>Filename associated with the Uri.</returns>
+        public static string GetCacheFileName(Uri uri)
+        {
+            ulong uriHash = CreateHash64(uri);
+
+            return $"{uriHash}.jpg";
+        }
+
+        /// <summary>
         /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
+        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
             Task<BitmapImage> busy;
             string key = GetCacheFileName(uri);
@@ -156,7 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                return null;
+                if (throwOnError)
+                {
+                    throw ex;
+                }
             }
             finally
             {
@@ -170,18 +186,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return image;
-        }
-
-        /// <summary>
-        /// Gets the local cache file name associated with a specified Uri.
-        /// </summary>
-        /// <param name="uri">Uri of the resource.</param>
-        /// <returns>Filename associated with the Uri.</returns>
-        public static string GetCacheFileName(Uri uri)
-        {
-            ulong uriHash = CreateHash64(uri);
-
-            return $"{uriHash}.jpg";
         }
 
         private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri)
@@ -221,9 +225,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                             }
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
                         await baseFile.DeleteAsync();
+                        throw e;
                     }
                 }
                 else
