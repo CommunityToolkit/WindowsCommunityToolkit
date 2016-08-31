@@ -9,8 +9,12 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
+using System;
+using System.Linq;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -34,6 +38,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
+            AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+        }
+
+        private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        {
+            SelectedItemCountTextBlock.Text = AdaptiveGridViewControl.SelectedItems.Any()
+                ? $"You have selected {AdaptiveGridViewControl.SelectedItems.Count} items."
+                : "You haven't selected any items";
+        }
+
+        private async void AdaptiveGridViewControl_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
+        {
+            if (e.ClickedItem != null)
+            {
+                await new MessageDialog($"You clicked {(e.ClickedItem as PhotoDataItem).Title}", "Item Clicked").ShowAsync();
+            }
         }
     }
 }

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
+    <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Fade.cs" />
     <Compile Include="Behaviors\Rotate.cs" />
