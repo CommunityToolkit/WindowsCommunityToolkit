@@ -1,22 +1,32 @@
-﻿namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
-    using Windows.Storage.Streams;
-    using Windows.UI.Core;
-    using Windows.UI.Popups;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Media.Imaging;
-    using Graph;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+using System;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Windows.Storage.Streams;
+using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Diagnostics;
 
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+{
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page that shows how to signin to office 365, retrieve user's profile and user's emails
     /// </summary>
     public sealed partial class MicrosoftGraphPage : Page
     {
@@ -30,7 +40,6 @@
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-
             if (!await Tools.CheckInternetConnection())
             {
                 return;
@@ -111,10 +120,7 @@
                     {
                         IUserMessagesCollectionPage messages = null;
                         ObservableCollection<Message> intermediateList = new ObservableCollection<Message>();
-                        if (cts.IsCancellationRequested)
-                        {
-                            return intermediateList;
-                        }
+
                         if (isFirstCall)
                         {
                             try
@@ -133,6 +139,10 @@
                         }
                         else
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                return intermediateList;
+                            }
                             messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
                         }
 
@@ -145,12 +155,12 @@
                     });
               });
 
-            MessagesList.ItemsSource = incrementalCollection;
+            MessagesList.DataContext = incrementalCollection;
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            SendMessageContentDialog sendMessageDialog = new SendMessageContentDialog(MicrosoftGraphService.Instance);
+            SendMessageContentDialog sendMessageDialog = new SendMessageContentDialog();
             await sendMessageDialog.ShowAsync();
         }
 
@@ -187,7 +197,7 @@
 
         private void SetVisibilityStatusPanel(FrameworkElement box, Button switchButton)
         {
-            if (box.IsVisible())
+            if (box.Visibility == Visibility.Visible)
             {
                 switchButton.Content = "";
                 box.Visibility = Visibility.Collapsed;
@@ -201,7 +211,12 @@
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
+
             MessagesList.LoadMoreItemsAsync().Cancel();
+            var messagesList = MessagesList.DataContext as IncrementalCollection<Message>;
+            //MessagesList.DataContext = null;
+            //MessagesList.ItemsSource = null;
+            
             MicrosoftGraphService.Instance.Logout();
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;

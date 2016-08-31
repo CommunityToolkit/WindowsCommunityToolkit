@@ -12,20 +12,20 @@
 //
 // ******************************************************************
 
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+using Windows.Storage.Streams;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Graph;
-    using Windows.Storage.Streams;
-
     /// <summary>
     ///  Class for using Office 365 Microsoft Graph User API
     /// </summary>
     public class MicrosoftGraphUserService
     {
-        private GraphServiceClient graphClientProvider;
+        private GraphServiceClient graphProvider;
         private User currentConnectedUser = null;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="graphClientProvider">Instance of GraphClientService class</param>
         public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
         {
-            this.graphClientProvider = graphClientProvider;
+            graphProvider = graphClientProvider;
         }
 
         ///// <summary>
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Strongly type User info from the service</returns>
         public Task<Graph.User> GetProfileAsync(MicrosoftGraphUserFields[] selectFields = null)
         {
-            return this.GetProfileAsync(CancellationToken.None, selectFields);
+            return GetProfileAsync(CancellationToken.None, selectFields);
         }
 
         /// <summary>
@@ -74,12 +74,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             if (selectFields == null)
             {
-                currentConnectedUser = await graphClientProvider.Me.Request().GetAsync(cancellationToken);
+                currentConnectedUser = await graphProvider.Me.Request().GetAsync(cancellationToken);
             }
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
-                currentConnectedUser = await graphClientProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
+                currentConnectedUser = await graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
 
             InitializeMessage();
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             try
             {
                 System.IO.Stream photo = null;
-                photo = await graphClientProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
+                photo = await graphProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
                 if (photo != null)
                 {
                     windowsPhotoStream = photo.AsRandomAccessStream();
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>A stream containing the user"s photo</returns>
         public Task<IRandomAccessStream> GetPhotoAsync()
         {
-            return this.GetPhotoAsync(CancellationToken.None);
+            return GetPhotoAsync(CancellationToken.None);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         private void InitializeMessage()
         {
-            message = new MicrosoftGraphServiceMessage(graphClientProvider, currentConnectedUser);
+            message = new MicrosoftGraphServiceMessage(graphProvider, currentConnectedUser);
         }
     }
 }

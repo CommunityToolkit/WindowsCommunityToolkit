@@ -13,17 +13,15 @@
 // ******************************************************************
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Windows.Security.Authentication.Web;
-using System.Net.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.AzureAD
-    {
+{
     /// <summary>
     /// Authentication Helper Using Azure Active Directory V1.0 app Model
     /// and Azure Active Directory library for .NET
-    /// <see cref="Http://github.com/AzureAD/azure-activedirectory-library-for-dotnet"/>
     /// </summary>
     internal class MicrosoftGraphAuthenticationHelper
     {
@@ -35,16 +33,12 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
         private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
+        /// </summary>
         public MicrosoftGraphAuthenticationHelper()
         {
         }
-
-        private static MicrosoftGraphAuthenticationHelper instance;
-
-        /// <summary>
-        /// Gets public singleton property.
-        /// </summary>
-        //public static MicrosoftGraphAuthenticationHelper Instance => instance ?? (instance = new MicrosoftGraphAuthenticationHelper());
 
         /// <summary>
         /// Store the Oauth2 access token.
@@ -118,5 +112,4 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
             return response.IsSuccessStatusCode;
         }
     }
-
 }

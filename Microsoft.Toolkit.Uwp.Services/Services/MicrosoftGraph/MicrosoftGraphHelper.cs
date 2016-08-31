@@ -12,14 +12,14 @@
 //
 // ******************************************************************
 
+using System.Text;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System.Text;
-
     /// <summary>
     /// Microsoft Graph Helper
     /// </summary>
-    public class MicrosoftGraphHelper
+    internal class MicrosoftGraphHelper
     {
         /// <summary>
         /// Build string with an array's items

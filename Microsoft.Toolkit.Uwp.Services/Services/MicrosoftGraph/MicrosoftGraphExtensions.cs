@@ -12,18 +12,17 @@
 //
 // ******************************************************************
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Microsoft.Graph;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using Graph;
-
     /// <summary>
     /// GraphServiceClient Extensions
     /// </summary>
     public static class MicrosoftGraphExtensions
     {
-
         /// <summary>
         /// Add items from source to dest
         /// </summary>

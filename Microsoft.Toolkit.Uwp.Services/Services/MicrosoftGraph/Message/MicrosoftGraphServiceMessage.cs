@@ -12,14 +12,14 @@
 //
 // ******************************************************************
 
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Graph;
-
     /// <summary>
     ///  Class using Office 365 Microsoft Graph Messages API
     /// </summary>
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// GraphServiceClient instance
         /// </summary>
-        private GraphServiceClient graphClientProvider;
+        private GraphServiceClient graphProvider;
 
         /// <summary>
         /// Store the request for the next page of messages
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Store the connected user's profile
         /// </summary>
-        private Graph.User currentConnectedUser = null;
+        private Graph.User currentUser = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphServiceMessage"/> class.
@@ -49,8 +49,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="currentConnectedUser">Instance of Graph.User class</param>
         public MicrosoftGraphServiceMessage(GraphServiceClient graphClientProvider, User currentConnectedUser)
         {
-            this.graphClientProvider = graphClientProvider;
-            this.currentConnectedUser = currentConnectedUser;
+            graphProvider = graphClientProvider;
+            currentUser = currentConnectedUser;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>a Collection of Pages containing the messages</returns>
         public Task<IUserMessagesCollectionPage> GetEmailsAsync(int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
-            return this.GetEmailsAsync(CancellationToken.None, top, selectFields);
+            return GetEmailsAsync(CancellationToken.None, top, selectFields);
         }
 
         /// <summary>
@@ -107,12 +107,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             IUserMessagesCollectionPage messages = null;
             if (selectFields == null)
             {
-                messages = await graphClientProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
+                messages = await graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
             }
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
-                messages = await graphClientProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
+                messages = await graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
             }
 
             nextPageRequest = messages.NextPageRequest;
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
         public Task SendEmailAsync(CancellationToken cancellationToken, string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
         {
-            if (currentConnectedUser == null)
+            if (currentUser == null)
             {
                 throw new ServiceException(new Error { Message = "No user connected", Code = "NoUserConnected", ThrowSite = "UWP Community Toolkit" });
             }
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 IsDeliveryReceiptRequested = false,
             };
 
-            var userBuilder = graphClientProvider.Users[currentConnectedUser.Id];
+            var userBuilder = graphProvider.Users[currentUser.Id];
             return userBuilder.SendMail(coreMessage, false).Request().PostAsync(cancellationToken);
         }
 
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
         public Task SendEmailAsync(string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
         {
-            return this.SendEmailAsync(CancellationToken.None, subject, content, contentType, to, cc, importance);
+            return SendEmailAsync(CancellationToken.None, subject, content, contentType, to, cc, importance);
         }
     }
 }

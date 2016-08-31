@@ -1,23 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-
+    /// <summary>
+    /// Class which allows to load a subsets of data
+    /// </summary>
+    /// <typeparam name="T">Any type</typeparam>
     public class IncrementalCollection<T> : ObservableCollection<T>, ISupportIncrementalLoading
     {
-        public bool IsEmtpty()
-        {
-            return this.Count == 0 ? true : false;
-        }
-
         /// <summary>
         /// Store the number of items
         /// </summary>
@@ -95,27 +102,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.cancellationToken = cancellationToken;
 
             var baseIndex = this.Count;
-            uint numberOfitemsTogenerate = 0;
+            uint numberOfitemsToGenerate = 0;
 
             if (!isInfinite)
             {
                 if (baseIndex + count < maxItems)
                 {
-                    numberOfitemsTogenerate = count;
+                    numberOfitemsToGenerate = count;
                 }
                 else
                 {
-                    numberOfitemsTogenerate = maxItems - (uint)baseIndex;
+                    numberOfitemsToGenerate = maxItems - (uint)baseIndex;
                 }
             }
             else
             {
-                numberOfitemsTogenerate = count;
+                numberOfitemsToGenerate = count;
             }
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                intermediate = await func(cancellationToken, numberOfitemsTogenerate);
+                intermediate = await func(cancellationToken, numberOfitemsToGenerate);
             }
 
             if (intermediate.Count == 0)

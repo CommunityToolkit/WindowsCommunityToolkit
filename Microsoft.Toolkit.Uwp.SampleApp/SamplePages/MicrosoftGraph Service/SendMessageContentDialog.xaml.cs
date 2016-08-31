@@ -1,40 +1,39 @@
-﻿using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+﻿// ******************************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
+// ******************************************************************
+
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Content Dialog item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
+    /// <summary>
+    /// ContentDialog that shows how to Send an email
+    /// </summary>
     public sealed partial class SendMessageContentDialog : ContentDialog
     {
-
-        MicrosoftGraphService instance;
-
-        public SendMessageContentDialog(MicrosoftGraphService instance)
+        public SendMessageContentDialog()
         {
             this.InitializeComponent();
-            this.instance = instance;
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-
         }
 
         private string GetHtmlMessage()
@@ -66,8 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);
 
                 // Sending a second message in html format
-                await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the UWP Community Toolkit",GetHtmlMessage(),BodyType.Html, toRecipients, ccRecipients);
-
+                await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the UWP Community Toolkit", GetHtmlMessage(), BodyType.Html, toRecipients, ccRecipients);
             }
             catch (Microsoft.Graph.ServiceException ex)
             {
@@ -75,7 +73,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             await DisplayMessageAsync("Succeeded!");
-
         }
 
         private async Task DisplayMessageAsync(string message)

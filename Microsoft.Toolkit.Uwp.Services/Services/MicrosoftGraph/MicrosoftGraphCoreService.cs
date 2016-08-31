@@ -12,14 +12,14 @@
 //
 // ******************************************************************
 
+using System;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.AzureAD;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System;
-    using System.Net.Http.Headers;
-    using System.Threading.Tasks;
-    using Graph;
-    using Microsoft.Toolkit.Uwp.Services.AzureAD;
-
     /// <summary>
     ///  Class for connecting to Office 365 Microsoft Graph
     /// </summary>
@@ -31,15 +31,16 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphService()
         {
         }
-        /// <summary>
-        /// Store an instance of the MicrosoftGraphAuthenticationHelper class
-        /// </summary>
-        MicrosoftGraphAuthenticationHelper authentication;
 
         /// <summary>
         /// Private singleton field.
         /// </summary>
         private static MicrosoftGraphService instance;
+
+        /// <summary>
+        /// Store an instance of the MicrosoftGraphAuthenticationHelper class
+        /// </summary>
+        private MicrosoftGraphAuthenticationHelper authentication;
 
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
@@ -111,14 +112,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             authentication = null;
 
-            return true; // MicrosoftGraphAuthenticationHelper.Instance.LogoutAsync();
+            return true;
         }
 
         /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
-        /// <see cref='Http://graph.microsoft.io/en-us/docs/authorization/permission_scopes'/>
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {

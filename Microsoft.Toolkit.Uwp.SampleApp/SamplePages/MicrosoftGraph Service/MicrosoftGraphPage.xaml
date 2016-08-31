@@ -14,7 +14,8 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Height="100" Width="100" Stretch="Uniform" Source="/SamplePages/MicrosoftGraph Service/OfficeLogo.png" Margin="24"/>
+                <Image Height="100" Width="100" Stretch="Uniform" 
+                       Source="/SamplePages/MicrosoftGraph Service/OfficeLogo.png" Margin="24"/>
                 <Border CornerRadius="50" x:Name="ProfileImage" Height="100" Width="100" Visibility="Collapsed">
                     <Border.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="{Binding ProfileImageUrl}"/>
@@ -45,7 +46,8 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                           <Button x:Name="ClientIdExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="ClientIdExpandButton_Click" />
-                            <TextBlock Grid.Column="1" Text="Azure Active Directory Configuration" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                            <TextBlock Grid.Column="1" Text="Azure Active Directory Configuration" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
                         </Grid>
 
                         <StackPanel x:Name="ClientIdBox" Orientation="Vertical" Margin="24,24,24,21" Grid.Row="1">
@@ -55,7 +57,7 @@
                         </StackPanel>
                         
                     </Grid>
-                <!-- User area -->
+                    <!-- User area -->
                     <Grid Grid.Row="1" x:Name="UserBox">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -82,7 +84,7 @@
                                      FontWeight="Normal"/>
                         </StackPanel>                        
                     </Grid>
-                 <!-- Messages area -->
+                    <!-- Messages area -->
                     <Grid Grid.Row="2" x:Name="MessagesBox">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -104,26 +106,23 @@
                             <Button Content="Send Message" x:Name="SendMessageButton" Margin="0,20,0,0" Click="SendMessageButton_Click" Width="148"/>
                         </StackPanel>
                     </Grid>
-         <ListView x:Name="MessagesList" Grid.Row="3" IncrementalLoadingThreshold="1" IncrementalLoadingTrigger="Edge" Margin="10,0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="83*"/>
-                            <ColumnDefinition Width="48"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="{Binding From.EmailAddress.Name}" FontSize="15" FontWeight="Medium"/>
-                            <TextBlock Text="{Binding Subject}" FontSize="10" FontWeight="Normal" Foreground="Blue"/>
-                            <TextBlock Text="{Binding BodyPreview}" Opacity="0.6" FontSize="10" TextWrapping="NoWrap"
-                                   FontWeight="Normal"/>
-                        </StackPanel>
-
-            
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    <ListView ItemsSource="{Binding}" x:Name="MessagesList" Grid.Row="3" IncrementalLoadingThreshold="1" IncrementalLoadingTrigger="Edge" Margin="10,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="83*"/>
+                                        <ColumnDefinition Width="48"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding From.EmailAddress.Name}" FontSize="15" FontWeight="Medium"/>
+                                        <TextBlock Text="{Binding Subject}" FontSize="10" FontWeight="Normal" Foreground="Blue"/>
+                                        <TextBlock Text="{Binding BodyPreview}" Opacity="0.6" FontSize="10" TextWrapping="NoWrap" FontWeight="Normal"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </ScrollViewer>
         </Grid>
