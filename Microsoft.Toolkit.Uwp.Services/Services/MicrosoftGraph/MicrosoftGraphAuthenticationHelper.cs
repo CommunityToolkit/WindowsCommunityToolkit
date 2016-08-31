@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
     /// and Azure Active Directory library for .NET
     /// <see cref="Http://github.com/AzureAD/azure-activedirectory-library-for-dotnet"/>
     /// </summary>
-    internal class AuthenticationHelper
+    internal class MicrosoftGraphAuthenticationHelper
     {
         /// <summary>
         /// Base Url for service.
@@ -33,16 +33,16 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
         private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
-        private AuthenticationHelper()
+        private MicrosoftGraphAuthenticationHelper()
         {
         }
 
-        private static AuthenticationHelper instance;
+        private static MicrosoftGraphAuthenticationHelper instance;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static AuthenticationHelper Instance => instance ?? (instance = new AuthenticationHelper());
+        public static MicrosoftGraphAuthenticationHelper Instance => instance ?? (instance = new MicrosoftGraphAuthenticationHelper());
 
         /// <summary>
         /// Store the Oauth2 access token.

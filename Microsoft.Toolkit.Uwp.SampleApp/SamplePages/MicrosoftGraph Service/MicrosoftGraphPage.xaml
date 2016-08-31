@@ -100,7 +100,6 @@
                         <StackPanel Grid.Row='1' Margin='24' x:Name='MessagesPanel'>
                             <TextBox Header='#Messages by page:' x:Name='TopText' Margin='0,0,0,12' InputScope='Number'/>
                             <Button Content='Get Messages' x:Name='GetMessagesButton'  Margin='0,10,0,0' Click='GetMessagesButton_Click' Width='148'></Button>
-                            <Button Content='Get Next Messages' x:Name='GetNextMessagesButton' Visibility='Collapsed'  Margin='0,20,0,0' Click='GetNextMessagesButton_Click'></Button>
                             <Button Content='Send Message' x:Name='SendMessageButton' Margin='0,20,0,0' Click='SendMessageButton_Click' Width='148'/>
                         </StackPanel>
                     </Grid>

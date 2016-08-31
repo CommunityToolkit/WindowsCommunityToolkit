@@ -23,9 +23,32 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// <summary>
     ///  Class for using  Office 365 Microsoft Graph User API
     /// </summary>
-    public partial class MicrosoftGraphService
+    public class MicrosoftGraphUserService
     {
-        private Graph.User currentConnectedUser = null;
+        private GraphServiceClient graphClientProvider;
+        private User currentConnectedUser = null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
+        /// </summary>
+        /// <param name="graphClientProvider">Instance of GraphClientService class</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
+        {
+            this.graphClientProvider = graphClientProvider;
+        }
+
+        ///// <summary>
+        ///// MicrosoftGraphServiceMessages instance
+        ///// </summary>
+        private MicrosoftGraphServiceMessage message;
+
+        /// <summary>
+        /// Gets MicrosoftGraphServiceMessage instance
+        /// </summary>
+        public MicrosoftGraphServiceMessage Message
+        {
+            get { return message; }
+        }
 
         /// <summary>
         /// Retrieve user data.
@@ -34,9 +57,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>Strongly type User info from the service</returns>
-        public Task<Graph.User> GetUserAsync(MicrosoftGraphUserFields[] selectFields = null)
+        public Task<Graph.User> GetProfileAsync(MicrosoftGraphUserFields[] selectFields = null)
         {
-            return this.GetUserAsync(CancellationToken.None, selectFields);
+            return this.GetProfileAsync(CancellationToken.None, selectFields);
         }
 
         /// <summary>
@@ -47,34 +70,35 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>Strongly type User info from the service</returns>
-        public async Task<Graph.User> GetUserAsync(CancellationToken cancellationToken, MicrosoftGraphUserFields[] selectFields = null)
+        public async Task<Graph.User> GetProfileAsync(CancellationToken cancellationToken, MicrosoftGraphUserFields[] selectFields = null)
         {
             if (selectFields == null)
             {
-                currentConnectedUser = await graphServiceClient.Me.Request().GetAsync(cancellationToken);
+                currentConnectedUser = await graphClientProvider.Me.Request().GetAsync(cancellationToken);
             }
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
-                currentConnectedUser = await graphServiceClient.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
+                currentConnectedUser = await graphClientProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
+
+            InitializeMessage();
 
             return currentConnectedUser;
         }
 
         /// <summary>
-        /// Retrieve the user"s Photo
+        /// Retrieve the user's Photo
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>A stream containing the user"s photo</returns>
-        public async Task<IRandomAccessStream> GetUserPhotoAsync(CancellationToken cancellationToken)
+        public async Task<IRandomAccessStream> GetPhotoAsync(CancellationToken cancellationToken)
         {
-
             IRandomAccessStream windowsPhotoStream = null;
             try
             {
                 System.IO.Stream photo = null;
-                photo = await graphServiceClient.Me.Photo.Content.Request().GetAsync(cancellationToken);
+                photo = await graphClientProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
                 if (photo != null)
                 {
                     windowsPhotoStream = photo.AsRandomAccessStream();
@@ -96,9 +120,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Retrieve the user"s Photo
         /// </summary>
         /// <returns>A stream containing the user"s photo</returns>
-        public Task<IRandomAccessStream> GetUserPhotoAsync()
+        public Task<IRandomAccessStream> GetPhotoAsync()
         {
-            return this.GetUserPhotoAsync(CancellationToken.None);
+            return this.GetPhotoAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Create an instance of MicrosoftGraphServiceMessage
+        /// </summary>
+        private void InitializeMessage()
+        {
+            message = new MicrosoftGraphServiceMessage(graphClientProvider, currentConnectedUser);
         }
     }
 }

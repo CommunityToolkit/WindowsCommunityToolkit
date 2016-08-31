@@ -13,6 +13,7 @@
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media.Imaging;
+    using Graph;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -49,12 +50,10 @@
             try
             {
                 // Retrieve user's info from Azure Active Directory
-                // MicrosoftGraphUserFields[] selectFields = { MicrosoftGraphUserFields.DisplayName, MicrosoftGraphUserFields.Department, MicrosoftGraphUserFields.JobTitle, MicrosoftGraphUserFields.Id };
-                // var user = await MicrosoftGraphService.Instance.GetUserAsync(selectFields);
-                var user = await MicrosoftGraphService.Instance.GetUserAsync();
+                var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
                 UserPanel.DataContext = user;
 
-                using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+                using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.User.GetPhotoAsync())
                 {
                     BitmapImage photo = new BitmapImage();
                     if (photoStream != null)
@@ -83,11 +82,6 @@
             ClientIdBox.Visibility = Visibility.Collapsed;
         }
 
-        /// <summary>
-        /// Store the collection of messages
-        /// </summary>
-        private Graph.IUserMessagesCollectionPage messages = null;
-
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnection())
@@ -112,12 +106,13 @@
               {
                   return Task.Run<ObservableCollection<Graph.Message>>(async () =>
                     {
-                        ObservableCollection<Graph.Message> intermediateList = new ObservableCollection<Graph.Message>();
+                        IUserMessagesCollectionPage messages = null;
+                        ObservableCollection<Message> intermediateList = new ObservableCollection<Message>();
                         if (isFirstCall)
                         {
                             try
                             {
-                                messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(cts, top);
+                                messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cts, top);
                             }
                             catch (Microsoft.Graph.ServiceException ex)
                             {
@@ -131,7 +126,7 @@
                         }
                         else
                         {
-                            messages = await messages.NextPageAsync(cts);
+                            messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
                         }
 
                         if (cts.IsCancellationRequested)
@@ -169,24 +164,6 @@
             }
 
             await error.ShowAsync();
-        }
-
-        private async void GetNextMessagesButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!await Tools.CheckInternetConnection())
-            {
-                return;
-            }
-
-            Shell.Current.DisplayWaitRing = true;
-
-            messages = await messages.NextPageAsync();
-            if (messages != null)
-            {
-                MessagesList.ItemsSource = messages;
-            }
-
-            Shell.Current.DisplayWaitRing = false;
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)

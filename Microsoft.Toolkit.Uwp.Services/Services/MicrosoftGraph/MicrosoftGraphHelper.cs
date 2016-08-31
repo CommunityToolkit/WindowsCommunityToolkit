@@ -14,18 +14,13 @@
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System.Net.Http.Headers;
     using System.Text;
-    using System.Threading.Tasks;
-    using Microsoft.Graph;
-    using Microsoft.Toolkit.Uwp.Services.AzureAD;
 
     /// <summary>
     /// Microsoft Graph Helper
     /// </summary>
     public class MicrosoftGraphHelper
     {
-
         /// <summary>
         /// Build string with an array's items
         /// </summary>

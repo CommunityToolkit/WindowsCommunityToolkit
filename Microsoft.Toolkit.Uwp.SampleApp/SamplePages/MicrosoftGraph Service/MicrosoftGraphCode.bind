@@ -10,7 +10,7 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 }
 
 // Retrieve user's info from Azure Active Directory
-var user = await MicrosoftGraphService.Instance.GetUserAsync();
+var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
 UserPanel.DataContext = user;
 
 // You can also select any fields you want in the response
@@ -24,11 +24,11 @@ MicrosoftGraphUserFields[] selectedFields =
 		MicrosoftGraphUserFields.PreferredLanguage
 	};
 
-var user =await MicrosoftGraphService.Instance.GetUserAsync(selectedFields);
+var user =await MicrosoftGraphService.Instance.User.GetProfileAsync(selectedFields);
 UserPanel.DataContext = user;     
 
 // Retrieve the user's photo 
-using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.GetUserPhotoAsync())
+using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.User.GetPhotoAsync())
 {
    BitmapImage photo = new BitmapImage();
    if (photoStream != null)
@@ -44,7 +44,7 @@ using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.Ge
 }
 
 // Get the top 10 messages
-messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10);
+messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
@@ -56,16 +56,16 @@ MicrosoftGraphMessageProperties[] selectedFields =
 	MicrosoftGraphMessageProperties.BodyPreview
 };
 
-messages = await MicrosoftGraphService.Instance.GetUserMessagesAsync(10,selectedFields);
+messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
 
 //Send a message
 string[] toRecipients = "user1@contoso.com;user2@contoso.com";
-string subject = "This is the subject of my message;
+string subject = "This is the subject of my message";
 string content = "This is the content of my message";
 
-await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Text, toRecipients);
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients);
 
 // You can also send a message in html format
 string content = "Hello <b>World</b>";
-await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Html, toRecipients);
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);

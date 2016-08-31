@@ -14,18 +14,71 @@
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Graph;
-    using System.Collections.Generic;
-    using System;
 
     /// <summary>
     ///  Class using Office 365 Microsoft Graph Messages API
     /// </summary>
-    public partial class MicrosoftGraphService
+    public class MicrosoftGraphServiceMessage
     {
         private const string OrderBy = "receivedDateTime desc";
+
+        /// <summary>
+        /// GraphServiceClient instance
+        /// </summary>
+        private GraphServiceClient graphClientProvider;
+
+        /// <summary>
+        /// Store the request for the next page of messages
+        /// </summary>
+        private IUserMessagesCollectionRequest nextPageRequest;
+
+        /// <summary>
+        /// Store the connected user's profile
+        /// </summary>
+        private Graph.User currentConnectedUser = null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphServiceMessage"/> class.
+        /// </summary>
+        /// <param name="graphClientProvider">Instance of GraphClientService class</param>
+        /// <param name="currentConnectedUser">Instance of Graph.User class</param>
+        public MicrosoftGraphServiceMessage(GraphServiceClient graphClientProvider, User currentConnectedUser)
+        {
+            this.graphClientProvider = graphClientProvider;
+            this.currentConnectedUser = currentConnectedUser;
+        }
+
+        /// <summary>
+        /// retrieve the next page of messages
+        /// </summary>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>the next collection of messages or null if there are no more messages</returns>
+        public async Task<IUserMessagesCollectionPage> NextPageEmailsAsync(CancellationToken cancellationToken)
+        {
+            if (nextPageRequest != null)
+            {
+                var messages = await nextPageRequest.GetAsync(cancellationToken);
+                nextPageRequest = messages.NextPageRequest;
+                return messages;
+            }
+
+            // no more messages
+            return null;
+        }
+
+        /// <summary>
+        /// retrieve the next page of messages
+        /// </summary>
+        /// <returns>the next collection of messages or null if there are no more messages</returns>
+        public Task<IUserMessagesCollectionPage> NextPageEmailsAsync()
+        {
+            return NextPageEmailsAsync(CancellationToken.None);
+        }
 
         /// <summary>
         /// Retrieve user"s emails.
@@ -35,9 +88,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="top">The number of items to return in a result set.</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>a Collection of Pages containing the messages</returns>
-        public Task<IUserMessagesCollectionPage> GetUserMessagesAsync(int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
+        public Task<IUserMessagesCollectionPage> GetEmailsAsync(int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
-            return this.GetUserMessagesAsync(CancellationToken.None, top, selectFields);
+            return this.GetEmailsAsync(CancellationToken.None, top, selectFields);
         }
 
         /// <summary>
@@ -49,16 +102,21 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="top">The number of items to return in a result set.</param>
         /// <param name="selectFields">array of fields Microsoft Graph has to include in the response.</param>
         /// <returns>a Collection of Pages containing the messages</returns>
-        public Task<IUserMessagesCollectionPage> GetUserMessagesAsync(CancellationToken cancellationToken, int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
+        public async Task<IUserMessagesCollectionPage> GetEmailsAsync(CancellationToken cancellationToken, int top = 10, MicrosoftGraphMessageFields[] selectFields = null)
         {
+            IUserMessagesCollectionPage messages = null;
             if (selectFields == null)
             {
-                return graphServiceClient.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
+                messages = await graphClientProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
+            }
+            else
+            {
+                string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
+                messages = await graphClientProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
             }
 
-            string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
-
-            return graphServiceClient.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
+            nextPageRequest = messages.NextPageRequest;
+            return messages;
         }
 
         /// <summary>
@@ -73,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="cc">The Cc recipients for the message.</param>
         /// <param name="importance">The importance of the message: Low = 0, Normal = 1, High = 2.</param>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task SendMessageAsync(CancellationToken cancellationToken, string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
+        public Task SendEmailAsync(CancellationToken cancellationToken, string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
         {
             if (currentConnectedUser == null)
             {
@@ -110,11 +168,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 CcRecipients = ccRecipients,
                 BccRecipients = null,
                 IsDeliveryReceiptRequested = false,
-
             };
 
-            var userBuilder = graphServiceClient.Users[currentConnectedUser.Id];
-            return userBuilder.SendMail(coreMessage,false).Request().PostAsync(cancellationToken);
+            var userBuilder = graphClientProvider.Users[currentConnectedUser.Id];
+            return userBuilder.SendMail(coreMessage, false).Request().PostAsync(cancellationToken);
         }
 
         /// <summary>
@@ -128,9 +185,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="cc">The Cc recipients for the message.</param>
         /// <param name="importance">The importance of the message: Low = 0, Normal = 1, High = 2.</param>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task SendMessageAsync(string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
+        public Task SendEmailAsync(string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
         {
-            return this.SendMessageAsync(CancellationToken.None, subject, content, contentType, to, cc, importance);
+            return this.SendEmailAsync(CancellationToken.None, subject, content, contentType, to, cc, importance);
         }
     }
 }

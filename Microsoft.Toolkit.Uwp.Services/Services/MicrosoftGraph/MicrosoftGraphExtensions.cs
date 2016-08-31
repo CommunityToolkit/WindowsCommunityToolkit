@@ -14,44 +14,15 @@
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
-    using System.Collections.ObjectModel;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Graph;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Graph;
 
     /// <summary>
     /// GraphServiceClient Extensions
     /// </summary>
-    public static class MicrosoftGraphMessageExtensions
+    public static class MicrosoftGraphExtensions
     {
-        /// <summary>
-        /// IUserMessagesCollectionPage extension collecting the next page of messages
-        /// </summary>
-        /// <param name="nextPage">Instance of IUserMessagesCollectionPage</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>the next collection of messages or null if there are anymore messages</returns>
-        public static Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage, CancellationToken cancellationToken)
-        {
-            if (nextPage.NextPageRequest != null)
-            {
-                return nextPage.NextPageRequest.GetAsync(cancellationToken);
-            }
-
-            // no more messages
-            return null;
-        }
-
-        /// <summary>
-        /// IUserMessagesCollectionPage extension collecting the next page of messages
-        /// </summary>
-        /// <param name="nextPage">Instance of IUserMessagesCollectionPage</param>
-        /// <returns>the next collection of messages or null if there are anymore messages</returns>
-        public static async Task<IUserMessagesCollectionPage> NextPageAsync(this IUserMessagesCollectionPage nextPage)
-        {
-
-            return await nextPage.NextPageAsync(CancellationToken.None);
-        }
 
         /// <summary>
         /// Add items from source to dest

@@ -63,9 +63,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             richEditBoxContent.Document.GetText(Windows.UI.Text.TextGetOptions.None, out content);
             try
             {
-                await MicrosoftGraphService.Instance.SendMessageAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);
+                await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);
+
                 // Sending a second message in html format
-                await MicrosoftGraphService.Instance.SendMessageAsync("Introducing the UWP Community Toolkit",GetHtmlMessage(),BodyType.Html, toRecipients, ccRecipients);
+                await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the UWP Community Toolkit",GetHtmlMessage(),BodyType.Html, toRecipients, ccRecipients);
 
             }
             catch (Microsoft.Graph.ServiceException ex)
