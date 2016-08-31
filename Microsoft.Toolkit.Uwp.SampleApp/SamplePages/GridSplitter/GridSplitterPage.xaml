@@ -34,7 +34,7 @@
                 Background="Gray"
                 HorizontalAlignment="Left"
                 Grid.Column="{Binding Column.Value}"
-                ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
                 ResizeBehavior="{Binding ResizeBehavior.Value,Mode=TwoWay}">
         </controls:GridSplitter>
 
