@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the image</param>
         /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
         /// <returns>void</returns>
-        public static async Task PrecacheAsync(Uri uri, bool storeToMemoryCache = false)
+        public static async Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
         {
             Task<BitmapImage> getTask = null;
             Task precacheTask = null;
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
-                    precacheTask = AssueAsync(uri, key);
+                    precacheTask = AssureAsync(uri, key);
                     _concurrentPrecacheTasks.Add(key, precacheTask);
                 }
             }
@@ -269,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return image;
         }
 
-        private static async Task AssueAsync(Uri uri, string key)
+        private static async Task AssureAsync(Uri uri, string key)
         {
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
 
