@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Helper class used to store BitmapImages to in-memory cache
         /// </summary>
-        protected class MemoryCacheItem
+        private class MemoryCacheItem
         {
             /// <summary>
             /// Gets or sets dateTime when image was last stored to in-memory cache
@@ -42,11 +42,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             public BitmapImage Image { get; set; }
         }
 
+        private class ConcurrentTask
+        {
+            public Task<BitmapImage> Task { get; set; }
+
+            public bool IsAssureOnly { get; set; }
+        }
+
         private const string CacheFolderName = "ImageCache";
 
         private static readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-        private static readonly Dictionary<string, Task<BitmapImage>> _concurrentTasks = new Dictionary<string, Task<BitmapImage>>();
-        private static readonly Dictionary<string, Task> _concurrentPrecacheTasks = new Dictionary<string, Task>();
+        private static readonly Dictionary<string, ConcurrentTask> _concurrentTasks = new Dictionary<string, ConcurrentTask>();
+
         private static readonly object _concurrencyLock = new object();
         private static StorageFolder _cacheFolder;
         private static OrderedDictionary _memoryCache = new OrderedDictionary();
@@ -145,59 +152,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the image</param>
         /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
         /// <returns>void</returns>
-        public static async Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
+        public static Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
         {
-            Task<BitmapImage> getTask = null;
-            Task precacheTask = null;
-            string key = GetCacheFileName(uri);
-
-            if (storeToMemoryCache && MaxMemoryCacheSize > 0)
-            {
-                await GetFromCacheAsync(uri, true);
-            }
-
-            lock (_concurrencyLock)
-            {
-                if (_concurrentTasks.ContainsKey(key))
-                {
-                    getTask = _concurrentTasks[key];
-                }
-                else if (_concurrentPrecacheTasks.ContainsKey(key))
-                {
-                    precacheTask = _concurrentPrecacheTasks[key];
-                }
-                else
-                {
-                    precacheTask = AssureAsync(uri, key);
-                    _concurrentPrecacheTasks.Add(key, precacheTask);
-                }
-            }
-
-            if (getTask != null)
-            {
-                await getTask;
-            }
-            else
-            {
-                try
-                {
-                    await precacheTask;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                }
-                finally
-                {
-                    lock (_concurrencyLock)
-                    {
-                        if (_concurrentPrecacheTasks.ContainsKey(key))
-                        {
-                            _concurrentPrecacheTasks.Remove(key);
-                        }
-                    }
-                }
-            }
+            return GetFromCacheInternalAsync(uri, true, !storeToMemoryCache);
         }
 
         /// <summary>
@@ -206,46 +163,65 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the image.</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
+        public static Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
-            Task<BitmapImage> busy;
-            Task precacheTask = null;
+            return GetFromCacheInternalAsync(uri, throwOnError, false);
+        }
+
+        private static async Task<BitmapImage> GetFromCacheInternalAsync(Uri uri, bool throwOnError, bool assureOnly)
+        {
+            ConcurrentTask busy;
             string key = GetCacheFileName(uri);
             BitmapImage image = null;
 
-            lock (_concurrencyLock)
+            lock (_concurrentTasks)
             {
-                if (_concurrentPrecacheTasks.ContainsKey(key))
-                {
-                    precacheTask = _concurrentPrecacheTasks[key];
-                }
-
                 if (_concurrentTasks.ContainsKey(key))
                 {
                     busy = _concurrentTasks[key];
                 }
                 else
                 {
-                    busy = GetFromCacheOrDownloadAsync(uri, key);
+                    busy = new ConcurrentTask()
+                    {
+                        Task = GetFromCacheOrDownloadAsync(uri, key, assureOnly),
+                        IsAssureOnly = assureOnly
+                    };
                     _concurrentTasks.Add(key, busy);
                 }
             }
 
-            if (precacheTask != null)
+            // if current task is assureOnly and we need !assureOnly we wait for it to complete and create new one that is not assureOnly
+            if (!assureOnly && busy.IsAssureOnly)
             {
                 try
                 {
-                    await precacheTask;
+                    await busy.Task;
                 }
                 catch
                 {
-                    // ignore error because we will try again
+                    // ignore errors because we will create another task
+                }
+
+                lock (_concurrentTasks)
+                {
+                    if (_concurrentTasks.ContainsKey(key))
+                    {
+                        _concurrentTasks.Remove(key);
+                    }
+
+                    busy = new ConcurrentTask()
+                    {
+                        Task = GetFromCacheOrDownloadAsync(uri, key, assureOnly),
+                        IsAssureOnly = assureOnly
+                    };
+                    _concurrentTasks.Add(key, busy);
                 }
             }
 
             try
             {
-                image = await busy;
+                image = await busy.Task;
             }
             catch (Exception ex)
             {
@@ -269,33 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return image;
         }
 
-        private static async Task AssureAsync(Uri uri, string key)
-        {
-            DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
-
-            if (MaxMemoryCacheSize > 0 && GetFromMemoryCache(key) != null)
-            {
-                return;
-            }
-
-            var folder = await GetCacheFolderAsync();
-            var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
-            if (await IsFileOutOfDate(baseFile, expirationDate))
-            {
-                baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
-                try
-                {
-                    await StreamHelper.GetHttpStreamToStorageFileAsync(uri, baseFile);
-                }
-                catch (Exception e)
-                {
-                    await baseFile.DeleteAsync();
-                    throw e;
-                }
-            }
-        }
-
-        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri, string key)
+        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri, string key, bool assureOnly)
         {
             BitmapImage image = null;
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
@@ -303,6 +253,10 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (MaxMemoryCacheSize > 0)
             {
                 image = GetFromMemoryCache(key);
+                if (assureOnly && image != null)
+                {
+                    return null;
+                }
             }
 
             if (image == null)
@@ -317,10 +271,13 @@ namespace Microsoft.Toolkit.Uwp.UI
                     {
                         using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
                         {
-                            image = new BitmapImage();
-                            image.SetSource(webStream);
+                            if (!assureOnly)
+                            {
+                                image = new BitmapImage();
+                                image.SetSource(webStream);
+                                webStream.Seek(0);
+                            }
 
-                            webStream.Seek(0);
                             using (var reader = new DataReader(webStream))
                             {
                                 await reader.LoadAsync((uint)webStream.Size);
@@ -338,6 +295,11 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
+                    if (assureOnly)
+                    {
+                        return null;
+                    }
+
                     using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                     {
                         image = new BitmapImage();
