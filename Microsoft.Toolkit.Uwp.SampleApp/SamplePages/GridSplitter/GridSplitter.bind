@@ -10,43 +10,39 @@
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid.RowDefinitions>
-      <RowDefinition MinHeight="100"></RowDefinition>
-      <RowDefinition Height="11"></RowDefinition>
-      <RowDefinition></RowDefinition>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition MinWidth="200"></ColumnDefinition>
-      <ColumnDefinition Width="11"></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
-    </Grid.ColumnDefinitions>
+            <RowDefinition MinHeight="100"></RowDefinition>
+            <RowDefinition Height="11"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-    <TextBlock Grid.Column="0" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
-    <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
-    <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
-    <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
+        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
     <!--Column Grid Splitter-->
         <controls:GridSplitter 
-            
                 Width="11"
                 Background="Gray"
-                Foreground="White" 
+                HorizontalAlignment="Left"
                 Grid.Column="@[Column:Slider:1:0-2]"
                 ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
-                ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"
-                FontSize="13">
+                ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]">
         </controls:GridSplitter>
 
         <!--Row Grid Splitter-->
         <controls:GridSplitter 
-            Foreground="White"
             Grid.Row="1"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto"
             Background="Gray" Height="11"
-            HorizontalAlignment="Stretch" 
-            FontSize="13">
+            HorizontalAlignment="Stretch">
             <controls:GridSplitter.Element>
                 <Grid>
                     <TextBlock HorizontalAlignment="Center"     
