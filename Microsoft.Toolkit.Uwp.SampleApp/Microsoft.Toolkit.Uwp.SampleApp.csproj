@@ -328,6 +328,14 @@
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
+      <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphUIExtensions.cs" />
+    <Compile Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml.cs">
+      <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
     </Compile>
@@ -425,6 +433,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
