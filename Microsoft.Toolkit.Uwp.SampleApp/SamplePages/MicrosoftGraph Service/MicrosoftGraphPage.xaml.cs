@@ -25,6 +25,7 @@
             this.InitializeComponent();
             MessagesBox.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
+            LogOutButton.Visibility = Visibility.Collapsed;
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -41,7 +42,7 @@
             // Login via Azure Active Directory
             if (!await MicrosoftGraphService.Instance.LoginAsync())
             {
-                var error = new MessageDialog("Unable to login to Office 365");
+                var error = new MessageDialog("Unable to sign in to Office 365");
                 await error.ShowAsync();
                 return;
             }
@@ -80,6 +81,8 @@
             MessagesBox.Visibility = Visibility.Visible;
             UserBox.Visibility = Visibility.Visible;
             ClientIdBox.Visibility = Visibility.Collapsed;
+            LogOutButton.Visibility = Visibility.Visible;
+            ConnectButton.Visibility = Visibility.Collapsed;
         }
 
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
@@ -108,6 +111,10 @@
                     {
                         IUserMessagesCollectionPage messages = null;
                         ObservableCollection<Message> intermediateList = new ObservableCollection<Message>();
+                        if (cts.IsCancellationRequested)
+                        {
+                            return intermediateList;
+                        }
                         if (isFirstCall)
                         {
                             try
@@ -129,10 +136,6 @@
                             messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
                         }
 
-                        if (cts.IsCancellationRequested)
-                        {
-                            return intermediateList;
-                        }
                         if (messages != null)
                         {
                             messages.AddTo(intermediateList);
@@ -168,7 +171,6 @@
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)
         {
-
             SetVisibilityStatusPanel(ClientIdBox, (Button)sender);
         }
 
@@ -199,7 +201,14 @@
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
+            MessagesList.LoadMoreItemsAsync().Cancel();
             MicrosoftGraphService.Instance.Logout();
+            MessagesList.Visibility = Visibility.Collapsed;
+            MessagesBox.Visibility = Visibility.Collapsed;
+            LogOutButton.Visibility = Visibility.Collapsed;
+            UserBox.Visibility = Visibility.Collapsed;
+            ClientIdBox.Visibility = Visibility.Visible;
+            ConnectButton.Visibility = Visibility.Visible;
         }
     }
 }

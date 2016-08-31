@@ -31,6 +31,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphService()
         {
         }
+        /// <summary>
+        /// Store an instance of the MicrosoftGraphAuthenticationHelper class
+        /// </summary>
+        MicrosoftGraphAuthenticationHelper authentication;
 
         /// <summary>
         /// Private singleton field.
@@ -97,14 +101,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Logout the current user
         /// </summary>
-        public void Logout()
+        /// <returns>success or failure</returns>
+        public bool Logout()
         {
             if (!isInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            MicrosoftGraphAuthenticationHelper.Instance.CleanToken();
+            authentication = null;
+
+            return true; // MicrosoftGraphAuthenticationHelper.Instance.LogoutAsync();
         }
 
         /// <summary>
@@ -121,7 +128,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            var accessToken = await MicrosoftGraphAuthenticationHelper.Instance.GetUserTokenAsync(appClientId);
+            authentication = new MicrosoftGraphAuthenticationHelper();
+            var accessToken = await authentication.GetUserTokenAsync(appClientId);
             if (string.IsNullOrEmpty(accessToken))
             {
                 return isConnected;
@@ -149,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await MicrosoftGraphAuthenticationHelper.Instance.GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                                                     await authentication.GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
         }

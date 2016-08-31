@@ -16,6 +16,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Windows.Security.Authentication.Web;
+using System.Net.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.AzureAD
     {
@@ -30,10 +31,11 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         /// Base Url for service.
         /// </summary>
         private const string Authority = "https://login.microsoftonline.com/common";
+        private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
         private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
-        private MicrosoftGraphAuthenticationHelper()
+        public MicrosoftGraphAuthenticationHelper()
         {
         }
 
@@ -42,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static MicrosoftGraphAuthenticationHelper Instance => instance ?? (instance = new MicrosoftGraphAuthenticationHelper());
+        //public static MicrosoftGraphAuthenticationHelper Instance => instance ?? (instance = new MicrosoftGraphAuthenticationHelper());
 
         /// <summary>
         /// Store the Oauth2 access token.
@@ -90,12 +92,30 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
             return tokenForUser;
         }
 
+        /// <summary>
+        /// Clean the TokenCache
+        /// </summary>
         internal void CleanToken()
         {
             tokenForUser = null;
             refreshToken = null;
             azureAdContext.TokenCache.Clear();
-            
+        }
+
+        /// <summary>
+        /// Logout the user
+        /// </summary>
+        /// <returns>Success or failure</returns>
+        internal async Task<bool> LogoutAsync()
+        {
+            HttpResponseMessage response = null;
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrl);
+                response = await client.SendAsync(request);
+            }
+
+            return response.IsSuccessStatusCode;
         }
     }
 

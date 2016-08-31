@@ -59,6 +59,13 @@ MicrosoftGraphMessageProperties[] selectedFields =
 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10,selectedFields);
 MessagesList.ItemsSource = messages;
 
+// Request the next 10 messages 
+messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
+if (messages == null)
+{
+	// no more messages
+}
+
 //Send a message
 string[] toRecipients = "user1@contoso.com;user2@contoso.com";
 string subject = "This is the subject of my message";
