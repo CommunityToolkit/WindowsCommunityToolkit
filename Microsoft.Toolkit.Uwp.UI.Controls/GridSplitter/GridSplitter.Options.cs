@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(ResizeDirection),
                 typeof(GridResizeDirection),
                 typeof(GridSplitter),
-                new PropertyMetadata(GridResizeDirection.Auto, OnResizeDirectionChange));
+                new PropertyMetadata(GridResizeDirection.Auto));
 
         /// <summary>
         /// Identifies the <see cref="ResizeBehavior"/> dependency property.
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(ResizeBehavior),
                 typeof(GridResizeBehavior),
                 typeof(GridSplitter),
-                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment, OnResizeBehaviorChange));
+                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
@@ -64,18 +64,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
 
             set { SetValue(ResizeBehaviorProperty, value); }
-        }
-
-        private static void OnResizeDirectionChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)o;
-            gridSplitter._resizeDirection = gridSplitter.GetResizeDirection();
-        }
-
-        private static void OnResizeBehaviorChange(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)o;
-            gridSplitter._resizeBehavior = gridSplitter.GetResizeBehavior();
         }
     }
 }

@@ -32,7 +32,7 @@
         <controls:GridSplitter 
                 Width="11"
                 Background="Gray"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="{Binding HorizontalAlignment.Value,Mode=TwoWay}"
                 Grid.Column="{Binding Column.Value}"
                 ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
                 ResizeBehavior="{Binding ResizeBehavior.Value,Mode=TwoWay}">

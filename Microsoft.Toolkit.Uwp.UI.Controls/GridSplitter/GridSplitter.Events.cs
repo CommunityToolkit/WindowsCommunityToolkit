@@ -20,6 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // saving the previous state
             _previousCursor = Window.Current.CoreWindow.PointerCursor;
+            _resizeDirection = GetResizeDirection();
+            _resizeBehavior = GetResizeBehavior();
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
