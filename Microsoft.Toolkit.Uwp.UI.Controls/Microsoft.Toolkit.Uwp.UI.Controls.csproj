@@ -50,6 +50,7 @@
     <Compile Include="BladeControl\BladeControl.cs" />
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="EmptyPlaceholderListView\EmptyPlaceholderListView.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
@@ -86,6 +87,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="EmptyPlaceholderListView\EmptyPlaceholderListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
