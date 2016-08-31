@@ -213,10 +213,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
 
             MessagesList.LoadMoreItemsAsync().Cancel();
-            var messagesList = MessagesList.DataContext as IncrementalCollection<Message>;
-            //MessagesList.DataContext = null;
-            //MessagesList.ItemsSource = null;
-            
             MicrosoftGraphService.Instance.Logout();
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
