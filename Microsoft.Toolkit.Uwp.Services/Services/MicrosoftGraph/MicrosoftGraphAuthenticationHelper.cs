@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
             // refresh silently the token
             if (tokenForUser == null)
             {
-                AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.RefreshSession);
+                AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.Always);
                 tokenForUser = userAuthnResult.AccessToken;
                 expiration = userAuthnResult.ExpiresOn;
                 refreshToken = userAuthnResult.RefreshToken;
@@ -88,6 +88,14 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
             }
 
             return tokenForUser;
+        }
+
+        internal void CleanToken()
+        {
+            tokenForUser = null;
+            refreshToken = null;
+            azureAdContext.TokenCache.Clear();
+            
         }
     }
 

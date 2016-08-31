@@ -93,6 +93,20 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             isInitialized = true;
             return true;
         }
+
+        /// <summary>
+        /// Logout the current user
+        /// </summary>
+        public void Logout()
+        {
+            if (!isInitialized)
+            {
+                throw new InvalidOperationException("Microsoft Graph not initialized.");
+            }
+
+            MicrosoftGraphAuthenticationHelper.Instance.CleanToken();
+        }
+
         /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>

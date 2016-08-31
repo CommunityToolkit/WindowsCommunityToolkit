@@ -196,5 +196,10 @@
                 box.Visibility = Visibility.Visible;
             }
         }
+
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            MicrosoftGraphService.Instance.Logout();
+        }
     }
 }
