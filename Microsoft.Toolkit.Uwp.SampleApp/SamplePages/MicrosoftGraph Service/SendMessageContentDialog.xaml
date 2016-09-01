@@ -11,7 +11,8 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"    
     Width="auto" Height="auto" >
 
-    <Grid Height="549" Margin="0,0,-25,0">
+    <Grid Height="549" 
+          Margin="0,0,-25,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="55"/>
             <ColumnDefinition Width="500"/>
@@ -20,13 +21,29 @@
             <RowDefinition Height="200"/>
             <RowDefinition Height="350"/>
         </Grid.RowDefinitions>
-        <AppBarButton x:Name="AppBarButton" HorizontalAlignment="Center" Label="Send" Margin="0,82,0,63" 
-                      VerticalAlignment="Center" Icon="Send" Height="54" Click="AppBarButton_Click" Width="55"/>
-        <StackPanel Grid.Column="1" Margin="0,0,32,345" Grid.RowSpan="2">
-            <TextBox Header="To:" x:Name="TxtTo" Margin="10,0,0,0"/>
-            <TextBox Header="Cc:" x:Name="TxtCc" Margin="10,0,0,0"/>
-            <TextBox Header="Subject:" x:Name="TxtSubject" Margin="10,0,0,0"/>
+        <AppBarButton x:Name="AppBarButton" 
+                      HorizontalAlignment="Center" 
+                      Label="Send" Margin="0,82,0,63" 
+                      VerticalAlignment="Center" 
+                      Icon="Send" Height="54" 
+                      Click="AppBarButton_Click" 
+                      Width="55"/>
+        <StackPanel Grid.Column="1" 
+                    Margin="0,0,32,345" 
+                    Grid.RowSpan="2">
+            <TextBox Header="To:" 
+                     x:Name="TxtTo" 
+                     Margin="10,0,0,0"/>
+            <TextBox Header="Cc:" 
+                     x:Name="TxtCc" 
+                     Margin="10,0,0,0"/>
+            <TextBox Header="Subject:" 
+                     x:Name="TxtSubject" 
+                     Margin="10,0,0,0"/>
         </StackPanel>
-        <RichEditBox x:Name="richEditBoxContent" Margin="0,0,32,0" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <RichEditBox x:Name="richEditBoxContent"
+                     Margin="0,0,32,0" 
+                     Grid.Row="1" 
+                     Grid.ColumnSpan="2"/>
     </Grid>
 </ContentDialog>

@@ -102,27 +102,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.cancellationToken = cancellationToken;
 
             var baseIndex = this.Count;
-            uint numberOfitemsToGenerate = 0;
+            uint numberOfItemsToGenerate = 0;
 
             if (!isInfinite)
             {
                 if (baseIndex + count < maxItems)
                 {
-                    numberOfitemsToGenerate = count;
+                    numberOfItemsToGenerate = count;
                 }
                 else
                 {
-                    numberOfitemsToGenerate = maxItems - (uint)baseIndex;
+                    numberOfItemsToGenerate = maxItems - (uint)baseIndex;
                 }
             }
             else
             {
-                numberOfitemsToGenerate = count;
+                numberOfItemsToGenerate = count;
             }
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                intermediate = await func(cancellationToken, numberOfitemsToGenerate);
+                intermediate = await func(cancellationToken, numberOfItemsToGenerate);
             }
 
             if (intermediate.Count == 0)

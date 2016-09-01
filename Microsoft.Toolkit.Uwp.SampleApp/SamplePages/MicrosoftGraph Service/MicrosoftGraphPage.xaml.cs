@@ -21,7 +21,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -211,7 +210,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-
             MessagesList.LoadMoreItemsAsync().Cancel();
             MicrosoftGraphService.Instance.Logout();
             MessagesList.Visibility = Visibility.Collapsed;
