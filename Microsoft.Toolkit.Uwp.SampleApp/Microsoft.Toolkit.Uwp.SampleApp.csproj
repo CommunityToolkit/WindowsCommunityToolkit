@@ -310,7 +310,6 @@
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\OptionMenuItem.cs" />
     <Compile Include="Data\PhotoDataItem.cs" />
     <Compile Include="Data\PhotosDataSource.cs" />
     <Compile Include="Models\Item.cs" />
