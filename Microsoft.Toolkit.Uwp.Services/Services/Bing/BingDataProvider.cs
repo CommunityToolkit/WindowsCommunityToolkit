@@ -42,6 +42,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             var countryValue = config.Country.GetStringValue();
             var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
+            var languageValue = config.Language.GetStringValue();
+            var languageParameter = string.IsNullOrEmpty(languageValue) ? string.Empty : $"language:{languageValue}+";
             var queryTypeParameter = string.Empty;
 
             switch (config.QueryType)
@@ -56,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
 
             var settings = new HttpRequestSettings
             {
-                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
+                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
             };
 
             HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
