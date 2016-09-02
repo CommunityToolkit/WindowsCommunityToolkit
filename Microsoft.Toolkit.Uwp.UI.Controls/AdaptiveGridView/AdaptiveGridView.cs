@@ -116,7 +116,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedItems = _listView.SelectedItems;
             SelectionChanged?.Invoke(this, e);
         }
 

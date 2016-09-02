@@ -537,7 +537,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
                 var seg = new ArcSegment();
                 seg.SweepDirection = SweepDirection.Clockwise;
-                seg.IsLargeArc = true;
+                seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
                 seg.Size = new Size(middleOfScale, middleOfScale);
                 seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
                 pf.Segments.Add(seg);
