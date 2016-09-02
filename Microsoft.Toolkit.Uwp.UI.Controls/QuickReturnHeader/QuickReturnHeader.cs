@@ -59,6 +59,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsSticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnIsStickyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="TargetListView"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TargetListViewProperty =
+            DependencyProperty.Register(nameof(TargetListView), typeof(ListView), typeof(QuickReturnHeader), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the quick return header should always be visible.
         /// If true the header is always visible.
         /// If false the header will move out of view when scrolling down.
@@ -73,7 +79,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the ListView this header belongs to
         /// </summary>
-        public ListView TargetListView { get; set; }
+        public ListView TargetListView
+        {
+            get { return (ListView)GetValue(TargetListViewProperty); }
+            set { SetValue(TargetListViewProperty, value); }
+        }
 
         /// <summary>
         /// Show the header
