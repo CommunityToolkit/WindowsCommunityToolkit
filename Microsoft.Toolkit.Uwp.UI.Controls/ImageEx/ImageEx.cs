@@ -92,10 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return base.ArrangeOverride(finalSize);
         }
 
-        private void ImageEx_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-        }
-
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageOpened?.Invoke(this, e);
