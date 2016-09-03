@@ -191,37 +191,25 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            // if current task is "PreCache task" and we need "get task" we wait for it to complete and create new one that is not "PreCache task"
-            if (!isPreCache && task.IsPreCache)
-            {
-                try
-                {
-                    await task.Task;
-                }
-                catch
-                {
-                    // ignore errors because we will create another task
-                }
-
-                lock (_concurrentTasks)
-                {
-                    if (_concurrentTasks.ContainsKey(key))
-                    {
-                        _concurrentTasks.Remove(key);
-                    }
-
-                    task = new ConcurrentTask()
-                    {
-                        Task = GetFromCacheOrDownloadAsync(uri, key, isPreCache),
-                        IsPreCache = isPreCache
-                    };
-                    _concurrentTasks.Add(key, task);
-                }
-            }
-
             try
             {
                 image = await task.Task;
+
+                // if task was "PreCache task" and we needed "Get task" and task didnt return image we create new "Get task" and await on it.
+                if (task.IsPreCache && !isPreCache && image == null)
+                {
+                    lock (_concurrentTasks)
+                    {
+                        task = new ConcurrentTask()
+                        {
+                            Task = GetFromCacheOrDownloadAsync(uri, key, false),
+                            IsPreCache = isPreCache
+                        };
+                        _concurrentTasks[key] = task;
+                    }
+
+                    image = await task.Task;
+                }
             }
             catch (Exception ex)
             {
@@ -253,10 +241,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (MaxMemoryCacheSize > 0)
             {
                 image = GetFromMemoryCache(key);
-                if (isPreCache && image != null)
-                {
-                    return null;
-                }
             }
 
             if (image == null)
