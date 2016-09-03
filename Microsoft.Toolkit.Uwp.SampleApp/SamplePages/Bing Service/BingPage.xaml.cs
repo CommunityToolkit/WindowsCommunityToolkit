@@ -27,9 +27,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             QueryType.ItemsSource = new[] { "Bing Search", "Bing News" };
             QueryType.SelectedIndex = 0;
-            Countries.ItemsSource = SelectList.Of<BingCountry>();
+            Countries.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
             Countries.SelectedItem = BingCountry.UnitedStates;
-            Languages.ItemsSource = SelectList.Of<BingLanguage>();
+            Languages.ItemsSource = Enum.GetValues(typeof(BingLanguage)).Cast<BingLanguage>().ToList();
             Languages.SelectedItem = BingLanguage.English;
         }
 
