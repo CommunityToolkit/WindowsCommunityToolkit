@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -214,6 +215,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void StartAnimation()
         {
+            // Windows.UI.Xaml.Hosting.ElementCompositionPreview is only available in Windows 10 10586 or later
+            if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
+            {
+                return;
+            }
+
             if (_scrollProperties == null)
             {
                 _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
