@@ -42,17 +42,17 @@ namespace Microsoft.Toolkit.Uwp.UI
             public BitmapImage Image { get; set; }
         }
 
-        private class ConcurrentTask
+        private class ConcurrentRequest
         {
             public Task<BitmapImage> Task { get; set; }
 
-            public bool IsPreCache { get; set; }
+            public bool EnsureCachedCopy { get; set; }
         }
 
         private const string CacheFolderName = "ImageCache";
 
         private static readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-        private static readonly Dictionary<string, ConcurrentTask> _concurrentTasks = new Dictionary<string, ConcurrentTask>();
+        private static readonly Dictionary<string, ConcurrentRequest> _concurrentTasks = new Dictionary<string, ConcurrentRequest>();
 
         private static readonly object _concurrencyLock = new object();
         private static StorageFolder _cacheFolder;
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>void</returns>
         public static Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
         {
-            return GetOrPreCacheAsync(uri, true, !storeToMemoryCache);
+            return GetItemAsync(uri, true, !storeToMemoryCache);
         }
 
         /// <summary>
@@ -165,12 +165,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>a BitmapImage</returns>
         public static Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
-            return GetOrPreCacheAsync(uri, throwOnError, false);
+            return GetItemAsync(uri, throwOnError, false);
         }
 
-        private static async Task<BitmapImage> GetOrPreCacheAsync(Uri uri, bool throwOnError, bool isPreCache)
+        private static async Task<BitmapImage> GetItemAsync(Uri uri, bool throwOnError, bool ensureItemIsCached)
         {
-            ConcurrentTask task;
+            ConcurrentRequest task;
             string key = GetCacheFileName(uri);
             BitmapImage image = null;
 
@@ -182,10 +182,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
-                    task = new ConcurrentTask()
+                    task = new ConcurrentRequest()
                     {
-                        Task = GetFromCacheOrDownloadAsync(uri, key, isPreCache),
-                        IsPreCache = isPreCache
+                        Task = GetFromCacheOrDownloadAsync(uri, key),
+                        EnsureCachedCopy = ensureItemIsCached
                     };
                     _concurrentTasks.Add(key, task);
                 }
@@ -196,14 +196,14 @@ namespace Microsoft.Toolkit.Uwp.UI
                 image = await task.Task;
 
                 // if task was "PreCache task" and we needed "Get task" and task didnt return image we create new "Get task" and await on it.
-                if (task.IsPreCache && !isPreCache && image == null)
+                if (task.EnsureCachedCopy && !ensureItemIsCached && image == null)
                 {
                     lock (_concurrentTasks)
                     {
-                        task = new ConcurrentTask()
+                        task = new ConcurrentRequest()
                         {
-                            Task = GetFromCacheOrDownloadAsync(uri, key, false),
-                            IsPreCache = isPreCache
+                            Task = GetFromCacheOrDownloadAsync(uri, key),
+                            EnsureCachedCopy = ensureItemIsCached
                         };
                         _concurrentTasks[key] = task;
                     }
@@ -233,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return image;
         }
 
-        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri, string key, bool isPreCache)
+        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri, string key)
         {
             BitmapImage image = null;
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
@@ -243,58 +243,47 @@ namespace Microsoft.Toolkit.Uwp.UI
                 image = GetFromMemoryCache(key);
             }
 
-            if (image == null)
+            if (image != null)
             {
-                var folder = await GetCacheFolderAsync();
+                return image;
+            }
 
-                var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
-                if (await IsFileOutOfDate(baseFile, expirationDate))
+            var folder = await GetCacheFolderAsync();
+
+            var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
+            if (await IsFileOutOfDate(baseFile, expirationDate))
+            {
+                baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
+                try
                 {
-                    baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
-                    try
+                    using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
                     {
-                        using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
+                        using (var reader = new DataReader(webStream))
                         {
-                            if (!isPreCache)
-                            {
-                                image = new BitmapImage();
-                                image.SetSource(webStream);
-                                webStream.Seek(0);
-                            }
-
-                            using (var reader = new DataReader(webStream))
-                            {
-                                await reader.LoadAsync((uint)webStream.Size);
-                                var buffer = new byte[(int)webStream.Size];
-                                reader.ReadBytes(buffer);
-                                await FileIO.WriteBytesAsync(baseFile, buffer);
-                            }
+                            await reader.LoadAsync((uint)webStream.Size);
+                            var buffer = new byte[(int)webStream.Size];
+                            reader.ReadBytes(buffer);
+                            await FileIO.WriteBytesAsync(baseFile, buffer);
                         }
                     }
-                    catch (Exception e)
-                    {
-                        await baseFile.DeleteAsync();
-                        throw e;
-                    }
                 }
-                else
+                catch (Exception)
                 {
-                    if (isPreCache)
-                    {
-                        return null;
-                    }
-
-                    using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
-                    {
-                        image = new BitmapImage();
-                        image.SetSource(fileStream);
-                    }
+                    await baseFile.DeleteAsync();
+                    throw; // rethrowing the exception changes the stack trace. just throw
                 }
+            }
 
-                if (MaxMemoryCacheSize > 0 && image != null)
-                {
-                    StoreToMemoryCache(key, image);
-                }
+            // the baseFile should be valid at this point and not null
+            using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
+            {
+                image = new BitmapImage();
+                image.SetSource(fileStream);
+            }
+
+            if (MaxMemoryCacheSize > 0 && image != null)
+            {
+                StoreToMemoryCache(key, image);
             }
 
             return image;
@@ -362,13 +351,13 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static async Task<bool> IsFileOutOfDate(StorageFile file, DateTime expirationDate)
         {
-            if (file != null)
+            if (file == null)
             {
-                var properties = await file.GetBasicPropertiesAsync();
-                return properties.DateModified < expirationDate;
+                return true;
             }
 
-            return true;
+            var properties = await file.GetBasicPropertiesAsync();
+            return properties.DateModified < expirationDate;
         }
 
         private static async Task<StorageFolder> GetCacheFolderAsync()
