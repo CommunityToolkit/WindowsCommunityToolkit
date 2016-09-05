@@ -43,20 +43,23 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         /// <summary>
         /// Store the Oauth2 access token.
         /// </summary>
-        private string tokenForUser = null;
+        private string _tokenForUser = null;
 
         /// <summary>
         /// Store the refresh token
         /// </summary>
-        private string refreshToken = null;
+        private string _refreshToken = null;
 
         /// <summary>
         /// Store The lifetime in seconds of the access token.
         /// </summary>
         /// <remarks>By default the life time of the first access token is 3600 (1h)</remarks>
-        private DateTimeOffset expiration;
+        private DateTimeOffset _expiration;
 
-        private AuthenticationContext azureAdContext = new AuthenticationContext(Authority);
+        /// <summary>
+        /// Azure Active Directory Authentication context use to get an access token
+        /// </summary>
+        private AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
 
         /// <summary>
         /// Get a Microsoft Graph access token from Azure AD.
@@ -67,23 +70,23 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
-            if (tokenForUser == null)
+            if (_tokenForUser == null)
             {
-                AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.Always);
-                tokenForUser = userAuthnResult.AccessToken;
-                expiration = userAuthnResult.ExpiresOn;
-                refreshToken = userAuthnResult.RefreshToken;
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.Always);
+                _tokenForUser = userAuthnResult.AccessToken;
+                _expiration = userAuthnResult.ExpiresOn;
+                _refreshToken = userAuthnResult.RefreshToken;
             }
 
-            if (expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenByRefreshTokenAsync(refreshToken, appClientId);
-                tokenForUser = userAuthnResult.AccessToken;
-                expiration = userAuthnResult.ExpiresOn;
-                refreshToken = userAuthnResult.RefreshToken;
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenByRefreshTokenAsync(_refreshToken, appClientId);
+                _tokenForUser = userAuthnResult.AccessToken;
+                _expiration = userAuthnResult.ExpiresOn;
+                _refreshToken = userAuthnResult.RefreshToken;
             }
 
-            return tokenForUser;
+            return _tokenForUser;
         }
 
         /// <summary>
@@ -91,9 +94,9 @@ namespace Microsoft.Toolkit.Uwp.Services.AzureAD
         /// </summary>
         internal void CleanToken()
         {
-            tokenForUser = null;
-            refreshToken = null;
-            azureAdContext.TokenCache.Clear();
+            _tokenForUser = null;
+            _refreshToken = null;
+            _azureAdContext.TokenCache.Clear();
         }
 
         /// <summary>

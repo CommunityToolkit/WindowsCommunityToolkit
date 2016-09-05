@@ -35,49 +35,49 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Private singleton field.
         /// </summary>
-        private static MicrosoftGraphService instance;
+        private static MicrosoftGraphService _instance;
 
         /// <summary>
         /// Store an instance of the MicrosoftGraphAuthenticationHelper class
         /// </summary>
-        private MicrosoftGraphAuthenticationHelper authentication;
+        private MicrosoftGraphAuthenticationHelper _authentication;
 
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private GraphServiceClient graphClientProvider;
+        private GraphServiceClient _graphClientProvider;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static MicrosoftGraphService Instance => instance ?? (instance = new MicrosoftGraphService());
+        public static MicrosoftGraphService Instance => _instance ?? (_instance = new MicrosoftGraphService());
 
         /// <summary>
         /// Field for tracking initialization status.
         /// </summary>
-        private bool isInitialized;
+        private bool _isInitialized;
 
         /// <summary>
         /// Field for tracking if the user is connected.
         /// </summary>
-        private bool isConnected;
+        private bool _isConnected;
 
         /// <summary>
         /// Field to store Azure AD Application clientid
         /// </summary>
-        private string appClientId;
+        private string _appClientId;
 
         /// <summary>
         /// Fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
-        private MicrosoftGraphUserService user;
+        private MicrosoftGraphUserService _user;
 
         /// <summary>
         /// Gets a reference to an instance of the MicrosoftGraphUserService class
         /// </summary>
         public MicrosoftGraphUserService User
         {
-            get { return user; }
+            get { return _user; }
         }
 
         /// <summary>
@@ -92,10 +92,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 throw new ArgumentNullException(nameof(appClientId));
             }
 
-            this.appClientId = appClientId;
+            this._appClientId = appClientId;
 
-            graphClientProvider = CreateGraphClient(appClientId);
-            isInitialized = true;
+            _graphClientProvider = CreateGraphClient(appClientId);
+            _isInitialized = true;
             return true;
         }
 
@@ -105,12 +105,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>success or failure</returns>
         public bool Logout()
         {
-            if (!isInitialized)
+            if (!_isInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            authentication = null;
+            _authentication = null;
 
             return true;
         }
@@ -122,24 +122,24 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
-            isConnected = false;
-            if (!isInitialized)
+            _isConnected = false;
+            if (!_isInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            authentication = new MicrosoftGraphAuthenticationHelper();
-            var accessToken = await authentication.GetUserTokenAsync(appClientId);
+            _authentication = new MicrosoftGraphAuthenticationHelper();
+            var accessToken = await _authentication.GetUserTokenAsync(_appClientId);
             if (string.IsNullOrEmpty(accessToken))
             {
-                return isConnected;
+                return _isConnected;
             }
 
-            isConnected = true;
+            _isConnected = true;
 
             await InitializeUserAsync();
 
-            return isConnected;
+            return _isConnected;
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await authentication.GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                                                     await _authentication.GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
         }
@@ -172,8 +172,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             {
                 MicrosoftGraphUserFields.Id
             };
-            user = new MicrosoftGraphUserService(graphClientProvider);
-            await user.GetProfileAsync(selectedFields);
+            _user = new MicrosoftGraphUserService(_graphClientProvider);
+            await _user.GetProfileAsync(selectedFields);
         }
     }
 }

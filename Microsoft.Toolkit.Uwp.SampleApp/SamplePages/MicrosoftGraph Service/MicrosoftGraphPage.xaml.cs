@@ -11,9 +11,11 @@
 // ******************************************************************
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -93,6 +95,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ConnectButton.Visibility = Visibility.Collapsed;
         }
 
+        private IncrementalCollection<Graph.Message> _incrementalCollectionMessages;
+
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnection())
@@ -113,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             bool isFirstCall = true;
 
-            var incrementalCollection = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
+            _incrementalCollectionMessages = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
               {
                   return Task.Run<ObservableCollection<Graph.Message>>(async () =>
                     {
@@ -124,6 +128,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         {
                             try
                             {
+                                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = true; }));
+
                                 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cts, top);
                             }
                             catch (Microsoft.Graph.ServiceException ex)
@@ -132,6 +138,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                                 {
                                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessage(ex, "Read user mail"); }));
                                 }
+                            }
+                            finally
+                            {
+                                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = false; }));
                             }
 
                             isFirstCall = false;
@@ -154,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     });
               });
 
-            MessagesList.DataContext = incrementalCollection;
+            MessagesList.DataContext = _incrementalCollectionMessages;
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -211,6 +221,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
+            _incrementalCollectionMessages.Clear();
             MicrosoftGraphService.Instance.Logout();
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;

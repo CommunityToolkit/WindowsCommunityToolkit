@@ -30,17 +30,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// GraphServiceClient instance
         /// </summary>
-        private GraphServiceClient graphProvider;
+        private GraphServiceClient _graphProvider;
 
         /// <summary>
         /// Store the request for the next page of messages
         /// </summary>
-        private IUserMessagesCollectionRequest nextPageRequest;
+        private IUserMessagesCollectionRequest _nextPageRequest;
 
         /// <summary>
         /// Store the connected user's profile
         /// </summary>
-        private Graph.User currentUser = null;
+        private Graph.User _currentUser = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphServiceMessage"/> class.
@@ -49,8 +49,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="currentConnectedUser">Instance of Graph.User class</param>
         public MicrosoftGraphServiceMessage(GraphServiceClient graphClientProvider, User currentConnectedUser)
         {
-            graphProvider = graphClientProvider;
-            currentUser = currentConnectedUser;
+            _graphProvider = graphClientProvider;
+            _currentUser = currentConnectedUser;
         }
 
         /// <summary>
@@ -60,10 +60,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>the next collection of messages or null if there are no more messages</returns>
         public async Task<IUserMessagesCollectionPage> NextPageEmailsAsync(CancellationToken cancellationToken)
         {
-            if (nextPageRequest != null)
+            if (_nextPageRequest != null)
             {
-                var messages = await nextPageRequest.GetAsync(cancellationToken);
-                nextPageRequest = messages.NextPageRequest;
+                var messages = await _nextPageRequest.GetAsync(cancellationToken);
+                _nextPageRequest = messages.NextPageRequest;
                 return messages;
             }
 
@@ -107,15 +107,15 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             IUserMessagesCollectionPage messages = null;
             if (selectFields == null)
             {
-                messages = await graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
+                messages = await _graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).GetAsync(cancellationToken);
             }
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
-                messages = await graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
+                messages = await _graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
             }
 
-            nextPageRequest = messages.NextPageRequest;
+            _nextPageRequest = messages.NextPageRequest;
             return messages;
         }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
         public Task SendEmailAsync(CancellationToken cancellationToken, string subject, string content, BodyType contentType, string[] to, string[] cc = null, Importance importance = Importance.Normal)
         {
-            if (currentUser == null)
+            if (_currentUser == null)
             {
                 throw new ServiceException(new Error { Message = "No user connected", Code = "NoUserConnected", ThrowSite = "UWP Community Toolkit" });
             }
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 IsDeliveryReceiptRequested = false,
             };
 
-            var userBuilder = graphProvider.Users[currentUser.Id];
+            var userBuilder = _graphProvider.Users[_currentUser.Id];
             return userBuilder.SendMail(coreMessage, false).Request().PostAsync(cancellationToken);
         }
 
