@@ -115,9 +115,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             bool isFirstCall = true;
 
-            var incrementalCollectionMessages = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
+            var incrementalCollectionMessages = new IncrementalCollection<Message>((CancellationToken cts, uint count) =>
               {
-                  return Task.Run<ObservableCollection<Graph.Message>>(async () =>
+                  return Task.Run<ObservableCollection<Message>>(async () =>
                     {
                         IUserMessagesCollectionPage messages = null;
                         ObservableCollection<Message> intermediateList = new ObservableCollection<Message>();

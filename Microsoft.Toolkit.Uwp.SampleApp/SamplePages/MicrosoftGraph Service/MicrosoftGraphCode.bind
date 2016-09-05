@@ -1,9 +1,9 @@
-﻿// Initialize the service
+// Initialize the service
 if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text))
 {
     return;
 }
-// Login via Azure Active Directory 
+// Sign in with a Office 365 account
 if (!await MicrosoftGraphService.Instance.LoginAsync())
 {
     return;

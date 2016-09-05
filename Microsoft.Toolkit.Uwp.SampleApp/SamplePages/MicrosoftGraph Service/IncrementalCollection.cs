@@ -51,16 +51,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         private CancellationToken _cancellationToken;
 
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="IncrementalCollection{T}"/> class.
+        /// </summary>
+        /// <param name="func">The function to call which populate the IncrementalCollection with data of Type T</param>
         public IncrementalCollection(Func<CancellationToken, uint, Task<ObservableCollection<T>>> func)
             : this(func, 0)
         {
         }
 
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="IncrementalCollection{T}"/> class.
+        /// </summary>
+        /// <param name="func">The function to call which populate the IncrementalCollection with data of Type T</param>
+        /// <param name="maxItems">Maximum of items to populate in the IncrementalColletion</param>
         public IncrementalCollection(
             Func<CancellationToken, uint, Task<ObservableCollection<T>>> func,
             uint maxItems)
         {
-            this._func = func;
+            _func = func;
             if (maxItems == 0)
             {
                 _isInfinite = true;
@@ -72,6 +81,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the collection has more available items
+        /// <para>true if additional unloaded items remain in the view; otherwise, false.</para>
+        /// </summary>
         public bool HasMoreItems
         {
             get
@@ -90,11 +103,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        /// <summary>
+        /// Initializes incremental loading from the view.
+        /// </summary>
+        /// <param name="count">The number of items to load</param>
+        /// <returns>The wrapped results of the load operation.</returns>
         public Windows.Foundation.IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             return AsyncInfo.Run((c) => LoadMoreItemsAsync(c, count));
         }
 
+        /// <summary>
+        /// Initializes incremental loading from the view.
+        /// </summary>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <param name="count">The number of items to load</param>
+        /// <returns>The wrapped results of the load operation.</returns>
         public async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken cancellationToken, uint count)
         {
             ObservableCollection<T> intermediate = null;
