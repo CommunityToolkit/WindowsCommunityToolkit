@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     public class ImageCacheDataSource
     {
         private static ObservableCollection<Uri> _photos;
-        
+
         public async Task<ObservableCollection<Uri>> GetItemsAsync()
         {
             if (_photos == null)
