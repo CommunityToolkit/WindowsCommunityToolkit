@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.SampleApp.Data;
-    using Microsoft.Toolkit.Uwp.UI;
+    using UI;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
 
