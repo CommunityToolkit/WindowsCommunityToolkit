@@ -159,10 +159,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the image</param>
         /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
+        /// <param name="throwOnError">determines whether errors are handled silently or not</param>
         /// <returns>void</returns>
-        public static Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
+        public static Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false, bool throwOnError = false)
         {
-            return GetItemAsync(uri, true, !storeToMemoryCache);
+            return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
         }
 
         /// <summary>
