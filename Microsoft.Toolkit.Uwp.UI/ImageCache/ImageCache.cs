@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
@@ -124,12 +125,19 @@ namespace Microsoft.Toolkit.Uwp.UI
             lock (_memoryCache)
             {
                 // clears expired items in in-memory cache
+                var keysToDelete = new List<object>();
+
                 foreach (var k in _memoryCache.Keys)
                 {
                     if (((MemoryCacheItem)_memoryCache[k]).LastUpdated < expirationDate)
                     {
-                        _memoryCache.Remove(k);
+                        keysToDelete.Add(k);
                     }
+                }
+
+                foreach (var key in keysToDelete)
+                {
+                    _memoryCache.Remove(key);
                 }
             }
         }
@@ -195,28 +203,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 image = await task.Task;
 
-                // if task was "PreCache task" and we needed "Get task" and task didnt return image we create new "Get task" and await on it.
-                if (task.EnsureCachedCopy && !ensureItemIsCached && image == null)
-                {
-                    lock (_concurrentTasks)
-                    {
-                        task = new ConcurrentRequest()
-                        {
-                            Task = GetFromCacheOrDownloadAsync(uri, key),
-                            EnsureCachedCopy = ensureItemIsCached
-                        };
-                        _concurrentTasks[key] = task;
-                    }
-
-                    image = await task.Task;
-                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 if (throwOnError)
                 {
-                    throw ex;
+                    throw; // dont rethrow ex
                 }
             }
             finally
