@@ -25,10 +25,10 @@
 
         <StackPanel>
             <TextBlock
-                Name="message"
+                Name="Message"
                 HorizontalAlignment="Center"/>
             <StackPanel
-                Name="spButtons"
+                Name="ButtonsPanel"
                 Orientation="Horizontal">
                     <Button 
                         Margin="10, 20"
@@ -56,13 +56,13 @@
                 </StackPanel>
         </StackPanel>
         
-        <ListView Name="control"
+        <ListView Name="PhotoList"
             Grid.Row="1"
             ItemTemplate="{StaticResource PhotosTemplate}"/>
 
         <ProgressRing 
             Grid.RowSpan="2"
-            Name="busyIndicator" 
+            Name="BusyIndicator" 
             Foreground="Blue"
             Background="White"/>
 

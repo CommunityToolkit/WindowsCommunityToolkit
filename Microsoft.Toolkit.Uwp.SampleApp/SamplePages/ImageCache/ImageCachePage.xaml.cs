@@ -10,26 +10,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Linq;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Controls;
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.SampleApp.Data;
+    using Microsoft.Toolkit.Uwp.UI;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Navigation;
+
+    /// <summary>
+    /// Page shows how ImageCache is used
+    /// </summary>
     public sealed partial class ImageCachePage
     {
-        private ObservableCollection<Uri> photoItems;
-        private int imageIndex;
+        private ObservableCollection<Uri> _photoItems;
 
         public ImageCachePage()
         {
@@ -40,25 +36,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            //Shell.Current.RegisterNewCommand("PreCache Images", async (sender, args) =>
-            //{
-            //    ImageCache.MaxMemoryCacheSize = 0;
-
-            //    await PreCacheImages(false);
-            //});
-
-            //Shell.Current.RegisterNewCommand("PreCache Image (In-memory store)", async (sender, args) =>
-            //{
-            //    ImageCache.MaxMemoryCacheSize = 150;
-
-            //    await PreCacheImages(true);
-            //});
-
-            //Shell.Current.RegisterNewCommand("Load Images", (sender, args) =>
-            //{
-            //    control.ItemsSource = photoItems;
-            //});
-
             await LoadDataAsync();
         }
 
@@ -66,23 +43,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             DisableButtons();
 
-            ImageCache.MaxMemoryCacheSize = loadInMemory ? 200 : 0;
+            ImageCache.MaxMemoryCacheCount = loadInMemory ? 200 : 0;
 
             DateTime dtStart = DateTime.Now;
 
-            foreach (var item in photoItems)
+            foreach (var item in _photoItems)
             {
                 await ImageCache.PreCacheAsync(item, loadInMemory);
             }
 
-            var msg = $"Preloading {photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";
+            var msg = $"Preloading {_photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";
 
             EnableButtons(msg);
         }
 
         private async Task LoadDataAsync()
         {
-            photoItems = await new ImageCacheDataSource().GetItemsAsync();
+            _photoItems = await new ImageCacheDataSource().GetItemsAsync();
         }
 
         private async void PreCache_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -97,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void LoadImages_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            control.ItemsSource = photoItems;
+            PhotoList.ItemsSource = _photoItems;
         }
 
         private async void ClearCache_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -107,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             GC.Collect(); // Force GC to free file locks
             await ImageCache.ClearAsync();
 
-            control.ItemsSource = null;
+            PhotoList.ItemsSource = null;
 
             var msg = "Cache cleared";
 
@@ -116,23 +93,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void EnableButtons(string msg)
         {
-            busyIndicator.IsActive = false;
+            BusyIndicator.IsActive = false;
 
-            foreach (Button btn in spButtons.Children)
+            foreach (Button btn in ButtonsPanel.Children)
             {
                 btn.IsEnabled = true;
             }
 
-            message.Text = msg;
+            Message.Text = msg;
         }
 
         private void DisableButtons()
         {
-            busyIndicator.IsActive = true;
+            BusyIndicator.IsActive = true;
 
-            message.Text = string.Empty;
+            Message.Text = string.Empty;
 
-            foreach (Button btn in spButtons.Children)
+            foreach (Button btn in ButtonsPanel.Children)
             {
                 btn.IsEnabled = false;
             }

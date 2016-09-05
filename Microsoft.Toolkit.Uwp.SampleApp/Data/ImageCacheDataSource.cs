@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
@@ -27,6 +26,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     {
         private static ObservableCollection<Uri> _photos;
 
+        /// <summary>
+        /// Get Photo Uris and return to caller
+        /// </summary>
+        /// <returns>Observable Collection of Uri</returns>
         public async Task<ObservableCollection<Uri>> GetItemsAsync()
         {
             if (_photos == null)
