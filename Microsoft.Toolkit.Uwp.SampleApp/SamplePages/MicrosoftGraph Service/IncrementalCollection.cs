@@ -28,28 +28,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <summary>
         /// Store the number of items
         /// </summary>
-        private uint internalCount;
+        private uint _internalCount;
 
         /// <summary>
         /// Store a delegate which populate the next items
         ///  can be passed as a lambda
         /// </summary>
-        private Func<CancellationToken, uint, Task<ObservableCollection<T>>> func;
+        private Func<CancellationToken, uint, Task<ObservableCollection<T>>> _func;
 
         /// <summary>
         /// Store the max items, Use by HasMoreItems method
         /// </summary>
-        private uint maxItems;
+        private uint _maxItems;
 
         /// <summary>
         /// No limit for the data, but becareful with the memory consumption
         /// </summary>
-        private bool isInfinite;
+        private bool _isInfinite;
 
         /// <summary>
         /// Use to stop the virtualization and the incremental loading
         /// </summary>
-        private CancellationToken cancellationToken;
+        private CancellationToken _cancellationToken;
 
         public IncrementalCollection(Func<CancellationToken, uint, Task<ObservableCollection<T>>> func)
             : this(func, 0)
@@ -60,15 +60,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Func<CancellationToken, uint, Task<ObservableCollection<T>>> func,
             uint maxItems)
         {
-            this.func = func;
+            this._func = func;
             if (maxItems == 0)
             {
-                isInfinite = true;
+                _isInfinite = true;
             }
             else
             {
-                this.maxItems = maxItems;
-                isInfinite = false;
+                _maxItems = maxItems;
+                _isInfinite = false;
             }
         }
 
@@ -76,17 +76,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             get
             {
-                if (cancellationToken.IsCancellationRequested)
+                if (_cancellationToken.IsCancellationRequested)
                 {
                     return false;
                 }
 
-                if (isInfinite)
+                if (_isInfinite)
                 {
                     return true;
                 }
 
-                return this.Count < maxItems;
+                return Count < _maxItems;
             }
         }
 
@@ -99,20 +99,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             ObservableCollection<T> intermediate = null;
 
-            this.cancellationToken = cancellationToken;
+            _cancellationToken = cancellationToken;
 
-            var baseIndex = this.Count;
+            var baseIndex = Count;
             uint numberOfItemsToGenerate = 0;
 
-            if (!isInfinite)
+            if (!_isInfinite)
             {
-                if (baseIndex + count < maxItems)
+                if (baseIndex + count < _maxItems)
                 {
                     numberOfItemsToGenerate = count;
                 }
                 else
                 {
-                    numberOfItemsToGenerate = maxItems - (uint)baseIndex;
+                    numberOfItemsToGenerate = _maxItems - (uint)baseIndex;
                 }
             }
             else
@@ -122,20 +122,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                intermediate = await func(cancellationToken, numberOfItemsToGenerate);
+                intermediate = await _func(cancellationToken, numberOfItemsToGenerate);
             }
 
             if (intermediate.Count == 0)
             {
-                maxItems = (uint)this.Count;
-                isInfinite = false;
+                _maxItems = (uint)Count;
+                _isInfinite = false;
             }
             else
             {
                 intermediate.AddTo<T>(this);
             }
 
-            internalCount += count;
+            _internalCount += count;
             return new LoadMoreItemsResult { Count = (uint)intermediate.Count };
         }
     }

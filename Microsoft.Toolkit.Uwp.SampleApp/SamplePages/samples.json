@@ -207,7 +207,7 @@
         "Name": "MicrosoftGraph Service",
         "Type": "MicrosoftGraphPage",
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
-        "CodeUrl": "<INSERT LINK>",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/MicrosoftGraph/",
         "CodeFile": "MicrosoftGraphCode.bind",
         "Icon": "/SamplePages/MicrosoftGraph Service/OfficeLogo.png"
       }

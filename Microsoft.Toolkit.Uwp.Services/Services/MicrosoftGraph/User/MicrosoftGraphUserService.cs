@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// </summary>
     public class MicrosoftGraphUserService
     {
-        private GraphServiceClient graphProvider;
-        private User currentConnectedUser = null;
+        private GraphServiceClient _graphProvider;
+        private User _currentConnectedUser = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
@@ -34,20 +34,20 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="graphClientProvider">Instance of GraphClientService class</param>
         public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
         {
-            graphProvider = graphClientProvider;
+            _graphProvider = graphClientProvider;
         }
 
         ///// <summary>
         ///// MicrosoftGraphServiceMessages instance
         ///// </summary>
-        private MicrosoftGraphServiceMessage message;
+        private MicrosoftGraphServiceMessage _message;
 
         /// <summary>
         /// Gets MicrosoftGraphServiceMessage instance
         /// </summary>
         public MicrosoftGraphServiceMessage Message
         {
-            get { return message; }
+            get { return _message; }
         }
 
         /// <summary>
@@ -74,17 +74,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             if (selectFields == null)
             {
-                currentConnectedUser = await graphProvider.Me.Request().GetAsync(cancellationToken);
+                _currentConnectedUser = await _graphProvider.Me.Request().GetAsync(cancellationToken);
             }
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
-                currentConnectedUser = await graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
+                _currentConnectedUser = await _graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
 
             InitializeMessage();
 
-            return currentConnectedUser;
+            return _currentConnectedUser;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             try
             {
                 System.IO.Stream photo = null;
-                photo = await graphProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
+                photo = await _graphProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
                 if (photo != null)
                 {
                     windowsPhotoStream = photo.AsRandomAccessStream();
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         private void InitializeMessage()
         {
-            message = new MicrosoftGraphServiceMessage(graphProvider, currentConnectedUser);
+            _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
         }
     }
 }

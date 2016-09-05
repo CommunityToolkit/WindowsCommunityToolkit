@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 throw new ArgumentNullException(nameof(appClientId));
             }
 
-            this._appClientId = appClientId;
+            _appClientId = appClientId;
 
             _graphClientProvider = CreateGraphClient(appClientId);
             _isInitialized = true;

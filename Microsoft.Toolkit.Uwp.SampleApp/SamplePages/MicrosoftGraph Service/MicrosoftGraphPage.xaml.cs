@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public MicrosoftGraphPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             MessagesBox.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
                     }
 
-                    this.Photo.Source = photo;
+                    Photo.Source = photo;
                 }
             }
             catch (Microsoft.Graph.ServiceException ex)
@@ -94,8 +94,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
         }
-
-        private IncrementalCollection<Graph.Message> _incrementalCollectionMessages;
 
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
         {
@@ -117,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             bool isFirstCall = true;
 
-            _incrementalCollectionMessages = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
+            var incrementalCollectionMessages = new IncrementalCollection<Graph.Message>((CancellationToken cts, uint count) =>
               {
                   return Task.Run<ObservableCollection<Graph.Message>>(async () =>
                     {
@@ -128,20 +126,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         {
                             try
                             {
-                                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = true; }));
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = true; }));
 
                                 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cts, top);
                             }
                             catch (Microsoft.Graph.ServiceException ex)
                             {
-                                if (!this.Dispatcher.HasThreadAccess)
+                                if (!Dispatcher.HasThreadAccess)
                                 {
-                                   await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessage(ex, "Read user mail"); }));
+                                   await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessage(ex, "Read user mail"); }));
                                 }
                             }
                             finally
                             {
-                                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = false; }));
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = false; }));
                             }
 
                             isFirstCall = false;
@@ -164,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     });
               });
 
-            MessagesList.DataContext = _incrementalCollectionMessages;
+            MessagesList.ItemsSource = incrementalCollectionMessages;
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -221,7 +219,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
-            _incrementalCollectionMessages.Clear();
             MicrosoftGraphService.Instance.Logout();
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
