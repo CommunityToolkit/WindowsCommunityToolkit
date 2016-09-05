@@ -473,18 +473,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (radialGauge.ValueAngle > radialGauge.MinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
-                        var pg = new PathGeometry();
-                        var pf = new PathFigure();
-                        pf.IsClosed = false;
-                        pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
-                        var seg = new ArcSegment();
-                        seg.SweepDirection = SweepDirection.Clockwise;
-                        seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
-                        seg.Size = new Size(middleOfScale, middleOfScale);
-                        seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
-                        pf.Segments.Add(seg);
-                        pg.Figures.Add(pf);
-                        trail.Data = pg;
+
+                        if (radialGauge.ValueAngle - radialGauge.MinAngle == 360)
+                        {
+                            // Draw full circle.
+                            var eg = new EllipseGeometry();
+                            eg.Center = new Point(100, 100);
+                            eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                            eg.RadiusY = eg.RadiusX;
+                            trail.Data = eg;
+                        }
+                        else
+                        {
+                            // Draw arc.
+                            var pg = new PathGeometry();
+                            var pf = new PathFigure();
+                            pf.IsClosed = false;
+                            pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                            var seg = new ArcSegment();
+                            seg.SweepDirection = SweepDirection.Clockwise;
+                            seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
+                            seg.Size = new Size(middleOfScale, middleOfScale);
+                            seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                            pf.Segments.Add(seg);
+                            pg.Figures.Add(pf);
+                            trail.Data = pg;
+                        }
                     }
                     else
                     {
@@ -530,19 +544,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var scale = radialGauge.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
-                var pg = new PathGeometry();
-                var pf = new PathFigure();
-                pf.IsClosed = false;
-                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
-                pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
-                var seg = new ArcSegment();
-                seg.SweepDirection = SweepDirection.Clockwise;
-                seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
-                seg.Size = new Size(middleOfScale, middleOfScale);
-                seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
-                pf.Segments.Add(seg);
-                pg.Figures.Add(pf);
-                scale.Data = pg;
+                if (radialGauge.MaxAngle - radialGauge.MinAngle == 360)
+                {
+                    // Draw full circle.
+                    var eg = new EllipseGeometry();
+                    eg.Center = new Point(100, 100);
+                    eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    eg.RadiusY = eg.RadiusX;
+                    scale.Data = eg;
+                }
+                else
+                {
+                    // Draw arc.
+                    var pg = new PathGeometry();
+                    var pf = new PathFigure();
+                    pf.IsClosed = false;
+                    var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                    var seg = new ArcSegment();
+                    seg.SweepDirection = SweepDirection.Clockwise;
+                    seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
+                    seg.Size = new Size(middleOfScale, middleOfScale);
+                    seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
+                    pf.Segments.Add(seg);
+                    pg.Figures.Add(pf);
+                    scale.Data = pg;
+                }
 
                 OnFaceChanged(radialGauge);
             }
