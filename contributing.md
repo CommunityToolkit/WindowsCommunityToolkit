@@ -22,6 +22,8 @@ Every contribution has to come with:
 
 PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
 
+Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
+
 ## General rules
 
 * DO NOT require that users perform any extensive initialization before they can start programming basic scenarios.

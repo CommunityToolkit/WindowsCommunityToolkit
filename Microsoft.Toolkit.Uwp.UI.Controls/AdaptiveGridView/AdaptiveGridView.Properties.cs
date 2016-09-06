@@ -94,12 +94,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
-        /// Identifies the <see cref="VerticalScrollMode"/> dependency property.
-        /// </summary>
-        private static readonly DependencyProperty VerticalScrollModeProperty =
-            DependencyProperty.Register(nameof(VerticalScrollMode), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
-
-        /// <summary>
         /// Identifies the <see cref="ItemWidth"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ItemWidthProperty =
@@ -126,7 +120,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     };
 
                     self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    self.VerticalScrollMode = ScrollMode.Disabled;
+                    ScrollViewer.SetVerticalScrollMode(self, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(self, ScrollBarVisibility.Hidden);
                 }
             }
         }
@@ -170,12 +165,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemClickCommandProperty, value); }
         }
 
-        internal IList<object> _selectedItems { get; set; }
         /// <summary>
         /// Gets the selected multiple objects in the collection.
         /// </summary>
         /// <value>The object that is used to store selected multiple items.</value>
-        public IList<object> SelectedItems => _selectedItems;
+        public IList<object> SelectedItems => _listView.SelectedItems;
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
@@ -256,12 +250,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event raised when an item is added or removed to/from the collection.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
-
-        private ScrollMode VerticalScrollMode
-        {
-            get { return (ScrollMode)GetValue(VerticalScrollModeProperty); }
-            set { SetValue(VerticalScrollModeProperty, value); }
-        }
 
         private double ItemWidth
         {

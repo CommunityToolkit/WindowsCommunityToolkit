@@ -352,7 +352,6 @@
     <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
       <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\HamburgerMenu\OptionMenuItem.cs" />
     <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
       <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
     </Compile>
