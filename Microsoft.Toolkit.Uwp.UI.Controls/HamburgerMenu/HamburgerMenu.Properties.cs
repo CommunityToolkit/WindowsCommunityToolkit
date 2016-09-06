@@ -120,5 +120,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (DataTemplate)GetValue(ItemTemplateProperty); }
             set { SetValue(ItemTemplateProperty, value); }
         }
+
+        /// <summary>
+        /// Gets the collection used to generate the content of the items list.
+        /// </summary>
+        public ItemCollection Items => _buttonsListView?.Items;
     }
 }
