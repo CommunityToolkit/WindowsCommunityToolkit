@@ -42,7 +42,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
-            var locParameter = string.IsNullOrEmpty(countryValue) ? $"loc:{CultureInfo.CurrentCulture.Name.Split('-')[1].ToLower()}+" : $"loc:{countryValue}+";
+            if (string.IsNullOrEmpty(countryValue))
+            {
+                if (CultureInfo.CurrentCulture.IsNeutralCulture)
+                {
+                    countryValue = BingCountry.None.GetStringValue();
+                }
+                else
+                {
+                    countryValue = CultureInfo.CurrentCulture.Name.Split('-')[1].ToLower();
+                }
+            }
+
+            var locParameter = $"loc:{countryValue}+";
             var queryTypeParameter = string.Empty;
 
             switch (config.QueryType)
