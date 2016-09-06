@@ -31,7 +31,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="MinRandomDuration" Value="0:0:5" />
-        <Setter Property="MaxRandomDuration" Value="0:0:10" />
+        <Setter Property="RotationDelay" Value="0:0:3" />
+        <Setter Property="ExtraRandomDuration" Value="0:0:10" />
     </Style>
 </ResourceDictionary>

@@ -49,22 +49,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
 
         /// <summary>
-        /// Identifies the <see cref="MinRandomDuration"/> property.
+        /// Identifies the <see cref="RotationDelay"/> property.
         /// </summary>
-        public static readonly DependencyProperty MinRandomDurationProperty =
-            DependencyProperty.Register(nameof(MinRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
-
-        /// <summary>
-        /// Identifies the <see cref="MinRandomDuration"/> property.
-        /// </summary>
-        public static readonly DependencyProperty MaxRandomDurationProperty =
-            DependencyProperty.Register(nameof(MaxRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
+        public static readonly DependencyProperty ExtraRandomDurationProperty =
+            DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
 
         /// <summary>
         /// Identifies the <see cref="RotationDelay"/> property.
         /// </summary>
         public static readonly DependencyProperty RotationDelayProperty =
-            DependencyProperty.Register(nameof(RotationDelay), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(TimeSpan.Zero, OnRotationDelayInSecondsPropertyChanged));
+            DependencyProperty.Register(nameof(RotationDelay), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan), OnRotationDelayInSecondsPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -118,15 +112,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null)
             {
                 Start();
-            }
-
-            if (MinRandomDuration > MaxRandomDuration)
-            {
-                throw new ArgumentException("MinRandomDuration can't be bigger than MaxRandomDuration");
-            }
-            else if (MinRandomDuration == MaxRandomDuration)
-            {
-                throw new ArgumentException("MinRandomDuration and MaxRandomDuration can't be equal.");
             }
 
             base.OnApplyTemplate();
@@ -381,16 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
-            if (RotationDelay.Equals(TimeSpan.Zero))
-            { // Random TimeSpan will be generated between MinRandomDuration and MaxRandomDuration.
-                var diff = MaxRandomDuration - MinRandomDuration;
-                var randomExtraSeconds = _randomizer.Next(0, (int)diff.TotalSeconds);
-                return MinRandomDuration + TimeSpan.FromSeconds(randomExtraSeconds);
-            }
-            else
-            {
-                return RotationDelay;
-            }
+            return RotationDelay + TimeSpan.FromSeconds(_randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
         }
 
         /// <summary>
@@ -448,16 +424,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int endIndex = e.OldStartingIndex + e.OldItems.Count;
                     if (_currentIndex >= e.NewStartingIndex && _currentIndex < endIndex)
                     {
-                        UpdateNextItem(); // Current item was removed. Replace with the next one
+                        // Current item was removed. Replace with the next one
+                        UpdateNextItem(); 
                     }
                     else if (_currentIndex > endIndex)
                     {
-                        // items were removed before the current item. Just update the changed index
+                        // Items were removed before the current item. Just update the changed index
                         _currentIndex -= (endIndex - e.NewStartingIndex) - 1;
                     }
                     else if (e.NewStartingIndex == _currentIndex + 1)
                     {
-                        // upcoming item was changed, so update the datacontext
+                        // Upcoming item was changed, so update the datacontext
                         _nextElement.DataContext = GetNext();
                     }
                 }
@@ -479,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (_currentIndex + 1 == e.NewStartingIndex)
                     {
-                        // upcoming item was changed, so update the datacontext
+                        // Upcoming item was changed, so update the datacontext
                         _nextElement.DataContext = GetNext();
                     }
                 }
@@ -575,24 +552,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the minimum duration for randomizer to use in rotation duration generating.
-        /// </summary>
-        public TimeSpan MinRandomDuration
-        {
-            get { return (TimeSpan)GetValue(MinRandomDurationProperty); }
-            set { SetValue(MinRandomDurationProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum duration for randomizer to use in rotation duration generating.
-        /// </summary>
-        public TimeSpan MaxRandomDuration
-        {
-            get { return (TimeSpan)GetValue(MaxRandomDurationProperty); }
-            set { SetValue(MaxRandomDurationProperty, value); }
-        }
-
-        /// <summary>
         /// Tile Slide Direction
         /// </summary>
         public enum RotateDirection
@@ -602,6 +561,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             /// <summary>Left</summary>
             Left,
+        }
+
+        /// <summary>
+        /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
+        /// </summary>
+        public TimeSpan ExtraRandomDuration
+        {
+            get { return (TimeSpan)GetValue(ExtraRandomDurationProperty); }
+            set { SetValue(ExtraRandomDurationProperty, value); }
         }
     }
 }
