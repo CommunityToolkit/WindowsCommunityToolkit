@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Windows.ApplicationModel.Resources.Core;
 
 namespace Microsoft.Toolkit.Uwp
@@ -15,9 +16,19 @@ namespace Microsoft.Toolkit.Uwp
             ResourceContext defaultContext = ResourceContext.GetForCurrentView();
             ResourceMap srm = ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
 
-            // Put in string Resource like this --> "nameOfTheResourceString"
-            // Get back the localized string
-            string text = srm.GetValue(resourceString, defaultContext).ValueAsString;
+            // Prepare an empty string to fill with the resource string
+            string text = "";
+
+            // Get back the localized string, in case of failure show an error in the output window
+            try
+            {
+                text = srm.GetValue(resourceString, defaultContext).ValueAsString;
+            }
+            catch
+            {
+                Debug.WriteLine("ResourceHelper - Could not find resource: " + resourceString);
+            }
+
             return text;
         }
     }
