@@ -270,7 +270,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var abs = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
 
             if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
-            { // Swiping from left to right.
+            { 
+                // Swiping from left to right.
                 if (_commandContainer != null && _transform.TranslateX > 0)
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
@@ -303,7 +304,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
             else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
-            { // Swiping from right to left.
+            { 
+                // Swiping from right to left.
                 if (_commandContainer != null && _transform.TranslateX < 0)
                 {
                     _commandContainer.Background = RightBackground as SolidColorBrush;
