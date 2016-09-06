@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
             else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
-            { 
+            {
                 // Swiping from right to left.
                 if (_commandContainer != null && _transform.TranslateX < 0)
                 {
