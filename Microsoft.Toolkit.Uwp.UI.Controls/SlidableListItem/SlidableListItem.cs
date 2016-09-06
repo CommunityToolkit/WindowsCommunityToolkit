@@ -302,6 +302,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _transform.TranslateX += e.Delta.Translation.X;
                 }
+
+                if (abs < ActivationWidth)
+                {
+                    _leftCommandTransform.TranslateX = _transform.TranslateX / 2;
+                }
+                else
+                {
+                    _leftCommandTransform.TranslateX = 20;
+                }
             }
             else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
             {
@@ -335,6 +344,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (!IsOffsetLimited || (IsOffsetLimited && _transform.TranslateX > 0 && e.Delta.Translation.X < 0))
                 {
                     _transform.TranslateX += e.Delta.Translation.X;
+                }
+
+                if (abs < ActivationWidth)
+                {
+                    _rightCommandTransform.TranslateX = _transform.TranslateX / 2;
+                }
+                else
+                {
+                    _rightCommandTransform.TranslateX = -20;
                 }
             }
         }
