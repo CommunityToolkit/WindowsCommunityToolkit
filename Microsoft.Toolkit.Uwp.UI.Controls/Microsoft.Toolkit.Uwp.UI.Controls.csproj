@@ -50,6 +50,10 @@
     <Compile Include="BladeControl\BladeControl.cs" />
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
@@ -68,6 +72,8 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
+    <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
+    <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PullToRefreshListView\PullToRefreshListView.cs" />

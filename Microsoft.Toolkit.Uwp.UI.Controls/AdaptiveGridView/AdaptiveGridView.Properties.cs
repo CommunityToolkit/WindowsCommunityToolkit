@@ -12,11 +12,13 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows.Input;
 
     /// <summary>
@@ -31,6 +33,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public sealed partial class AdaptiveGridView
     {
+        /// <summary>
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty =
+            DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(AdaptiveGridView), new PropertyMetadata(-1));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedItems"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.Register(nameof(SelectedItems), typeof(IList<object>), typeof(AdaptiveGridView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectionMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectionModeProperty =
+            DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewSelectionMode), typeof(AdaptiveGridView), new PropertyMetadata(ListViewSelectionMode.None));
+
+        /// <summary>
+        /// Identifies the <see cref="IsItemClickEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsItemClickEnabledProperty =
+            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true));
+
         /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
         /// </summary>
@@ -62,12 +94,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(OneRowModeEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, (o, e) => { OnOneRowModeEnabledChanged(o, e.NewValue); }));
 
         /// <summary>
-        /// Identifies the <see cref="VerticalScrollMode"/> dependency property.
-        /// </summary>
-        private static readonly DependencyProperty VerticalScrollModeProperty =
-            DependencyProperty.Register(nameof(VerticalScrollMode), typeof(ScrollMode), typeof(AdaptiveGridView), new PropertyMetadata(ScrollMode.Auto));
-
-        /// <summary>
         /// Identifies the <see cref="ItemWidth"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ItemWidthProperty =
@@ -94,7 +120,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     };
 
                     self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    self.VerticalScrollMode = ScrollMode.Disabled;
+                    ScrollViewer.SetVerticalScrollMode(self, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(self, ScrollBarVisibility.Hidden);
                 }
             }
         }
@@ -106,6 +133,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 self.RecalculateLayout(self._listView.ActualWidth);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the selected object.
+        /// </summary>
+        /// <value>The index of the selected item in the collection. Default is -1 when initialized.</value>
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
         }
 
         /// <summary>
@@ -129,6 +166,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the selected multiple objects in the collection.
+        /// </summary>
+        /// <value>The object that is used to store selected multiple items.</value>
+        public IList<object> SelectedItems => _listView.SelectedItems;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
+        /// </summary>
+        /// <value>Default is false.</value>
+        public bool IsItemClickEnabled
+        {
+            get { return (bool)GetValue(IsItemClickEnabledProperty); }
+            set { SetValue(IsItemClickEnabledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SelectionMode property of ListViewBase.
+        /// </summary>
+        /// <value>Default is None.</value>
+        public ListViewSelectionMode SelectionMode
+        {
+            get { return (ListViewSelectionMode)GetValue(SelectionModeProperty); }
+            set { SetValue(SelectionModeProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the height of each item in the grid.
         /// </summary>
         /// <value>The height of the item.</value>
@@ -136,6 +199,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(ItemHeightProperty); }
             set { SetValue(ItemHeightProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the single selected object when the SelectionMode is set to Single.
+        /// </summary>
+        /// <value>Stores the single selected item. Default is null.</value>
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
@@ -173,11 +246,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event ItemClickEventHandler ItemClick;
 
-        private ScrollMode VerticalScrollMode
-        {
-            get { return (ScrollMode)GetValue(VerticalScrollModeProperty); }
-            set { SetValue(VerticalScrollModeProperty, value); }
-        }
+        /// <summary>
+        /// Event raised when an item is added or removed to/from the collection.
+        /// </summary>
+        public event SelectionChangedEventHandler SelectionChanged;
 
         private double ItemWidth
         {

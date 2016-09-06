@@ -7,24 +7,6 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotoTemplate">
-            <Grid BorderBrush="Black" BorderThickness="1" Background="Black">
-                <controls:ImageEx x:Name="ImageExControl"
-                    IsCacheEnabled="True"
-                    Source="{Binding Thumbnail2}"
-                    Stretch="UniformToFill"
-                    PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-                    PlaceholderStretch="UniformToFill"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
-                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                           Text="{Binding Title}" FontSize="16"
-                           TextTrimming="CharacterEllipsis" Foreground="White" />
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-
     <Grid Background="{StaticResource Brush-Grey-05}">
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
             <StackPanel x:Name="Container" Orientation="Vertical">

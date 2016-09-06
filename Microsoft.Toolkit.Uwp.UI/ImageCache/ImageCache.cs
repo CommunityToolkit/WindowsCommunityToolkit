@@ -11,10 +11,12 @@
 // ******************************************************************
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -24,11 +26,38 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public static class ImageCache
     {
+        /// <summary>
+        /// Helper class used to store BitmapImages to in-memory cache
+        /// </summary>
+        private class MemoryCacheItem
+        {
+            /// <summary>
+            /// Gets or sets dateTime when image was last stored to in-memory cache
+            /// </summary>
+            public DateTime LastUpdated { get; set; }
+
+            /// <summary>
+            /// Gets or sets BitmapImage of in-memory cached item
+            /// </summary>
+            public BitmapImage Image { get; set; }
+        }
+
+        private class ConcurrentTask
+        {
+            public Task<BitmapImage> Task { get; set; }
+
+            public bool IsPreCache { get; set; }
+        }
+
         private const string CacheFolderName = "ImageCache";
 
         private static readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-        private static readonly Dictionary<string, Task> _concurrentTasks = new Dictionary<string, Task>();
+        private static readonly Dictionary<string, ConcurrentTask> _concurrentTasks = new Dictionary<string, ConcurrentTask>();
+
+        private static readonly object _concurrencyLock = new object();
         private static StorageFolder _cacheFolder;
+        private static OrderedDictionary _memoryCache = new OrderedDictionary();
+        private static int _maxMemoryCacheSize = 0;
 
         static ImageCache()
         {
@@ -39,6 +68,26 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets or sets the life duration of every cache entry.
         /// </summary>
         public static TimeSpan CacheDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the size of additional in-memory cache. Set it to 0 to disable in-memory caching. It is 0 by default.
+        /// </summary>
+        public static int MaxMemoryCacheSize
+        {
+            get
+            {
+                return _maxMemoryCacheSize;
+            }
+
+            set
+            {
+                _maxMemoryCacheSize = value;
+                lock (_memoryCache)
+                {
+                    FixMemoryCacheSize();
+                }
+            }
+        }
 
         /// <summary>
         /// call this method to clear the entire cache.
@@ -71,52 +120,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 // Just ignore errors for now
             }
-        }
 
-        /// <summary>
-        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
-        /// </summary>
-        /// <param name="uri">Uri of the image.</param>
-        /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
-        {
-            Task busy;
-            string key = GetCacheFileName(uri);
-
-            lock (_concurrentTasks)
+            lock (_memoryCache)
             {
-                if (_concurrentTasks.ContainsKey(key))
+                // clears expired items in in-memory cache
+                foreach (var k in _memoryCache.Keys)
                 {
-                    busy = _concurrentTasks[key];
-                }
-                else
-                {
-                    busy = EnsureFileAsync(uri);
-                    _concurrentTasks.Add(key, busy);
-                }
-            }
-
-            try
-            {
-                await busy;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                return null;
-            }
-            finally
-            {
-                lock (_concurrentTasks)
-                {
-                    if (_concurrentTasks.ContainsKey(key))
+                    if (((MemoryCacheItem)_memoryCache[k]).LastUpdated < expirationDate)
                     {
-                        _concurrentTasks.Remove(key);
+                        _memoryCache.Remove(k);
                     }
                 }
             }
-
-            return CreateBitmapImage(key);
         }
 
         /// <summary>
@@ -131,29 +146,216 @@ namespace Microsoft.Toolkit.Uwp.UI
             return $"{uriHash}.jpg";
         }
 
-        private static BitmapImage CreateBitmapImage(string fileName)
+        /// <summary>
+        /// Assures that image is available in the cache
+        /// </summary>
+        /// <param name="uri">Uri of the image</param>
+        /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
+        /// <returns>void</returns>
+        public static Task PreCacheAsync(Uri uri, bool storeToMemoryCache = false)
         {
-            return new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
+            return GetOrPreCacheAsync(uri, true, !storeToMemoryCache);
         }
 
-        private static async Task EnsureFileAsync(Uri uri)
+        /// <summary>
+        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
+        /// </summary>
+        /// <param name="uri">Uri of the image.</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
+        /// <returns>a BitmapImage</returns>
+        public static Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
+            return GetOrPreCacheAsync(uri, throwOnError, false);
+        }
+
+        private static async Task<BitmapImage> GetOrPreCacheAsync(Uri uri, bool throwOnError, bool isPreCache)
+        {
+            ConcurrentTask task;
+            string key = GetCacheFileName(uri);
+            BitmapImage image = null;
+
+            lock (_concurrentTasks)
+            {
+                if (_concurrentTasks.ContainsKey(key))
+                {
+                    task = _concurrentTasks[key];
+                }
+                else
+                {
+                    task = new ConcurrentTask()
+                    {
+                        Task = GetFromCacheOrDownloadAsync(uri, key, isPreCache),
+                        IsPreCache = isPreCache
+                    };
+                    _concurrentTasks.Add(key, task);
+                }
+            }
+
+            try
+            {
+                image = await task.Task;
+
+                // if task was "PreCache task" and we needed "Get task" and task didnt return image we create new "Get task" and await on it.
+                if (task.IsPreCache && !isPreCache && image == null)
+                {
+                    lock (_concurrentTasks)
+                    {
+                        task = new ConcurrentTask()
+                        {
+                            Task = GetFromCacheOrDownloadAsync(uri, key, false),
+                            IsPreCache = isPreCache
+                        };
+                        _concurrentTasks[key] = task;
+                    }
+
+                    image = await task.Task;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                if (throwOnError)
+                {
+                    throw ex;
+                }
+            }
+            finally
+            {
+                lock (_concurrencyLock)
+                {
+                    if (_concurrentTasks.ContainsKey(key))
+                    {
+                        _concurrentTasks.Remove(key);
+                    }
+                }
+            }
+
+            return image;
+        }
+
+        private static async Task<BitmapImage> GetFromCacheOrDownloadAsync(Uri uri, string key, bool isPreCache)
+        {
+            BitmapImage image = null;
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
 
-            var folder = await GetCacheFolderAsync();
-
-            string fileName = GetCacheFileName(uri);
-            var baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
-            if (await IsFileOutOfDate(baseFile, expirationDate))
+            if (MaxMemoryCacheSize > 0)
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                try
+                image = GetFromMemoryCache(key);
+            }
+
+            if (image == null)
+            {
+                var folder = await GetCacheFolderAsync();
+
+                var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
+                if (await IsFileOutOfDate(baseFile, expirationDate))
                 {
-                    await StreamHelper.GetHttpStreamToStorageFileAsync(uri, baseFile);
+                    baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
+                    try
+                    {
+                        using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
+                        {
+                            if (!isPreCache)
+                            {
+                                image = new BitmapImage();
+                                image.SetSource(webStream);
+                                webStream.Seek(0);
+                            }
+
+                            using (var reader = new DataReader(webStream))
+                            {
+                                await reader.LoadAsync((uint)webStream.Size);
+                                var buffer = new byte[(int)webStream.Size];
+                                reader.ReadBytes(buffer);
+                                await FileIO.WriteBytesAsync(baseFile, buffer);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        await baseFile.DeleteAsync();
+                        throw e;
+                    }
                 }
-                catch
+                else
                 {
-                    await baseFile.DeleteAsync();
+                    if (isPreCache)
+                    {
+                        return null;
+                    }
+
+                    using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        image = new BitmapImage();
+                        image.SetSource(fileStream);
+                    }
+                }
+
+                if (MaxMemoryCacheSize > 0 && image != null)
+                {
+                    StoreToMemoryCache(key, image);
+                }
+            }
+
+            return image;
+        }
+
+        private static BitmapImage GetFromMemoryCache(string key)
+        {
+            BitmapImage resImage = null;
+            lock (_memoryCache)
+            {
+                if (_memoryCache.Contains(key))
+                {
+                    var mci = _memoryCache[key] as MemoryCacheItem;
+                    if (mci.LastUpdated > DateTime.Now.Subtract(CacheDuration))
+                    {
+                        resImage = mci.Image as BitmapImage;
+                    }
+                    else
+                    {
+                        _memoryCache.Remove(key);
+                    }
+                }
+            }
+
+            return resImage;
+        }
+
+        private static void StoreToMemoryCache(string key, BitmapImage image)
+        {
+            lock (_memoryCache)
+            {
+                var mci = new MemoryCacheItem()
+                {
+                    LastUpdated = DateTime.Now,
+                    Image = image
+                };
+                if (_memoryCache.Contains(key))
+                {
+                    _memoryCache[key] = mci;
+                }
+                else
+                {
+                    _memoryCache.Add(key, mci);
+                }
+
+                FixMemoryCacheSize();
+            }
+        }
+
+        private static void FixMemoryCacheSize()
+        {
+            if (MaxMemoryCacheSize <= 0)
+            {
+                _memoryCache.Clear();
+            }
+            else
+            {
+                var removeCount = _memoryCache.Count - MaxMemoryCacheSize;
+                for (var i = 1; i <= removeCount; i++)
+                {
+                    _memoryCache.RemoveAt(0);
                 }
             }
         }
