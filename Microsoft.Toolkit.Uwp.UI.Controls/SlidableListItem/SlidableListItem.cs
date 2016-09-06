@@ -332,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         _transform.TranslateX += e.Delta.Translation.X;
                     }
                 }
-                else if (!IsOffsetLimited)
+                else if (!IsOffsetLimited || (IsOffsetLimited && _transform.TranslateX > 0 && e.Delta.Translation.X < 0))
                 {
                     _transform.TranslateX += e.Delta.Translation.X;
                 }
