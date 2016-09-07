@@ -9,6 +9,17 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
     return;
 }
 
+//Send a message
+string[] toRecipients = "user1@contoso.com;user2@contoso.com";
+string subject = "This is the subject of my message";
+string content = "This is the content of my message";
+
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients);
+
+// You can also send a message in html format
+string content = "Hello <b>World</b>";
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+
 // Retrieve user's info from Azure Active Directory
 var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
 UserPanel.DataContext = user;
@@ -65,14 +76,3 @@ if (messages == null)
 {
 	// no more messages
 }
-
-//Send a message
-string[] toRecipients = "user1@contoso.com;user2@contoso.com";
-string subject = "This is the subject of my message";
-string content = "This is the content of my message";
-
-await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients);
-
-// You can also send a message in html format
-string content = "Hello <b>World</b>";
-await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
