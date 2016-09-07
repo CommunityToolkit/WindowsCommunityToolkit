@@ -43,11 +43,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         private FBPaginatedArray paginatedArray;
 
         /// <summary>
-        /// Strongly typed list of service query data.
-        /// </summary>
-        private List<FacebookPost> queryResults;
-
-        /// <summary>
         /// List of permissions required by the app.
         /// </summary>
         private FBPermissions permissions;
@@ -210,16 +205,29 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
-        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
         {
+            return await RequestAsync<FacebookPost>(config, maxRecords);
+        }
+
+        /// <summary>
+        /// Request generic list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <typeparam name="T">Strong type of model.</typeparam>
+        /// <param name="config">FacebookDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<T>> RequestAsync<T>(FacebookDataConfig config, int maxRecords = 20, string fields = "id,message,from,created_time,link,full_picture")
+        {
             if (Provider.LoggedIn)
             {
-                queryResults = new List<FacebookPost>();
+                var processedResults = new List<T>();
 
-                PropertySet propertySet = new PropertySet { { "fields", "id,message,from,created_time,link,full_picture" } };
+                PropertySet propertySet = new PropertySet { { "fields", fields } };
 
                 var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPost>);
 
@@ -231,9 +239,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 {
                     IReadOnlyList<object> results = (IReadOnlyList<object>)result.Object;
 
-                    await ProcessResultsAsync(results, maxRecords);
+                    await ProcessResultsAsync<T>(results, maxRecords, processedResults);
 
-                    return queryResults;
+                    return processedResults;
                 }
 
                 throw new Exception(result.ErrorInfo?.Message);
@@ -242,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await RequestAsync(config, maxRecords);
+                return await RequestAsync<T>(config, maxRecords, fields);
             }
 
             return null;
@@ -256,8 +264,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         {
             if (Provider.LoggedIn)
             {
-                queryResults = new List<FacebookPost>();
-
                 var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookDataHost<FacebookPicture>>);
 
                 PropertySet propertySet = new PropertySet { { "redirect", "0" } };
@@ -420,26 +426,28 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <summary>
         /// Helper method to process pages of results from underlying service instance.
         /// </summary>
+        /// <typeparam name="T">Strong type of model.</typeparam>
         /// <param name="results">List of results to process.</param>
         /// <param name="maxRecords">Total upper limit of records to process.</param>
+        /// <param name="processedResults">Stores the processed results constrained by maxRecords.</param>
         /// <returns>Task to support await of async call.</returns>
-        private async Task ProcessResultsAsync(IReadOnlyList<object> results, int maxRecords)
+        private async Task ProcessResultsAsync<T>(IReadOnlyList<object> results, int maxRecords, List<T> processedResults)
         {
-            foreach (FacebookPost result in results)
+            foreach (T result in results)
             {
-                if (queryResults.Count < maxRecords)
+                if (processedResults.Count < maxRecords)
                 {
-                    queryResults.Add(result);
+                    processedResults.Add(result);
                 }
             }
 
-            if (paginatedArray.HasNext && queryResults.Count < maxRecords)
+            if (paginatedArray.HasNext && processedResults.Count < maxRecords)
             {
                 var nextResult = await paginatedArray.NextAsync();
                 if (nextResult.Succeeded)
                 {
                     IReadOnlyList<object> nextResults = (IReadOnlyList<object>)nextResult.Object;
-                    await ProcessResultsAsync(nextResults, maxRecords);
+                    await ProcessResultsAsync<T>(nextResults, maxRecords, processedResults);
                 }
             }
         }
