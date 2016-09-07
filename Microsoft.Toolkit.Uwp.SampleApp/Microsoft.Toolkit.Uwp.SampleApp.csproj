@@ -292,6 +292,9 @@
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
+    <None Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
+    <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
