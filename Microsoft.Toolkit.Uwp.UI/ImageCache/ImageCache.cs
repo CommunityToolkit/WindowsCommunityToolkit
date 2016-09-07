@@ -200,23 +200,34 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static async Task<BitmapImage> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly)
         {
-            ConcurrentRequest request;
+            ConcurrentRequest request = null;
             string key = GetCacheFileName(uri);
             BitmapImage image = null;
 
-            lock (_concurrentTasks)
+            lock (_concurrencyLock)
             {
                 if (_concurrentTasks.ContainsKey(key))
                 {
                     request = _concurrentTasks[key];
                 }
-                else
+            }
+
+            // check if existing request is get request and previous one was preCacheOnly. if so await and raise new request
+            if (request != null && request.EnsureCachedCopy && !preCacheOnly)
+            {
+                await request.Task;
+                request = null;
+            }
+
+            if (request == null)
+            {
+                request = new ConcurrentRequest()
                 {
-                    request = new ConcurrentRequest()
-                    {
-                        Task = GetFromCacheOrDownloadAsync(uri, key, preCacheOnly),
-                        EnsureCachedCopy = preCacheOnly
-                    };
+                    Task = GetFromCacheOrDownloadAsync(uri, key, preCacheOnly),
+                    EnsureCachedCopy = preCacheOnly
+                };
+                lock (_concurrencyLock)
+                {
                     _concurrentTasks.Add(key, request);
                 }
             }
@@ -224,7 +235,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             try
             {
                 image = await request.Task;
-
             }
             catch (Exception ex)
             {

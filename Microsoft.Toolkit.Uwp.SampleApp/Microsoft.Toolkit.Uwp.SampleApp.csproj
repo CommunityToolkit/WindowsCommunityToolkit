@@ -256,7 +256,6 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
-    <Content Include="Assets\Photos\ImageCache.json" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
@@ -312,7 +311,6 @@
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\PhotoDataItem.cs" />
-    <Compile Include="Data\ImageCacheDataSource.cs" />
     <Compile Include="Data\PhotosDataSource.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\PropertyDescriptor\SliderPropertyOptions.cs" />

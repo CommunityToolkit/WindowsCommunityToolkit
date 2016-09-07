@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class ImageCachePage
     {
-        private ObservableCollection<Uri> _photoItems;
+        private ObservableCollection<PhotoDataItem> _photoItems;
 
         public ImageCachePage()
         {
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             foreach (var item in _photoItems)
             {
-                await ImageCache.PreCacheAsync(item, loadInMemory);
+                await ImageCache.PreCacheAsync(new Uri(item.Thumbnail), loadInMemory);
             }
 
             var msg = $"Preloading {_photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";
@@ -59,7 +59,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task LoadDataAsync()
         {
-            _photoItems = await new ImageCacheDataSource().GetItemsAsync();
+            var source = new PhotosDataSource();
+            _photoItems = await new PhotosDataSource().GetItemsAsync(true);
         }
 
         private async void PreCache_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
