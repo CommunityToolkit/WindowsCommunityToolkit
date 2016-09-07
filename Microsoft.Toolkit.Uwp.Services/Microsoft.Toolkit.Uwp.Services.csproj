@@ -58,7 +58,11 @@
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
+    <Compile Include="Services\Facebook\FacebookAlbum.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\Facebook\FacebookPhoto.cs" />
+    <Compile Include="Services\Facebook\FacebookPictureData.cs" />
+    <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
