@@ -20,6 +20,8 @@
     <dependencies>
       <dependency id="winsdkfb" version="0.10.20160621.3" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="Microsoft.Graph" version="1.0.1"/>
+      <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="2.19.208020213"/>
     </dependencies>
   </metadata>
   <files>

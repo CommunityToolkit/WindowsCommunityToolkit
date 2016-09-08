@@ -17,11 +17,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-
-using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -39,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string CodeFile { get; set; }
 
+        public string JavaScriptCodeFile { get; set; }
+
         public string XamlCodeFile { get; set; }
 
         public string XamlCode { get; private set; }
@@ -49,9 +49,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
+        public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
+
         public async Task<string> GetCSharpSource()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            {
+                return await codeStream.ReadTextAsync();
+            }
+        }
+
+        public async Task<string> GetJavaScriptSource()
+        {
+            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 return await codeStream.ReadTextAsync();
             }

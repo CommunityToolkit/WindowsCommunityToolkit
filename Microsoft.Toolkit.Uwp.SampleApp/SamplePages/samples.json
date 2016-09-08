@@ -103,6 +103,7 @@
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
+        "JavaScriptCodeFile": "LiveTileCode.bind",
         "Icon": "/SamplePages/LiveTile/icon.jpg"
       },
       {
@@ -210,6 +211,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
+      },
+      {
+        "Name": "MicrosoftGraph Service",
+        "Type": "MicrosoftGraphPage",
+        "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/MicrosoftGraph/",
+        "CodeFile": "MicrosoftGraphCode.bind",
+        "Icon": "/SamplePages/MicrosoftGraph Service/OfficeLogo.png"
       }
     ]
   }
