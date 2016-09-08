@@ -31,6 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class SlidableListItem : ContentControl
     {
         /// <summary>
+        /// Indetifies the <see cref="ExtraSwipeThreshold"/> property
+        /// </summary>
+        public static readonly DependencyProperty ExtraSwipeThresholdProperty =
+            DependencyProperty.Register(nameof(ExtraSwipeThreshold), typeof(int), typeof(SlidableListItem), new PropertyMetadata(default(int)));
+
+        /// <summary>
         /// Indetifies the <see cref="IsOffsetLimited"/> property
         /// </summary>
         public static readonly DependencyProperty IsOffsetLimitedProperty =
@@ -270,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var abs = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
 
             if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
-            { 
+            {
                 // Swiping from left to right.
                 if (_commandContainer != null && _transform.TranslateX > 0)
                 {
@@ -279,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _rightCommandPanel.Opacity = 0;
                 }
 
-                var swipeThreshold = _leftCommandPanel.ActualWidth + 24;
+                var swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
                 if (IsOffsetLimited && _transform.TranslateX < swipeThreshold)
                 {
                     var sub = _transform.TranslateX + e.Delta.Translation.X;
@@ -322,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _leftCommandPanel.Opacity = 0;
                 }
 
-                var swipeThreshold = _rightCommandPanel.ActualWidth + 24;
+                var swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
                 if (IsOffsetLimited && Math.Abs(_transform.TranslateX) < swipeThreshold)
                 {
                     var sub = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
@@ -355,6 +361,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _rightCommandTransform.TranslateX = -20;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of extra pixels for swipe threshold when <see cref="IsOffsetLimited"/> is enabled.
+        /// </summary>
+        public int ExtraSwipeThreshold
+        {
+            get { return (int)GetValue(ExtraSwipeThresholdProperty); }
+            set { SetValue(ExtraSwipeThresholdProperty, value); }
         }
 
         /// <summary>
