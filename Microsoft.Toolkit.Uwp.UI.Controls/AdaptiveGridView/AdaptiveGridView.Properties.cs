@@ -165,12 +165,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemClickCommandProperty, value); }
         }
 
-        internal IList<object> _selectedItems { get; set; }
         /// <summary>
         /// Gets the selected multiple objects in the collection.
         /// </summary>
         /// <value>The object that is used to store selected multiple items.</value>
-        public IList<object> SelectedItems => _selectedItems;
+        public IList<object> SelectedItems => _listView.SelectedItems;
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
