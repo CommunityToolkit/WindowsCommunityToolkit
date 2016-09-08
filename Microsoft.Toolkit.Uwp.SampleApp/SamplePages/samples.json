@@ -82,6 +82,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeControl/Blade.png"
+      },
+      {
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       }
     ]
   },
