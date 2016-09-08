@@ -238,6 +238,8 @@
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
@@ -292,6 +294,7 @@
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -327,6 +330,14 @@
     </Compile>
     <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
       <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
+      <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphUIExtensions.cs" />
+    <Compile Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml.cs">
+      <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -428,6 +439,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
