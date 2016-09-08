@@ -6,17 +6,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Cache
 {
     /// <summary>
     /// Provides methods and tools to cache files in a folder
     /// </summary>
-    public class FileCache : CacheBase<StorageFile>
+    public class ImageCache : CacheBase<BitmapImage>
     {
-        static FileCache()
+        static ImageCache()
         {
-            FileCacheInstance = new FileCache()
+            ImageCacheInstance = new ImageCache()
             {
                 CacheDuration = TimeSpan.FromDays(1)
             };
@@ -26,17 +27,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// Gets instance of FileCache. Exposing it as static property will allow inhertance and polymorphism while
         /// exposing the underlying object and its functionality through this property,
         /// </summary>
-        public static FileCache FileCacheInstance { get; private set; }
+        public static ImageCache ImageCacheInstance { get; private set; }
 
         /// <summary>
         /// Cache specific hooks to proccess items from http response
         /// </summary>
         /// <param name="webStream">http reposonse stream</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<StorageFile> InitialiseType(IRandomAccessStream stream)
+        protected override async Task<BitmapImage> InitialiseType(IRandomAccessStream stream)
         {
             // nothing to do in this instance;
-            return null;
+            BitmapImage image = new BitmapImage();
+            await image.SetSourceAsync(stream);
+
+            return image;
         }
 
         /// <summary>
@@ -44,9 +48,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<StorageFile> InitialiseType(StorageFile baseFile)
+        protected override async Task<BitmapImage> InitialiseType(StorageFile baseFile)
         {
-            return baseFile;
+            using (var stream = await baseFile.OpenReadAsync())
+            {
+                return await InitialiseType(stream);
+            }
         }
     }
 }
