@@ -224,6 +224,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
+    <Content Include="Icons\Cache.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
@@ -237,6 +238,7 @@
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
@@ -292,6 +294,7 @@
     <Content Include="SamplePages\BladeControl\BladeCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -327,6 +330,9 @@
     </Compile>
     <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
       <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
+      <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -428,6 +434,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
