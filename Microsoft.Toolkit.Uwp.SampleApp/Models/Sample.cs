@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -38,6 +39,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string CodeFile { get; set; }
 
+        public string JavaScriptCodeFile { get; set; }
+
         public string XamlCodeFile { get; set; }
 
         public string XamlCode { get; private set; }
@@ -48,9 +51,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
+        public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
+
         public async Task<string> GetCSharpSource()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            {
+                return await codeStream.ReadTextAsync();
+            }
+        }
+
+        public async Task<string> GetJavaScriptSource()
+        {
+            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 return await codeStream.ReadTextAsync();
             }
@@ -206,6 +219,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Search in Windows
             var proxyType = VerticalAlignment.Center;
             var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls
+            var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
+            assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {

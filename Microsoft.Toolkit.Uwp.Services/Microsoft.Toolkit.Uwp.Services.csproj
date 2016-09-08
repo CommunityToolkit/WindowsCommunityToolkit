@@ -60,6 +60,14 @@
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookAlbum.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphCoreService.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphExtensions.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphServiceMessage.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserService.cs" />
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
