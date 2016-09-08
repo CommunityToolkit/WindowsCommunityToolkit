@@ -17,10 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
     {
         static ImageCache()
         {
-            ImageCacheInstance = new ImageCache()
-            {
-                CacheDuration = TimeSpan.FromDays(1)
-            };
+            ImageCacheInstance = new ImageCache();
         }
 
         /// <summary>
@@ -32,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// <summary>
         /// Cache specific hooks to proccess items from http response
         /// </summary>
-        /// <param name="webStream">http reposonse stream</param>
+        /// <param name="stream">inpupt stream</param>
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitialiseType(IRandomAccessStream stream)
         {

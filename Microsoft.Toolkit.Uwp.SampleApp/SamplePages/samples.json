@@ -231,5 +231,19 @@
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
       }
     ]
+  },
+  {
+    "Name": "Cache",
+    "Icon": "Icons/Cache.png",
+    "Samples": [
+      {
+        "Name": "ImageCache",
+        "Type": "ImageCachePage",
+        "About": "The ImageCache allows persistence of Images with an option to use in-memory storage.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
+        "XamlCodeFile": "ImageCacheCode.bind",
+        "Icon": "/SamplePages/ImageCache/ImageEx.png"
+      }
+    ]
   }
 ]

@@ -32,24 +32,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         private Dictionary<string, ConcurrentRequest> _concurrentTasks = new Dictionary<string, ConcurrentRequest>();
         private object _concurrencyLock = new object();
 
-        static CacheBase()
-        {
-            CacheBaseInstance = new CacheBase<T>()
-            {
-                CacheDuration = TimeSpan.FromDays(1)
-            };
-        }
-
         /// <summary>
-        /// Gets instance of FileCache. Exposing it as static property will allow inhertance and polymorphism while
-        /// exposing the underlying object and its functionality through this property,
+        /// Initializes a new instance of the <see cref="CacheBase{T}"/> class.
         /// </summary>
-        public static CacheBase<T> CacheBaseInstance { get; private set; }
+        protected CacheBase()
+        {
+            CacheDuration = TimeSpan.FromDays(1);
+            _inMemoryFileStorage = new InMemoryStorage<T>();
+        }
 
         /// <summary>
         /// Gets or sets the life duration of every cache entry.
         /// </summary>
         public TimeSpan CacheDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets max in-memory item storage count
+        /// </summary>
+        public int MaxMemoryCacheCount
+        {
+            get
+            {
+                return _inMemoryFileStorage.MaxItemCount;
+            }
+
+            set
+            {
+                _inMemoryFileStorage.MaxItemCount = value;
+            }
+        }
 
         /// <summary>
         /// Initialises FileCache and provides root folder and cache folder name
@@ -102,6 +113,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             await InternalClearAsync(files);
         }
 
+        /// <summary>
+        /// Assures that image is available in the cache
+        /// </summary>
+        /// <param name="uri">Uri of the image</param>
+        /// <param name="fileName">fileName to for local storage</param>
+        /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
+        /// <returns>void</returns>
+        public Task PreCacheAsync(Uri uri, string fileName, bool storeToMemoryCache = false)
+        {
+            return GetItemAsync(uri, fileName, true, !storeToMemoryCache);
+        }
+
+        /// <summary>
+        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
+        /// </summary>
+        /// <param name="uri">Uri of the image.</param>
+        /// <param name="fileName">fileName to for local storage</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
+        /// <returns>a BitmapImage</returns>
+        public Task<T> GetFromCacheAsync(Uri uri, string fileName, bool throwOnError = false)
+        {
+            return GetItemAsync(uri, fileName, throwOnError, false);
+        }
+
+        /// <summary>
+        /// Cache specific hooks to proccess items from http response
+        /// </summary>
+        /// <param name="stream">input stream</param>
+        /// <returns>awaitable task</returns>
+        protected virtual async Task<T> InitialiseType(IRandomAccessStream stream)
+        {
+            // nothing to do in this instance;
+            return default(T);
+        }
+
+        /// <summary>
+        /// Cache specific hooks to proccess items from http response
+        /// </summary>
+        /// <param name="baseFile">storage file</param>
+        /// <returns>awaitable task</returns>
+        protected virtual async Task<T> InitialiseType(StorageFile baseFile)
+        {
+            // nothing to do in this instance;
+            return default(T);
+        }
+
         private async Task<T> GetItemAsync(Uri uri, string fileName, bool throwOnError, bool preCacheOnly)
         {
             T t = default(T);
@@ -117,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             }
 
             // if similar request exists check if it was preCacheOnly and validate that current request isn't preCacheOnly
-            if (request != null &&  request.EnsureCachedCopy && !preCacheOnly)
+            if (request != null && request.EnsureCachedCopy && !preCacheOnly)
             {
                 await request.Task;
                 request = null;
@@ -200,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
                 }
             }
 
-            if (t.Equals(default(T)) && !preCacheOnly)
+            if (EqualityComparer<T>.Default.Equals(t, default(T)) && !preCacheOnly)
             {
                 using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                 {
@@ -217,33 +274,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             }
 
             return t;
-        }
-
-        /// <summary>
-        /// Cache specific hooks to proccess items from http response
-        /// </summary>
-        /// <param name="webStream">http reposonse stream</param>
-        /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseType(IRandomAccessStream stream)
-        {
-            // nothing to do in this instance;
-            return default(T);
-        }
-
-        /// <summary>
-        /// Cache specific hooks to proccess items from http response
-        /// </summary>
-        /// <param name="baseFile">storage file</param>
-        /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseType(StorageFile baseFile)
-        {
-            // nothing to do in this instance;
-            //if (typeof(T) == typeof(StorageFile))
-            //{
-            //    return (T)Convert.ChangeType(baseFile, typeof(T));
-            //}
-
-            return default(T);
         }
 
         private async Task<T> DownloadFile(Uri uri, StorageFile baseFile, bool preCacheOnly)

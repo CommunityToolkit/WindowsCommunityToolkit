@@ -10,20 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.SampleApp.Data;
+    using Microsoft.Toolkit.Uwp.UI;
+    using Microsoft.Toolkit.Uwp.UI.Cache;
+    using Microsoft.Toolkit.Uwp.UI.Controls;
+    using Windows.UI;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Media;
+    using Windows.UI.Xaml.Media.Imaging;
+    using Windows.UI.Xaml.Navigation;
+
     public sealed partial class ImageExPage
     {
         private ObservableCollection<PhotoDataItem> photos;
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Container.Children.Clear();
                 GC.Collect(); // Force GC to free file locks
-                await ImageCache.ClearAsync();
+                await ImageCache.ImageCacheInstance.ClearAsync();
             });
 
             await LoadDataAsync();

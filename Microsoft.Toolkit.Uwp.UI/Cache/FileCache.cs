@@ -16,10 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
     {
         static FileCache()
         {
-            FileCacheInstance = new FileCache()
-            {
-                CacheDuration = TimeSpan.FromDays(1)
-            };
+            FileCacheInstance = new FileCache();
         }
 
         /// <summary>
@@ -31,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// <summary>
         /// Cache specific hooks to proccess items from http response
         /// </summary>
-        /// <param name="webStream">http reposonse stream</param>
+        /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
         protected override async Task<StorageFile> InitialiseType(IRandomAccessStream stream)
         {

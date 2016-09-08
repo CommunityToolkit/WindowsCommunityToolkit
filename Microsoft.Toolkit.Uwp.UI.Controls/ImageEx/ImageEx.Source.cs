@@ -9,15 +9,16 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Cache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using System.IO;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
-{
+{   
     /// <summary>
     /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
@@ -105,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     try
                     {
-                        _image.Source = await ImageCache.GetFromCacheAsync(_uri, true);
+                        _image.Source = await ImageCache.ImageCacheInstance.GetFromCacheAsync(_uri, Path.GetFileName(_uri.ToString()), true);
                         ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }
