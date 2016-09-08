@@ -168,13 +168,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the MinAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MinAngleProperty =
-            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnFaceChanged));
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnScaleChanged));
 
         /// <summary>
         /// Identifies the MaxAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MaxAngleProperty =
-            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnFaceChanged));
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ValueAngle dependency property.
@@ -646,13 +646,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 
             var angle = Math.Atan2(pt.X, pt.Y) * 180 / Math.PI;
-            if (angle < MinAngle || angle > MaxAngle)
+            var value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            if (value < Minimum || value > Maximum)
             {
                 // Ignore positions outside the scale angle.
                 return;
             }
 
-            Value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            Value = value;
         }
 
         private Point ScalePoint(double angle, double middleOfScale)
