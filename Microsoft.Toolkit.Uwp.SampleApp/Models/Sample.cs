@@ -17,11 +17,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-
-using Windows.UI.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
