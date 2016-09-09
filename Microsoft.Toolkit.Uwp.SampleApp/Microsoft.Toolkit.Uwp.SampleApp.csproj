@@ -311,6 +311,7 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
