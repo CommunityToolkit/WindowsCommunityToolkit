@@ -58,6 +58,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Collapsed"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -76,6 +78,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Collapsed"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -94,6 +98,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Visible"></Setter>
                     </VisualState.Setters>
 
                 </VisualState>
@@ -109,13 +115,23 @@
                 <RowDefinition/>
                 <RowDefinition Height="32"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="DemoAreaGrid">
+            <Grid x:Name="DemoAreaGrid" Padding="5,0,11,0">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="UWP Community Toolkit" Margin="0,24,0,0" FontSize="32" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}" TextWrapping="Wrap"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Sample App" Margin="0" FontSize="18.667" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
             </Grid>
+            <controls:GridSplitter
+                x:Name="Splitter"
+                Width="11"
+                Background="{StaticResource Brush-Grey-02}"
+                HorizontalAlignment="Right"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                GripperForeground="White">
+            </controls:GridSplitter>
             <Grid x:Name="InfoAreaGrid" Background="{StaticResource Brush-Grey-04}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

@@ -42,8 +42,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void ShowInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
+            RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
+            Splitter.Visibility = Visibility.Visible;
         }
 
         public void HideInfoArea()
@@ -53,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
             _currentSample = null;
             CommandArea.Children.Clear();
+            Splitter.Visibility = Visibility.Collapsed;
         }
 
         public void ShowOnlyHeader(string title)
