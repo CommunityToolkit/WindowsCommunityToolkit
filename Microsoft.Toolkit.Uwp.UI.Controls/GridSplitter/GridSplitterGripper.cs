@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
-            _gripperDisplay.Foreground = new SolidColorBrush(Colors.White);
             _gripperDisplay.HorizontalAlignment = HorizontalAlignment.Center;
             _gripperDisplay.VerticalAlignment = VerticalAlignment.Center;
             _gripperDisplay.IsHitTestVisible = false;
