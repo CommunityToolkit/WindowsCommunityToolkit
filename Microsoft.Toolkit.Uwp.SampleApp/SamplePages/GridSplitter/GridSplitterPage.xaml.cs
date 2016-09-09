@@ -1,5 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.SampleApp.Models;
+﻿using Windows.UI;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages

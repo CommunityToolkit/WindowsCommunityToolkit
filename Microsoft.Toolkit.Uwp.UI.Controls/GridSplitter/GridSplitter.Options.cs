@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -38,6 +39,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
+        /// Identifies the <see cref="GripForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GripperForegroundProperty
+            = DependencyProperty.Register(
+                nameof(GripperForeground),
+                typeof(Brush),
+                typeof(GridSplitter),
+                new PropertyMetadata(default(Brush), OnGripperForegroundPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
         /// </summary>
         public UIElement Element
@@ -64,6 +75,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
 
             set { SetValue(ResizeBehaviorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the foreground color of grid splitter grip
+        /// </summary>
+        public Brush GripperForeground
+        {
+            get { return (Brush)GetValue(GripperForegroundProperty); }
+
+            set { SetValue(GripperForegroundProperty, value); }
+        }
+
+        private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)d;
+            var grip = gridSplitter.Element as GridSplitterGripper;
+            if (grip != null)
+            {
+                grip.GripperForeground = gridSplitter.GripperForeground;
+            }
         }
     }
 }

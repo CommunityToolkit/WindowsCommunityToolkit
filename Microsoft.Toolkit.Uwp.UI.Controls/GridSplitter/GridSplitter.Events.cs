@@ -13,6 +13,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
             InitControl();
+
+            // Adding Grip to Grid Splitter
+            if (Element == default(UIElement))
+            {
+                Element = new GridSplitterGripper(_resizeDirection, GripperForeground);
+            }
         }
 
         /// <inheritdoc />
