@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<StorageFile> InitialiseType(IRandomAccessStream stream)
+        protected override async Task<StorageFile> InitialiseTypeAsync(IRandomAccessStream stream)
         {
             // nothing to do in this instance;
             return null;
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<StorageFile> InitialiseType(StorageFile baseFile)
+        protected override async Task<StorageFile> InitialiseTypeAsync(StorageFile baseFile)
         {
             return baseFile;
         }

@@ -104,13 +104,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
 
             foreach (var file in files)
             {
-                if (await IsFileOutOfDate(file, expirationDate))
+                if (await IsFileOutOfDate(file, expirationDate).ConfigureAwait(false))
                 {
                     filesToDelete.Add(file);
                 }
             }
 
-            await InternalClearAsync(files);
+            await InternalClearAsync(files).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseType(IRandomAccessStream stream)
+        protected virtual async Task<T> InitialiseTypeAsync(IRandomAccessStream stream)
         {
             // nothing to do in this instance;
             return default(T);
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseType(StorageFile baseFile)
+        protected virtual async Task<T> InitialiseTypeAsync(StorageFile baseFile)
         {
             // nothing to do in this instance;
             return default(T);
@@ -248,11 +248,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 try
                 {
-                    t = await DownloadFile(uri, baseFile, preCacheOnly);
+                    t = await DownloadFileAsync(uri, baseFile, preCacheOnly);
                 }
                 catch (Exception)
                 {
-                    await baseFile.DeleteAsync();
+                    await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
                     throw; // rethrowing the exception changes the stack trace. just throw
                 }
             }
@@ -261,12 +261,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             {
                 using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                 {
-                    t = await InitialiseType(fileStream);
+                    t = await InitialiseTypeAsync(fileStream);
                 }
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
-                    var properties = await baseFile.GetBasicPropertiesAsync();
+                    var properties = await baseFile.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
 
                     var msi = new InMemoryStorageItem<T>(fileName, properties.DateModified.DateTime, t);
                     _inMemoryFileStorage.SetItem(msi);
@@ -276,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             return t;
         }
 
-        private async Task<T> DownloadFile(Uri uri, StorageFile baseFile, bool preCacheOnly)
+        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly)
         {
             T t = default(T);
 
@@ -285,17 +285,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    t = await InitialiseType(webStream);
+                    t = await InitialiseTypeAsync(webStream);
 
                     webStream.Seek(0);
                 }
 
                 using (var reader = new DataReader(webStream))
                 {
-                    await reader.LoadAsync((uint)webStream.Size);
+                    await reader.LoadAsync((uint)webStream.Size).AsTask().ConfigureAwait(false);
                     var buffer = new byte[(int)webStream.Size];
                     reader.ReadBytes(buffer);
-                    await FileIO.WriteBytesAsync(baseFile, buffer);
+                    await FileIO.WriteBytesAsync(baseFile, buffer).AsTask().ConfigureAwait(false);
                 }
             }
 
@@ -309,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
                 return true;
             }
 
-            var properties = await file.GetBasicPropertiesAsync();
+            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
             return properties.DateModified < expirationDate;
         }
 
@@ -319,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
             {
                 try
                 {
-                    await file.DeleteAsync();
+                    await file.DeleteAsync().AsTask().ConfigureAwait(false);
                 }
                 catch
                 {
@@ -339,7 +339,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
                 return;
             }
 
-            await _cacheFolderSemaphore.WaitAsync();
+            await _cacheFolderSemaphore.WaitAsync().ConfigureAwait(false);
 
             _inMemoryFileStorage = new InMemoryStorage<T>();
 
@@ -355,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
 
             try
             {
-                _cacheFolder = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists);
+                _cacheFolder = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
             }
             finally
             {
@@ -367,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Cache
         {
             if (_cacheFolder == null)
             {
-                await ForceInitialiseAsync();
+                await ForceInitialiseAsync().ConfigureAwait(false);
             }
 
             return _cacheFolder;
