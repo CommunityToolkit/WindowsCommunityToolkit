@@ -29,7 +29,7 @@
                                                 Value="1"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
-                                </VisualState>                                
+                                </VisualState>
                                 <VisualState x:Name="Loading">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames 
@@ -83,7 +83,6 @@
                                 <VisualState x:Name="Unloaded" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
                         <Image 
                             Name="PlaceholderImage" 
                             Opacity="1.0" 

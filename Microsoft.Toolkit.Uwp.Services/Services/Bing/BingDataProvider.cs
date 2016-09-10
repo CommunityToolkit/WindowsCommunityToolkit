@@ -13,6 +13,7 @@
 // ******************************************************************
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
@@ -41,9 +42,22 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
-            var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
             var languageValue = config.Language.GetStringValue();
             var languageParameter = string.IsNullOrEmpty(languageValue) ? string.Empty : $"language:{languageValue}+";
+
+            if (string.IsNullOrEmpty(countryValue))
+            {
+                if (CultureInfo.CurrentCulture.IsNeutralCulture)
+                {
+                    countryValue = BingCountry.None.GetStringValue();
+                }
+                else
+                {
+                    countryValue = CultureInfo.CurrentCulture.Name.Split('-')[1].ToLower();
+                }
+            }
+
+            var locParameter = $"loc:{countryValue}+";
             var queryTypeParameter = string.Empty;
 
             switch (config.QueryType)
