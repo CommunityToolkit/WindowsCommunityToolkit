@@ -63,6 +63,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
+        /// Defines the <see cref="HeaderContentFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderContentFontSizeProperty = DependencyProperty.Register(
+            nameof(HeaderContentFontSize),
+            typeof(int),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(default(int)));
+
+        /// <summary>
+        /// Defines the <see cref="TextContentFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextContentFontSizeProperty = DependencyProperty.Register(
+            nameof(TextContentFontSize), typeof(int), typeof(HeaderedTextBlock), new PropertyMetadata(default(int)));
+
+        /// <summary>
+        /// Gets or sets the TextContent font size.
+        /// </summary>
+        public int TextContentFontSize
+        {
+            get
+            {
+                return (int)GetValue(TextContentFontSizeProperty);
+            }
+
+            set
+            {
+                SetValue(TextContentFontSizeProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the HeaderContent font size.
+        /// </summary>
+        public int HeaderContentFontSize
+        {
+            get
+            {
+                return (int)GetValue(HeaderContentFontSizeProperty);
+            }
+
+            set
+            {
+                SetValue(HeaderContentFontSizeProperty, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the header style.
         /// </summary>
         public Style HeaderStyle
