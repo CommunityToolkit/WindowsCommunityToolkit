@@ -40,10 +40,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Fade](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/fade.htm)
 * [Rotate](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/rotate.htm)
 * [Scale](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/scale.htm)
+* [FadeHeader](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/fadeHeader.htm)
 
 ### Controls
 
 * [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
+* [BladeControl](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/bladecontrol.htm)
+* [GridSplitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/GridSplitter.htm)
 * [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
 * [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
 * [ImageEx](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
@@ -69,6 +72,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Bing](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/bing.htm)
 * [Facebook](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/facebook.htm)
 * [Twitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter.htm)
+* [Microsoft Graph](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/MicrosoftGraph.htm)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)

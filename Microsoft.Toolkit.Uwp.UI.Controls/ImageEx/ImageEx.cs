@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -78,15 +79,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        /// <summary>
-        /// Measures the size in layout required for child elements and determines a size for the control.
-        /// </summary>
-        /// <param name="availableSize">The available size that this element can give to child elements. Infinity can be specified as a value to indicate that the element will size to whatever content is available.</param>
-        /// <returns>The size that this element determines it needs during layout, based on its calculations of child element sizes.</returns>
-        protected override Size MeasureOverride(Size availableSize)
+        /// <inheritdoc/>
+        protected override Size ArrangeOverride(Size finalSize)
         {
-            _progress.Width = _progress.Height = Math.Min(1024, Math.Min(availableSize.Width, availableSize.Height)) / 8.0;
-            return base.MeasureOverride(availableSize);
+            var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
+
+            if (_progress.Width == newSquareSize)
+            {
+                _progress.Height = newSquareSize;
+            }
+
+            return base.ArrangeOverride(finalSize);
         }
 
         private void OnImageOpened(object sender, RoutedEventArgs e)
