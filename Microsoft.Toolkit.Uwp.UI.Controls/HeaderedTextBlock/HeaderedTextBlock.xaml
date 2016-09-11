@@ -11,7 +11,6 @@
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="TextLineBounds" Value="TrimToBaseline" />
         <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
-        <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Light" />
         <Setter Property="LineHeight" Value="28" />
     </Style>
