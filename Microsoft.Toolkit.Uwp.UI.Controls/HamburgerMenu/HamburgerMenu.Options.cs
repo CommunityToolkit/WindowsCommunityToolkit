@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -50,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (DataTemplate)GetValue(OptionsItemTemplateProperty); }
             set { SetValue(OptionsItemTemplateProperty, value); }
         }
+
+        /// <summary>
+        /// Gets the collection used to generate the content of the option list.
+        /// </summary>
+        public ItemCollection OptionsItems => _optionsListView?.Items;
 
         /// <summary>
         /// Gets or sets options' visibility.

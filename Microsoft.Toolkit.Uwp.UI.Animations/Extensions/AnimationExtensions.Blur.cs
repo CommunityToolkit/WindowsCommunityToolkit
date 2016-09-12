@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets a value indicating whether the platform supports blur.
         /// </summary>
         /// <remarks>
-        /// A check should always be made to IsBlurSupported prior to calling Blur/>,
+        /// A check should always be made to IsBlurSupported prior to calling Blur,
         /// since older operating systems will not support blurs.
         /// </remarks>
         /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
