@@ -1,8 +1,8 @@
 // Initialize service
-LinkedInService.Instance.Initialize(ClientId.Text, ClientSecret.Text, CallbackUri.Text)
+LinkedInService.Instance.Initialize(ClientId.Text, ClientSecret.Text, CallbackUri.Text);
 
 // Login to LinkedIn
-if (!await LinkedInService.Instance.LoginAsync();)
+if (!await LinkedInService.Instance.LoginAsync())
 {
     return;
 }
