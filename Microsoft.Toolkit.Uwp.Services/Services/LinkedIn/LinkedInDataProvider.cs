@@ -171,11 +171,45 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// Share data to LinkedIn.
         /// </summary>
         /// <typeparam name="T">Schema of data to share.</typeparam>
+        /// <typeparam name="U">Type of response object.</typeparam>
         /// <param name="dataToShare">Share request content.</param>
         /// <returns>Boolean indicating success or failure.</returns>
-        public async Task<bool> ShareDataAsync<T>(T dataToShare)
+        public async Task<U> ShareDataAsync<T, U>(T dataToShare)
         {
-            return false;
+            var shareRequest = dataToShare as LinkedInShareRequest;
+
+            if (shareRequest != null)
+            {
+                LinkedInVisibility.ParseVisibilityStringToEnum(shareRequest.Visibility.Code);
+
+                var requestParser = new LinkedInParser<LinkedInShareRequest>();
+
+                var url = $"{BaseUrl}/people/~/shares?oauth2_access_token={tokens.AccessToken}&format=json";
+
+                using (var httpClient = new HttpClient())
+                {
+                    var httpRequestMessage = new HttpRequestMessage
+                    {
+                        Method = HttpMethod.Post,
+                        RequestUri = new Uri(url)
+                    };
+
+                    httpRequestMessage.Headers.Add("x-li-format", "json");
+
+                    var stringContent = requestParser.Parse(shareRequest);
+                    httpRequestMessage.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+
+                    var response = await httpClient.SendRequestAsync(httpRequestMessage);
+                    var jsonString = await response.Content.ReadAsStringAsync();
+
+                    var responseParser = new LinkedInParser<U>();
+
+                    var listResults = responseParser.Parse(jsonString.ToString()) as List<U>;
+                    return listResults[0];
+                }
+            }
+
+            return default(U);
         }
 
         /// <summary>

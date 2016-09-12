@@ -30,5 +30,15 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             return results;
         }
+
+        /// <summary>
+        /// Take strong type and return corresponding JSON string.
+        /// </summary>
+        /// <param name="dataToShare">Strong typed instance.</param>
+        /// <returns>Returns string data.</returns>
+        public string Parse(T dataToShare)
+        {
+            return JsonConvert.SerializeObject(dataToShare, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

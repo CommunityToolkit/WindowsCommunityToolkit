@@ -58,15 +58,15 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="commentContainingUrl">Comment containing a Url.</param>
         /// <param name="visibilityCode">Code for who to share with.</param>
         /// <returns>Boolean indicating success or failure.</returns>
-        public async Task<bool> ShareToLinkedInAsync(string commentContainingUrl, string visibilityCode = "anyone")
+        public async Task<LinkedInShareResponse> ShareActivityAsync(string commentContainingUrl, LinkedInShareVisibility visibilityCode = LinkedInShareVisibility.ConnectionsOnly)
         {
             var shareRequest = new LinkedInShareRequest
             {
                 Comment = commentContainingUrl,
-                Visibility = new LinkedInVisibility { Code = visibilityCode }
+                Visibility = new LinkedInVisibility { Code = LinkedInVisibility.ParseVisibilityEnumToString(visibilityCode) }
             };
 
-            return await ShareToLinkedInAsync(shareRequest);
+            return await ShareActivityAsync(shareRequest);
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         /// <param name="shareRequest">Share request.</param>
         /// <returns>Boolean indicating success or failure.</returns>
-        public async Task<bool> ShareToLinkedInAsync(LinkedInShareRequest shareRequest)
+        public async Task<LinkedInShareResponse> ShareActivityAsync(LinkedInShareRequest shareRequest)
         {
-            return await Provider.ShareDataAsync<LinkedInShareRequest>(shareRequest);
+            return await Provider.ShareDataAsync<LinkedInShareRequest, LinkedInShareResponse>(shareRequest);
         }
 
         /// <summary>
@@ -202,6 +202,5 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             return null;
         }
-
     }
 }

@@ -45,7 +45,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            await LinkedInService.Instance.ShareToLinkedInAsync(ShareText.Text);
+            var response = await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
+
             var message = new MessageDialog("Share sent to LinkedIn");
             await message.ShowAsync();
         }

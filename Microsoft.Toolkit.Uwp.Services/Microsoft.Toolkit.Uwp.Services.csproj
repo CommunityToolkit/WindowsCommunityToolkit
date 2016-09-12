@@ -70,6 +70,8 @@
     <Compile Include="Services\LinkedIn\LinkedInProfile.cs" />
     <Compile Include="Services\LinkedIn\LinkedInProfileRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInService.cs" />
+    <Compile Include="Services\LinkedIn\LinkedInShareResponse.cs" />
+    <Compile Include="Services\LinkedIn\LinkedInShareVisibility.cs" />
     <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
