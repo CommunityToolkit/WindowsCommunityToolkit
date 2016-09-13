@@ -14,13 +14,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.SampleApp.Data;
-    using UI;
+    using Microsoft.Toolkit.Uwp.UI;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
-    using UI.Cache;
-    using System.IO;
 
     /// <summary>
     /// Page shows how ImageCache is used

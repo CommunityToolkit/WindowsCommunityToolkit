@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.SampleApp.Data;
     using Microsoft.Toolkit.Uwp.UI;
-    using Microsoft.Toolkit.Uwp.UI.Cache;
     using Microsoft.Toolkit.Uwp.UI.Controls;
     using Windows.UI;
     using Windows.UI.Xaml;

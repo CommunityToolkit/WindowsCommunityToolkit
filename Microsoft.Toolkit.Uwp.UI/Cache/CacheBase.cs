@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.UI.Cache
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides methods and tools to cache files in a folder
     /// </summary>
+    /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
     public class CacheBase<T>
     {
         private class ConcurrentRequest
