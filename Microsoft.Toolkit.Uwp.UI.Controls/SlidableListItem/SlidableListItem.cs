@@ -102,6 +102,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RightCommandProperty =
             DependencyProperty.Register(nameof(RightCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the <see cref="RightCommandParameter"/> property
+        /// </summary>
+        public static readonly DependencyProperty RightCommandParameterProperty =
+            DependencyProperty.Register(nameof(RightCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="LeftCommandParameter"/> property
+        /// </summary>
+        public static readonly DependencyProperty LeftCommandParameterProperty =
+            DependencyProperty.Register(nameof(LeftCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
@@ -230,12 +242,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (x < -ActivationWidth)
             {
                 RightCommandRequested?.Invoke(this, new EventArgs());
-                RightCommand?.Execute(null);
+                RightCommand?.Execute(RightCommandParameter);
             }
             else if (x > ActivationWidth)
             {
                 LeftCommandRequested?.Invoke(this, new EventArgs());
-                LeftCommand?.Execute(null);
+                LeftCommand?.Execute(LeftCommandParameter);
             }
         }
 
@@ -413,6 +425,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SetValue(RightCommandProperty, value);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the parameter for right command request
+        /// </summary>
+        public object RightCommandParameter
+        {
+            get { return GetValue(RightCommandParameterProperty); }
+            set { SetValue(RightCommandParameterProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the parameter for left command request
+        /// </summary>
+        public object LeftCommandParameter
+        {
+            get { return GetValue(LeftCommandParameterProperty); }
+            set { SetValue(LeftCommandParameterProperty, value); }
         }
     }
 }
