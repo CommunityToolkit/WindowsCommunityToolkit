@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,31 +9,30 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
 
-using System;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+using System.Collections.ObjectModel;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public class SolidColorBrushConverter : IValueConverter
+    /// <summary>
+    /// MicrosoftGraphUIExtensions Extension
+    /// </summary>
+    public static class MicrosoftGraphUIExtensions
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        /// <summary>
+        /// Add a source collection of items to a destination collection
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="itemsSource">Source Collection</param>
+        /// <param name="itemsDest">Destination Collection</param>
+        public static void AddTo<T>(this ObservableCollection<T> itemsSource, ObservableCollection<T> itemsDest)
         {
-            if (value is string)
+            foreach (var item in itemsSource)
             {
-                return value;
+                itemsDest.Add(item);
             }
-
-            var brush = (SolidColorBrush)value;
-
-            return brush.Color.ToString();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return new SolidColorBrush(value.ToString().ToColor());
         }
     }
 }

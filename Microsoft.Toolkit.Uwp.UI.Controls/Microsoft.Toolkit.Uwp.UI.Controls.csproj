@@ -50,6 +50,11 @@
     <Compile Include="BladeControl\BladeControl.cs" />
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="GridSplitter\GridSplitter.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Data.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Events.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Options.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
@@ -87,6 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="GridSplitter\GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

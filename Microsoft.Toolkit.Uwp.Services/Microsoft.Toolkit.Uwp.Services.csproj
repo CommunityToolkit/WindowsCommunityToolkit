@@ -59,6 +59,14 @@
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphCoreService.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphExtensions.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphServiceMessage.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserService.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
