@@ -85,12 +85,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <summary>
         /// Log user in to LinkedIn.
         /// </summary>
-        /// <param name="force">Force login.</param>
         /// <returns>Boolean indicating login success.</returns>
-        public async Task<bool> LoginAsync(bool force = false)
+        public async Task<bool> LoginAsync()
         {
             var linkedInCredentials = PasswordCredential;
-            if (linkedInCredentials != null && !force)
+            if (linkedInCredentials != null)
             {
                 Tokens.AccessToken = linkedInCredentials.Password;
                 Username = ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER].ToString();
