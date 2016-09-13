@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CallbackUri = CallbackUri.Text
             };
 
-            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.R_BasicProfile | LinkedInPermissions.W_Share);
+            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
 
             var loggedIn = await LinkedInService.Instance.LoginAsync();
 

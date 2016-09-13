@@ -18,23 +18,23 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         NotSet = 0,
 
         /// <summary>
-        /// Read - Basic profile
+        /// Read - Basic profile (r_basicprofile)
         /// </summary>
-        R_BasicProfile = 1,
+        ReadBasicProfile = 1,
 
         /// <summary>
-        /// Read - Email Address
+        /// Read - Email Address (r_emailaddress)
         /// </summary>
-        R_EmailAddress = 2,
+        ReadEmailAddress = 2,
 
         /// <summary>
-        /// Read / Write - Company Admin
+        /// Read / Write - Company Admin (rw_company_admin)
         /// </summary>
-        RW_Company_Admin = 4,
+        ReadWriteCompanyAdmin = 4,
 
         /// <summary>
-        /// Write - Share
+        /// Write - Share (w_share)
         /// </summary>
-        W_Share = 8
+        WriteShare = 8
     }
 }

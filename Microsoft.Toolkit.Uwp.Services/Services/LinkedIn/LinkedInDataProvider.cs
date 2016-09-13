@@ -18,18 +18,13 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
     /// </summary>
     public class LinkedInDataProvider
     {
-        private const string OAuthBaseUrl = "https://www.linkedin.com/uas/oauth2/";
-        private const string BaseUrl = "https://api.linkedin.com/v1";
-
-        /// <summary>
-        /// Tokens for service.
-        /// </summary>
-        private readonly LinkedInOAuthTokens tokens;
+        private const string _oAuthBaseUrl = "https://www.linkedin.com/uas/oauth2/";
+        private const string _baseUrl = "https://api.linkedin.com/v1";
 
         /// <summary>
         /// Password vault used to store access tokens
         /// </summary>
-        private readonly PasswordVault vault;
+        private readonly PasswordVault _vault;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -42,9 +37,14 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         public bool LoggedIn { get; private set; }
 
         /// <summary>
-        /// Gets or sets requiredPermissions.
+        /// Gets or sets requiredPermissions property.
         /// </summary>
         public LinkedInPermissions RequiredPermissions { get; set; }
+
+        /// <summary>
+        /// Gets or sets tokens property.
+        /// </summary>
+        public LinkedInOAuthTokens Tokens { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
@@ -54,10 +54,10 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-            this.tokens = tokens;
+            this.Tokens = tokens;
             this.RequiredPermissions = requiredPermissions;
 
-            vault = new PasswordVault();
+            _vault = new PasswordVault();
         }
 
         private PasswordCredential PasswordCredential
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                     return null;
                 }
 
-                var passwordCredentials = vault.RetrieveAll();
+                var passwordCredentials = _vault.RetrieveAll();
                 var temp = passwordCredentials.FirstOrDefault(c => c.Resource == LinkedInConstants.STORAGEKEYACCESSTOKEN);
 
                 if (temp == null)
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                     return null;
                 }
 
-                return vault.Retrieve(temp.Resource, temp.UserName);
+                return _vault.Retrieve(temp.Resource, temp.UserName);
             }
         }
 
@@ -92,25 +92,25 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             var linkedInCredentials = PasswordCredential;
             if (linkedInCredentials != null && !force)
             {
-                tokens.AccessToken = linkedInCredentials.Password;
+                Tokens.AccessToken = linkedInCredentials.Password;
                 Username = ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER].ToString();
                 LoggedIn = true;
                 return true;
             }
 
-            string authorizeCode = await GetAuthorizeCode(tokens, this.RequiredPermissions);
+            string authorizeCode = await GetAuthorizeCode(this.Tokens, this.RequiredPermissions);
 
             if (!string.IsNullOrEmpty(authorizeCode))
             {
-                var accessToken = await GetAccessToken(tokens, authorizeCode);
+                var accessToken = await GetAccessToken(this.Tokens, authorizeCode);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {
-                    tokens.AccessToken = accessToken;
+                    this.Tokens.AccessToken = accessToken;
 
                     var passwordCredential = new PasswordCredential(LinkedInConstants.STORAGEKEYACCESSTOKEN, LinkedInConstants.STORAGEKEYUSER, accessToken);
                     ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] = LinkedInConstants.STORAGEKEYUSER;
-                    vault.Add(passwordCredential);
+                    _vault.Add(passwordCredential);
 
                     return true;
                 }
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             var linkedInCredentials = PasswordCredential;
             if (linkedInCredentials != null)
             {
-                vault.Remove(linkedInCredentials);
+                _vault.Remove(linkedInCredentials);
                 ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] = null;
             }
 
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             var parser = new LinkedInParser<TSchema>();
 
-            var url = $"{BaseUrl}{config.Query}/~:({fields})?oauth2_access_token={tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
+            var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={this.Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
 
             using (var httpClient = new HttpClient())
             {
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
                 var requestParser = new LinkedInParser<LinkedInShareRequest>();
 
-                var url = $"{BaseUrl}/people/~/shares?oauth2_access_token={tokens.AccessToken}&format=json";
+                var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={this.Tokens.AccessToken}&format=json";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
         private async Task<string> GetAccessToken(LinkedInOAuthTokens tokens, string authorizeCode)
         {
-            var url = $"{OAuthBaseUrl}accessToken?grant_type=authorization_code"
+            var url = $"{_oAuthBaseUrl}accessToken?grant_type=authorization_code"
             + "&code=" + authorizeCode
             + "&redirect_uri=" + Uri.EscapeDataString(tokens.CallbackUri)
             + "&client_id=" + tokens.ClientId
@@ -252,11 +252,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             string scopes = ConvertPermissionsToEncodedScopeString(permissions);
 
-            var url = $"{OAuthBaseUrl}authorization?response_type=code"
+            var url = $"{_oAuthBaseUrl}authorization?response_type=code"
             + "&client_id=" + tokens.ClientId
-            + "&" + scopes
             + "&state=STATE"
-            + "&redirect_uri=" + Uri.EscapeDataString(tokens.CallbackUri);
+            + "&redirect_uri=" + Uri.EscapeDataString(tokens.CallbackUri)
+            + "&" + scopes;
 
             var startUri = new Uri(url);
             var endUri = new Uri(tokens.CallbackUri);
@@ -306,6 +306,10 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 if ((requiredPermissions & value) != LinkedInPermissions.NotSet)
                 {
                     var name = value.ToString().ToLower();
+                    name = name.Replace("readwrite", "rw_");
+                    name = name.Replace("read", "r_");
+                    name = name.Replace("write", "w_");
+                    name = name.Replace("companyadmin", "company_admin");
 
                     scope.Append($"{name} ");
                 }

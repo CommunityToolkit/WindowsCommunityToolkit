@@ -14,25 +14,25 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <summary>
         /// Private singleton field.
         /// </summary>
-        private static LinkedInService instance;
+        private static LinkedInService _instance;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static LinkedInService Instance => instance ?? (instance = new LinkedInService());
+        public static LinkedInService Instance => _instance ?? (_instance = new LinkedInService());
 
-        private LinkedInDataProvider provider;
+        private LinkedInDataProvider _provider;
 
-        private LinkedInOAuthTokens oAuthTokens;
+        private LinkedInOAuthTokens _oAuthTokens;
 
-        private LinkedInPermissions requiredPermissions;
+        private LinkedInPermissions _requiredPermissions;
 
-        private bool isInitialized = false;
+        private bool _isInitialized = false;
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        public LinkedInDataProvider Provider => provider ?? (provider = new LinkedInDataProvider(oAuthTokens, requiredPermissions));
+        public LinkedInDataProvider Provider => _provider ?? (_provider = new LinkedInDataProvider(_oAuthTokens, _requiredPermissions));
 
         private LinkedInService()
         {
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
-            if (!isInitialized)
+            if (!_isInitialized)
             {
                 throw new InvalidOperationException("Initialized needs to be called first.");
             }
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         public void Logout()
         {
             Provider.Logout();
-            isInitialized = false;
+            _isInitialized = false;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 CallbackUri = callbackUri
             };
 
-            return Initialize(oAuthTokens, LinkedInPermissions.R_BasicProfile);
+            return Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile);
         }
 
         /// <summary>
@@ -135,12 +135,13 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            this.oAuthTokens = oAuthTokens;
-            this.requiredPermissions = requiredPermissions;
+            this._oAuthTokens = oAuthTokens;
+            this._requiredPermissions = requiredPermissions;
 
             Provider.RequiredPermissions = requiredPermissions;
+            Provider.Tokens = oAuthTokens;
 
-            isInitialized = true;
+            _isInitialized = true;
 
             return true;
         }
@@ -179,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             if (requireEmailAddress)
             {
-                if (!requiredPermissions.HasFlag(LinkedInPermissions.R_EmailAddress))
+                if (!_requiredPermissions.HasFlag(LinkedInPermissions.ReadEmailAddress))
                 {
                     throw new InvalidOperationException("Please re-initialize with email permission and call LoginAsync again so user may grant access.");
                 }
