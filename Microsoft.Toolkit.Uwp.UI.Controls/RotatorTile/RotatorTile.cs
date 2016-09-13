@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
 
         /// <summary>
-        /// Identifies the <see cref="RotationDelay"/> property.
+        /// Identifies the <see cref="ExtraRandomDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty ExtraRandomDurationProperty =
             DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
