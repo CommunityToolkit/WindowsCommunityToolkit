@@ -10,6 +10,8 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}" Text="Blur is only available on Windows 10 Anniversary Update or greater" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20" x:Name="WarningText" Visibility="Collapsed"></TextBlock>
+        
         <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior" 
