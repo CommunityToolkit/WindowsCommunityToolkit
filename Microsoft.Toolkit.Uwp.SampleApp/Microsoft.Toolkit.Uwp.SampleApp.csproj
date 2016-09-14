@@ -296,6 +296,9 @@
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
+    <None Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
+    <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
   <ItemGroup>
