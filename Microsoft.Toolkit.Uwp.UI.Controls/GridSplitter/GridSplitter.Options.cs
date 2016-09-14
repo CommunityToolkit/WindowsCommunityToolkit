@@ -49,6 +49,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(default(Brush), OnGripperForegroundPropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ParentLevel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ParentLevelProperty
+            = DependencyProperty.Register(
+                nameof(ParentLevel),
+                typeof(int),
+                typeof(GridSplitter),
+                new PropertyMetadata(default(int)));
+
+        /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
         /// </summary>
         public UIElement Element
@@ -85,6 +95,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (Brush)GetValue(GripperForegroundProperty); }
 
             set { SetValue(GripperForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the level of the parent grid to resize
+        /// </summary>
+        public int ParentLevel
+        {
+            get { return (int)GetValue(ParentLevelProperty); }
+
+            set { SetValue(ParentLevelProperty, value); }
         }
 
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

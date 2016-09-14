@@ -38,10 +38,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InitControl()
         {
+            if (Resizable == null)
+            {
+                return;
+            }
+
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 // setting the Column min width to the width of the GridSplitter
-                var currentIndex = Grid.GetColumn(this);
+                var currentIndex = Grid.GetColumn(TargetParent);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.ColumnDefinitions.Count))
                 {
@@ -52,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
                 // setting the Row min height to the height of the GridSplitter
-                var currentIndex = Grid.GetRow(this);
+                var currentIndex = Grid.GetRow(TargetParent);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.RowDefinitions.Count))
                 {
@@ -65,28 +70,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Return the targeted Column based on the resize behavior
         private int GetTargetedColumn()
         {
-            var currentIndex = Grid.GetColumn(this);
+            var currentIndex = Grid.GetColumn(TargetParent);
             return GetTargetIndex(currentIndex);
         }
 
         // Return the sibling Row based on the resize behavior
         private int GetTargetedRow()
         {
-            var currentIndex = Grid.GetRow(this);
+            var currentIndex = Grid.GetRow(TargetParent);
             return GetTargetIndex(currentIndex);
         }
 
         // Return the sibling Column based on the resize behavior
         private int GetSiblingColumn()
         {
-            var currentIndex = Grid.GetColumn(this);
+            var currentIndex = Grid.GetColumn(TargetParent);
             return GetSiblingIndex(currentIndex);
         }
 
         // Return the sibling Row based on the resize behavior
         private int GetSiblingRow()
         {
-            var currentIndex = Grid.GetRow(this);
+            var currentIndex = Grid.GetRow(TargetParent);
             return GetSiblingIndex(currentIndex);
         }
 
