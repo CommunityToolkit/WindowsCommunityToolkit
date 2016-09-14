@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the target parent grid from level
         /// </summary>
-        private FrameworkElement TargetParent
+        private FrameworkElement TargetControl
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets GridSplitter Container Grid
         /// </summary>
-        private Grid Resizable => TargetParent?.Parent as Grid;
+        private Grid Resizable => TargetControl?.Parent as Grid;
 
         /// <summary>
         /// Gets the current Column definition of the parent Grid
