@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
-    public sealed partial class AdaptiveGridView
+    public partial class AdaptiveGridView
     {
         /// <summary>
         /// Identifies the <see cref="SelectedIndex"/> dependency property.
