@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 {
                     _inMemoryStorage.RemoveAt(0);
                 }
-            }
+               }
         }
 
         /// <summary>

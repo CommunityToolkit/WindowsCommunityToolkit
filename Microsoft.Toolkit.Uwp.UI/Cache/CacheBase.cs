@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitialiseAsync(StorageFolder folder, string folderName)
+        public virtual async Task InitializeAsync(StorageFolder folder, string folderName)
         {
             _baseFolder = folder;
             _cacheFolderName = folderName;
@@ -85,6 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             var files = await folder.GetFilesAsync();
 
             await InternalClearAsync(files);
+
+            _inMemoryFileStorage.Clear();
         }
 
         /// <summary>
@@ -110,6 +112,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             await InternalClearAsync(files).ConfigureAwait(false);
+
+            _inMemoryFileStorage.Clear(duration);
         }
 
         /// <summary>
@@ -117,11 +121,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the image</param>
         /// <param name="fileName">fileName to for local storage</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
         /// <returns>void</returns>
-        public Task PreCacheAsync(Uri uri, string fileName, bool storeToMemoryCache = false)
+        public Task PreCacheAsync(Uri uri, string fileName, bool throwOnError = false, bool storeToMemoryCache = false)
         {
-            return GetItemAsync(uri, fileName, true, !storeToMemoryCache);
+            return GetItemAsync(uri, fileName, throwOnError, !storeToMemoryCache);
         }
 
         /// <summary>
@@ -141,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseTypeAsync(IRandomAccessStream stream)
+        protected virtual async Task<T> InitializeTypeAsync(IRandomAccessStream stream)
         {
             // nothing to do in this instance;
             return default(T);
@@ -152,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitialiseTypeAsync(StorageFile baseFile)
+        protected virtual async Task<T> InitializeTypeAsync(StorageFile baseFile)
         {
             // nothing to do in this instance;
             return default(T);
@@ -260,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                 {
-                    t = await InitialiseTypeAsync(fileStream);
+                    t = await InitializeTypeAsync(fileStream);
                 }
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
@@ -284,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    t = await InitialiseTypeAsync(webStream);
+                    t = await InitializeTypeAsync(webStream);
 
                     webStream.Seek(0);
                 }

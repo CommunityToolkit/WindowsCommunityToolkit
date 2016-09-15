@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="stream">inpupt stream</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitialiseTypeAsync(IRandomAccessStream stream)
+        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
         {
             // nothing to do in this instance;
             BitmapImage image = new BitmapImage();
@@ -41,11 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitialiseTypeAsync(StorageFile baseFile)
+        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
         {
             using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(false))
             {
-                return await InitialiseTypeAsync(stream);
+                return await InitializeTypeAsync(stream);
             }
         }
     }
