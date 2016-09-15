@@ -9,7 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.Collections.Generic;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,11 +28,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
-    public partial class AdaptiveGridView : Control
+    public partial class AdaptiveGridView : Control, ISemanticZoomInformation
     {
         private int _columns;
         private bool _isInitialized;
         private ListViewBase _listView;
+
+        public bool IsActiveView { get; set; }
+
+        public bool IsZoomedInView { get; set; }
+
+        public SemanticZoom SemanticZoomOwner { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -150,6 +156,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 RecalculateLayout(e.NewSize.Width);
             }
+        }
+
+        public void InitializeViewChange()
+        {
+            // Ignored.
+        }
+
+        public void CompleteViewChange()
+        {
+            // Ignored.
+        }
+
+        public void MakeVisible(SemanticZoomLocation item)
+        {
+            // Ignored.
+        }
+
+        public void StartViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            destination.Item = SelectedItem;
+        }
+
+        public void StartViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            // Ignored.
+        }
+
+        public void CompleteViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            // Ignored.
+        }
+
+        public void CompleteViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            SelectedItem = source.Item;
+            Focus(Windows.UI.Xaml.FocusState.Programmatic);
         }
     }
 }
