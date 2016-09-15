@@ -19,8 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
-{    
-
+{
     public sealed partial class SlidableListItemPage
     {
         private ObservableCollection<Item> _items;
