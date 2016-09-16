@@ -16,7 +16,6 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.AzureAD;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
