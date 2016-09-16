@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
+        private const int RootGridColumnsMinWidth = 300;
+        private const int RootGridColumnsDefaultMinWidth = 0;
+
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
@@ -42,10 +45,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void ShowInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
+            UpdateRootGridMinWidth();
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
             Splitter.Visibility = Visibility.Visible;
+        }
+
+        private void UpdateRootGridMinWidth()
+        {
+            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
+            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
         }
 
         public void HideInfoArea()
@@ -56,6 +66,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
+            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
+            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
@@ -106,6 +118,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSource();
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
+
+                UpdateRootGridMinWidth();
             }
         }
 
