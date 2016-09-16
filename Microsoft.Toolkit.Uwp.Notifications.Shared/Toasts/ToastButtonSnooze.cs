@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (customContent == null)
             {
-                throw new ArgumentNullException("customContent");
+                throw new ArgumentNullException(nameof(customContent));
             }
 
             this.CustomContent = customContent;
