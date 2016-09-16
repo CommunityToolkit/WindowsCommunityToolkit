@@ -15,15 +15,30 @@ namespace UnitTests.Services
 
         [TestCategory("Services")]
         [TestMethod]
-        public async Task Test_BingService_Request()
+        public async Task Test_BingServiceSearch_Request()
         {
             BingSearchConfig config = new BingSearchConfig();
             config.Country = BingCountry.France;
+            config.QueryType = BingQueryType.Search;
             config.Query = Query;
 
             var results = await BingService.Instance.RequestAsync(config, 50);
 
             Assert.AreEqual(results.Count, 50);
+        }
+
+        [TestCategory("Services")]
+        [TestMethod]
+        public async Task Test_BingServiceNews_Request()
+        {
+            BingSearchConfig config = new BingSearchConfig();
+            config.Country = BingCountry.France;
+            config.QueryType = BingQueryType.News;
+            config.Query = Query;
+
+            var results = await BingService.Instance.RequestAsync(config, 50);
+
+            Assert.AreEqual(results.Count, 10);
         }
     }
 }

@@ -29,12 +29,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string ConsumerSecret { get; set; }
 
         /// <summary>
-        /// Gets or sets access Token.
+        /// Gets or sets access token.
         /// </summary>
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets or sets access Token Secret.
+        /// Gets or sets access token Secret.
         /// </summary>
         public string AccessTokenSecret { get; set; }
 

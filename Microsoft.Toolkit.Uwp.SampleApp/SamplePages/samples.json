@@ -90,7 +90,15 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/QuickReturnHeader",
         "XamlCodeFile": "QuickReturnHeaderCode.bind",
         "Icon": "/SamplePages/QuickReturnHeader/QuickReturnHeader.png"
-      }
+	  },
+	  {
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+	  }
     ]
   },
   {
@@ -103,6 +111,7 @@
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
+        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
         "Icon": "/SamplePages/LiveTile/icon.jpg"
       },
       {
@@ -111,6 +120,7 @@
         "About": "This shows how to send a Toast notification.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "ToastCode.bind",
+        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
         "Icon": "/SamplePages/Toast/icon.jpg"
       },
       {
@@ -119,6 +129,7 @@
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
+        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png"
       }
     ]
@@ -210,6 +221,22 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
+      },
+      {
+        "Name": "MicrosoftGraph Service",
+        "Type": "MicrosoftGraphPage",
+        "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/MicrosoftGraph/",
+        "CodeFile": "MicrosoftGraphCode.bind",
+        "Icon": "/SamplePages/MicrosoftGraph Service/OfficeLogo.png"
+      },
+            {
+        "Name": "LinkedIn Service",
+        "Type": "LinkedInPage",
+        "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/LinkedIn/",
+        "CodeFile": "LinkedInCode.bind",
+        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
       }
     ]
   }
