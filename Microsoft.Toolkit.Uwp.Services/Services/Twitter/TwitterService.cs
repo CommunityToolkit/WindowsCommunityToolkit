@@ -230,9 +230,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Log user in to Twitter.
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public Task<bool> LoginAsync()
         {
-            return await Provider.LoginAsync();
+            return Provider.LoginAsync();
         }
 
         /// <summary>
