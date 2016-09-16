@@ -97,11 +97,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 return true;
             }
 
-            string authorizeCode = await GetAuthorizeCode(this.Tokens, this.RequiredPermissions);
+            string authorizeCode = await GetAuthorizeCodeAsync(this.Tokens, this.RequiredPermissions);
 
             if (!string.IsNullOrEmpty(authorizeCode))
             {
-                var accessToken = await GetAccessToken(this.Tokens, authorizeCode);
+                var accessToken = await GetAccessTokenAsync(this.Tokens, authorizeCode);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -223,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             }
         }
 
-        private async Task<string> GetAccessToken(LinkedInOAuthTokens tokens, string authorizeCode)
+        private async Task<string> GetAccessTokenAsync(LinkedInOAuthTokens tokens, string authorizeCode)
         {
             var url = $"{_oAuthBaseUrl}accessToken?grant_type=authorization_code"
             + "&code=" + authorizeCode
@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             }
         }
 
-        private async Task<string> GetAuthorizeCode(LinkedInOAuthTokens tokens, LinkedInPermissions permissions)
+        private async Task<string> GetAuthorizeCodeAsync(LinkedInOAuthTokens tokens, LinkedInPermissions permissions)
         {
             string scopes = ConvertPermissionsToEncodedScopeString(permissions);
 

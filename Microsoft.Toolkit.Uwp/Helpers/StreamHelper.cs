@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp
             string fileName)
         {
             var name = Path.GetFileName(fileName);
-            workingFolder = await GetSubFolder(fileName, workingFolder);
+            workingFolder = await GetSubFolderAsync(fileName, workingFolder);
 
             var item = await workingFolder.TryGetItemAsync(name);
 
@@ -244,14 +244,14 @@ namespace Microsoft.Toolkit.Uwp
             StorageFolder workingFolder)
         {
             var fileName = Path.GetFileName(fullFileName);
-            workingFolder = await GetSubFolder(fullFileName, workingFolder);
+            workingFolder = await GetSubFolderAsync(fullFileName, workingFolder);
 
             var file = await workingFolder.GetFileAsync(fileName);
 
             return await file.OpenAsync(accessMode);
         }
 
-        private static async Task<StorageFolder> GetSubFolder(
+        private static async Task<StorageFolder> GetSubFolderAsync(
             string fullFileName,
             StorageFolder workingFolder)
         {

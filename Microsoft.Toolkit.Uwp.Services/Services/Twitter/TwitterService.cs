@@ -258,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatus(message, pictures);
+                return await Provider.TweetStatusAsync(message, pictures);
             }
 
             var isLoggedIn = await LoginAsync();
