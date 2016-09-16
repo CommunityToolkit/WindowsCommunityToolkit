@@ -118,6 +118,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
                 _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
+
+            if (IsQuickReturnEnabled)
+            {
+                StartAnimation();
+            }
         }
 
         private static ScrollViewer GetScrollViewer(DependencyObject o)
@@ -217,6 +222,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Windows.UI.Xaml.Hosting.ElementCompositionPreview is only available in Windows 10 10586 or later
             if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
+            {
+                return;
+            }
+
+            if (_scrollViewer == null)
             {
                 return;
             }
