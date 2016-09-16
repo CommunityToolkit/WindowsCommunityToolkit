@@ -299,7 +299,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
-    <None Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
+    <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
