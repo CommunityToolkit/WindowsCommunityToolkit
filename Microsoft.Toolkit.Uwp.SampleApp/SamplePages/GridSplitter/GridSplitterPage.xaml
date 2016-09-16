@@ -20,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"</TextBlock>
+        <TextBlock Grid.Column="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
         <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" Margin="12,0">This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect</TextBlock>
 
