@@ -11,10 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Bing;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -35,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }

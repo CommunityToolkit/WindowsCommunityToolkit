@@ -166,14 +166,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Initialize a instance of MicrosoftGraphUserService class
         /// </summary>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task InitializeUserAsync()
+        private Task InitializeUserAsync()
         {
             MicrosoftGraphUserFields[] selectedFields =
             {
                 MicrosoftGraphUserFields.Id
             };
             _user = new MicrosoftGraphUserService(_graphClientProvider);
-            await _user.GetProfileAsync(selectedFields);
+            return _user.GetProfileAsync(selectedFields);
         }
     }
 }
