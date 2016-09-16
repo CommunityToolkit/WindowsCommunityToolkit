@@ -11,11 +11,9 @@
 // ******************************************************************
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;

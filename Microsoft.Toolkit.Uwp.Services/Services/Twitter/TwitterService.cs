@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter

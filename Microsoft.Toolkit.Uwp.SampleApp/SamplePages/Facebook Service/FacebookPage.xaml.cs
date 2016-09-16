@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Facebook;
 using Windows.Storage;
 using Windows.Storage.Pickers;

@@ -12,8 +12,6 @@
 //
 // ******************************************************************
 using System;
-using System.Reflection;
-using Microsoft.Toolkit.Uwp.Services.Bing;
 
 namespace Microsoft.Toolkit.Uwp.Services.Core
 {

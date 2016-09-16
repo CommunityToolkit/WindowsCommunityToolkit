@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;

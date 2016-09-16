@@ -11,10 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Bing;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
