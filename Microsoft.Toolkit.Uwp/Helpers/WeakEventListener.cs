@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (instance == null)
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
 
             weakInstance = new WeakReference(instance);

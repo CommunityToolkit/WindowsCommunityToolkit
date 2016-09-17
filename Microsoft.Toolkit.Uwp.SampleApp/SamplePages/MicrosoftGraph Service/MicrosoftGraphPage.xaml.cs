@@ -11,11 +11,9 @@
 // ******************************************************************
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -41,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -79,9 +77,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Photo.Source = photo;
                 }
             }
-            catch (Microsoft.Graph.ServiceException ex)
+            catch (ServiceException ex)
             {
-                await DisplayAuthorizationErrorMessage(ex, "Sign in and read user profile");
+                await DisplayAuthorizationErrorMessageAsync(ex, "Sign in and read user profile");
             }
             finally
             {
@@ -97,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -130,11 +128,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                                 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cts, top);
                             }
-                            catch (Microsoft.Graph.ServiceException ex)
+                            catch (ServiceException ex)
                             {
                                 if (!Dispatcher.HasThreadAccess)
                                 {
-                                   await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessage(ex, "Read user mail"); }));
+                                   await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessageAsync(ex, "Read user mail"); }));
                                 }
                             }
                             finally
@@ -171,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await sendMessageDialog.ShowAsync();
         }
 
-        private async Task DisplayAuthorizationErrorMessage(Microsoft.Graph.ServiceException ex, string additionalMessage)
+        private Task DisplayAuthorizationErrorMessageAsync(ServiceException ex, string additionalMessage)
         {
             MessageDialog error = null;
             if (ex.Error.Code.Equals("ErrorAccessDenied"))
@@ -183,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 error = new MessageDialog(ex.Error.Message);
             }
 
-            await error.ShowAsync();
+            return error.ShowAsync().AsTask();
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)

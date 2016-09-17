@@ -13,7 +13,6 @@
 // ******************************************************************
 
 using System;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
