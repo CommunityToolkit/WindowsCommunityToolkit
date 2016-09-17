@@ -303,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var sub = _transform.TranslateX + e.Delta.Translation.X;
                     if (sub > swipeThreshold)
                     {
-                        _transform.TranslateX += swipeThreshold - _transform.TranslateX;
+                        _transform.TranslateX = swipeThreshold;
                         return;
                     }
 
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var sub = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
                     if (sub > swipeThreshold)
                     {
-                        _transform.TranslateX += -(swipeThreshold - (_transform.TranslateX * -1));
+                        _transform.TranslateX = -swipeThreshold;
                         return;
                     }
 
