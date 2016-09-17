@@ -32,6 +32,7 @@
         <controls:GridSplitter 
                 Width="11"
                 Background="Gray"
+                GripperCursor="{Binding GripperCursor.Value,Mode=TwoWay}"
                 HorizontalAlignment="{Binding HorizontalAlignment.Value,Mode=TwoWay}"
                 Grid.Column="{Binding Column.Value}"
                 ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
@@ -47,8 +48,8 @@
             HorizontalAlignment="Stretch" >
             <controls:GridSplitter.Element>
                 <Grid>
-                    <TextBlock     HorizontalAlignment="Center"     
-                                   IsHitTestVisible="False"
+                    <TextBlock     
+                                   HorizontalAlignment="Center"     
                                    VerticalAlignment="Center"  
                                    Text="&#xE76F;"
                                    Foreground="White" 

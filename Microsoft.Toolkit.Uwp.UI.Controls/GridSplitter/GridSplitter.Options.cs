@@ -59,6 +59,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(default(int)));
 
         /// <summary>
+        /// Identifies the <see cref="GripperCursor"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GripperCursorProperty =
+            DependencyProperty.RegisterAttached(
+                nameof(GripperCursor),
+                typeof(GripperCursorType),
+                typeof(GridSplitter),
+                new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
         /// </summary>
         public UIElement Element
@@ -107,6 +117,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ParentLevelProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the gripper Cursor type
+        /// </summary>
+        public GripperCursorType GripperCursor
+        {
+            get { return (GripperCursorType)GetValue(GripperCursorProperty); }
+            set { SetValue(GripperCursorProperty, value); }
+        }
+
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
@@ -114,6 +133,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (grip != null)
             {
                 grip.GripperForeground = gridSplitter.GripperForeground;
+            }
+        }
+
+        private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)d;
+            var grip = gridSplitter.Element as GridSplitterGripper;
+            if (grip != null)
+            {
+                grip.GripperCursor = gridSplitter.GripperCursor;
             }
         }
     }

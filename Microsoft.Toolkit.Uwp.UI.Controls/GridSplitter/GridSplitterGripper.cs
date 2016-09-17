@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private CoreCursor _splitterPreviousPointer;
         private CoreCursor _previousCursor;
+        private GridSplitter.GripperCursorType _gripperCursor;
         private bool _isDragging;
 
         internal Brush GripperForeground
@@ -34,9 +35,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        internal GridSplitter.GripperCursorType GripperCursor
+        {
+            get
+            {
+                return _gripperCursor;
+            }
+
+            set
+            {
+                _gripperCursor = value;
+            }
+        }
+
         internal GridSplitterGripper(
             GridSplitter.GridResizeDirection gridSplitterDirection,
-            Brush gripForeground)
+            Brush gripForeground,
+            GridSplitter.GripperCursorType gripperCursor)
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
@@ -44,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _gripperDisplay.VerticalAlignment = VerticalAlignment.Center;
             _gripperDisplay.Foreground = gripForeground;
             _gridSplitterDirection = gridSplitterDirection;
+            _gripperCursor = gripperCursor;
 
             if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
             {
@@ -79,6 +95,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!_isDragging)
             {
                 _previousCursor = _splitterPreviousPointer = Window.Current.CoreWindow.PointerCursor;
+                UpdateDisplayCursor();
+            }
+
+            // if dragging
+            else
+            {
+                _previousCursor = _splitterPreviousPointer;
+            }
+        }
+
+        private void UpdateDisplayCursor()
+        {
+            if (_gripperCursor == GridSplitter.GripperCursorType.Default)
+            {
                 if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
                 {
                     Window.Current.CoreWindow.PointerCursor = GridSplitter.ColumnsSplitterCursor;
@@ -88,11 +118,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
                 }
             }
-
-            // if dragging
             else
             {
-                _previousCursor = _splitterPreviousPointer;
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor((CoreCursorType)((int)_gripperCursor), 1);
             }
         }
 

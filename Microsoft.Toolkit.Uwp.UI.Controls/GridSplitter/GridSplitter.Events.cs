@@ -19,7 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var element = new GridSplitterGripper(
                     _resizeDirection,
-                    GripperForeground);
+                    GripperForeground,
+                    GripperCursor);
                 ManipulationStarted += element.SplitterManipulationStarted;
                 ManipulationCompleted += element.SplitterManipulationCompleted;
                 Element = element;
