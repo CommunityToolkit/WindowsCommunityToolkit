@@ -12,11 +12,8 @@
 //
 // ******************************************************************
 using System;
-using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
