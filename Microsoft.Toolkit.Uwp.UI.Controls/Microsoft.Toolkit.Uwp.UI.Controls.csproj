@@ -45,6 +45,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="AdvancedCollectionViewSource\AdvancedCollectionViewSource.cs" />
+    <Compile Include="AdvancedCollectionViewSource\AdvancedCollectionViewSource.Defer.cs" />
+    <Compile Include="AdvancedCollectionViewSource\ICollectionViewEx.cs" />
+    <Compile Include="AdvancedCollectionViewSource\SortDescription.cs" />
+    <Compile Include="AdvancedCollectionViewSource\SortDirection.cs" />
+    <Compile Include="AdvancedCollectionViewSource\VectorChangedEventArgs.cs" />
     <Compile Include="BladeControl\Blade.cs" />
     <Compile Include="BladeControl\Blade.Properties.cs" />
     <Compile Include="BladeControl\BladeControl.cs" />
@@ -62,6 +68,7 @@
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
+    <Compile Include="AdvancedCollectionViewSource\AdvancedCollectionViewSource.Events.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
