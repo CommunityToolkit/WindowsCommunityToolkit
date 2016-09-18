@@ -167,8 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (value != _swipeStatus)
                 {
                     _swipeStatus = value;
-
-                    System.Diagnostics.Debug.WriteLine("New swipe status: " + _swipeStatus);
                 }
             }
         }
