@@ -90,6 +90,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+      },
+      {
+        "Name": "DropShadow",
+        "Type": "DropShadowPage",
+        "About": "CompositionShadow contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CompositionShadow",
+        "XamlCodeFile": "DropShadowXaml.bind",
+        "Icon": "/SamplePages/DropShadow/DropShadow.png"
       }
     ]
   },

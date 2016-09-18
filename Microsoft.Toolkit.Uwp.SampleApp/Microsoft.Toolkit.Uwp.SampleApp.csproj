@@ -232,6 +232,9 @@
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeControl\Blade.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\DropShadow\DropShadow.png" />
+    <Content Include="SamplePages\DropShadow\Trex.png" />
+    <Content Include="SamplePages\DropShadow\Unicorn.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
@@ -298,6 +301,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
+    <Content Include="SamplePages\DropShadow\DropShadowXaml.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
@@ -313,6 +317,9 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="SamplePages\DropShadow\DropShadowPage.xaml.cs">
+      <DependentUpon>DropShadowPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
@@ -452,6 +459,10 @@
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\DropShadow\DropShadowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
       <SubType>Designer</SubType>
