@@ -12,7 +12,6 @@
 //
 // ******************************************************************
 using System;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Rss
 {

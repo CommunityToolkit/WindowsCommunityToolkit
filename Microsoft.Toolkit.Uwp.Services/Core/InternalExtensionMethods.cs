@@ -11,7 +11,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
-using System;
+
 using System.Text.RegularExpressions;
 
 namespace Microsoft.Toolkit.Uwp.Services.Core
