@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+    x:Name="Page"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -27,7 +28,8 @@
                     IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
                     MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
                     LeftCommand="{x:Bind ToggleFavorite}"
-                    RightCommandRequested="SlidableListItem_RightCommandActivated">
+                    RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
+                    RightCommandParameter="{Binding}">
                 <Grid Height="110" Background="Gray">
                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
                         <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"/>

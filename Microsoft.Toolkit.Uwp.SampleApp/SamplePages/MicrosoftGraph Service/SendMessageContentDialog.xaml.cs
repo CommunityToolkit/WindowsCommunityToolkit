@@ -36,11 +36,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
         }
 
-        private string GetHtmlMessage()
-        {
-            return @"Recently, we released the Windows Anniversary Update and a new <a href='https://developer.microsoft.com/en-us/windows/downloads'>Windows Software Developer Kit (SDK) for Windows 10</a> containing tools, app templates, platform controls, Windows Runtime APIs, emulators and much more, to help create innovative and compelling Universal Windows apps.</p><p>Today, we are introducing the open-source <a href='http://aka.ms/uwptoolkit'>UWP Community Toolkit</a>, a new project that enables the developer community to collaborate and contribute new capabilities on top of the SDK.</p><p>We designed the toolkit with these goals in mind:</p><p style='padding-left: 60px'><strong>1. Simplified app development</strong>: The toolkit includes new capabilities (helper functions, custom controls and app services) that simplify or demonstrate common developer tasks. Where possible, our goal is to allow app developers to get started with just one line of code.<br><strong>2. Open-Source</strong>: The toolkit (source code, issues and roadmap) will be developed as an open-source project. We welcome contributions from the .NET developer community.<br><strong>3. Alignment with SDK</strong>: The feedback from the community on this project will be reflected in future versions of the Windows SDK for Windows 10.</p>";
-        }
-
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             char separator = ';';
@@ -67,21 +62,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 // Sending a second message in html format
                 // await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the UWP Community Toolkit", GetHtmlMessage(), BodyType.Html, toRecipients, ccRecipients);
             }
-            catch (Microsoft.Graph.ServiceException ex)
+            catch (ServiceException ex)
             {
-                await DisplayAuthorizationErrorMessage(ex, "Send mail as user");
+                await DisplayAuthorizationErrorMessageAsync(ex, "Send mail as user");
             }
 
             await DisplayMessageAsync("Succeeded!");
         }
 
-        private async Task DisplayMessageAsync(string message)
+        private Task DisplayMessageAsync(string message)
         {
             MessageDialog msg = new MessageDialog(message);
-            await msg.ShowAsync();
+            return msg.ShowAsync().AsTask();
         }
 
-        private async Task DisplayAuthorizationErrorMessage(Microsoft.Graph.ServiceException ex, string additionalMessage)
+        private Task DisplayAuthorizationErrorMessageAsync(ServiceException ex, string additionalMessage)
         {
             MessageDialog error = null;
             if (ex.Error.Code.Equals("ErrorAccessDenied"))
@@ -93,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 error = new MessageDialog(ex.Error.Message);
             }
 
-            await error.ShowAsync();
+            return error.ShowAsync().AsTask();
         }
     }
 }

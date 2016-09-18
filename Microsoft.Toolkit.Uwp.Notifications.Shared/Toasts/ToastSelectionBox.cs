@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (id == null)
             {
-                throw new ArgumentNullException("id");
+                throw new ArgumentNullException(nameof(id));
             }
 
             Id = id;
