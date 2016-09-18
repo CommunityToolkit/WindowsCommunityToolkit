@@ -153,6 +153,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
 
+        private SwipeStatus _swipeStatus = SwipeStatus.NotRunning;
+
+        public SwipeStatus SwipeStatus
+        {
+            get
+            {
+                return _swipeStatus;
+            }
+
+            private set
+            {
+                if (value != _swipeStatus)
+                {
+                    _swipeStatus = value;
+
+                    System.Diagnostics.Debug.WriteLine("New swipe status: " + _swipeStatus);
+                }
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
         /// Creates a new instance of <see cref="SlidableListItem"/>
@@ -242,6 +262,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
                 }
             }
+
+            _commandContainer.Opacity = 0;
+            SwipeStatus = SwipeStatus.Starting;
         }
 
         /// <summary>
@@ -260,19 +283,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _leftCommandTransform.TranslateX = 0;
             _rightCommandTransform.TranslateX = 0;
-            _leftCommandPanel.Opacity = 1;
-            _rightCommandPanel.Opacity = 1;
+            _commandContainer.Opacity = 0; // How to animate this?
 
-            if (x < -ActivationWidth)
+            if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
                 RightCommandRequested?.Invoke(this, new EventArgs());
                 RightCommand?.Execute(RightCommandParameter);
             }
-            else if (x > ActivationWidth)
+            else if (SwipeStatus == SwipeStatus.SwipingPassedRightThreshold)
             {
                 LeftCommandRequested?.Invoke(this, new EventArgs());
                 LeftCommand?.Execute(LeftCommandParameter);
             }
+
+            SwipeStatus = SwipeStatus.NotRunning;
         }
 
         /// <summary>
@@ -280,99 +304,169 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse)
+            if (SwipeStatus == SwipeStatus.NotRunning)
             {
                 return;
             }
 
-            var abs = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
+            var newTranslationX = _transform.TranslateX + e.Delta.Translation.X;
+            bool swipingInDisabledArea = false;
 
-            if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
+            if (newTranslationX > 0)
             {
-                // Swiping from left to right.
-                if (_commandContainer != null && _transform.TranslateX > 0)
+                // Swiping from left to right
+                if (!IsRightSwipeEnabled)
                 {
-                    _commandContainer.Background = LeftBackground as SolidColorBrush;
-                    _leftCommandPanel.Opacity = 1;
-                    _rightCommandPanel.Opacity = 0;
-                }
-
-                var swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
-                if (IsOffsetLimited && _transform.TranslateX < swipeThreshold)
-                {
-                    var sub = _transform.TranslateX + e.Delta.Translation.X;
-                    if (sub > swipeThreshold)
+                    // If swipe is not enabled, only allow swipe a very short distance
+                    if (newTranslationX > 0)
                     {
-                        _transform.TranslateX = swipeThreshold;
-                        return;
+                        swipingInDisabledArea = true;
+                        SwipeStatus = SwipeStatus.DisabledSwipingToRight;
                     }
 
-                    if ((_transform.TranslateX + e.Delta.Translation.X) > swipeThreshold)
+                    if (newTranslationX > 16)
                     {
-                        _transform.TranslateX = swipeThreshold;
-                    }
-                    else if (sub < swipeThreshold)
-                    {
-                        _transform.TranslateX += e.Delta.Translation.X;
+                        newTranslationX = 16;
                     }
                 }
-                else if (!IsOffsetLimited)
+                else if (IsOffsetLimited)
                 {
-                    _transform.TranslateX += e.Delta.Translation.X;
+                    // If offset is limited, there will be a limit how much swipe is possible.
+                    // This will be the value of the command panel plus some threshold.
+                    // This value can't be less than the ActivationWidth.
+                    var swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
+                    if (swipeThreshold < ActivationWidth)
+                    {
+                        swipeThreshold = ActivationWidth;
+                    }
+
+                    if (Math.Abs(newTranslationX) > swipeThreshold)
+                    {
+                        newTranslationX = swipeThreshold;
+                    }
                 }
 
-                if (abs < ActivationWidth)
+                // Don't allow swiping more than almost the whole content grid width
+                // (doing this will cause the control to change size).
+                if (newTranslationX > (_contentGrid.ActualWidth - 4))
                 {
-                    _leftCommandTransform.TranslateX = _transform.TranslateX / 2;
+                    newTranslationX = _contentGrid.ActualWidth - 4;
+                }
+            }
+            else
+            {
+                // Swiping from right to left
+                if (!IsLeftSwipeEnabled)
+                {
+                    // If swipe is not enabled, only allow swipe a very short distance
+                    if (newTranslationX < 0)
+                    {
+                        swipingInDisabledArea = true;
+                        SwipeStatus = SwipeStatus.DisabledSwipingToLeft;
+                    }
+
+                    if (newTranslationX < -16)
+                    {
+                        newTranslationX = -16;
+                    }
+                }
+                else if (IsOffsetLimited)
+                {
+                    // If offset is limited, there will be a limit how much swipe is possible.
+                    // This will be the value of the command panel plus some threshold.
+                    // This value can't be less than the ActivationWidth.
+                    var swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
+                    if (swipeThreshold < ActivationWidth)
+                    {
+                        swipeThreshold = ActivationWidth;
+                    }
+
+                    if (Math.Abs(newTranslationX) > swipeThreshold)
+                    {
+                        newTranslationX = -swipeThreshold;
+                    }
+                }
+
+                // Don't allow swiping more than almost the whole content grid width
+                // (doing this will cause the control to change size).
+                if (newTranslationX < -(_contentGrid.ActualWidth - 4))
+                {
+                    newTranslationX = -(_contentGrid.ActualWidth - 4);
+                }
+            }
+
+            bool hasPassedThreshold = !swipingInDisabledArea && Math.Abs(newTranslationX) >= ActivationWidth;
+
+            if (swipingInDisabledArea)
+            {
+                // Don't show any command if swiping in disabled area.
+                _commandContainer.Opacity = 0;
+                _leftCommandPanel.Opacity = 0;
+                _rightCommandPanel.Opacity = 0;
+            }
+            else if (newTranslationX > 0)
+            {
+                // If swiping from left to right, show left command panel.
+                _rightCommandPanel.Opacity = 0;
+
+                _commandContainer.Background = LeftBackground as SolidColorBrush;
+                _commandContainer.Opacity = 1;
+                _leftCommandPanel.Opacity = 1;
+
+                _commandContainer.Width = newTranslationX;
+                _commandContainer.HorizontalAlignment = HorizontalAlignment.Left;
+
+                if (_leftCommandPanel.Clip == null)
+                {
+                    _leftCommandPanel.Clip = new RectangleGeometry();
+                }
+
+                if (newTranslationX < ActivationWidth)
+                {
+                    _leftCommandTransform.TranslateX = newTranslationX / 2;
+                    _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX / 2, 40);
+                    SwipeStatus = SwipeStatus.SwipingToRightThreshold;
                 }
                 else
                 {
                     _leftCommandTransform.TranslateX = 20;
+                    _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX - 20, 40);
+                    SwipeStatus = SwipeStatus.SwipingPassedRightThreshold;
                 }
             }
-            else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
+            else
             {
-                // Swiping from right to left.
-                if (_commandContainer != null && _transform.TranslateX < 0)
+                // If swiping from right to left, show right command panel.
+                _leftCommandPanel.Opacity = 0;
+
+                _commandContainer.Opacity = 1;
+                _commandContainer.Background = RightBackground as SolidColorBrush;
+                _rightCommandPanel.Opacity = 1;
+
+                _commandContainer.Width = -newTranslationX;
+                _commandContainer.HorizontalAlignment = HorizontalAlignment.Right;
+
+                if (_rightCommandPanel.Clip == null)
                 {
-                    _commandContainer.Background = RightBackground as SolidColorBrush;
-                    _rightCommandPanel.Opacity = 1;
-                    _leftCommandPanel.Opacity = 0;
+                    _rightCommandPanel.Clip = new RectangleGeometry();
                 }
 
-                var swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
-                if (IsOffsetLimited && Math.Abs(_transform.TranslateX) < swipeThreshold)
+                if (-newTranslationX < ActivationWidth)
                 {
-                    var sub = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
-                    if (sub > swipeThreshold)
-                    {
-                        _transform.TranslateX = -swipeThreshold;
-                        return;
-                    }
-
-                    if ((_transform.TranslateX + e.Delta.Translation.X) > swipeThreshold)
-                    {
-                        _transform.TranslateX = swipeThreshold;
-                    }
-                    else if (sub < swipeThreshold)
-                    {
-                        _transform.TranslateX += e.Delta.Translation.X;
-                    }
-                }
-                else if (!IsOffsetLimited || (IsOffsetLimited && _transform.TranslateX > 0 && e.Delta.Translation.X < 0))
-                {
-                    _transform.TranslateX += e.Delta.Translation.X;
-                }
-
-                if (abs < ActivationWidth)
-                {
-                    _rightCommandTransform.TranslateX = _transform.TranslateX / 2;
+                    _rightCommandTransform.TranslateX = newTranslationX / 2;
+                    _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth + (newTranslationX / 2), 0, -newTranslationX / 2, _rightCommandPanel.ActualHeight);
+                    SwipeStatus = SwipeStatus.SwipingToLeftThreshold;
                 }
                 else
                 {
                     _rightCommandTransform.TranslateX = -20;
+                    var drawingWidth = -newTranslationX - 20;
+                    _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth - drawingWidth, 0, drawingWidth, _rightCommandPanel.ActualHeight);
+                    SwipeStatus = SwipeStatus.SwipingPassedLeftThreshold;
                 }
             }
+
+            _transform.TranslateX = newTranslationX;
         }
 
         /// <summary>
@@ -565,5 +659,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetValue(RightCommandParameterProperty, value);
             }
         }
+    }
+
+    /// <summary>
+    /// Types of swipe status.
+    /// </summary>
+    public enum SwipeStatus
+    {
+        /// <summary>
+        /// Swiping is not occuring.
+        /// </summary>
+        NotRunning,
+
+        /// <summary>
+        /// Swiping is going to start.
+        /// </summary>
+        Starting,
+
+        /// <summary>
+        /// Swiping to the left, but the command is disabled.
+        /// </summary>
+        DisabledSwipingToLeft,
+
+        /// <summary>
+        /// Swiping to the left below the threshold.
+        /// </summary>
+        SwipingToLeftThreshold,
+
+        /// <summary>
+        /// Swiping to the left above the threshold.
+        /// </summary>
+        SwipingPassedLeftThreshold,
+
+        /// <summary>
+        /// Swiping to the right, but the command is disabled.
+        /// </summary>
+        DisabledSwipingToRight,
+
+        /// <summary>
+        /// Swiping to the right below the threshold.
+        /// </summary>
+        SwipingToRightThreshold,
+
+        /// <summary>
+        /// Swiping to the right above the threshold.
+        /// </summary>
+        SwipingPassedRightThreshold
     }
 }
