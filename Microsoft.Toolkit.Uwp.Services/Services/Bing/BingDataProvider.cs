@@ -42,6 +42,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
+            var languageValue = config.Language.GetStringValue();
+            var languageParameter = string.IsNullOrEmpty(languageValue) ? string.Empty : $"language:{languageValue}+";
+
             if (string.IsNullOrEmpty(countryValue))
             {
                 if (CultureInfo.CurrentCulture.IsNeutralCulture)
@@ -69,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
 
             var settings = new HttpRequestSettings
             {
-                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
+                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
             };
 
             HttpRequestResult result = await HttpRequest.DownloadAsync(settings);

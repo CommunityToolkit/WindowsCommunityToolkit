@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Bing;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -25,11 +25,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             QueryType.ItemsSource = new[] { "Bing Search", "Bing News" };
             QueryType.SelectedIndex = 0;
+            Countries.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
+            Countries.SelectedItem = BingCountry.UnitedStates;
+            Languages.ItemsSource = Enum.GetValues(typeof(BingLanguage)).Cast<BingLanguage>().ToList();
+            Languages.SelectedItem = BingLanguage.English;
         }
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -38,6 +42,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 return;
             }
+
+            BingCountry country = (BingCountry)(Countries?.SelectedItem ?? BingCountry.UnitedStates);
+            BingLanguage language = (BingLanguage)(Languages?.SelectedItem ?? BingLanguage.English);
 
             BingQueryType queryType;
             switch (QueryType.SelectedIndex)
@@ -53,7 +60,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             var searchConfig = new BingSearchConfig
             {
-                Country = BingCountry.UnitedStates,
+                Country = country,
+                Language = language,
                 Query = SearchText.Text,
                 QueryType = queryType
             };

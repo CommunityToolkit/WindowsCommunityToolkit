@@ -9,7 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.Collections.Generic;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
-    public sealed partial class AdaptiveGridView : Control
+    public partial class AdaptiveGridView : Control
     {
         private int _columns;
         private bool _isInitialized;

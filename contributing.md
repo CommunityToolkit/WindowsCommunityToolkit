@@ -20,7 +20,7 @@ Every contribution has to come with:
 * You tested your code with SDK 10586 and SDK 14393
 * PR has to target dev branch
 
-PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
+PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
 

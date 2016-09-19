@@ -6,6 +6,7 @@ if (string.IsNullOrEmpty(SearchText.Text))
 var searchConfig = new BingSearchConfig
 {
     Country = BingCountry.UnitedStates,
+    Language = BingLanguage.English,
     Query = SearchText.Text,
     QueryType = BingQueryType.Search
 };

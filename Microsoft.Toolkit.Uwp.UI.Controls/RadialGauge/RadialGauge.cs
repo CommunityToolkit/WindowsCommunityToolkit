@@ -10,20 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Numerics;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Numerics;
-    using Windows.UI.Xaml.Input;
-
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
     /// </summary>
