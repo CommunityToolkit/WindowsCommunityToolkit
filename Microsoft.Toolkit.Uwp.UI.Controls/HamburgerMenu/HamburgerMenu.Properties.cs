@@ -125,5 +125,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the collection used to generate the content of the items list.
         /// </summary>
         public ItemCollection Items => _buttonsListView?.Items;
+
+        /// <summary>
+        /// Gets or sets the selected menu item.
+        /// </summary>
+        public object SelectedItem
+        {
+            get { return _buttonsListView.SelectedItem; }
+            set { _buttonsListView.SelectedItem = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected menu index.
+        /// </summary>
+        public int SelectedIndex
+        {
+            get { return _optionsListView.SelectedIndex; }
+            set { _optionsListView.SelectedIndex = value; }
+        }
     }
 }

@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace Microsoft.Toolkit.Uwp.Services.AzureAD
+namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
     /// Authentication Helper Using Azure Active Directory V1.0 app Model

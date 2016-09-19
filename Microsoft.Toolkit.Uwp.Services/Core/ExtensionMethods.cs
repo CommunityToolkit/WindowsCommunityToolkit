@@ -66,6 +66,26 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// <returns>Returns country code.</returns>
         public static string GetStringValue(this BingCountry value)
         {
+            return GetStringValue((Enum)value);
+        }
+
+        /// <summary>
+        /// Converts between language code and language name.
+        /// </summary>
+        /// <param name="value">BingLanguage enumeration.</param>
+        /// <returns>Returns language code.</returns>
+        public static string GetStringValue(this BingLanguage value)
+        {
+            return GetStringValue((Enum)value);
+        }
+
+        /// <summary>
+        /// Converts between enumeration value and string value.
+        /// </summary>
+        /// <param name="value">Enumeration.</param>
+        /// <returns>Returns string value.</returns>
+        private static string GetStringValue(Enum value)
+        {
             string output = null;
             Type type = value.GetType();
 

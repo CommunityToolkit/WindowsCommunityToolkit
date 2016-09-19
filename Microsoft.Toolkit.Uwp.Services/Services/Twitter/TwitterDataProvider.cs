@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return true;
             }
 
-            if (await InitializeRequestAccessTokens(tokens.CallbackUri) == false)
+            if (await InitializeRequestAccessTokensAsync(tokens.CallbackUri) == false)
             {
                 LoggedIn = false;
                 return false;
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 case WebAuthenticationStatus.Success:
                     LoggedIn = true;
-                    return await ExchangeRequestTokenForAccessToken(result.ResponseData);
+                    return await ExchangeRequestTokenForAccessTokenAsync(result.ResponseData);
                 case WebAuthenticationStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     LoggedIn = false;
@@ -321,7 +321,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatus(string tweet, params IRandomAccessStream[] pictures)
+        public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
             try
             {
@@ -332,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     var ids = new List<string>();
                     foreach (var picture in pictures)
                     {
-                        ids.Add(await UploadPicture(picture));
+                        ids.Add(await UploadPictureAsync(picture));
                     }
 
                     media_ids = "&media_ids=" + string.Join(",", ids);
@@ -370,7 +370,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
-        public async Task<string> UploadPicture(IRandomAccessStream stream)
+        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
         {
             var uri = new Uri($"{PublishUrl}/media/upload.json");
 
@@ -566,7 +566,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="twitterCallbackUrl">Callback Uri.</param>
         /// <returns>Success or failure.</returns>
-        private async Task<bool> InitializeRequestAccessTokens(string twitterCallbackUrl)
+        private async Task<bool> InitializeRequestAccessTokensAsync(string twitterCallbackUrl)
         {
             var twitterUrl = $"{OAuthBaseUrl}/request_token";
 
@@ -636,7 +636,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="webAuthResultResponseData">WAB data containing appropriate tokens.</param>
         /// <returns>Success or failure.</returns>
-        private async Task<bool> ExchangeRequestTokenForAccessToken(string webAuthResultResponseData)
+        private async Task<bool> ExchangeRequestTokenForAccessTokenAsync(string webAuthResultResponseData)
         {
             string responseData = webAuthResultResponseData.Substring(webAuthResultResponseData.IndexOf("oauth_token"));
             string requestToken = ExtractTokenFromResponse(responseData, TwitterOAuthTokenType.OAuthRequestOrAccessToken);

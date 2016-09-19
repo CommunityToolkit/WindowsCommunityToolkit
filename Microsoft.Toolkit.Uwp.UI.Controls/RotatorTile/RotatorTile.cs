@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = NextPartName, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TranslatePartName, Type = typeof(TranslateTransform))]
     [TemplatePart(Name = StackPartName, Type = typeof(StackPanel))]
-    public sealed class RotatorTile : Control
+    public class RotatorTile : Control
     {
         private const string ScrollerPartName = "Scroller";
         private const string CurrentPartName = "Current";
