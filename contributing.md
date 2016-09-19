@@ -24,7 +24,7 @@ PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
 
-## Pull requests for XAML controls
+## Quality insurance for pull requests for XAML controls
 Pull Requests on XAML controls will be subject to the following rules:
  * Your control must be usable and efficient with keyboard only
   * Tab order must be logical
@@ -35,10 +35,9 @@ Pull Requests on XAML controls will be subject to the following rules:
   * Don't use the same Name on two different elements unless they have different control types
  * Use Narrator Dev mode (Launch Narrator [WinKey+Enter], then CTRL+F12) to test the screen reader experience. Is the information sufficient, meaningful and helps the user navigate and understand your control
 
-
 You can find more information about these topics [here](https://blogs.msdn.microsoft.com/winuiautomation/2015/07/14/building-accessible-windows-universal-apps-introduction)
 
-This is to help as part of our effort to build an accessible toolkit
+This is to help as part of our effort to build an accessible toolkit (starting with 1.2)
 
 ## General rules
 
