@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -29,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private readonly DropShadow _dropShadow;
         private readonly SpriteVisual _shadowVisual;
-        private Border _shadowElement;
         private FrameworkElement _contentElement;
 
         public CompositionShadow()
@@ -46,8 +46,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             _shadowVisual = compositor.CreateSpriteVisual();
-            _dropShadow = compositor.CreateDropShadow();
-            _shadowVisual.Shadow = _dropShadow;
+
+            if (IsShadowSupported)
+            {
+                _dropShadow = compositor.CreateDropShadow();
+                _shadowVisual.Shadow = _dropShadow;
+            }
 
             ElementCompositionPreview.SetElementChildVisual(ShadowElement, _shadowVisual);
         }
@@ -145,27 +149,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateShadowMask()
         {
-            if (_contentElement != null)
+            if (IsShadowSupported)
             {
-                CompositionBrush mask = null;
-                if (_contentElement is Image)
+                if (_contentElement != null)
                 {
-                    mask = ((Image)_contentElement).GetAlphaMask();
-                }
-                else if (_contentElement is Shape)
-                {
-                    mask = ((Shape)_contentElement).GetAlphaMask();
-                }
-                else if (_contentElement is TextBlock)
-                {
-                    mask = ((TextBlock)_contentElement).GetAlphaMask();
-                }
+                    CompositionBrush mask = null;
+                    if (_contentElement is Image)
+                    {
+                        mask = ((Image)_contentElement).GetAlphaMask();
+                    }
+                    else if (_contentElement is Shape)
+                    {
+                        mask = ((Shape)_contentElement).GetAlphaMask();
+                    }
+                    else if (_contentElement is TextBlock)
+                    {
+                        mask = ((TextBlock)_contentElement).GetAlphaMask();
+                    }
 
-                _dropShadow.Mask = mask;
-            }
-            else
-            {
-                _dropShadow.Mask = null;
+                    _dropShadow.Mask = mask;
+                }
+                else
+                {
+                    _dropShadow.Mask = null;
+                }
             }
         }
 

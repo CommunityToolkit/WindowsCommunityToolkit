@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 
@@ -20,6 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed partial class CompositionShadow
     {
+        public static bool IsShadowSupported =>
+            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+
         /// <summary>
         /// Identifies the <see cref="BlurRadius"/> dependency property.
         /// </summary>
@@ -154,32 +158,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnBlurRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnBlurRadiusChanged((double)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnBlurRadiusChanged((double)e.NewValue);
+            }
         }
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnColorChanged((Color)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnColorChanged((Color)e.NewValue);
+            }
         }
 
         private static void OnOffsetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnOffsetXChanged((double)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnOffsetXChanged((double)e.NewValue);
+            }
         }
 
         private static void OnOffsetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnOffsetYChanged((double)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnOffsetYChanged((double)e.NewValue);
+            }
         }
 
         private static void OnOffsetZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnOffsetZChanged((double)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnOffsetZChanged((double)e.NewValue);
+            }
         }
 
         private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CompositionShadow)d).OnShadowOpacityChanged((double)e.NewValue);
+            if (IsShadowSupported)
+            {
+                ((CompositionShadow)d).OnShadowOpacityChanged((double)e.NewValue);
+            }
         }
     }
 }
