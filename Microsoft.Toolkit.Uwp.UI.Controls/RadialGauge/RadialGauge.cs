@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
+    /// The scale of the gauge is a clockwise arc that sweeps from MinAngle (default lower left, at -150°) to MaxAngle (default lower right, at +150°).
     /// </summary>
     //// All calculations are for a 200x200 square. The viewbox will do the rest.
     [TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
@@ -205,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the minimum on the scale.
+        /// Gets or sets the minimum value of the scale.
         /// </summary>
         public double Minimum
         {
@@ -214,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the maximum on the scale.
+        /// Gets or sets the maximum value of the scale.
         /// </summary>
         public double Maximum
         {
@@ -223,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the (optional) step size.
+        /// Gets or sets the rounding interval for the Value.
         /// </summary>
         public double StepSize
         {
@@ -232,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control changes its value on interaction.
+        /// Gets or sets a value indicating whether the control accepts setting its value through interaction.
         /// </summary>
         public bool IsInteractive
         {
@@ -241,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the width of the scale.
+        /// Gets or sets the width of the scale, in percentage of the gauge radius.
         /// </summary>
         public double ScaleWidth
         {
@@ -259,7 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the unit measure.
+        /// Gets or sets the displayed unit measure.
         /// </summary>
         public string Unit
         {
@@ -313,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the value brush.
+        /// Gets or sets the brush for the displayed value.
         /// </summary>
         public Brush ValueBrush
         {
@@ -322,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the unit brush.
+        /// Gets or sets the brush for the displayed unit measure.
         /// </summary>
         public Brush UnitBrush
         {
@@ -403,9 +404,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle for the Minimum value, in degrees.
+        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the right hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
         /// </summary>
-        /// <remarks>Proposed value range: -180 to 0. Probably requires retemplating the control.</remarks>
+        /// <remarks>Changing MinAngle may require retemplating the control.</remarks>
         public int MinAngle
         {
             get { return (int)GetValue(MinAngleProperty); }
@@ -413,9 +414,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle for the Maximum value, in degrees.
+        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the left hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
         /// </summary>
-        /// <remarks>Proposed value range: 0 to 180. Probably requires retemplating the control.</remarks>
+        /// <remarks>Changing MaxAngle may require retemplating the control.</remarks>
         public int MaxAngle
         {
             get { return (int)GetValue(MaxAngleProperty); }
@@ -423,7 +424,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle of the needle.
+        /// Gets or sets the current angle of the needle (between MinAngle and MaxAngle). Setting the angle will update the Value.
         /// </summary>
         protected double ValueAngle
         {
