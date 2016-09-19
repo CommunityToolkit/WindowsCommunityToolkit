@@ -9,6 +9,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class HeaderedTextBlock
     {
         /// <summary>
+        /// Defines the <see cref="TextFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextFontSizeProperty = DependencyProperty.Register(
+            nameof(TextFontSize),
+            typeof(int),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(18));
+
+        /// <summary>
         /// Defines the <see cref="HeaderStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderStyleProperty = DependencyProperty.Register(
@@ -63,49 +72,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
-        /// Defines the <see cref="HeaderContentFontSize"/> dependency property.
+        /// Defines the <see cref="HeaderFontSize"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderContentFontSizeProperty = DependencyProperty.Register(
-            nameof(HeaderContentFontSize),
+        public static readonly DependencyProperty HeaderFontSizeProperty = DependencyProperty.Register(
+            nameof(HeaderFontSize),
             typeof(int),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(default(int)));
-
-        /// <summary>
-        /// Defines the <see cref="TextContentFontSize"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TextContentFontSizeProperty = DependencyProperty.Register(
-            nameof(TextContentFontSize), typeof(int), typeof(HeaderedTextBlock), new PropertyMetadata(default(int)));
+            new PropertyMetadata(18));
 
         /// <summary>
         /// Gets or sets the TextContent font size.
         /// </summary>
-        public int TextContentFontSize
+        public int TextFontSize
         {
             get
             {
-                return (int)GetValue(TextContentFontSizeProperty);
+                return (int)GetValue(TextFontSizeProperty);
             }
 
             set
             {
-                SetValue(TextContentFontSizeProperty, value);
+                SetValue(TextFontSizeProperty, value);
             }
         }
 
         /// <summary>
         /// Gets or sets the HeaderContent font size.
         /// </summary>
-        public int HeaderContentFontSize
+        public int HeaderFontSize
         {
             get
             {
-                return (int)GetValue(HeaderContentFontSizeProperty);
+                return (int)GetValue(HeaderFontSizeProperty);
             }
 
             set
             {
-                SetValue(HeaderContentFontSizeProperty, value);
+                SetValue(HeaderFontSizeProperty, value);
             }
         }
 
