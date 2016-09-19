@@ -251,7 +251,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation($"max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0)");
             expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
             expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
-            expressionAnimation.SetReferenceParameter("headerVisual", _headerVisual);
 
             if (_headerVisual != null && IsQuickReturnEnabled)
             {
