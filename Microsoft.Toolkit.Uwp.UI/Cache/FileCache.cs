@@ -9,16 +9,15 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public class FileCache : CacheBase<StorageFile>
     {
-        static FileCache()
-        {
-            FileCacheInstance = new FileCache();
-        }
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static FileCache _instance;
 
         /// <summary>
-        /// Gets instance of FileCache. Exposing it as static property will allow inhertance and polymorphism while
-        /// exposing the underlying object and its functionality through this property,
+        /// Gets public singleton property.
         /// </summary>
-        public static FileCache FileCacheInstance { get; private set; }
+        public static FileCache Instance => _instance ?? (_instance = new FileCache());
 
         /// <summary>
         /// Cache specific hooks to proccess items from http response

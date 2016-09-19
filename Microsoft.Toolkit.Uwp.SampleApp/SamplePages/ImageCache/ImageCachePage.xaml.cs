@@ -44,13 +44,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             DisableButtons();
 
-            ImageCache.ImageCacheInstance.MaxMemoryCacheCount = loadInMemory ? 200 : 0;
+            ImageCache.Instance.MaxMemoryCacheCount = loadInMemory ? 200 : 0;
 
             DateTime dtStart = DateTime.Now;
 
             foreach (var item in _photoItems)
             {
-                await ImageCache.ImageCacheInstance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), loadInMemory);
+                await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), loadInMemory);
             }
 
             var msg = $"Preloading {_photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DisableButtons();
 
             GC.Collect(); // Force GC to free file locks
-            await ImageCache.ImageCacheInstance.ClearAsync();
+            await ImageCache.Instance.ClearAsync();
 
             PhotoList.ItemsSource = null;
 

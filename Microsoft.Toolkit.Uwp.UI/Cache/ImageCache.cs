@@ -11,16 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public class ImageCache : CacheBase<BitmapImage>
     {
-        static ImageCache()
-        {
-            ImageCacheInstance = new ImageCache();
-        }
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static ImageCache _instance;
 
         /// <summary>
-        /// Gets instance of FileCache. Exposing it as static property will allow inhertance and polymorphism while
-        /// exposing the underlying object and its functionality through this property,
+        /// Gets public singleton property.
         /// </summary>
-        public static ImageCache ImageCacheInstance { get; private set; }
+        public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
 
         /// <summary>
         /// Cache specific hooks to proccess items from http response
