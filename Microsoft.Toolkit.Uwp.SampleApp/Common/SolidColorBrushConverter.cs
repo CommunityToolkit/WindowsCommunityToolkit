@@ -9,13 +9,13 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
-    using global::Windows.UI.Xaml.Data;
-    using global::Windows.UI.Xaml.Media;
-
     public class SolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

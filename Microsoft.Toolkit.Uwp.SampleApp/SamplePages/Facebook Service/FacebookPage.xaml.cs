@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Facebook;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -26,16 +25,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            QueryType.ItemsSource = new[] { "My feed", "My posts", "My tagged" };
+            QueryType.ItemsSource = new[] { "My feed", "My posts", "My tagged", "My albums" };
             QueryType.SelectedIndex = 0;
 
             ShareBox.Visibility = Visibility.Collapsed;
+            PhotoBox.Visibility = Visibility.Collapsed;
             HidePostPanel();
+            HidePhotoPanel();
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            FacebookService.Instance.Initialize(AppIDText.Text);
+            FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
@@ -70,12 +71,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     break;
             }
 
-            ListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
+            if (QueryType.SelectedIndex == 3)
+            {
+                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserAlbumsAsync();
+                ShareBox.Visibility = Visibility.Collapsed;
+                PhotoBox.Visibility = Visibility.Visible;
+                HidePostPanel();
+                ShowPhotoPanel();
+                PhotoGridView.Visibility = Visibility.Visible;
+                PostListView.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                PostListView.ItemsSource = await FacebookService.Instance.RequestAsync(config, 50);
+                ShareBox.Visibility = Visibility.Visible;
+                PhotoBox.Visibility = Visibility.Collapsed;
+                ShowPostPanel();
+                HidePhotoPanel();
+                PhotoGridView.Visibility = Visibility.Collapsed;
+                PostListView.Visibility = Visibility.Visible;
+            }
 
             HideCredentialsPanel();
-
-            ShareBox.Visibility = Visibility.Visible;
-            ShowPostPanel();
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
             ProfileImage.Visibility = Visibility.Visible;
@@ -84,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -96,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnection())
+            if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
@@ -142,6 +159,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        private void PhotoBoxExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PhotoScroller.Visibility == Visibility.Visible)
+            {
+                HidePhotoPanel();
+            }
+            else
+            {
+                ShowPhotoPanel();
+            }
+        }
+
         private void ShowCredentialsPanel()
         {
             CredentialsBoxExpandButton.Content = "";
@@ -164,6 +193,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             PostBoxExpandButton.Content = "";
             PostPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowPhotoPanel()
+        {
+            PhotoBoxExpandButton.Content = "";
+            PhotoScroller.Visibility = Visibility.Visible;
+        }
+
+        private void HidePhotoPanel()
+        {
+            PhotoBoxExpandButton.Content = "";
+            PhotoScroller.Visibility = Visibility.Collapsed;
+        }
+
+        private async void PhotoGridView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            var addedItem = e.AddedItems.Count > 0 ? e.AddedItems[0] as FacebookAlbum : null;
+
+            if (addedItem != null)
+            {
+                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
+            }
+
+            Shell.Current.DisplayWaitRing = false;
         }
     }
 }

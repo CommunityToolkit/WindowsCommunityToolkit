@@ -9,18 +9,14 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
+using System.Collections.Generic;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Input;
-
     /// <summary>
     /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
     /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
@@ -31,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
-    public sealed partial class AdaptiveGridView
+    public partial class AdaptiveGridView
     {
         /// <summary>
         /// Identifies the <see cref="SelectedIndex"/> dependency property.

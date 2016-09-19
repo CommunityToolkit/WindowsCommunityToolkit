@@ -33,7 +33,9 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBox Header="Request:" x:Name="SearchText" Text="UWP"></TextBox>
-            <ComboBox x:Name="QueryType" Header="Type:" HorizontalAlignment="Stretch"></ComboBox>
+            <ComboBox x:Name="Countries" Header="Country:" HorizontalAlignment="Stretch" Margin="0,10,0,0"></ComboBox>
+            <ComboBox x:Name="Languages" Header="Language:" HorizontalAlignment="Stretch" Margin="0,10,0,0"></ComboBox>
+            <ComboBox x:Name="QueryType" Header="Type:" HorizontalAlignment="Stretch" Margin="0,10,0,0"></ComboBox>
             <Button Content="Search" x:Name="SearchButton" Click="SearchButton_OnClick" Margin="0,10,0,0"></Button>
         </StackPanel>
         <ListView Grid.Row="1" ItemTemplate="{StaticResource BingSchemaTemplate}" x:Name="ListView">
