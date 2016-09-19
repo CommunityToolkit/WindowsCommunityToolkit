@@ -165,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Timer_Tick(object sender, object e)
         {
             var item = GetItemAt(_currentIndex + 1);
+            _timer.Interval = GetTileDuration();
             UpdateNextItem();
         }
 
