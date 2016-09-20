@@ -406,13 +406,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newTranslationX < ActivationWidth)
                 {
                     _leftCommandTransform.TranslateX = newTranslationX / 2;
-                    _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX / 2, 40);
                     newSwipeStatus = SwipeStatus.SwipingToRightThreshold;
                 }
                 else
                 {
                     _leftCommandTransform.TranslateX = 20;
-                    _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX - 20, 40);
                     newSwipeStatus = SwipeStatus.SwipingPassedRightThreshold;
                 }
             }
@@ -430,14 +428,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (-newTranslationX < ActivationWidth)
                 {
                     _rightCommandTransform.TranslateX = newTranslationX / 2;
-                    _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth + (newTranslationX / 2), 0, -newTranslationX / 2, _rightCommandPanel.ActualHeight);
                     newSwipeStatus = SwipeStatus.SwipingToLeftThreshold;
                 }
                 else
                 {
                     _rightCommandTransform.TranslateX = -20;
-                    var drawingWidth = -newTranslationX - 20;
-                    _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth - drawingWidth, 0, drawingWidth, _rightCommandPanel.ActualHeight);
                     newSwipeStatus = SwipeStatus.SwipingPassedLeftThreshold;
                 }
             }
