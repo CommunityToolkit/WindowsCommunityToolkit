@@ -138,6 +138,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RightCommandParameterProperty =
             DependencyProperty.Register(nameof(RightCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the <see cref="SwipeStatus"/> property
+        /// </summary>
+        public static readonly DependencyProperty SwipeStatusProperty =
+            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.NotRunning));
+
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
@@ -152,24 +158,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _rightCommandTransform;
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
-
-        private SwipeStatus _swipeStatus = SwipeStatus.NotRunning;
-
-        public SwipeStatus SwipeStatus
-        {
-            get
-            {
-                return _swipeStatus;
-            }
-
-            private set
-            {
-                if (value != _swipeStatus)
-                {
-                    _swipeStatus = value;
-                }
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -309,6 +297,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var newTranslationX = _transform.TranslateX + e.Delta.Translation.X;
             bool swipingInDisabledArea = false;
+            SwipeStatus newSwipeStatus = SwipeStatus.NotRunning;
 
             if (newTranslationX > 0)
             {
@@ -319,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (newTranslationX > 0)
                     {
                         swipingInDisabledArea = true;
-                        SwipeStatus = SwipeStatus.DisabledSwipingToRight;
+                        newSwipeStatus = SwipeStatus.DisabledSwipingToRight;
                     }
 
                     if (newTranslationX > 16)
@@ -360,7 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (newTranslationX < 0)
                     {
                         swipingInDisabledArea = true;
-                        SwipeStatus = SwipeStatus.DisabledSwipingToLeft;
+                        newSwipeStatus = SwipeStatus.DisabledSwipingToLeft;
                     }
 
                     if (newTranslationX < -16)
@@ -423,13 +412,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _leftCommandTransform.TranslateX = newTranslationX / 2;
                     _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX / 2, 40);
-                    SwipeStatus = SwipeStatus.SwipingToRightThreshold;
+                    newSwipeStatus = SwipeStatus.SwipingToRightThreshold;
                 }
                 else
                 {
                     _leftCommandTransform.TranslateX = 20;
                     _leftCommandPanel.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX - 20, 40);
-                    SwipeStatus = SwipeStatus.SwipingPassedRightThreshold;
+                    newSwipeStatus = SwipeStatus.SwipingPassedRightThreshold;
                 }
             }
             else
@@ -453,18 +442,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _rightCommandTransform.TranslateX = newTranslationX / 2;
                     _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth + (newTranslationX / 2), 0, -newTranslationX / 2, _rightCommandPanel.ActualHeight);
-                    SwipeStatus = SwipeStatus.SwipingToLeftThreshold;
+                    newSwipeStatus = SwipeStatus.SwipingToLeftThreshold;
                 }
                 else
                 {
                     _rightCommandTransform.TranslateX = -20;
                     var drawingWidth = -newTranslationX - 20;
                     _rightCommandPanel.Clip.Rect = new Windows.Foundation.Rect(_rightCommandPanel.ActualWidth - drawingWidth, 0, drawingWidth, _rightCommandPanel.ActualHeight);
-                    SwipeStatus = SwipeStatus.SwipingPassedLeftThreshold;
+                    newSwipeStatus = SwipeStatus.SwipingPassedLeftThreshold;
                 }
             }
 
             _transform.TranslateX = newTranslationX;
+            SwipeStatus = newSwipeStatus;
         }
 
         /// <summary>
@@ -655,6 +645,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(RightCommandParameterProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the SwipeStatus for current swipe status
+        /// </summary>
+        public SwipeStatus SwipeStatus
+        {
+            get
+            {
+                return (SwipeStatus)GetValue(SwipeStatusProperty);
+            }
+
+            private set
+            {
+                SetValue(SwipeStatusProperty, value);
             }
         }
     }
