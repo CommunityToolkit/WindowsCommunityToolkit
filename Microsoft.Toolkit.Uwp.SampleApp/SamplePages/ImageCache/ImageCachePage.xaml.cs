@@ -9,18 +9,17 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.SampleApp.Data;
-    using Microsoft.Toolkit.Uwp.UI;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
-
     /// <summary>
     /// Page shows how ImageCache is used
     /// </summary>

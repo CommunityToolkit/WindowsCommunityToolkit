@@ -9,16 +9,15 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-    using UI;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Media.Imaging;
-
     /// <summary>
     /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
