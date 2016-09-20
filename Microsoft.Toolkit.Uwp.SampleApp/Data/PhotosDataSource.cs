@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             _photos = new ObservableCollection<PhotoDataItem>();
             _groupedPhotos = new ObservableCollection<IEnumerable<PhotoDataItem>>();
 
-            foreach (var item in await GetPhotos(online))
+            foreach (var item in await GetPhotosAsync(online))
             {
                 _photos.Add(item);
 
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             }
         }
 
-        private static async Task<IEnumerable<PhotoDataItem>> GetPhotos(bool online)
+        private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
             var prefix = online ? "Online" : string.Empty;
             var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");

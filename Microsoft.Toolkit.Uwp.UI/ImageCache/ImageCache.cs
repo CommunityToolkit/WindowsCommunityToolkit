@@ -248,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var folder = await GetCacheFolderAsync();
 
                 var baseFile = await folder.TryGetItemAsync(key) as StorageFile;
-                if (await IsFileOutOfDate(baseFile, expirationDate))
+                if (await IsFileOutOfDateAsync(baseFile, expirationDate))
                 {
                     baseFile = await folder.CreateFileAsync(key, CreationCollisionOption.ReplaceExisting);
                     try
@@ -360,7 +360,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
         }
 
-        private static async Task<bool> IsFileOutOfDate(StorageFile file, DateTime expirationDate)
+        private static async Task<bool> IsFileOutOfDateAsync(StorageFile file, DateTime expirationDate)
         {
             if (file != null)
             {
