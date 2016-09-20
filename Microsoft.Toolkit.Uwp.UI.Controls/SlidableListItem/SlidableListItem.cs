@@ -287,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var abs = Math.Abs(_transform.TranslateX + e.Delta.Translation.X);
 
-            if (IsRightSwipeEnabled && e.Delta.Translation.X > 0)
+            if (e.Delta.Translation.X > 0)
             {
                 // Swiping from left to right.
                 if (_commandContainer != null && _transform.TranslateX > 0)
@@ -295,6 +295,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
                     _leftCommandPanel.Opacity = 1;
                     _rightCommandPanel.Opacity = 0;
+                }
+
+                if (!IsRightSwipeEnabled && _transform.TranslateX >= 0)
+                {
+                    _transform.TranslateX = 0;
+                    return;
                 }
 
                 var swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
@@ -330,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _leftCommandTransform.TranslateX = 20;
                 }
             }
-            else if (IsLeftSwipeEnabled && e.Delta.Translation.X < 0)
+            else if (e.Delta.Translation.X < 0)
             {
                 // Swiping from right to left.
                 if (_commandContainer != null && _transform.TranslateX < 0)
@@ -338,6 +344,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _commandContainer.Background = RightBackground as SolidColorBrush;
                     _rightCommandPanel.Opacity = 1;
                     _leftCommandPanel.Opacity = 0;
+                }
+
+                if (!IsLeftSwipeEnabled && _transform.TranslateX <= 0)
+                {
+                    _transform.TranslateX = 0;
+                    return;
                 }
 
                 var swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
