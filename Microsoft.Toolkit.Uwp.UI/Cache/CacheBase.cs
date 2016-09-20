@@ -359,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                _cacheFolder = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
+                _cacheFolder = await _baseFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
             }
             finally
             {
