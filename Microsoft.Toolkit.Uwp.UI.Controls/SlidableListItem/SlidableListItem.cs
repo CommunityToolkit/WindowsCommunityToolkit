@@ -228,6 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_commandContainer != null)
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
+                    _commandContainer.Clip = new RectangleGeometry();
                 }
             }
 
@@ -400,13 +401,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
-                _commandContainer.Width = newTranslationX;
-                _commandContainer.HorizontalAlignment = HorizontalAlignment.Left;
-
-                if (_leftCommandPanel.Clip == null)
-                {
-                    _leftCommandPanel.Clip = new RectangleGeometry();
-                }
+                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX, _commandContainer.ActualHeight);
 
                 if (newTranslationX < ActivationWidth)
                 {
@@ -426,17 +421,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // If swiping from right to left, show right command panel.
                 _leftCommandPanel.Opacity = 0;
 
-                _commandContainer.Opacity = 1;
                 _commandContainer.Background = RightBackground as SolidColorBrush;
+                _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 
-                _commandContainer.Width = -newTranslationX;
-                _commandContainer.HorizontalAlignment = HorizontalAlignment.Right;
-
-                if (_rightCommandPanel.Clip == null)
-                {
-                    _rightCommandPanel.Clip = new RectangleGeometry();
-                }
+                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(_commandContainer.ActualWidth + newTranslationX, 0, -newTranslationX, _commandContainer.ActualHeight);
 
                 if (-newTranslationX < ActivationWidth)
                 {
