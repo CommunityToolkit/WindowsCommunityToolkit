@@ -12,9 +12,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -24,7 +25,7 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// This class represents an <see cref="ObservableCollection{IType}"/> which items can be loaded incrementally.
+    /// This class represents an <see cref="ObservableCollection{IType}"/> whose items can be loaded incrementally.
     /// </summary>
     /// <typeparam name="TSource">
     /// The data source that must be loaded incrementally.
@@ -38,9 +39,36 @@ namespace Microsoft.Toolkit.Uwp
          ISupportIncrementalLoading
          where TSource : IIncrementalSource<IType>, new()
     {
-        private readonly TSource source;
-        private readonly int itemsPerPage;
-        private int currentPageIndex;
+        private readonly TSource _source;
+
+        private readonly int _itemsPerPage;
+        private int _currentPageIndex;
+
+        private CancellationToken _cancellationToken;
+
+        private bool _isLoading;
+
+        /// <summary>
+        /// Gets a value indicating whether new items are being loaded.
+        /// </summary>
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+
+            private set
+            {
+                if (value != _isLoading)
+                {
+                    _isLoading = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class, optionally specifying how many items to load for each data page.
@@ -50,14 +78,25 @@ namespace Microsoft.Toolkit.Uwp
         /// </param>
         public IncrementalLoadingCollection(int itemsPerPage = 20)
         {
-            this.source = new TSource();
-            this.itemsPerPage = itemsPerPage;
+            _source = new TSource();
+            _itemsPerPage = itemsPerPage;
         }
 
         /// <summary>
         /// Gets a value indicating whether the collection contains more items to retrieve.
         /// </summary>
-        public bool HasMoreItems => source?.HasMoreItems ?? false;
+        public bool HasMoreItems
+        {
+            get
+            {
+                if (_cancellationToken.IsCancellationRequested)
+                {
+                    return false;
+                }
+
+                return _source?.HasMoreItems ?? false;
+            }
+        }
 
         /// <summary>
         /// Initializes incremental loading from the view.
@@ -69,13 +108,29 @@ namespace Microsoft.Toolkit.Uwp
         /// An object of the <see cref="LoadMoreItemsAsync(uint)"/> that specifies how many items have been actually retrieved.
         /// </returns>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-        {
-            return AsyncInfo.Run(async (c) =>
-                {
-                    uint resultCount = 0;
-                    var data = await this.LoadDataAsync(count);
+            => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
 
-                    if (data != null)
+        private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
+        {
+            uint resultCount = 0;
+            _cancellationToken = cancellationToken;
+
+            try
+            {
+                if (!_cancellationToken.IsCancellationRequested)
+                {
+                    IEnumerable<IType> data = null;
+                    try
+                    {
+                        IsLoading = true;
+                        data = await LoadDataAsync(count, _cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // The operation has been canceled using the Cancellation Token.
+                    }
+
+                    if (data != null && !_cancellationToken.IsCancellationRequested)
                     {
                         var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
@@ -86,18 +141,23 @@ namespace Microsoft.Toolkit.Uwp
                             {
                                 foreach (var item in data)
                                 {
-                                    this.Add(item);
+                                    Add(item);
                                 }
                             });
                     }
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+            }
 
-                    return new LoadMoreItemsResult { Count = resultCount };
-                });
+            return new LoadMoreItemsResult { Count = resultCount };
         }
 
-        private async Task<IEnumerable<IType>> LoadDataAsync(uint count)
+        private async Task<IEnumerable<IType>> LoadDataAsync(uint count, CancellationToken cancellationToken)
         {
-            var result = await source.GetPagedItemsAsync(currentPageIndex++, itemsPerPage);
+            var result = await _source.GetPagedItemsAsync(_currentPageIndex++, _itemsPerPage, cancellationToken);
             return result;
         }
     }

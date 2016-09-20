@@ -9,10 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp
@@ -33,10 +31,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="pageSize">
         /// The number of <typeparamref name="TSource"/> items to retrieve for the specified <paramref name="pageIndex"/>.
         /// </param>
+        /// <param name="cancellationToken">
+        /// Used to propagate notification that operation should be canceled.
+        /// </param>
         /// <returns>
         /// Returns a collection of <typeparamref name="TSource"/>.
         /// </returns>
-        Task<IEnumerable<TSource>> GetPagedItemsAsync(int pageIndex, int pageSize);
+        Task<IEnumerable<TSource>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets a value indicating whether the collection contains more items to retrieve.
