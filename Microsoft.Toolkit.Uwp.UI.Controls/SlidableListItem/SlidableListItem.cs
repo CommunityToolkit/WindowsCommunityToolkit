@@ -115,6 +115,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(MouseSlidingEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
 
         /// <summary>
+        /// Identifies the <see cref="LeftAbortedCommand"/> property
+        /// </summary>
+        public static readonly DependencyProperty LeftAbortedCommandProperty =
+            DependencyProperty.Register(nameof(LeftAbortedCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="RightAbortedCommand"/> property
+        /// </summary>
+        public static readonly DependencyProperty RightAbortedCommandProperty =
+            DependencyProperty.Register(nameof(RightAbortedCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="LeftStartedCommand"/> property
+        /// </summary>
+        public static readonly DependencyProperty LeftStartedCommandProperty =
+            DependencyProperty.Register(nameof(LeftStartedCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="RightStartedCommand"/> property
+        /// </summary>
+        public static readonly DependencyProperty RightStartedCommandProperty =
+            DependencyProperty.Register(nameof(RightStartedCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="LeftCommand"/> property
         /// </summary>
         public static readonly DependencyProperty LeftCommandProperty =
@@ -163,9 +187,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Occurs when the user start to swipes to the left
+        /// </summary>
+        public event EventHandler RightSlidingStarted;
+
+        /// <summary>
+        /// Occurs when the user swiped to the left but below activation width
+        /// </summary>
+        public event EventHandler RightSlidingAborted;
+
+        /// <summary>
         /// Occurs when the user swipes to the left to activate the right action
         /// </summary>
         public event EventHandler RightCommandRequested;
+
+        /// <summary>
+        /// Occurs when the user start to swipe to the right
+        /// </summary>
+        public event EventHandler LeftSlidingStarted;
+
+        /// <summary>
+        /// Occurs when the user swiped to the right but below activation width
+        /// </summary>
+        public event EventHandler LeftSlidingAborted;
 
         /// <summary>
         /// Occurs when the user swipes to the right to activate the left action
@@ -272,6 +316,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 LeftCommandRequested?.Invoke(this, new EventArgs());
                 LeftCommand?.Execute(LeftCommandParameter);
+            }
+            else if (x < 0)
+            {
+                RightSlidingAborted?.Invoke(this, new EventArgs());
+                RightAbortedCommand?.Execute(RightCommandParameter);
+            }
+            else if (x > 0)
+            {
+                LeftSlidingAborted?.Invoke(this, new EventArgs());
+                LeftAbortedCommand?.Execute(LeftCommandParameter);
             }
         }
 
@@ -383,6 +437,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     _rightCommandTransform.TranslateX = -20;
+                }
+            }
+
+            if (e.Delta.Translation.X == e.Cumulative.Translation.X)
+            {
+                if (e.Cumulative.Translation.X > 0 && IsLeftSwipeEnabled)
+                {
+                    LeftSlidingStarted?.Invoke(this, new EventArgs());
+                    LeftStartedCommand?.Execute(LeftCommandParameter);
+                }
+                else if (IsRightSwipeEnabled)
+                {
+                    RightSlidingStarted?.Invoke(this, new EventArgs());
+                    RightStartedCommand?.Execute(RightCommandParameter);
                 }
             }
         }
@@ -512,6 +580,70 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(MouseSlidingEnabledProperty); }
             set { SetValue(MouseSlidingEnabledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the ICommand for left sliding aborted
+        /// </summary>
+        public ICommand LeftAbortedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(LeftAbortedCommandProperty);
+            }
+
+            set
+            {
+                SetValue(LeftAbortedCommandProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the ICommand for right sliding aborted
+        /// </summary>
+        public ICommand RightAbortedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(RightAbortedCommandProperty);
+            }
+
+            set
+            {
+                SetValue(RightAbortedCommandProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the ICommand for left sliding started
+        /// </summary>
+        public ICommand LeftStartedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(LeftStartedCommandProperty);
+            }
+
+            set
+            {
+                SetValue(LeftStartedCommandProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the ICommand for right sliding started
+        /// </summary>
+        public ICommand RightStartedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(RightStartedCommandProperty);
+            }
+
+            set
+            {
+                SetValue(RightStartedCommandProperty, value);
+            }
         }
 
         /// <summary>
