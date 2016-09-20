@@ -40,6 +40,9 @@ namespace Microsoft.Toolkit.Uwp
          where TSource : IIncrementalSource<IType>, new()
     {
         private readonly TSource _source;
+        private readonly Action _onStartLoading;
+        private readonly Action _onEndLoading;
+        private readonly Action<Exception> _onError;
 
         private readonly int _itemsPerPage;
         private int _currentPageIndex;
@@ -65,6 +68,15 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     _isLoading = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
+
+                    if (_isLoading)
+                    {
+                        _onStartLoading?.Invoke();
+                    }
+                    else
+                    {
+                        _onEndLoading?.Invoke();
+                    }
                 }
             }
         }
@@ -100,9 +112,23 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="itemsPerPage">
         /// The number of items to retrieve for each call. Default is 20.
         /// </param>
-        public IncrementalLoadingCollection(int itemsPerPage = 20)
+        /// <param name="onStartLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </param>
+        /// <param name="onEndLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </param>
+        /// <param name="onError">
+        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// </param>
+        public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
         {
             _source = new TSource();
+
+            _onStartLoading = onStartLoading;
+            _onEndLoading = onEndLoading;
+            _onError = onError;
+
             _itemsPerPage = itemsPerPage;
             _hasMoreItems = true;
         }
@@ -137,6 +163,10 @@ namespace Microsoft.Toolkit.Uwp
                     catch (OperationCanceledException)
                     {
                         // The operation has been canceled using the Cancellation Token.
+                    }
+                    catch (Exception ex) when (_onError != null)
+                    {
+                        _onError.Invoke(ex);
                     }
 
                     if (data != null && data.Count() > 0 && !_cancellationToken.IsCancellationRequested)
