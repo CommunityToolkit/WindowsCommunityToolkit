@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
             PeopleListView.ItemsSource = collection;
 
-            // Binds the collection to the page DataContext in order to use its IsLoading property.
+            // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
             DataContext = collection;
         }
     }

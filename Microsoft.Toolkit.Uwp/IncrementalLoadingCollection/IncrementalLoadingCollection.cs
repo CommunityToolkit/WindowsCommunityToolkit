@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp
         private CancellationToken _cancellationToken;
 
         private bool _isLoading;
+        private bool _hasMoreItems;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -68,20 +69,6 @@ namespace Microsoft.Toolkit.Uwp
             }
         }
 
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class, optionally specifying how many items to load for each data page.
-        /// </summary>
-        /// <param name="itemsPerPage">
-        /// The number of items to retrieve for each call. Default is 20.
-        /// </param>
-        public IncrementalLoadingCollection(int itemsPerPage = 20)
-        {
-            _source = new TSource();
-            _itemsPerPage = itemsPerPage;
-        }
-
         /// <summary>
         /// Gets a value indicating whether the collection contains more items to retrieve.
         /// </summary>
@@ -94,8 +81,30 @@ namespace Microsoft.Toolkit.Uwp
                     return false;
                 }
 
-                return _source?.HasMoreItems ?? false;
+                return _hasMoreItems;
             }
+
+            private set
+            {
+                if (value != _hasMoreItems)
+                {
+                    _hasMoreItems = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class, optionally specifying how many items to load for each data page.
+        /// </summary>
+        /// <param name="itemsPerPage">
+        /// The number of items to retrieve for each call. Default is 20.
+        /// </param>
+        public IncrementalLoadingCollection(int itemsPerPage = 20)
+        {
+            _source = new TSource();
+            _itemsPerPage = itemsPerPage;
+            _hasMoreItems = true;
         }
 
         /// <summary>
@@ -130,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp
                         // The operation has been canceled using the Cancellation Token.
                     }
 
-                    if (data != null && !_cancellationToken.IsCancellationRequested)
+                    if (data != null && data.Count() > 0 && !_cancellationToken.IsCancellationRequested)
                     {
                         var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
@@ -144,6 +153,10 @@ namespace Microsoft.Toolkit.Uwp
                                     Add(item);
                                 }
                             });
+                    }
+                    else
+                    {
+                        HasMoreItems = false;
                     }
                 }
             }

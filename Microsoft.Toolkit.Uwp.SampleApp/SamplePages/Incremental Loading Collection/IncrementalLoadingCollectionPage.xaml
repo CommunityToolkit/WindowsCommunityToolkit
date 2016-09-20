@@ -10,14 +10,20 @@
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
     </Page.Resources>
 
-    <Grid MaxWidth="800" Margin="24" Background="{StaticResource Brush-Grey-05}">
+    <Grid
+        MaxWidth="800"
+        Margin="24"
+        Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)" />
-        <TextBlock Grid.Row="1" Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+            <TextBlock Margin="20,0,0,0" Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
+        </StackPanel>
         <Grid
             Grid.Row="2"
             Background="{StaticResource Brush-Grey-04}"

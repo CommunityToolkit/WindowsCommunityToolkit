@@ -38,10 +38,5 @@ namespace Microsoft.Toolkit.Uwp
         /// Returns a collection of <typeparamref name="TSource"/>.
         /// </returns>
         Task<IEnumerable<TSource>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Gets a value indicating whether the collection contains more items to retrieve.
-        /// </summary>
-        bool HasMoreItems { get; }
     }
 }

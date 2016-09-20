@@ -9,14 +9,13 @@ public class Person
 public class PeopleSource : IIncrementalSource<Person>
 {
     private readonly List<Person> people;
-    private int currentSourceCount;
 
     public PeopleSource()
     {
         // Creates an example collection.
         people = new List<Person>();
 
-        for (int i = 1; i <= 512; i++)
+        for (int i = 1; i <= 200; i++)
         {
             var p = new Person { Name = "Person " + i };
             people.Add(p);
@@ -29,15 +28,11 @@ public class PeopleSource : IIncrementalSource<Person>
         var result = (from p in people
                         select p).Skip(pageIndex * pageSize).Take(pageSize);
 
-        currentSourceCount += result.Count();
-
         // Simulates a longer request...
         await Task.Delay(1000);
 
         return result;
     }
-
-    public bool HasMoreItems => currentSourceCount < people.Count;
 }
 
 // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
@@ -45,8 +40,9 @@ public class PeopleSource : IIncrementalSource<Person>
 var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
 PeopleListView.ItemsSource = collection;
 
-// Binds the collection to the page DataContext in order to use its IsLoading property.
+// Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
 DataContext = collection;
 
 // XAML UI Element
 <TextBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+<TextBlock Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
