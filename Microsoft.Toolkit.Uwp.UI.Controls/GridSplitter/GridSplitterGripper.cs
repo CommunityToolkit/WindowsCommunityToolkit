@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private CoreCursor _splitterPreviousPointer;
         private CoreCursor _previousCursor;
-        private GridSplitter.GripperCursorType _gripperCursor;
+        private CoreCursorType? _gripperCursor;
         private bool _isDragging;
 
         internal Brush GripperForeground
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal GridSplitter.GripperCursorType GripperCursor
+        internal CoreCursorType? GripperCursor
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal GridSplitterGripper(
             GridSplitter.GridResizeDirection gridSplitterDirection,
             Brush gripForeground,
-            GridSplitter.GripperCursorType gripperCursor)
+            CoreCursorType? gripperCursor)
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
@@ -107,7 +107,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateDisplayCursor()
         {
-            if (_gripperCursor == GridSplitter.GripperCursorType.Default)
+            if (_gripperCursor.HasValue)
+            {
+                if (_gripperCursor.Value == CoreCursorType.Custom)
+                {
+                    // do nothing because it throws an exception to set the Windows.Current.Core.Pointer to CoreCursorType.Custom
+                }
+                else
+                {
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(_gripperCursor.Value, 1);
+                }
+            }
+            else
             {
                 if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
                 {
@@ -117,10 +128,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
                 }
-            }
-            else
-            {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor((CoreCursorType)((int)_gripperCursor), 1);
             }
         }
 

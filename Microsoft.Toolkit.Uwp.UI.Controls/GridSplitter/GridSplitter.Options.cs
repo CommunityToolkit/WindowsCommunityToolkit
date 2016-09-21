@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -64,9 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.RegisterAttached(
                 nameof(GripperCursor),
-                typeof(GripperCursorType),
+                typeof(CoreCursorType?),
                 typeof(GridSplitter),
-                new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
+                new PropertyMetadata(null, OnGripperCursorPropertyChanged));
 
         /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
@@ -120,9 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the gripper Cursor type
         /// </summary>
-        public GripperCursorType GripperCursor
+        public CoreCursorType? GripperCursor
         {
-            get { return (GripperCursorType)GetValue(GripperCursorProperty); }
+            get { return (CoreCursorType?)GetValue(GripperCursorProperty); }
             set { SetValue(GripperCursorProperty, value); }
         }
 
