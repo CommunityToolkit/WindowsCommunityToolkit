@@ -11,6 +11,7 @@
 // ******************************************************************
 using System;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Devices.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -21,8 +22,6 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Animations;
-
     /// <summary>
     /// ContentControl providing functionality for sliding left or right to expose functions
     /// </summary>
