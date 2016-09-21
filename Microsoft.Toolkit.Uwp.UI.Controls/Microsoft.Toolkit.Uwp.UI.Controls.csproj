@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,8 @@
     <Compile Include="BladeControl\BladeControl.cs" />
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="CompositionShadow\CompositionShadow.cs" />
+    <Compile Include="CompositionShadow\CompositionShadow.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
     <Compile Include="GridSplitter\GridSplitter.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
@@ -93,6 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="CompositionShadow\CompositionShadow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
