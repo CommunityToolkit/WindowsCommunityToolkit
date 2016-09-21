@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private async Task<T> GetItemAsync(Uri uri, string fileName, bool throwOnError, bool preCacheOnly)
         {
-            T t = default(T);
+            T instance = default(T);
 
             ConcurrentRequest request = null;
 
@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                t = await request.Task;
+                instance = await request.Task;
             }
             catch (Exception ex)
             {
@@ -221,13 +221,13 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            return t;
+            return instance;
         }
 
         private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly)
         {
             StorageFile baseFile = null;
-            T t = default(T);
+            T instance = default(T);
             DateTime expirationDate = DateTime.Now.Subtract(CacheDuration);
 
             if (_inMemoryFileStorage.MaxItemCount > 0)
@@ -235,13 +235,13 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var msi = _inMemoryFileStorage.GetItem(fileName, CacheDuration);
                 if (msi != null)
                 {
-                    t = msi.Item;
+                    instance = msi.Item;
                 }
             }
 
-            if (t != null)
+            if (instance != null)
             {
-                return t;
+                return instance;
             }
 
             var folder = await GetCacheFolderAsync();
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 try
                 {
-                    t = await DownloadFileAsync(uri, baseFile, preCacheOnly);
+                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly);
                 }
                 catch (Exception)
                 {
@@ -261,35 +261,35 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            if (EqualityComparer<T>.Default.Equals(t, default(T)) && !preCacheOnly)
+            if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
                 using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                 {
-                    t = await InitializeTypeAsync(fileStream);
+                    instance = await InitializeTypeAsync(fileStream);
                 }
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
                     var properties = await baseFile.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
 
-                    var msi = new InMemoryStorageItem<T>(fileName, properties.DateModified.DateTime, t);
+                    var msi = new InMemoryStorageItem<T>(fileName, properties.DateModified.DateTime, instance);
                     _inMemoryFileStorage.SetItem(msi);
                 }
             }
 
-            return t;
+            return instance;
         }
 
         private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly)
         {
-            T t = default(T);
+            T instance = default(T);
 
             using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    t = await InitializeTypeAsync(webStream);
+                    instance = await InitializeTypeAsync(webStream);
 
                     webStream.Seek(0);
                 }
@@ -303,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            return t;
+            return instance;
         }
 
         private async Task<bool> IsFileOutOfDate(StorageFile file, DateTime expirationDate)
