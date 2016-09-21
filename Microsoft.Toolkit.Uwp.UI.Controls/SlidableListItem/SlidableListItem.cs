@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using Animations;
+
     /// <summary>
     /// ContentControl providing functionality for sliding left or right to expose functions
     /// </summary>
@@ -142,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SwipeStatus"/> property
         /// </summary>
         public static readonly DependencyProperty SwipeStatusProperty =
-            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.NotRunning));
+            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.Idle));
 
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";
@@ -268,9 +270,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _contentAnimation.From = x;
             _contentStoryboard.Begin();
 
-            _leftCommandTransform.TranslateX = 0;
-            _rightCommandTransform.TranslateX = 0;
-            _commandContainer.Opacity = 0; // How to animate this?
+            _commandContainer.Fade(0, 100).Start();
 
             if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
@@ -283,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 LeftCommand?.Execute(LeftCommandParameter);
             }
 
-            SwipeStatus = SwipeStatus.NotRunning;
+            SwipeStatus = SwipeStatus.Idle;
         }
 
         /// <summary>
@@ -291,14 +291,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (SwipeStatus == SwipeStatus.NotRunning)
+            if (SwipeStatus == SwipeStatus.Idle)
             {
                 return;
             }
 
             var newTranslationX = _transform.TranslateX + e.Delta.Translation.X;
             bool swipingInDisabledArea = false;
-            SwipeStatus newSwipeStatus = SwipeStatus.NotRunning;
+            SwipeStatus newSwipeStatus = SwipeStatus.Idle;
 
             if (newTranslationX > 0)
             {
@@ -647,51 +647,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetValue(SwipeStatusProperty, value);
             }
         }
-    }
-
-    /// <summary>
-    /// Types of swipe status.
-    /// </summary>
-    public enum SwipeStatus
-    {
-        /// <summary>
-        /// Swiping is not occuring.
-        /// </summary>
-        NotRunning,
-
-        /// <summary>
-        /// Swiping is going to start.
-        /// </summary>
-        Starting,
-
-        /// <summary>
-        /// Swiping to the left, but the command is disabled.
-        /// </summary>
-        DisabledSwipingToLeft,
-
-        /// <summary>
-        /// Swiping to the left below the threshold.
-        /// </summary>
-        SwipingToLeftThreshold,
-
-        /// <summary>
-        /// Swiping to the left above the threshold.
-        /// </summary>
-        SwipingPassedLeftThreshold,
-
-        /// <summary>
-        /// Swiping to the right, but the command is disabled.
-        /// </summary>
-        DisabledSwipingToRight,
-
-        /// <summary>
-        /// Swiping to the right below the threshold.
-        /// </summary>
-        SwipingToRightThreshold,
-
-        /// <summary>
-        /// Swiping to the right above the threshold.
-        /// </summary>
-        SwipingPassedRightThreshold
     }
 }
