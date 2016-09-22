@@ -43,6 +43,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Background Task that was registered with the system</returns>
         public static async Task<BackgroundTaskRegistration> RegisterAsync(Type backgroundTaskType, IBackgroundTrigger trigger, bool enforceConditions = true, params IBackgroundCondition[] conditions)
         {
+            // Check if the task is already registered.
+            if (IsBackgroundTaskRegistered(backgroundTaskType) == true)
+            {
+                return GetBackgroundTask(backgroundTaskType) as BackgroundTaskRegistration;
+            }
+
             // Verify access
             BackgroundAccessStatus taskRequired = await BackgroundExecutionManager.RequestAccessAsync();
 
@@ -61,13 +67,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             builder.TaskEntryPoint = backgroundTaskEntryPoint;
             builder.CancelOnConditionLoss = enforceConditions;
 
-            if (conditions != null && conditions.Count() > 0)
-            {
-                foreach (IBackgroundCondition condition in conditions)
-                {
-                    builder.AddCondition(condition);
-                }
-            }
+            // add the conditions if we have them.
+            conditions?.ToList().ForEach(builder.AddCondition);
 
             builder.SetTrigger(trigger);
 
@@ -88,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return;
             }
 
-            IBackgroundTaskRegistration tobeUnregister = BackgroundTaskRegistration.AllTasks.Where(t => t.Value.Name == backgroundTaskType.Name).Select(t => t).FirstOrDefault().Value;
+            IBackgroundTaskRegistration toBeUnregister = BackgroundTaskRegistration.AllTasks.Where(t => t.Value.Name == backgroundTaskType.Name).Select(t => t).FirstOrDefault().Value;
 
-            tobeUnregister?.Unregister(true);
+            toBeUnregister?.Unregister(true);
         }
 
         /// <summary>
