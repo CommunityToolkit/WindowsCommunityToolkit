@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp
                         _onError.Invoke(ex);
                     }
 
-                    if (data != null && data.Count() > 0 && !_cancellationToken.IsCancellationRequested)
+                    if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
                     {
                         var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
