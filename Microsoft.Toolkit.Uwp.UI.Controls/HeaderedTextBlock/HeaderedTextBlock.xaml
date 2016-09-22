@@ -28,6 +28,7 @@
         <Setter Property="TextFontSize" Value="18" />
         <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
         <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedTextBlock">
@@ -43,8 +44,17 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <TextBlock x:Name="HeaderContent" Text="{TemplateBinding Header}" Style="{TemplateBinding HeaderStyle}" FontSize="{Binding HeaderFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                        <TextBlock x:Name="TextContent" Text="{TemplateBinding Text}" Style="{TemplateBinding TextStyle}" FontSize="{Binding TextFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                        <TextBlock x:Name="HeaderContent" 
+                                   AutomationProperties.Name="Header content"
+                                   Text="{TemplateBinding Header}" 
+                                   Style="{TemplateBinding HeaderStyle}" 
+				   FontSize="{Binding HeaderFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                        <TextBlock x:Name="TextContent" 
+                                   AutomationProperties.Name="Text content"
+                                   Text="{TemplateBinding Text}" 
+                                   Style="{TemplateBinding TextStyle}" 
+				   FontSize="{Binding TextFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
