@@ -239,6 +239,7 @@
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
     <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
@@ -298,6 +299,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
+    <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
@@ -343,13 +345,18 @@
     <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
       <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml.cs">
+      <DependentUpon>IncrementalLoadingCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
+    <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
       <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphSource.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphUIExtensions.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml.cs">
       <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
@@ -458,6 +465,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
