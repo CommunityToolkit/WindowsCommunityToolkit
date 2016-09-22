@@ -72,21 +72,12 @@ namespace Microsoft.Toolkit.Uwp
         {
             var validatedUri = ValidateSourceUri(uri);
 
-            var queryString = SetRootAndGetQueryString(validatedUri);
-            if (!string.IsNullOrWhiteSpace(queryString))
-            {
-                // split up in to key-value pairs
-                var pairs = queryString.Split('&').Select(param =>
-                 {
-                     var kvp = param.Split('=');
-                     return new KeyValuePair<string, string>(kvp[0], kvp[1]);
-                 });
-
-                var grouped = pairs.GroupBy(pair => pair.Key);
-                foreach (var group in grouped)
-                { // adds the group to the base with ',' separating each item within a group
-                    Add(group.Key, string.Join(",", group.Select(item => item.Value)));
-                }
+            SetRoot(validatedUri);
+            var queryParams = new Helpers.QueryParameterCollection(validatedUri);
+            var grouped = queryParams.GroupBy(pair => pair.Key);
+            foreach (var group in grouped)
+            { // adds the group to the base with ',' separating each item within a group
+                Add(group.Key, string.Join(",", group.Select(item => item.Value)));
             }
         }
     }

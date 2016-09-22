@@ -60,6 +60,7 @@
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
     <Compile Include="Helpers\DeepLinkParser.cs" />
+    <Compile Include="Helpers\QueryParameterCollection.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
