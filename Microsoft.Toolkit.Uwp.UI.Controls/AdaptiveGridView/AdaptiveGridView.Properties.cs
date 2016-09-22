@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsActiveView { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the ListViewBase instance is the zoomed-in view in its owning SemanticZoom.
+        /// Gets or sets a value indicating whether the AdaptiveGridView instance is the zoomed-in view in its owning SemanticZoom.
         /// </summary>
         public bool IsZoomedInView { get; set; }
 
