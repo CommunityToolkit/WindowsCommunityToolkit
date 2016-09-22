@@ -34,12 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _isInitialized;
         private ListViewBase _listView;
 
-        public bool IsActiveView { get; set; }
-
-        public bool IsZoomedInView { get; set; }
-
-        public SemanticZoom SemanticZoomOwner { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
