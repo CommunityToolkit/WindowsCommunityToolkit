@@ -6,7 +6,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     internal static class Tools
     {
-        internal static async Task<bool> CheckInternetConnection()
+        internal static async Task<bool> CheckInternetConnectionAsync()
         {
             if (!ConnectionHelper.IsInternetAvailable)
             {

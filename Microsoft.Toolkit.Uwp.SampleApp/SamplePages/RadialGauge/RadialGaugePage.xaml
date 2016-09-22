@@ -23,13 +23,15 @@
                                   IsInteractive="{Binding IsInteractive.Value, Mode=OneWay}"
                                   TickSpacing="{Binding TickSpacing.Value, Mode=OneWay}"
                                   ScaleWidth="{Binding ScaleWidth.Value, Mode=OneWay}"
+                                  MinAngle="-150"
+                                  MaxAngle="{Binding MaxAngle.Value, Mode=OneWay}"
                                   Unit="Units"
                                   TickBrush="Gainsboro"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                   UnitBrush="Black"
                                   ValueBrush="Black"
                                   NeedleWidth="{Binding NeedleWidth.Value, Mode=OneWay}"
-                                  TickLength="{Binding TickLength.Value, Mode=OneWay}" />
+                                  TickLength="18" />
         </Grid>
     </Grid>
 </Page>

@@ -9,11 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using System;
-
     /// <summary>
     /// A system-handled snooze button that automatically handles snoozing of a Toast notification.
     /// </summary>
@@ -44,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (customContent == null)
             {
-                throw new ArgumentNullException("customContent");
+                throw new ArgumentNullException(nameof(customContent));
             }
 
             this.CustomContent = customContent;

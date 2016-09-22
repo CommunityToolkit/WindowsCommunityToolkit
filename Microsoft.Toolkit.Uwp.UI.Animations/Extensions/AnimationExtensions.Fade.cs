@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
