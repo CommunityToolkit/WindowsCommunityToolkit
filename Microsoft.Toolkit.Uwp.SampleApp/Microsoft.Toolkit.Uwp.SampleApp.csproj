@@ -224,7 +224,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
-    <Content Include="Icons\Cache.png" />
+    <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
@@ -300,9 +300,10 @@
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
-    <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />

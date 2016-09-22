@@ -241,15 +241,16 @@
     ]
   },
   {
-    "Name": "Cache",
-    "Icon": "Icons/Cache.png",
+    "Name": "Helpers",
+    "Icon": "Icons/Helpers.png",
     "Samples": [
       {
         "Name": "ImageCache",
         "Type": "ImageCachePage",
-        "About": "The ImageCache allows persistence of Images with an option to use in-memory storage.",
+        "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
-        "XamlCodeFile": "ImageCacheCode.bind",
+        "CodeFile": "ImageCacheCode.bind",
+        "XamlCodeFile": "ImageCacheXaml.bind",
         "Icon": "/SamplePages/ImageCache/ImageEx.png"
       }
     ]
