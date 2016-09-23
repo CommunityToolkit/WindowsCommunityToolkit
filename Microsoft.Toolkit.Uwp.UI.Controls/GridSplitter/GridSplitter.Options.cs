@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
-        /// Identifies the <see cref="GripForeground"/> dependency property.
+        /// Identifies the <see cref="GripperForeground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GripperForegroundProperty
             = DependencyProperty.Register(
