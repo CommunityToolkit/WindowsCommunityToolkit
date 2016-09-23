@@ -5,6 +5,13 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 ![Control Overview](githubresources/images/UWP-community-toolkit-overview.png "Sample Image")
 
+## Build status
+
+| Branch | Status |
+| ------ | ------ |
+| master | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/master?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/master) |
+| dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) |
+
 ## Getting started
 
 Please read the [getting Started with the UWP Toolkit](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/getting-started.htm) page for more detailed information about using the toolkit.

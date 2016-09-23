@@ -9,7 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Container.Children.Clear();
                 GC.Collect(); // Force GC to free file locks
-                await ImageCache.ClearAsync();
+                await ImageCache.Instance.ClearAsync();
             });
 
             await LoadDataAsync();

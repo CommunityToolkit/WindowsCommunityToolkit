@@ -13,13 +13,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
             InitControl();
+
+            // Adding Grip to Grid Splitter
+            if (Element == default(UIElement))
+            {
+                var element = new GridSplitterGripper(
+                    _resizeDirection,
+                    GripperForeground,
+                    GripperCursor,
+                    GripperCustomCursorResource);
+                ManipulationStarted += element.SplitterManipulationStarted;
+                ManipulationCompleted += element.SplitterManipulationCompleted;
+                Element = element;
+            }
         }
 
         /// <inheritdoc />
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
             // saving the previous state
-            _previousCursor = Window.Current.CoreWindow.PointerCursor;
+            PreviousCursor = Window.Current.CoreWindow.PointerCursor;
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
@@ -38,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = _previousCursor;
+            Window.Current.CoreWindow.PointerCursor = PreviousCursor;
 
             base.OnManipulationCompleted(e);
         }
