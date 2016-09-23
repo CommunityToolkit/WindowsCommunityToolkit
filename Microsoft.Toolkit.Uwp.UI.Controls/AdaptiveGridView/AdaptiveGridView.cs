@@ -152,36 +152,72 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Initializes the changes to related aspects of presentation (such as scrolling UI or state)
+        /// when the overall view for a SemanticZoom is about to change.
+        /// </summary>
         public void InitializeViewChange()
         {
-            // Ignored.
         }
 
+        /// <summary>
+        /// Changes related aspects of presentation(such as scrolling UI or state)
+        /// when the overall view for a SemanticZoom changes.
+        /// </summary>
         public void CompleteViewChange()
         {
-            // Ignored.
         }
 
+        /// <summary>
+        /// Forces content in the view to scroll until the item specified by SemanticZoomLocation is visible.
+        /// Also focuses that item if found.
+        /// </summary>
+        /// <param name="item">The item in the view to scroll to.</param>
         public void MakeVisible(SemanticZoomLocation item)
         {
-            // Ignored.
         }
 
+        /// <summary>
+        /// Initializes item-wise operations related to a view change
+        /// when the implementing view is the source view and the pending
+        /// destination view is a potentially different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
         public void StartViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
         {
             destination.Item = SelectedItem;
         }
 
+        /// <summary>
+        /// Initializes item-wise operations related to a view change
+        /// when the source view is a different view and the pending
+        /// destination view is the implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
         public void StartViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
         {
-            // Ignored.
         }
 
+        /// <summary>
+        /// Completes item-wise operations related to a view change
+        /// when the implementing view is the source view and the new view is a potentially
+        /// different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
         public void CompleteViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
         {
-            // Ignored.
         }
 
+        /// <summary>
+        /// Completes item-wise operations related to a view change
+        /// when the implementing view is the destination view and the source view is a potentially
+        /// different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
         public void CompleteViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
         {
             SelectedItem = source.Item;
