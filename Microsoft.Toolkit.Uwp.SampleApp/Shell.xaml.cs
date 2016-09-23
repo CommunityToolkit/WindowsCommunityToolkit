@@ -109,13 +109,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (sample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
                 if (sample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSource();
+                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
@@ -281,12 +281,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_currentSample.HasCSharpCode)
             {
-                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
             }
 
             if (_currentSample.HasJavaScriptCode)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSource();
+                JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
             }
         }
     }

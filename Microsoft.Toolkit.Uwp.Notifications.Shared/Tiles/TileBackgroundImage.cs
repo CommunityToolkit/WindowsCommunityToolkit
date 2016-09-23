@@ -1,7 +1,7 @@
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
-
     /// <summary>
     /// A full-bleed background image that appears beneath the Tile content.
     /// </summary>

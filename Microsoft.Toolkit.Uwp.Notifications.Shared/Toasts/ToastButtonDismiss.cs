@@ -1,7 +1,7 @@
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using System;
-
     /// <summary>
     /// A button that, when clicked, is interpreted as a "dismiss" by the system, and the Toast is dismissed just like if the user swiped the Toast away.
     /// </summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (customContent == null)
             {
-                throw new ArgumentNullException("customContent");
+                throw new ArgumentNullException(nameof(customContent));
             }
 
             this.CustomContent = customContent;

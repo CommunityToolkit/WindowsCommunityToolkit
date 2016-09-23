@@ -9,11 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using System;
-
     internal static class TileSizeToAdaptiveTemplateConverter
     {
         public static TileTemplateNameV3 Convert(TileSize size)
