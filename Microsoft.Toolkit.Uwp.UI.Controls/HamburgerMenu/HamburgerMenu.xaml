@@ -17,13 +17,12 @@
                 <ControlTemplate TargetType="local:HamburgerMenu">
                     <Grid>
                         <SplitView x:Name="MainSplitView" 
-                                   IsTabStop="False"
                                    OpenPaneLength="{TemplateBinding OpenPaneLength}" 
                                    PanePlacement="{TemplateBinding PanePlacement}" 
                                    DisplayMode="{TemplateBinding DisplayMode}" 
                                    CompactPaneLength="{TemplateBinding CompactPaneLength}" 
                                    PaneBackground="{TemplateBinding PaneBackground}" 
-                                   IsPaneOpen="{TemplateBinding IsPaneOpen}">
+                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <SplitView.Pane>
                                 <Grid x:Name="PaneGrid">
                                     <Grid.RowDefinitions>

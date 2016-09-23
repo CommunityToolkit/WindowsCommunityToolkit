@@ -49,6 +49,11 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\CacheBase.cs" />
+    <Compile Include="Cache\ImageCache.cs" />
+    <Compile Include="Cache\FileCache.cs" />
+    <Compile Include="Cache\InMemoryStorage.cs" />
+    <Compile Include="Cache\InMemoryStorageItem.cs" />
     <Compile Include="Converters\BoolToObjectConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionVisibilityConverter.cs" />
@@ -57,7 +62,6 @@
     <Compile Include="Converters\EmptyStringToObjectConverter.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="ImageCache\ImageCache.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
