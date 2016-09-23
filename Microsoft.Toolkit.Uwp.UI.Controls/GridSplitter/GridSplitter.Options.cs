@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(GripperCursor),
                 typeof(CoreCursorType?),
                 typeof(GridSplitter),
-                new PropertyMetadata(null, OnGripperCursorPropertyChanged));
+                new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="GripperCustomCursorResource"/> dependency property.
@@ -75,9 +75,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty GripperCustomCursorResourceProperty =
             DependencyProperty.RegisterAttached(
                 nameof(GripperCustomCursorResource),
-                typeof(int?),
+                typeof(uint),
                 typeof(GridSplitter),
-                new PropertyMetadata(null, GripperCustomCursorResourcePropertyChanged));
+                new PropertyMetadata(GripperCustomCursorDefaultResource, GripperCustomCursorResourcePropertyChanged));
 
         /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
@@ -131,18 +131,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the gripper Cursor type
         /// </summary>
-        public CoreCursorType? GripperCursor
+        public GripperCursorType GripperCursor
         {
-            get { return (CoreCursorType?)GetValue(GripperCursorProperty); }
+            get { return (GripperCursorType)GetValue(GripperCursorProperty); }
             set { SetValue(GripperCursorProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the gripper Custom Cursor resource number
         /// </summary>
-        public uint? GripperCustomCursorResource
+        public uint GripperCustomCursorResource
         {
-            get { return (uint?)GetValue(GripperCustomCursorResourceProperty); }
+            get { return (uint)GetValue(GripperCustomCursorResourceProperty); }
             set { SetValue(GripperCustomCursorResourceProperty, value); }
         }
 

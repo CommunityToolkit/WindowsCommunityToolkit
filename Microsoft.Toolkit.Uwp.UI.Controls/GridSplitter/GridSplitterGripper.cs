@@ -19,8 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private CoreCursor _splitterPreviousPointer;
         private CoreCursor _previousCursor;
-        private CoreCursorType? _gripperCursor;
-        private uint? _gripperCustomCursorResource;
+        private GridSplitter.GripperCursorType _gripperCursor;
+        private uint _gripperCustomCursorResource;
         private bool _isDragging;
 
         internal Brush GripperForeground
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal CoreCursorType? GripperCursor
+        internal GridSplitter.GripperCursorType GripperCursor
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal uint? GripperCustomCursorResource
+        internal uint GripperCustomCursorResource
         {
             get
             {
@@ -65,8 +65,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal GridSplitterGripper(
             GridSplitter.GridResizeDirection gridSplitterDirection,
             Brush gripForeground,
-            CoreCursorType? gripperCursor,
-            uint? gripperCustomCursorResource)
+            GridSplitter.GripperCursorType gripperCursor,
+            uint gripperCustomCursorResource)
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
@@ -123,21 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateDisplayCursor()
         {
-            if (_gripperCursor.HasValue)
-            {
-                if (_gripperCursor.Value == CoreCursorType.Custom)
-                {
-                    if (_gripperCustomCursorResource.HasValue)
-                    {
-                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(_gripperCursor.Value, _gripperCustomCursorResource.Value);
-                    }
-                }
-                else
-                {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(_gripperCursor.Value, 1);
-                }
-            }
-            else
+            if (_gripperCursor == GridSplitter.GripperCursorType.Default)
             {
                 if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
                 {
@@ -146,6 +132,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Rows)
                 {
                     Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
+                }
+            }
+            else
+            {
+                var coreCursor = (CoreCursorType)((int)_gripperCursor);
+                if (_gripperCursor == GridSplitter.GripperCursorType.Custom)
+                {
+                    if (_gripperCustomCursorResource != GridSplitter.GripperCustomCursorDefaultResource)
+                    {
+                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, _gripperCustomCursorResource);
+                    }
+                }
+                else
+                {
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, 1);
                 }
             }
         }
