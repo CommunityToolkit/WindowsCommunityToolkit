@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CoreCursor _splitterPreviousPointer;
         private CoreCursor _previousCursor;
         private GridSplitter.GripperCursorType _gripperCursor;
-        private uint _gripperCustomCursorResource;
+        private int _gripperCustomCursorResource;
         private bool _isDragging;
 
         internal Brush GripperForeground
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal uint GripperCustomCursorResource
+        internal int GripperCustomCursorResource
         {
             get
             {
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             GridSplitter.GridResizeDirection gridSplitterDirection,
             Brush gripForeground,
             GridSplitter.GripperCursorType gripperCursor,
-            uint gripperCustomCursorResource)
+            int gripperCustomCursorResource)
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
@@ -139,9 +139,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var coreCursor = (CoreCursorType)((int)_gripperCursor);
                 if (_gripperCursor == GridSplitter.GripperCursorType.Custom)
                 {
-                    if (_gripperCustomCursorResource != GridSplitter.GripperCustomCursorDefaultResource)
+                    if (_gripperCustomCursorResource > GridSplitter.GripperCustomCursorDefaultResource)
                     {
-                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, _gripperCustomCursorResource);
+                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, (uint)_gripperCustomCursorResource);
                     }
                 }
                 else

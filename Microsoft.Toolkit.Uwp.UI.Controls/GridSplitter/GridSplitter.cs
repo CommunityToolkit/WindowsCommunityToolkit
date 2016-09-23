@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter : Control
     {
-        internal const uint GripperCustomCursorDefaultResource = uint.MaxValue;
+        internal const int GripperCustomCursorDefaultResource = -1;
         internal static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
         internal static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
 

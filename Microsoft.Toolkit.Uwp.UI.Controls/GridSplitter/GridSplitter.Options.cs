@@ -140,9 +140,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the gripper Custom Cursor resource number
         /// </summary>
-        public uint GripperCustomCursorResource
+        public int GripperCustomCursorResource
         {
-            get { return (uint)GetValue(GripperCustomCursorResourceProperty); }
+            get { return (int)GetValue(GripperCustomCursorResourceProperty); }
             set { SetValue(GripperCustomCursorResourceProperty, value); }
         }
 
