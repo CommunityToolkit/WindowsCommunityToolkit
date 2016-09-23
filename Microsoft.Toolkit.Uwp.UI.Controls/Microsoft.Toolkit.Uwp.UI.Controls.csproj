@@ -63,6 +63,7 @@
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
+    <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>

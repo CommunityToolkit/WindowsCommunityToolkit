@@ -224,21 +224,24 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
+    <Content Include="Icons\Cache.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
-    <Content Include="SamplePages\BladeControl\Blade.png" />
+    <Content Include="SamplePages\BladeControl\BladeControl.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
-    <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
     <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
@@ -297,7 +300,9 @@
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
+    <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
@@ -343,16 +348,24 @@
     <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
       <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml.cs">
+      <DependentUpon>IncrementalLoadingCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
+    <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
       <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphSource.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphUIExtensions.cs" />
     <Compile Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml.cs">
       <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
+      <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -461,6 +474,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -470,6 +487,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
