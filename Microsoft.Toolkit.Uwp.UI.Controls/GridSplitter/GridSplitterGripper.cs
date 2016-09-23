@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CoreCursor _splitterPreviousPointer;
         private CoreCursor _previousCursor;
         private CoreCursorType? _gripperCursor;
+        private uint? _gripperCustomCursorResource;
         private bool _isDragging;
 
         internal Brush GripperForeground
@@ -48,10 +49,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        internal uint? GripperCustomCursorResource
+        {
+            get
+            {
+                return _gripperCustomCursorResource;
+            }
+
+            set
+            {
+                _gripperCustomCursorResource = value;
+            }
+        }
+
         internal GridSplitterGripper(
             GridSplitter.GridResizeDirection gridSplitterDirection,
             Brush gripForeground,
-            CoreCursorType? gripperCursor)
+            CoreCursorType? gripperCursor,
+            uint? gripperCustomCursorResource)
         {
             _gripperDisplay = new TextBlock();
             _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
@@ -60,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _gripperDisplay.Foreground = gripForeground;
             _gridSplitterDirection = gridSplitterDirection;
             _gripperCursor = gripperCursor;
+            _gripperCustomCursorResource = gripperCustomCursorResource;
 
             if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
             {
@@ -111,7 +127,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (_gripperCursor.Value == CoreCursorType.Custom)
                 {
-                    // do nothing because it throws an exception to set the Windows.Current.Core.Pointer to CoreCursorType.Custom
+                    if (_gripperCustomCursorResource.HasValue)
+                    {
+                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(_gripperCursor.Value, _gripperCustomCursorResource.Value);
+                    }
                 }
                 else
                 {

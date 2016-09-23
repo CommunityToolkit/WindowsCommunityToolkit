@@ -70,6 +70,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null, OnGripperCursorPropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="GripperCustomCursorResource"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GripperCustomCursorResourceProperty =
+            DependencyProperty.RegisterAttached(
+                nameof(GripperCustomCursorResource),
+                typeof(int?),
+                typeof(GridSplitter),
+                new PropertyMetadata(null, GripperCustomCursorResourcePropertyChanged));
+
+        /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
         /// </summary>
         public UIElement Element
@@ -127,6 +137,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(GripperCursorProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the gripper Custom Cursor resource number
+        /// </summary>
+        public uint? GripperCustomCursorResource
+        {
+            get { return (uint?)GetValue(GripperCustomCursorResourceProperty); }
+            set { SetValue(GripperCustomCursorResourceProperty, value); }
+        }
+
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
@@ -144,6 +163,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (grip != null)
             {
                 grip.GripperCursor = gridSplitter.GripperCursor;
+            }
+        }
+
+        private static void GripperCustomCursorResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)d;
+            var grip = gridSplitter.Element as GridSplitterGripper;
+            if (grip != null)
+            {
+                grip.GripperCustomCursorResource = gridSplitter.GripperCustomCursorResource;
             }
         }
     }
