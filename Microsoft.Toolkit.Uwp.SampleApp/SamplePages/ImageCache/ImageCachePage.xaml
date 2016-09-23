@@ -24,36 +24,38 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock
-                Name="Message"
-                HorizontalAlignment="Center"/>
             <StackPanel
                 Name="ButtonsPanel"
+                HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                    <Button 
+                <Button 
                         Margin="10, 20"
                         Name="PreCache"
                         Tapped="PreCache_Tapped"
                         Content="PreCache photos" />
 
-                    <Button 
+                <Button 
                         Margin="10, 20"
                         Name="PreCacheInMemory"
                         Tapped="PreCacheInMemory_Tapped"
                         Content="PreCache photos in memory" />
 
-                    <Button 
+                <Button 
                         Margin="10, 20"
                         Name="LoadImages"
                         Tapped="LoadImages_Tapped"
                         Content="Load photos" />
 
-                    <Button 
+                <Button 
                         Margin="10, 20"
                         Name="ClearCache"
                         Tapped="ClearCache_Tapped"
                         Content="Clear cache" />
-                </StackPanel>
+            </StackPanel>
+            <TextBlock
+                Name="Message"
+                HorizontalAlignment="Center" 
+                Margin="24"/>
         </StackPanel>
         
         <ListView Name="PhotoList"

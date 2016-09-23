@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -109,6 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragCompleted -= Thumb_DragCompleted;
                 _minThumb.DragDelta -= MinThumb_DragDelta;
                 _minThumb.DragStarted -= MinThumb_DragStarted;
+                _minThumb.KeyDown -= MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -116,6 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted -= Thumb_DragCompleted;
                 _maxThumb.DragDelta -= MaxThumb_DragDelta;
                 _maxThumb.DragStarted -= MaxThumb_DragStarted;
+                _maxThumb.KeyDown -= MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
@@ -148,6 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragCompleted += Thumb_DragCompleted;
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
+                _minThumb.KeyDown += MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -155,6 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted += Thumb_DragCompleted;
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
+                _maxThumb.KeyDown += MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
@@ -169,6 +174,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
             base.OnApplyTemplate();
+        }
+
+        private void MinThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMin -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMin += 1;
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void MaxThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMax -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMax += 1;
+                    e.Handled = true;
+                    break;
+            }
         }
 
         private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
