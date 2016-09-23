@@ -1,31 +1,31 @@
 ﻿using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Hyperlink"/> content element that allows
+    /// Provides attached dependency properties for the <see cref="ListViewBase"/> content element that allows
     /// it to invoke a <see cref="ICommand"/> when clicked
     /// </summary>
-    public static class HyperlinkExtensions
+    public static class ListViewBaseExtensions
     {
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding an <see cref="ICommand"/> instance to a <see cref="Hyperlink"/>
+        /// Attached <see cref="DependencyProperty"/> for binding an <see cref="ICommand"/> instance to a <see cref="ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached(
             "Command",
             typeof(ICommand),
-            typeof(HyperlinkExtensions),
+            typeof(ListViewBaseExtensions),
             new PropertyMetadata(null, OnCommandPropertyChanged));
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a command parameter to a <see cref="Hyperlink"/>
+        /// Attached <see cref="DependencyProperty"/> for binding a command parameter to a <see cref="ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.RegisterAttached(
             "CommandParameter",
             typeof(object),
-            typeof(HyperlinkExtensions),
+            typeof(ListViewBaseExtensions),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -70,25 +70,32 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static void OnCommandPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            Hyperlink hyperlink = sender as Hyperlink;
+            ListViewBase listViewBase = sender as ListViewBase;
 
-            if (hyperlink != null)
+            if (listViewBase != null)
             {
-                hyperlink.Click -= OnHyperlinkClicked;
+                listViewBase.ItemClick -= OnItemClicked;
 
                 ICommand command = args.NewValue as ICommand;
 
                 if (command != null)
                 {
-                    hyperlink.Click += OnHyperlinkClicked;
+                    listViewBase.ItemClick += OnItemClicked;
                 }
             }
         }
 
-        private static void OnHyperlinkClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        private static void OnItemClicked(object sender, ItemClickEventArgs args)
         {
-            ICommand command = GetCommand(sender);
-            object parameter = GetCommandParameter(sender);
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            ICommand command = GetCommand(listViewBase);
+            object parameter = GetCommandParameter(listViewBase);
 
             if (command != null)
             {
