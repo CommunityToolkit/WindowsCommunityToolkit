@@ -15,7 +15,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="200"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -54,7 +54,7 @@
         <TextBlock Grid.Column="0" 
                    TextWrapping="Wrap" 
                    Margin="12,12">
-            This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect with ColumnDefinition MinWidth="200" and MinHeight="100"
+            This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect RowDefinition MinHeight="100"
         </TextBlock>
         <TextBlock Grid.Column="1" 
                    Grid.Row="0" 
@@ -91,9 +91,11 @@
         <!--Column Grid Splitter-->
         <controls:GridSplitter 
                 Width="11"
+                GripperCursor="{Binding GripperCursor.Value,Mode=TwoWay}"
                 Background="{StaticResource Brush-Grey-04}"
                 HorizontalAlignment="{Binding HorizontalAlignment.Value,Mode=TwoWay}"
                 Grid.Column="{Binding Column.Value}"
+                GripperForeground="White"
                 ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"
                 ResizeBehavior="{Binding ResizeBehavior.Value,Mode=TwoWay}">
         </controls:GridSplitter>

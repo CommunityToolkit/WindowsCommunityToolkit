@@ -55,6 +55,7 @@
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
     <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
     <Compile Include="GridSplitter\GridSplitter.Options.cs" />
+    <Compile Include="GridSplitter\GridSplitterGripper.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
