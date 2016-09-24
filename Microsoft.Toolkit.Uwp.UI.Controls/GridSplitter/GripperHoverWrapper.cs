@@ -40,7 +40,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public GripperHoverWrapper(UIElement element, GridSplitter.GridResizeDirection gridSplitterDirection, GridSplitter.GripperCursorType gripperCursor, int gripperCustomCursorResource)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GripperHoverWrapper"/> class that add cursor change on hover functionality for GridSplitter.
+        /// </summary>
+        /// <param name="element">UI element to apply cursor change on hover</param>
+        /// <param name="gridSplitterDirection">GridSplitter resize direction</param>
+        /// <param name="gripperCursor">GridSplitter gripper on hover cursor type</param>
+        /// <param name="gripperCustomCursorResource">GridSplitter gripper custom cursor resource number</param>
+        internal GripperHoverWrapper(UIElement element, GridSplitter.GridResizeDirection gridSplitterDirection, GridSplitter.GripperCursorType gripperCursor, int gripperCustomCursorResource)
         {
             _gridSplitterDirection = gridSplitterDirection;
             _gripperCursor = gripperCursor;
