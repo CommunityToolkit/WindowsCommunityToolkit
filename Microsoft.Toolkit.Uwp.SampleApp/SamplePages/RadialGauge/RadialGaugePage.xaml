@@ -31,7 +31,7 @@
                                   UnitBrush="Black"
                                   ValueBrush="Black"
                                   NeedleWidth="{Binding NeedleWidth.Value, Mode=OneWay}"
-                                  TickLength="18" />
+                                  TickLength="{Binding TickLength.Value, Mode=OneWay}" />
         </Grid>
     </Grid>
 </Page>
