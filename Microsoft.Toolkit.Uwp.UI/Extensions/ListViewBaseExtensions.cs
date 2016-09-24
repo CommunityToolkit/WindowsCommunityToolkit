@@ -5,8 +5,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ListViewBase"/> content element that allows
-    /// it to invoke a <see cref="ICommand"/> when clicked
+    /// Provides attached dependency properties for the <see cref="ListViewBase"/> that allows attaching an <see cref="ICommand"/>.
+    /// This ICommand is executed when ListViewBase Item receives interaction by means of ItemClick. This requires IsItemClickEnabled to set to true.
+    /// The ICommand is passed the Item that received interaction as a parameter
     /// </summary>
     public static class ListViewBaseExtensions
     {
@@ -18,15 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             typeof(ICommand),
             typeof(ListViewBaseExtensions),
             new PropertyMetadata(null, OnCommandPropertyChanged));
-
-        /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a command parameter to a <see cref="ListViewBase"/>
-        /// </summary>
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.RegisterAttached(
-            "CommandParameter",
-            typeof(object),
-            typeof(ListViewBaseExtensions),
-            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="DependencyObject"/>
@@ -46,26 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static void SetCommand(DependencyObject obj, ICommand value)
         {
             obj.SetValue(CommandProperty, value);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="CommandProperty"/> instance assocaited with the specified <see cref="DependencyObject"/>
-        /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> from which to get the associated <see cref="CommandProperty"/> value</param>
-        /// <returns>The <see cref="CommandProperty"/> value associated with the the <see cref="DependencyObject"/> or null</returns>
-        public static object GetCommandParameter(DependencyObject obj)
-        {
-            return obj.GetValue(CommandParameterProperty);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="CommandProperty"/> assocaited with the specified <see cref="DependencyObject"/>
-        /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> to associated the <see cref="CommandProperty"/> instance to</param>
-        /// <param name="value">The <see cref="object"/> to set the <see cref="CommandProperty"/> to</param>
-        public static void SetCommandParameter(DependencyObject obj, object value)
-        {
-            obj.SetValue(CommandParameterProperty, value);
         }
 
         private static void OnCommandPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -95,11 +67,9 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             ICommand command = GetCommand(listViewBase);
-            object parameter = GetCommandParameter(listViewBase);
-
-            if (command != null)
+            if (command != null && command.CanExecute(args.ClickedItem))
             {
-                command.Execute(parameter);
+                command.Execute(args.ClickedItem);
             }
         }
     }
