@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
+using Microsoft.Toolkit.Uwp;
 
 namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
 {
@@ -26,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
         protected StorageFolder Folder { get; set; }
 
         /// <summary>
-        /// Retrieve single item by its key
+        /// Retrieve single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="key">Key of the object</param>
@@ -44,7 +45,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
         }
 
         /// <summary>
-        /// Save single item by its key
+        /// Save single item by its key.
+        /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
+        /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects).
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="key">Key of the value saved</param>
@@ -55,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
         }
 
         /// <summary>
-        /// Retrieve object from file
+        /// Retrieve object from file.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="filePath">Path to the file that contains the object</param>
@@ -63,21 +66,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
         /// <returns>Waiting task until completion with the object in the file</returns>
         public async Task<T> ReadFileAsync<T>(string filePath, T @default = default(T))
         {
-            var file = await Folder.CreateFileAsync(filePath, CreationCollisionOption.OpenIfExists);
-            if (file != null)
-            {
-                string value = await FileIO.ReadTextAsync(file);
-                if (value != null)
-                {
-                    return JsonConvert.DeserializeObject<T>(value);
-                }
-            }
-
-            return @default;
+            string value = await StorageFileHelper.ReadTextFromFileAsync(Folder, filePath);
+            return (value != null) ? JsonConvert.DeserializeObject<T>(value) : @default;
         }
 
         /// <summary>
-        /// Save object inside file
+        /// Save object inside file.
+        /// There is no limitation to use this method (refers to <see cref="Save{T}(string, T)"/> method for simple objects).
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="filePath">Path to the file that will contain the object</param>
@@ -85,8 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
         /// <returns>Waiting task until completion</returns>
         public async Task SaveFileAsync<T>(string filePath, T value)
         {
-            var file = await Folder.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(value));
+            await StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }
