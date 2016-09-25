@@ -45,8 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         /// <summary>
         /// Register a background task with conditions.
-        /// If the task is already registered and has the same trigger, returns the existing registration if it has the same trigger.
-        /// If the task is already registered but has different trigger, return null by default.
+        /// If the task is already registered, return null.
         /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
         /// </summary>
         /// <param name="backgroundTaskName">Name of the background task class</param>
@@ -66,10 +65,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 if (forceRegister == false)
                 {
                     Unregister(previouslyRegistered);
-                }
-                else if (previouslyRegistered.Trigger == trigger)
-                {
-                    return previouslyRegistered;
                 }
                 else
                 {
