@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
     [TemplatePart(Name = PartImage, Type = typeof(Image))]
     [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
-    public sealed partial class ImageEx : Control
+    public partial class ImageEx : Control
     {
         private const string PartImage = "Image";
         private const string PartProgress = "Progress";

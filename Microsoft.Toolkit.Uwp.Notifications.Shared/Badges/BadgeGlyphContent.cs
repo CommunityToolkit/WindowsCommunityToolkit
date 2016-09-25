@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 if (!Enum.IsDefined(typeof(BadgeGlyphValue), value))
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _glyph = value;

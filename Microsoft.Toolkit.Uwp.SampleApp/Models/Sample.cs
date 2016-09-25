@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
 
-        public async Task<string> GetCSharpSource()
+        public async Task<string> GetCSharpSourceAsync()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public async Task<string> GetJavaScriptSource()
+        public async Task<string> GetJavaScriptSourceAsync()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {

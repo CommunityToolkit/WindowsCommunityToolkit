@@ -12,12 +12,10 @@
 //
 // ******************************************************************
 using System;
-using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -39,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             HttpResponseMessage response = await client.GetAsync(requestUri);
 
-            return await response.Content.ReadAsStringAsync();
+            return ProcessErrors(await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             HttpResponseMessage response = await client.PostAsync(requestUri, null);
 
-            return await response.Content.ReadAsStringAsync();
+            return ProcessErrors(await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -89,6 +87,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", requestBuilder.AuthorizationHeader);
             return client;
+        }
+
+        private string ProcessErrors(string content)
+        {
+            if (content.StartsWith("{\"errors\":"))
+            {
+                var errors = JsonConvert.DeserializeObject<TwitterErrors>(content);
+
+                throw new TwitterException { Errors = errors };
+            }
+
+            return content;
         }
     }
 }

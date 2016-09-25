@@ -10,22 +10,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System;
+using System.Numerics;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Numerics;
-    using Windows.UI.Xaml.Input;
-
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.
+    /// The scale of the gauge is a clockwise arc that sweeps from MinAngle (default lower left, at -150°) to MaxAngle (default lower right, at +150°).
     /// </summary>
     //// All calculations are for a 200x200 square. The viewbox will do the rest.
     [TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
@@ -168,13 +168,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the MinAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MinAngleProperty =
-            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnFaceChanged));
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(-150, OnScaleChanged));
 
         /// <summary>
         /// Identifies the MaxAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MaxAngleProperty =
-            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnFaceChanged));
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(RadialGauge), new PropertyMetadata(150, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ValueAngle dependency property.
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the minimum on the scale.
+        /// Gets or sets the minimum value of the scale.
         /// </summary>
         public double Minimum
         {
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the maximum on the scale.
+        /// Gets or sets the maximum value of the scale.
         /// </summary>
         public double Maximum
         {
@@ -223,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the (optional) step size.
+        /// Gets or sets the rounding interval for the Value.
         /// </summary>
         public double StepSize
         {
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control changes its value on interaction.
+        /// Gets or sets a value indicating whether the control accepts setting its value through interaction.
         /// </summary>
         public bool IsInteractive
         {
@@ -241,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the width of the scale.
+        /// Gets or sets the width of the scale, in percentage of the gauge radius.
         /// </summary>
         public double ScaleWidth
         {
@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the unit measure.
+        /// Gets or sets the displayed unit measure.
         /// </summary>
         public string Unit
         {
@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the value brush.
+        /// Gets or sets the brush for the displayed value.
         /// </summary>
         public Brush ValueBrush
         {
@@ -322,7 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the unit brush.
+        /// Gets or sets the brush for the displayed unit measure.
         /// </summary>
         public Brush UnitBrush
         {
@@ -403,9 +403,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle for the Minimum value, in degrees.
+        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the right hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
         /// </summary>
-        /// <remarks>Proposed value range: -180 to 0. Probably requires retemplating the control.</remarks>
+        /// <remarks>Changing MinAngle may require retemplating the control.</remarks>
         public int MinAngle
         {
             get { return (int)GetValue(MinAngleProperty); }
@@ -413,9 +413,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle for the Maximum value, in degrees.
+        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the left hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
         /// </summary>
-        /// <remarks>Proposed value range: 0 to 180. Probably requires retemplating the control.</remarks>
+        /// <remarks>Changing MaxAngle may require retemplating the control.</remarks>
         public int MaxAngle
         {
             get { return (int)GetValue(MaxAngleProperty); }
@@ -423,7 +423,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the angle of the needle.
+        /// Gets or sets the current angle of the needle (between MinAngle and MaxAngle). Setting the angle will update the Value.
         /// </summary>
         protected double ValueAngle
         {
@@ -473,18 +473,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (radialGauge.ValueAngle > radialGauge.MinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
-                        var pg = new PathGeometry();
-                        var pf = new PathFigure();
-                        pf.IsClosed = false;
-                        pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
-                        var seg = new ArcSegment();
-                        seg.SweepDirection = SweepDirection.Clockwise;
-                        seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
-                        seg.Size = new Size(middleOfScale, middleOfScale);
-                        seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
-                        pf.Segments.Add(seg);
-                        pg.Figures.Add(pf);
-                        trail.Data = pg;
+
+                        if (radialGauge.ValueAngle - radialGauge.MinAngle == 360)
+                        {
+                            // Draw full circle.
+                            var eg = new EllipseGeometry();
+                            eg.Center = new Point(100, 100);
+                            eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                            eg.RadiusY = eg.RadiusX;
+                            trail.Data = eg;
+                        }
+                        else
+                        {
+                            // Draw arc.
+                            var pg = new PathGeometry();
+                            var pf = new PathFigure();
+                            pf.IsClosed = false;
+                            pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                            var seg = new ArcSegment();
+                            seg.SweepDirection = SweepDirection.Clockwise;
+                            seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
+                            seg.Size = new Size(middleOfScale, middleOfScale);
+                            seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                            pf.Segments.Add(seg);
+                            pg.Figures.Add(pf);
+                            trail.Data = pg;
+                        }
                     }
                     else
                     {
@@ -530,19 +544,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var scale = radialGauge.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
-                var pg = new PathGeometry();
-                var pf = new PathFigure();
-                pf.IsClosed = false;
-                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
-                pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
-                var seg = new ArcSegment();
-                seg.SweepDirection = SweepDirection.Clockwise;
-                seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
-                seg.Size = new Size(middleOfScale, middleOfScale);
-                seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
-                pf.Segments.Add(seg);
-                pg.Figures.Add(pf);
-                scale.Data = pg;
+                if (radialGauge.MaxAngle - radialGauge.MinAngle == 360)
+                {
+                    // Draw full circle.
+                    var eg = new EllipseGeometry();
+                    eg.Center = new Point(100, 100);
+                    eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    eg.RadiusY = eg.RadiusX;
+                    scale.Data = eg;
+                }
+                else
+                {
+                    // Draw arc.
+                    var pg = new PathGeometry();
+                    var pf = new PathFigure();
+                    pf.IsClosed = false;
+                    var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                    var seg = new ArcSegment();
+                    seg.SweepDirection = SweepDirection.Clockwise;
+                    seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
+                    seg.Size = new Size(middleOfScale, middleOfScale);
+                    seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
+                    pf.Segments.Add(seg);
+                    pg.Figures.Add(pf);
+                    scale.Data = pg;
+                }
 
                 OnFaceChanged(radialGauge);
             }
@@ -619,13 +646,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 
             var angle = Math.Atan2(pt.X, pt.Y) * 180 / Math.PI;
-            if (angle < MinAngle || angle > MaxAngle)
+            var value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            if (value < Minimum || value > Maximum)
             {
                 // Ignore positions outside the scale angle.
                 return;
             }
 
-            Value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            Value = value;
         }
 
         private Point ScalePoint(double angle, double middleOfScale)

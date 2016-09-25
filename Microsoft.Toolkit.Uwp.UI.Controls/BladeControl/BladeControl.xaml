@@ -19,10 +19,11 @@
                               ItemsSource="{TemplateBinding ActiveBlades}"
                               Name="BladeContainer"
                               SelectionMode="None"
+                              Padding="{TemplateBinding Padding}"
                               Style="{StaticResource HorizontalGridView}">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemContainerStyle>
