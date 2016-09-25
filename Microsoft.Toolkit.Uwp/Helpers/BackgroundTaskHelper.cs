@@ -23,7 +23,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class BackgroundTaskHelper
     {
-
         /// <summary>
         /// Check if a background task is registered.
         /// </summary>
@@ -51,15 +50,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
         /// </summary>
         /// <param name="backgroundTaskName">Name of the background task class</param>
-        /// <param name="backgroundTaskEntryPoint">Entry point of the background task. This parameter will not be used if <paramref name="isSingleProcess"/> is true</param>
+        /// <param name="backgroundTaskEntryPoint">Entry point of the background task.</param>
         /// <param name="trigger">Trigger that indicate when the background task should be invoked</param>
         /// <param name="forceRegister">Indicate if the background task will be force installed in the case of being already registered</param>
-        /// <param name="isSingleProcess">Indicate if we are registering under Single Process Model. <paramref name="backgroundTaskEntryPoint"/> won't be used if this is true. Default is false.
-        /// WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later.</param>
         /// <param name="enforceConditions">Indicate if the background task should quit if condition is no longer valid</param>
         /// <param name="conditions">Optional conditions for the background task to run with</param>
         /// <returns>Background Task that was registered with the system</returns>
-        public static BackgroundTaskRegistration Register(string backgroundTaskName, string backgroundTaskEntryPoint, IBackgroundTrigger trigger, bool forceRegister = false, bool isSingleProcess = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
+        public static BackgroundTaskRegistration Register(string backgroundTaskName, string backgroundTaskEntryPoint, IBackgroundTrigger trigger, bool forceRegister = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
         {
             // Check if the task is already registered.
             if (IsBackgroundTaskRegistered(backgroundTaskName) == true)
@@ -85,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             builder.Name = backgroundTaskName;
 
             // check if we are registering in SPM mode
-            if (isSingleProcess == false)
+            if (backgroundTaskEntryPoint != string.Empty)
             {
                 builder.TaskEntryPoint = backgroundTaskEntryPoint;
             }
@@ -112,14 +109,30 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="backgroundTaskType">The type of the background task. This class has to implement IBackgroundTask</param>
         /// <param name="trigger">Trigger that indicate when the background task should be invoked</param>
         /// <param name="forceRegister">Indicate if the background task will be force installed in the case of being already registered</param>
-        /// <param name="isSingleProcess">Indicate if we are registering under Single Process Model. <paramref name="backgroundTaskEntryPoint"/> won't be used if this is true. Default is false.
-        /// WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later.</param>
         /// <param name="enforceConditions">Indicate if the background task should quit if condition is no longer valid</param>
         /// <param name="conditions">Optional conditions for the background task to run with</param>
         /// <returns>Background Task that was registered with the system</returns>
-        public static BackgroundTaskRegistration Register(Type backgroundTaskType, IBackgroundTrigger trigger, bool forceRegister = false, bool isSingleProcess = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
+        public static BackgroundTaskRegistration Register(Type backgroundTaskType, IBackgroundTrigger trigger, bool forceRegister = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
         {
-            return Register(backgroundTaskType.Name, backgroundTaskType.FullName, trigger, forceRegister, isSingleProcess, enforceConditions, conditions);
+            return Register(backgroundTaskType.Name, backgroundTaskType.FullName, trigger, forceRegister, enforceConditions, conditions);
+        }
+
+        /// <summary>
+        /// This registers under the Single Process Model. WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later
+        /// Register a background task with conditions.
+        /// If the task is already registered and has the same trigger, returns the existing registration if it has the same trigger.
+        /// If the task is already registered but has different trigger, return null by default.
+        /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
+        /// </summary>
+        /// <param name="backgroundTaskName">The name of the background task class</param>
+        /// <param name="trigger">Trigger that indicate when the background task should be invoked</param>
+        /// <param name="forceRegister">Indicate if the background task will be force installed in the case of being already registered</param>
+        /// <param name="enforceConditions">Indicate if the background task should quit if condition is no longer valid</param>
+        /// <param name="conditions">Optional conditions for the background task to run with</param>
+        /// <returns>Background Task that was registered with the system</returns>
+        public static BackgroundTaskRegistration Register(string backgroundTaskName, IBackgroundTrigger trigger, bool forceRegister = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
+        {
+            return Register(backgroundTaskName, string.Empty, trigger, forceRegister, enforceConditions, conditions);
         }
 
         /// <summary>
