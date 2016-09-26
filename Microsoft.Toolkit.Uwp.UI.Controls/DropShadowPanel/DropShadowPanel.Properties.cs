@@ -16,10 +16,10 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The <see cref="CompositionShadow"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
+    /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
-    public sealed partial class CompositionShadow
+    public sealed partial class DropShadowPanel
     {
         public static bool IsShadowSupported =>
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
@@ -28,37 +28,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="BlurRadius"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BlurRadiusProperty =
-             DependencyProperty.Register(nameof(BlurRadius), typeof(double), typeof(CompositionShadow), new PropertyMetadata(9.0, OnBlurRadiusChanged));
+             DependencyProperty.Register(nameof(BlurRadius), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(9.0, OnBlurRadiusChanged));
 
         /// <summary>
         /// Identifies the <see cref="Color"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty =
-            DependencyProperty.Register(nameof(Color), typeof(Color), typeof(CompositionShadow), new PropertyMetadata(Colors.Black, OnColorChanged));
+            DependencyProperty.Register(nameof(Color), typeof(Color), typeof(DropShadowPanel), new PropertyMetadata(Colors.Black, OnColorChanged));
 
         /// <summary>
         /// Identifies the <see cref="OffsetX"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OffsetXProperty =
-            DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(CompositionShadow), new PropertyMetadata(0.0, OnOffsetXChanged));
+            DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(0.0, OnOffsetXChanged));
 
         /// <summary>
         /// Identifies the <see cref="OffsetY"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OffsetYProperty =
-            DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(CompositionShadow), new PropertyMetadata(0.0, OnOffsetYChanged));
+            DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(0.0, OnOffsetYChanged));
 
         /// <summary>
         /// Identifies the <see cref="OffsetZ"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OffsetZProperty =
-            DependencyProperty.Register(nameof(OffsetZ), typeof(double), typeof(CompositionShadow), new PropertyMetadata(0.0, OnOffsetZChanged));
+            DependencyProperty.Register(nameof(OffsetZ), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(0.0, OnOffsetZChanged));
 
         /// <summary>
         /// Identifies the <see cref="ShadowOpacity"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ShadowOpacityProperty =
-            DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(CompositionShadow), new PropertyMetadata(1.0, OnShadowOpacityChanged));
+            DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(1.0, OnShadowOpacityChanged));
 
         /// <summary>
         /// Gets or sets the blur radius of the drop shadow.
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnBlurRadiusChanged((double)e.NewValue);
+                ((DropShadowPanel)d).OnBlurRadiusChanged((double)e.NewValue);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnColorChanged((Color)e.NewValue);
+                ((DropShadowPanel)d).OnColorChanged((Color)e.NewValue);
             }
         }
 
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnOffsetXChanged((double)e.NewValue);
+                ((DropShadowPanel)d).OnOffsetXChanged((double)e.NewValue);
             }
         }
 
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnOffsetYChanged((double)e.NewValue);
+                ((DropShadowPanel)d).OnOffsetYChanged((double)e.NewValue);
             }
         }
 
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnOffsetZChanged((double)e.NewValue);
+                ((DropShadowPanel)d).OnOffsetZChanged((double)e.NewValue);
             }
         }
 
@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsShadowSupported)
             {
-                ((CompositionShadow)d).OnShadowOpacityChanged((double)e.NewValue);
+                ((DropShadowPanel)d).OnShadowOpacityChanged((double)e.NewValue);
             }
         }
     }

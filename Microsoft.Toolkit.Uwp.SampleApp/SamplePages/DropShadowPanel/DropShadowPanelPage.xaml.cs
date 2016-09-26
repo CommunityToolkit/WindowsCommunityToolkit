@@ -16,14 +16,14 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the CompositionShadow control.
+    /// A page that shows how to use the DropShadowPanel control.
     /// </summary>
-    public sealed partial class DropShadowPage : Page
+    public sealed partial class DropShadowPanelPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DropShadowPage"/> class.
+        /// Initializes a new instance of the <see cref="DropShadowPanelPage"/> class.
         /// </summary>
-        public DropShadowPage()
+        public DropShadowPanelPage()
         {
             this.InitializeComponent();
         }

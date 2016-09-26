@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Numerics;
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -22,17 +21,17 @@ using Windows.UI.Xaml.Shapes;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The <see cref="CompositionShadow"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
+    /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
     [ContentProperty(Name = nameof(CastingElement))]
-    public sealed partial class CompositionShadow : UserControl
+    public sealed partial class DropShadowPanel : UserControl
     {
         private readonly DropShadow _dropShadow;
         private readonly SpriteVisual _shadowVisual;
         private FrameworkElement _contentElement;
 
-        public CompositionShadow()
+        public DropShadowPanel()
         {
             InitializeComponent();
             DefaultStyleKey = typeof(CompositionShadow);
