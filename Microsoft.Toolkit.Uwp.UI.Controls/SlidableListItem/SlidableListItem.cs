@@ -13,6 +13,7 @@ using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Devices.Input;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -144,6 +145,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty SwipeStatusProperty =
             DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.Idle));
+
+        /// <summary>
+        /// Occurs when SwipeStatus has changed
+        /// </summary>
+        public event TypedEventHandler<SlidableListItem, SwipeStatusChangedEventArgs> SwipeStatusChanged;
 
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";
@@ -643,7 +649,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             private set
             {
-                SetValue(SwipeStatusProperty, value);
+                var oldValue = SwipeStatus;
+
+                if (value != oldValue)
+                {
+                    SetValue(SwipeStatusProperty, value);
+
+                    var eventArguments = new SwipeStatusChangedEventArgs()
+                    {
+                        OldValue = oldValue,
+                        NewValue = value
+                    };
+
+                    SwipeStatusChanged?.Invoke(this, eventArguments);
+                }
             }
         }
     }
