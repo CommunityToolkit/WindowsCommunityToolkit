@@ -22,7 +22,7 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer Margin="15" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="15,15,15,0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Style="{StaticResource TitleText}" >TextBlock</TextBlock>
                 <Border Style="{StaticResource DividingBorder}"/>

@@ -90,7 +90,6 @@
                         </Grid>
 
                         <ContentPresenter Grid.Row="1"
-                                          Width="500"
                                           VerticalAlignment="Stretch"
                                           Background="{TemplateBinding Background}"
                                           Content="{TemplateBinding Element}"
