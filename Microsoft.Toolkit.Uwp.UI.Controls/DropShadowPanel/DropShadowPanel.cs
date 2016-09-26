@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 using System.Numerics;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -30,6 +31,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private readonly DropShadow _dropShadow;
         private readonly SpriteVisual _shadowVisual;
         private FrameworkElement _contentElement;
+
+        /// <summary>
+        /// Gets a value indicating whether the platform supports drop shadows.
+        /// </summary>
+        /// <remarks>
+        /// On platforms not supporting drop shadows, this control has no effect.
+        /// </remarks>
+        public static bool IsSupported =>
+            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         public DropShadowPanel()
         {
