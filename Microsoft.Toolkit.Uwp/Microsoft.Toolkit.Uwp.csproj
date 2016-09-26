@@ -58,6 +58,8 @@
     <Compile Include="Helpers\Storage\LocalStorageService.cs" />
     <Compile Include="Helpers\Storage\RoamingStorageService.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
+    <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
+    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />

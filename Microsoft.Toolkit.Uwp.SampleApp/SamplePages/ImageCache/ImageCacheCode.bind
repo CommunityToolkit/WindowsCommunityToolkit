@@ -1,0 +1,11 @@
+// Define max memory cache size
+ImageCache.Instance.MaxMemoryCacheCount = 200;
+
+// Precache data and save it in memory
+await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), true);
+
+// Precache data and save it in on local hard drive
+await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), false);
+
+// Clear cache
+await ImageCache.Instance.ClearAsync();
