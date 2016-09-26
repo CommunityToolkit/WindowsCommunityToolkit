@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
-using Microsoft.Toolkit.Uwp;
 
-namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Shared implementation of StorageService

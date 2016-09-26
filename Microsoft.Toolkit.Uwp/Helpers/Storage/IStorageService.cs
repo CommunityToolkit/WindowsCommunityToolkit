@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Service used to store data

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Services.Services.Storage
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Store data in the Roaming environment (shared around all user devices)
