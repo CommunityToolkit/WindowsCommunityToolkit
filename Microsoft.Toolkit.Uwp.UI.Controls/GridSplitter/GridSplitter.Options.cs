@@ -159,21 +159,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
-            var grip = gridSplitter.Element as GridSplitterGripper;
-            if (grip != null)
-            {
-                grip.GripperCursor = gridSplitter.GripperCursor;
-            }
+            gridSplitter._hoverWrapper.GripperCursor = gridSplitter.GripperCursor;
         }
 
         private static void GripperCustomCursorResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
-            var grip = gridSplitter.Element as GridSplitterGripper;
-            if (grip != null)
-            {
-                grip.GripperCustomCursorResource = gridSplitter.GripperCustomCursorResource;
-            }
+            gridSplitter._hoverWrapper.GripperCustomCursorResource = gridSplitter.GripperCustomCursorResource;
         }
     }
 }

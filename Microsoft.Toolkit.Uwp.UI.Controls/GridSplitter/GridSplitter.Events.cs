@@ -19,13 +19,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var element = new GridSplitterGripper(
                     _resizeDirection,
-                    GripperForeground,
-                    GripperCursor,
-                    GripperCustomCursorResource);
-                ManipulationStarted += element.SplitterManipulationStarted;
-                ManipulationCompleted += element.SplitterManipulationCompleted;
+                    GripperForeground);
                 Element = element;
             }
+
+            var hoverWrapper = new GripperHoverWrapper(
+                Element,
+                _resizeDirection,
+                GripperCursor,
+                GripperCustomCursorResource);
+            ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
+            ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
+
+            _hoverWrapper = hoverWrapper;
         }
 
         /// <inheritdoc />

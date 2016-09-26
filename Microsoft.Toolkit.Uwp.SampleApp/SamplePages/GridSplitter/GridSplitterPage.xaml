@@ -108,15 +108,12 @@
             Height="11"
             HorizontalAlignment="Stretch" >
             <controls:GridSplitter.Element>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center"     
-                                   IsHitTestVisible="False"
+                <TextBlock HorizontalAlignment="Center"     
                                    VerticalAlignment="Center"  
                                    Text="&#xE76F;"
                                    Foreground="White" 
                                    FontFamily="Segoe MDL2 Assets">
-                    </TextBlock>
-                </Grid>
+                </TextBlock>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
