@@ -9,7 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -41,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (propertyDesc != null)
             {
                 DataContext = propertyDesc.Expando;
+            }
+
+            if (!DropShadowPanel.IsSupported)
+            {
+                WarningText.Visibility = Visibility.Visible;
             }
         }
     }

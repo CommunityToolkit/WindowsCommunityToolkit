@@ -115,19 +115,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top,
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = true; }));
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
                 },
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = false; }));
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
                 },
-                async (ex) =>
+                async ex =>
                 {
                     if (!Dispatcher.HasThreadAccess)
                     {
                         if (ex is ServiceException)
                         {
-                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessageAsync((ex as ServiceException), "Read user mail"); }));
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await DisplayAuthorizationErrorMessageAsync(ex as ServiceException, "Read user mail"); });
                         }
                         else
                         {
@@ -147,7 +147,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private Task DisplayAuthorizationErrorMessageAsync(ServiceException ex, string additionalMessage)
         {
-            MessageDialog error = null;
+            MessageDialog error;
+
             if (ex.Error.Code.Equals("ErrorAccessDenied"))
             {
                 error = new MessageDialog($"{ex.Error.Code}\nCheck in Azure Active Directory portal the '{additionalMessage}' Delegated Permissions");
