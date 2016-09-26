@@ -255,6 +255,7 @@
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
+    <Content Include="SamplePages\Storage\Storage.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -306,6 +307,7 @@
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
+    <Content Include="SamplePages\Storage\StorageCode.bind" />
     <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
@@ -373,6 +375,9 @@
     </Compile>
     <Compile Include="SamplePages\LiveTile\LiveTilePage.xaml.cs">
       <DependentUpon>LiveTilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Storage\StoragePage.xaml.cs">
+      <DependentUpon>StoragePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
@@ -508,6 +513,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Fade\FadeBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Storage\StoragePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
