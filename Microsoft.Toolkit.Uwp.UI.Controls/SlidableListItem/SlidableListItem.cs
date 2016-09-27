@@ -165,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _rightCommandTransform;
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
+        private bool _justFinishedSwiping;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -204,6 +205,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentGrid != null)
             {
+                _contentGrid.PointerPressed += ContentGrid_PointerPressed;
+                _contentGrid.PointerReleased += ContentGrid_PointerReleased;
+
                 _transform = _contentGrid.RenderTransform as CompositeTransform;
                 _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
@@ -217,9 +221,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
+
+                _justFinishedSwiping = false;
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void ContentGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            _justFinishedSwiping = false;
+        }
+
+        private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (_justFinishedSwiping)
+            {
+                e.Handled = true;
+                _justFinishedSwiping = false;
+            }
         }
 
         private void ContentGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -289,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             SwipeStatus = SwipeStatus.Idle;
+            _justFinishedSwiping = true;
         }
 
         /// <summary>
