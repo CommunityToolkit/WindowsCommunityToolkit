@@ -152,6 +152,7 @@
     <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
     <Content Include="Assets\Photos\Van.png" />
     <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Assets\ToolkitLogoTransparent.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-100.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-125.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-150.png" />

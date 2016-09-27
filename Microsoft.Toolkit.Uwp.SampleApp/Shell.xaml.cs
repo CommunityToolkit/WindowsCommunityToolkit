@@ -52,12 +52,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Splitter.Visibility = Visibility.Visible;
         }
 
-        private void UpdateRootGridMinWidth()
-        {
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
-        }
-
         public void HideInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Collapsed;
@@ -152,6 +146,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+        }
+
+        private void UpdateRootGridMinWidth()
+        {
+            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
+            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)

@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// Provides methods and tools to cache files in a folder
     /// </summary>
     /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
-    public class CacheBase<T>
+    public abstract class CacheBase<T>
     {
         private class ConcurrentRequest
         {
@@ -142,26 +142,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from http response
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitializeTypeAsync(IRandomAccessStream stream)
-        {
-            // nothing to do in this instance;
-            return default(T);
-        }
+        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream);
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from http response
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
-        protected virtual async Task<T> InitializeTypeAsync(StorageFile baseFile)
-        {
-            // nothing to do in this instance;
-            return default(T);
-        }
+        protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
 
         private async Task<T> GetItemAsync(Uri uri, string fileName, bool throwOnError, bool preCacheOnly)
         {
