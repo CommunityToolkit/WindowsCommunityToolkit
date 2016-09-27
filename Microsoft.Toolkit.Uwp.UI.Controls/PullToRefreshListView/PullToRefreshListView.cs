@@ -223,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentTransform == null)
             {
-                var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
+                var itemScrollPanel = _scrollerContent.FindDescendant<Panel>();
                 if (itemScrollPanel == null)
                 {
                     return;
