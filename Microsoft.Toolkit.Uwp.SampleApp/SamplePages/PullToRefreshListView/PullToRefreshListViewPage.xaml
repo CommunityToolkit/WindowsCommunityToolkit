@@ -1,32 +1,39 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PullToRefreshListViewPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PullToRefreshListViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+      mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:PullToRefreshListView
-            x:Name="ListView"
-            MinWidth="200"
-            Margin="24"
-            HorizontalAlignment="Center"
-            Background="White"
-            ItemsSource="{x:Bind _items}"
-            OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
-            PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
-            RefreshRequested="ListView_RefreshCommand">
+        <controls:PullToRefreshListView x:Name="ListView"
+                                        ItemsSource="{x:Bind _items}"
+                                        OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
+                                        PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
+                                        IsPullToRefreshWithMouseEnabled="{Binding IsPullToRefreshWithMouseEnabled.Value, Mode=OneWay}"
+                                        RefreshRequested="ListView_RefreshCommand"
+                                       
+                                        HorizontalAlignment="Center"
+                                        MinWidth="200"
+                                        Margin="24"
+                                        Background="White">
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Item">
-                    <TextBlock
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind Title}"
-                        TextWrapping="WrapWholeWords" />
+                    <TextBlock Text="{x:Bind Title}"
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               TextWrapping="WrapWholeWords" />
                 </DataTemplate>
             </controls:PullToRefreshListView.ItemTemplate>
+            <!--<controls:PullToRefreshListView.RefreshIndicatorContent>
+                <Border HorizontalAlignment="Center"
+                        x:Name="refreshindicator"
+                        CornerRadius="30"
+                        Height="20"
+                        Width="20"></Border>
+            </controls:PullToRefreshListView.RefreshIndicatorContent>-->
         </controls:PullToRefreshListView>
     </Grid>
 </Page>

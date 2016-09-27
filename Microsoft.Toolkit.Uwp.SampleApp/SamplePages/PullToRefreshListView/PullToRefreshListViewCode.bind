@@ -9,22 +9,23 @@
      xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
      mc:Ignorable="d">
 
-    <Grid>
-        <controls:PullToRefreshListView 
-                Name="listView"
-                ItemsSource="{x:Bind _items}"
-                OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
-                PullThreshold="@[PullThreshold:Slider:100:50-300]"
-                RefreshRequested="ListView_RefreshCommand"
-                PullProgressChanged="ListView_PullProgressChanged">
-            <controls:PullToRefreshListView.ItemTemplate>
-                <DataTemplate  x:DataType="data:Item">
-                    <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
-                </DataTemplate>
-            </controls:PullToRefreshListView.ItemTemplate>
-            <controls:PullToRefreshListView.RefreshIndicatorContent>
-                <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
-            </controls:PullToRefreshListView.RefreshIndicatorContent>
-        </controls:PullToRefreshListView>
-    </Grid>
+  <Grid>
+    <controls:PullToRefreshListView
+            Name="listView"
+            ItemsSource="{x:Bind _items}"
+            OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
+            PullThreshold="@[PullThreshold:Slider:100:50-300]"
+            IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]"
+            RefreshRequested="ListView_RefreshCommand"
+            PullProgressChanged="ListView_PullProgressChanged">
+      <controls:PullToRefreshListView.ItemTemplate>
+        <DataTemplate  x:DataType="data:Item">
+          <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+        </DataTemplate>
+      </controls:PullToRefreshListView.ItemTemplate>
+      <controls:PullToRefreshListView.RefreshIndicatorContent>
+        <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
+      </controls:PullToRefreshListView.RefreshIndicatorContent>
+    </controls:PullToRefreshListView>
+  </Grid>
 </Page>
