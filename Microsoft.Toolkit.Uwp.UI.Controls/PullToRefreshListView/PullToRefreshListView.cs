@@ -198,6 +198,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CompositionTarget_Rendering(object sender, object e)
         {
+            // if started navigating down, cancel the refresh
+            if (_scroller.VerticalOffset > 1)
+            {
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
+                if (_contentTransform != null)
+                {
+                    _contentTransform.TranslateY = 0;
+                }
+
+                _refreshActivated = false;
+                _lastRefreshActivation = default(DateTime);
+
+                if (RefreshIndicatorContent == null)
+                {
+                    _defaultIndicatorContent.Text = "Pull to Refresh";
+                }
+
+                PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
+
+                return;
+            }
+
             if (_contentTransform == null)
             {
                 var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
