@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
-        private const string PartScrollerContent = "ScrollerContent";
+        private const string PartScrollerContent = "ItemsPresenter";
         private const string PartRefreshIndicatorBorder = "RefreshIndicator";
         private const string PartIndicatorTransform = "RefreshIndicatorTransform";
         private const string PartDefaultIndicatorContent = "DefaultIndicatorContent";
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _refreshIndicatorTransform;
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
-        private Grid _scrollerContent;
+        private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private double _lastOffset = 0.0;
         private double _pullDistance = 0.0;
@@ -128,15 +128,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
-            _contentTransform = GetTemplateChild(PartContentTransform) as CompositeTransform;
-            _scrollerContent = GetTemplateChild(PartScrollerContent) as Grid;
+            _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
             _refreshIndicatorBorder = GetTemplateChild(PartRefreshIndicatorBorder) as Border;
             _refreshIndicatorTransform = GetTemplateChild(PartIndicatorTransform) as CompositeTransform;
             _defaultIndicatorContent = GetTemplateChild(PartDefaultIndicatorContent) as TextBlock;
 
             if (_root != null &&
                 _scroller != null &&
-                _contentTransform != null &
                 _scrollerContent != null &&
                 _refreshIndicatorBorder != null &&
                 _refreshIndicatorTransform != null &&
@@ -180,7 +178,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
-            _contentTransform.TranslateY = 0;
+            if (_contentTransform != null)
+            {
+                _contentTransform.TranslateY = 0;
+            }
 
             if (_refreshActivated)
             {
@@ -204,6 +205,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CompositionTarget_Rendering(object sender, object e)
         {
+            if (_contentTransform == null)
+            {
+                var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
+                if (itemScrollPanel == null)
+                {
+                    return;
+                }
+
+                _contentTransform = new CompositeTransform();
+                itemScrollPanel.RenderTransform = _contentTransform;
+            }
+
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
 
             var offset = elementBounds.Y;
