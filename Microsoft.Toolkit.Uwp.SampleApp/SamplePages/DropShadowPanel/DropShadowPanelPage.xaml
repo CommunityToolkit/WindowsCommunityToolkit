@@ -93,7 +93,7 @@
                                               Color="Black"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Center">
-                        <Image Width="200" Source="Unicorn.png" Stretch="Uniform"/>
+                        <Image Source="Unicorn.png" Stretch="Uniform"/>
                     </controls:DropShadowPanel>
                     <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
                                               ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
@@ -102,7 +102,7 @@
                                               Color="Black"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Center">
-                        <Image Width="200" Source="Trex.png" Stretch="Uniform"/>
+                        <Image Source="Trex.png" Stretch="Uniform"/>
                     </controls:DropShadowPanel>
                 </StackPanel>
             </StackPanel>
