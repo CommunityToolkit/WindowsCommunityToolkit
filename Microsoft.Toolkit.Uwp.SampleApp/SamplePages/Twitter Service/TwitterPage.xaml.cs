@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (TwitterException ex)
             {
-                if (ex.Errors.Errors?[0].Code == 89)
+                if ((ex.Errors?.Errors?.Length > 0) && (ex.Errors.Errors[0].Code == 89))
                 {
                     await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
                     TwitterService.Instance.Logout();
