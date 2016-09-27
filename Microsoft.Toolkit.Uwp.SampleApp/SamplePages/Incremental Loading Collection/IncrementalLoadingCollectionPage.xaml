@@ -20,7 +20,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center" 
-                   Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)" />
+                   Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)"
+                   TextWrapping="Wrap"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>

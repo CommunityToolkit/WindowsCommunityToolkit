@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
 
-            if (_progress.Width == newSquareSize)
+            if (_progress?.Width == newSquareSize)
             {
                 _progress.Height = newSquareSize;
             }
