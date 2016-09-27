@@ -196,6 +196,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_contentGrid != null)
             {
+                _contentGrid.PointerPressed -= ContentGrid_PointerPressed;
+                _contentGrid.PointerReleased -= ContentGrid_PointerReleased;
                 _contentGrid.ManipulationStarted -= ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted -= ContentGrid_ManipulationCompleted;
