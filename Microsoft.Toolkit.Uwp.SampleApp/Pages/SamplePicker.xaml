@@ -27,7 +27,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
                     <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,4,0,0" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <HyperlinkButton Grid.Row="0" Grid.Column="1" Content="github" NavigateUri="{x:Bind CodeUrl}" Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"></HyperlinkButton>
+                    <HyperlinkButton Grid.Row="0" Grid.Column="1" Content="Github" NavigateUri="{x:Bind CodeUrl}" Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"></HyperlinkButton>
                 </Grid>
             </Grid>
         </DataTemplate>
