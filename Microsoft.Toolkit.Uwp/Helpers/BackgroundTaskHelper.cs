@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 BackgroundTaskRegistration previouslyRegistered = GetBackgroundTask(backgroundTaskName) as BackgroundTaskRegistration;
 
-                if (forceRegister == false)
+                if (forceRegister == true)
                 {
                     Unregister(previouslyRegistered);
                 }
