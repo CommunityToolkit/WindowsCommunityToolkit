@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -9,17 +10,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter : Control
     {
-        private static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
-        private static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
-        private CoreCursor _previousCursor;
+        internal const int GripperCustomCursorDefaultResource = -1;
+        internal static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
+        internal static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
+
+        internal CoreCursor PreviousCursor { get; set; }
 
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
+        private GripperHoverWrapper _hoverWrapper;
+
+        /// <summary>
+        /// Gets the target parent grid from level
+        /// </summary>
+        private FrameworkElement TargetControl
+        {
+            get
+            {
+                if (ParentLevel == 0)
+                {
+                    return this;
+                }
+
+                var parent = Parent;
+                for (int i = 2; i < ParentLevel; i++)
+                {
+                    var frameworkElement = parent as FrameworkElement;
+                    if (frameworkElement != null)
+                    {
+                        parent = frameworkElement.Parent;
+                    }
+                }
+
+                return parent as FrameworkElement;
+            }
+        }
 
         /// <summary>
         /// Gets GridSplitter Container Grid
         /// </summary>
-        private Grid Resizable => Parent as Grid;
+        private Grid Resizable => TargetControl?.Parent as Grid;
 
         /// <summary>
         /// Gets the current Column definition of the parent Grid

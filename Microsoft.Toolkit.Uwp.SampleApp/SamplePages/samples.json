@@ -81,7 +81,7 @@
         "About": "BladeControl is derived from Gridview. It provides a container to host blades as extra detail pages in a master-detail scenario. The control is based on how the Azure Portal works.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
-        "Icon": "/SamplePages/BladeControl/Blade.png"
+        "Icon": "/SamplePages/BladeControl/BladeControl.png"
       },
       {
         "Name": "GridSplitter",
@@ -90,6 +90,22 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+      },
+      {
+        "Name": "Incremental Loading Collection",
+        "Type": "IncrementalLoadingCollectionPage",
+        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+        "CodeFile": "IncrementalLoadingCollectionCode.bind",
+        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+      },
+      {
+        "Name": "DropShadowPanel",
+        "Type": "DropShadowPanelPage",
+        "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
+        "XamlCodeFile": "DropShadowPanelXaml.bind",
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
       }
     ]
   },
@@ -229,6 +245,21 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+      }
+    ]
+  },
+  {
+    "Name": "Helpers",
+    "Icon": "Icons/Helpers.png",
+    "Samples": [
+      {
+        "Name": "ImageCache",
+        "Type": "ImageCachePage",
+        "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
+        "CodeFile": "ImageCacheCode.bind",
+        "XamlCodeFile": "ImageCacheXaml.bind",
+        "Icon": "/SamplePages/ImageCache/ImageEx.png"
       }
     ]
   }
