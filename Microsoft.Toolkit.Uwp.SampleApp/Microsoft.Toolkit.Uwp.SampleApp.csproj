@@ -243,6 +243,7 @@
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\Helpers\Helpers.png" />
     <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
@@ -309,9 +310,9 @@
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
-    <None Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
+    <Content Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
-    <None Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +325,9 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
+      <DependentUpon>HelpersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
       <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
     </Compile>
@@ -460,6 +464,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Helpers\HelpersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
