@@ -78,7 +78,7 @@
       {
         "Name": "BladeControl",
         "Type": "BladePage",
-        "About": "BladeControl is derived from Gridview. It provides a container to host blades as extra detail pages in a master-detail scenario. The control is based on how the Azure Portal works.",
+        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeControl/BladeControl.png"
