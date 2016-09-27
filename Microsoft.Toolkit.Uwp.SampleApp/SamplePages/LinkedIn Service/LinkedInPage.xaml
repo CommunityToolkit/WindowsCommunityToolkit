@@ -8,7 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
-        <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+        <Grid Margin="24" 
+              BorderThickness="1" 
+              BorderBrush="#FFCCCCCC" 
+              Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
