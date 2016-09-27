@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for background task.
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This registers under the Single Process Model. WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later
+        /// This registers under the Single Process Model. WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later.
         /// Register a background task with conditions.
         /// If the task is already registered and has the same trigger, returns the existing registration if it has the same trigger.
         /// If the task is already registered but has different trigger, return null by default.
