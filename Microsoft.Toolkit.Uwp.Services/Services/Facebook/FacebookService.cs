@@ -318,6 +318,39 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
+        /// Retrieves a photo by id.
+        /// </summary>
+        /// <param name="photoId">Photo Id for the photo.</param>
+        /// <returns>A single photo.</returns>
+        public async Task<FacebookPhoto> GetPhotoByPhotoIdAsync(string photoId)
+        {
+            if (Provider.LoggedIn)
+            {
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPhoto>);
+
+                PropertySet propertySet = new PropertySet { { "fields", "images" } };
+                var singleValue = new FBSingleValue($"/{photoId}", propertySet, factory);
+
+                var result = await singleValue.GetAsync();
+
+                if (result.Succeeded)
+                {
+                    return (FacebookPhoto)result.Object;
+                }
+
+                throw new Exception(result.ErrorInfo?.Message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetPhotoByPhotoIdAsync(photoId);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Enables direct posting data to the timeline.
         /// </summary>
         /// <param name="title">Title of the post.</param>
