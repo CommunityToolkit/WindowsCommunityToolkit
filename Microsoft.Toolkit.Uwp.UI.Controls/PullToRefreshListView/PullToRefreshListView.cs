@@ -56,6 +56,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
             DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the <see cref="PullToRefreshLabel"/> property.
+        /// </summary>
+        public static readonly DependencyProperty PullToRefreshLabelProperty =
+            DependencyProperty.Register("PullToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
+
+        /// <summary>
+        /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
+            DependencyProperty.Register("ReleaseToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
+
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
@@ -163,6 +175,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
+                if (RefreshIndicatorContent == null)
+                {
+                    _defaultIndicatorContent.Text = PullToRefreshLabel;
+                }
+
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
@@ -188,11 +205,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _refreshActivated = false;
             _lastRefreshActivation = default(DateTime);
 
-            if (RefreshIndicatorContent == null)
-            {
-                _defaultIndicatorContent.Text = "Pull to Refresh";
-            }
-
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
         }
 
@@ -210,11 +222,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _refreshActivated = false;
                 _lastRefreshActivation = default(DateTime);
-
-                if (RefreshIndicatorContent == null)
-                {
-                    _defaultIndicatorContent.Text = "Pull to Refresh";
-                }
 
                 PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
 
@@ -261,7 +268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
-                    _defaultIndicatorContent.Text = "Release to Refresh";
+                    _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
                 }
             }
             else if (_lastRefreshActivation != DateTime.MinValue)
@@ -276,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
-                        _defaultIndicatorContent.Text = "Pull to Refresh";
+                        _defaultIndicatorContent.Text = PullToRefreshLabel;
                     }
                 }
                 else
@@ -356,6 +363,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 SetValue(RefreshIndicatorContentProperty, value);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the label that will be shown when the user pulls down to refresh.
+        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        /// </summary>
+        public string PullToRefreshLabel
+        {
+            get { return (string)GetValue(PullToRefreshLabelProperty); }
+            set { SetValue(PullToRefreshLabelProperty, value); }
+        }
+
+        // <summary>
+        // Gets or sets the label that will be shown when the user needs to release to refresh.
+        // Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        // </summary>
+        public string ReleaseToRefreshLabel
+        {
+            get { return (string)GetValue(ReleaseToRefreshLabelProperty); }
+            set { SetValue(ReleaseToRefreshLabelProperty, value); }
         }
     }
 }
