@@ -147,14 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _refreshIndicatorBorder.SizeChanged += RefreshIndicatorBorder_SizeChanged;
 
-                if (DesignMode.DesignModeEnabled)
-                {
-                    _overscrollMultiplier = OverscrollLimit * 10;
-                }
-                else
-                {
-                    _overscrollMultiplier = (OverscrollLimit * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                }
+                _overscrollMultiplier = OverscrollLimit * 8;
             }
 
             base.OnApplyTemplate();
@@ -295,14 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (value >= 0 && value <= 1)
             {
-                if (DesignMode.DesignModeEnabled)
-                {
-                    view._overscrollMultiplier = value * 10;
-                }
-                else
-                {
-                    view._overscrollMultiplier = (value * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                }
+                view._overscrollMultiplier = value * 8;
             }
             else
             {
