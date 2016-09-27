@@ -27,6 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double horizontalChange)
+        {
+            var newWidth = columnDefinition.ActualWidth + horizontalChange;
+            if (newWidth > ActualWidth)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
         {
             var newHeight = rowDefinition.ActualHeight + verticalChange;
@@ -34,6 +45,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 rowDefinition.Height = new GridLength(newHeight, unitType);
             }
+        }
+
+        private bool IsValidRowHeight(RowDefinition rowDefinition, double verticalChange)
+        {
+            var newHeight = rowDefinition.ActualHeight + verticalChange;
+            if (newHeight > ActualHeight)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void InitControl()
