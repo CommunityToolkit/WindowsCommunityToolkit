@@ -133,5 +133,21 @@
             /// </summary>
             Wait
         }
+
+        /// <summary>
+        ///  Enum to indicate the behavior of window cursor on grid splitter hover
+        /// </summary>
+        public enum SplitterCursorBehavior
+        {
+            /// <summary>
+            /// Update window cursor on Grid Splitter hover
+            /// </summary>
+            ChangeOnSplitterHover,
+
+            /// <summary>
+            /// Update window cursor on Grid Splitter Gripper hover
+            /// </summary>
+            ChangeOnGripperHover
+        }
     }
 }
