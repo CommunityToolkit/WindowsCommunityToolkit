@@ -203,13 +203,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var gridSplitter = (GridSplitter)d;
 
-            if (gridSplitter._hoverWrapper == null)
-            {
-                return;
-            }
-
-            gridSplitter._hoverWrapper.UpdateHoverElement(gridSplitter.CursorBehavior ==
-                                                          SplitterCursorBehavior.ChangeOnSplitterHover
+            gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
+                                                           SplitterCursorBehavior.ChangeOnSplitterHover
                 ? gridSplitter
                 : gridSplitter.Element);
         }
