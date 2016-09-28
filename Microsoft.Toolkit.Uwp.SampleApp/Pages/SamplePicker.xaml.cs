@@ -12,6 +12,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -90,6 +91,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SamplePicker_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ActualWidth < 600)
+            {
+                var small = (DataTemplate)Resources["SmallSampleTemplate"];
+
+                if (SamplesList.ItemTemplate == small)
+                {
+                    return;
+                }
+
+                SamplesList.ItemTemplate = small;
+            }
+            else
+            {
+                var normal = (DataTemplate)Resources["SampleTemplate"];
+
+                if (SamplesList.ItemTemplate == normal)
+                {
+                    return;
+                }
+
+                SamplesList.ItemTemplate = normal;
+            }
         }
     }
 }

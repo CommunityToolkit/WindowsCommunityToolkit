@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sampleApp="using:Microsoft.Toolkit.Uwp.SampleApp"
+    SizeChanged="SamplePicker_OnSizeChanged"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SampleTemplate" x:DataType="sampleApp:Sample">
@@ -27,7 +28,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="24" VerticalAlignment="Top" FontWeight="Light" />
                     <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="14" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,4,0,0" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <HyperlinkButton Grid.Row="0" Grid.Column="1" Content="github" NavigateUri="{x:Bind CodeUrl}" Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"></HyperlinkButton>
+                    <HyperlinkButton Grid.Row="0" Grid.Column="1" Content="Github" NavigateUri="{x:Bind CodeUrl}" Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"></HyperlinkButton>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -45,13 +46,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
                     <TextBlock Text="{x:Bind Name}" Foreground="{StaticResource Brush-Grey-03}" FontSize="16" VerticalAlignment="Top" FontWeight="Light" />
-                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="12" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,2,0,0" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <HyperlinkButton Grid.Row="0" Grid.Column="1" Content="github" NavigateUri="{x:Bind CodeUrl}" Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" Margin="0,0,5,0"></HyperlinkButton>
+                    <TextBlock Text="{x:Bind About}" Foreground="{StaticResource Brush-Grey-01}" FontSize="11" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,2,0,0" Grid.ColumnSpan="2" Grid.Row="1"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -72,7 +68,6 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="SamplesList.ItemTemplate" Value="{StaticResource SmallSampleTemplate}" />
                         <Setter Target="SamplesList.ItemsPanel">
                             <Setter.Value>
                                 <ItemsPanelTemplate>
@@ -91,11 +86,15 @@
         <Rectangle Fill="{StaticResource Brush-Grey-04}"/>
         <TextBlock Grid.Row="0" Margin="12"
                    Text="{x:Bind ViewModel.Name, Mode=OneWay}" 
-                   FontSize="24" FontWeight="Light" Foreground="{StaticResource Brush-Grey-03}"/>
-        <GridView Name="SamplesList" 
-                  Grid.Row="1" Padding="6"
-                  ItemsSource="{x:Bind ViewModel.Samples}" ItemTemplate="{StaticResource SampleTemplate}" 
-                  IsItemClickEnabled="True" ItemClick="SamplesList_OnItemClick">
+                   FontSize="24" FontWeight="Light" 
+                   Foreground="{StaticResource Brush-Grey-03}"/>
+        <GridView Name="SamplesList"
+                  Grid.Row="1" 
+                  Padding="6"
+                  ItemsSource="{x:Bind ViewModel.Samples}" 
+                  ItemTemplate="{StaticResource SampleTemplate}" 
+                  IsItemClickEnabled="True" 
+                  ItemClick="SamplesList_OnItemClick">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

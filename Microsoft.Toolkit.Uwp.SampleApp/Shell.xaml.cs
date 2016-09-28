@@ -150,8 +150,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void UpdateRootGridMinWidth()
         {
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
+            if (Width > 2 * RootGridColumnsMinWidth)
+            {
+                RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
+                RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
+            }
+            else
+            {
+                RootGrid.ColumnDefinitions[0].MinWidth = 0;
+                RootGrid.ColumnDefinitions[1].MinWidth = 0;
+            }
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)

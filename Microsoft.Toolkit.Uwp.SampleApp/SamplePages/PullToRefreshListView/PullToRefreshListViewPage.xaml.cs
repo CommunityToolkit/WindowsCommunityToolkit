@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             for (int i = 0; i < 10; i++)
             {
-                _items.Insert(0, new Item { Title = "Item " + new Random().Next(10000) });
+                _items.Insert(0, new Item { Title = "Item " + _items.Count });
             }
         }
 
