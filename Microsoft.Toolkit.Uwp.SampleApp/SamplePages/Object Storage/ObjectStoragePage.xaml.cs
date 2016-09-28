@@ -2,12 +2,12 @@
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class SettingStoragePage
+    public sealed partial class ObjectStoragePage
     {
-        private ISettingStorageHelper localStorageHelper = new LocalSettingStorageHelper();
-        private ISettingStorageHelper roamingStorageHelper = new RoamingSettingStorageHelper();
+        private IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper();
+        private IObjectStorageHelper roamingStorageHelper = new RoamingObjectStorageHelper();
 
-        public SettingStoragePage()
+        public ObjectStoragePage()
         {
             InitializeComponent();
         }

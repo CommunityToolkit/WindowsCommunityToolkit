@@ -15,17 +15,17 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// Store data in the Roaming environment (shared around all user devices)
+    /// Store data in the Local environment (only on the current device)
     /// </summary>
-    public class RoamingSettingStorageHelper : BaseSettingStorageHelper
+    public class LocalObjectStorageHelper : BaseObjectStorageHelper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RoamingSettingStorageHelper"/> class.
+        /// Initializes a new instance of the <see cref="LocalObjectStorageHelper"/> class.
         /// </summary>
-        public RoamingSettingStorageHelper()
+        public LocalObjectStorageHelper()
         {
-            Settings = ApplicationData.Current.RoamingSettings;
-            Folder = ApplicationData.Current.RoamingFolder;
+            Settings = ApplicationData.Current.LocalSettings;
+            Folder = ApplicationData.Current.LocalFolder;
         }
     }
 }
