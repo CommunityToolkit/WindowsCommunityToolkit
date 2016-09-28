@@ -165,10 +165,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _rightCommandTransform;
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
-        private DoubleAnimation _leftCommandAnimation;
-        private Storyboard _leftCommandStoryboard;
-        private DoubleAnimation _rightCommandAnimation;
-        private Storyboard _rightCommandStoryboard;
+        private AnimationSet _leftCommandAnimationSet;
+        private AnimationSet _rightCommandAnimationSet;
         private bool _justFinishedSwiping;
 
         /// <summary>
@@ -271,14 +269,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_leftCommandPanel != null)
                 {
                     _leftCommandTransform = _leftCommandPanel.RenderTransform as CompositeTransform;
-
-                    _leftCommandAnimation = new DoubleAnimation();
-                    Storyboard.SetTarget(_leftCommandAnimation, _leftCommandTransform);
-                    Storyboard.SetTargetProperty(_leftCommandAnimation, "TranslateX");
-                    _leftCommandAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-
-                    _leftCommandStoryboard = new Storyboard();
-                    _leftCommandStoryboard.Children.Add(_leftCommandAnimation);
                 }
             }
 
@@ -288,14 +278,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_rightCommandPanel != null)
                 {
                     _rightCommandTransform = _rightCommandPanel.RenderTransform as CompositeTransform;
-
-                    _rightCommandAnimation = new DoubleAnimation();
-                    Storyboard.SetTarget(_rightCommandAnimation, _rightCommandTransform);
-                    Storyboard.SetTargetProperty(_rightCommandAnimation, "TranslateX");
-                    _rightCommandAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-
-                    _rightCommandStoryboard = new Storyboard();
-                    _rightCommandStoryboard.Children.Add(_rightCommandAnimation);
                 }
             }
 
@@ -453,7 +435,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (newTranslationX < ActivationWidth)
                 {
-                    _leftCommandStoryboard.Stop();
+                    _leftCommandAnimationSet?.Stop();
+                    _leftCommandPanel.RenderTransform = _leftCommandTransform;
                     _leftCommandTransform.TranslateX = newTranslationX / 2;
 
                     newSwipeStatus = SwipeStatus.SwipingToRightThreshold;
@@ -465,14 +448,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // The control was just put below the threshold.
                         // Run an animation to put the text and icon
                         // in the correct position.
-                        _leftCommandAnimation.To = SnappedCommandMargin;
-                        _leftCommandStoryboard.Begin();
+                        _leftCommandAnimationSet = _leftCommandPanel.Offset((float)(SnappedCommandMargin - _leftCommandTransform.TranslateX));
+                        _leftCommandAnimationSet.Start();
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedRightThreshold)
                     {
                         // This will cover extrem cases when previous state wasn't
                         // below threshold.
-                        _leftCommandStoryboard.Stop();
+                        _leftCommandAnimationSet?.Stop();
+                        _leftCommandPanel.RenderTransform = _leftCommandTransform;
                         _leftCommandTransform.TranslateX = SnappedCommandMargin;
                     }
 
@@ -492,7 +476,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (-newTranslationX < ActivationWidth)
                 {
-                    _rightCommandStoryboard.Stop();
+                    _rightCommandAnimationSet?.Stop();
+                    _rightCommandPanel.RenderTransform = _rightCommandTransform;
                     _rightCommandTransform.TranslateX = newTranslationX / 2;
 
                     newSwipeStatus = SwipeStatus.SwipingToLeftThreshold;
@@ -504,14 +489,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // The control was just put below the threshold.
                         // Run an animation to put the text and icon
                         // in the correct position.
-                        _rightCommandAnimation.To = -SnappedCommandMargin;
-                        _rightCommandStoryboard.Begin();
+                        _rightCommandAnimationSet = _rightCommandPanel.Offset((float)(-SnappedCommandMargin - _rightCommandTransform.TranslateX));
+                        _rightCommandAnimationSet.Start();
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedLeftThreshold)
                     {
                         // This will cover extrem cases when previous state wasn't
                         // below threshold.
-                        _rightCommandStoryboard.Stop();
+                        _rightCommandAnimationSet?.Stop();
+                        _rightCommandPanel.RenderTransform = _rightCommandTransform;
                         _rightCommandTransform.TranslateX = -SnappedCommandMargin;
                     }
 
