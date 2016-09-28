@@ -5,6 +5,7 @@
     <Style x:Key="HorizontalGridView" TargetType="GridView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
     </Style>
 
     <Style TargetType="controls:BladeControl">
