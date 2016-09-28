@@ -12,23 +12,24 @@
                     <Grid Height="24">
                         <Grid.Resources>
                             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="Background" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform X="-8" />
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Border Height="24" Width="24" Background="Transparent">
-                                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}"
                                                         BorderThickness="{TemplateBinding BorderThickness}" 
                                                         Background="{TemplateBinding Background}" 
                                                         CornerRadius="4"
                                                         Width="8"
                                                         Height="24"
                                                         HorizontalAlignment="Center"/>
-                                                <Border.RenderTransform>
-                                                    <TranslateTransform X="-8" />
-                                                </Border.RenderTransform>
-                                            </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -91,10 +92,20 @@
                         <Border x:Name="OutOfRangeContentContainer" Height="24" Background="Transparent" Margin="12,0">
                             <Rectangle x:Name="BackgroundElement" Height="2" Fill="{TemplateBinding Background}" />
                         </Border>
-                        <Canvas x:Name="ContainerCanvas" Margin="12,0" Background="Transparent" >
+                        <Canvas x:Name="ContainerCanvas" Margin="12,0" Background="Transparent">
                             <Rectangle x:Name="ActiveRectangle" Fill="{TemplateBinding Foreground}" Height="2" Canvas.Top="11" />
-                            <Thumb x:Name="MinThumb" Background="{TemplateBinding Foreground}" Style="{StaticResource SliderThumbStyle}" />
-                            <Thumb x:Name="MaxThumb" Background="{TemplateBinding Foreground}" Style="{StaticResource SliderThumbStyle}" />
+                            <Thumb x:Name="MinThumb" 
+                                   AutomationProperties.Name="Min thumb"
+                                   Background="{TemplateBinding Foreground}" 
+                                   Style="{StaticResource SliderThumbStyle}" 
+                                   IsTabStop="True" 
+                                   TabIndex="0"/>
+                            <Thumb x:Name="MaxThumb" 
+                                   AutomationProperties.Name="Max thumb"
+                                   Background="{TemplateBinding Foreground}" 
+                                   Style="{StaticResource SliderThumbStyle}"
+                                   IsTabStop="True" 
+                                   TabIndex="1"/>
                         </Canvas>
                     </Grid>
                 </ControlTemplate>
@@ -102,3 +113,4 @@
         </Setter>
     </Style>
 </ResourceDictionary>
+ 

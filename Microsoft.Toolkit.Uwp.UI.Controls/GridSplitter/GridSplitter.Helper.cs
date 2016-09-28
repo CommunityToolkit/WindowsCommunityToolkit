@@ -27,6 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double horizontalChange)
+        {
+            var newWidth = columnDefinition.ActualWidth + horizontalChange;
+            if (newWidth > ActualWidth)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
         {
             var newHeight = rowDefinition.ActualHeight + verticalChange;
@@ -36,12 +47,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private bool IsValidRowHeight(RowDefinition rowDefinition, double verticalChange)
+        {
+            var newHeight = rowDefinition.ActualHeight + verticalChange;
+            if (newHeight > ActualHeight)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void InitControl()
         {
+            if (Resizable == null)
+            {
+                return;
+            }
+
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 // setting the Column min width to the width of the GridSplitter
-                var currentIndex = Grid.GetColumn(this);
+                var currentIndex = Grid.GetColumn(TargetControl);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.ColumnDefinitions.Count))
                 {
@@ -52,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
                 // setting the Row min height to the height of the GridSplitter
-                var currentIndex = Grid.GetRow(this);
+                var currentIndex = Grid.GetRow(TargetControl);
                 if ((currentIndex >= 0)
                        && (currentIndex < Resizable.RowDefinitions.Count))
                 {
@@ -65,28 +92,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Return the targeted Column based on the resize behavior
         private int GetTargetedColumn()
         {
-            var currentIndex = Grid.GetColumn(this);
+            var currentIndex = Grid.GetColumn(TargetControl);
             return GetTargetIndex(currentIndex);
         }
 
         // Return the sibling Row based on the resize behavior
         private int GetTargetedRow()
         {
-            var currentIndex = Grid.GetRow(this);
+            var currentIndex = Grid.GetRow(TargetControl);
             return GetTargetIndex(currentIndex);
         }
 
         // Return the sibling Column based on the resize behavior
         private int GetSiblingColumn()
         {
-            var currentIndex = Grid.GetColumn(this);
+            var currentIndex = Grid.GetColumn(TargetControl);
             return GetSiblingIndex(currentIndex);
         }
 
         // Return the sibling Row based on the resize behavior
         private int GetSiblingRow()
         {
-            var currentIndex = Grid.GetRow(this);
+            var currentIndex = Grid.GetRow(TargetControl);
             return GetSiblingIndex(currentIndex);
         }
 

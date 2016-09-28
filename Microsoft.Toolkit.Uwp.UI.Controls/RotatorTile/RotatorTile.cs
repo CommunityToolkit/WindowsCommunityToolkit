@@ -426,7 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (_currentIndex >= e.NewStartingIndex && _currentIndex < endIndex)
                     {
                         // Current item was removed. Replace with the next one
-                        UpdateNextItem(); 
+                        UpdateNextItem();
                     }
                     else if (_currentIndex > endIndex)
                     {

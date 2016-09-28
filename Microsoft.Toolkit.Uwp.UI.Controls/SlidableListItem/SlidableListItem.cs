@@ -13,6 +13,7 @@ using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Devices.Input;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -145,6 +146,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SwipeStatusProperty =
             DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.Idle));
 
+        /// <summary>
+        /// Occurs when SwipeStatus has changed
+        /// </summary>
+        public event TypedEventHandler<SlidableListItem, SwipeStatusChangedEventArgs> SwipeStatusChanged;
+
         private const string PartContentGrid = "ContentGrid";
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
@@ -159,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _rightCommandTransform;
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
+        private bool _justFinishedSwiping;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -189,6 +196,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_contentGrid != null)
             {
+                _contentGrid.PointerPressed -= ContentGrid_PointerPressed;
+                _contentGrid.PointerReleased -= ContentGrid_PointerReleased;
                 _contentGrid.ManipulationStarted -= ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted -= ContentGrid_ManipulationCompleted;
@@ -198,6 +207,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentGrid != null)
             {
+                _contentGrid.PointerPressed += ContentGrid_PointerPressed;
+                _contentGrid.PointerReleased += ContentGrid_PointerReleased;
+
                 _transform = _contentGrid.RenderTransform as CompositeTransform;
                 _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
@@ -211,9 +223,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
+
+                _justFinishedSwiping = false;
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void ContentGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            _justFinishedSwiping = false;
+        }
+
+        private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (_justFinishedSwiping)
+            {
+                e.Handled = true;
+                _justFinishedSwiping = false;
+            }
         }
 
         private void ContentGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -283,6 +311,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             SwipeStatus = SwipeStatus.Idle;
+            _justFinishedSwiping = true;
         }
 
         /// <summary>
@@ -643,7 +672,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             private set
             {
-                SetValue(SwipeStatusProperty, value);
+                var oldValue = SwipeStatus;
+
+                if (value != oldValue)
+                {
+                    SetValue(SwipeStatusProperty, value);
+
+                    var eventArguments = new SwipeStatusChangedEventArgs()
+                    {
+                        OldValue = oldValue,
+                        NewValue = value
+                    };
+
+                    SwipeStatusChanged?.Invoke(this, eventArguments);
+                }
             }
         }
     }

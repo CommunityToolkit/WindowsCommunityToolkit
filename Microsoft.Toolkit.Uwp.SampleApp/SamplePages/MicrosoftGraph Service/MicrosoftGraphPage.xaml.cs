@@ -111,56 +111,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            bool isFirstCall = true;
-
-            var incrementalCollectionMessages = new IncrementalCollection<Message>((CancellationToken cts, uint count) =>
-              {
-                  return Task.Run<ObservableCollection<Message>>(async () =>
+            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource, Message>(
+                top,
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                },
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                },
+                async ex =>
+                {
+                    if (!Dispatcher.HasThreadAccess)
                     {
-                        IUserMessagesCollectionPage messages = null;
-                        ObservableCollection<Message> intermediateList = new ObservableCollection<Message>();
-
-                        if (isFirstCall)
+                        if (ex is ServiceException)
                         {
-                            try
-                            {
-                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = true; }));
-
-                                messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cts, top);
-                            }
-                            catch (ServiceException ex)
-                            {
-                                if (!Dispatcher.HasThreadAccess)
-                                {
-                                   await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () => { await DisplayAuthorizationErrorMessageAsync(ex, "Read user mail"); }));
-                                }
-                            }
-                            finally
-                            {
-                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() => { Shell.Current.DisplayWaitRing = false; }));
-                            }
-
-                            isFirstCall = false;
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await DisplayAuthorizationErrorMessageAsync(ex as ServiceException, "Read user mail"); });
                         }
                         else
                         {
-                            if (cts.IsCancellationRequested)
-                            {
-                                return intermediateList;
-                            }
-                            messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
+                            throw ex;
                         }
+                    }
+                });
 
-                        if (messages != null)
-                        {
-                            messages.AddTo(intermediateList);
-                        }
-
-                        return intermediateList;
-                    });
-              });
-
-            MessagesList.ItemsSource = incrementalCollectionMessages;
+            MessagesList.ItemsSource = collection;
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -171,7 +147,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private Task DisplayAuthorizationErrorMessageAsync(ServiceException ex, string additionalMessage)
         {
-            MessageDialog error = null;
+            MessageDialog error;
+
             if (ex.Error.Code.Equals("ErrorAccessDenied"))
             {
                 error = new MessageDialog($"{ex.Error.Code}\nCheck in Azure Active Directory portal the '{additionalMessage}' Delegated Permissions");
