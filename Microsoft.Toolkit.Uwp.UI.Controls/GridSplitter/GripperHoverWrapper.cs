@@ -60,8 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void UpdateHoverElement(UIElement element)
         {
-            _element.PointerEntered -= Element_PointerEntered;
-            _element.PointerExited -= Element_PointerExited;
+            UnhookEvents();
             _element = element;
             _element.PointerEntered += Element_PointerEntered;
             _element.PointerExited += Element_PointerExited;
@@ -149,6 +148,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
             _isDragging = false;
+        }
+
+        internal void UnhookEvents()
+        {
+            if (_element == null)
+            {
+                return;
+            }
+
+            _element.PointerEntered -= Element_PointerEntered;
+            _element.PointerExited -= Element_PointerExited;
         }
     }
 }
