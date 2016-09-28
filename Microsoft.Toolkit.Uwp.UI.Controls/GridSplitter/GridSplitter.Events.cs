@@ -24,7 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var hoverWrapper = new GripperHoverWrapper(
-                Element,
+                CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
+                ? this
+                : Element,
                 _resizeDirection,
                 GripperCursor,
                 GripperCustomCursorResource);
