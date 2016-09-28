@@ -254,6 +254,14 @@
         "Icon": "/SamplePages/ImageCache/ImageEx.png"
       },
       {
+        "Name": "Storage",
+        "Type": "StoragePage",
+        "About": "The Storage service allows you to easily read and save objects in your application, both locally or on every device (roaming).",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/Storage",
+        "CodeFile": "StorageCode.bind",
+        "Icon": "/SamplePages/Storage/Storage.png"
+      },
+      {
         "Name": "Incremental Loading Collection",
         "Type": "IncrementalLoadingCollectionPage",
         "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
