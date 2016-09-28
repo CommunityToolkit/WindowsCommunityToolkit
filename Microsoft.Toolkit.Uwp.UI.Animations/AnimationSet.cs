@@ -38,6 +38,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private CompositionScopedBatch _batch;
         private ManualResetEvent _manualResetEvent;
 
+        private Task _storyboardTask;
+        private Task _animationTask;
+
         /// <summary>
         /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
         /// </summary>
@@ -52,6 +55,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets the <see cref="UIElement"/>
         /// </summary>
         public UIElement Element { get; private set; }
+
+        /// <summary>
+        /// Gets the current state of the AnimationSet
+        /// </summary>
+        public AnimationSetState State { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationSet"/> class.
@@ -87,6 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _animationSets = new List<AnimationSet>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
+            State = AnimationSetState.NotStarted;
         }
 
         /// <summary>
@@ -106,11 +115,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Starts all animations and returns an awaitable task.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
-        public async Task StartAsync()
+        public Task StartAsync()
         {
+            if (_animationTask == null)
+            {
+                _animationTask = Task.Run(() =>
+                {
+                    _manualResetEvent.Reset();
+                    _manualResetEvent.WaitOne();
+                });
+            }
+
+            if (State != AnimationSetState.Running)
+                StartTheAnimation();
+
+            return _animationTask;
+        }
+
+        private async Task StartTheAnimation()
+        {
+            if (State == AnimationSetState.Running || State == AnimationSetState.Completed)
+            {
+                return;
+            }
+
             foreach (var set in _animationSets)
             {
-                await set.StartAsync();
+                if (set.State != AnimationSetState.Completed)
+                {
+                    var t = set.StartAsync();
+                    await t;
+                    if (t.IsCanceled == true)
+                    {
+                        return;
+                    }
+                }
             }
 
             if (_batch != null)
@@ -161,10 +200,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 tasks.Add(compositionTask);
             }
 
-            tasks.Add(_storyboard.BeginAsync());
+            if (State == AnimationSetState.Stopped && _storyboardTask != null)
+            {
+                _storyboard.Resume();
+            }
+            else
+            {
+                _storyboardTask = _storyboard.BeginAsync();
+            }
 
+            tasks.Add(_storyboardTask);
+
+            State = AnimationSetState.Running;
             await Task.WhenAll(tasks);
+            State = AnimationSetState.Completed;
         }
+
+        
 
         /// <summary>
         /// Stops all animations.
@@ -196,7 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 effect.EffectBrush.StopAnimation(effect.PropertyName);
             }
 
-            _storyboard.Stop();
+            _storyboard.Pause();
+            State = AnimationSetState.Stopped;
         }
 
         /// <summary>
