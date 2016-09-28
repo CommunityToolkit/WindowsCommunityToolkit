@@ -248,8 +248,8 @@
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
-    <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
-    <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
@@ -313,7 +313,7 @@
     <Content Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
-    <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
+    <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -369,12 +369,12 @@
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml.cs">
       <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphSource.cs" />
-    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphUIExtensions.cs" />
-    <Compile Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml.cs">
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphSource.cs" />
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphUIExtensions.cs" />
+    <Compile Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml.cs">
       <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
@@ -503,11 +503,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml">
+    <Page Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\MicrosoftGraph Service\SendMessageContentDialog.xaml">
+    <Page Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
