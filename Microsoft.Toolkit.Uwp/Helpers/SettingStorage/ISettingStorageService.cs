@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Service used to store data
     /// </summary>
-    public interface IStorageService
+    public interface ISettingStorageService
     {
         /// <summary>
         /// Retrieve single item by its key

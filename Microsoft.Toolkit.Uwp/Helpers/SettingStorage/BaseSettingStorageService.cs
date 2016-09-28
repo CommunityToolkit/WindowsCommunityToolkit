@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Shared implementation of StorageService
     /// </summary>
-    public abstract class BaseStorageService : IStorageService
+    public abstract class BaseSettingStorageService : ISettingStorageService
     {
         private JsonSerializer serializer = new JsonSerializer();
 

@@ -10,12 +10,12 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Store data in the Roaming environment (shared around all user devices)
     /// </summary>
-    public class RoamingStorageService : BaseStorageService
+    public class RoamingSettingStorageService : BaseSettingStorageService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RoamingStorageService"/> class.
+        /// Initializes a new instance of the <see cref="RoamingSettingStorageService"/> class.
         /// </summary>
-        public RoamingStorageService()
+        public RoamingSettingStorageService()
         {
             Settings = ApplicationData.Current.RoamingSettings;
             Folder = ApplicationData.Current.RoamingFolder;

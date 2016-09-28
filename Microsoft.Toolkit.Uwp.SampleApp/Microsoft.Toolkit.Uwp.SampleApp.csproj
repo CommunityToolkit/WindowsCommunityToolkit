@@ -260,7 +260,7 @@
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
-    <Content Include="SamplePages\Storage\Storage.png" />
+    <Content Include="SamplePages\Setting Storage\SettingStorage.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -313,7 +313,7 @@
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
-    <Content Include="SamplePages\Storage\StorageCode.bind" />
+    <Content Include="SamplePages\Setting Storage\SettingStorageCode.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
@@ -388,7 +388,7 @@
     <Compile Include="SamplePages\LiveTile\LiveTilePage.xaml.cs">
       <DependentUpon>LiveTilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Storage\StoragePage.xaml.cs">
+    <Compile Include="SamplePages\Setting Storage\StoragePage.xaml.cs">
       <DependentUpon>StoragePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
@@ -536,7 +536,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\Storage\StoragePage.xaml">
+    <Page Include="SamplePages\Setting Storage\StoragePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

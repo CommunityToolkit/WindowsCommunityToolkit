@@ -11,12 +11,12 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Store data in the Local environment (only on the current device)
     /// </summary>
-    public class LocalStorageService : BaseStorageService
+    public class LocalSettingStorageService : BaseSettingStorageService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalStorageService"/> class.
+        /// Initializes a new instance of the <see cref="LocalSettingStorageService"/> class.
         /// </summary>
-        public LocalStorageService()
+        public LocalSettingStorageService()
         {
             Settings = ApplicationData.Current.LocalSettings;
             Folder = ApplicationData.Current.LocalFolder;
