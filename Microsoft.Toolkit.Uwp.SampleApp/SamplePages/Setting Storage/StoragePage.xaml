@@ -20,7 +20,7 @@
             <StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="ReadButton" Content="Read from key" HorizontalAlignment="Center" Margin="5 0"
                         Click="ReadButton_Click" />
-                <Button x:Name="SaveButton" Content="Execute save" HorizontalAlignment="Center" Margin="5 0"
+                <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Center" Margin="5 0"
                         Click="SaveButton_Click" />
             </StackPanel>
         </StackPanel>
