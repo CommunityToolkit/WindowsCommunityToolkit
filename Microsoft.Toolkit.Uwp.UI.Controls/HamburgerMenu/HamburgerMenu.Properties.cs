@@ -140,8 +140,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public int SelectedIndex
         {
-            get { return _buttonsListView.SelectedIndex; }
-            set { _buttonsListView.SelectedIndex = value; }
+            get { return _optionsListView.SelectedIndex; }
+            set { _optionsListView.SelectedIndex = value; }
         }
     }
 }
