@@ -78,7 +78,7 @@
       {
         "Name": "BladeControl",
         "Type": "BladePage",
-        "About": "BladeControl is derived from Gridview. It provides a container to host blades as extra detail pages in a master-detail scenario. The control is based on how the Azure Portal works.",
+        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeControl/BladeControl.png"
@@ -90,14 +90,6 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
-      },
-      {
-        "Name": "Incremental Loading Collection",
-        "Type": "IncrementalLoadingCollectionPage",
-        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
-        "CodeFile": "IncrementalLoadingCollectionCode.bind",
-        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -260,6 +252,21 @@
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
         "Icon": "/SamplePages/ImageCache/ImageEx.png"
+      },
+      {
+        "Name": "Incremental Loading Collection",
+        "Type": "IncrementalLoadingCollectionPage",
+        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+        "CodeFile": "IncrementalLoadingCollectionCode.bind",
+        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+      },
+      {
+        "Name": "More",
+        "Type": "HelpersPage",
+        "About": "Find more information about all helpers available in the UWP Community toolkit.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       }
     ]
   }
