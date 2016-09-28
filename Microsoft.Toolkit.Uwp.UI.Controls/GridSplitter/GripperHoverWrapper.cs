@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _gripperCursor = gripperCursor;
             _gripperCustomCursorResource = gripperCustomCursorResource;
             _element = element;
+            UnhookEvents();
             _element.PointerEntered += Element_PointerEntered;
             _element.PointerExited += Element_PointerExited;
         }
