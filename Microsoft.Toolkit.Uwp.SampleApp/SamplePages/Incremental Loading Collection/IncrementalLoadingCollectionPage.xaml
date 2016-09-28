@@ -19,14 +19,24 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <TextBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
-            <TextBlock Margin="20,0,0,0" Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
-        </StackPanel>
+        <TextBlock HorizontalAlignment="Center" 
+                   Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)"
+                   TextWrapping="Wrap"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Center" 
+                       Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+            <TextBlock Grid.Column="1" 
+                       HorizontalAlignment="Center" 
+                       Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
+        </Grid>
         <Grid
+            Margin="0,24,0,0"
             Grid.Row="2"
-            Background="{StaticResource Brush-Grey-04}"
+            Background="{StaticResource Brush-Grey-01}"
             BorderBrush="#FFCCCCCC"
             BorderThickness="1"
             CornerRadius="4">
@@ -34,9 +44,20 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Border VerticalAlignment="Bottom">
-                                <TextBlock Text="{Binding Name}" />
-                            </Border>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="/Assets/ToolkitLogoTransparent.png" 
+                                   Width="32" 
+                                   Height="32" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center"></Image>
+                            <TextBlock Foreground="{StaticResource Brush-Grey-05}"
+                                       Text="{Binding Name}" 
+                                       Grid.Column="1" 
+                                       Margin="10" 
+                                       VerticalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

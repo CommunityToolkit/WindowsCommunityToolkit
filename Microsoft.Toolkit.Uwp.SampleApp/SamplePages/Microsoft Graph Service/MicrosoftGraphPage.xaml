@@ -23,7 +23,7 @@
                 <Image Height="100" 
                        Width="100" 
                        Stretch="Uniform" 
-                       Source="/SamplePages/MicrosoftGraph Service/OfficeLogo.png" 
+                       Source="/SamplePages/Microsoft Graph Service/OfficeLogo.png" 
                        Margin="24"/>
                 <Border CornerRadius="50" 
                         x:Name="ProfileImage" 

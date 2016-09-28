@@ -35,7 +35,7 @@ MicrosoftGraphUserFields[] selectedFields =
 		MicrosoftGraphUserFields.PreferredLanguage
 	};
 
-var user =await MicrosoftGraphService.Instance.User.GetProfileAsync(selectedFields);
+var user = await MicrosoftGraphService.Instance.User.GetProfileAsync(selectedFields);
 UserPanel.DataContext = user;     
 
 // Retrieve the user's photo 

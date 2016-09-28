@@ -78,7 +78,7 @@
       {
         "Name": "BladeControl",
         "Type": "BladePage",
-        "About": "BladeControl is derived from Gridview. It provides a container to host blades as extra detail pages in a master-detail scenario. The control is based on how the Azure Portal works.",
+        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeControl/BladeControl.png"
@@ -92,12 +92,12 @@
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
-        "Name": "Incremental Loading Collection",
-        "Type": "IncrementalLoadingCollectionPage",
-        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
-        "CodeFile": "IncrementalLoadingCollectionCode.bind",
-        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+        "Name": "DropShadowPanel",
+        "Type": "DropShadowPanelPage",
+        "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
+        "XamlCodeFile": "DropShadowPanelXaml.bind",
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
       }
     ]
   },
@@ -223,12 +223,12 @@
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
       },
       {
-        "Name": "MicrosoftGraph Service",
+        "Name": "Microsoft Graph Service",
         "Type": "MicrosoftGraphPage",
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/MicrosoftGraph/",
         "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/MicrosoftGraph Service/OfficeLogo.png"
+        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png"
       },
             {
         "Name": "LinkedIn Service",
@@ -260,6 +260,21 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/Storage",
         "CodeFile": "StorageCode.bind",
         "Icon": "/SamplePages/Storage/Storage.png"
+      },
+      {
+        "Name": "Incremental Loading Collection",
+        "Type": "IncrementalLoadingCollectionPage",
+        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+        "CodeFile": "IncrementalLoadingCollectionCode.bind",
+        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+      },
+      {
+        "Name": "More",
+        "Type": "HelpersPage",
+        "About": "Find more information about all helpers available in the UWP Community toolkit.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       }
     ]
   }

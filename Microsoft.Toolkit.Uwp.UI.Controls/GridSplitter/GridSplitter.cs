@@ -166,6 +166,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Register Events
             Loaded += GridSplitter_Loaded;
 
+            _hoverWrapper?.UnhookEvents();
+
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }
     }

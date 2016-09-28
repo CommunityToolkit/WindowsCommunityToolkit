@@ -10,27 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class PullToRefreshListViewPage
+    /// <summary>
+    /// A page that shows how to use the DropShadowPanel control.
+    /// </summary>
+    public sealed partial class DropShadowPanelPage : Page
     {
-        private readonly ObservableCollection<Item> _items;
-
-        public PullToRefreshListViewPage()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DropShadowPanelPage"/> class.
+        /// </summary>
+        public DropShadowPanelPage()
         {
-            InitializeComponent();
-            _items = new ObservableCollection<Item>();
-            AddItems();
+            this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// </summary>
+        /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -41,26 +45,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-        }
 
-        private void AddItems()
-        {
-            for (int i = 0; i < 10; i++)
+            if (!DropShadowPanel.IsSupported)
             {
-                _items.Insert(0, new Item { Title = "Item " + _items.Count });
+                WarningText.Visibility = Visibility.Visible;
             }
-        }
-
-        private void ListView_RefreshCommand(object sender, EventArgs e)
-        {
-            AddItems();
-        }
-
-        private void ListView_PullProgressChanged(object sender, RefreshProgressEventArgs e)
-        {
-            refreshindicator.Opacity = e.PullProgress;
-
-            refreshindicator.Background = e.PullProgress < 1.0 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Blue);
         }
     }
 }

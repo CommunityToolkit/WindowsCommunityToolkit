@@ -80,6 +80,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GripperCustomCursorDefaultResource, GripperCustomCursorResourcePropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="CursorBehavior"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CursorBehaviorProperty =
+            DependencyProperty.RegisterAttached(
+                nameof(CursorBehavior),
+                typeof(SplitterCursorBehavior),
+                typeof(GridSplitter),
+                new PropertyMetadata(SplitterCursorBehavior.ChangeOnSplitterHover, CursorBehaviorPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
         /// </summary>
         public UIElement Element
@@ -146,6 +156,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(GripperCustomCursorResourceProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets splitter cursor on hover behavior
+        /// </summary>
+        public SplitterCursorBehavior CursorBehavior
+        {
+            get { return (SplitterCursorBehavior)GetValue(CursorBehaviorProperty); }
+            set { SetValue(CursorBehaviorProperty, value); }
+        }
+
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
@@ -159,13 +178,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
+
+            if (gridSplitter._hoverWrapper == null)
+            {
+                return;
+            }
+
             gridSplitter._hoverWrapper.GripperCursor = gridSplitter.GripperCursor;
         }
 
         private static void GripperCustomCursorResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
+
+            if (gridSplitter._hoverWrapper == null)
+            {
+                return;
+            }
+
             gridSplitter._hoverWrapper.GripperCustomCursorResource = gridSplitter.GripperCustomCursorResource;
+        }
+
+        private static void CursorBehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)d;
+
+            gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
+                                                           SplitterCursorBehavior.ChangeOnSplitterHover
+                ? gridSplitter
+                : gridSplitter.Element);
         }
     }
 }
