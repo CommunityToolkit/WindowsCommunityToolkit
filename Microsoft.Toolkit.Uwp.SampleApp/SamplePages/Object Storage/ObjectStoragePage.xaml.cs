@@ -17,12 +17,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (StorageModeToggle.IsOn)
             {
                 // Read from roaming storage
-                ContentTextBox.Text = roamingStorageHelper.Read<string>(KeyTextBox.Text);
+                if (roamingStorageHelper.KeyExists(KeyTextBox.Text))
+                {
+                    ContentTextBox.Text = roamingStorageHelper.Read<string>(KeyTextBox.Text);
+                }
             }
             else
             {
                 // Read from local storage
-                ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
+                if (localStorageHelper.KeyExists(KeyTextBox.Text))
+                {
+                    ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
+                }
             }
         }
 

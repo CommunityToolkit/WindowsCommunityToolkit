@@ -34,6 +34,16 @@ namespace Microsoft.Toolkit.Uwp
         protected StorageFolder Folder { get; set; }
 
         /// <summary>
+        /// Detect if a setting already exists
+        /// </summary>
+        /// <param name="key">Key of the setting (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        public bool KeyExists(string key)
+        {
+            return Settings.Values.ContainsKey(key);
+        }
+
+        /// <summary>
         /// Retrieve single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
@@ -62,6 +72,16 @@ namespace Microsoft.Toolkit.Uwp
         public void Save<T>(string key, T value)
         {
             Settings.Values[key] = JsonConvert.SerializeObject(value);
+        }
+
+        /// <summary>
+        /// Detect if a file already exists
+        /// </summary>
+        /// <param name="filePath">Key of the file (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        public async Task<bool> FileExistsAsync(string filePath)
+        {
+            return await Folder.IsFileExistsAsync(filePath);
         }
 
         /// <summary>
