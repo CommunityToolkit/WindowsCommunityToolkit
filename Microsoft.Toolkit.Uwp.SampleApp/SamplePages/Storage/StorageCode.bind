@@ -1,0 +1,25 @@
+var localStorageService = new LocalStorageService();
+var roamingStorageService = new RoamingStorageService();
+
+// Read and Save with simple objects
+string keySimpleObject = "simple";
+string result = localStorageService.Read<string>(keySimpleObject);
+localStorageService.Save(keySimpleObject, 47);
+
+// Read and Save with complex/large objects
+string keyLargeObject = "large";
+var result = localStorageService.ReadFileAsync<MyLargeObject>(keyLargeObject);
+
+var o = new MyLargeObject
+{
+    ...
+};
+localStorageService.SaveFileAsync(keySimpleObject, o);
+
+// Complex object
+public class MyLargeObject
+{
+    public string MyContent { get; set; }
+    public List<string> MyContents { get; set; }
+    public List<MyLargeObject> MyObjects { get; set; }
+}
