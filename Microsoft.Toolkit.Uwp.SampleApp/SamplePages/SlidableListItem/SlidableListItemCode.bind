@@ -27,6 +27,7 @@
                     IsLeftSwipeEnabled="@[IsLeftSwipeEnabled:Bool:true]"
                     IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
                     MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    IsPointerReleasedOnSwipingHandled="@[IsPointerReleasedOnSwipingHandled:Bool:false]"
                     LeftCommand="{x:Bind ToggleFavorite}"
                     RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
                     RightCommandParameter="{Binding}">

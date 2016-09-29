@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private GridSplitter.GripperCursorType _gripperCursor;
         private int _gripperCustomCursorResource;
         private bool _isDragging;
+        private UIElement _element;
 
         internal GridSplitter.GripperCursorType GripperCursor
         {
@@ -52,8 +53,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _gridSplitterDirection = gridSplitterDirection;
             _gripperCursor = gripperCursor;
             _gripperCustomCursorResource = gripperCustomCursorResource;
-            element.PointerEntered += Element_PointerEntered;
-            element.PointerExited += Element_PointerExited;
+            _element = element;
+            UnhookEvents();
+            _element.PointerEntered += Element_PointerEntered;
+            _element.PointerExited += Element_PointerExited;
+        }
+
+        internal void UpdateHoverElement(UIElement element)
+        {
+            UnhookEvents();
+            _element = element;
+            _element.PointerEntered += Element_PointerEntered;
+            _element.PointerExited += Element_PointerExited;
         }
 
         private void Element_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -138,6 +149,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
             _isDragging = false;
+        }
+
+        internal void UnhookEvents()
+        {
+            if (_element == null)
+            {
+                return;
+            }
+
+            _element.PointerEntered -= Element_PointerEntered;
+            _element.PointerExited -= Element_PointerExited;
         }
     }
 }
