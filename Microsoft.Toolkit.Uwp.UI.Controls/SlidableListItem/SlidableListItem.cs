@@ -144,7 +144,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SwipeStatus"/> property
         /// </summary>
         public static readonly DependencyProperty SwipeStatusProperty =
-            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.Idle));
+            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SlidableListItem), new PropertyMetadata(SwipeStatus.Idle));
+
+        /// <summary>
+        /// Identifues the <see cref="IsPointerReleasedOnSwipingHandled"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsPointerReleasedOnSwipingHandledProperty =
+            DependencyProperty.Register("IsPointerReleasedOnSwipingHandled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
 
         /// <summary>
         /// Occurs when SwipeStatus has changed
@@ -167,7 +173,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _contentStoryboard;
         private AnimationSet _leftCommandAnimationSet;
         private AnimationSet _rightCommandAnimationSet;
-        private bool _justFinishedSwiping;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -198,7 +203,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_contentGrid != null)
             {
-                _contentGrid.PointerPressed -= ContentGrid_PointerPressed;
                 _contentGrid.PointerReleased -= ContentGrid_PointerReleased;
                 _contentGrid.ManipulationStarted -= ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
@@ -209,7 +213,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentGrid != null)
             {
-                _contentGrid.PointerPressed += ContentGrid_PointerPressed;
                 _contentGrid.PointerReleased += ContentGrid_PointerReleased;
 
                 _transform = _contentGrid.RenderTransform as CompositeTransform;
@@ -225,24 +228,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
-
-                _justFinishedSwiping = false;
             }
 
             base.OnApplyTemplate();
         }
 
-        private void ContentGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            _justFinishedSwiping = false;
-        }
-
         private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_justFinishedSwiping)
+            if (SwipeStatus != SwipeStatus.Idle && IsPointerReleasedOnSwipingHandled)
             {
                 e.Handled = true;
-                _justFinishedSwiping = false;
             }
         }
 
@@ -312,8 +307,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 LeftCommand?.Execute(LeftCommandParameter);
             }
 
-            SwipeStatus = SwipeStatus.Idle;
-            _justFinishedSwiping = true;
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { SwipeStatus = SwipeStatus.Idle; }).AsTask();
         }
 
         /// <summary>
@@ -727,6 +721,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SwipeStatusChanged?.Invoke(this, eventArguments);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the PointerReleased event is handled when swiping.
+        /// Set this to <value>true</value> to prevent ItemClicked or selection to occur when swiping in a <see cref="ListView"/>
+        /// </summary>
+        public bool IsPointerReleasedOnSwipingHandled
+        {
+            get { return (bool)GetValue(IsPointerReleasedOnSwipingHandledProperty); }
+            set { SetValue(IsPointerReleasedOnSwipingHandledProperty, value); }
         }
     }
 }
