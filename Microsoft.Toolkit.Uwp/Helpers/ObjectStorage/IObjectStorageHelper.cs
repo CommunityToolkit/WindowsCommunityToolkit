@@ -20,6 +20,13 @@ namespace Microsoft.Toolkit.Uwp
     public interface IObjectStorageHelper
     {
         /// <summary>
+        /// Detect if a setting already exists
+        /// </summary>
+        /// <param name="key">Key of the setting (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        bool KeyExists(string key);
+
+        /// <summary>
         /// Retrieve single item by its key
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
@@ -35,6 +42,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="key">Key of the value saved</param>
         /// <param name="value">Object to save</param>
         void Save<T>(string key, T value);
+
+        /// <summary>
+        /// Detect if a file already exists
+        /// </summary>
+        /// <param name="filePath">Key of the file (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        Task<bool> FileExistsAsync(string filePath);
 
         /// <summary>
         /// Retrieve object from file
