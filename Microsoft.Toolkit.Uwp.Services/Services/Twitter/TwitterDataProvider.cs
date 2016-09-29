@@ -579,22 +579,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string getResponse;
 
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-
-            using (HttpClient httpClient = new HttpClient(handler))
-            {
-                try
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
                 {
-                    getResponse = await httpClient.GetStringAsync(new Uri(twitterUrl));
-                }
-                catch (HttpRequestException hre)
-                {
-                    Debug.WriteLine("HttpClient call failed trying to retrieve Twitter Request Tokens.  Message: {0}", hre.Message);
-                    return false;
+                    var data = await response.Result.ReadAsStringAsync();
+                    if (response.Success)
+                    {
+                        getResponse = data;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("HttpClient call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
+                        return false;
+                    }
                 }
             }
 

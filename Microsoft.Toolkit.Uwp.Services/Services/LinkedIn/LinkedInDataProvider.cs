@@ -161,20 +161,21 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
 
-            using (var httpClient = new HttpClient())
+            using (HttpHelperRequest request = new HttpHelperRequest(new Uri(url), HttpMethod.Get))
             {
-                var httpRequestMessage = new HttpRequestMessage
+                request.Headers["Connection"] = "Keep-Alive";
+
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
                 {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(url)
-                };
+                    var data = await response.Result.ReadAsStringAsync();
 
-                httpRequestMessage.Headers.Add("Connection", "Keep-Alive");
+                    if (response.Success && !string.IsNullOrEmpty(data))
+                    {
+                        return parser.Parse(data);
+                    }
 
-                var response = await httpClient.SendRequestAsync(httpRequestMessage);
-                var jsonString = await response.Content.ReadAsStringAsync();
-
-                return parser.Parse(jsonString);
+                    throw new RequestFailedException(response.StatusCode, data);
+                }
             }
         }
 
@@ -197,26 +198,22 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
                 var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={Tokens.AccessToken}&format=json";
 
-                using (var httpClient = new HttpClient())
+                using (HttpHelperRequest request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
                 {
-                    var httpRequestMessage = new HttpRequestMessage
-                    {
-                        Method = HttpMethod.Post,
-                        RequestUri = new Uri(url)
-                    };
-
-                    httpRequestMessage.Headers.Add("x-li-format", "json");
+                    request.Headers["x-li-format"] = "json";
 
                     var stringContent = requestParser.Parse(shareRequest);
-                    httpRequestMessage.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+                    request.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
 
-                    var response = await httpClient.SendRequestAsync(httpRequestMessage);
-                    var jsonString = await response.Content.ReadAsStringAsync();
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    {
+                        var data = await response.Result.ReadAsStringAsync();
 
-                    var responseParser = new LinkedInParser<U>();
+                        var responseParser = new LinkedInParser<U>();
 
-                    var listResults = responseParser.Parse(jsonString.ToString()) as List<U>;
-                    return listResults[0];
+                        var listResults = responseParser.Parse(data) as List<U>;
+                        return listResults[0];
+                    }
                 }
             }
 
@@ -243,19 +240,15 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             + "&client_id=" + tokens.ClientId
             + "&client_secret=" + tokens.ClientSecret;
 
-            using (var httpClient = new HttpClient())
+            using (var request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
             {
-                var httpRequestMessage = new HttpRequestMessage
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
                 {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri(url)
-                };
+                    var jsonString = await response.Result.ReadAsStringAsync();
 
-                var response = await httpClient.SendRequestAsync(httpRequestMessage);
-                var jsonString = await response.Content.ReadAsStringAsync();
-
-                var json = JsonObject.Parse(jsonString);
-                return json.GetNamedString("access_token");
+                    var json = JsonObject.Parse(jsonString);
+                    return json.GetNamedString("access_token");
+                }
             }
         }
 

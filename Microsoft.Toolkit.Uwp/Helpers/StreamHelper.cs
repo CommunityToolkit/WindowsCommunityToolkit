@@ -33,23 +33,21 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Response stream</returns>
         public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            if (content == null)
-            {
-                return null;
-            }
-
             var outputStream = new InMemoryRandomAccessStream();
 
-            using (content)
+            HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
+
+            using (var response = await HttpHelper.Instance.SendRequestAsync(request))
             {
-                await content.WriteToStreamAsync(outputStream);
+                if (response.Success)
+                {
+                    await response.Result.WriteToStreamAsync(outputStream);
 
-                outputStream.Seek(0);
-
-                return outputStream;
+                    outputStream.Seek(0);
+                }
             }
+
+            return outputStream;
         }
 
         /// <summary>
@@ -62,13 +60,16 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            using (content)
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
             {
-                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+                HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
+
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
                 {
-                    await content.WriteToStreamAsync(fileStream);
+                    if (response.Success)
+                    {
+                        await response.Result.WriteToStreamAsync(fileStream);
+                    }
                 }
             }
         }
@@ -219,24 +220,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return encoding.GetString(bytes);
-        }
-
-        private static async Task<IHttpContent> GetHttpContentAsync(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    return response.Content;
-                }
-            }
         }
 
         private static async Task<IRandomAccessStream> GetFileStreamAsync(
