@@ -63,10 +63,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     return true;
                 }
 
-                var split = ApiCheck.Split(':');
-                var type = split[0];
-                var property = split[1];
-                return ApiInformation.IsPropertyPresent(type, property);
+                return ApiInformation.IsTypePresent(ApiCheck);
             }
         }
 
