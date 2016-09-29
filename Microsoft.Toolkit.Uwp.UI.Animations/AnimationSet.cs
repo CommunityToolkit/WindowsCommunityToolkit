@@ -38,8 +38,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private CompositionScopedBatch _batch;
         private ManualResetEvent _manualResetEvent;
 
-        private Task _storyboardTask;
         private Task _animationTask;
+        private Task _internalTask;
+        private CancellationTokenSource _cts;
+        private ManualResetEventSlim _taskResetEvent;
+        private bool _storyboardCompleted;
+        private bool _compositionCompleted;
 
         /// <summary>
         /// Gets or sets a value indicating whether composition must be use even on SDK > 10586
@@ -86,16 +90,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             Element = element;
+            State = AnimationSetState.NotStarted;
             _compositor = Visual.Compositor;
             _animations = new Dictionary<string, CompositionAnimation>();
             _effectAnimations = new List<EffectAnimationDefinition>();
-            _manualResetEvent = new System.Threading.ManualResetEvent(false);
+            _manualResetEvent = new ManualResetEvent(false);
             _directPropertyChanges = new Dictionary<string, object>();
             _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _animationSets = new List<AnimationSet>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
-            State = AnimationSetState.NotStarted;
+            _taskResetEvent = new ManualResetEventSlim();
         }
 
         /// <summary>
@@ -127,105 +132,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             if (State != AnimationSetState.Running)
-                StartTheAnimation();
+            {
+                if (_cts != null)
+                {
+                    _cts.Cancel();
+                    _cts.Dispose();
+                }
+
+                _cts = new CancellationTokenSource();
+                var nop = StartTheAnimationAsync(_cts.Token);
+            }
 
             return _animationTask;
         }
-
-        private async Task StartTheAnimation()
-        {
-            if (State == AnimationSetState.Running || State == AnimationSetState.Completed)
-            {
-                return;
-            }
-
-            foreach (var set in _animationSets)
-            {
-                if (set.State != AnimationSetState.Completed)
-                {
-                    var t = set.StartAsync();
-                    await t;
-                    if (t.IsCanceled == true)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (_batch != null)
-            {
-                if (!_batch.IsEnded)
-                {
-                    _batch.End();
-                }
-
-                _batch.Completed -= Batch_Completed;
-            }
-
-            foreach (var property in _directPropertyChanges)
-            {
-                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
-            }
-
-            foreach (var definition in _directEffectPropertyChanges)
-            {
-                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
-            }
-
-            List<Task> tasks = new List<Task>();
-
-            if (_animations.Count > 0 || _effectAnimations.Count > 0)
-            {
-                _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-                _batch.Completed += Batch_Completed;
-
-                foreach (var anim in _animations)
-                {
-                    Visual.StartAnimation(anim.Key, anim.Value);
-                }
-
-                foreach (var effect in _effectAnimations)
-                {
-                    effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
-                }
-
-                Task compositionTask = Task.Run(() =>
-                {
-                    _manualResetEvent.Reset();
-                    _manualResetEvent.WaitOne();
-                });
-
-                _batch.End();
-
-                tasks.Add(compositionTask);
-            }
-
-            if (State == AnimationSetState.Stopped && _storyboardTask != null)
-            {
-                _storyboard.Resume();
-            }
-            else
-            {
-                _storyboardTask = _storyboard.BeginAsync();
-            }
-
-            tasks.Add(_storyboardTask);
-
-            State = AnimationSetState.Running;
-            await Task.WhenAll(tasks);
-            State = AnimationSetState.Completed;
-        }
-
-        
 
         /// <summary>
         /// Stops all animations.
         /// </summary>
         public void Stop()
         {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+            }
+
             foreach (var set in _animationSets)
             {
-                set.Stop();
+                if (set.State != AnimationSetState.Completed)
+                {
+                    set.Stop();
+                }
             }
 
             if (_batch != null)
@@ -249,7 +185,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             _storyboard.Pause();
-            State = AnimationSetState.Stopped;
+        }
+
+        /// <summary>
+        /// Resets storyboard animations to inital state
+        /// </summary>
+        public void ResetStoryboard()
+        {
+            Stop();
+            foreach (var set in _animationSets)
+            {
+                set.ResetStoryboard();
+            }
+
+            State = AnimationSetState.NotStarted;
+            _storyboard.Stop();
         }
 
         /// <summary>
@@ -535,6 +485,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public void Dispose()
         {
             _manualResetEvent?.Dispose();
+            _taskResetEvent?.Dispose();
         }
 
         /// <summary>
@@ -555,10 +506,132 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _directEffectPropertyChanges.Add(definition);
         }
 
+        private async Task<Task> StartTheAnimationAsync(CancellationToken token)
+        {
+            if (State == AnimationSetState.Running || State == AnimationSetState.Completed)
+            {
+                return _internalTask;
+            }
+
+            foreach (var set in _animationSets)
+            {
+                if (set.State != AnimationSetState.Completed)
+                {
+                    var t = await set.StartTheAnimationAsync(token);
+                    await t;
+
+                    if (t.IsCanceled == true)
+                    {
+                        return _internalTask;
+                    }
+                }
+            }
+
+            _internalTask = Task.Run(
+                () =>
+                {
+                    _taskResetEvent.Reset();
+
+                    try
+                    {
+                        _taskResetEvent.Wait(token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        State = AnimationSetState.Stopped;
+                    }
+                }, token);
+
+            if (token.IsCancellationRequested)
+            {
+                return _internalTask;
+            }
+
+            foreach (var property in _directPropertyChanges)
+            {
+                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
+            }
+
+            foreach (var definition in _directEffectPropertyChanges)
+            {
+                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
+            }
+
+            if (_animations.Count > 0 || _effectAnimations.Count > 0)
+            {
+                if (_batch != null)
+                {
+                    if (!_batch.IsEnded)
+                    {
+                        _batch.End();
+                    }
+
+                    _batch.Completed -= Batch_Completed;
+                }
+
+                _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+                _batch.Completed += Batch_Completed;
+
+                foreach (var anim in _animations)
+                {
+                    Visual.StartAnimation(anim.Key, anim.Value);
+                }
+
+                foreach (var effect in _effectAnimations)
+                {
+                    effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
+                }
+
+                _compositionCompleted = false;
+                _batch.End();
+            }
+            else
+            {
+                _compositionCompleted = true;
+            }
+
+            if (State == AnimationSetState.Stopped)
+            {
+                _storyboard.Begin();
+            }
+            else
+            {
+                _storyboardCompleted = false;
+
+                _storyboard.Completed -= Storyboard_Completed;
+                _storyboard.Completed += Storyboard_Completed;
+
+                _storyboard.Begin();
+            }
+
+            State = AnimationSetState.Running;
+
+            return _internalTask;
+        }
+
+        private void Storyboard_Completed(object sender, object e)
+        {
+            _storyboardCompleted = true;
+            _storyboard.Completed -= Storyboard_Completed;
+            HandleCompleted();
+        }
+
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)
         {
-            _manualResetEvent.Set();
-            Completed?.Invoke(this, new EventArgs());
+            _compositionCompleted = true;
+            _batch.Completed -= Batch_Completed;
+            HandleCompleted();
+        }
+
+        private void HandleCompleted()
+        {
+            if (_storyboardCompleted && _compositionCompleted)
+            {
+                _taskResetEvent.Set();
+                State = AnimationSetState.Completed;
+                Completed?.Invoke(this, new EventArgs());
+                _manualResetEvent.Set();
+            }
         }
     }
 }
