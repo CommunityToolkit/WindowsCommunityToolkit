@@ -52,11 +52,11 @@
   <ItemGroup>
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
-    <Compile Include="Helpers\Storage\BaseStorageService.cs" />
-    <Compile Include="Helpers\Storage\IStorageService.cs" />
-    <Compile Include="Helpers\Storage\LocalStorageService.cs" />
-    <Compile Include="Helpers\Storage\RoamingStorageService.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
     <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
