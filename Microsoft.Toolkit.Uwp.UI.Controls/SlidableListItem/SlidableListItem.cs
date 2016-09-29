@@ -223,15 +223,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
-
-                _contentAnimation = new DoubleAnimation();
-                Storyboard.SetTarget(_contentAnimation, _transform);
-                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
-                _contentAnimation.To = 0;
-                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
-
-                _contentStoryboard = new Storyboard();
-                _contentStoryboard.Children.Add(_contentAnimation);
             }
 
             base.OnApplyTemplate();
