@@ -162,6 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
         private const int SnappedCommandMargin = 20;
+        private const int AnimationSetDuration = 200;
         private Grid _contentGrid;
         private CompositeTransform _transform;
         private Grid _commandContainer;
@@ -442,7 +443,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // The control was just put below the threshold.
                         // Run an animation to put the text and icon
                         // in the correct position.
-                        _leftCommandAnimationSet = _leftCommandPanel.Offset((float)(SnappedCommandMargin - _leftCommandTransform.TranslateX));
+                        _leftCommandAnimationSet = _leftCommandPanel.Offset((float)(SnappedCommandMargin - _leftCommandTransform.TranslateX), duration: AnimationSetDuration);
                         _leftCommandAnimationSet.Start();
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedRightThreshold)
@@ -483,7 +484,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // The control was just put below the threshold.
                         // Run an animation to put the text and icon
                         // in the correct position.
-                        _rightCommandAnimationSet = _rightCommandPanel.Offset((float)(-SnappedCommandMargin - _rightCommandTransform.TranslateX));
+                        _rightCommandAnimationSet = _rightCommandPanel.Offset((float)(-SnappedCommandMargin - _rightCommandTransform.TranslateX), duration: AnimationSetDuration);
                         _rightCommandAnimationSet.Start();
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedLeftThreshold)
