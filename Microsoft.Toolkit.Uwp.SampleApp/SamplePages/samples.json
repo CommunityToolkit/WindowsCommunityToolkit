@@ -254,12 +254,12 @@
         "Icon": "/SamplePages/ImageCache/ImageEx.png"
       },
       {
-        "Name": "Settings Storage",
-        "Type": "StoragePage",
-        "About": "The Storage service allows you to easily read and save objects in your application, both locally or on every device (roaming).",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/Storage",
-        "CodeFile": "StorageCode.bind",
-        "Icon": "/SamplePages/Storage/Storage.png"
+        "Name": "Object Storage",
+        "Type": "ObjectStoragePage",
+        "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/Object Storage",
+        "CodeFile": "ObjectStorageCode.bind",
+        "Icon": "/SamplePages/Object Storage/ObjectStorage.png"
       },
       {
         "Name": "Incremental Loading Collection",
