@@ -53,6 +53,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 * [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
 * [BladeControl](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/bladecontrol.htm)
+* [DropShadowPanel](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/dropshadowpanel.htm)
 * [GridSplitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/GridSplitter.htm)
 * [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
 * [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
@@ -69,6 +70,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Connection](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/connectionhelper.htm)
 * [Converters](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/converters.htm)
 * [ImageCache](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/imagecache.htm)
+* [Incremental Loading Collection](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/incrementalloadingcollection.htm)
+* [Object Storage](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/objectstorage.htm)
 * [StorageFiles](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/storagefiles.htm)
 * [Streams](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/streams.htm)
 * [VisualTreeExtensions](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/visualtreeextensions.htm)
@@ -78,8 +81,9 @@ Once you search you should see a list similar to the one below (versions may be 
 
 * [Bing](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/bing.htm)
 * [Facebook](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/facebook.htm)
-* [Twitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter.htm)
+* [LinkedIn](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/linkedin.htm)
 * [Microsoft Graph](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/MicrosoftGraph.htm)
+* [Twitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter.htm)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
