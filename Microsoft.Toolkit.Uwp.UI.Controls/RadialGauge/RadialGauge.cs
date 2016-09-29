@@ -403,7 +403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the right hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
+        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the left hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
         /// </summary>
         /// <remarks>Changing MinAngle may require retemplating the control.</remarks>
         public int MinAngle
@@ -413,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the left hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
+        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the right hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
         /// </summary>
         /// <remarks>Changing MaxAngle may require retemplating the control.</remarks>
         public int MaxAngle
