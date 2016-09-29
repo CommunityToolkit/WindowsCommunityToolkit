@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml;
+using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -45,11 +46,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string Icon { get; set; }
 
+        public string ApiCheck { get; set; }
+
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
         public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
+
+        public bool IsSupported
+        {
+            get
+            {
+                if (ApiCheck == null)
+                {
+                    return true;
+                }
+
+                var split = ApiCheck.Split(':');
+                var type = split[0];
+                var property = split[1];
+                return ApiInformation.IsPropertyPresent(type, property);
+            }
+        }
 
         public async Task<string> GetCSharpSourceAsync()
         {
