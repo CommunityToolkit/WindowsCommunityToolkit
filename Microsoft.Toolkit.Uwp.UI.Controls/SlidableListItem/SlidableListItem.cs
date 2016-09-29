@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
-        private const int FinishAnimationDuration = 100;
+        private const int FinishAnimationDuration = 150;
 
         private const int SnappedCommandMargin = 20;
         private Grid _contentGrid;
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Storyboard.SetTarget(_contentAnimation, _transform);
                 Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
                 _contentAnimation.To = 0;
-                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
+                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
@@ -452,7 +452,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(0, 0, Math.Max(newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (newTranslationX < ActivationWidth)
                 {
@@ -493,7 +493,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(_commandContainer.ActualWidth + newTranslationX, 0, -newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(_commandContainer.ActualWidth + newTranslationX + 1, 0, Math.Max(-newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (-newTranslationX < ActivationWidth)
                 {
