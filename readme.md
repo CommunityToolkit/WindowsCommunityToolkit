@@ -45,7 +45,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Blur](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Blur/)
 * [Offset](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Offset/)
 * [Fade](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Fade/)
-* [Rotate]http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Rotate/)
+* [Rotate](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Rotate/)
 * [Scale](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Scale/)
 * [FadeHeader](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/FadeHeader/)
 
