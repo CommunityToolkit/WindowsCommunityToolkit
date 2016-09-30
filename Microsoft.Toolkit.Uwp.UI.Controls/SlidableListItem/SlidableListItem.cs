@@ -161,11 +161,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
+        private const int FinishAnimationDuration = 150;
         private const int SnappedCommandMargin = 20;
         private const int AnimationSetDuration = 200;
         private Grid _contentGrid;
         private CompositeTransform _transform;
         private Grid _commandContainer;
+        private CompositeTransform _commandContainerTransform;
+        private DoubleAnimation _commandContainerClipTranslateAnimation;
         private StackPanel _leftCommandPanel;
         private CompositeTransform _leftCommandTransform;
         private StackPanel _rightCommandPanel;
@@ -220,15 +223,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
-
-                _contentAnimation = new DoubleAnimation();
-                Storyboard.SetTarget(_contentAnimation, _transform);
-                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
-                _contentAnimation.To = 0;
-                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-
-                _contentStoryboard = new Storyboard();
-                _contentStoryboard.Children.Add(_contentAnimation);
             }
 
             base.OnApplyTemplate();
@@ -249,6 +243,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            if (_contentStoryboard == null)
+            {
+                _contentAnimation = new DoubleAnimation();
+                Storyboard.SetTarget(_contentAnimation, _transform);
+                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
+                _contentAnimation.To = 0;
+                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
+
+                _contentStoryboard = new Storyboard();
+                _contentStoryboard.Children.Add(_contentAnimation);
+            }
+
             if (_commandContainer == null)
             {
                 _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
@@ -256,6 +262,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
                     _commandContainer.Clip = new RectangleGeometry();
+                    _commandContainerTransform = new CompositeTransform();
+                    _commandContainer.Clip.Transform = _commandContainerTransform;
+
+                    _commandContainerClipTranslateAnimation = new DoubleAnimation();
+                    Storyboard.SetTarget(_commandContainerClipTranslateAnimation, _commandContainerTransform);
+                    Storyboard.SetTargetProperty(_commandContainerClipTranslateAnimation, "TranslateX");
+                    _commandContainerClipTranslateAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
+                    _contentStoryboard.Children.Add(_commandContainerClipTranslateAnimation);
                 }
             }
 
@@ -277,7 +291,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            _contentStoryboard.Stop();
             _commandContainer.Opacity = 0;
+            _commandContainerTransform.TranslateX = 0;
+            _transform.TranslateX = 0;
             SwipeStatus = SwipeStatus.Starting;
         }
 
@@ -293,9 +310,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var x = _transform.TranslateX;
             _contentAnimation.From = x;
+            _commandContainerClipTranslateAnimation.From = 0;
+            _commandContainerClipTranslateAnimation.To = -x;
             _contentStoryboard.Begin();
-
-            _commandContainer.Fade(0, 100).Start();
 
             if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
@@ -426,7 +443,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(0, 0, Math.Max(newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (newTranslationX < ActivationWidth)
                 {
@@ -467,7 +484,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(_commandContainer.ActualWidth + newTranslationX, 0, -newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(_commandContainer.ActualWidth + newTranslationX + 1, 0, Math.Max(-newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (-newTranslationX < ActivationWidth)
                 {
