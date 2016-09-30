@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.VisionServicePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="129,232,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="ProcessImageFromPicker" Click="ProcessImageFromPicker_Click" Content="Process Image" HorizontalAlignment="Left" Margin="54,454,0,0" VerticalAlignment="Top"/>
+
+
+        <Button x:Name="ProcessImageFromUrl" Click="ProcessImageFromUrl_Click" Content="Process Url" HorizontalAlignment="Left" Margin="228,454,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ImageUrl" HorizontalAlignment="Left" Margin="228,400,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <TextBox x:Name="ApiKey" HorizontalAlignment="Left" Margin="118,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Button x:Name="VisionApiButton" Content="Enter" HorizontalAlignment="Left" Margin="33,56,0,0" VerticalAlignment="Top" Click="VisionApiButton_Click"/>
+        <TextBox x:Name="ResultTextbox" HorizontalAlignment="Left" Margin="118,573,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+
+    </Grid>
+</Page>

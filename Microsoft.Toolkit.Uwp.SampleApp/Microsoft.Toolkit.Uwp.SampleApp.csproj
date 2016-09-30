@@ -234,6 +234,7 @@
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeControl\BladeControl.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\Vision Service\VisionService.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
@@ -314,6 +315,7 @@
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphCode.bind" />
+    <Content Include="SamplePages\Vision Service\VisionService.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -325,8 +327,8 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
-    <Compile Include="SamplePages\CongnativeService\CognativeServicePage.xaml.cs">
-      <DependentUpon>CognativeServicePage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Vision Service\VisionServicePage.xaml.cs">
+      <DependentUpon>VisionServicePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
       <DependentUpon>HelpersPage.xaml</DependentUpon>
@@ -470,7 +472,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\CongnativeService\CognativeServicePage.xaml">
+    <Page Include="SamplePages\Vision Service\VisionServicePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
