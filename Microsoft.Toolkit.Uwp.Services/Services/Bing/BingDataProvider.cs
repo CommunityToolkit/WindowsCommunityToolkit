@@ -74,9 +74,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
 
             using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.Result.ReadAsStringAsync();
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
 
                     if (response.Success && !string.IsNullOrEmpty(data))
                     {

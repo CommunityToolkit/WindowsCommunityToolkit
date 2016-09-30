@@ -37,11 +37,11 @@ namespace Microsoft.Toolkit.Uwp
 
             HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
 
-            using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+            using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
             {
                 if (response.Success)
                 {
-                    await response.Result.WriteToStreamAsync(outputStream);
+                    await response.Result.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
 
                     outputStream.Seek(0);
                 }
@@ -60,15 +60,15 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
                 HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     if (response.Success)
                     {
-                        await response.Result.WriteToStreamAsync(fileStream);
+                        await response.Result.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
                     }
                 }
             }

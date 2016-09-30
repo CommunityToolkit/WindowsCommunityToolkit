@@ -11,6 +11,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 //
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -58,12 +59,17 @@ namespace Microsoft.Toolkit.Uwp
         public Uri RequestedUri { get; set; }
 
         /// <summary>
-        /// Gets or sets user Agent to pass to request.
+        /// Gets or sets User Agent to pass to the request.
         /// </summary>
         public string UserAgent { get; set; }
 
         /// <summary>
-        /// Gets collection of headers to pass with request.
+        /// Gets or sets authorization related credentials to the request
+        /// </summary>
+        public HttpCredentialsHeaderValue Authorization { get; set; }
+
+        /// <summary>
+        /// Gets collection of headers to pass with the request.
         /// </summary>
         public Dictionary<string, string> Headers { get; private set; }
 
@@ -85,6 +91,11 @@ namespace Microsoft.Toolkit.Uwp
                 request.Headers.UserAgent.ParseAdd(UserAgent);
             }
 
+            if (Authorization != null)
+            {
+                request.Headers.Authorization = Authorization;
+            }
+
             if (Headers != null && Headers.Count > 0)
             {
                 foreach (var key in Headers.Keys)
@@ -96,6 +107,11 @@ namespace Microsoft.Toolkit.Uwp
                 }
             }
 
+            if (Content != null)
+            {
+                request.Content = Content;
+            }
+
             return request;
         }
 
@@ -104,7 +120,15 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public void Dispose()
         {
-            Content.Dispose();
+            try
+            {
+                Content?.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // known issue
+                // http://stackoverflow.com/questions/39109060/httpmultipartformdatacontent-dispose-throws-objectdisposedexception
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,6 +9,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
 
 using System;
@@ -84,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             _baseFolder = folder;
             _cacheFolderName = folderName;
 
-            _cacheFolder = await GetCacheFolderAsync();
+            _cacheFolder = await GetCacheFolderAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -93,8 +95,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         public async Task ClearAsync()
         {
-            var folder = await GetCacheFolderAsync();
-            var files = await folder.GetFilesAsync();
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
             await InternalClearAsync(files);
 
@@ -110,8 +112,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             DateTime expirationDate = DateTime.Now.Subtract(duration);
 
-            var folder = await GetCacheFolderAsync();
-            var files = await folder.GetFilesAsync();
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
             var filesToDelete = new List<StorageFile>();
 
@@ -248,15 +250,15 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return instance;
             }
 
-            var folder = await GetCacheFolderAsync();
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
 
-            baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
+            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
             if (await IsFileOutOfDate(baseFile, expirationDate))
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
                 try
                 {
-                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly);
+                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
@@ -267,9 +269,9 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
+                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read).AsTask().ConfigureAwait(false))
                 {
-                    instance = await InitializeTypeAsync(fileStream);
+                    instance = await InitializeTypeAsync(fileStream).ConfigureAwait(false);
                 }
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
@@ -288,12 +290,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri).ConfigureAwait(false))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    instance = await InitializeTypeAsync(webStream);
+                    instance = await InitializeTypeAsync(webStream).ConfigureAwait(false);
 
                     webStream.Seek(0);
                 }

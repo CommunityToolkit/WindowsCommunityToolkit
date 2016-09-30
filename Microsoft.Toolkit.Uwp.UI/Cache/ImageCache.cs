@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             // nothing to do in this instance;
             BitmapImage image = new BitmapImage();
-            await image.SetSourceAsync(stream);
+            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
 
             return image;
         }

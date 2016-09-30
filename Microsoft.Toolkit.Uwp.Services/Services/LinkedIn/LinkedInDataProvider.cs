@@ -165,9 +165,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             {
                 request.Headers["Connection"] = "Keep-Alive";
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.Result.ReadAsStringAsync();
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
 
                     if (response.Success && !string.IsNullOrEmpty(data))
                     {
@@ -205,9 +205,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                     var stringContent = requestParser.Parse(shareRequest);
                     request.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
 
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                     {
-                        var data = await response.Result.ReadAsStringAsync();
+                        var data = await response.GetTextResultAsync().ConfigureAwait(false);
 
                         var responseParser = new LinkedInParser<U>();
 
@@ -242,9 +242,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             using (var request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    var jsonString = await response.Result.ReadAsStringAsync();
+                    var jsonString = await response.GetTextResultAsync().ConfigureAwait(false);
 
                     var json = JsonObject.Parse(jsonString);
                     return json.GetNamedString("access_token");

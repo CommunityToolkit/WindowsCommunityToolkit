@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             using (var request = new HttpHelperRequest(new Uri(LogoutUrl), HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     return response.Success;
                 }
