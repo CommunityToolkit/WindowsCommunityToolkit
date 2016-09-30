@@ -162,7 +162,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
         private const int FinishAnimationDuration = 150;
-
         private const int SnappedCommandMargin = 20;
         private Grid _contentGrid;
         private CompositeTransform _transform;
