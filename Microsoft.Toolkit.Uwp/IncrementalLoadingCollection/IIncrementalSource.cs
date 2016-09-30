@@ -17,14 +17,14 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// This class represents a data source which elements can be loaded incrementally.
+    /// This interface represents a data source whose items can be loaded incrementally.
     /// </summary>
     /// <typeparam name="TSource">Type of collection element.</typeparam>
     /// <seealso cref="IncrementalLoadingCollection{TSource, IType}"/>
     public interface IIncrementalSource<TSource>
     {
         /// <summary>
-        /// Retrieves items based on <paramref name="pageIndex"/> and <paramref name="pageSize"/> arguments.
+        /// This method is invoked everytime the view need to show more items. Retrieves items based on <paramref name="pageIndex"/> and <paramref name="pageSize"/> arguments.
         /// </summary>
         /// <param name="pageIndex">
         /// The zero-based index of the page that corresponds to the items to retrieve.
