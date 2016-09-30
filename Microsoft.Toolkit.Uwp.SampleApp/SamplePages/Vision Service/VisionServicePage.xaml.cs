@@ -18,38 +18,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        private void VisionApiButton_Click(object sender, RoutedEventArgs e)
+        private void SetApiKeyButton_Click(object sender, RoutedEventArgs e)
         {
             _visionService = new VisionService(ApiKey.Text);
         }
 
-        private async void ProcessImageFromUrl_Click(object sender, RoutedEventArgs e)
+        private async void TagImageFromPicker_Click(object sender, RoutedEventArgs e)
         {
             if (_visionService == null)
             {
                 return;
             }
 
-            var result =
-                        await
-                            _visionService.GetTagsAsync(
-                                "http://globalpropertysystems.com/wp-content/uploads/2014/09/Real-Estate-Loans.jpg");
-
-            ResultTextbox.Text = result.ToString();
-        }
-
-        private async void ProcessImageFromPicker_Click(object sender, RoutedEventArgs e)
-        {
-            if (_visionService == null)
-            {
-                return;
-            }
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
 
             FileOpenPicker open = new FileOpenPicker();
             open.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             open.ViewMode = PickerViewMode.Thumbnail;
             open.FileTypeFilter.Clear();
             open.FileTypeFilter.Add(".bmp");
+            open.FileTypeFilter.Add(".gif");
             open.FileTypeFilter.Add(".png");
             open.FileTypeFilter.Add(".jpeg");
             open.FileTypeFilter.Add(".jpg");
@@ -59,15 +48,105 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
                 {
                     BitmapImage bitmapImage = new BitmapImage();
-
-                    // clone stream because it can't be used twice
                     await bitmapImage.SetSourceAsync(fileStream.CloneStream());
-                    image.Source = bitmapImage;
+                    TagImage.Source = bitmapImage;
 
                     var result = await _visionService.GetTagsAsync(fileStream);
                     ResultTextbox.Text = result.ToString();
                 }
             }
+
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void TagUrlFromPicker_Click(object sender, RoutedEventArgs e)
+        {
+            if (_visionService == null || string.IsNullOrWhiteSpace(ImageUrl.Text))
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
+
+            var result =
+                        await
+                            _visionService.GetTagsAsync(ImageUrl.Text);
+
+            ResultTextbox.Text = result.ToString();
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private void ApiKeyPanelExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ApiKeyPanel.Visibility == Visibility.Visible)
+            {
+                HideApiPanel();
+            }
+            else
+            {
+                ShowApiPanel();
+            }
+        }
+
+        private void ShowApiPanel()
+        {
+            ApiKeyPanelExpandButton.Content = "";
+            ApiKeyPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideApiPanel()
+        {
+            ApiKeyPanelExpandButton.Content = "";
+            ApiKeyPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void TagImagesExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TagImagePanel.Visibility == Visibility.Visible)
+            {
+                HideTagImagePanel();
+            }
+            else
+            {
+                ShowTagImagePanel();
+            }
+        }
+
+        private void ShowTagImagePanel()
+        {
+            TagImagesExpandButton.Content = "";
+            TagImagePanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideTagImagePanel()
+        {
+            TagImagesExpandButton.Content = "";
+            TagImagePanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void TagUrlExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TagUrlPanel.Visibility == Visibility.Visible)
+            {
+                HideTagUrlPanel();
+            }
+            else
+            {
+                ShowTagUrlPanel();
+            }
+        }
+
+        private void ShowTagUrlPanel()
+        {
+            TagUrlExpandButton.Content = "";
+            TagUrlPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideTagUrlPanel()
+        {
+            TagUrlExpandButton.Content = "";
+            TagUrlPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

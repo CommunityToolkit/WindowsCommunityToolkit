@@ -7,16 +7,111 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="129,232,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="ProcessImageFromPicker" Click="ProcessImageFromPicker_Click" Content="Process Image" HorizontalAlignment="Left" Margin="54,454,0,0" VerticalAlignment="Top"/>
+    <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
+        <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- Api Key area -->
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ApiKeyPanelExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="ApiKeyPanelExpandButton_Click"/>
+                            <TextBlock Grid.Column="1" Text="Api Key" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                        </Grid>
+
+                        <StackPanel x:Name="ApiKeyPanel" Orientation="Vertical" Margin="24" Grid.Row="1">
+                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="" Margin="0,0,0,15"/>
+                            <TextBox Header="Api Key:" x:Name="ApiKey" Margin="0,0,0,12" Text="81c7f32b09ed40cc98b91ef7eae50650"/>
+                            <Button Content="Set" x:Name="SetApiKeyButton" Click="SetApiKeyButton_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="TagImages">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="TagImagesExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="TagImagesExpandButton_Click"/>
+                            <TextBlock Grid.Column="1" Text="TagImage" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="24" x:Name="TagImagePanel">
+                            <Image x:Name="TagImage"
+                                   Height="100"
+                                   Margin="0,0,0,12"
+                                   Width="100"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Set" x:Name="TagImageFromPicker" Click="TagImageFromPicker_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2" x:Name="TagUrls">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="TagUrlExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="TagUrlExpandButton_Click"/>
+                            <TextBlock Grid.Column="1" Text="TagImage" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="24" x:Name="TagUrlPanel">
+                            <TextBox x:Name="ImageUrl" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Set" x:Name="TagUrlFromPicker" Click="TagUrlFromPicker_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <!-- Results area -->
+                    <TextBox x:Name="ResultTextbox" Grid.Row="3" Margin="0,12,0,0"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+
+    <!--<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+        <Button x:Name="TagImageFromPicker" Click="ProcessImageFromPicker_Click" Content="Process Image" HorizontalAlignment="Left" Margin="54,454,0,0" VerticalAlignment="Top"/>
 
 
         <Button x:Name="ProcessImageFromUrl" Click="ProcessImageFromUrl_Click" Content="Process Url" HorizontalAlignment="Left" Margin="228,454,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ImageUrl" HorizontalAlignment="Left" Margin="228,400,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <TextBox x:Name="ApiKey" HorizontalAlignment="Left" Margin="118,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Button x:Name="VisionApiButton" Content="Enter" HorizontalAlignment="Left" Margin="33,56,0,0" VerticalAlignment="Top" Click="VisionApiButton_Click"/>
-        <TextBox x:Name="ResultTextbox" HorizontalAlignment="Left" Margin="118,573,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        
 
-    </Grid>
+    </Grid>-->
 </Page>
