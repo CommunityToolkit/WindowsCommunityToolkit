@@ -30,13 +30,13 @@ Once you search you should see a list similar to the one below (versions may be 
 
 | NuGet Package Name | description |
 | --- | --- |
-| [Microsoft.Toolkit.Uwp](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
-| [Microsoft.Toolkit.Uwp.Notifications](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
+| Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc. |
+| Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript. |
-| [Microsoft.Toolkit.Uwp.Services](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
-| [Microsoft.Toolkit.Uwp.UI](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
-| [Microsoft.Toolkit.Uwp.UI.Animations](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| [Microsoft.Toolkit.Uwp.UI.Controls](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Controls.htm) | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Bing, Facebook, LinkedIn, Microsoft Graph and Twitter. |
+| Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
+| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 
 ## Features
 
@@ -53,7 +53,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 * [AdaptiveGridView](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/AdaptiveGridView/)
 * [BladeControl](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/BladeControl/)
-* [DropShadowPanel]()
+* [DropShadowPanel](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/DropShadowPanel/)
 * [GridSplitter](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/GridSplitter/)
 * [HamburgerMenu](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HamburgerMenu/)
 * [HeaderedTextBlock](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HeaderedTextBlock/)
@@ -70,7 +70,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Connection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ConnectionHelper/)
 * [Converters](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/)
 * [ImageCache](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ImageCache/)
-* [Incremental Loading Collection]()
+* [Incremental Loading Collection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/IncrementalLoadingCollection/)
 * [Object Storage](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ObjectStorageHelper/)
 * [StorageFiles](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFiles/)
 * [Streams](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Streams/)
