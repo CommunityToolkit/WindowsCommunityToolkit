@@ -84,7 +84,7 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
 
 As you can see below, we declared a Frame inside the HamburgerMenu control. Using this Frame object, you can navigate to your pages by using the following code.
 
-{% highlight csharp %}
+```csharp
 
 using System;
 using System.Collections.Generic;
