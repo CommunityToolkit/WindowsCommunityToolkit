@@ -64,7 +64,7 @@ The **IncrementalLoadingCollection** constructor accepts the following arguments
 | --- | --- | --- |
 | itemsPerPage | The number of items to retrieve for each call. Default is 20. | [Integer](https://msdn.microsoft.com/library/windows/apps/System.Int32) |  
 | onStartLoading | (optional) An Action that is called when a retrieval operation begins. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
-| onEndLoading | (optional) An An that is called when a retrieval operation ends. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
+| onEndLoading | (optional) An Action that is called when a retrieval operation ends. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
 | onError | (optional) An Action that is called if an error occours during data retrieval. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
 
 ## Requirements (Windows 10 Device Family)
