@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using Windows.Media.Casting;
 using Windows.UI.Xaml;
