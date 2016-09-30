@@ -10,7 +10,7 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
 | Production | master | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/master?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/master) | 1.1 |
-| Beta | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) | Use our [pre-release Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) |
+| Pre-release beta testing | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) | Use our [pre-release Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) |
 
 ## Getting started
 
