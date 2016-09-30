@@ -72,6 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (imageSource != null)
                 {
                     _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
                     return;
                 }
 
