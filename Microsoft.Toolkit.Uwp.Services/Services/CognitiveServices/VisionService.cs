@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.Storage.Streams;
-using Windows.Web.Http;
-using Microsoft.Toolkit.Uwp.Services.Twitter;
-using HttpClient = System.Net.Http.HttpClient;
-using HttpMethod = System.Net.Http.HttpMethod;
-using HttpRequestMessage = System.Net.Http.HttpRequestMessage;
-using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
 
 namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 {
+    /// <summary>
+    /// Class for connecting to Vision Service
+    /// </summary>
     public partial class VisionService
     {
         private const string ServiceUrl = "https://api.projectoxford.ai/vision/v1.0/";
@@ -26,6 +16,9 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 
         private readonly string _subscriptionKey;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisionService"/> class.
+        /// </summary>
         public VisionService(string subscriptionKey)
         {
             _subscriptionKey = subscriptionKey;
@@ -37,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
             var client = GetHttpClient();
             var multipartFormDataContent = await GetMultiPartFormData(imageStream);
             var result = await Post(requestUri, client, multipartFormDataContent);
-            return VisionServiceJsonHelper.Parse<ImageTags>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageTags>(result);
         }
 
         public async Task<ImageTags> GetTagsAsync(string imageUrl)
@@ -46,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
             var client = GetHttpClient();
             var content = GetStringContent(imageUrl);
             string result = await Post(requestUri, client, content);
-            return VisionServiceJsonHelper.Parse<ImageTags>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageTags>(result);
         }
 
         private static string GetTagUrl()
@@ -60,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
             var client = GetHttpClient();
             var multipartFormDataContent = await GetMultiPartFormData(imageStream);
             var result = await Post(requestUri, client, multipartFormDataContent);
-            return VisionServiceJsonHelper.Parse<OcrData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<OcrData>(result);
         }
 
         public async Task<OcrData> OcrAsync(string imageUrl, string language = AutoDetect, bool detectOrientation = false)
@@ -69,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
             var client = GetHttpClient();
             var content = GetStringContent(imageUrl);
             string result = await Post(requestUri, client, content);
-            return VisionServiceJsonHelper.Parse<OcrData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<OcrData>(result);
         }
 
         private static string GetOcrUrl(string language, bool detectOrientation)

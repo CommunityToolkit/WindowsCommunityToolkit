@@ -7,6 +7,9 @@ using HttpClient = System.Net.Http.HttpClient;
 
 namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 {
+    /// <summary>
+    /// Class for connecting to Vision Service
+    /// </summary>
     public partial class VisionService
     {
         private static async Task<string> Post(string requestUri, HttpClient client, HttpContent content)
@@ -18,14 +21,14 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
                 case System.Net.HttpStatusCode.OK:
                     return result;
                 default:
-                    var details = VisionServiceJsonHelper.Parse<RequestExceptionDetails>(result);
+                    var details = VisionServiceJsonHelper.JsonDesrialize<RequestExceptionDetails>(result);
                     throw new VisionServiceException(details.Message, details);
             }
         }
 
         private static StringContent GetStringContent(string imageUrl)
         {
-            var result = VisionServiceJsonHelper.Stringify(new { url = imageUrl });
+            var result = VisionServiceJsonHelper.JsonSerialize(new { url = imageUrl });
             var content = new StringContent(result);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return content;
@@ -49,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 
         private HttpClient GetHttpClient()
         {
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             client.DefaultRequestHeaders.Add(SubscriptionKeyHeader, _subscriptionKey);
             return client;
         }

@@ -244,7 +244,7 @@
         "About": "",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/VisionService/",
         "CodeFile": "VisionService.bind",
-        "Icon": "/SamplePages/CongnativeService/VisionService.png"
+        "Icon": "/SamplePages/Vision Service/VisionService.png"
       }
     ]
   },

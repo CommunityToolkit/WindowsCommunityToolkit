@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Twitter;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 {
     /// <summary>
-    /// Congnative Service Parser.
+    /// Congnative Json Service Parser.
     /// </summary>
     public static class VisionServiceJsonHelper
     {
-        public static T Parse<T>(string data)
+        /// <summary>
+        /// Deserialize json data to generic object T
+        /// </summary>
+        /// <typeparam name="T">Target Generic Object</typeparam>
+        /// <param name="data">Data to be serialized</param>
+        /// <returns>Object of type T</returns>
+        public static T JsonDesrialize<T>(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -23,7 +23,12 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
             return JsonConvert.DeserializeObject<T>(data);
         }
 
-        public static string Stringify(object data)
+        /// <summary>
+        /// Serialize object data into json string
+        /// </summary>
+        /// <param name="data">Object to be serialized</param>
+        /// <returns>Serialized string</returns>
+        public static string JsonSerialize(object data)
         {
             if (data == null)
             {

@@ -39,7 +39,7 @@
                         </Grid>
 
                         <StackPanel x:Name="ApiKeyPanel" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="" Margin="0,0,0,15"/>
+                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="https://www.microsoft.com/cognitive-services/en-us/subscriptions" Margin="0,0,0,15"/>
                             <TextBox Header="Api Key:" x:Name="ApiKey" Margin="0,0,0,12" Text=""/>
                             <Button Content="Set" x:Name="SetApiKeyButton" Click="SetApiKeyButton_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
                         </StackPanel>
@@ -136,9 +136,7 @@
                                 <Button Content="Ocr" x:Name="OcrUrlFromPicker" Click="OcrUrlFromPicker_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
                             </StackPanel>
                         </StackPanel>
-
                     </Grid>
-
 
                     <!-- Results area -->
                     <TextBox x:Name="ResultTextbox" Grid.Row="3" Margin="24" TextWrapping="Wrap"/>
@@ -146,17 +144,4 @@
             </ScrollViewer>
         </Grid>
     </Grid>
-
-    <!--<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
-        <Button x:Name="TagImageFromPicker" Click="ProcessImageFromPicker_Click" Content="Process Image" HorizontalAlignment="Left" Margin="54,454,0,0" VerticalAlignment="Top"/>
-
-
-        <Button x:Name="ProcessImageFromUrl" Click="ProcessImageFromUrl_Click" Content="Process Url" HorizontalAlignment="Left" Margin="228,454,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ImageUrl" HorizontalAlignment="Left" Margin="228,400,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <TextBox x:Name="ApiKey" HorizontalAlignment="Left" Margin="118,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <Button x:Name="VisionApiButton" Content="Enter" HorizontalAlignment="Left" Margin="33,56,0,0" VerticalAlignment="Top" Click="VisionApiButton_Click"/>
-        
-
-    </Grid>-->
 </Page>
