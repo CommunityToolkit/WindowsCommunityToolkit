@@ -31,6 +31,7 @@
                                        RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
                                        RightCommandParameter="{Binding}"
                                        ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}"
+                                       IsPointerReleasedOnSwipingHandled="{Binding DataContext.IsPointerReleasedOnSwipingHandled.Value, ElementName=Root, Mode=OneWay}"
                                        MinWidth="300"
                                        MaxWidth="800"
                                        >

@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -33,31 +34,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class SlidableListItem : ContentControl
     {
         /// <summary>
-        /// Indetifies the <see cref="ExtraSwipeThreshold"/> property
+        /// Identifies the <see cref="ExtraSwipeThreshold"/> property
         /// </summary>
         public static readonly DependencyProperty ExtraSwipeThresholdProperty =
             DependencyProperty.Register(nameof(ExtraSwipeThreshold), typeof(int), typeof(SlidableListItem), new PropertyMetadata(default(int)));
 
         /// <summary>
-        /// Indetifies the <see cref="IsOffsetLimited"/> property
+        /// Identifies the <see cref="IsOffsetLimited"/> property
         /// </summary>
         public static readonly DependencyProperty IsOffsetLimitedProperty =
             DependencyProperty.Register(nameof(IsOffsetLimited), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
-        /// Indetifies the <see cref="IsLeftSwipeEnabled"/> property
+        /// Identifies the <see cref="IsLeftSwipeEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsLeftSwipeEnabledProperty =
             DependencyProperty.Register(nameof(IsLeftSwipeEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
-        /// Indetifies the <see cref="IsRightSwipeEnabled"/> property
+        /// Identifies the <see cref="IsRightSwipeEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsRightSwipeEnabledProperty =
             DependencyProperty.Register(nameof(IsRightSwipeEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
-        /// Indetifies the <see cref="ActivationWidth"/> property
+        /// Identifies the <see cref="ActivationWidth"/> property
         /// </summary>
         public static readonly DependencyProperty ActivationWidthProperty =
             DependencyProperty.Register(nameof(ActivationWidth), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80));
@@ -69,37 +70,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(LeftIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Favorite));
 
         /// <summary>
-        /// Indetifies the <see cref="RightIcon"/> property
+        /// Identifies the <see cref="RightIcon"/> property
         /// </summary>
         public static readonly DependencyProperty RightIconProperty =
             DependencyProperty.Register(nameof(RightIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Delete));
 
         /// <summary>
-        /// Indetifies the <see cref="LeftLabel"/> property
+        /// Identifies the <see cref="LeftLabel"/> property
         /// </summary>
         public static readonly DependencyProperty LeftLabelProperty =
             DependencyProperty.Register(nameof(LeftLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
-        /// Indetifies the <see cref="RightLabel"/> property
+        /// Identifies the <see cref="RightLabel"/> property
         /// </summary>
         public static readonly DependencyProperty RightLabelProperty =
             DependencyProperty.Register(nameof(RightLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
 
         /// <summary>
-        /// Indetifies the <see cref="LeftForeground"/> property
+        /// Identifies the <see cref="LeftForeground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftForegroundProperty =
             DependencyProperty.Register(nameof(LeftForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         /// <summary>
-        /// Indetifies the <see cref="RightForeground"/> property
+        /// Identifies the <see cref="RightForeground"/> property
         /// </summary>
         public static readonly DependencyProperty RightForegroundProperty =
             DependencyProperty.Register(nameof(RightForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         /// <summary>
-        /// Indetifies the <see cref="LeftBackground"/> property
+        /// Identifies the <see cref="LeftBackground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftBackgroundProperty =
             DependencyProperty.Register(nameof(LeftBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.LightGray)));
@@ -144,7 +145,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SwipeStatus"/> property
         /// </summary>
         public static readonly DependencyProperty SwipeStatusProperty =
-            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SwipeStatus), new PropertyMetadata(SwipeStatus.Idle));
+            DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SlidableListItem), new PropertyMetadata(SwipeStatus.Idle));
+
+        /// <summary>
+        /// Identifues the <see cref="IsPointerReleasedOnSwipingHandled"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsPointerReleasedOnSwipingHandledProperty =
+            DependencyProperty.Register("IsPointerReleasedOnSwipingHandled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
 
         /// <summary>
         /// Occurs when SwipeStatus has changed
@@ -155,17 +162,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartCommandContainer = "CommandContainer";
         private const string PartLeftCommandPanel = "LeftCommandPanel";
         private const string PartRightCommandPanel = "RightCommandPanel";
-
+        private const int FinishAnimationDuration = 150;
+        private const int SnappedCommandMargin = 20;
+        private const int AnimationSetDuration = 200;
         private Grid _contentGrid;
         private CompositeTransform _transform;
         private Grid _commandContainer;
+        private CompositeTransform _commandContainerTransform;
+        private DoubleAnimation _commandContainerClipTranslateAnimation;
         private StackPanel _leftCommandPanel;
         private CompositeTransform _leftCommandTransform;
         private StackPanel _rightCommandPanel;
         private CompositeTransform _rightCommandTransform;
         private DoubleAnimation _contentAnimation;
         private Storyboard _contentStoryboard;
-        private bool _justFinishedSwiping;
+        private AnimationSet _leftCommandAnimationSet;
+        private AnimationSet _rightCommandAnimationSet;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -196,7 +208,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_contentGrid != null)
             {
-                _contentGrid.PointerPressed -= ContentGrid_PointerPressed;
                 _contentGrid.PointerReleased -= ContentGrid_PointerReleased;
                 _contentGrid.ManipulationStarted -= ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta -= ContentGrid_ManipulationDelta;
@@ -207,40 +218,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentGrid != null)
             {
-                _contentGrid.PointerPressed += ContentGrid_PointerPressed;
                 _contentGrid.PointerReleased += ContentGrid_PointerReleased;
 
                 _transform = _contentGrid.RenderTransform as CompositeTransform;
                 _contentGrid.ManipulationStarted += ContentGrid_ManipulationStarted;
                 _contentGrid.ManipulationDelta += ContentGrid_ManipulationDelta;
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
-
-                _contentAnimation = new DoubleAnimation();
-                Storyboard.SetTarget(_contentAnimation, _transform);
-                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
-                _contentAnimation.To = 0;
-                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(100));
-
-                _contentStoryboard = new Storyboard();
-                _contentStoryboard.Children.Add(_contentAnimation);
-
-                _justFinishedSwiping = false;
             }
 
             base.OnApplyTemplate();
         }
 
-        private void ContentGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            _justFinishedSwiping = false;
-        }
-
         private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_justFinishedSwiping)
+            if (SwipeStatus != SwipeStatus.Idle && IsPointerReleasedOnSwipingHandled)
             {
                 e.Handled = true;
-                _justFinishedSwiping = false;
             }
         }
 
@@ -251,6 +244,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            if (_contentStoryboard == null)
+            {
+                _contentAnimation = new DoubleAnimation();
+                Storyboard.SetTarget(_contentAnimation, _transform);
+                Storyboard.SetTargetProperty(_contentAnimation, "TranslateX");
+                _contentAnimation.To = 0;
+                _contentAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
+
+                _contentStoryboard = new Storyboard();
+                _contentStoryboard.Children.Add(_contentAnimation);
+            }
+
             if (_commandContainer == null)
             {
                 _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
@@ -258,6 +263,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _commandContainer.Background = LeftBackground as SolidColorBrush;
                     _commandContainer.Clip = new RectangleGeometry();
+                    _commandContainerTransform = new CompositeTransform();
+                    _commandContainer.Clip.Transform = _commandContainerTransform;
+
+                    _commandContainerClipTranslateAnimation = new DoubleAnimation();
+                    Storyboard.SetTarget(_commandContainerClipTranslateAnimation, _commandContainerTransform);
+                    Storyboard.SetTargetProperty(_commandContainerClipTranslateAnimation, "TranslateX");
+                    _commandContainerClipTranslateAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(FinishAnimationDuration));
+                    _contentStoryboard.Children.Add(_commandContainerClipTranslateAnimation);
                 }
             }
 
@@ -279,7 +292,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            _contentStoryboard.Stop();
             _commandContainer.Opacity = 0;
+            _commandContainerTransform.TranslateX = 0;
+            _transform.TranslateX = 0;
             SwipeStatus = SwipeStatus.Starting;
         }
 
@@ -295,9 +311,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var x = _transform.TranslateX;
             _contentAnimation.From = x;
+            _commandContainerClipTranslateAnimation.From = 0;
+            _commandContainerClipTranslateAnimation.To = -x;
             _contentStoryboard.Begin();
-
-            _commandContainer.Fade(0, 100).Start();
 
             if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
@@ -310,8 +326,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 LeftCommand?.Execute(LeftCommandParameter);
             }
 
-            SwipeStatus = SwipeStatus.Idle;
-            _justFinishedSwiping = true;
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { SwipeStatus = SwipeStatus.Idle; }).AsTask();
         }
 
         /// <summary>
@@ -429,16 +444,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(0, 0, newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(0, 0, Math.Max(newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (newTranslationX < ActivationWidth)
                 {
+                    _leftCommandAnimationSet?.Stop();
+                    _leftCommandPanel.RenderTransform = _leftCommandTransform;
                     _leftCommandTransform.TranslateX = newTranslationX / 2;
+
                     newSwipeStatus = SwipeStatus.SwipingToRightThreshold;
                 }
                 else
                 {
-                    _leftCommandTransform.TranslateX = 20;
+                    if (SwipeStatus == SwipeStatus.SwipingToRightThreshold)
+                    {
+                        // The control was just put below the threshold.
+                        // Run an animation to put the text and icon
+                        // in the correct position.
+                        _leftCommandAnimationSet = _leftCommandPanel.Offset((float)(SnappedCommandMargin - _leftCommandTransform.TranslateX), duration: AnimationSetDuration);
+                        _leftCommandAnimationSet.Start();
+                    }
+                    else if (SwipeStatus != SwipeStatus.SwipingPassedRightThreshold)
+                    {
+                        // This will cover extrem cases when previous state wasn't
+                        // below threshold.
+                        _leftCommandAnimationSet?.Stop();
+                        _leftCommandPanel.RenderTransform = _leftCommandTransform;
+                        _leftCommandTransform.TranslateX = SnappedCommandMargin;
+                    }
+
                     newSwipeStatus = SwipeStatus.SwipingPassedRightThreshold;
                 }
             }
@@ -451,16 +485,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 
-                _commandContainer.Clip.Rect = new Windows.Foundation.Rect(_commandContainer.ActualWidth + newTranslationX, 0, -newTranslationX, _commandContainer.ActualHeight);
+                _commandContainer.Clip.Rect = new Rect(_commandContainer.ActualWidth + newTranslationX + 1, 0, Math.Max(-newTranslationX - 1, 0), _commandContainer.ActualHeight);
 
                 if (-newTranslationX < ActivationWidth)
                 {
+                    _rightCommandAnimationSet?.Stop();
+                    _rightCommandPanel.RenderTransform = _rightCommandTransform;
                     _rightCommandTransform.TranslateX = newTranslationX / 2;
+
                     newSwipeStatus = SwipeStatus.SwipingToLeftThreshold;
                 }
                 else
                 {
-                    _rightCommandTransform.TranslateX = -20;
+                    if (SwipeStatus == SwipeStatus.SwipingToLeftThreshold)
+                    {
+                        // The control was just put below the threshold.
+                        // Run an animation to put the text and icon
+                        // in the correct position.
+                        _rightCommandAnimationSet = _rightCommandPanel.Offset((float)(-SnappedCommandMargin - _rightCommandTransform.TranslateX), duration: AnimationSetDuration);
+                        _rightCommandAnimationSet.Start();
+                    }
+                    else if (SwipeStatus != SwipeStatus.SwipingPassedLeftThreshold)
+                    {
+                        // This will cover extrem cases when previous state wasn't
+                        // below threshold.
+                        _rightCommandAnimationSet?.Stop();
+                        _rightCommandPanel.RenderTransform = _rightCommandTransform;
+                        _rightCommandTransform.TranslateX = -SnappedCommandMargin;
+                    }
+
                     newSwipeStatus = SwipeStatus.SwipingPassedLeftThreshold;
                 }
             }
@@ -687,6 +740,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SwipeStatusChanged?.Invoke(this, eventArguments);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the PointerReleased event is handled when swiping.
+        /// Set this to <value>true</value> to prevent ItemClicked or selection to occur when swiping in a <see cref="ListView"/>
+        /// </summary>
+        public bool IsPointerReleasedOnSwipingHandled
+        {
+            get { return (bool)GetValue(IsPointerReleasedOnSwipingHandledProperty); }
+            set { SetValue(IsPointerReleasedOnSwipingHandledProperty, value); }
         }
     }
 }

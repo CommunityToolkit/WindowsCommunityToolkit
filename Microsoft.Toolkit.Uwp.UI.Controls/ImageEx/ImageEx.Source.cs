@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -72,6 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (imageSource != null)
                 {
                     _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
                     return;
                 }
 

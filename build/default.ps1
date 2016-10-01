@@ -21,6 +21,25 @@ Framework "4.6x86"
 
 task default -depends ?
 
+task UpdateHeaders -description "Updates the headers in *.cs files" {
+  $header = [System.IO.File]::ReadAllText("$buildDir\header.txt")
+
+  Get-ChildItem -Path $sourceDir -Filter *.cs -Exclude *generated* -Recurse | % {
+    $fullFilename = $_.FullName
+    $filename = $_.Name
+    
+    $oldContent = [System.IO.File]::ReadAllText($fullFilename)
+    
+    $newContent = "$header`r`n" + ($oldContent -Replace "^(//.*\r?\n|\r?\n)*", "")
+    
+    if ($newContent -ne $oldContent) {
+      WriteColoredOutput -ForegroundColor Green "Updating '$fullFilename' header...`n"
+      
+      [System.IO.File]::WriteAllText($fullFilename, $newContent, [System.Text.Encoding]::UTF8)
+    }
+  }
+}
+
 task Clean -description "Clean the output folder" {
   if (Test-Path -path $binDir) {
     WriteColoredOutput -ForegroundColor Green "Deleting Working Directory...`n"
@@ -35,6 +54,29 @@ task Setup -description "Setup environment" {
   WriteColoredOutput -ForegroundColor Green "Restoring NuGet packages...`n"
   
   Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
+}
+
+task Verify -description "Run pre-build verifications" {
+  $header = [System.IO.File]::ReadAllText("$buildDir\header.txt")
+
+  Get-ChildItem -Path $sourceDir -Filter *.cs -Exclude *generated* -Recurse | % {
+    $fullFilename = $_.FullName
+    $filename = $_.Name
+    
+    $oldContent = [System.IO.File]::ReadAllText($fullFilename)
+    
+    $newContent = "$header`r`n" + ($oldContent -Replace "^(//.*\r?\n|\r?\n)*", "")
+    
+    if ($newContent -ne $oldContent) {
+      WriteColoredOutput -ForegroundColor Yellow "Wrong/missing header on '$fullFilename'"
+      
+      $raiseError = $true
+    }
+  }
+  
+  if ($raiseError) {
+    throw "Please run '.\build.ps1 UpdateHeaders' and commit the changes."
+  }
 }
 
 task Version -description "Updates the version entries in AssemblyInfo.cs files" {
@@ -61,7 +103,7 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
   WriteColoredOutput -ForegroundColor Green "Build version: $script:version`n"
 }
 
-task Build -depends Clean, Setup, Version -description "Build all projects and get the assemblies" {
+task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
   Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"

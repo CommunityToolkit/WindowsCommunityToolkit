@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 using Windows.UI.Xaml.Controls;
