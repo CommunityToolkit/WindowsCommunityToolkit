@@ -46,16 +46,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsOffsetLimited), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsLeftSwipeEnabled"/> property
+        /// Identifies the <see cref="IsRightCommandEnabled"/> property
         /// </summary>
-        public static readonly DependencyProperty IsLeftSwipeEnabledProperty =
-            DependencyProperty.Register(nameof(IsLeftSwipeEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsRightCommandEnabledProperty =
+            DependencyProperty.Register(nameof(IsRightCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsRightSwipeEnabled"/> property
+        /// Identifies the <see cref="IsLeftCommandEnabled"/> property
         /// </summary>
-        public static readonly DependencyProperty IsRightSwipeEnabledProperty =
-            DependencyProperty.Register(nameof(IsRightSwipeEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsLeftCommandEnabledProperty =
+            DependencyProperty.Register(nameof(IsLeftCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="ActivationWidth"/> property
@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ContentGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsRightSwipeEnabled && !IsLeftSwipeEnabled))
+            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsLeftCommandEnabled && !IsRightCommandEnabled))
             {
                 return;
             }
@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsRightSwipeEnabled && !IsLeftSwipeEnabled))
+            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsLeftCommandEnabled && !IsRightCommandEnabled))
             {
                 return;
             }
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newTranslationX > 0)
             {
                 // Swiping from left to right
-                if (!IsRightSwipeEnabled)
+                if (!IsLeftCommandEnabled)
                 {
                     // If swipe is not enabled, only allow swipe a very short distance
                     if (newTranslationX > 0)
@@ -387,7 +387,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 // Swiping from right to left
-                if (!IsLeftSwipeEnabled)
+                if (!IsRightCommandEnabled)
                 {
                     // If swipe is not enabled, only allow swipe a very short distance
                     if (newTranslationX < 0)
@@ -541,21 +541,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether swiping left is enabled or not.
+        /// Gets or sets a value indicating whether right command is enabled or not.
         /// </summary>
-        public bool IsLeftSwipeEnabled
+        public bool IsRightCommandEnabled
         {
-            get { return (bool)GetValue(IsLeftSwipeEnabledProperty); }
-            set { SetValue(IsLeftSwipeEnabledProperty, value); }
+            get { return (bool)GetValue(IsRightCommandEnabledProperty); }
+            set { SetValue(IsRightCommandEnabledProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether swiping right is enabled or not.
+        /// Gets or sets a value indicating whether left command is enabled or not.
         /// </summary>
-        public bool IsRightSwipeEnabled
+        public bool IsLeftCommandEnabled
         {
-            get { return (bool)GetValue(IsRightSwipeEnabledProperty); }
-            set { SetValue(IsRightSwipeEnabledProperty, value); }
+            get { return (bool)GetValue(IsLeftCommandEnabledProperty); }
+            set { SetValue(IsLeftCommandEnabledProperty, value); }
         }
 
         /// <summary>
