@@ -114,7 +114,7 @@
                 Width="11"
                 GripperCursor="{Binding GripperCursor.Value,Mode=TwoWay}"
                 Background="{StaticResource Brush-Grey-04}"
-                HorizontalAlignment="{Binding HorizontalAlignment.Value,Mode=TwoWay}"
+                HorizontalAlignment="Left"
                 Grid.Column="{Binding Column.Value}"
                 GripperForeground="White"
                 ResizeDirection="{Binding ResizeDirection.Value,Mode=TwoWay}"

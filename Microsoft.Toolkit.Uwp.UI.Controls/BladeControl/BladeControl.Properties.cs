@@ -25,12 +25,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Blades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>(), PropertyChangedCallback));
+        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null, PropertyChangedCallback));
 
         /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(new ObservableCollection<Blade>()));
+        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ToggleBlade"/> attached property.

@@ -78,7 +78,9 @@
                         </Grid>
 
                         <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get these values" NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter" Margin="0,0,0,15"/>
+                            <HyperlinkButton Content="Show me how to get these values" 
+                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/" 
+                                             Margin="0,0,0,15"/>
                             <TextBox Header="Consumer Key:" x:Name="ConsumerKey" Margin="0,0,0,12"/>
                             <TextBox Header="Consumer Secret:" x:Name="ConsumerSecret" Margin="0,0,0,12"/>
                             <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>

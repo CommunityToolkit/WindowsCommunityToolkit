@@ -45,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return;
+            }
+
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
