@@ -20,6 +20,8 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
     {
         private const string ServiceUrl = "https://api.projectoxford.ai/vision/v1.0/";
         private const string TagServiceUrl = "tag";
+        private const string OcrServiceUrl = "ocr";
+        private const string AutoDetect = "unk";
         private const string SubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
 
         private readonly string _subscriptionKey;
@@ -31,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 
         public async Task<ImageTags> GetTagsAsync(IRandomAccessStream imageStream)
         {
-            var requestUri = $"{ServiceUrl}{TagServiceUrl}";
+            string requestUri = GetTagUrl();
             var client = GetHttpClient();
             var multipartFormDataContent = await GetMultiPartFormData(imageStream);
             var result = await Post(requestUri, client, multipartFormDataContent);
@@ -40,11 +42,39 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
 
         public async Task<ImageTags> GetTagsAsync(string imageUrl)
         {
-            var requestUri = $"{ServiceUrl}{TagServiceUrl}";
+            var requestUri = GetTagUrl();
             var client = GetHttpClient();
             var content = GetStringContent(imageUrl);
             string result = await Post(requestUri, client, content);
             return VisionServiceJsonHelper.Parse<ImageTags>(result);
+        }
+
+        private static string GetTagUrl()
+        {
+            return $"{ServiceUrl}{TagServiceUrl}";
+        }
+
+        public async Task<OcrData> OcrAsync(IRandomAccessStream imageStream, string language = AutoDetect, bool detectOrientation = false)
+        {
+            string requestUri = GetOcrUrl(language, detectOrientation);
+            var client = GetHttpClient();
+            var multipartFormDataContent = await GetMultiPartFormData(imageStream);
+            var result = await Post(requestUri, client, multipartFormDataContent);
+            return VisionServiceJsonHelper.Parse<OcrData>(result);
+        }
+
+        public async Task<OcrData> OcrAsync(string imageUrl, string language = AutoDetect, bool detectOrientation = false)
+        {
+            var requestUri = GetOcrUrl(language, detectOrientation);
+            var client = GetHttpClient();
+            var content = GetStringContent(imageUrl);
+            string result = await Post(requestUri, client, content);
+            return VisionServiceJsonHelper.Parse<OcrData>(result);
+        }
+
+        private static string GetOcrUrl(string language, bool detectOrientation)
+        {
+            return $"{ServiceUrl}{OcrServiceUrl}?language={language}&detectOrientation={detectOrientation}";
         }
     }
 }

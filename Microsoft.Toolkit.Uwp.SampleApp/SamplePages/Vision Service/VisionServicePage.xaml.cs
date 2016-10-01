@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Services.CognitiveServices;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -6,33 +7,64 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class VisionServicePage : Page
     {
         private VisionService _visionService;
+        private IRandomAccessStream _imageFileSteam;
 
         public VisionServicePage()
         {
             InitializeComponent();
+            Loaded += VisionServicePage_Loaded;
+
+            TagImages.Visibility = Visibility.Collapsed;
+            TagUrls.Visibility = Visibility.Collapsed;
+            ResultTextbox.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            _imageFileSteam?.Dispose();
+            base.OnNavigatedFrom(e);
+        }
+
+        private void VisionServicePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var languageList = new List<ComboboxItemValue>
+            {
+                new ComboboxItemValue {Text = "AutoDetect", Value = "unk"},
+                new ComboboxItemValue {Text = "English", Value = "en"}
+            };
+
+            var detectOrientationList = new List<ComboboxItemValue>
+            {
+                new ComboboxItemValue { Text = "False", Value = "False" },
+                new ComboboxItemValue { Text = "True", Value = "True" }
+            };
+            OcrImageLanguages.ItemsSource = OcrUrlLanguages.ItemsSource = languageList;
+            OcrImageDetectOrientation.ItemsSource = OcrUrlDetectOrientation.ItemsSource = detectOrientationList;
+
+            OcrImageDetectOrientation.SelectedIndex =
+                OcrImageLanguages.SelectedIndex =
+                OcrUrlDetectOrientation.SelectedIndex =
+                OcrUrlLanguages.SelectedIndex = 0;
         }
 
         private void SetApiKeyButton_Click(object sender, RoutedEventArgs e)
         {
             _visionService = new VisionService(ApiKey.Text);
+            TagImages.Visibility = Visibility.Visible;
+            TagUrls.Visibility = Visibility.Visible;
+            ResultTextbox.Visibility = Visibility.Visible;
+            HideApiPanel();
         }
 
-        private async void TagImageFromPicker_Click(object sender, RoutedEventArgs e)
+        private async void SelectImage_Click(object sender, RoutedEventArgs e)
         {
-            if (_visionService == null)
-            {
-                return;
-            }
-
-            Shell.Current.DisplayWaitRing = true;
-            ResultTextbox.Text = string.Empty;
-
             FileOpenPicker open = new FileOpenPicker();
             open.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             open.ViewMode = PickerViewMode.Thumbnail;
@@ -45,16 +77,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             StorageFile file = await open.PickSingleFileAsync();
             if (file != null)
             {
-                using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
-                {
-                    BitmapImage bitmapImage = new BitmapImage();
-                    await bitmapImage.SetSourceAsync(fileStream.CloneStream());
-                    TagImage.Source = bitmapImage;
-
-                    var result = await _visionService.GetTagsAsync(fileStream);
-                    ResultTextbox.Text = result.ToString();
-                }
+                _imageFileSteam = await file.OpenAsync(FileAccessMode.Read);
+                BitmapImage bitmapImage = new BitmapImage();
+                await bitmapImage.SetSourceAsync(_imageFileSteam.CloneStream());
+                PickerDisplayImage.Source = bitmapImage;
             }
+        }
+
+        private async void TagImageFromPicker_Click(object sender, RoutedEventArgs e)
+        {
+            if (_visionService == null)
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
+
+            var result = await _visionService.GetTagsAsync(_imageFileSteam);
+            ResultTextbox.Text = result.ToString();
+
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void OcrImageFromPicker_Click(object sender, RoutedEventArgs e)
+        {
+            if (_visionService == null || _imageFileSteam == null)
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
+
+            var selectedLanguage = (OcrImageLanguages.SelectedItem as ComboboxItemValue)?.Value;
+            var selectedOrientation = (OcrImageDetectOrientation.SelectedItem as ComboboxItemValue)?.Value;
+            bool detectOrientation = selectedOrientation != null && bool.Parse(selectedOrientation);
+
+            var result = await _visionService.OcrAsync(_imageFileSteam, selectedLanguage, detectOrientation);
+            ResultTextbox.Text = result.ToString();
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -74,6 +135,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                             _visionService.GetTagsAsync(ImageUrl.Text);
 
             ResultTextbox.Text = result.ToString();
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void OcrUrlFromPicker_Click(object sender, RoutedEventArgs e)
+        {
+            if (_visionService == null || string.IsNullOrWhiteSpace(ImageUrl.Text))
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
+
+            var selectedLanguage = (OcrUrlLanguages.SelectedItem as ComboboxItemValue)?.Value;
+            var selectedOrientation = (OcrUrlDetectOrientation.SelectedItem as ComboboxItemValue)?.Value;
+            bool detectOrientation = selectedOrientation != null && bool.Parse(selectedOrientation);
+
+            var result = await _visionService.OcrAsync(ImageUrl.Text, selectedLanguage, detectOrientation);
+            ResultTextbox.Text = result.ToString();
+
             Shell.Current.DisplayWaitRing = false;
         }
 
@@ -148,5 +229,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             TagUrlExpandButton.Content = "";
             TagUrlPanel.Visibility = Visibility.Collapsed;
         }
+
+        internal class ComboboxItemValue
+        {
+            public string Text { get; set; }
+
+            public string Value { get; set; }
+        }
+
+
     }
 }

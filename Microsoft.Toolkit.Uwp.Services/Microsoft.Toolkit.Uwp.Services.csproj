@@ -60,6 +60,8 @@
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\CognitiveServices\VisionService.cs" />
+    <Compile Include="Services\CognitiveServices\VisionService.Data.Ocr.cs" />
+    <Compile Include="Services\CognitiveServices\VisionService.Data.Tag.cs" />
     <Compile Include="Services\CognitiveServices\VisionService.Data.cs" />
     <Compile Include="Services\CognitiveServices\VisionService.Exceptions.cs" />
     <Compile Include="Services\CognitiveServices\VisionService.Helper.cs" />
