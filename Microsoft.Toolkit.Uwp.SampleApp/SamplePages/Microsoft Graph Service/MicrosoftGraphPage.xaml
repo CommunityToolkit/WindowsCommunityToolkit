@@ -79,6 +79,9 @@
                             <TextBox Header="Client Id:" 
                                      x:Name="ClientId" 
                                      Margin="0,0,0,12"/>
+                            <HyperlinkButton Content="Show me how to get this ID" 
+                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/MicrosoftGraph/" 
+                                             Margin="0,0,0,15"/>
                             <Button Content="Sign in" 
                                     x:Name="ConnectButton" 
                                     Click="ConnectButton_Click" 

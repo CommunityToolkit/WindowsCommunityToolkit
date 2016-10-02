@@ -16,8 +16,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper();
-        private IObjectStorageHelper roamingStorageHelper = new RoamingObjectStorageHelper();
+        private readonly IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper();
+        private readonly IObjectStorageHelper roamingStorageHelper = new RoamingObjectStorageHelper();
 
         public ObjectStoragePage()
         {
@@ -26,6 +26,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ReadButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(KeyTextBox.Text))
+            {
+                return;
+            }
+
             if (StorageModeToggle.IsOn)
             {
                 // Read from roaming storage
@@ -46,6 +51,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(KeyTextBox.Text))
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ContentTextBox.Text))
+            {
+                return;
+            }
+
             if (StorageModeToggle.IsOn)
             {
                 // Save into roaming storage

@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public BladeControl()
         {
             DefaultStyleKey = typeof(BladeControl);
+            Blades = new ObservableCollection<Blade>();
         }
 
         /// <summary>

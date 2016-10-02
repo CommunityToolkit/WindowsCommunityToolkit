@@ -30,6 +30,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text) || string.IsNullOrEmpty(ClientSecret.Text) || string.IsNullOrEmpty(CallbackUri.Text))
+            {
+                return;
+            }
+
             var oAuthTokens = new LinkedInOAuthTokens
             {
                 ClientId = ClientId.Text,
@@ -47,12 +57,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 ProfileImage.DataContext = profile;
                 ProfileImage.Visibility = Visibility.Visible;
+
+                ShareBox.Visibility = Visibility.Visible;
             }
         }
 
         private async void ShareButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ShareText.Text))
             {
                 return;
             }
