@@ -59,6 +59,15 @@
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageAnalysis.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageDescription.cs" />
+    <Compile Include="Services\CognitiveServices\VisionService.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageOCR.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageTags.cs" />
+    <Compile Include="Services\CognitiveServices\Data\RequestExceptionDetails.cs" />
+    <Compile Include="Services\CognitiveServices\VisionServiceException.cs" />
+    <Compile Include="Services\CognitiveServices\VisionService.Helper.cs" />
+    <Compile Include="Services\CognitiveServices\VisionServiceJsonHelper.cs" />
     <Compile Include="Services\Facebook\FacebookAlbum.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
     <Compile Include="Services\LinkedIn\LinkedInConstants.cs" />

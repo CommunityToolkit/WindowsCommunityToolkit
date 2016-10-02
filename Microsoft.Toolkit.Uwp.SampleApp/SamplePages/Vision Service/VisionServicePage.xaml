@@ -1,0 +1,153 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.VisionServicePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="StackPanel" x:Key="RequestTypeStackPanelStyle">
+            <Setter  Property="BorderBrush" Value="{StaticResource Brush-Grey-02}"></Setter>
+            <Setter  Property="Background" Value="{StaticResource Brush-Grey-05}"></Setter>
+            <Setter  Property="BorderThickness" Value="1"></Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
+        <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- Api Key area -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="ApiKeyPanelExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="ApiKeyPanelExpandButton_Click"/>
+                            <TextBlock Grid.Column="1" Text="Api Key" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                        </Grid>
+
+                        <StackPanel x:Name="ApiKeyPanel" Orientation="Vertical" Margin="24" Grid.Row="1">
+                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="https://www.microsoft.com/cognitive-services/en-us/sign-up" Margin="0,0,0,15"/>
+                            <TextBox Header="Api Key:" x:Name="ApiKey" Margin="0,0,0,12" Text=""/>
+                            <Button Content="Set" x:Name="SetApiKeyButton" Click="SetApiKeyButton_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="TagImages">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="TagImagesExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="TagImagesExpandButton_Click"/>
+                            <TextBlock Grid.Column="1" Text="Vision Service" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="24" x:Name="VisionPanel">
+                            <ToggleButton Name="ShowImageUrlPanel"
+                                          Content="Process From Url"
+                                          Margin="0,0,0,10"
+                                          HorizontalAlignment="Center" Checked="ShowImageUrlPanel_Checked" Unchecked="ShowImageUrlPanel_Unchecked"></ToggleButton>
+
+                            <StackPanel x:Name="ImagePanel" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,0,0,10">
+                                <Border  Height="100" Width="100" BorderBrush="{StaticResource Brush-Grey-03}" BorderThickness="1">
+                                    <Image x:Name="PickerDisplayImage" />
+                                </Border>
+                                <Button Content="Select Image" x:Name="SelectImage" Click="SelectImage_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
+                            </StackPanel>
+                            <StackPanel Visibility="Collapsed" x:Name="UrlPanel" Orientation="Vertical">
+                                <TextBox Header="Image Url:" x:Name="ImageUrl" Margin="0,0,0,12" Text=""/>
+                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="Analyze Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <ComboBox Header="Visual Features" Name="AnalyzeImageVisualFeatures" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <TextBox Header="Details (Comma Separated)" Name="AnalyzeImageDetails" Margin="10" Text="Celebrities" />
+                                            <Button Content="Analyze Image" x:Name="AnalyzeImageButton" Click="AnalyzeImageButton_Click" Margin="10" VerticalAlignment="Bottom"></Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="Get Image Tags" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <Button Content="Tag" Margin="10" x:Name="TagImageFromPicker" Click="TagImageFromPicker_Click"  VerticalAlignment="Bottom"></Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="OCR Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <ComboBox Header="Language" Name="OcrImageLanguages" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <ComboBox Header="Detect Orientation" Name="OcrImageDetectOrientation" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <Button Content="Ocr" x:Name="OcrImageFromPicker" Click="OcrImageFromPicker_Click" Margin="10" VerticalAlignment="Bottom"></Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="Describe Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBox Header="Maximum number of candidate (int)" Name="DescribeImageMaxNumberOfCandidate" Margin="10" Text="1" />
+                                            <Button Content="Describe Image" x:Name="DescribeImage" Click="DescribeImage_Click" Margin="10" VerticalAlignment="Bottom"></Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
+
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Results area -->
+                    <TextBox Header="Result :" x:Name="ResultTextbox" Grid.Row="2" Margin="24" TextWrapping="Wrap"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
