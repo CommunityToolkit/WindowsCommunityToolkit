@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ImageTags result;
                 if (ImagePanel.Visibility == Visibility)
                 {
-                    result = await _visionService.GetTagsAsync(_imageFileSteam);
+                    result = await _visionService.GetTagsAsync(_imageFileSteam.CloneStream());
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ImageOCR result;
                 if (ImagePanel.Visibility == Visibility)
                 {
-                    result = await _visionService.OcrAsync(_imageFileSteam, selectedLanguage, detectOrientation);
+                    result = await _visionService.OcrAsync(_imageFileSteam.CloneStream(), selectedLanguage, detectOrientation);
                 }
                 else
                 {
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ImageAnalysis result;
                 if (ImagePanel.Visibility == Visibility)
                 {
-                    result = await _visionService.AnalyzeImageAsync(_imageFileSteam, visualFeatures, selectedOrientation);
+                    result = await _visionService.AnalyzeImageAsync(_imageFileSteam.CloneStream(), visualFeatures, selectedOrientation);
                 }
                 else
                 {
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ImageDescription result;
                 if (ImagePanel.Visibility == Visibility)
                 {
-                    result = await _visionService.DescribeImageAsync(_imageFileSteam, maxNumberOfCandidate);
+                    result = await _visionService.DescribeImageAsync(_imageFileSteam.CloneStream(), maxNumberOfCandidate);
                 }
                 else
                 {

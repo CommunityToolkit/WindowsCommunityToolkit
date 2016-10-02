@@ -45,7 +45,7 @@
                         </Grid>
 
                         <StackPanel x:Name="ApiKeyPanel" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="https://www.microsoft.com/cognitive-services/en-us/subscriptions" Margin="0,0,0,15"/>
+                            <HyperlinkButton Content="Show me how to get a Key" NavigateUri="https://www.microsoft.com/cognitive-services/en-us/sign-up" Margin="0,0,0,15"/>
                             <TextBox Header="Api Key:" x:Name="ApiKey" Margin="0,0,0,12" Text=""/>
                             <Button Content="Set" x:Name="SetApiKeyButton" Click="SetApiKeyButton_Click" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
                         </StackPanel>
@@ -89,13 +89,9 @@
 
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
-                                        <TextBlock Text="Get Image Tags" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
-                                        <Button Content="Tag" Margin="10" x:Name="TagImageFromPicker" Click="TagImageFromPicker_Click"  VerticalAlignment="Bottom"></Button>
-                                    </StackPanel>
-                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
                                         <TextBlock Text="Analyze Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
                                         <StackPanel Orientation="Vertical">
-                                            <ComboBox Header="Language" Name="AnalyzeImageVisualFeatures" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
+                                            <ComboBox Header="Visual Features" Name="AnalyzeImageVisualFeatures" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Margin="5" Text="{Binding Text}"/>
@@ -105,6 +101,10 @@
                                             <TextBox Header="Details (Comma Separated)" Name="AnalyzeImageDetails" Margin="10" Text="Celebrities" />
                                             <Button Content="Analyze Image" x:Name="AnalyzeImageButton" Click="AnalyzeImageButton_Click" Margin="10" VerticalAlignment="Bottom"></Button>
                                         </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="Get Image Tags" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <Button Content="Tag" Margin="10" x:Name="TagImageFromPicker" Click="TagImageFromPicker_Click"  VerticalAlignment="Bottom"></Button>
                                     </StackPanel>
                                 </StackPanel>
 
@@ -145,7 +145,7 @@
                     </Grid>
 
                     <!-- Results area -->
-                    <TextBox x:Name="ResultTextbox" Grid.Row="2" Margin="24" TextWrapping="Wrap"/>
+                    <TextBox Header="Result :" x:Name="ResultTextbox" Grid.Row="2" Margin="24" TextWrapping="Wrap"/>
                 </Grid>
             </ScrollViewer>
         </Grid>

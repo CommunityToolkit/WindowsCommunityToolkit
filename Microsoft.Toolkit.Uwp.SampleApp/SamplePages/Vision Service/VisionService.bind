@@ -1,0 +1,17 @@
+var apiKey = "";
+var imageUrl="";
+
+// Initialize service
+var _visionService = new VisionService(apiKey);
+
+// Get Image Tags
+var tags = await _visionService.GetTagsAsync(imageUrl);
+
+// Get Image OCR					
+var ocr= await _visionService.OcrAsync(imageUrl, selectedLanguage, detectOrientation);
+
+// Get Image analysis
+ var analysis= await _visionService.AnalyzeImageAsync(imageUrl, visualFeatures, selectedOrientation);
+
+// Get Image Description
+var description= await _visionService.DescribeImageAsync(imageUrl, maxNumberOfCandidate);

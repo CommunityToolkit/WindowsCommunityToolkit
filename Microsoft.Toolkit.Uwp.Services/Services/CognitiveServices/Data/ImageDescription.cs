@@ -24,5 +24,11 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         /// </summary>
         [JsonProperty("metadata")]
         public Metadata Metadata { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return VisionServiceJsonHelper.JsonSerialize(this);
+        }
     }
 }
