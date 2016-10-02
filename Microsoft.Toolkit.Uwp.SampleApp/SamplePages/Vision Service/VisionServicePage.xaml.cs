@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             try
             {
-                OcrData result;
+                ImageOCR result;
                 if (ImagePanel.Visibility == Visibility)
                 {
                     result = await _visionService.OcrAsync(_imageFileSteam, selectedLanguage, detectOrientation);
@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             try
             {
-                AnalyzeImageData result;
+                ImageAnalysis result;
                 if (ImagePanel.Visibility == Visibility)
                 {
                     result = await _visionService.AnalyzeImageAsync(_imageFileSteam, visualFeatures, selectedOrientation);
@@ -191,6 +191,46 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 else
                 {
                     result = await _visionService.AnalyzeImageAsync(ImageUrl.Text, visualFeatures, selectedOrientation);
+                }
+
+                ResultTextbox.Text = result.ToString();
+            }
+            catch (Exception ex)
+            {
+                ResultTextbox.Text = ex.ToString();
+            }
+
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void DescribeImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_visionService == null ||
+                (_imageFileSteam == null && ImagePanel.Visibility == Visibility.Visible) ||
+                (string.IsNullOrWhiteSpace(ImageUrl.Text) && UrlPanel.Visibility == Visibility.Visible))
+            {
+                return;
+            }
+
+            Shell.Current.DisplayWaitRing = true;
+            ResultTextbox.Text = string.Empty;
+
+            int maxNumberOfCandidate = 1;
+            if (!int.TryParse(DescribeImageMaxNumberOfCandidate.Text, out maxNumberOfCandidate))
+            {
+                return;
+            }
+
+            try
+            {
+                ImageDescription result;
+                if (ImagePanel.Visibility == Visibility)
+                {
+                    result = await _visionService.DescribeImageAsync(_imageFileSteam, maxNumberOfCandidate);
+                }
+                else
+                {
+                    result = await _visionService.DescribeImageAsync(ImageUrl.Text, maxNumberOfCandidate);
                 }
 
                 ResultTextbox.Text = result.ToString();
@@ -273,7 +313,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UrlPanel.Visibility = Visibility.Collapsed;
             ImagePanel.Visibility = Visibility.Visible;
         }
-
-
     }
 }

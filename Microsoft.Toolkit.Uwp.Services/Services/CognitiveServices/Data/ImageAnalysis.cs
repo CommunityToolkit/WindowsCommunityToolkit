@@ -5,7 +5,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
     /// <summary>
     /// represents the analyze image request result
     /// </summary>
-    public class AnalyzeImageData
+    public class ImageAnalysis
     {
         /// <summary>
         /// Gets or sets Categories

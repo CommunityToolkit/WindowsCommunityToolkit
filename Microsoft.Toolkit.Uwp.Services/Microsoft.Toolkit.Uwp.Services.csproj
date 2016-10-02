@@ -59,9 +59,10 @@
     <Compile Include="Services\Bing\BingDataProvider.cs" />
     <Compile Include="Services\Bing\BingParser.cs" />
     <Compile Include="Services\Bing\BingService.cs" />
-    <Compile Include="Services\CognitiveServices\Data\AnalyzeImageData.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageAnalysis.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageDescription.cs" />
     <Compile Include="Services\CognitiveServices\VisionService.cs" />
-    <Compile Include="Services\CognitiveServices\Data\OcrData.cs" />
+    <Compile Include="Services\CognitiveServices\Data\ImageOCR.cs" />
     <Compile Include="Services\CognitiveServices\Data\ImageTags.cs" />
     <Compile Include="Services\CognitiveServices\Data\RequestExceptionDetails.cs" />
     <Compile Include="Services\CognitiveServices\VisionServiceException.cs" />

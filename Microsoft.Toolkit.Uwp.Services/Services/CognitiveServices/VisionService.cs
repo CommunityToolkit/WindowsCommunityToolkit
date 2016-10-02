@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         private const string TagServiceUrl = "tag";
         private const string OcrServiceUrl = "ocr";
         private const string AnalyzeImageUrl = "analyze";
+        private const string DescribeImageUrl = "describe";
         private const string AutoDetect = "unk";
         private const string SubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
 
@@ -61,13 +62,13 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         /// <param name="language">Language</param>
         /// <param name="detectOrientation">Detect Orientation</param>
         /// <returns>OCR Data</returns>
-        public async Task<OcrData> OcrAsync(IRandomAccessStream imageStream, string language = AutoDetect, bool detectOrientation = false)
+        public async Task<ImageOCR> OcrAsync(IRandomAccessStream imageStream, string language = AutoDetect, bool detectOrientation = false)
         {
             string requestUri = GetOcrUrl(language, detectOrientation);
             var client = GetHttpClient();
             var multipartFormDataContent = await GetMultiPartFormData(imageStream);
             var result = await Post(requestUri, client, multipartFormDataContent);
-            return VisionServiceJsonHelper.JsonDesrialize<OcrData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageOCR>(result);
         }
 
         /// <summary>
@@ -77,13 +78,13 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         /// <param name="language">Language</param>
         /// <param name="detectOrientation">Detect Orientation</param>
         /// <returns>OCR Data</returns>
-        public async Task<OcrData> OcrAsync(string imageUrl, string language = AutoDetect, bool detectOrientation = false)
+        public async Task<ImageOCR> OcrAsync(string imageUrl, string language = AutoDetect, bool detectOrientation = false)
         {
             var requestUri = GetOcrUrl(language, detectOrientation);
             var client = GetHttpClient();
             var content = GetStringContent(imageUrl);
             string result = await Post(requestUri, client, content);
-            return VisionServiceJsonHelper.JsonDesrialize<OcrData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageOCR>(result);
         }
 
         /// <summary>
@@ -93,13 +94,13 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         /// <param name="visualFeatures">Visual Feature</param>
         /// <param name="details">Details</param>
         /// <returns>Analyze Image result</returns>
-        public async Task<AnalyzeImageData> AnalyzeImageAsync(IRandomAccessStream imageStream, string visualFeatures, string details)
+        public async Task<ImageAnalysis> AnalyzeImageAsync(IRandomAccessStream imageStream, string visualFeatures, string details)
         {
             var requestUri = GetAnalyzeImageUrl(visualFeatures, details);
             var client = GetHttpClient();
             var multipartFormDataContent = await GetMultiPartFormData(imageStream);
             var result = await Post(requestUri, client, multipartFormDataContent);
-            return VisionServiceJsonHelper.JsonDesrialize<AnalyzeImageData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageAnalysis>(result);
         }
 
         /// <summary>
@@ -109,13 +110,43 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         /// <param name="visualFeatures">Visual Feature</param>
         /// <param name="details">Details</param>
         /// <returns>Analyze Image result</returns>
-        public async Task<AnalyzeImageData> AnalyzeImageAsync(string imageUrl, string visualFeatures, string details)
+        public async Task<ImageAnalysis> AnalyzeImageAsync(string imageUrl, string visualFeatures, string details)
         {
             var requestUri = GetAnalyzeImageUrl(visualFeatures, details);
             var client = GetHttpClient();
             var content = GetStringContent(imageUrl);
             string result = await Post(requestUri, client, content);
-            return VisionServiceJsonHelper.JsonDesrialize<AnalyzeImageData>(result);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageAnalysis>(result);
+        }
+
+        /// <summary>
+        /// Vision Service Describe Image
+        /// </summary>
+        /// <param name="imageStream">Image Stream</param>
+        /// <param name="maxCandidates">Max number of candidates</param>
+        /// <returns>Image Description</returns>
+        public async Task<ImageDescription> DescribeImageAsync(IRandomAccessStream imageStream, int maxCandidates = 1)
+        {
+            var requestUri = GetDescribeImageUrl(maxCandidates);
+            var client = GetHttpClient();
+            var multipartFormDataContent = await GetMultiPartFormData(imageStream);
+            var result = await Post(requestUri, client, multipartFormDataContent);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageDescription>(result);
+        }
+
+        /// <summary>
+        /// Vision Service Describe Image
+        /// </summary>
+        /// <param name="imageUrl">Image Url</param>
+        /// <param name="maxCandidates">Max number of candidates</param>
+        /// <returns>Image Description</returns>
+        public async Task<ImageDescription> DescribeImageAsync(string imageUrl, int maxCandidates = 1)
+        {
+            var requestUri = GetDescribeImageUrl(maxCandidates);
+            var client = GetHttpClient();
+            var content = GetStringContent(imageUrl);
+            string result = await Post(requestUri, client, content);
+            return VisionServiceJsonHelper.JsonDesrialize<ImageDescription>(result);
         }
 
         private static string GetOcrUrl(string language, bool detectOrientation)
@@ -131,6 +162,11 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
         private static string GetAnalyzeImageUrl(string visualFeatures, string details)
         {
             return $"{ServiceUrl}{AnalyzeImageUrl}?visualFeatures={visualFeatures}&details={details}";
+        }
+
+        private static string GetDescribeImageUrl(int maxCandidates)
+        {
+            return $"{ServiceUrl}{DescribeImageUrl}?maxCandidates={maxCandidates}";
         }
     }
 }

@@ -93,7 +93,7 @@
                                         <Button Content="Tag" Margin="10" x:Name="TagImageFromPicker" Click="TagImageFromPicker_Click"  VerticalAlignment="Bottom"></Button>
                                     </StackPanel>
                                     <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
-                                        <TextBlock Text="OCR Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="Analyze Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
                                         <StackPanel Orientation="Vertical">
                                             <ComboBox Header="Language" Name="AnalyzeImageVisualFeatures" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding}">
                                                 <ComboBox.ItemTemplate>
@@ -103,7 +103,7 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
                                             <TextBox Header="Details (Comma Separated)" Name="AnalyzeImageDetails" Margin="10" Text="Celebrities" />
-                                            <Button Content="Ocr" x:Name="AnalyzeImageButton" Click="AnalyzeImageButton_Click" Margin="10" VerticalAlignment="Bottom"></Button>
+                                            <Button Content="Analyze Image" x:Name="AnalyzeImageButton" Click="AnalyzeImageButton_Click" Margin="10" VerticalAlignment="Bottom"></Button>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -127,6 +127,14 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
                                             <Button Content="Ocr" x:Name="OcrImageFromPicker" Click="OcrImageFromPicker_Click" Margin="10" VerticalAlignment="Bottom"></Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Style="{StaticResource RequestTypeStackPanelStyle}" Orientation="Vertical">
+                                        <TextBlock Text="Describe Image" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBox Header="Maximum number of candidate (int)" Name="DescribeImageMaxNumberOfCandidate" Margin="10" Text="1" />
+                                            <Button Content="Describe Image" x:Name="DescribeImage" Click="DescribeImage_Click" Margin="10" VerticalAlignment="Bottom"></Button>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>

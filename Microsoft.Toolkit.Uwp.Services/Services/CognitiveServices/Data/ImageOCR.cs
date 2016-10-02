@@ -5,7 +5,7 @@ namespace Microsoft.Toolkit.Uwp.Services.CognitiveServices
     /// <summary>
     /// Represents the ocr details
     /// </summary>
-    public class OcrData
+    public class ImageOCR
     {
         /// <summary>
         /// Gets or sets OCR Language
