@@ -40,6 +40,18 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.notifications.uwp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>bin\Publish\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;ANNIVERSARY_UPDATE</DefineConstants>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Notifications.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.notifications.uwp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.Notifications.UWP.ruleset" />
