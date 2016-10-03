@@ -659,21 +659,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
             string data = null;
 
-            //using (var httpContent = new Windows.Web.Http.HttpStringContent("oauth_verifier=" + oAuthVerifier, Windows.Storage.Streams.UnicodeEncoding.Utf8))
+            string authorizationHeaderParams = "oauth_consumer_key=\"" + tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
+
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
             {
-                //httpContent.Headers.ContentType = Windows.Web.Http.Headers.HttpMediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
 
-            string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_version=\"1.0\"";
-
-                using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    request.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
-                    //request.Content = httpContent;
-
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
-                    {
-                        data = await response.GetTextResultAsync().ConfigureAwait(false);
-                    }
+                    data = await response.GetTextResultAsync().ConfigureAwait(false);
                 }
             }
 
