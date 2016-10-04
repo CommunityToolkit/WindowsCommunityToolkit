@@ -58,6 +58,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Collapsed"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -76,6 +78,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Collapsed"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -94,6 +98,8 @@
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1"/>
 
                         <Setter Target="ExpandButton.Content" Value=""/>
+
+                        <Setter Target="Splitter.Visibility" Value="Visible"></Setter>
                     </VisualState.Setters>
 
                 </VisualState>
@@ -131,10 +137,16 @@
                 </Grid>
                 <Pivot Grid.Row="1" HeaderTemplate="{StaticResource PivotHeaderTemplate}" x:Name="InfoAreaPivot" SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem Header="PROPERTIES" x:Name="PropertiesPivotItem">
-                        <Grid>
-                            <controlsLocal:PropertyControl x:Name="Properties"/>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Name="CommandArea"></StackPanel>
-                        </Grid>
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <controlsLocal:PropertyControl x:Name="Properties"/>
+                                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" x:Name="CommandArea"></StackPanel>
+                            </Grid>
+                        </ScrollViewer>
                     </PivotItem>
 
                     <PivotItem Header="XAML" x:Name="XamlPivotItem">
@@ -144,7 +156,21 @@
                     <PivotItem Header="CODE" x:Name="CSharpPivotItem">
                         <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
                     </PivotItem>
+
+                    <PivotItem Header="JAVASCRIPT" x:Name="JavaScriptPivotItem">
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" Grid.Row="0"></controlsLocal:CodeRenderer>
+                    </PivotItem>
                 </Pivot>
+
+                <controls:GridSplitter
+                    x:Name="Splitter"
+                    Width="11"
+                    Background="{StaticResource Brush-Grey-04}"
+                    HorizontalAlignment="Left"
+                    ParentLevel="1"
+                    Grid.Row="1"
+                    GripperForeground="White">
+                </controls:GridSplitter>
             </Grid>
             <Grid x:Name="waitRing" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Rectangle Fill="Black" Opacity="0.2"></Rectangle>

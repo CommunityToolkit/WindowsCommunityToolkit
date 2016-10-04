@@ -22,22 +22,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The scale (x axis) of the associated object
         /// </summary>
-        public static readonly DependencyProperty ScaleXProperty = DependencyProperty.Register("ScaleX", typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ScaleXProperty = DependencyProperty.Register(nameof(ScaleX), typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The scale (y axis) of the associated object
         /// </summary>
-        public static readonly DependencyProperty ScaleYProperty = DependencyProperty.Register("ScaleY", typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty ScaleYProperty = DependencyProperty.Register(nameof(ScaleY), typeof(double), typeof(Scale), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (x axis) of scale for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register(nameof(CenterX), typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The center (y axis) of scale for associated object
         /// </summary>
-        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register(nameof(CenterY), typeof(double), typeof(Scale), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets the scale on the x axis.

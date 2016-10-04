@@ -1,4 +1,16 @@
-﻿using Windows.UI.Xaml;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -33,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header),
             typeof(string),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateHeader(); }));
+            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
         /// Defines the <see cref="Text"/> dependency property.
@@ -42,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Text),
             typeof(string),
             typeof(HeaderedTextBlock),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
         /// Defines the <see cref="Orientation"/> dependency property.
@@ -52,6 +64,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(Orientation),
             typeof(HeaderedTextBlock),
             new PropertyMetadata(Orientation.Vertical, (d, e) => { ((HeaderedTextBlock)d).UpdateForOrientation((Orientation)e.NewValue); }));
+
+        /// <summary>
+        /// Defines the <see cref="HideTextIfEmpty"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HideTextIfEmptyProperty = DependencyProperty.Register(
+            nameof(HideTextIfEmpty),
+            typeof(bool),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
         /// Gets or sets the header style.
@@ -130,6 +151,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(OrientationProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Text TextBlock is hidden if its value is empty
+        /// </summary>
+        public bool HideTextIfEmpty
+        {
+            get
+            {
+                return (bool)GetValue(HideTextIfEmptyProperty);
+            }
+
+            set
+            {
+                SetValue(HideTextIfEmptyProperty, value);
             }
         }
     }

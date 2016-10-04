@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,38 +30,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
         private static bool _isOnlineCached;
 
-        public async Task<ObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false)
+        public async Task<ObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false, int maxCount = -1)
         {
             CheckCacheState(online);
 
             if (_photos == null)
             {
-                await LoadAsync(online);
+                await LoadAsync(online, maxCount);
             }
 
             return _photos;
         }
 
-        public async Task<ObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false)
+        public async Task<ObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false, int maxCount = -1)
         {
             CheckCacheState(online);
 
             if (_groupedPhotos == null)
             {
-                await LoadAsync(online);
+                await LoadAsync(online, maxCount);
             }
 
             return _groupedPhotos;
         }
 
-        private static async Task LoadAsync(bool online)
+        private static async Task LoadAsync(bool online, int maxCount)
         {
             _isOnlineCached = online;
             _photos = new ObservableCollection<PhotoDataItem>();
             _groupedPhotos = new ObservableCollection<IEnumerable<PhotoDataItem>>();
-            foreach (var item in await GetPhotos(online))
+
+            foreach (var item in await GetPhotosAsync(online))
             {
                 _photos.Add(item);
+
+                if (maxCount != -1)
+                {
+                    maxCount--;
+
+                    if (maxCount == 0)
+                    {
+                        break;
+                    }
+                }
             }
 
             foreach (var group in _photos.GroupBy(x => x.Category))
@@ -69,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             }
         }
 
-        private static async Task<IEnumerable<PhotoDataItem>> GetPhotos(bool online)
+        private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
             var prefix = online ? "Online" : string.Empty;
             var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");

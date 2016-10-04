@@ -30,6 +30,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             base.OnAttached();
 
+            var frameworkElement = AssociatedObject as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                frameworkElement.Loaded += OnFrameworkElementLoaded;
+            }
+        }
+
+        /// <summary>
+        /// Called while the behavior is detaching from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// </summary>
+        /// <remarks>
+        /// Override this to finalize and free everything associated to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
+        /// </remarks>
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+
+            var frameworkElement = AssociatedObject as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                frameworkElement.Loaded -= OnFrameworkElementLoaded;
+            }
+        }
+
+        private void OnFrameworkElementLoaded(object sender, RoutedEventArgs e)
+        {
             if (AutomaticallyStart)
             {
                 StartAnimation();
@@ -39,17 +65,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The duration of the animation.
         /// </summary>
-        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register("Duration", typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(nameof(Duration), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The delay of the animation.
         /// </summary>
-        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register("Delay", typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(nameof(Delay), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The property sets if the animation should automatically start.
         /// </summary>
-        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register("AutomaticallyStart", typeof(bool), typeof(CompositionBehaviorBase), new PropertyMetadata(true, PropertyChangedCallback));
+        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase), new PropertyMetadata(true, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets a value indicating whether [automatically start] on the animation is set.

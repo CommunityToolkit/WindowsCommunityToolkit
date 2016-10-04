@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,9 +8,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
-using System;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
@@ -23,16 +21,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
     /// </summary>
     public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>
     {
-        /// <summary>
-        /// Private singleton field for BingDataProvider.
-        /// </summary>
-        private static BingDataProvider bingDataProvider;
+        private BingDataProvider bingDataProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BingService"/> class.
-        /// Default private constructor.
         /// </summary>
-        private BingService()
+        public BingService()
         {
         }
 

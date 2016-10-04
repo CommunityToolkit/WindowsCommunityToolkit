@@ -9,17 +9,19 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public partial class CodeRenderer
     {
-        public static readonly DependencyProperty HtmlSourceProperty = DependencyProperty.Register("HtmlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, HtmlSourceChanged));
-        public static readonly DependencyProperty CSharpSourceProperty = DependencyProperty.Register("CSharpSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, CSharpSourceChanged));
-        public static readonly DependencyProperty JsonSourceProperty = DependencyProperty.Register("JsonSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, JsonSourceChanged));
-        public static readonly DependencyProperty XamlSourceProperty = DependencyProperty.Register("XamlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XamlSourceChanged));
-        public static readonly DependencyProperty XmlSourceProperty = DependencyProperty.Register("XmlSource", typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XmlSourceChanged));
+        public static readonly DependencyProperty HtmlSourceProperty = DependencyProperty.Register(nameof(HtmlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, HtmlSourceChanged));
+        public static readonly DependencyProperty CSharpSourceProperty = DependencyProperty.Register(nameof(CSharpSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, CSharpSourceChanged));
+        public static readonly DependencyProperty JavaScriptSourceProperty = DependencyProperty.Register(nameof(JavaScriptSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, JavaScriptSourceChanged));
+        public static readonly DependencyProperty JsonSourceProperty = DependencyProperty.Register(nameof(JsonSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, JsonSourceChanged));
+        public static readonly DependencyProperty XamlSourceProperty = DependencyProperty.Register(nameof(XamlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XamlSourceChanged));
+        public static readonly DependencyProperty XmlSourceProperty = DependencyProperty.Register(nameof(XmlSource), typeof(string), typeof(CodeRenderer), new PropertyMetadata(null, XmlSourceChanged));
 
         public string HtmlSource
         {
@@ -47,10 +49,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             set { SetValue(CSharpSourceProperty, value); }
         }
 
+        public string JavaScriptSource
+        {
+            get { return (string)GetValue(JavaScriptSourceProperty); }
+            set { SetValue(JavaScriptSourceProperty, value); }
+        }
+
         private static void CSharpSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as CodeRenderer;
             control?.SetCSharpSource(e.NewValue as string);
+        }
+
+        private static void JavaScriptSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as CodeRenderer;
+            control?.SetCSharpSource(e.NewValue as string); // Let's use same formatting as CSharp
         }
 
         private async void SetCSharpSource(string str)

@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Toolkit.Uwp.Notifications.JavaScript</id>
+    <id>Microsoft.Toolkit.Uwp.Notifications.JavaScript</id>    
+    <title>UWP Community Toolkit Notifications for JavaScript</title>
     <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
+    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>

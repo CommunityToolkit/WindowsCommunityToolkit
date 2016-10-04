@@ -5,28 +5,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="ButtonTemplate" x:DataType="data:PhotoDataItem">
+        <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12" />
-                <TextBlock Grid.Column="1" Text="{x:Bind Title}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                <FontIcon Grid.Column="0" 
+                          Margin="12,12,11,12" 
+                          FontFamily="Segoe MDL2 Assets" 
+                          Glyph="{Binding Glyph}"
+                          Foreground="White" />
+                <TextBlock Grid.Column="1" 
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="OptionTemplate" x:DataType="data:OptionMenuItem">
+        <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
             <Grid Width="240" Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0" Margin="12,12,11,12" FontFamily="Segoe MDL2 Assets" Glyph="{Binding Glyph}" Foreground="White" />
-                <TextBlock Grid.Column="1" Text="{x:Bind Name}" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                <Image Source="{Binding Glyph}" 
+                       Stretch="UniformToFill" 
+                       Margin="12,12,11,12" />
+                <TextBlock Grid.Column="1" 
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -34,8 +47,8 @@
     <Grid Background="{StaticResource Brush-Grey-05}" Padding="50">
         <controls:HamburgerMenu PaneBackground="{Binding PaneBackground.Value}" x:Name="HamburgerMenuControl"
                                 Foreground="White"
-                                ItemTemplate="{StaticResource ButtonTemplate}"
-                                OptionsItemTemplate="{StaticResource OptionTemplate}"
+                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+                                OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
                                 ItemClick="HamburgerMenu_OnItemClick"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OpenPaneLength="{Binding OpenPaneLength.Value}"
@@ -45,15 +58,38 @@
                                 HamburgerHeight="{Binding HamburgerHeight.Value}"
                                 IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
                                 >
+            <!--Items-->
+            <controls:HamburgerMenu.ItemsSource>
+                <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuGlyphItem Label="Big four summer heat" Glyph="/Assets/Photos/BigFourSummerHeat.png"/>
+                    <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin" Glyph="/Assets/Photos/BisonBadlandsChillin.png"/>
+                    <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon" Glyph="/Assets/Photos/GiantSlabInOregon.png"/>
+                    <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom" Glyph="/Assets/Photos/LakeAnnMushroom.png"/>
+                </controls:HamburgerMenuItemCollection>
+            </controls:HamburgerMenu.ItemsSource>            
+            
+            <!--Options-->
+            <controls:HamburgerMenu.OptionsItemsSource>
+                <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuGlyphItem Label="About" Glyph=""/>
+                </controls:HamburgerMenuItemCollection>
+            </controls:HamburgerMenu.OptionsItemsSource>
+            
+            <!--Content-->
             <Grid x:Name="ContentGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Background="Black" Grid.Row="0">
-                    <TextBlock x:Name="Header" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Title}" Foreground="White"/>
+                    <TextBlock x:Name="Header" 
+                               FontSize="24" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               Text="{Binding Label}" 
+                               Foreground="White"/>
                 </Border>
-                <Image x:Name="Image" Grid.Row="1" Source="{Binding Thumbnail}" />
+                <Image x:Name="Image" Grid.Row="1" Source="{Binding Glyph}" />
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

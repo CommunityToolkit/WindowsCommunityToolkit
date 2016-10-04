@@ -10,11 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -29,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PlaceholderSource"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderSourceProperty = DependencyProperty.Register(
-            "PlaceholderSource",
+            nameof(PlaceholderSource),
             typeof(ImageSource),
             typeof(ImageEx),
             new PropertyMetadata(default(ImageSource)));
@@ -38,20 +35,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PlaceholderStretch"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(
-            "PlaceholderStretch",
+            nameof(PlaceholderStretch),
             typeof(Stretch),
             typeof(ImageEx),
             new PropertyMetadata(default(Stretch)));
-
-        /// <summary>
-        /// Identifies the <see cref="PlaceholderAnimationDuration"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty PlaceholderAnimationDurationProperty =
-            DependencyProperty.Register(
-                "PlaceholderAnimationDuration",
-                typeof(Duration),
-                typeof(ImageEx),
-                new PropertyMetadata(TimeSpan.Zero));
 
         /// <summary>
         /// Gets or sets the placeholder source.
@@ -75,18 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Stretch)GetValue(PlaceholderStretchProperty); }
             set { SetValue(PlaceholderStretchProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the placeholder animation duration.
-        /// </summary>
-        /// <value>
-        /// The placeholder animation duration.
-        /// </value>
-        public Duration PlaceholderAnimationDuration
-        {
-            get { return (Duration)GetValue(PlaceholderAnimationDurationProperty); }
-            set { SetValue(PlaceholderAnimationDurationProperty, value); }
         }
     }
 }

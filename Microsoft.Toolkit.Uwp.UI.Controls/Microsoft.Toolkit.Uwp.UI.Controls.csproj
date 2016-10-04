@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,8 +45,29 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="BladeControl\Blade.cs" />
+    <Compile Include="BladeControl\Blade.Properties.cs" />
+    <Compile Include="BladeControl\BladeControl.cs" />
+    <Compile Include="BladeControl\BladeControl.Events.cs" />
+    <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
+    <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
+    <Compile Include="GridSplitter\GridSplitter.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Data.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Events.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
+    <Compile Include="GridSplitter\GridSplitter.Options.cs" />
+    <Compile Include="GridSplitter\GridSplitterGripper.cs" />
+    <Compile Include="GridSplitter\GripperHoverWrapper.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="BladeControl\Blade.Events.cs" />
+    <Compile Include="SlidableListItem\SwipeStatus.cs" />
+    <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -62,6 +83,8 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
+    <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
+    <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PullToRefreshListView\PullToRefreshListView.cs" />
@@ -74,6 +97,21 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="DropShadowPanel\DropShadowPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="GridSplitter\GridSplitter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="HamburgerMenu\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

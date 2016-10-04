@@ -37,7 +37,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:PullToRefreshListView">
                     <Border x:Name="Root"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                        <ScrollViewer x:Name="ScrollViewer" 
+                        <Grid>
+                            <Border x:Name="RefreshIndicator" VerticalAlignment="Top">
+                                <Grid>
+                                    <TextBlock x:Name="DefaultIndicatorContent" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+                                    <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}"></ContentPresenter>
+                                </Grid>
+                                <Border.RenderTransform>
+                                    <CompositeTransform x:Name="RefreshIndicatorTransform"></CompositeTransform>
+                                </Border.RenderTransform>
+                            </Border>
+                            <ScrollViewer x:Name="ScrollViewer" 
                                       AutomationProperties.AccessibilityView="Raw" 
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" 
                                       HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" 
@@ -51,31 +61,18 @@
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" 
                                       VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" 
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                            <Grid x:Name="ScrollerContent">
-                                <Border x:Name="RefreshIndicator" VerticalAlignment="Top">
-                                    <Grid>
-                                        <TextBlock x:Name="DefaultIndicatorContent" HorizontalAlignment="Center" FontSize="20">Pull to Refresh</TextBlock>
-                                        <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}"></ContentPresenter>
-                                    </Grid>
-                                    <Border.RenderTransform>
-                                        <CompositeTransform x:Name="RefreshIndicatorTransform"></CompositeTransform>
-                                    </Border.RenderTransform>
-                                </Border>
-                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" 
+                                    <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" 
                                                 FooterTemplate="{TemplateBinding FooterTemplate}" 
                                                 Footer="{TemplateBinding Footer}" 
                                                 HeaderTemplate="{TemplateBinding HeaderTemplate}" 
                                                 Header="{TemplateBinding Header}" 
                                                 HeaderTransitions="{TemplateBinding HeaderTransitions}" 
                                                 Padding="{TemplateBinding Padding}"
-                                                Grid.Row="1"
                                                 x:Name="ItemsPresenter">
-                                    <ItemsPresenter.RenderTransform>
-                                        <CompositeTransform x:Name="ContentTransform" TranslateY="0"></CompositeTransform>
-                                    </ItemsPresenter.RenderTransform>
-                                </ItemsPresenter>
-                            </Grid>
-                        </ScrollViewer>
+                                    </ItemsPresenter>
+                            </ScrollViewer>
+                        </Grid>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

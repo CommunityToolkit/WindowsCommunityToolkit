@@ -21,6 +21,25 @@ Framework "4.6x86"
 
 task default -depends ?
 
+task UpdateHeaders -description "Updates the headers in *.cs files" {
+  $header = [System.IO.File]::ReadAllText("$buildDir\header.txt")
+
+  Get-ChildItem -Path $sourceDir -Filter *.cs -Exclude *generated* -Recurse | % {
+    $fullFilename = $_.FullName
+    $filename = $_.Name
+    
+    $oldContent = [System.IO.File]::ReadAllText($fullFilename)
+    
+    $newContent = "$header`r`n" + ($oldContent -Replace "^(//.*\r?\n|\r?\n)*", "")
+    
+    if ($newContent -ne $oldContent) {
+      WriteColoredOutput -ForegroundColor Green "Updating '$fullFilename' header...`n"
+      
+      [System.IO.File]::WriteAllText($fullFilename, $newContent, [System.Text.Encoding]::UTF8)
+    }
+  }
+}
+
 task Clean -description "Clean the output folder" {
   if (Test-Path -path $binDir) {
     WriteColoredOutput -ForegroundColor Green "Deleting Working Directory...`n"
@@ -37,6 +56,29 @@ task Setup -description "Setup environment" {
   Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
 }
 
+task Verify -description "Run pre-build verifications" {
+  $header = [System.IO.File]::ReadAllText("$buildDir\header.txt")
+
+  Get-ChildItem -Path $sourceDir -Filter *.cs -Exclude *generated* -Recurse | % {
+    $fullFilename = $_.FullName
+    $filename = $_.Name
+    
+    $oldContent = [System.IO.File]::ReadAllText($fullFilename)
+    
+    $newContent = "$header`r`n" + ($oldContent -Replace "^(//.*\r?\n|\r?\n)*", "")
+    
+    if ($newContent -ne $oldContent) {
+      WriteColoredOutput -ForegroundColor Yellow "Wrong/missing header on '$fullFilename'"
+      
+      $raiseError = $true
+    }
+  }
+  
+  if ($raiseError) {
+    throw "Please run '.\build.ps1 UpdateHeaders' and commit the changes."
+  }
+}
+
 task Version -description "Updates the version entries in AssemblyInfo.cs files" {
   WriteColoredOutput -ForegroundColor Green "Downloading GitVersion...`n"
   
@@ -50,22 +92,18 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
   
   WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo.cs files...`n"
   
-  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo } "Error updating GitVersion"
+  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo /nofetch } "Error updating GitVersion"
   
   WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
 
-  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
+  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe /nofetch | ConvertFrom-Json
 
   $script:version = $versionObj.NuGetVersionV2
-  
-  if ($isAppVeyor) {
-    Update-AppveyorBuild -Version $script:version
-  }
   
   WriteColoredOutput -ForegroundColor Green "Build version: $script:version`n"
 }
 
-task Build -depends Clean, Setup, Version -description "Build all projects and get the assemblies" {
+task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
   Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
@@ -98,6 +136,23 @@ task PackNuGetNoBuild -description "Create the NuGet packages with existing bina
     $fullFilename = $_.FullName
     
     Exec { .$nuget pack "$fullFilename" -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
+  }
+}
+
+task PublishNuget -depends PackNuGet -description "Publish the NuGet packages to the remote repositories" {
+  Get-ChildItem $nupkgDir\*.nupkg | % {
+    $nupkg = $_.FullName
+    
+    if ($isAppVeyor) {
+      WriteColoredOutput -ForegroundColor Green "Archiving '$nupkg' artifact...`n"
+      
+      Push-AppveyorArtifact $nupkg
+    }
+    else {
+      WriteColoredOutput -ForegroundColor Green "Publishing '$nupkg'...`n"
+      
+      Exec { .$nuget push "$nupkg" } "Error publishing '$nupkg'"
+    }
   }
 }
 

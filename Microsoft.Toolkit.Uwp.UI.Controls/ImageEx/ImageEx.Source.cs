@@ -11,9 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
-using global::Windows.UI.Xaml.Controls;
-using global::Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -30,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
         private Uri _uri;
         private bool _isHttpSource;
@@ -64,33 +63,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (source == null)
                 {
-                    VisualStateManager.GoToState(this, "Unloaded", true);
+                    VisualStateManager.GoToState(this, UnloadedState, true);
                     return;
                 }
 
-                VisualStateManager.GoToState(this, "Loading", true);
+                VisualStateManager.GoToState(this, LoadingState, true);
 
-                var sourceString = source as string;
-                if (sourceString != null)
+                var imageSource = source as ImageSource;
+                if (imageSource != null)
                 {
-                    string url = sourceString;
-                    if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
-                    {
-                        _isHttpSource = IsHttpUri(_uri);
-                        if (!_isHttpSource && !_uri.IsAbsoluteUri)
-                        {
-                            _uri = new Uri("ms-appx:///" + url.TrimStart('/'));
-                        }
+                    _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
+                    return;
+                }
 
-                        await LoadImageAsync();
+                _uri = source as Uri;
+                if (_uri == null)
+                {
+                    var url = source as string ?? source.ToString();
+                    if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
+                    {
+                        VisualStateManager.GoToState(this, FailedState, true);
+                        return;
                     }
                 }
-                else
+
+                _isHttpSource = IsHttpUri(_uri);
+                if (!_isHttpSource && !_uri.IsAbsoluteUri)
                 {
-                    _image.Source = source as ImageSource;
+                    _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
 
-                VisualStateManager.GoToState(this, "Loaded", true);
+                await LoadImageAsync();
             }
         }
 
@@ -101,7 +106,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
-                    _image.Source = await ImageCache.GetFromCacheAsync(_uri);
+                    try
+                    {
+                        _image.Source = await ImageCache.Instance.GetFromCacheAsync(_uri, Path.GetFileName(_uri.ToString()), true);
+                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                        VisualStateManager.GoToState(this, LoadedState, true);
+                    }
+                    catch (Exception e)
+                    {
+                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                        VisualStateManager.GoToState(this, FailedState, true);
+                    }
                 }
                 else
                 {

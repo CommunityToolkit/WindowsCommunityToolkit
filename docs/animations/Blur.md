@@ -48,8 +48,6 @@ Behavior animations can also be chained and awaited.
 
 [Blur Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Blur)
 
-Please view the [toolkit sample application](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) for the UWP Community Toolkit for current samples and example code.
-
 ## Example Image
 
 ![Blur Behavior animation](../resources/images/Animations-Blur.gif "Blur Behavior")

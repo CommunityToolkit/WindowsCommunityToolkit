@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -24,20 +25,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// An items control that presents enumerable content similar to the live tiles on the
     /// start menu.
     /// </summary>
-    [TemplatePart(Name = SCROLLERPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = CURRENTPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = NEXTPARTNAME, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = TRANSLATEPARTNAME, Type = typeof(TranslateTransform))]
-    [TemplatePart(Name = STACKPARTNAME, Type = typeof(StackPanel))]
-    public sealed class RotatorTile : Control
+    [TemplatePart(Name = ScrollerPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = CurrentPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = NextPartName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = TranslatePartName, Type = typeof(TranslateTransform))]
+    [TemplatePart(Name = StackPartName, Type = typeof(StackPanel))]
+    public class RotatorTile : Control
     {
-        private const string SCROLLERPARTNAME = "Scroller";
-        private const string CURRENTPARTNAME = "Current";
-        private const string NEXTPARTNAME = "Next";
-        private const string TRANSLATEPARTNAME = "Translate";
-        private const string STACKPARTNAME = "Stack";
+        private const string ScrollerPartName = "Scroller";
+        private const string CurrentPartName = "Current";
+        private const string NextPartName = "Next";
+        private const string TranslatePartName = "Translate";
+        private const string StackPartName = "Stack";
 
-        private static readonly Random _randomizer = new Random(); // randomizer for randomizing when a tile swaps content
+        private static readonly Random _randomizer = new Random();
         private int _currentIndex = -1; // current index in the items displayed
         private DispatcherTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
@@ -47,6 +48,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private StackPanel _stackPanel; // StackPanel that contains the live tile elements
         private bool _suppressFlipOnSet; // Prevents the SelectedItem change handler to cause a flip
         private WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs> _inccWeakEventListener;
+
+        /// <summary>
+        /// Identifies the <see cref="ExtraRandomDuration"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ExtraRandomDurationProperty =
+            DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
+
+        /// <summary>
+        /// Identifies the <see cref="RotationDelay"/> property.
+        /// </summary>
+        public static readonly DependencyProperty RotationDelayProperty =
+            DependencyProperty.Register(nameof(RotationDelay), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan), OnRotationDelayInSecondsPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -87,11 +100,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
-            _scroller = GetTemplateChild(SCROLLERPARTNAME) as FrameworkElement;
-            _currentElement = GetTemplateChild(CURRENTPARTNAME) as FrameworkElement;
-            _nextElement = GetTemplateChild(NEXTPARTNAME) as FrameworkElement;
-            _translate = GetTemplateChild(TRANSLATEPARTNAME) as TranslateTransform;
-            _stackPanel = GetTemplateChild(STACKPARTNAME) as StackPanel;
+            _scroller = GetTemplateChild(ScrollerPartName) as FrameworkElement;
+            _currentElement = GetTemplateChild(CurrentPartName) as FrameworkElement;
+            _nextElement = GetTemplateChild(NextPartName) as FrameworkElement;
+            _translate = GetTemplateChild(TranslatePartName) as TranslateTransform;
+            _stackPanel = GetTemplateChild(StackPartName) as StackPanel;
             if (_stackPanel != null)
             {
                 _stackPanel.Orientation = Direction == RotateDirection.Up ? Orientation.Vertical : Orientation.Horizontal;
@@ -153,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Timer_Tick(object sender, object e)
         {
             var item = GetItemAt(_currentIndex + 1);
-            _timer.Interval = TimeSpan.FromSeconds(_randomizer.Next(5) + 5); // randomize next flip
+            _timer.Interval = GetTileDuration();
             UpdateNextItem();
         }
 
@@ -339,15 +352,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_timer == null)
             {
-                _timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
+                _timer = new DispatcherTimer() { Interval = GetTileDuration() };
                 _timer.Tick += Timer_Tick;
-                _timer.Interval = TimeSpan.FromSeconds(_randomizer.Next(5) + 5);
             }
 
             _timer.Start();
             _suppressFlipOnSet = true;
             CurrentItem = currentItem;
             _suppressFlipOnSet = false;
+        }
+
+        /// <summary>
+        /// A method to get duration for tile.
+        /// </summary>
+        /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
+        private TimeSpan GetTileDuration()
+        {
+            return RotationDelay + TimeSpan.FromSeconds(_randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
         }
 
         /// <summary>
@@ -405,16 +426,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int endIndex = e.OldStartingIndex + e.OldItems.Count;
                     if (_currentIndex >= e.NewStartingIndex && _currentIndex < endIndex)
                     {
-                        UpdateNextItem(); // Current item was removed. Replace with the next one
+                        // Current item was removed. Replace with the next one
+                        UpdateNextItem();
                     }
                     else if (_currentIndex > endIndex)
                     {
-                        // items were removed before the current item. Just update the changed index
+                        // Items were removed before the current item. Just update the changed index
                         _currentIndex -= (endIndex - e.NewStartingIndex) - 1;
                     }
                     else if (e.NewStartingIndex == _currentIndex + 1)
                     {
-                        // upcoming item was changed, so update the datacontext
+                        // Upcoming item was changed, so update the datacontext
                         _nextElement.DataContext = GetNext();
                     }
                 }
@@ -436,7 +458,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (_currentIndex + 1 == e.NewStartingIndex)
                     {
-                        // upcoming item was changed, so update the datacontext
+                        // Upcoming item was changed, so update the datacontext
                         _nextElement.DataContext = GetNext();
                     }
                 }
@@ -473,6 +495,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return GetValue(CurrentItemProperty); }
             set { SetValue(CurrentItemProperty, value); }
+        }
+
+        private static void OnRotationDelayInSecondsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // Update new timer value.
+            var ctrl = d as RotatorTile;
+            if (ctrl?._timer != null)
+            {
+                ctrl._timer.Interval = ctrl.GetTileDuration();
+            }
         }
 
         private static void OnCurrentItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -513,6 +545,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the duration for tile rotation.
+        /// </summary>
+        public TimeSpan RotationDelay
+        {
+            get { return (TimeSpan)GetValue(RotationDelayProperty); }
+            set { SetValue(RotationDelayProperty, value); }
+        }
+
+        /// <summary>
         /// Tile Slide Direction
         /// </summary>
         public enum RotateDirection
@@ -522,6 +563,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             /// <summary>Left</summary>
             Left,
+        }
+
+        /// <summary>
+        /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
+        /// </summary>
+        public TimeSpan ExtraRandomDuration
+        {
+            get { return (TimeSpan)GetValue(ExtraRandomDurationProperty); }
+            set { SetValue(ExtraRandomDurationProperty, value); }
         }
     }
 }

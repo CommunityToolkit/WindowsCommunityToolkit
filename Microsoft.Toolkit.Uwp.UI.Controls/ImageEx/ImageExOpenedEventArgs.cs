@@ -10,12 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
-{
-    public class OptionMenuItem
-    {
-        public string Name { get; set; }
+using System;
 
-        public string Glyph { get; set; }
+namespace Microsoft.Toolkit.Uwp.UI.Controls
+{
+    public delegate void ImageExOpenedEventHandler(object sender, ImageExOpenedEventArgs e);
+
+    /// <summary>
+    /// Provides data for the <see cref="ImageEx"/> ImageOpened event.
+    /// </summary>
+    public class ImageExOpenedEventArgs : EventArgs
+    {
     }
 }

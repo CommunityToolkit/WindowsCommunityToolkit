@@ -3,12 +3,12 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
-			{
-				"Name": "AdaptiveGridView",
-				"Type": "AdaptiveGridViewPage",
-				"About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
-				"CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
-				"XamlCodeFile": "AdaptiveGridViewCode.bind",
+      {
+        "Name": "AdaptiveGridView",
+        "Type": "AdaptiveGridViewPage",
+        "About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
+        "XamlCodeFile": "AdaptiveGridViewCode.bind",
         "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png"
       },
       {
@@ -74,6 +74,30 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
         "XamlCodeFile": "RotatorTileCode.bind",
         "Icon": "/SamplePages/RotatorTile/RotatorTile.png"
+      },
+      {
+        "Name": "BladeControl",
+        "Type": "BladePage",
+        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
+        "XamlCodeFile": "BladeCode.bind",
+        "Icon": "/SamplePages/BladeControl/BladeControl.png"
+      },
+      {
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+      },
+      {
+        "Name": "DropShadowPanel",
+        "Type": "DropShadowPanelPage",
+        "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
+        "XamlCodeFile": "DropShadowPanelXaml.bind",
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
       }
     ]
   },
@@ -87,6 +111,7 @@
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
+        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
         "Icon": "/SamplePages/LiveTile/icon.jpg"
       },
       {
@@ -95,6 +120,7 @@
         "About": "This shows how to send a Toast notification.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "ToastCode.bind",
+        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
         "Icon": "/SamplePages/Toast/icon.jpg"
       },
       {
@@ -103,6 +129,7 @@
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
+        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png"
       }
     ]
@@ -155,6 +182,15 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png"
+      },
+      {
+        "Name": "FadeHeader",
+        "Type": "FadeHeaderBehaviorPage",
+        "About": "Fade ListView and GridView Headers",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "FadeHeaderBehaviorCode.bind",
+        "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
+        "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
       }
     ]
   },
@@ -185,6 +221,61 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
+      },
+      {
+        "Name": "Microsoft Graph Service",
+        "Type": "MicrosoftGraphPage",
+        "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
+        "CodeFile": "MicrosoftGraphCode.bind",
+        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
+        "ApiCheck": "Windows.System.UserProfile.UserInformation"
+      },
+            {
+        "Name": "LinkedIn Service",
+        "Type": "LinkedInPage",
+        "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
+        "CodeFile": "LinkedInCode.bind",
+        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+      }
+    ]
+  },
+  {
+    "Name": "Helpers",
+    "Icon": "Icons/Helpers.png",
+    "Samples": [
+      {
+        "Name": "ImageCache",
+        "Type": "ImageCachePage",
+        "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
+        "CodeFile": "ImageCacheCode.bind",
+        "XamlCodeFile": "ImageCacheXaml.bind",
+        "Icon": "/SamplePages/ImageCache/ImageEx.png"
+      },
+      {
+        "Name": "Object Storage",
+        "Type": "ObjectStoragePage",
+        "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
+        "CodeFile": "ObjectStorageCode.bind",
+        "Icon": "/SamplePages/Object Storage/ObjectStorage.png"
+      },
+      {
+        "Name": "Incremental Loading Collection",
+        "Type": "IncrementalLoadingCollectionPage",
+        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+        "CodeFile": "IncrementalLoadingCollectionCode.bind",
+        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+      },
+      {
+        "Name": "More",
+        "Type": "HelpersPage",
+        "About": "Find more information about all helpers available in the UWP Community toolkit.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       }
     ]
   }

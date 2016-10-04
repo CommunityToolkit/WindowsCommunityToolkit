@@ -86,8 +86,6 @@ Explicit usage:
 
 [FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader)
 
-Please view the [toolkit sample application](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) for the UWP Community Toolkit for current samples and example code.
- 
 ## Example Image
 
 ![FadeHeader Behavior animation](../resources/images/Animations-FadeHeader.gif "FadeHeader Behavior")

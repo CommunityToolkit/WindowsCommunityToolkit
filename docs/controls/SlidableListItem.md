@@ -33,6 +33,25 @@ The **LeftCommand** and the **LeftCommandRequested** event is executed when the 
 
 ```
 
+If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, you need to be aware the **ItemClick** event is triggered by default when the control has been swiped. If you don’t want this behavior you can set **IsPointerReleasedOnSwipingHandled** to **true** to suppress the **ItemClick** event. If you need more control you can instead check the **SwipeStatus** property in the **ItemClick** event. The following code shows how to do that:
+
+```csharp
+
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        var listView = sender as ListView;
+        var listViewItem = listView.ContainerFromItem(e.ClickedItem) as ListViewItem;
+        var slidableListItem = listViewItem.ContentTemplateRoot as SlidableListItem;
+
+        // Don't do anything unless the SwipeStatus is Idle.
+        if (slidableListItem.SwipeStatus != SwipeStatus.Idle)
+            return;
+
+        ...
+    }
+
+```
+
 ## Syntax
 
 ```xaml

@@ -1,0 +1,49 @@
+﻿<ContentDialog
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SendMessageContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Send a Message"
+    PrimaryButtonText="OK"    
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"    
+    Width="auto" Height="auto" >
+
+    <Grid Height="549" 
+          Margin="0,0,-25,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="350"/>
+        </Grid.RowDefinitions>
+        <AppBarButton x:Name="AppBarButton" 
+                      HorizontalAlignment="Center" 
+                      Label="Send" Margin="0,82,0,63" 
+                      VerticalAlignment="Center" 
+                      Icon="Send" Height="54" 
+                      Click="AppBarButton_Click" 
+                      Width="55"/>
+        <StackPanel Grid.Column="1" 
+                    Margin="0,0,32,345" 
+                    Grid.RowSpan="2">
+            <TextBox Header="To:" 
+                     x:Name="TxtTo" 
+                     Margin="10,0,0,0"/>
+            <TextBox Header="Cc:" 
+                     x:Name="TxtCc" 
+                     Margin="10,0,0,0"/>
+            <TextBox Header="Subject:" 
+                     x:Name="TxtSubject" 
+                     Margin="10,0,0,0"/>
+        </StackPanel>
+        <RichEditBox x:Name="richEditBoxContent"
+                     Margin="0,0,32,0" 
+                     Grid.Row="1" 
+                     Grid.ColumnSpan="2"/>
+    </Grid>
+</ContentDialog>

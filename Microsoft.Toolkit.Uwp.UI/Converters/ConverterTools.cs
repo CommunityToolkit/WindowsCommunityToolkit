@@ -9,7 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using Windows.UI.Xaml;
+
+using System;
+using System.Reflection;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
@@ -32,6 +35,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             }
 
             return parsed;
+        }
+
+        /// <summary>
+        /// Helper method to convert a value from a source type to a target type.
+        /// </summary>
+        /// <param name="value">The value to convert</param>
+        /// <param name="targetType">The target type</param>
+        /// <returns>The converted value</returns>
+        internal static object Convert(object value, Type targetType)
+        {
+            if (targetType.IsInstanceOfType(value))
+            {
+                return value;
+            }
+            else
+            {
+                return XamlBindingHelper.ConvertValue(targetType, value);
+            }
         }
     }
 }

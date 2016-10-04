@@ -9,8 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -18,14 +20,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the offset behavior.
     /// </summary>
-    public sealed partial class BlurBehaviorPage : Page
+    public sealed partial class BlurBehaviorPage
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BlurBehaviorPage"/> class.
         /// </summary>
         public BlurBehaviorPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -41,6 +43,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (propertyDesc != null)
             {
                 DataContext = propertyDesc.Expando;
+            }
+
+            if (!AnimationExtensions.IsBlurSupported)
+            {
+                WarningText.Visibility = Visibility.Visible;
             }
         }
     }

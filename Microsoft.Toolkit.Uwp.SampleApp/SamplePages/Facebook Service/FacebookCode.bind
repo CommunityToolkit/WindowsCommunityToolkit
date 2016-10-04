@@ -21,3 +21,9 @@ await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, Descrip
 
 // Post a message with a picture on your wall
 await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
+
+// Get current user's photo albums
+await FacebookService.Instance.GetUserAlbumsAsync();
+
+// Get current user's photos by album Id
+await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(album.Id);

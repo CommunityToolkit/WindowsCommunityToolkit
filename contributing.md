@@ -13,13 +13,31 @@ That's why many of the guidelines of this document are obvious and serve only on
 ## A good pull request
 Every contribution has to come with:
 
-* A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
+* Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
+* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once valdied your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
 * You tested your code with SDK 10586 and SDK 14393
 * PR has to target dev branch
 
-PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
+PR has to be validated by at least two core members before being merged.
+
+Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
+
+## Quality insurance for pull requests for XAML controls
+We encourage developers to follow the following guidances when submitting pull requests for controls:
+ * Your control must be usable and efficient with keyboard only
+  * Tab order must be logical
+  * Focused controls must be visible
+  * Action must be triggered when hitting Enter key
+ * Do not use custom colors but instead rely on theme colors so high contrasts themes can be used with your control
+ * Add AutomationProperties.Name on all controls to define what the controls purpose (Name is minimum, but there are some other things too that can really help the screen reader). 
+  * Don't use the same Name on two different elements unless they have different control types
+ * Use Narrator Dev mode (Launch Narrator [WinKey+Enter], then CTRL+F12) to test the screen reader experience. Is the information sufficient, meaningful and helps the user navigate and understand your control
+
+You can find more information about these topics [here](https://blogs.msdn.microsoft.com/winuiautomation/2015/07/14/building-accessible-windows-universal-apps-introduction)
+
+This is to help as part of our effort to build an accessible toolkit (starting with 1.2)
 
 ## General rules
 
@@ -28,13 +46,13 @@ PR has to be validated by at least two core members (either Microsoft or MVP) be
 * DO ensure that APIs are intuitive and can be successfully used in basic scenarios without referring to the reference documentation.
 * DO communicate incorrect usage of APIs as soon as possible. 
 * DO design an API by writing code samples for the main scenarios. Only then, you define the object model that supports those code samples.
-* DO NOT use regions. DO use partial classes instead
-* DO declare static dependency properties at the top of their file 
-* DO NOT seal controls
-* DO use extension methods over static methods where possible
+* DO NOT use regions. DO use partial classes instead.
+* DO declare static dependency properties at the top of their file.
+* DO NOT seal controls.
+* DO use extension methods over static methods where possible.
 * DO NOT return true or false to give sucess status. Throw exceptions if there was a failure.
 * DO use verbs like GET.
-* DO NOT use verbs that are not already used like fetch
+* DO NOT use verbs that are not already used like fetch.
 
 ## Naming conventions
 * We are following the coding guidelines of [.NET Core Foundational libraries](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md). 
@@ -48,5 +66,5 @@ PR has to be validated by at least two core members (either Microsoft or MVP) be
 * DO use verbose identifier names.
 
 ## Files and folders
-* DO associate no more than one class per file
-* DO use folders to group classes based on features
+* DO associate no more than one class per file.
+* DO use folders to group classes based on features.

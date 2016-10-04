@@ -9,9 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.Collections.Generic;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -26,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
     [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
-    public sealed partial class AdaptiveGridView : Control
+    public partial class AdaptiveGridView : Control, ISemanticZoomInformation
     {
         private int _columns;
         private bool _isInitialized;
@@ -73,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listView.SizeChanged -= ListView_SizeChanged;
                 _listView.ItemClick -= ListView_ItemClick;
                 _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
+                _listView.SelectionChanged -= ListView_SelectionChanged;
                 _listView = null;
             }
 
@@ -82,10 +85,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listView.SizeChanged += ListView_SizeChanged;
                 _listView.ItemClick += ListView_ItemClick;
                 _listView.Items.VectorChanged += ListViewItems_VectorChanged;
+                _listView.SelectionChanged += ListView_SelectionChanged;
             }
 
             _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
+            InitializeBindings();
+        }
+
+        private void InitializeBindings()
+        {
+            // Set bindings from base control.
+            var selectedItemBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("SelectedItem"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var selectionIndexBinding = new Binding()
+            {
+                Source = this,
+                Path = new PropertyPath("SelectedIndex"),
+                Mode = BindingMode.TwoWay
+            };
+
+            _listView.SetBinding(Selector.SelectedItemProperty, selectedItemBinding);
+            _listView.SetBinding(Selector.SelectedIndexProperty, selectionIndexBinding);
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectionChanged?.Invoke(this, e);
         }
 
         private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
@@ -119,6 +150,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 RecalculateLayout(e.NewSize.Width);
             }
+        }
+
+        /// <summary>
+        /// Initializes the changes to related aspects of presentation (such as scrolling UI or state)
+        /// when the overall view for a SemanticZoom is about to change.
+        /// </summary>
+        public void InitializeViewChange()
+        {
+        }
+
+        /// <summary>
+        /// Changes related aspects of presentation(such as scrolling UI or state)
+        /// when the overall view for a SemanticZoom changes.
+        /// </summary>
+        public void CompleteViewChange()
+        {
+        }
+
+        /// <summary>
+        /// Forces content in the view to scroll until the item specified by SemanticZoomLocation is visible.
+        /// Also focuses that item if found.
+        /// </summary>
+        /// <param name="item">The item in the view to scroll to.</param>
+        public void MakeVisible(SemanticZoomLocation item)
+        {
+        }
+
+        /// <summary>
+        /// Initializes item-wise operations related to a view change
+        /// when the implementing view is the source view and the pending
+        /// destination view is a potentially different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
+        public void StartViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            destination.Item = SelectedItem;
+        }
+
+        /// <summary>
+        /// Initializes item-wise operations related to a view change
+        /// when the source view is a different view and the pending
+        /// destination view is the implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
+        public void StartViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+        }
+
+        /// <summary>
+        /// Completes item-wise operations related to a view change
+        /// when the implementing view is the source view and the new view is a potentially
+        /// different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
+        public void CompleteViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+        }
+
+        /// <summary>
+        /// Completes item-wise operations related to a view change
+        /// when the implementing view is the destination view and the source view is a potentially
+        /// different implementing view.
+        /// </summary>
+        /// <param name="source">The view item as represented in the source view.</param>
+        /// <param name="destination">The view item as represented in the destination view.</param>
+        public void CompleteViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
+        {
+            SelectedItem = source.Item;
+            Focus(Windows.UI.Xaml.FocusState.Programmatic);
         }
     }
 }

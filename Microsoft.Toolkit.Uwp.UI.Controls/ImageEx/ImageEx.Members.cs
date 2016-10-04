@@ -9,6 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
+using System;
 using Windows.Media.Casting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -25,22 +27,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="NineGrid"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty NineGridProperty = DependencyProperty.Register("NineGrid", typeof(Thickness), typeof(ImageEx), new PropertyMetadata(default(Thickness)));
+        public static readonly DependencyProperty NineGridProperty = DependencyProperty.Register(nameof(NineGrid), typeof(Thickness), typeof(ImageEx), new PropertyMetadata(default(Thickness)));
 
         /// <summary>
         /// Identifies the <see cref="Stretch"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty StretchProperty = DependencyProperty.Register("Stretch", typeof(Stretch), typeof(ImageEx), new PropertyMetadata(Stretch.Uniform));
+        public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(nameof(Stretch), typeof(Stretch), typeof(ImageEx), new PropertyMetadata(Stretch.Uniform));
 
         /// <summary>
         /// Event raised if the image failed loading.
         /// </summary>
+        [Obsolete("This event is obsolete; use ImageExFailed event instead")]
         public event ExceptionRoutedEventHandler ImageFailed;
 
         /// <summary>
         /// Event raised when the image is successfully loaded and opened.
         /// </summary>
+        [Obsolete("This event is obsolete; use ImageExOpened event instead")]
         public event RoutedEventHandler ImageOpened;
+
+        /// <summary>
+        /// Event raised if the image failed loading.
+        /// </summary>
+        public event ImageExFailedEventHandler ImageExFailed;
+
+        /// <summary>
+        /// Event raised when the image is successfully loaded and opened.
+        /// </summary>
+        public event ImageExOpenedEventHandler ImageExOpened;
 
         /// <summary>
         /// Gets or sets the stretch of the image.

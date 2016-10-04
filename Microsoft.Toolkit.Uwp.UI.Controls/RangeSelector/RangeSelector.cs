@@ -9,7 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,27 +32,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MinThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
-    public sealed class RangeSelector : Control
+    public class RangeSelector : Control
     {
         /// <summary>
         /// Identifies the Minimum dependency property.
         /// </summary>
-        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, MinimumChangedCallback));
+        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, MinimumChangedCallback));
 
         /// <summary>
         /// Identifies the Maximum dependency property.
         /// </summary>
-        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, MaximumChangedCallback));
+        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, MaximumChangedCallback));
 
         /// <summary>
         /// Identifies the RangeMin dependency property.
         /// </summary>
-        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register("RangeMin", typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, RangeMinChangedCallback));
+        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register(nameof(RangeMin), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, RangeMinChangedCallback));
 
         /// <summary>
         /// Identifies the RangeMax dependency property.
         /// </summary>
-        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register("RangeMax", typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
+        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
 
         private const double Epsilon = 0.01;
 
@@ -109,6 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragCompleted -= Thumb_DragCompleted;
                 _minThumb.DragDelta -= MinThumb_DragDelta;
                 _minThumb.DragStarted -= MinThumb_DragStarted;
+                _minThumb.KeyDown -= MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -116,6 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted -= Thumb_DragCompleted;
                 _maxThumb.DragDelta -= MaxThumb_DragDelta;
                 _maxThumb.DragStarted -= MaxThumb_DragStarted;
+                _maxThumb.KeyDown -= MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
@@ -148,6 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragCompleted += Thumb_DragCompleted;
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
+                _minThumb.KeyDown += MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -155,6 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted += Thumb_DragCompleted;
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
+                _maxThumb.KeyDown += MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
@@ -169,6 +175,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
             base.OnApplyTemplate();
+        }
+
+        private void MinThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMin -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMin += 1;
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void MaxThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMax -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMax += 1;
+                    e.Handled = true;
+                    break;
+            }
         }
 
         private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
