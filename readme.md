@@ -7,14 +7,14 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 ## Build status
 
-| Branch | Status |
-| ------ | ------ |
-| master | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/master?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/master) |
-| dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) |
+| Target | Branch | Status | Recommended Nuget packages version |
+| ------ | ------ | ------ | ------ |
+| Production | master | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/master?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/master) | 1.1 |
+| Pre-release beta testing | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) | Use our [pre-release Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) |
 
 ## Getting started
 
-Please read the [getting Started with the UWP Toolkit](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/getting-started.htm) page for more detailed information about using the toolkit.
+Please read the [getting Started with the UWP Toolkit](http://uwpcommunitytoolkit.readthedocs.io/en/master/Getting-Started/) page for more detailed information about using the toolkit.
 
 ## UWP Community Toolkit Sample App
 
@@ -30,60 +30,60 @@ Once you search you should see a list similar to the one below (versions may be 
 
 | NuGet Package Name | description |
 | --- | --- |
-| [Microsoft.Toolkit.Uwp](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp.htm) | Main NuGet package includes code only helpers for Colors, Internet Connection detection, Storage file handling, and a Stream helper class. |
-| [Microsoft.Toolkit.Uwp.Notifications](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Notifications.htm) | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
+| Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc. |
+| Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript. |
-| [Microsoft.Toolkit.Uwp.Services](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_Services.htm) | Services Package - This NuGet package includes the service helpers for Bing, Facebook, and Twitter. |
-| [Microsoft.Toolkit.Uwp.UI](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI.htm) | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
-| [Microsoft.Toolkit.Uwp.UI.Animations](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Animations.htm) | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| [Microsoft.Toolkit.Uwp.UI.Controls](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/api/Microsoft_Toolkit_Uwp_UI_Controls.htm) | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Bing, Facebook, LinkedIn, Microsoft Graph and Twitter. |
+| Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
+| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 
 ## Features
 
 ### Animations
 
-* [Blur](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/blur.htm)
-* [Offset](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/offset.htm)
-* [Fade](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/fade.htm)
-* [Rotate](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/rotate.htm)
-* [Scale](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/scale.htm)
-* [FadeHeader](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/animations/fadeHeader.htm)
+* [Blur](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Blur/)
+* [Offset](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Offset/)
+* [Fade](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Fade/)
+* [Rotate](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Rotate/)
+* [Scale](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Scale/)
+* [FadeHeader](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/FadeHeader/)
 
 ### Controls
 
-* [AdaptiveGridView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/adaptivegridview.htm)
-* [BladeControl](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/bladecontrol.htm)
-* [DropShadowPanel](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/dropshadowpanel.htm)
-* [GridSplitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/GridSplitter.htm)
-* [HamburgerMenu](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/hamburgermenu.htm)
-* [HeaderedTextBlock](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/headeredtextblock.htm)
-* [ImageEx](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/imageex.htm)
-* [PullToRefreshListView](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/pulltorefreshlistview.htm)
-* [RadialGauge](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/radialgauge.htm)
-* [RangeSelector](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rangeselector.htm)
-* [RotatorTile](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/rotatortile.htm)
-* [SlideableListItem](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/controls/slidablelistitem.htm)
+* [AdaptiveGridView](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/AdaptiveGridView/)
+* [BladeControl](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/BladeControl/)
+* [DropShadowPanel](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/DropShadowPanel/)
+* [GridSplitter](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/GridSplitter/)
+* [HamburgerMenu](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HamburgerMenu/)
+* [HeaderedTextBlock](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HeaderedTextBlock/)
+* [ImageEx](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/ImageEx/)
+* [PullToRefreshListView](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/PullToRefreshListview/)
+* [RadialGauge](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RadialGauge/)
+* [RangeSelector](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RangeSelector/)
+* [RotatorTile](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RotatorTile/)
+* [SlideableListItem](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/SlidableListItem/)
 
 ### Code Helpers
 
-* [Colors](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/colors.htm)
-* [Connection](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/connectionhelper.htm)
-* [Converters](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/converters.htm)
-* [ImageCache](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/imagecache.htm)
-* [Incremental Loading Collection](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/incrementalloadingcollection.htm)
-* [Object Storage](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/objectstorage.htm)
-* [StorageFiles](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/storagefiles.htm)
-* [Streams](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/streams.htm)
-* [VisualTreeExtensions](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/visualtreeextensions.htm)
-* [WeakEventListener](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/helpers/weakeventlistener.htm)
+* [Colors](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Colors/)
+* [Connection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ConnectionHelper/)
+* [Converters](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/)
+* [ImageCache](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ImageCache/)
+* [Incremental Loading Collection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/IncrementalLoadingCollection/)
+* [Object Storage](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ObjectStorageHelper/)
+* [StorageFiles](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFiles/)
+* [Streams](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Streams/)
+* [VisualTreeExtensions](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/VisualTreeExtensions/)
+* [WeakEventListener](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/WeakEventListener/)
 
 ### Services
 
-* [Bing](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/bing.htm)
-* [Facebook](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/facebook.htm)
-* [LinkedIn](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/linkedin.htm)
-* [Microsoft Graph](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/MicrosoftGraph.htm)
-* [Twitter](https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter.htm)
+* [Bing](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Bing/)
+* [Facebook](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Facebook/)
+* [LinkedIn](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/LinkedId/)
+* [Microsoft Graph](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/MicrosoftGraph/)
+* [Twitter](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)

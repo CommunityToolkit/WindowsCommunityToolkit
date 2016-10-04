@@ -49,8 +49,6 @@ Behavior animations can also be chained and awaited.
 
 [Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate)
 
-Please view the [toolkit sample application](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) for the UWP Community Toolkit for current samples and example code.
-
 ## Example Image
 
 ![Rotate Behavior animation](../resources/images/Animations-Rotate.gif "Rotate Behavior")

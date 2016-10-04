@@ -47,8 +47,6 @@ Behavior animations can also be chained and awaited.
 
 [Offset Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Offset)
 
-Please view the [toolkit sample application](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) for the UWP Community Toolkit for current samples and example code.
- 
 ## Example Image
 
 ![Offset Behavior animation](../resources/images/Animations-Offset.gif "Offset Behavior")

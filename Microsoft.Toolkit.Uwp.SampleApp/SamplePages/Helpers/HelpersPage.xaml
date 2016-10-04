@@ -12,8 +12,22 @@
             <TextBlock Margin="0,20,20,0">
                 We will soon provide more samples for helpers.
             </TextBlock>
-            <HyperlinkButton Content="Click here to go to helpers documentation" 
-                             NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/codehelpers"></HyperlinkButton>
+            <HyperlinkButton Content="Colors" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Colors/"/>
+            <HyperlinkButton Content="ConnectionHelper" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ConnectionHelper/"/>
+            <HyperlinkButton Content="Converters" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/"/>
+            <HyperlinkButton Content="HyperlinkExtensions" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/HyperlinkExtensions/"/>
+            <HyperlinkButton Content="StorageFileHelper" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFileHelper/"/>
+            <HyperlinkButton Content="Streams" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Streams/"/>
+            <HyperlinkButton Content="VisualTreeExtensions" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/VisualTreeExtensions/"/>
+            <HyperlinkButton Content="WeakEventListener" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/WeakEventListener/"/>
         </StackPanel>
     </Grid>
 </Page>
