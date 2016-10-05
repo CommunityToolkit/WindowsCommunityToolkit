@@ -104,10 +104,16 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
  - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
  - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
+to clarify expected behavior in our community.
+For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct). 
 
 ## Roadmap
 
 Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.2), and feel free to ask questions.
 
 By adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio, you can also get pre-release packages of upcoming version (updated on every pull request).
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
