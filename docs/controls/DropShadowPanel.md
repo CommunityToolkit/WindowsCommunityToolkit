@@ -3,6 +3,7 @@
 The **DropShadowPanel Control** allows the creation of a drop shadow effect for any Xaml FrameworkElement in the markup.
 You can control the following property of the drop shadow effect : Offset, Color, Opactity and Blur Radius.
 
+**NOTE:** Windows Anniversary Update (10.0.14393.0) is needed to support correctly this effect.
 
 ## Syntax
 
