@@ -41,6 +41,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.Por
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.UWP", "UnitTests\UnitTests.Notifications.UWP\UnitTests.Notifications.UWP.csproj", "{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{95EEE926-A52D-4AA1-B3E2-AE16773E39D7}"
+	ProjectSection(SolutionItems) = preProject
+		build\Microsoft.Toolkit.Uwp.Notifications.JavaScript.nuspec = build\Microsoft.Toolkit.Uwp.Notifications.JavaScript.nuspec
+		build\Microsoft.Toolkit.Uwp.Notifications.nuspec = build\Microsoft.Toolkit.Uwp.Notifications.nuspec
+		build\Microsoft.Toolkit.Uwp.nuspec = build\Microsoft.Toolkit.Uwp.nuspec
+		build\Microsoft.Toolkit.Uwp.Services.nuspec = build\Microsoft.Toolkit.Uwp.Services.nuspec
+		build\Microsoft.Toolkit.Uwp.UI.Animations.nuspec = build\Microsoft.Toolkit.Uwp.UI.Animations.nuspec
+		build\Microsoft.Toolkit.Uwp.UI.Controls.nuspec = build\Microsoft.Toolkit.Uwp.UI.Controls.nuspec
+		build\Microsoft.Toolkit.Uwp.UI.nuspec = build\Microsoft.Toolkit.Uwp.UI.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Notifications\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{52f9acf2-55e7-4415-92bd-902cf85ce3da}*SharedItemsImports = 4
