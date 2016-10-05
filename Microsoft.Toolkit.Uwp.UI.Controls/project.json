@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "AdDuplexWin10": "10.0.1.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "StyleCop.Analyzers": "1.0.0"
   },
