@@ -49,5 +49,24 @@ namespace Microsoft.Toolkit.Uwp
                 return NetworkInformation.GetInternetConnectionProfile() != null;
             }
         }
+        
+        /// <summary>
+        /// Gets a value indicating whether internet is established over Wi-Fi or not.
+        /// </summary>
+        /// <returns>True if internet connection is established over Wi-Fi.</returns>
+        public static bool IsInternetConnectionEstablishedOverWifi
+        {
+            get
+            {
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                {
+                    return false;
+                }
+
+                var profile = NetworkInformation.GetInternetConnectionProfile();
+
+                return profile?.IsWlanConnectionProfile == true;
+            }
+        }
     }
 }
