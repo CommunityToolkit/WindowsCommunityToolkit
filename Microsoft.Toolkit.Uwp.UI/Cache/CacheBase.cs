@@ -248,12 +248,12 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return instance;
             }
 
-            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            var folder = await GetCacheFolderAsync();
 
-            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
+            baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
             if (await IsFileOutOfDate(baseFile, expirationDate))
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
+                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                 try
                 {
                     instance = await DownloadFileAsync(uri, baseFile, preCacheOnly).ConfigureAwait(false);
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read).AsTask().ConfigureAwait(false))
+                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
                 {
                     instance = await InitializeTypeAsync(fileStream).ConfigureAwait(false);
                 }
@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri).ConfigureAwait(false))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)

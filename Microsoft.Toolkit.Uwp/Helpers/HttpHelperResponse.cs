@@ -41,6 +41,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public IHttpContent Result { get; set; }
 
+        /// <summary>
+        /// Reads the Content as string and returns it to the caller.
+        /// </summary>
+        /// <returns>string content</returns>
         public Task<string> GetTextResultAsync()
         {
             if (this.Result == null)

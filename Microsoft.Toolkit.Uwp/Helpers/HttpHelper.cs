@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp
         public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
         {
             var httpRequestMessage = request.ToHttpRequestMessage();
-            using (var response = await httpClient.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false))
+            using (var response = await httpClient.SendRequestAsync(httpRequestMessage).AsTask())
             {
                 FixInvalidCharset(response);
 
