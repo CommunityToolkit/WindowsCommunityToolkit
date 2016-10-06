@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,7 +8,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
@@ -17,8 +15,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Newtonsoft.Json;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
 using Windows.Storage.Streams;
@@ -197,9 +195,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Log out of the underlying service instance.
         /// </summary>
         /// <returns>Task to support await of async call.</returns>
-        public async Task LogoutAsync()
+        public Task LogoutAsync()
         {
-            await Provider.LogoutAsync();
+            return Provider.LogoutAsync().AsTask();
         }
 
         /// <summary>
@@ -208,9 +206,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
+        public Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
         {
-            return await RequestAsync<FacebookPost>(config, maxRecords);
+            return RequestAsync<FacebookPost>(config, maxRecords);
         }
 
         /// <summary>
@@ -294,12 +292,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="maxRecords">Maximum number of records to retrieve.</param>
         /// <param name="fields">Custom list of Album fields to retrieve.</param>
         /// <returns>List of User Photo Albums.</returns>
-        public async Task<List<FacebookAlbum>> GetUserAlbumsAsync(int maxRecords = 20, string fields = null)
+        public Task<List<FacebookAlbum>> GetUserAlbumsAsync(int maxRecords = 20, string fields = null)
         {
             fields = fields ?? FacebookAlbum.Fields;
             var config = new FacebookDataConfig { Query = "/me/albums" };
 
-            return await RequestAsync<FacebookAlbum>(config, maxRecords, fields);
+            return RequestAsync<FacebookAlbum>(config, maxRecords, fields);
         }
 
         /// <summary>
@@ -309,12 +307,45 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="maxRecords">Maximum number of photos.</param>
         /// <param name="fields">Custom list of Photo fields to retrieve.</param>
         /// <returns>List of User Photos.</returns>
-        public async Task<List<FacebookPhoto>> GetUserPhotosByAlbumIdAsync(string albumId, int maxRecords = 20, string fields = null)
+        public Task<List<FacebookPhoto>> GetUserPhotosByAlbumIdAsync(string albumId, int maxRecords = 20, string fields = null)
         {
             fields = fields ?? FacebookPhoto.Fields;
             var config = new FacebookDataConfig { Query = $"/{albumId}/photos" };
 
-            return await RequestAsync<FacebookPhoto>(config, maxRecords, fields);
+            return RequestAsync<FacebookPhoto>(config, maxRecords, fields);
+        }
+
+        /// <summary>
+        /// Retrieves a photo by id.
+        /// </summary>
+        /// <param name="photoId">Photo Id for the photo.</param>
+        /// <returns>A single photo.</returns>
+        public async Task<FacebookPhoto> GetPhotoByPhotoIdAsync(string photoId)
+        {
+            if (Provider.LoggedIn)
+            {
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPhoto>);
+
+                PropertySet propertySet = new PropertySet { { "fields", "images" } };
+                var singleValue = new FBSingleValue($"/{photoId}", propertySet, factory);
+
+                var result = await singleValue.GetAsync();
+
+                if (result.Succeeded)
+                {
+                    return (FacebookPhoto)result.Object;
+                }
+
+                throw new Exception(result.ErrorInfo?.Message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetPhotoByPhotoIdAsync(photoId);
+            }
+
+            return null;
         }
 
         /// <summary>

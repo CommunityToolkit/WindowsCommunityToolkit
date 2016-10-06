@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +23,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
+        private const int RootGridColumnsMinWidth = 300;
+        private const int RootGridColumnsDefaultMinWidth = 0;
+
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
@@ -42,8 +46,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void ShowInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
+            UpdateRootGridMinWidth();
+            RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
+            Splitter.Visibility = Visibility.Visible;
         }
 
         public void HideInfoArea()
@@ -53,6 +60,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
             _currentSample = null;
             CommandArea.Children.Clear();
+            Splitter.Visibility = Visibility.Collapsed;
+            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
+            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
@@ -94,15 +104,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (sample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
                 if (sample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSource();
+                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
+
+                UpdateRootGridMinWidth();
             }
         }
 
@@ -135,6 +147,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+        }
+
+        private void UpdateRootGridMinWidth()
+        {
+            if (Width > 2 * RootGridColumnsMinWidth)
+            {
+                RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
+                RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
+            }
+            else
+            {
+                RootGrid.ColumnDefinitions[0].MinWidth = 0;
+                RootGrid.ColumnDefinitions[1].MinWidth = 0;
+            }
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
@@ -264,12 +290,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_currentSample.HasCSharpCode)
             {
-                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSource();
+                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
             }
 
             if (_currentSample.HasJavaScriptCode)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSource();
+                JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
             }
         }
     }

@@ -1,7 +1,7 @@
-// ******************************************************************
+Ôªø// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED ìAS ISî, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// THE CODE IS PROVIDED ‚ÄúAS IS‚Äù, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 // IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 #if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
@@ -51,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 if (!Enum.IsDefined(typeof(BadgeGlyphValue), value))
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _glyph = value;

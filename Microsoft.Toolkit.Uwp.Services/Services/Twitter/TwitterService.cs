@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,12 +8,11 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -231,9 +229,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Log user in to Twitter.
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public Task<bool> LoginAsync()
         {
-            return await Provider.LoginAsync();
+            return Provider.LoginAsync();
         }
 
         /// <summary>
@@ -259,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatus(message, pictures);
+                return await Provider.TweetStatusAsync(message, pictures);
             }
 
             var isLoggedIn = await LoginAsync();

@@ -5,6 +5,8 @@
     <Style x:Key="HorizontalGridView" TargetType="GridView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
     </Style>
 
     <Style TargetType="controls:BladeControl">
@@ -19,10 +21,11 @@
                               ItemsSource="{TemplateBinding ActiveBlades}"
                               Name="BladeContainer"
                               SelectionMode="None"
+                              Padding="{TemplateBinding Padding}"
                               Style="{StaticResource HorizontalGridView}">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemContainerStyle>
@@ -89,7 +92,6 @@
                         </Grid>
 
                         <ContentPresenter Grid.Row="1"
-                                          Width="500"
                                           VerticalAlignment="Stretch"
                                           Background="{TemplateBinding Background}"
                                           Content="{TemplateBinding Element}"

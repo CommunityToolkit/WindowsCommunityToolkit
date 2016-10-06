@@ -1,7 +1,7 @@
-// ******************************************************************
+Ôªø// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED ìAS ISî, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// THE CODE IS PROVIDED ‚ÄúAS IS‚Äù, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 // IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    using System;
-
     internal static class TileSizeToAdaptiveTemplateConverter
     {
         public static TileTemplateNameV3 Convert(TileSize size)

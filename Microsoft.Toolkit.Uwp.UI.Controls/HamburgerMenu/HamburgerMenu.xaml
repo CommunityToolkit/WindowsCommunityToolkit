@@ -7,7 +7,8 @@
         <Setter Property="HamburgerMenuTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;"/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" 
+                              Glyph="&#xE700;"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -15,10 +16,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
                     <Grid>
-                        <SplitView x:Name="MainSplitView" OpenPaneLength="{TemplateBinding OpenPaneLength}" 
-                               PanePlacement="{TemplateBinding PanePlacement}" DisplayMode="{TemplateBinding DisplayMode}" 
-                               CompactPaneLength="{TemplateBinding CompactPaneLength}" PaneBackground="{TemplateBinding PaneBackground}" 
-                               IsPaneOpen="{TemplateBinding IsPaneOpen}">
+                        <SplitView x:Name="MainSplitView" 
+                                   OpenPaneLength="{TemplateBinding OpenPaneLength}" 
+                                   PanePlacement="{TemplateBinding PanePlacement}" 
+                                   DisplayMode="{TemplateBinding DisplayMode}" 
+                                   CompactPaneLength="{TemplateBinding CompactPaneLength}" 
+                                   PaneBackground="{TemplateBinding PaneBackground}" 
+                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <SplitView.Pane>
                                 <Grid x:Name="PaneGrid">
                                     <Grid.RowDefinitions>
@@ -27,7 +31,14 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}" />
-                                    <ListView Grid.Row="1" SelectionMode="Single" Name="ButtonsListView" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True"
+                                    <ListView Grid.Row="1" 
+                                              TabIndex="1"
+                                              AutomationProperties.Name="Menu items"
+                                              SelectionMode="Single" 
+                                              Name="ButtonsListView" 
+                                              ItemsSource="{TemplateBinding ItemsSource}" 
+                                              ItemTemplate="{TemplateBinding ItemTemplate}" 
+                                              IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
@@ -42,8 +53,15 @@
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
 
-                                        <ListView Grid.Row="1" Name="OptionsListView" ItemsSource="{TemplateBinding OptionsItemsSource}" ItemTemplate="{TemplateBinding OptionsItemTemplate}" IsItemClickEnabled="True"
-                                              Width="{TemplateBinding OpenPaneLength}" VerticalAlignment="Bottom">
+                                        <ListView Grid.Row="1" 
+                                                  TabIndex="2"
+                                                  Name="OptionsListView" 
+                                                  AutomationProperties.Name="Option items"
+                                                  ItemsSource="{TemplateBinding OptionsItemsSource}" 
+                                                  ItemTemplate="{TemplateBinding OptionsItemTemplate}" 
+                                                  IsItemClickEnabled="True"
+                                                  Width="{TemplateBinding OpenPaneLength}" 
+                                                  VerticalAlignment="Bottom">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="Padding" Value="0" />
@@ -54,10 +72,23 @@
 
                                 </Grid>
                             </SplitView.Pane>
-                            <ContentPresenter Content="{TemplateBinding Content}" x:Name="ContentPart" />
+                            <ContentPresenter 
+                                AutomationProperties.Name="Content"
+                                Content="{TemplateBinding Content}" 
+                                x:Name="ContentPart" />
                         </SplitView>
-                        <Button Name="HamburgerButton" Padding="0" Width="{TemplateBinding HamburgerWidth}" Height="{TemplateBinding HamburgerHeight}" BorderThickness="0" VerticalAlignment="Top" Background="Transparent">
-                            <ContentControl ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                        <Button Name="HamburgerButton" 
+                                TabIndex="0"
+                                AutomationProperties.Name="Main button"
+                                Padding="0" 
+                                Width="{TemplateBinding HamburgerWidth}" 
+                                Height="{TemplateBinding HamburgerHeight}" 
+                                BorderThickness="0" 
+                                VerticalAlignment="Top" 
+                                Background="Transparent">
+                            <ContentControl 
+                                            IsTabStop="False"
+                                            ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Margin="{TemplateBinding HamburgerMargin}"
                                             Foreground="{TemplateBinding Foreground}"/>
                         </Button>

@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -97,11 +109,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 return true;
             }
 
-            string authorizeCode = await GetAuthorizeCode(this.Tokens, this.RequiredPermissions);
+            string authorizeCode = await GetAuthorizeCodeAsync(this.Tokens, this.RequiredPermissions);
 
             if (!string.IsNullOrEmpty(authorizeCode))
             {
-                var accessToken = await GetAccessToken(this.Tokens, authorizeCode);
+                var accessToken = await GetAccessTokenAsync(this.Tokens, authorizeCode);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -223,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             }
         }
 
-        private async Task<string> GetAccessToken(LinkedInOAuthTokens tokens, string authorizeCode)
+        private async Task<string> GetAccessTokenAsync(LinkedInOAuthTokens tokens, string authorizeCode)
         {
             var url = $"{_oAuthBaseUrl}accessToken?grant_type=authorization_code"
             + "&code=" + authorizeCode
@@ -247,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             }
         }
 
-        private async Task<string> GetAuthorizeCode(LinkedInOAuthTokens tokens, LinkedInPermissions permissions)
+        private async Task<string> GetAuthorizeCodeAsync(LinkedInOAuthTokens tokens, LinkedInPermissions permissions)
         {
             string scopes = ConvertPermissionsToEncodedScopeString(permissions);
 

@@ -11,9 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
-using global::Windows.UI.Xaml.Controls;
-using global::Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -74,6 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (imageSource != null)
                 {
                     _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
                     return;
                 }
 
@@ -107,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     try
                     {
-                        _image.Source = await ImageCache.GetFromCacheAsync(_uri, true);
+                        _image.Source = await ImageCache.Instance.GetFromCacheAsync(_uri, Path.GetFileName(_uri.ToString()), true);
                         ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }

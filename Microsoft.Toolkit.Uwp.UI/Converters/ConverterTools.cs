@@ -12,7 +12,6 @@
 
 using System;
 using System.Reflection;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters

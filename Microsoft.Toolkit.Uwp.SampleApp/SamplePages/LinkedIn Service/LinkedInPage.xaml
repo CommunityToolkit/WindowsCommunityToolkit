@@ -8,7 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
-        <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+        <Grid Margin="24" 
+              BorderThickness="1" 
+              BorderBrush="#FFCCCCCC" 
+              Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -48,7 +51,9 @@
                         </Grid>
 
                         <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get these values" NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/linkedin" Margin="0,0,0,15"/>
+                            <HyperlinkButton Content="Show me how to get these values" 
+                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Linkedin/" 
+                                             Margin="0,0,0,15"/>
                             <TextBox Header="Client Id:" x:Name="ClientId" Margin="0,0,0,12"/>
                             <TextBox Header="Client Secret:" x:Name="ClientSecret" Margin="0,0,0,12"/>
                             <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>
@@ -57,7 +62,7 @@
                     </Grid>
 
                     <!-- Share area -->
-                    <Grid Grid.Row="1" x:Name="ShareBox">
+                    <Grid Grid.Row="1" x:Name="ShareBox" Visibility="Collapsed">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>

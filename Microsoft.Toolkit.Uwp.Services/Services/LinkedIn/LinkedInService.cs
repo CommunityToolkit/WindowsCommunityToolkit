@@ -1,8 +1,18 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 {
@@ -42,14 +52,14 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// Log user in to LinkedIn.
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public Task<bool> LoginAsync()
         {
             if (!_isInitialized)
             {
                 throw new InvalidOperationException("Initialized needs to be called first.");
             }
 
-            return await Provider.LoginAsync();
+            return Provider.LoginAsync();
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="commentContainingUrl">Comment containing a Url.</param>
         /// <param name="visibilityCode">Code for who to share with.</param>
         /// <returns>Boolean indicating success or failure.</returns>
-        public async Task<LinkedInShareResponse> ShareActivityAsync(string commentContainingUrl, LinkedInShareVisibility visibilityCode = LinkedInShareVisibility.ConnectionsOnly)
+        public Task<LinkedInShareResponse> ShareActivityAsync(string commentContainingUrl, LinkedInShareVisibility visibilityCode = LinkedInShareVisibility.ConnectionsOnly)
         {
             var shareRequest = new LinkedInShareRequest
             {
@@ -66,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 Visibility = new LinkedInVisibility { Code = LinkedInVisibility.ParseVisibilityEnumToString(visibilityCode) }
             };
 
-            return await ShareActivityAsync(shareRequest);
+            return ShareActivityAsync(shareRequest);
         }
 
         /// <summary>
@@ -74,9 +84,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         /// <param name="shareRequest">Share request.</param>
         /// <returns>Boolean indicating success or failure.</returns>
-        public async Task<LinkedInShareResponse> ShareActivityAsync(LinkedInShareRequest shareRequest)
+        public Task<LinkedInShareResponse> ShareActivityAsync(LinkedInShareRequest shareRequest)
         {
-            return await Provider.ShareDataAsync<LinkedInShareRequest, LinkedInShareResponse>(shareRequest);
+            return Provider.ShareDataAsync<LinkedInShareRequest, LinkedInShareResponse>(shareRequest);
         }
 
         /// <summary>

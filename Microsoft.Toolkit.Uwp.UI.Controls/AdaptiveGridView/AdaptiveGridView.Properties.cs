@@ -10,17 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Input;
-
     /// <summary>
     /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
     /// total display available space. It reacts to changes in the layout as well as the content so it can adapt
@@ -256,6 +253,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (double)GetValue(ItemWidthProperty); }
             set { SetValue(ItemWidthProperty, value); }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the AdaptiveGridView instance is the active view in its owning SemanticZoom.
+        /// </summary>
+        public bool IsActiveView { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the AdaptiveGridView instance is the zoomed-in view in its owning SemanticZoom.
+        /// </summary>
+        public bool IsZoomedInView { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SemanticZoom instance that hosts the AdaptiveGridView.
+        /// </summary>
+        public SemanticZoom SemanticZoomOwner { get; set; }
 
         private static int CalculateColumns(double containerWidth, double itemWidth)
         {

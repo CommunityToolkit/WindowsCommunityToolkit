@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -45,13 +47,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string Icon { get; set; }
 
+        public string ApiCheck { get; set; }
+
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
         public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
 
-        public async Task<string> GetCSharpSource()
+        public bool IsSupported
+        {
+            get
+            {
+                if (ApiCheck == null)
+                {
+                    return true;
+                }
+
+                return ApiInformation.IsTypePresent(ApiCheck);
+            }
+        }
+
+        public async Task<string> GetCSharpSourceAsync()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
@@ -59,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public async Task<string> GetJavaScriptSource()
+        public async Task<string> GetJavaScriptSourceAsync()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {

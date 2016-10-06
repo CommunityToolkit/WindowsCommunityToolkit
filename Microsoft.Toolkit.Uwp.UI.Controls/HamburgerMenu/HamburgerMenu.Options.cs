@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -64,6 +65,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Visibility)GetValue(OptionsVisibilityProperty); }
             set { SetValue(OptionsVisibilityProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected options menu item.
+        /// </summary>
+        public object SelectedOptionsItem
+        {
+            get { return _optionsListView.SelectedItem; }
+            set { _optionsListView.SelectedItem = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected options menu index.
+        /// </summary>
+        public int SelectedOptionsIndex
+        {
+            get { return _optionsListView.SelectedIndex; }
+            set { _optionsListView.SelectedIndex = value; }
         }
     }
 }

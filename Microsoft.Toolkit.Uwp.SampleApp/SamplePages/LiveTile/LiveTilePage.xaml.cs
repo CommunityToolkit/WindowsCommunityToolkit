@@ -9,8 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
-using System.Linq;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -19,7 +19,6 @@ using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages

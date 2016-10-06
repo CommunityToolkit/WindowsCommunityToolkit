@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,7 +8,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
@@ -17,7 +15,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace Microsoft.Toolkit.Uwp.Services.AzureAD
+namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
     /// Authentication Helper Using Azure Active Directory V1.0 app Model
