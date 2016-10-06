@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public QuickReturnHeader()
         {
+            DefaultStyleKey = typeof(QuickReturnHeader);
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
         }
 
