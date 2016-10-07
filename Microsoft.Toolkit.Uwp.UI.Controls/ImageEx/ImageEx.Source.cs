@@ -12,6 +12,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -30,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
+
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private Uri _uri;
         private bool _isHttpSource;
@@ -57,6 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void SetSource(object source)
         {
+
             if (_isInitialized)
             {
                 _image.Source = null;
@@ -95,7 +99,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
 
-                await LoadImageAsync();
+                await _semaphore.WaitAsync();
+
+                try
+                {
+                    await LoadImageAsync();
+                }
+                finally
+                {
+                    _semaphore.Release();
+                }
             }
         }
 
