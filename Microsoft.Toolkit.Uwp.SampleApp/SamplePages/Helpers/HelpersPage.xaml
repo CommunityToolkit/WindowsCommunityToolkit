@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.HelpersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource Brush-Grey-05}" >
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Margin="0,20,20,0">
+                We will soon provide more samples for helpers.
+            </TextBlock>
+            <HyperlinkButton Content="Colors" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Colors/"/>
+            <HyperlinkButton Content="ConnectionHelper" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ConnectionHelper/"/>
+            <HyperlinkButton Content="Converters" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/"/>
+            <HyperlinkButton Content="HyperlinkExtensions" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/HyperlinkExtensions/"/>
+            <HyperlinkButton Content="StorageFileHelper" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFileHelper/"/>
+            <HyperlinkButton Content="Streams" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Streams/"/>
+            <HyperlinkButton Content="VisualTreeExtensions" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/VisualTreeExtensions/"/>
+            <HyperlinkButton Content="WeakEventListener" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/WeakEventListener/"/>
+        </StackPanel>
+    </Grid>
+</Page>

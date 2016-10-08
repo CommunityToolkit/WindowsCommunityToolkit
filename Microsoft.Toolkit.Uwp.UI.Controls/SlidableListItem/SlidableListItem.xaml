@@ -7,10 +7,10 @@
         <Setter Property="LeftForeground" Value="White"></Setter>
         <Setter Property="RightForeground" Value="White"></Setter>
         <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-        <Setter Property="Background" Value="White"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="ActivationWidth" Value="80"></Setter>
         <Setter Property="IsOffsetLimited" Value="True"></Setter>
-        <Setter Property="ExtraSwipeThreshold" Value="24"></Setter>
+        <Setter Property="ExtraSwipeThreshold" Value="40"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">

@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Diagnostics;
 using Windows.Foundation;
@@ -84,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
 
-            if (_progress.Width == newSquareSize)
+            if (_progress?.Width == newSquareSize)
             {
                 _progress.Height = newSquareSize;
             }

@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,7 +8,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
@@ -315,6 +313,39 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var config = new FacebookDataConfig { Query = $"/{albumId}/photos" };
 
             return RequestAsync<FacebookPhoto>(config, maxRecords, fields);
+        }
+
+        /// <summary>
+        /// Retrieves a photo by id.
+        /// </summary>
+        /// <param name="photoId">Photo Id for the photo.</param>
+        /// <returns>A single photo.</returns>
+        public async Task<FacebookPhoto> GetPhotoByPhotoIdAsync(string photoId)
+        {
+            if (Provider.LoggedIn)
+            {
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPhoto>);
+
+                PropertySet propertySet = new PropertySet { { "fields", "images" } };
+                var singleValue = new FBSingleValue($"/{photoId}", propertySet, factory);
+
+                var result = await singleValue.GetAsync();
+
+                if (result.Succeeded)
+                {
+                    return (FacebookPhoto)result.Object;
+                }
+
+                throw new Exception(result.ErrorInfo?.Message);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetPhotoByPhotoIdAsync(photoId);
+            }
+
+            return null;
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -56,10 +57,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
             DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the <see cref="PullToRefreshLabel"/> property.
+        /// </summary>
+        public static readonly DependencyProperty PullToRefreshLabelProperty =
+            DependencyProperty.Register("PullToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
+
+        /// <summary>
+        /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
+            DependencyProperty.Register("ReleaseToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
+
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
-        private const string PartScrollerContent = "ScrollerContent";
+        private const string PartScrollerContent = "ItemsPresenter";
         private const string PartRefreshIndicatorBorder = "RefreshIndicator";
         private const string PartIndicatorTransform = "RefreshIndicatorTransform";
         private const string PartDefaultIndicatorContent = "DefaultIndicatorContent";
@@ -69,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _refreshIndicatorTransform;
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
-        private Grid _scrollerContent;
+        private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private double _lastOffset = 0.0;
         private double _pullDistance = 0.0;
@@ -128,15 +141,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
-            _contentTransform = GetTemplateChild(PartContentTransform) as CompositeTransform;
-            _scrollerContent = GetTemplateChild(PartScrollerContent) as Grid;
+            _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
             _refreshIndicatorBorder = GetTemplateChild(PartRefreshIndicatorBorder) as Border;
             _refreshIndicatorTransform = GetTemplateChild(PartIndicatorTransform) as CompositeTransform;
             _defaultIndicatorContent = GetTemplateChild(PartDefaultIndicatorContent) as TextBlock;
 
             if (_root != null &&
                 _scroller != null &&
-                _contentTransform != null &
                 _scrollerContent != null &&
                 _refreshIndicatorBorder != null &&
                 _refreshIndicatorTransform != null &&
@@ -149,14 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _refreshIndicatorBorder.SizeChanged += RefreshIndicatorBorder_SizeChanged;
 
-                if (DesignMode.DesignModeEnabled)
-                {
-                    _overscrollMultiplier = OverscrollLimit * 10;
-                }
-                else
-                {
-                    _overscrollMultiplier = (OverscrollLimit * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                }
+                _overscrollMultiplier = OverscrollLimit * 8;
             }
 
             base.OnApplyTemplate();
@@ -172,6 +176,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
+                if (RefreshIndicatorContent == null)
+                {
+                    _defaultIndicatorContent.Text = PullToRefreshLabel;
+                }
+
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
@@ -180,7 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
-            _contentTransform.TranslateY = 0;
+            if (_contentTransform != null)
+            {
+                _contentTransform.TranslateY = 0;
+            }
 
             if (_refreshActivated)
             {
@@ -194,16 +206,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _refreshActivated = false;
             _lastRefreshActivation = default(DateTime);
 
-            if (RefreshIndicatorContent == null)
-            {
-                _defaultIndicatorContent.Text = "Pull to Refresh";
-            }
-
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
         }
 
         private void CompositionTarget_Rendering(object sender, object e)
         {
+            // if started navigating down, cancel the refresh
+            if (_scroller.VerticalOffset > 1)
+            {
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
+                if (_contentTransform != null)
+                {
+                    _contentTransform.TranslateY = 0;
+                }
+
+                _refreshActivated = false;
+                _lastRefreshActivation = default(DateTime);
+
+                PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
+
+                return;
+            }
+
+            if (_contentTransform == null)
+            {
+                var itemScrollPanel = _scrollerContent.FindDescendant<Panel>();
+                if (itemScrollPanel == null)
+                {
+                    return;
+                }
+
+                _contentTransform = new CompositeTransform();
+                itemScrollPanel.RenderTransform = _contentTransform;
+            }
+
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
 
             var offset = elementBounds.Y;
@@ -232,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
-                    _defaultIndicatorContent.Text = "Release to Refresh";
+                    _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
                 }
             }
             else if (_lastRefreshActivation != DateTime.MinValue)
@@ -247,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
-                        _defaultIndicatorContent.Text = "Pull to Refresh";
+                        _defaultIndicatorContent.Text = PullToRefreshLabel;
                     }
                 }
                 else
@@ -282,14 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (value >= 0 && value <= 1)
             {
-                if (DesignMode.DesignModeEnabled)
-                {
-                    view._overscrollMultiplier = value * 10;
-                }
-                else
-                {
-                    view._overscrollMultiplier = (value * 10) / DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-                }
+                view._overscrollMultiplier = value * 8;
             }
             else
             {
@@ -334,6 +364,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 SetValue(RefreshIndicatorContentProperty, value);
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the label that will be shown when the user pulls down to refresh.
+        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        /// </summary>
+        public string PullToRefreshLabel
+        {
+            get { return (string)GetValue(PullToRefreshLabelProperty); }
+            set { SetValue(PullToRefreshLabelProperty, value); }
+        }
+
+        // <summary>
+        // Gets or sets the label that will be shown when the user needs to release to refresh.
+        // Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        // </summary>
+        public string ReleaseToRefreshLabel
+        {
+            get { return (string)GetValue(ReleaseToRefreshLabelProperty); }
+            set { SetValue(ReleaseToRefreshLabelProperty, value); }
         }
     }
 }
