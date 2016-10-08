@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// Currently selected item changing event
         /// </summary>
         /// <param name="e">event args</param>
-        protected virtual void OnCurrentChanging(CurrentChangingEventArgs e)
+        private void OnCurrentChanging(CurrentChangingEventArgs e)
         {
             if (_deferCounter > 0)
             {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// Currently selected item changed event
         /// </summary>
         /// <param name="e">event args</param>
-        protected virtual void OnCurrentChanged(object e)
+        private void OnCurrentChanged(object e)
         {
             if (_deferCounter > 0)
             {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// Vector changed event
         /// </summary>
         /// <param name="e">event args</param>
-        protected virtual void OnVectorChanged(IVectorChangedEventArgs e)
+        private void OnVectorChanged(IVectorChangedEventArgs e)
         {
             if (_deferCounter > 0)
             {

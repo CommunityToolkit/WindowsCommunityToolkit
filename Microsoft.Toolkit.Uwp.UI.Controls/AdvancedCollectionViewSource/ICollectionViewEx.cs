@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         bool CanFilter { get; }
 
         /// <summary>
-        /// Gets predicate used to filter the visisble items
+        /// Gets or sets the predicate used to filter the visisble items
         /// </summary>
         Predicate<object> Filter { get; set; }
 

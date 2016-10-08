@@ -5,7 +5,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
     /// <summary>
     /// Vector changed EventArgs
     /// </summary>
-    public class VectorChangedEventArgs : IVectorChangedEventArgs
+    internal class VectorChangedEventArgs : IVectorChangedEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VectorChangedEventArgs"/> class.

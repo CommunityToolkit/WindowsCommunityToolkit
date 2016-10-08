@@ -18,23 +18,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
     /// </summary>
     public partial class AdvancedCollectionViewSource : ICollectionViewEx, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     {
-        private IEnumerable _source;
-
-        private IList _sourceList;
-
-        private INotifyCollectionChanged _sourceNcc;
-
         private readonly List<object> _view;
 
         private readonly ObservableCollection<SortDescription> _sortDescriptions;
 
         private readonly Dictionary<string, PropertyInfo> _sortProperties;
 
+        private IEnumerable _source;
+
+        private IList _sourceList;
+
         private Predicate<object> _filter;
 
         private int _index;
 
         private int _deferCounter;
+
+        private WeakEventListener<AdvancedCollectionViewSource, INotifyCollectionChanged, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedCollectionViewSource"/> class.
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         {
             _view = new List<object>();
             _sortDescriptions = new ObservableCollection<SortDescription>();
-            _sortDescriptions.CollectionChanged += _sortDescriptions_CollectionChanged;
+            _sortDescriptions.CollectionChanged += SortDescriptions_CollectionChanged;
             _sortProperties = new Dictionary<string, PropertyInfo>();
             Source = source;
         }
@@ -69,15 +69,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
 
                 _source = value;
                 _sourceList = value as IList;
-                if (_sourceNcc != null)
-                {
-                    _sourceNcc.CollectionChanged -= _sourceNcc_CollectionChanged;
-                }
+                _sourceWeakEventListener?.Detach();
 
-                _sourceNcc = _source as INotifyCollectionChanged;
-                if (_sourceNcc != null)
+                var sourceNcc = _source as INotifyCollectionChanged;
+                if (sourceNcc != null)
                 {
-                    _sourceNcc.CollectionChanged += _sourceNcc_CollectionChanged;
+                    _sourceWeakEventListener =
+                        new WeakEventListener<AdvancedCollectionViewSource, INotifyCollectionChanged, NotifyCollectionChangedEventArgs>(this)
+                        {
+                            // Call the actual collection changed event
+                            OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(null, arg3),
+
+                            // The source doesn't exist anymore
+                            OnDetachAction = listener => Source = null
+                        };
                 }
 
                 HandleSourceChanged();
@@ -120,22 +125,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
                     _view.Add(item);
                 }
             }
+
             _sortProperties.Clear();
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
             MoveCurrentTo(currentItem);
         }
 
-        private void _sourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void SourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (_deferCounter > 0)
             {
                 return;
             }
 
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    if (e.NewItems.Count == 1)
+                    if (e.NewItems?.Count == 1)
                     {
                         HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
                     }
@@ -143,9 +150,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
                     {
                         HandleSourceChanged();
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    if (e.OldItems.Count == 1)
+                    if (e.OldItems?.Count == 1)
                     {
                         HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
                     }
@@ -153,16 +161,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
                     {
                         HandleSourceChanged();
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Move:
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Reset:
                     HandleSourceChanged();
                     break;
-                default:
-                    // something is not OK
-                    // let's just fail silently...
-                    return;
             }
         }
 
@@ -191,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
                 }
 
                 var visibleBelowIndex = 0;
-                for (int i = newStartingIndex; i < _sourceList.Count; i++)
+                for (var i = newStartingIndex; i < _sourceList.Count; i++)
                 {
                     if (!_filter(_sourceList[i]))
                     {
@@ -239,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
             OnVectorChanged(e);
         }
 
-        private void _sortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (_deferCounter > 0)
             {
@@ -257,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         {
             if (IsReadOnly)
             {
-                throw new Exception("The source is in read-only mode!");
+                throw new NotSupportedException("Collection is read-only.");
             }
 
             _sourceList.Add(item);
@@ -267,7 +272,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         {
             if (IsReadOnly)
             {
-                throw new Exception("The source is in read-only mode!");
+                throw new NotSupportedException("Collection is read-only.");
             }
 
             _sourceList.Clear();
@@ -281,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         {
             if (IsReadOnly)
             {
-                throw new Exception("The source is in read-only mode!");
+                throw new NotSupportedException("Collection is read-only.");
             }
 
             _sourceList.Remove(item);
@@ -298,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         {
             if (IsReadOnly)
             {
-                throw new Exception("The source is in read-only mode!");
+                throw new NotSupportedException("Collection is read-only.");
             }
 
             if (_sortDescriptions.Count > 0 || _filter != null)
@@ -404,7 +409,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// <exception cref="NotImplementedException">Not implemented yet...</exception>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
-            throw new NotImplementedException("todo...");
+            var isil = _source as ISupportIncrementalLoading;
+            return isil?.LoadMoreItemsAsync(count);
         }
 
         /// <summary>
@@ -429,7 +435,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// <summary>
         /// Gets a value indicating whether the source has more items
         /// </summary>
-        public bool HasMoreItems => false; // todo
+        public bool HasMoreItems => (_source as ISupportIncrementalLoading)?.HasMoreItems ?? false;
 
         /// <summary>
         /// Gets a value indicating whether the current item is after the last visible item

@@ -6,12 +6,12 @@
     public class SortDescription
     {
         /// <summary>
-        /// Name of property to sort on
+        /// Gets the name of property to sort on
         /// </summary>
         public string PropertyName { get; private set; }
 
         /// <summary>
-        /// Direction of sort
+        /// Gets the direction of sort
         /// </summary>
         public SortDirection Direction { get; private set; }
 
