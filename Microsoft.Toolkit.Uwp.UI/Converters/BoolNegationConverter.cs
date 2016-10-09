@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// Value converter that applies NOT operator to a bool value.
     /// </summary>
-    public sealed class BoolNegationConverter : IValueConverter
+    public class BoolNegationConverter : IValueConverter
     {
         /// <summary>
         /// Convert a boolean value to its negation.

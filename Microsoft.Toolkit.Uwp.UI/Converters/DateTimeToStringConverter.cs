@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// Value converter that converts a <see cref="DateTime"/> or a <see cref="DateTimeOffset"/> to a <see cref="string"/>
     /// that can be also formatted passing a string format as a parameter.
     /// </summary>
-    public sealed class DateTimeToStringConverter : IValueConverter
+    public class DateTimeToStringConverter : IValueConverter
     {
         /// <summary>
         /// Convert a <see cref="DateTime"/> in a <see cref="DateTimeOffset"/> to a <see cref="string"/> with the

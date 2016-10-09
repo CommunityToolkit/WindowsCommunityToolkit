@@ -11,18 +11,17 @@
 // ******************************************************************
 
 using System;
-using System.Reflection;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Data;
 
-namespace TommasoScalici.UWPConvertersAndUtilities
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
     /// Value converter that look up for the source string in the App Resources strings and returns its value, if found.
     /// </summary>
     public sealed class ResourceNameToResourceStringConverter : IValueConverter
     {
-        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForViewIndependentUse();
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForViewIndependentUse();
 
         /// <summary>
         /// Take the source string as a resource name that will be looked up in the App Resources.
@@ -35,7 +34,12 @@ namespace TommasoScalici.UWPConvertersAndUtilities
         /// <returns>The string corresponding to the resource name.</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return resourceLoader.GetString(value?.ToString());
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return _resourceLoader.GetString(value.ToString());
         }
 
         /// <summary>
