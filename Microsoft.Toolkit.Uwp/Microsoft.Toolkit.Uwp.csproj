@@ -52,8 +52,14 @@
   <ItemGroup>
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
+    <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
+    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />

@@ -1,0 +1,118 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.DropShadowPanelPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="TitleText">
+            <Setter Property="Margin" Value="5,20,0,5"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush-Grey-03}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style TargetType="Border" x:Key="DividingBorder">
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Foreground="{StaticResource Brush-Grey-03}" 
+                   Text="DropShadowPanel is only available on Windows 10 Anniversary Update or greater" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   Margin="0, 20"
+                   TextWrapping="Wrap"
+                   x:Name="WarningText" 
+                   Visibility="Collapsed"></TextBlock>
+        
+        <ScrollViewer Margin="15,15,0,15" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource TitleText}" >TextBlock</TextBlock>
+                <Border Style="{StaticResource DividingBorder}"/>
+                
+                <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                          ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                          OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                          OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+                                          Color="Black"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center">
+                    <TextBlock TextWrapping="Wrap">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum.
+                                Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla,
+                                at interdum dolor sapien ut odio. Sed ullamcorper sapien velit, id finibus risus gravida vitae. Morbi ac ultrices lectus. Aenean felis
+                                justo, aliquet a risus ut, condimentum malesuada metus. Duis vehicula pharetra dolor vel finibus. Nunc auctor tortor nunc, in varius velit
+                                lobortis vel. Duis viverra, ante id mollis mattis, sem mauris ullamcorper dolor, sed rhoncus est erat eget ligula. Aliquam rutrum velit et
+                                felis sollicitudin, eget dapibus dui accumsan.
+                    </TextBlock>
+                </controls:DropShadowPanel>
+
+                <TextBlock Style="{StaticResource TitleText}" >Shapes</TextBlock>
+                <Border Style="{StaticResource DividingBorder}"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}" 
+                                              Margin="20">
+                        <Polygon Points="50,0 0,50 50,50"
+                            Stroke="Blue" StrokeThickness="2" Fill="Blue"/>
+                    </controls:DropShadowPanel>
+
+                    <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}" 
+                                              Margin="20">
+                        <Rectangle Width="100" Height="50"
+                            Stroke="Green" StrokeThickness="5"/>
+                    </controls:DropShadowPanel>
+
+                    <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}" 
+                                             Margin="20">
+                        <Polyline Points="0,0 50,50 50,0 0,50"
+                            Stroke="Black" StrokeThickness="2"/>
+                    </controls:DropShadowPanel>
+                </StackPanel>
+
+                <TextBlock Style="{StaticResource TitleText}" >Images</TextBlock>
+                <Border Style="{StaticResource DividingBorder}"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+                                              Color="Black"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center">
+                        <Image Source="Unicorn.png" Stretch="Uniform"/>
+                    </controls:DropShadowPanel>
+                    <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}" 
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}" 
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}" 
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+                                              Color="Black"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center">
+                        <Image Source="Trex.png" Stretch="Uniform"/>
+                    </controls:DropShadowPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

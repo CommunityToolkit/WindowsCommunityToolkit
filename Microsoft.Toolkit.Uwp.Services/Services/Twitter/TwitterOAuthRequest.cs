@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,12 +8,13 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             HttpResponseMessage response = await client.GetAsync(requestUri);
 
-            return await response.Content.ReadAsStringAsync();
+            return ProcessErrors(await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             HttpResponseMessage response = await client.PostAsync(requestUri, null);
 
-            return await response.Content.ReadAsStringAsync();
+            return ProcessErrors(await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -86,6 +86,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", requestBuilder.AuthorizationHeader);
             return client;
+        }
+
+        private string ProcessErrors(string content)
+        {
+            if (content.StartsWith("{\"errors\":"))
+            {
+                var errors = JsonConvert.DeserializeObject<TwitterErrors>(content);
+
+                throw new TwitterException { Errors = errors };
+            }
+
+            return content;
         }
     }
 }

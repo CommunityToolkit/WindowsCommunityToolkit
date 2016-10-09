@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Container.Children.Clear();
                 GC.Collect(); // Force GC to free file locks
-                await ImageCache.ClearAsync();
+                await ImageCache.Instance.ClearAsync();
             });
 
             await LoadDataAsync();

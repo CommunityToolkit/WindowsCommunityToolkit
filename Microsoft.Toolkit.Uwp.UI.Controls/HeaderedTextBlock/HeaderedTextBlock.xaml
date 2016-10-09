@@ -26,6 +26,7 @@
         <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
         <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedTextBlock">
@@ -42,8 +43,14 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <TextBlock x:Name="HeaderContent" Text="{TemplateBinding Header}" Style="{TemplateBinding HeaderStyle}" />
-                        <TextBlock x:Name="TextContent" Text="{TemplateBinding Text}" Style="{TemplateBinding TextStyle}" />
+                        <TextBlock x:Name="HeaderContent" 
+                                   AutomationProperties.Name="Header content"
+                                   Text="{TemplateBinding Header}" 
+                                   Style="{TemplateBinding HeaderStyle}" />
+                        <TextBlock x:Name="TextContent" 
+                                   AutomationProperties.Name="Text content"
+                                   Text="{TemplateBinding Text}" 
+                                   Style="{TemplateBinding TextStyle}" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
