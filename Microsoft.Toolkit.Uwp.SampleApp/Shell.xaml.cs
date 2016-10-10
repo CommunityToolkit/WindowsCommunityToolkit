@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void UpdateRootGridMinWidth()
         {
-            if (Width > 2 * RootGridColumnsMinWidth)
+            if (ActualWidth > 2 * RootGridColumnsMinWidth)
             {
                 RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
                 RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
