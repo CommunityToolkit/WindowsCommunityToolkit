@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -56,7 +57,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the option list.
         /// </summary>
-        public ItemCollection OptionsItems => _optionsListView?.Items;
+        public ItemCollection OptionsItems
+        {
+            get
+            {
+                if (_optionsListView == null)
+                {
+                    throw new Exception("OptionsListView is not defined yet. Please use OptionsItemsSource instead.");
+                }
+
+                return _optionsListView?.Items;
+            }
+        }
 
         /// <summary>
         /// Gets or sets options' visibility.
