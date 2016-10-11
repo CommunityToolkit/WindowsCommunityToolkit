@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// </summary>
         /// <param name="value">The source string being passed to the target.</param>
         /// <param name="targetType">The type of the target property, as a type reference.</param>
-        /// <param name="parameter">An optional parameter to be used to invert the converter logic.</param>
+        /// <param name="parameter">Optional parameter. Not used.</param>
         /// <param name="language">The language of the conversion.</param>
         /// <returns>The string corresponding to the resource name.</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// </summary>
         /// <param name="value">The source string being passed to the target.</param>
         /// <param name="targetType">The type of the target property, as a type reference.</param>
-        /// <param name="parameter">An optional parameter to be used to invert the converter logic.</param>
+        /// <param name="parameter">Optional parameter. Not used.</param>
         /// <param name="language">The language of the conversion.</param>
         /// <returns>The value to be passed to the target dependency property.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
