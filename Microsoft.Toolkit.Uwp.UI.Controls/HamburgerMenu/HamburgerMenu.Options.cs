@@ -57,6 +57,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the option list.
         /// </summary>
+        /// <exception cref="Exception">
+        /// Exception thrown if OptionsListView is not yet defined.
+        /// </exception>
         public ItemCollection OptionsItems
         {
             get

@@ -137,6 +137,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the items list.
         /// </summary>
+        /// <exception cref="Exception">
+        /// Exception thrown if ButtonsListView is not yet defined.
+        /// </exception>
         public ItemCollection Items
         {
             get
