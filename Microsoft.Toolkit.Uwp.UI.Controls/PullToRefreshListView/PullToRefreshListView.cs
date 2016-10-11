@@ -81,15 +81,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ReleaseToRefreshContentProperty =
             DependencyProperty.Register(nameof(ReleaseToRefreshContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
 
-        #region IsPullToRefreshWithMouseEnabled
-
         /// <summary>
         /// IsPullToRefreshWithMouseEnabled Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
-            DependencyProperty.Register("IsPullToRefreshWithMouseEnabled", typeof(bool), typeof(PullToRefreshListView),
-                new PropertyMetadata((bool)true));
-        #endregion
+            DependencyProperty.Register("IsPullToRefreshWithMouseEnabled", typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -206,10 +202,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        #region Manipulation with mouse management
         private void Scroller_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (!IsPullToRefreshWithMouseEnabled) { return; }
+            if (!IsPullToRefreshWithMouseEnabled)
+            {
+                return;
+            }
 
             OnManipulationCompleted();
         }
@@ -229,7 +227,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-            if (!IsPullToRefreshWithMouseEnabled) { return; }
+            if (!IsPullToRefreshWithMouseEnabled)
+            {
+                return;
+            }
 
             if (e.Cumulative.Translation.Y <= 0)
             {
@@ -248,20 +249,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var deltaCumulative = Math.Min(translationToUse, mouseMaxDragDistance) / mouseMaxDragDistance;
 
             // let's do some quartic ease-out
-            double f = (deltaCumulative - 1);
-            var easing = f * f * f * (1 - deltaCumulative) + 1;
+            double f = deltaCumulative - 1;
+            var easing = 1 + (f * f * f * (1 - deltaCumulative));
 
             var maxTranslation = 150;
             _contentTransform.TranslateY = easing * maxTranslation;
         }
-        #endregion
 
         private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
         }
 
-        #region Direct manipulation event handlers
         private void Scroller_DirectManipulationStarted(object sender, object e)
         {
             // sometimes the value gets stuck at 0.something, so checking if less than 1
@@ -297,8 +296,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             OnManipulationCompleted();
         }
-
-        #endregion
 
         /// <summary>
         /// Method called at the end of manipulation to clean up everything
@@ -586,7 +583,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the IsPullToRefreshWithMouseEnabled property.
+        /// Gets or sets a value indicating whether PullToRefresh is enabled with a mouse
         /// </summary>
         public bool IsPullToRefreshWithMouseEnabled
         {
