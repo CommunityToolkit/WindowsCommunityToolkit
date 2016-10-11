@@ -21,6 +21,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class HeaderedTextBlock
     {
         /// <summary>
+        /// Defines the <see cref="HeaderFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderFontSizeProperty = DependencyProperty.Register(
+            nameof(HeaderFontSize),
+            typeof(double),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(default(double)));
+
+        /// <summary>
+        /// Defines the <see cref="TextFontSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextFontSizeProperty = DependencyProperty.Register(
+            nameof(TextFontSize),
+            typeof(double),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata(default(double)));
+
+        /// <summary>
         /// Defines the <see cref="HeaderStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderStyleProperty = DependencyProperty.Register(
@@ -73,6 +91,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(bool),
             typeof(HeaderedTextBlock),
             new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
+
+        /// <summary>
+        /// Gets or sets the HeaderContent font size.
+        /// </summary>
+        public double HeaderFontSize
+        {
+            get
+            {
+                return (double)GetValue(HeaderFontSizeProperty);
+            }
+
+            set
+            {
+                SetValue(HeaderFontSizeProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the TextContent font size.
+        /// </summary>
+        public double TextFontSize
+        {
+            get
+            {
+                return (double)GetValue(TextFontSizeProperty);
+            }
+
+            set
+            {
+                SetValue(TextFontSizeProperty, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the header style.

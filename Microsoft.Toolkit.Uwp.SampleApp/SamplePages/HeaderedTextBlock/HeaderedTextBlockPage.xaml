@@ -11,6 +11,8 @@
         <controls:HeaderedTextBlock Header="{Binding Header.Value, Mode=OneWay}" 
                                     Text="{Binding Text.Value, Mode=OneWay}" 
                                     Orientation="{Binding Orientation.Value, Mode=OneWay}"
+                                    TextFontSize ="{Binding TextFontSize.Value, Mode=OneWay}"
+                                    HeaderFontSize ="{Binding HeaderFontSize.Value, Mode=OneWay}"
                                     Margin="20,10,0,0"/>
     </Grid>
 </Page>

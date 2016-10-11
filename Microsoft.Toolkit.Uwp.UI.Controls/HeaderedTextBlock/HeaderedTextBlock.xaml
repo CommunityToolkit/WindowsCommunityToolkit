@@ -24,6 +24,8 @@
     <Style TargetType="controls:HeaderedTextBlock">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="HeaderFontSize" Value="18" />
+        <Setter Property="TextFontSize" Value="18" />
         <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
         <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
         <Setter Property="IsTabStop" Value="False" />
@@ -46,11 +48,13 @@
                         <TextBlock x:Name="HeaderContent" 
                                    AutomationProperties.Name="Header content"
                                    Text="{TemplateBinding Header}" 
-                                   Style="{TemplateBinding HeaderStyle}" />
+                                   Style="{TemplateBinding HeaderStyle}" 
+				   FontSize="{Binding HeaderFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                         <TextBlock x:Name="TextContent" 
                                    AutomationProperties.Name="Text content"
                                    Text="{TemplateBinding Text}" 
-                                   Style="{TemplateBinding TextStyle}" />
+                                   Style="{TemplateBinding TextStyle}" 
+				   FontSize="{Binding TextFontSize,Mode=OneWay,RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
