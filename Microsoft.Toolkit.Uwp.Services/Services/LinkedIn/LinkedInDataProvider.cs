@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             using (HttpHelperRequest request = new HttpHelperRequest(new Uri(url), HttpMethod.Get))
             {
-                request.Headers["Connection"] = "Keep-Alive";
+                request.Connection.TryParseAdd("Keep-Alive");
 
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {

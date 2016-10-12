@@ -22,6 +22,8 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public class HttpHelperRequest : IDisposable
     {
+        private HttpRequestMessage requestMessage = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelperRequest"/> class.
         /// Default constructor.
@@ -40,35 +42,98 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="method">Method to use when making the request</param>
         public HttpHelperRequest(Uri uri, HttpMethod method)
         {
-            RequestedUri = uri;
-            Headers = new Dictionary<string, string>();
-            Method = method;
+            Headers = new Dictionary<string, object>();
+
+            requestMessage = new HttpRequestMessage(method, uri);
         }
 
         /// <summary>
-        /// Gets or sets reqeust method.
+        /// Gets the http reqeust method.
         /// </summary>
-        public HttpMethod Method { get; set; }
+        public HttpMethod Method
+        {
+            get { return requestMessage.Method; }
+        }
 
         /// <summary>
-        /// Gets or sets request Uri.
+        /// Gets the request Uri.
         /// </summary>
-        public Uri RequestedUri { get; set; }
+        public Uri RequestedUri
+        {
+            get { return requestMessage.RequestUri; }
+        }
 
         /// <summary>
-        /// Gets or sets User Agent to pass to the request.
+        /// Gets the accept header colletion for the request.
         /// </summary>
-        public string UserAgent { get; set; }
+        public HttpMediaTypeWithQualityHeaderValueCollection Accept
+        {
+            get { return requestMessage.Headers.Accept; }
+        }
+
+        /// <summary>
+        /// Gets the accept encoding header collection for the request.
+        /// </summary>
+        public HttpContentCodingWithQualityHeaderValueCollection AcceptEncoding
+        {
+            get { return requestMessage.Headers.AcceptEncoding; }
+        }
+
+        /// <summary>
+        /// Gets the accept language header for the request.
+        /// </summary>
+        public HttpLanguageRangeWithQualityHeaderValueCollection AcceptLanguage
+        {
+            get { return requestMessage.Headers.AcceptLanguage; }
+        }
+
+        /// <summary>
+        /// Gets the connection header for the request.
+        /// </summary>
+        public HttpConnectionOptionHeaderValueCollection Connection
+        {
+            get { return requestMessage.Headers.Connection; }
+        }
+
+        /// <summary>
+        /// Gets or sets the If-Modified-Since header for the request.
+        /// </summary>
+        public DateTimeOffset? IfModifiedSince
+        {
+            get { return requestMessage.Headers.IfModifiedSince; }
+            set { requestMessage.Headers.IfModifiedSince = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the referer header for the request.
+        /// </summary>
+        public Uri Referer
+        {
+            get { return requestMessage.Headers.Referer; }
+            set { requestMessage.Headers.Referer = value; }
+        }
+
+        /// <summary>
+        /// Gets User Agent to pass to the request.
+        /// </summary>
+        public HttpProductInfoHeaderValueCollection UserAgent
+        {
+            get { return requestMessage.Headers.UserAgent; }
+        }
 
         /// <summary>
         /// Gets or sets authorization related credentials to the request
         /// </summary>
-        public HttpCredentialsHeaderValue Authorization { get; set; }
+        public HttpCredentialsHeaderValue Authorization
+        {
+            get { return requestMessage.Headers.Authorization; }
+            set { requestMessage.Headers.Authorization = value; }
+        }
 
         /// <summary>
         /// Gets collection of headers to pass with the request.
         /// </summary>
-        public Dictionary<string, string> Headers { get; private set; }
+        public Dictionary<string, object> Headers { get; private set; }
 
         /// <summary>
         /// Gets or sets holds request Result.
@@ -81,35 +146,55 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Instance of <see cref="HttpRequestMessage"/></returns>
         public HttpRequestMessage ToHttpRequestMessage()
         {
-            HttpRequestMessage request = new HttpRequestMessage(Method, RequestedUri);
-
-            if (!string.IsNullOrWhiteSpace(UserAgent))
-            {
-                request.Headers.UserAgent.ParseAdd(UserAgent);
-            }
-
-            if (Authorization != null)
-            {
-                request.Headers.Authorization = Authorization;
-            }
-
             if (Headers != null && Headers.Count > 0)
             {
-                foreach (var key in Headers.Keys)
+                foreach (var pair in Headers)
                 {
-                    if (!string.IsNullOrEmpty(Headers[key]))
+                    if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Accept), StringComparison.OrdinalIgnoreCase))
                     {
-                        request.Headers[key] = Headers[key];
+                        Accept.TryParseAdd(pair.Value as string);
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptEncoding), StringComparison.OrdinalIgnoreCase))
+                    {
+                        AcceptEncoding.TryParseAdd(pair.Value as string);
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptLanguage), StringComparison.OrdinalIgnoreCase))
+                    {
+                        AcceptLanguage.TryParseAdd(pair.Value as string);
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Authorization), StringComparison.OrdinalIgnoreCase))
+                    {
+                        Authorization = new HttpCredentialsHeaderValue(nameof(HttpRequestHeaderCollection.Authorization), pair.Value as string);
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Connection), StringComparison.OrdinalIgnoreCase))
+                    {
+                        Connection.TryParseAdd(pair.Value as string);
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.IfModifiedSince), StringComparison.OrdinalIgnoreCase))
+                    {
+                        IfModifiedSince = pair.Value as DateTimeOffset?;
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Referer)))
+                    {
+                        Referer = pair.Value as Uri;
+                    }
+                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.UserAgent), StringComparison.OrdinalIgnoreCase))
+                    {
+                        UserAgent.TryParseAdd(pair.Value as string);
+                    }
+                    else
+                    {
+                        requestMessage.Headers[pair.Key] = pair.Value as string;
                     }
                 }
             }
 
             if (Content != null)
             {
-                request.Content = Content;
+                requestMessage.Content = Content;
             }
 
-            return request;
+            return requestMessage;
         }
 
         /// <summary>

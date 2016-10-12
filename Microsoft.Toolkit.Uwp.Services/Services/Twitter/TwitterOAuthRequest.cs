@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
 
-                request.Headers["Authorization"] = requestBuilder.AuthorizationHeader;
+                request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                request.Headers["Authorization"] = requestBuilder.AuthorizationHeader;
+                request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
@@ -90,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                         {
                             var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                            request.Headers["Authorization"] = requestBuilder.AuthorizationHeader;
+                            request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                             request.Content = multipartFormDataContent;
 
