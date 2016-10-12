@@ -32,13 +32,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var formattableValue = value as IFormattable;
+            var format = parameter as string;
 
-            if (formattableValue == null)
+            if (formattableValue == null || format == null)
             {
                 return value;
             }
 
-            return formattableValue.ToString(parameter as string, null);
+            return formattableValue.ToString(format, null);
         }
 
         /// <summary>
