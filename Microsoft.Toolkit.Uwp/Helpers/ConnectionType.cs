@@ -18,12 +18,6 @@ namespace Microsoft.Toolkit.Uwp
     public enum ConnectionType
     {
         /// <summary>
-        /// No network connection - offline
-        /// </summary>
-        /// 
-        Offline,
-
-        /// <summary>
         /// Connected to wired network
         /// </summary>
         Ethernet,

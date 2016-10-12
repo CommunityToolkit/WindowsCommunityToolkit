@@ -71,12 +71,14 @@ namespace Microsoft.Toolkit.Uwp
             get
             {
                 ConnectionProfile profile = null;
-                ConnectionType connectionType = ConnectionType.Offline;
+                ConnectionType connectionType = ConnectionType.Unknown;
                 try
                 {
                     profile = NetworkInformation.GetInternetConnectionProfile();
                 }
-                catch { }
+                catch
+                {
+                }
 
                 if (profile != null)
                 {

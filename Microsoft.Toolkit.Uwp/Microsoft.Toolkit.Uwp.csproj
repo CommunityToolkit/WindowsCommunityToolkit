@@ -48,8 +48,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="project.json" />
-    <None Include="stylecop.json" />
-    <None Include="stylecop1.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
