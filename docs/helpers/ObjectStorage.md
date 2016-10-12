@@ -35,15 +35,6 @@ If you need to handle local saves of any object (generic), you can use `LocalObj
         ...
     };
     await helper.SaveFileAsync(keySimpleObject, o);
-
-    // Complex object
-    public class MyLargeObject
-    {
-        public string MyContent { get; set; }
-        public List<string> MyContents { get; set; }
-        public List<MyLargeObject> MyObjects { get; set; }
-    }
-
 ```
 
 ### Roaming Storage
@@ -78,15 +69,6 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
         ...
     };
     await helper.SaveFileAsync(keySimpleObject, o);
-
-    // Complex object
-    public class MyLargeObject
-    {
-        public string MyContent { get; set; }
-        public List<string> MyContents { get; set; }
-        public List<MyLargeObject> MyObjects { get; set; }
-    }
-
 ```
 
 ## Requirements (Windows 10 Device Family)
