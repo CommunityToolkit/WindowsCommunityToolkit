@@ -316,7 +316,7 @@
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
-	<Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
+    <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
