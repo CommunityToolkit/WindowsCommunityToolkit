@@ -12,14 +12,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Printing;
 
 namespace Microsoft.Toolkit.Uwp
@@ -27,8 +24,9 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Helper class used to simplify document printing.
     /// Based on <see cref="https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs" />
+    /// It allows you to render a framework element per page.
     /// </summary>
-    public class PrintHelper
+    public class PrintHelper : IDisposable
     {
         /// <summary>
         /// Event raised when print was successful
@@ -134,6 +132,7 @@ namespace Microsoft.Toolkit.Uwp
             printMan.PrintTaskRequested -= PrintTaskRequested;
 
             _printCanvas.Children.Clear();
+            (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
         }
 
         /// <summary>
@@ -162,13 +161,23 @@ namespace Microsoft.Toolkit.Uwp
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    if (args.Completion == PrintTaskCompletion.Failed)
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                        switch (args.Completion)
                         {
-                            OnPrintFailed?.Invoke();
-                        });
-                    }
+                            case PrintTaskCompletion.Failed:
+                            case PrintTaskCompletion.Canceled:
+                            {
+                                OnPrintFailed?.Invoke();
+                                break;
+                            }
+                            case PrintTaskCompletion.Submitted:
+                            {
+                                OnPrintSucceeded?.Invoke();
+                                break;
+                            }
+                        }
+                    });
                 };
 
                 sourceRequested.SetSource(_printDocumentSource);
@@ -254,7 +263,6 @@ namespace Microsoft.Toolkit.Uwp
         private void AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
             var page = new Page();
-            var printableImage = new Image();
 
             // Set "paper" width
             page.Width = printPageDescription.PageSize.Width;
@@ -265,8 +273,12 @@ namespace Microsoft.Toolkit.Uwp
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
-            element.Width = page.Width - marginWidth;
-            element.Height = page.Height - marginHeight;
+            var newWidth = page.Width - marginWidth;
+            var ratio = newWidth / element.Width;
+
+            element.VerticalAlignment = VerticalAlignment.Top;
+            element.Width = newWidth;
+            element.Height = element.Height * ratio;
 
             page.Content = element;
 
@@ -278,6 +290,14 @@ namespace Microsoft.Toolkit.Uwp
 
             // Add the page to the page preview collection
             _printPreviewPages.Add(page);
+        }
+
+        /// <summary>
+        /// Release associated resources
+        /// </summary>
+        public void Dispose()
+        {
+            UnregisterForPrinting();
         }
     }
 }

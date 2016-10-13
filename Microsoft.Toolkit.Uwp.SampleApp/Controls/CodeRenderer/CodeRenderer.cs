@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -83,55 +84,70 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             Shell.Current.DisplayWaitRing = true;
 
-            // await _webView.InvokeScriptAsync("eval", new[] { "window.print();" });
+            _printHelper = new PrintHelper(_container);
 
-            if (_printHelper == null)
+            var widthString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollWidth.toString()" });
+            int contentWidth;
+
+            if (!int.TryParse(widthString, out contentWidth))
             {
-                _printHelper = new PrintHelper(_container);
-
-                double originalWidth = _webView.Width;
-                var widthString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollWidth.toString()" });
-                int contentWidth;
-
-                if (!int.TryParse(widthString, out contentWidth))
-                {
-                    throw new Exception(string.Format("failure/width:{0}", widthString));
-                }
-
-                _webView.Width = contentWidth;
-
-                // resize height to content
-                double originalHeight = _webView.Height;
-                var heightString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
-                int contentHeight;
-
-                if (!int.TryParse(heightString, out contentHeight))
-                {
-                    throw new Exception(string.Format("failure/height:{0}", heightString));
-                }
-
-                _webView.Height = contentHeight;
-
-                WebViewBrush brush = new WebViewBrush();
-                brush.SetSource(_webView);
-                brush.Stretch = Stretch.Uniform;
-
-                brush.Redraw();
-
-                // reset, return
-                _webView.Width = originalWidth;
-                _webView.Height = originalHeight;
-
-                // Send to print
-                var rect = new Rectangle();
-                rect.Fill = brush;
-
-                _printHelper.ElementsToPrint.Add(rect);
+                throw new Exception(string.Format("failure/width:{0}", widthString));
             }
+
+            _webView.Width = contentWidth;
+
+            // resize height to content
+            var heightString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
+            int contentHeight;
+
+            if (!int.TryParse(heightString, out contentHeight))
+            {
+                throw new Exception(string.Format("failure/height:{0}", heightString));
+            }
+
+            _webView.Height = contentHeight;
+
+            WebViewBrush brush = new WebViewBrush();
+            brush.SetSource(_webView);
+            brush.Stretch = Stretch.Uniform;
+
+            brush.Redraw();
+
+            // Send to printer
+            var rect = new Rectangle();
+            rect.Fill = brush;
+            rect.Width = contentWidth;
+            rect.Height = contentHeight;
+
+            _printHelper.ElementsToPrint.Add(rect);
+
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
 
             Shell.Current.DisplayWaitRing = false;
+        }
+
+        private void ReleasePrintHelper()
+        {
+            _webView.Width = double.NaN;
+            _webView.Height = double.NaN;
+            _printHelper.Dispose();
+        }
+
+        private async void PrintHelper_OnPrintSucceeded()
+        {
+            ReleasePrintHelper();
+            var dialog = new MessageDialog("Printing done.");
+            await dialog.ShowAsync();
+        }
+
+        private async void PrintHelper_OnPrintFailed()
+        {
+            ReleasePrintHelper();
+            var dialog = new MessageDialog("Printing failed.");
+            await dialog.ShowAsync();
         }
 
         private async Task ShowDocument(string docText, string pattern)
