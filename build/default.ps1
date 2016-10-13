@@ -21,6 +21,10 @@ Framework "4.6x86"
 
 task default -depends ?
 
+Task SetEnvironment {
+  Exec { & $env:VS140COMNTOOLS\vsvars32.bat }
+}
+
 task UpdateHeaders -description "Updates the headers in *.cs files" {
   $header = [System.IO.File]::ReadAllText("$buildDir\header.txt")
 
@@ -50,7 +54,7 @@ task Clean -description "Clean the output folder" {
   New-Item -Path $binDir -ItemType Directory | Out-Null
 }
 
-task Setup -description "Setup environment" {
+task Setup -Depends SetEnvironment -description "Setup environment" {
   WriteColoredOutput -ForegroundColor Green "Restoring NuGet packages...`n"
   
   Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
