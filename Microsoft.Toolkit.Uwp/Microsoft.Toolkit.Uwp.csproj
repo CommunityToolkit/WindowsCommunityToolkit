@@ -57,6 +57,7 @@
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
+    <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />

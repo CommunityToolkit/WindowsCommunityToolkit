@@ -44,9 +44,24 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:CodeRenderer">
                         <Grid>
-                            <ProgressRing Name="progress" Width="100" Height="100" Foreground="{TemplateBinding Foreground}" 
-                                          IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <WebView Name="webView" Visibility="Collapsed"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button 
+                                    x:Name="PrintButton"
+                                    HorizontalAlignment="Right" 
+                                    Content="Print"
+                                    Grid.Row="0"/>
+                            <ProgressRing Name="progress" 
+                                          Grid.Row="1"
+                                          Width="100" 
+                                          Height="100" 
+                                          Foreground="{TemplateBinding Foreground}" 
+                                          IsActive="True" 
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Center"/>
+                            <WebView Name="webView" Visibility="Collapsed" Grid.Row="1"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
