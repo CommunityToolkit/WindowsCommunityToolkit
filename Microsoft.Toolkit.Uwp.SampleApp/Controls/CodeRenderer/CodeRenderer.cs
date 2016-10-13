@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using Newtonsoft.Json;
-using Windows.Graphics.Printing;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Printing;
-using Windows.UI.Popups;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -31,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private ProgressRing _progress;
         private WebView _webView;
         private Button _printButton;
+        private PrintHelper _printHelper;
+        private Grid _container;
 
         private bool _isInitialized;
 
@@ -54,6 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _progress = GetTemplateChild("progress") as ProgressRing;
             _webView = GetTemplateChild("webView") as WebView;
             _printButton = GetTemplateChild("PrintButton") as Button;
+            _container = GetTemplateChild("Container") as Grid;
 
             if (_webView != null)
             {
@@ -78,80 +81,57 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private async void PrintButton_Click(object sender, RoutedEventArgs e)
         {
-            PrintManager printMan = PrintManager.GetForCurrentView();
-            printMan.PrintTaskRequested += PrintTaskRequested;
-
             Shell.Current.DisplayWaitRing = true;
 
-            await PrintManager.ShowPrintUIAsync();
+            // await _webView.InvokeScriptAsync("eval", new[] { "window.print();" });
+
+            if (_printHelper == null)
+            {
+                _printHelper = new PrintHelper(_container);
+
+                double originalWidth = _webView.Width;
+                var widthString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollWidth.toString()" });
+                int contentWidth;
+
+                if (!int.TryParse(widthString, out contentWidth))
+                {
+                    throw new Exception(string.Format("failure/width:{0}", widthString));
+                }
+
+                _webView.Width = contentWidth;
+
+                // resize height to content
+                double originalHeight = _webView.Height;
+                var heightString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
+                int contentHeight;
+
+                if (!int.TryParse(heightString, out contentHeight))
+                {
+                    throw new Exception(string.Format("failure/height:{0}", heightString));
+                }
+
+                _webView.Height = contentHeight;
+
+                WebViewBrush brush = new WebViewBrush();
+                brush.SetSource(_webView);
+                brush.Stretch = Stretch.Uniform;
+
+                brush.Redraw();
+
+                // reset, return
+                _webView.Width = originalWidth;
+                _webView.Height = originalHeight;
+
+                // Send to print
+                var rect = new Rectangle();
+                rect.Fill = brush;
+
+                _printHelper.ElementsToPrint.Add(rect);
+            }
+
+            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
 
             Shell.Current.DisplayWaitRing = false;
-        }
-
-        private void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)
-        {
-            PrintTask printTask = null;
-            printTask = e.Request.CreatePrintTask("UWP Community Toolkit Sample App", sourceRequested =>
-            {
-                // Print Task event handler is invoked when the print job is completed.
-                printTask.Completed += async (s, args) =>
-                {
-                    // Notify the user when the print operation fails.
-                    if (args.Completion == PrintTaskCompletion.Failed)
-                    {
-                        var dialog = new MessageDialog("Failed to print.");
-                        await dialog.ShowAsync();
-                    }
-                };
-
-                var printDocument = new PrintDocument();
-
-                var printDocumentSource = printDocument.DocumentSource;
-                printDocument.Paginate += CreatePrintPreviewPages;
-                printDocument.GetPreviewPage += GetPrintPreviewPage;
-                printDocument.AddPages += AddPrintPages;
-
-                sourceRequested.SetSource(printDocumentSource);
-            });
-        }
-
-        private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
-        {
-            // Clear the cache of preview pages
-            printPreviewPages.Clear();
-
-            // Clear the print canvas of preview pages
-            PrintCanvas.Children.Clear();
-
-            // This variable keeps track of the last RichTextBlockOverflow element that was added to a page which will be printed
-            RichTextBlockOverflow lastRTBOOnPage;
-
-            // Get the PrintTaskOptions
-            PrintTaskOptions printingOptions = ((PrintTaskOptions)e.PrintTaskOptions);
-
-            // Get the page description to deterimine how big the page is
-            PrintPageDescription pageDescription = printingOptions.GetPageDescription(0);
-
-            // We know there is at least one page to be printed. passing null as the first parameter to
-            // AddOnePrintPreviewPage tells the function to add the first page.
-            lastRTBOOnPage = AddOnePrintPreviewPage(null, pageDescription);
-
-            // We know there are more pages to be added as long as the last RichTextBoxOverflow added to a print preview
-            // page has extra content
-            while (lastRTBOOnPage.HasOverflowContent && lastRTBOOnPage.Visibility == Windows.UI.Xaml.Visibility.Visible)
-            {
-                lastRTBOOnPage = AddOnePrintPreviewPage(lastRTBOOnPage, pageDescription);
-            }
-
-            if (PreviewPagesCreated != null)
-            {
-                PreviewPagesCreated.Invoke(printPreviewPages, null);
-            }
-
-            PrintDocument printDoc = (PrintDocument)sender;
-
-            // Report the number of preview pages created
-            printDoc.SetPreviewPageCount(printPreviewPages.Count, PreviewPageCountType.Intermediate);
         }
 
         private async Task ShowDocument(string docText, string pattern)

@@ -1,11 +1,25 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Printing;
 
 namespace Microsoft.Toolkit.Uwp
@@ -73,10 +87,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
-        public PrintHelper()
+        public PrintHelper(Panel canvasContainer)
         {
             _printPreviewPages = new List<UIElement>();
             _printCanvas = new Canvas();
+            _printCanvas.Opacity = 0;
+
+            canvasContainer.Children.Add(_printCanvas);
 
             ElementsToPrint = new List<FrameworkElement>();
 
@@ -123,23 +140,12 @@ namespace Microsoft.Toolkit.Uwp
         /// Start the print task.
         /// </summary>
         /// <param name="printTaskName">Name of the print task to use</param>
-        public async void ShowPrintUIAsync(string printTaskName)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        public async Task ShowPrintUIAsync(string printTaskName)
         {
+            // Launch print process
             _printTaskName = printTaskName;
             await PrintManager.ShowPrintUIAsync();
-        }
-
-        /// <summary>
-        /// Method that will generate print content
-        /// </summary>
-        /// <param name="page">The page to print</param>
-        public void PreparePrintContent(Page page)
-        {
-            // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
-            // through layout so that the linked containers correctly distribute the content inside them.
-            _printCanvas.Children.Add(page);
-            _printCanvas.InvalidateMeasure();
-            _printCanvas.UpdateLayout();
         }
 
         /// <summary>
@@ -243,24 +249,26 @@ namespace Microsoft.Toolkit.Uwp
         /// This function creates and adds one print preview page to the internal cache of print preview
         /// pages stored in printPreviewPages.
         /// </summary>
-        /// <param name="page">XAML element that is used to represent the "printing page"</param>
+        /// <param name="element">FrameworkElement that is used to represent the "printing page"</param>
         /// <param name="printPageDescription">Printer's page description</param>
-        private void AddOnePrintPreviewPage(FrameworkElement page, PrintPageDescription printPageDescription)
+        private void AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
+            var page = new Page();
+            var printableImage = new Image();
+
             // Set "paper" width
             page.Width = printPageDescription.PageSize.Width;
             page.Height = printPageDescription.PageSize.Height;
 
-            Grid printableArea = (Grid)page.FindName("PrintableArea");
-
             // Get the margins size
-            // If the ImageableRect is smaller than the app provided margins use the ImageableRect
             double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
-            printableArea.Width = page.Width - marginWidth;
-            printableArea.Height = page.Height - marginHeight;
+            element.Width = page.Width - marginWidth;
+            element.Height = page.Height - marginHeight;
+
+            page.Content = element;
 
             // Add the (newley created) page to the print canvas which is part of the visual tree and force it to go
             // through layout so that the linked containers correctly distribute the content inside them.

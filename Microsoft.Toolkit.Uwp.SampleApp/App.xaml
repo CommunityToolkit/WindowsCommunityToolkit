@@ -48,6 +48,9 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
+                            <Grid Opacity="0"
+                                  Grid.RowSpan="2"
+                                  x:Name="Container"/>
                             <Button 
                                     x:Name="PrintButton"
                                     HorizontalAlignment="Right" 
