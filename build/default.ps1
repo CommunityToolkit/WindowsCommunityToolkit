@@ -139,7 +139,7 @@ task PackNuGetNoBuild -description "Create the NuGet packages with existing bina
   Get-ChildItem $buildDir\*.nuspec | % {
     $fullFilename = $_.FullName
     
-    Exec { .$nuget pack "$fullFilename" -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
+    Exec { .$nuget pack "$fullFilename" -symbols -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
   }
 }
 
