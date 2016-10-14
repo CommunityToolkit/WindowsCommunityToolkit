@@ -60,7 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void SetSource(object source)
         {
-
             if (_isInitialized)
             {
                 _image.Source = null;

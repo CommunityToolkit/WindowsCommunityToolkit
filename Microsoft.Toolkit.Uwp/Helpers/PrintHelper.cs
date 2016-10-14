@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Helper class used to simplify document printing.
-    /// Based on <see cref="https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs" />
+    /// Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs />
     /// It allows you to render a framework element per page.
     /// </summary>
     public class PrintHelper : IDisposable
@@ -41,15 +41,15 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Event which is called after print preview pages are generated.
         /// </summary>
-        public event Action<List<UIElement>> PreviewPagesCreated;
+        public event Action<List<Page>> PreviewPagesCreated;
 
         /// <summary>
-        /// Gets or sets the percent of app's margin width, content is set at 85% (0.85) of the area's width
+        /// Gets or sets the percent of app's margin width
         /// </summary>
-        public double ApplicationContentMarginLeft { get; set; } = 0.075;
+        public double ApplicationContentMarginLeft { get; set; } = 0.03;
 
         /// <summary>
-        /// Gets or sets the percent of app's margin height, content is set at 94% (0.94) of tha area's height
+        /// Gets or sets the percent of app's margin height
         /// </summary>
         public double ApplicationContentMarginTop { get; set; } = 0.03;
 
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp
         /// A list of UIElements used to store the print preview pages.  This gives easy access
         /// to any desired preview page.
         /// </summary>
-        private List<UIElement> _printPreviewPages;
+        private List<Page> _printPreviewPages;
 
         /// <summary>
         ///  A hidden canvas used to hold pages we wish to print
@@ -80,20 +80,21 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the list of Framework element to print
         /// </summary>
-        public List<FrameworkElement> ElementsToPrint { get; private set; }
+        private List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
+        /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
         public PrintHelper(Panel canvasContainer)
         {
-            _printPreviewPages = new List<UIElement>();
+            _printPreviewPages = new List<Page>();
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
 
             canvasContainer.Children.Add(_printCanvas);
 
-            ElementsToPrint = new List<FrameworkElement>();
+            _elementsToPrint = new List<FrameworkElement>();
 
             RegisterForPrinting();
         }
@@ -133,6 +134,46 @@ namespace Microsoft.Toolkit.Uwp
 
             _printCanvas.Children.Clear();
             (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
+
+            // Clear the cache of preview pages
+            foreach (var page in _printPreviewPages)
+            {
+                page.Content = null;
+            }
+
+            _printPreviewPages.Clear();
+        }
+
+        /// <summary>
+        /// Add an element to the list of printable elements.
+        /// </summary>
+        /// <param name="element">Framework element to print</param>
+        /// <remarks>The element cannot have a parent. He must not be included in any visual tree.</remarks>
+        public void AddFrameworkElementToPrint(FrameworkElement element)
+        {
+            if (element.Parent != null)
+            {
+                throw new ArgumentException("Printable elements cannot have a parent.");
+            }
+
+            _elementsToPrint.Add(element);
+        }
+
+        /// <summary>
+        /// Remove an element from the list of printable elements
+        /// </summary>
+        /// <param name="element">Framework element to remove</param>
+        public void RemoveFrameworkElementToPrint(FrameworkElement element)
+        {
+            _elementsToPrint.Remove(element);
+        }
+
+        /// <summary>
+        /// Empties the list of printable elements
+        /// </summary>
+        public void ClearListOfPrintableFrameworkElements()
+        {
+            _elementsToPrint.Clear();
         }
 
         /// <summary>
@@ -145,6 +186,14 @@ namespace Microsoft.Toolkit.Uwp
             // Launch print process
             _printTaskName = printTaskName;
             await PrintManager.ShowPrintUIAsync();
+        }
+
+        /// <summary>
+        /// Release associated resources
+        /// </summary>
+        public void Dispose()
+        {
+            UnregisterForPrinting();
         }
 
         /// <summary>
@@ -192,6 +241,11 @@ namespace Microsoft.Toolkit.Uwp
         private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
             // Clear the cache of preview pages
+            foreach (var page in _printPreviewPages)
+            {
+                page.Content = null;
+            }
+
             _printPreviewPages.Clear();
 
             // Clear the print canvas of preview pages
@@ -203,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp
             // Get the page description to determine how big the page is
             PrintPageDescription pageDescription = printingOptions.GetPageDescription(0);
 
-            foreach (var element in ElementsToPrint)
+            foreach (var element in _elementsToPrint)
             {
                 AddOnePrintPreviewPage(element, pageDescription);
             }
@@ -273,13 +327,25 @@ namespace Microsoft.Toolkit.Uwp
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
-            var newWidth = page.Width - marginWidth;
-            var ratio = newWidth / element.Width;
-
             element.VerticalAlignment = VerticalAlignment.Top;
-            element.Width = newWidth;
-            element.Height = element.Height * ratio;
+            element.HorizontalAlignment = HorizontalAlignment.Left;
 
+            if (element.Width > element.Height)
+            {
+                var newWidth = page.Width - marginWidth;
+
+                element.Height = element.Height * (newWidth / element.Width);
+                element.Width = newWidth;
+            }
+            else
+            {
+                var newHeight = page.Height - marginHeight;
+
+                element.Width = element.Width * (newHeight / element.Height);
+                element.Height = newHeight;
+            }
+
+            element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
             // Add the (newley created) page to the print canvas which is part of the visual tree and force it to go
@@ -290,14 +356,6 @@ namespace Microsoft.Toolkit.Uwp
 
             // Add the page to the page preview collection
             _printPreviewPages.Add(page);
-        }
-
-        /// <summary>
-        /// Release associated resources
-        /// </summary>
-        public void Dispose()
-        {
-            UnregisterForPrinting();
         }
     }
 }

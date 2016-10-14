@@ -17,13 +17,12 @@ using System.Xml;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -80,12 +79,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             base.OnApplyTemplate();
         }
 
-        private async void PrintButton_Click(object sender, RoutedEventArgs e)
+        private async Task<Rectangle> PrepareWebViewForPrintingAsync()
         {
-            Shell.Current.DisplayWaitRing = true;
-
-            _printHelper = new PrintHelper(_container);
-
             var widthString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollWidth.toString()" });
             int contentWidth;
 
@@ -119,14 +114,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             rect.Width = contentWidth;
             rect.Height = contentHeight;
 
-            _printHelper.ElementsToPrint.Add(rect);
+            return rect;
+        }
+
+        private async void PrintButton_Click(object sender, RoutedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            _printHelper = new PrintHelper(_container);
+            _printHelper.AddFrameworkElementToPrint(await PrepareWebViewForPrintingAsync());
 
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
-
-            Shell.Current.DisplayWaitRing = false;
         }
 
         private void ReleasePrintHelper()
@@ -134,6 +135,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _webView.Width = double.NaN;
             _webView.Height = double.NaN;
             _printHelper.Dispose();
+
+            Shell.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()
