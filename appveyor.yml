@@ -1,0 +1,21 @@
+image: Visual Studio 2015
+
+branches:
+  only:
+  - dev
+  - master
+  - build
+
+skip_branch_with_pr: true
+nuget:
+  disable_publish_on_pr: true
+  
+skip_commits:
+  files:
+    - 'docs/**/*.*'  
+    
+init:
+- ps: git config --global core.autocrlf true
+
+build_script:
+- ps: .\build\build.ps1 publishnuget
