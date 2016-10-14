@@ -6,6 +6,10 @@ branches:
   - master
   - build
 
+environment:
+  SignClientSecret:
+    secure: VTO9eDpMF+nIWNKN8ERYk52veXovg3lBm9HA1K9NXq1WukzRTWQtDBdAf3hUS5oL
+
 skip_branch_with_pr: true
 nuget:
   disable_publish_on_pr: true
@@ -18,7 +22,7 @@ init:
 - ps: git config --global core.autocrlf true
 
 build_script:
-- ps: .\build\build.ps1 PackNuGet
+- ps: .\build\build.ps1 SignNuGet
 
 artifacts:
 - path: .\bin\nupkg\*.nupkg
