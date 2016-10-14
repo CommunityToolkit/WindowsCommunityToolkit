@@ -76,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp
         private Canvas _printCanvas;
 
         private string _printTaskName;
+        private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
 
         /// <summary>
         /// Gets the list of Framework element to print
@@ -88,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
         public PrintHelper(Panel canvasContainer)
         {
+            if (canvasContainer == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             _printPreviewPages = new List<Page>();
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
@@ -136,12 +142,7 @@ namespace Microsoft.Toolkit.Uwp
             (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
 
             // Clear the cache of preview pages
-            foreach (var page in _printPreviewPages)
-            {
-                page.Content = null;
-            }
-
-            _printPreviewPages.Clear();
+            ClearPageCache();
         }
 
         /// <summary>
@@ -212,19 +213,25 @@ namespace Microsoft.Toolkit.Uwp
                     // Notify the user when the print operation fails.
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
+                        foreach (var element in _stateBags.Keys)
+                        {
+                            _stateBags[element].Restore(element);
+                        }
+                        _stateBags.Clear();
+
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
                             case PrintTaskCompletion.Canceled:
-                            {
-                                OnPrintFailed?.Invoke();
-                                break;
-                            }
+                                {
+                                    OnPrintFailed?.Invoke();
+                                    break;
+                                }
                             case PrintTaskCompletion.Submitted:
-                            {
-                                OnPrintSucceeded?.Invoke();
-                                break;
-                            }
+                                {
+                                    OnPrintSucceeded?.Invoke();
+                                    break;
+                                }
                         }
                     });
                 };
@@ -241,12 +248,7 @@ namespace Microsoft.Toolkit.Uwp
         private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
             // Clear the cache of preview pages
-            foreach (var page in _printPreviewPages)
-            {
-                page.Content = null;
-            }
-
-            _printPreviewPages.Clear();
+            ClearPageCache();
 
             // Clear the print canvas of preview pages
             _printCanvas.Children.Clear();
@@ -327,6 +329,10 @@ namespace Microsoft.Toolkit.Uwp
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
+            var stateBag = new PrintHelperStateBag();
+            stateBag.Capture(element);
+            _stateBags.Add(element, stateBag);
+
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -356,6 +362,17 @@ namespace Microsoft.Toolkit.Uwp
 
             // Add the page to the page preview collection
             _printPreviewPages.Add(page);
+        }
+
+        private void ClearPageCache()
+        {
+            foreach (var page in _printPreviewPages)
+            {
+                page.Content = null;
+            }
+
+            _stateBags.Clear();
+            _printPreviewPages.Clear();
         }
     }
 }

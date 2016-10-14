@@ -43,8 +43,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _printHelper.Dispose();
             RootGrid.Children.Add(PrintableContent);
-            PrintableContent.Width = double.NaN;
-            PrintableContent.Height = double.NaN;
 
             Shell.Current.DisplayWaitRing = false;
         }
