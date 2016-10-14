@@ -11,13 +11,11 @@
         <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
                 <controls:QuickReturnHeader TargetListViewBase="{x:Bind listView}" IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}" IsSticky="{Binding IsSticky.Value}">
-                    <StackPanel Padding="12" Background="#F0F0F0">
-                        <TextBlock Text="Header 1" />
-                        <TextBlock Text="Header 2" />
-                        <TextBlock Text="Header 3" />
-                        <TextBlock Text="Header 4" />
-                        <TextBlock Text="Header 5" />
-                        <TextBlock Text="Header 6" />
+                    <StackPanel Padding="12" Background="#F0F0F0" BorderThickness="0,0,0,1" BorderBrush="#FFCCCCCC">
+                        <TextBlock Text="Quick Return Header" Foreground="Black" Style="{ThemeResource TitleTextBlockStyle}" />
+                        <TextBlock Text="The quick return header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again."
+                                   Foreground="Black"
+                                   Style="{ThemeResource BodyTextBlockStyle}" />
                     </StackPanel>
                 </controls:QuickReturnHeader>
             </ListView.Header>
