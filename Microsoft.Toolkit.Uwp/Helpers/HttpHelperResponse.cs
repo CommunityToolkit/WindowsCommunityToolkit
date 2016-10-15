@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (this.Result == null)
             {
-                return null;
+                return Task.FromResult<string>(null);
             }
 
             return Result.ReadAsStringAsync().AsTask();

@@ -53,6 +53,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
+        /// </summary>
+        public bool MaintainContext { get; set; }
+
+        /// <summary>
         /// Gets or sets the life duration of every cache entry.
         /// </summary>
         public TimeSpan CacheDuration { get; set; }
@@ -96,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
             var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
-            await InternalClearAsync(files);
+            await InternalClearAsync(files).ConfigureAwait(false);
 
             _inMemoryFileStorage.Clear();
         }
@@ -184,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             // if similar request exists check if it was preCacheOnly and validate that current request isn't preCacheOnly
             if (request != null && request.EnsureCachedCopy && !preCacheOnly)
             {
-                await request.Task;
+                await request.Task.ConfigureAwait(MaintainContext);
                 request = null;
             }
 
@@ -204,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                instance = await request.Task;
+                instance = await request.Task.ConfigureAwait(MaintainContext);
             }
             catch (Exception ex)
             {
@@ -248,12 +253,12 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return instance;
             }
 
-            var folder = await GetCacheFolderAsync();
+            var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
 
-            baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
-            if (await IsFileOutOfDate(baseFile, expirationDate))
+            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
+            if (await IsFileOutOfDate(baseFile, expirationDate).ConfigureAwait(MaintainContext))
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
                 try
                 {
                     instance = await DownloadFileAsync(uri, baseFile, preCacheOnly).ConfigureAwait(false);
@@ -267,7 +272,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read))
+                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read).AsTask().ConfigureAwait(MaintainContext))
                 {
                     instance = await InitializeTypeAsync(fileStream).ConfigureAwait(false);
                 }
@@ -288,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri).ConfigureAwait(MaintainContext))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)

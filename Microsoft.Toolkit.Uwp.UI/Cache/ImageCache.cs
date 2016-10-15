@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
+        public static ImageCache Instance => _instance ?? (_instance = new ImageCache() { MaintainContext = true });
 
         /// <summary>
         /// Cache specific hooks to proccess items from http response
@@ -40,11 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
         {
-            if (stream?.Size == 0)
-            {
-                return null;
-            }
-
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
 
@@ -58,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
         {
-            using (var stream = await baseFile.OpenReadAsync())
+            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
             {
                 return await InitializeTypeAsync(stream).ConfigureAwait(false);
             }

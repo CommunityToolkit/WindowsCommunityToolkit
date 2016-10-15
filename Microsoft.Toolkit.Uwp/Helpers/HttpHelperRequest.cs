@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="method">Method to use when making the request</param>
         public HttpHelperRequest(Uri uri, HttpMethod method)
         {
-            Headers = new Dictionary<string, object>();
+            Headers = new Dictionary<string, string>();
 
             requestMessage = new HttpRequestMessage(method, uri);
         }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets the accept header colletion for the request.
+        /// Gets the accept header collection for the request.
         /// </summary>
         public HttpMediaTypeWithQualityHeaderValueCollection Accept
         {
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets collection of headers to pass with the request.
         /// </summary>
-        public Dictionary<string, object> Headers { get; private set; }
+        public Dictionary<string, string> Headers { get; private set; }
 
         /// <summary>
         /// Gets or sets holds request Result.
@@ -152,39 +152,39 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Accept), StringComparison.OrdinalIgnoreCase))
                     {
-                        Accept.TryParseAdd(pair.Value as string);
+                        Accept.ParseAdd(pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptEncoding), StringComparison.OrdinalIgnoreCase))
                     {
-                        AcceptEncoding.TryParseAdd(pair.Value as string);
+                        AcceptEncoding.ParseAdd(pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptLanguage), StringComparison.OrdinalIgnoreCase))
                     {
-                        AcceptLanguage.TryParseAdd(pair.Value as string);
+                        AcceptLanguage.ParseAdd(pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Authorization), StringComparison.OrdinalIgnoreCase))
                     {
-                        Authorization = new HttpCredentialsHeaderValue(nameof(HttpRequestHeaderCollection.Authorization), pair.Value as string);
+                        Authorization = new HttpCredentialsHeaderValue(nameof(HttpRequestHeaderCollection.Authorization), pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Connection), StringComparison.OrdinalIgnoreCase))
                     {
-                        Connection.TryParseAdd(pair.Value as string);
+                        Connection.ParseAdd(pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.IfModifiedSince), StringComparison.OrdinalIgnoreCase))
                     {
-                        IfModifiedSince = pair.Value as DateTimeOffset?;
+                        IfModifiedSince = new DateTimeOffset(DateTime.Parse(pair.Value));
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Referer)))
                     {
-                        Referer = pair.Value as Uri;
+                        Referer = new Uri(pair.Value);
                     }
                     else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.UserAgent), StringComparison.OrdinalIgnoreCase))
                     {
-                        UserAgent.TryParseAdd(pair.Value as string);
+                        UserAgent.ParseAdd(pair.Value);
                     }
                     else
                     {
-                        requestMessage.Headers[pair.Key] = pair.Value as string;
+                        requestMessage.Headers[pair.Key] = pair.Value;
                     }
                 }
             }
