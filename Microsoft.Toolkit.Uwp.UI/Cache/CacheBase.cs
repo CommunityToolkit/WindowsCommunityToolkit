@@ -25,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
     public abstract class CacheBase<T>
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
+        /// </summary>
+        protected bool MaintainContext { get; set; }
+
         private class ConcurrentRequest
         {
             public Task<T> Task { get; set; }
@@ -51,11 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             CacheDuration = TimeSpan.FromDays(1);
             _inMemoryFileStorage = new InMemoryStorage<T>();
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
-        /// </summary>
-        public bool MaintainContext { get; set; }
 
         /// <summary>
         /// Gets or sets the life duration of every cache entry.
