@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
+using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -62,14 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DisplayVisibleProperty = DependencyProperty.Register(
             nameof(DisplayVisible), typeof(MasterDetailDisplayVisible), typeof(MasterDetail), new PropertyMetadata(default(MasterDetailDisplayVisible), OnDisplayVisibleChanged));
 
-        private static void OnDisplayVisibleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((MasterDetailDisplayVisible)e.OldValue != (MasterDetailDisplayVisible)e.NewValue)
-            {
-                (sender as MasterDetail)?.SendDisplayVisibleChangedEvent();
-            }
-        }
-
         /// <summary>
         ///     The no selection view property
         /// </summary>
@@ -83,22 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(MasterWidth), typeof(double), typeof(MasterDetail), new PropertyMetadata(default(double)));
 
         /// <summary>
-        /// The display system back button on detail property
+        ///     The display system back button on detail property
         /// </summary>
         public static readonly DependencyProperty DisplaySystemBackButtonOnDetailProperty = DependencyProperty.Register(
             nameof(DisplaySystemBackButtonOnDetail), typeof(bool), typeof(MasterDetail), new PropertyMetadata(default(bool)));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [display system back button on detail].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [display system back button on detail]; otherwise, <c>false</c>.
-        /// </value>
-        public bool DisplaySystemBackButtonOnDetail
-        {
-            get { return (bool)GetValue(DisplaySystemBackButtonOnDetailProperty); }
-            set { SetValue(DisplaySystemBackButtonOnDetailProperty, value); }
-        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MasterDetail" /> class.
@@ -112,6 +105,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether [display system back button on detail].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [display system back button on detail]; otherwise, <c>false</c>.
+        /// </value>
+        public bool DisplaySystemBackButtonOnDetail
+        {
+            get { return (bool) GetValue(DisplaySystemBackButtonOnDetailProperty); }
+            set { SetValue(DisplaySystemBackButtonOnDetailProperty, value); }
+        }
+
+        /// <summary>
         ///     Gets or sets the width of the master.
         /// </summary>
         /// <value>
@@ -119,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public double MasterWidth
         {
-            get { return (double)GetValue(MasterWidthProperty); }
+            get { return (double) GetValue(MasterWidthProperty); }
             set { SetValue(MasterWidthProperty, value); }
         }
 
@@ -131,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public UIElement NoSelectionView
         {
-            get { return (UIElement)GetValue(NoSelectionViewProperty); }
+            get { return (UIElement) GetValue(NoSelectionViewProperty); }
             set { SetValue(NoSelectionViewProperty, value); }
         }
 
@@ -143,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public UIElement Master
         {
-            get { return (UIElement)GetValue(MasterProperty); }
+            get { return (UIElement) GetValue(MasterProperty); }
             set { SetValue(MasterProperty, value); }
         }
 
@@ -167,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public DataTemplate DetailTemplate
         {
-            get { return (DataTemplate)GetValue(DetailTemplateProperty); }
+            get { return (DataTemplate) GetValue(DetailTemplateProperty); }
             set { SetValue(DetailTemplateProperty, value); }
         }
 
@@ -179,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public DataTemplateSelector DetailTemplateSelector
         {
-            get { return (DataTemplateSelector)GetValue(DetailTemplateSelectorProperty); }
+            get { return (DataTemplateSelector) GetValue(DetailTemplateSelectorProperty); }
             set { SetValue(DetailTemplateSelectorProperty, value); }
         }
 
@@ -191,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public MasterDetailDisplayMode DisplayMode
         {
-            get { return (MasterDetailDisplayMode)GetValue(DisplayModeProperty); }
+            get { return (MasterDetailDisplayMode) GetValue(DisplayModeProperty); }
             set { SetValue(DisplayModeProperty, value); }
         }
 
@@ -203,8 +208,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public MasterDetailDisplayVisible DisplayVisible
         {
-            get { return (MasterDetailDisplayVisible)GetValue(DisplayVisibleProperty); }
+            get { return (MasterDetailDisplayVisible) GetValue(DisplayVisibleProperty); }
             set { SetValue(DisplayVisibleProperty, value); }
+        }
+
+        private static void OnDisplayVisibleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((MasterDetailDisplayVisible) e.OldValue != (MasterDetailDisplayVisible) e.NewValue)
+                (sender as MasterDetail)?.SendDisplayVisibleChangedEvent();
         }
 
         /// <summary>
@@ -213,7 +224,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<DisplayVisibleArgs> DisplayVisibleChanged;
 
         /// <summary>
-        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays in your app. Override this method to influence the default post-template logic of a class.
+        ///     Invoked whenever application code or internal processes (such as a rebuilding layout pass) call ApplyTemplate. In
+        ///     simplest terms, this means the method is called just before a UI element displays in your app. Override this method
+        ///     to influence the default post-template logic of a class.
         /// </summary>
         protected override void OnApplyTemplate()
         {
@@ -224,34 +237,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
+            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
                 HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
-            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
 
             var frame = Window.Current.Content as Frame;
             if (frame != null)
-            {
                 frame.Navigating -= FrameOnNavigating;
-            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
+            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             var frame = Window.Current.Content as Frame;
             if (frame != null)
-            {
                 frame.Navigating += FrameOnNavigating;
-            }
         }
 
         private void FrameOnNavigating(object sender, NavigatingCancelEventArgs e)
@@ -301,11 +306,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (DisplaySystemBackButtonOnDetail)
             {
-                var backButtonShouldBeShown = DisplayMode == MasterDetailDisplayMode.Compact && Detail != null;
+                var backButtonShouldBeShown = (DisplayMode == MasterDetailDisplayMode.Compact) && (Detail != null);
                 if (backButtonShouldBeShown)
-                {
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                }
             }
         }
 
@@ -329,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     throw new ArgumentOutOfRangeException();
             }
 
-            var selectionState = Detail != null || DisplayMode == MasterDetailDisplayMode.Compact ? HasSelectionState : HasNoSelectionState;
+            var selectionState = (Detail != null) || (DisplayMode == MasterDetailDisplayMode.Compact) ? HasSelectionState : HasNoSelectionState;
             VisualStateManager.GoToState(this, selectionState, true);
         }
 
