@@ -26,8 +26,8 @@ The StorageFileHelper is a static utility class that provides functions to help 
 	// Check if a file exists in a specific folder
 	bool exists = await StorageFileHelper.FileExistsAsync(localFolder, "appFilename.txt");
 
-	// Check if a file exists in a folder or one of its subfolders
-	bool exists = await StorageFileHelper.FileExistsInSubtreeAsync(localFolder, "appFilename.txt");
+	// Check if a file exists in a specific folder or in one of its subfolders
+	bool exists = await StorageFileHelper.FileExistsAsync(localFolder, "appFilename.txt", true);
 
 ```
 

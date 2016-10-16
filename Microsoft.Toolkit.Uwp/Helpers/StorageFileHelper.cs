@@ -600,7 +600,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
-        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string fileName)
+        internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
             var item = await folder.TryGetItemAsync(fileName);
             return (item != null) && item.IsOfType(StorageItemTypes.File);
@@ -621,7 +621,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
-        public static async Task<bool> FileExistsInSubtreeAsync(this StorageFolder rootFolder, string fileName)
+        internal static async Task<bool> FileExistsInSubtreeAsync(StorageFolder rootFolder, string fileName)
         {
             if (fileName.IndexOf('"') >= 0)
             {
@@ -656,7 +656,7 @@ namespace Microsoft.Toolkit.Uwp
         public static async Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
             => isRecursive
                 ? await FileExistsInSubtreeAsync(folder, fileName)
-                : await FileExistsAsync(folder, fileName);
+                : await FileExistsInFolderAsync(folder, fileName);
 
         /// <summary>
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
