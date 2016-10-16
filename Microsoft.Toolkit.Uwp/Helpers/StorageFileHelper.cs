@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp
@@ -586,6 +587,76 @@ namespace Microsoft.Toolkit.Uwp
                 }
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether a file exists in the current folder or not.
+        /// </summary>
+        /// <param name="folder">
+        /// The <see cref="StorageFolder"/> to look for the file in.
+        /// </param>
+        /// <param name="filename">
+        /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
+        /// </param>
+        /// <returns>
+        /// Returns true, if the file exists.
+        /// </returns>
+        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string filename)
+        {
+            var item = await folder.TryGetItemAsync(filename);
+            return (item != null) && item.IsOfType(StorageItemTypes.File);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether a file exists in the current folder and its subfolders or not.
+        /// </summary>
+        /// <param name="rootFolder">
+        /// The <see cref="StorageFolder"/> to look for the file in.
+        /// </param>
+        /// <param name="filename">
+        /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
+        /// </param>
+        /// <returns>
+        /// Returns true, if the file exists.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Exception thrown if the <paramref name="filename"/> is null or empty.
+        /// </exception>
+        public static async Task<bool> FileExistsInSubtreeAsync(this StorageFolder rootFolder, string filename)
+        {
+            if (filename.IndexOf('"') >= 0)
+            {
+                throw new ArgumentException("filename");
+            }
+
+            var options = new QueryOptions
+            {
+                FolderDepth = FolderDepth.Deep,
+                UserSearchFilter = $"filename:=\"{filename}\"" // “:=” is the exact-match operator
+            };
+
+            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync();
+            return files.Count > 0;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether a file exists in the current folder or not.
+        /// </summary>
+        /// <param name="folder">
+        /// The <see cref="StorageFolder"/> to look for the file in.
+        /// </param>
+        /// <param name="filename">
+        /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
+        /// </param>
+        /// <param name="isRecursive">
+        /// The <see cref="bool"/>, indicating if the subfolders should also be searched through.
+        /// </param>
+        /// <returns>
+        /// Returns true, if the file exists.
+        /// </returns>
+        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string filename, bool isRecursive = false)
+            => isRecursive
+                ? await FileExistsInSubtreeAsync(folder, filename)
+                : await FileExistsAsync(folder, filename);
 
         /// <summary>
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
