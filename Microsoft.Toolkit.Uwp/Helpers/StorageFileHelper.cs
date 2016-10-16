@@ -603,10 +603,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
-        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
+        public static Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
             => isRecursive
-                ? await FileExistsInSubtreeAsync(folder, fileName)
-                : await FileExistsInFolderAsync(folder, fileName);
+                ? FileExistsInSubtreeAsync(folder, fileName)
+                : FileExistsInFolderAsync(folder, fileName);
 
         /// <summary>
         /// Gets a value indicating whether a file exists in the current folder.
@@ -638,14 +638,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Exception thrown if the <paramref name="fileName"/> is null or empty.
+        /// <exception cref="ArgumentException">
+        /// Exception thrown if the <paramref name="fileName"/> contains a quotation mark.
         /// </exception>
         internal static async Task<bool> FileExistsInSubtreeAsync(StorageFolder rootFolder, string fileName)
         {
             if (fileName.IndexOf('"') >= 0)
             {
-                throw new ArgumentException("filename");
+                throw new ArgumentException(nameof(fileName));
             }
 
             var options = new QueryOptions
