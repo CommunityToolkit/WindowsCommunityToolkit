@@ -1,0 +1,38 @@
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RadialGaugePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+      <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+          <Grid VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+              <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="50"></ColumnDefinition>
+                  <ColumnDefinition Width="250"></ColumnDefinition>
+                  <ColumnDefinition Width="50"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <controls:RadialGauge 
+                  x:Name="RadialGauge"
+                  Grid.Column="1"
+                  Value="@[Value:Slider:0:0-180]"
+                  Minimum="0"
+                  Maximum="180"
+                  StepSize="1"
+                  IsInteractive="@[IsInteractive:Bool:False]"
+                  TickSpacing="@[TickSpacing:Slider:20:10-30]"
+                  ScaleWidth="@[ScaleWidth:Slider:26:5-50]"
+                  MinAngle="-150"
+                  MaxAngle="@[MaxAngle:Slider:150:0-180]"
+                  Unit="Units"
+                  TickBrush="Gainsboro"
+                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                  UnitBrush="Black"
+                  ValueBrush="Black" 
+                  NeedleWidth="@[NeedleWidth:Slider:5:1-10]" 
+                  TickLength="@[TickLength:Slider:18:0-30]" />
+          </Grid>
+      </Grid>
+</Page>
