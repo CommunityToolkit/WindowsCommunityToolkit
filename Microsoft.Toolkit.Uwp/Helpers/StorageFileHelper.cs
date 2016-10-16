@@ -597,6 +597,26 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="fileName">
         /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
         /// </param>
+        /// <param name="isRecursive">
+        /// The <see cref="bool"/>, indicating if the subfolders should also be searched through.
+        /// </param>
+        /// <returns>
+        /// Returns true, if the file exists.
+        /// </returns>
+        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
+            => isRecursive
+                ? await FileExistsInSubtreeAsync(folder, fileName)
+                : await FileExistsInFolderAsync(folder, fileName);
+
+        /// <summary>
+        /// Gets a value indicating whether a file exists in the current folder.
+        /// </summary>
+        /// <param name="folder">
+        /// The <see cref="StorageFolder"/> to look for the file in.
+        /// </param>
+        /// <param name="fileName">
+        /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
+        /// </param>
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
@@ -637,26 +657,6 @@ namespace Microsoft.Toolkit.Uwp
             var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync();
             return files.Count > 0;
         }
-
-        /// <summary>
-        /// Gets a value indicating whether a file exists in the current folder.
-        /// </summary>
-        /// <param name="folder">
-        /// The <see cref="StorageFolder"/> to look for the file in.
-        /// </param>
-        /// <param name="fileName">
-        /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
-        /// </param>
-        /// <param name="isRecursive">
-        /// The <see cref="bool"/>, indicating if the subfolders should also be searched through.
-        /// </param>
-        /// <returns>
-        /// Returns true, if the file exists.
-        /// </returns>
-        public static async Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
-            => isRecursive
-                ? await FileExistsInSubtreeAsync(folder, fileName)
-                : await FileExistsInFolderAsync(folder, fileName);
 
         /// <summary>
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
