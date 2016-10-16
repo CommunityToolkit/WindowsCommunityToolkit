@@ -9,6 +9,7 @@ The StorageFileHelper is a static utility class that provides functions to help 
 
 	// NOTE This must be used from an async function
 	string myText = "Great information that the users wants to keep";
+	StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 	
 	// Save some text to a file named appFilename.txt (in the local cache folder)
 	var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(myText, "appFilename.txt");
@@ -21,6 +22,12 @@ The StorageFileHelper is a static utility class that provides functions to help 
 	
 	// Load some text from a file named appFilename.txt in the local folder	
 	loadedText = await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt");
+
+	// Check if a file exists in a specific folder
+	bool exists = await StorageFileHelper.FileExistsAsync(localFolder, "appFilename.txt");
+
+	// Check if a file exists in a folder or one of its subfolders
+	bool exists = await StorageFileHelper.FileExistsInSubtreeAsync(localFolder, "appFilename.txt");
 
 ```
 
