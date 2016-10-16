@@ -14,9 +14,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(GroupName = DisplayModeGroup, Name = FullState)]
     [TemplateVisualState(GroupName = DisplayModeGroup, Name = CompactDetailState)]
     [TemplateVisualState(GroupName = DisplayModeGroup, Name = CompactMasterState)]
+    [TemplateVisualState(GroupName = SelectionGroup, Name = HasNoSelectionState)]
+    [TemplateVisualState(GroupName = SelectionGroup, Name = HasSelectionState)]
     public class MasterDetail : Control
     {
         private const string DisplayModeGroup = "DisplayModes";
+        private const string SelectionGroup = "Selection";
+        private const string HasNoSelectionState = "HasNoSelection";
+        private const string HasSelectionState = "HasSelection";
         private const string FullState = "Full";
         private const string CompactMasterState = "CompactMaster";
         private const string CompactDetailState = "CompactDetail";
@@ -323,6 +328,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            var selectionState = Detail != null || DisplayMode == MasterDetailDisplayMode.Compact ? HasSelectionState : HasNoSelectionState;
+            VisualStateManager.GoToState(this, selectionState, true);
         }
 
         private void SendDisplayVisibleChangedEvent()

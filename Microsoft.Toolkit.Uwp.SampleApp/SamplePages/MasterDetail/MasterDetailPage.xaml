@@ -50,12 +50,22 @@
                     <StackPanel Margin="12">
                         <TextBlock Text="{Binding Header}"
                                    Style="{StaticResource SubheaderTextBlockStyle}"
-                                   Margin="0,6" />
+                                   Margin="0,6"
+                                   Foreground="Black"/>
                         <TextBlock Text="{Binding Subject}"
-                                   Style="{StaticResource BodyTextBlockStyle}"/>
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Foreground="Black"/>
                     </StackPanel>
                 </DataTemplate>
             </controls:MasterDetail.DetailTemplate>
+            <controls:MasterDetail.NoSelectionView>
+                <Grid HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                    <TextBlock Text="Please select something from the left"
+                               Style="{StaticResource SubheaderTextBlockStyle}"
+                               Foreground="Black"/>
+                </Grid>
+            </controls:MasterDetail.NoSelectionView>
         </controls:MasterDetail>
     </Grid>
 </Page>

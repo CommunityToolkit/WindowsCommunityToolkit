@@ -55,6 +55,17 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="Selection">
+                                <VisualState x:Name="HasNoSelection"/>
+                                <VisualState x:Name="HasSelection">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelection.Visibility"
+                                                Value="Collapsed"/>
+                                        <Setter Target="Detail.Visibility"
+                                                Value="Visible"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <ContentPresenter Content="{TemplateBinding Master}"
@@ -69,6 +80,7 @@
                                           ContentTemplate="{TemplateBinding DetailTemplate}"
                                           ContentTemplateSelector="{TemplateBinding DetailTemplateSelector}"
                                           x:Name="Detail"
+                                          Visibility="Collapsed"
                                           Grid.Column="1"/>
 
                     </Grid>

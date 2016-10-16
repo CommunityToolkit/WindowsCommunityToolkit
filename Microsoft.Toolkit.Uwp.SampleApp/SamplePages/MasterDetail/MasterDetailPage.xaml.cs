@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 list.Add(new DetailItem
                 {
-                    Header = $"Header numer {i}",
+                    Header = $"Header number {i}",
                     Subject = $"This is the subject matter for item number {i}"
                 });
             }
