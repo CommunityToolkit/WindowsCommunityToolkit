@@ -589,7 +589,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets a value indicating whether a file exists in the current folder or not.
+        /// Gets a value indicating whether a file exists in the current folder.
         /// </summary>
         /// <param name="folder">
         /// The <see cref="StorageFolder"/> to look for the file in.
@@ -607,7 +607,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets a value indicating whether a file exists in the current folder and its subfolders or not.
+        /// Gets a value indicating whether a file exists in the current folder or in one of its subfolders.
         /// </summary>
         /// <param name="rootFolder">
         /// The <see cref="StorageFolder"/> to look for the file in.
@@ -639,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets a value indicating whether a file exists in the current folder or not.
+        /// Gets a value indicating whether a file exists in the current folder.
         /// </summary>
         /// <param name="folder">
         /// The <see cref="StorageFolder"/> to look for the file in.
