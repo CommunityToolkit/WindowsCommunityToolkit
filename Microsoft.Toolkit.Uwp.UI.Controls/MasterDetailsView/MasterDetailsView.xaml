@@ -21,6 +21,7 @@
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="MasterSplitView.DisplayMode" Value="Overlay" />
+                                        <Setter Target="MasterList.BorderThickness" Value="0"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">
@@ -31,6 +32,7 @@
                                         <Setter Target="MasterSplitView.OpenPaneLength" Value="450" />
                                         <Setter Target="MasterSplitView.DisplayMode" Value="Inline" />
                                         <Setter Target="MasterSplitView.IsPaneOpen" Value="True" />
+                                        <Setter Target="MasterList.BorderThickness" Value="0,0,1,0"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -45,25 +47,24 @@
                                     <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
                                     <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
                                               Grid.Row="1"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"/>
                                 </Grid>                            
                             </SplitView.Pane>
                             <SplitView.Content>
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0">
-                                    <ContentPresenter x:Name="DetailsPresenter" 
-                                                      Content="{TemplateBinding SelectedItem}"
-                                                      Visibility="Collapsed"
-                                                      Foreground="{TemplateBinding Foreground}"
-                                                      ContentTemplate="{TemplateBinding DetailsTemplate}">
-                                        <ContentPresenter.ContentTransitions>
-                                            <TransitionCollection>
-                                                <EdgeUIThemeTransition Edge="Right"/>
-                                            </TransitionCollection>
-                                        </ContentPresenter.ContentTransitions>
-                                    </ContentPresenter>
-                                </Border>
+                                <ContentPresenter x:Name="DetailsPresenter" 
+                                                  Content="{TemplateBinding SelectedItem}"
+                                                  Visibility="Collapsed"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  Background="{TemplateBinding Background}"
+                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                    <ContentPresenter.ContentTransitions>
+                                        <TransitionCollection>
+                                            <EdgeUIThemeTransition Edge="Right"/>
+                                        </TransitionCollection>
+                                    </ContentPresenter.ContentTransitions>
+                                </ContentPresenter>
                             </SplitView.Content>
                         </SplitView>
                     </Border>
