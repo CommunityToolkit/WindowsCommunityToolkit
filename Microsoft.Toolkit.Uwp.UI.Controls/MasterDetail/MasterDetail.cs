@@ -12,7 +12,6 @@
 
 using System;
 using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -260,11 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
-            }
-
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
 
             var frame = GetFrame();
@@ -276,11 +270,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-            }
-
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             var frame = GetFrame();
@@ -305,12 +294,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
-        {
-            var isHandled = HandleBackButton();
-            e.Handled = isHandled;
-        }
-
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             var isHandled = HandleBackButton();
             e.Handled = isHandled;
