@@ -13,7 +13,7 @@
                                     Foreground="Black">
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="models:Email">
-                    <StackPanel Margin="8">
+                    <StackPanel Margin="0,8">
                         <TextBlock Text="{x:Bind From}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                         <TextBlock Text="{x:Bind Subject}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource Brush-Blue-01}" MaxLines="1"/>
                         <TextBlock Text="{x:Bind Body}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1"/>
