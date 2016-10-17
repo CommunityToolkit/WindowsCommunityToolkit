@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -32,8 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 list.Add(new DetailItem
                 {
-                    Header = $"Header number {i}",
-                    Subject = $"This is the subject matter for item number {i}"
+                    Subject = $"This is the update for {DateTime.Now.AddDays(-i).Date:d}"
                 });
             }
 
@@ -62,9 +62,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public class DetailItem
         {
-            public string Header { get; set; }
+            public string Header { get; } = "Update provider";
 
             public string Subject { get; set; }
+
+            public string Content { get; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mollis placerat diam, eu lacinia felis faucibus non. Cras nec tristique metus, a hendrerit libero. Fusce at est sed turpis lobortis euismod quis et urna. Praesent id sapien sit amet nibh finibus rutrum eget at tortor. Vestibulum purus nibh, vulputate in vehicula non, iaculis ac elit. Quisque imperdiet iaculis laoreet. Mauris sodales ante eu enim commodo euismod. Quisque quis mi laoreet, ultricies dolor et, dapibus ante. Aenean vel elit nisi. Morbi lectus lorem, tincidunt a auctor eget, vehicula dictum turpis. Etiam sit amet vehicula lectus.";
         }
     }
 }

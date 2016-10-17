@@ -39,6 +39,7 @@
                                 <TextBlock Text="{Binding Subject}"
                                            Style="{StaticResource BodyTextBlockStyle}"
                                            TextWrapping="NoWrap"
+                                           Opacity="0.5"
                                            TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
                         </DataTemplate>
@@ -54,7 +55,13 @@
                                    Foreground="Black"/>
                         <TextBlock Text="{Binding Subject}"
                                    Style="{StaticResource BodyTextBlockStyle}"
-                                   Foreground="Black"/>
+                                   Foreground="Black"
+                                   Opacity="0.5"
+                                   Margin="0,6,0,12"/>
+                        <TextBlock Text="{Binding Content}"
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Foreground="Black"
+                                   Margin="0"/>
                     </StackPanel>
                 </DataTemplate>
             </controls:MasterDetail.DetailTemplate>
