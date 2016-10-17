@@ -41,6 +41,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Event which is called after print preview pages are generated.
         /// </summary>
+        /// <remarks>
+        /// You can use this event to tweak the final rendering by adding/moving controls in the page.
+        /// </remarks>
         public event Action<List<Page>> PreviewPagesCreated;
 
         /// <summary>
@@ -106,46 +109,6 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// This function registers the app for printing with Windows and sets up the necessary event handlers for the print process.
-        /// </summary>
-        public void RegisterForPrinting()
-        {
-            _printDocument = new PrintDocument();
-            _printDocumentSource = _printDocument.DocumentSource;
-            _printDocument.Paginate += CreatePrintPreviewPages;
-            _printDocument.GetPreviewPage += GetPrintPreviewPage;
-            _printDocument.AddPages += AddPrintPages;
-
-            PrintManager printMan = PrintManager.GetForCurrentView();
-            printMan.PrintTaskRequested += PrintTaskRequested;
-        }
-
-        /// <summary>
-        /// This function unregisters the app for printing with Windows.
-        /// </summary>
-        public void UnregisterForPrinting()
-        {
-            if (_printDocument == null)
-            {
-                return;
-            }
-
-            _printDocument.Paginate -= CreatePrintPreviewPages;
-            _printDocument.GetPreviewPage -= GetPrintPreviewPage;
-            _printDocument.AddPages -= AddPrintPages;
-
-            // Remove the handler for printing initialization.
-            PrintManager printMan = PrintManager.GetForCurrentView();
-            printMan.PrintTaskRequested -= PrintTaskRequested;
-
-            _printCanvas.Children.Clear();
-            (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
-
-            // Clear the cache of preview pages
-            ClearPageCache();
-        }
-
-        /// <summary>
         /// Add an element to the list of printable elements.
         /// </summary>
         /// <param name="element">Framework element to print</param>
@@ -194,7 +157,43 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public void Dispose()
         {
-            UnregisterForPrinting();
+            if (_printDocument == null)
+            {
+                return;
+            }
+
+            _printDocument.Paginate -= CreatePrintPreviewPages;
+            _printDocument.GetPreviewPage -= GetPrintPreviewPage;
+            _printDocument.AddPages -= AddPrintPages;
+
+            // Remove the handler for printing initialization.
+            PrintManager printMan = PrintManager.GetForCurrentView();
+            printMan.PrintTaskRequested -= PrintTaskRequested;
+
+            _printCanvas.Children.Clear();
+            (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
+
+            _printCanvas = null;
+
+            _stateBags.Clear();
+
+            // Clear the cache of preview pages
+            ClearPageCache();
+        }
+
+        /// <summary>
+        /// This function registers the app for printing with Windows and sets up the necessary event handlers for the print process.
+        /// </summary>
+        private void RegisterForPrinting()
+        {
+            _printDocument = new PrintDocument();
+            _printDocumentSource = _printDocument.DocumentSource;
+            _printDocument.Paginate += CreatePrintPreviewPages;
+            _printDocument.GetPreviewPage += GetPrintPreviewPage;
+            _printDocument.AddPages += AddPrintPages;
+
+            PrintManager printMan = PrintManager.GetForCurrentView();
+            printMan.PrintTaskRequested += PrintTaskRequested;
         }
 
         /// <summary>
@@ -371,7 +370,6 @@ namespace Microsoft.Toolkit.Uwp
                 page.Content = null;
             }
 
-            _stateBags.Clear();
             _printPreviewPages.Clear();
         }
     }
