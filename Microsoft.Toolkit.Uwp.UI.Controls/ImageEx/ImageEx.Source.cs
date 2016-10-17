@@ -123,6 +123,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     try
                     {
                         var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
+                        
+                        // If you have many imageEx in a virtualized listview for instance
+                        // controls will be recycled and the uri will change while waiting for the previous one to load
                         if (_uri == ogUri)
                         {
                             _image.Source = img;
