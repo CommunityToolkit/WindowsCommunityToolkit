@@ -9,6 +9,13 @@
                 Value="Full"/>
         <Setter Property="DisplaySystemBackButtonOnDetail"
                 Value="True"/>
+        <Setter Property="DetailTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition Edge="Right" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MasterDetail">
@@ -52,6 +59,8 @@
                                                 Value="0" />
                                         <Setter Target="Detail.(Grid.ColumnSpan)"
                                                 Value="2" />
+                                        <Setter Target="Detail.Visibility"
+                                                Value="Visible"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -75,13 +84,14 @@
                         <ContentPresenter Content="{TemplateBinding NoSelectionView}"
                                           Grid.Column="1"
                                           x:Name="NoSelection"/>
-                        
+
                         <ContentPresenter Content="{TemplateBinding Detail}"
                                           ContentTemplate="{TemplateBinding DetailTemplate}"
                                           ContentTemplateSelector="{TemplateBinding DetailTemplateSelector}"
                                           x:Name="Detail"
                                           Visibility="Collapsed"
-                                          Grid.Column="1"/>
+                                          Grid.Column="1"
+                                          ContentTransitions="{TemplateBinding DetailTransitions}"/>
 
                     </Grid>
                 </ControlTemplate>

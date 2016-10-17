@@ -16,6 +16,7 @@ using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -38,6 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string FullState = "Full";
         private const string CompactMasterState = "CompactMaster";
         private const string CompactDetailState = "CompactDetail";
+
+        private Frame _frame;
 
         /// <summary>
         ///     The master property
@@ -94,6 +97,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(DisplaySystemBackButtonOnDetail), typeof(bool), typeof(MasterDetail), new PropertyMetadata(default(bool)));
 
         /// <summary>
+        /// The detail transitions property
+        /// </summary>
+        public static readonly DependencyProperty DetailTransitionsProperty = DependencyProperty.Register(
+            nameof(DetailTransitions), typeof(TransitionCollection), typeof(MasterDetail), new PropertyMetadata(default(TransitionCollection)));
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="MasterDetail" /> class.
         /// </summary>
         public MasterDetail()
@@ -105,6 +114,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the detail transitions.
+        /// </summary>
+        /// <value>
+        /// The detail transitions.
+        /// </value>
+        public TransitionCollection DetailTransitions
+        {
+            get { return (TransitionCollection)GetValue(DetailTransitionsProperty); }
+            set { SetValue(DetailTransitionsProperty, value); }
+        }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether [display system back button on detail].
         /// </summary>
         /// <value>
@@ -112,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public bool DisplaySystemBackButtonOnDetail
         {
-            get { return (bool) GetValue(DisplaySystemBackButtonOnDetailProperty); }
+            get { return (bool)GetValue(DisplaySystemBackButtonOnDetailProperty); }
             set { SetValue(DisplaySystemBackButtonOnDetailProperty, value); }
         }
 
@@ -124,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public double MasterWidth
         {
-            get { return (double) GetValue(MasterWidthProperty); }
+            get { return (double)GetValue(MasterWidthProperty); }
             set { SetValue(MasterWidthProperty, value); }
         }
 
@@ -136,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public UIElement NoSelectionView
         {
-            get { return (UIElement) GetValue(NoSelectionViewProperty); }
+            get { return (UIElement)GetValue(NoSelectionViewProperty); }
             set { SetValue(NoSelectionViewProperty, value); }
         }
 
@@ -148,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public UIElement Master
         {
-            get { return (UIElement) GetValue(MasterProperty); }
+            get { return (UIElement)GetValue(MasterProperty); }
             set { SetValue(MasterProperty, value); }
         }
 
@@ -172,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public DataTemplate DetailTemplate
         {
-            get { return (DataTemplate) GetValue(DetailTemplateProperty); }
+            get { return (DataTemplate)GetValue(DetailTemplateProperty); }
             set { SetValue(DetailTemplateProperty, value); }
         }
 
@@ -184,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public DataTemplateSelector DetailTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(DetailTemplateSelectorProperty); }
+            get { return (DataTemplateSelector)GetValue(DetailTemplateSelectorProperty); }
             set { SetValue(DetailTemplateSelectorProperty, value); }
         }
 
@@ -196,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public MasterDetailDisplayMode DisplayMode
         {
-            get { return (MasterDetailDisplayMode) GetValue(DisplayModeProperty); }
+            get { return (MasterDetailDisplayMode)GetValue(DisplayModeProperty); }
             set { SetValue(DisplayModeProperty, value); }
         }
 
@@ -208,14 +229,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </value>
         public MasterDetailDisplayVisible DisplayVisible
         {
-            get { return (MasterDetailDisplayVisible) GetValue(DisplayVisibleProperty); }
+            get { return (MasterDetailDisplayVisible)GetValue(DisplayVisibleProperty); }
             set { SetValue(DisplayVisibleProperty, value); }
         }
 
         private static void OnDisplayVisibleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if ((MasterDetailDisplayVisible) e.OldValue != (MasterDetailDisplayVisible) e.NewValue)
+            if ((MasterDetailDisplayVisible)e.OldValue != (MasterDetailDisplayVisible)e.NewValue)
+            {
                 (sender as MasterDetail)?.SendDisplayVisibleChangedEvent();
+            }
         }
 
         /// <summary>
@@ -238,53 +261,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
                 HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
 
-            var frame = Window.Current.Content as Frame;
+            var frame = GetFrame();
             if (frame != null)
+            {
                 frame.Navigating -= FrameOnNavigating;
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-            var frame = Window.Current.Content as Frame;
+            var frame = GetFrame();
             if (frame != null)
+            {
                 frame.Navigating += FrameOnNavigating;
+            }
+        }
+
+        private Frame GetFrame()
+        {
+            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
         }
 
         private void FrameOnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            var isHandled = false;
-            HandleBackButton(ref isHandled);
-
-            e.Cancel = isHandled;
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                var isHandled = HandleBackButton();
+                e.Cancel = isHandled;
+            }
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            var isHandled = false;
-            HandleBackButton(ref isHandled);
-
+            var isHandled = HandleBackButton();
             e.Handled = isHandled;
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            var isHandled = false;
-            HandleBackButton(ref isHandled);
-
+            var isHandled = HandleBackButton();
             e.Handled = isHandled;
         }
 
-        private void HandleBackButton(ref bool cancelBackButton)
+        private bool HandleBackButton()
         {
+            var cancelBackButton = false;
             switch (DisplayMode)
             {
                 case MasterDetailDisplayMode.Full:
@@ -293,22 +327,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case MasterDetailDisplayMode.Compact:
                     var isDetail = Detail != null;
                     cancelBackButton = isDetail;
+
                     VisualStateManager.GoToState(this, CompactMasterState, true);
                     ShowSystemBackButton();
+
+                    Detail = null;
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            return cancelBackButton;
         }
 
         private void ShowSystemBackButton()
         {
             if (DisplaySystemBackButtonOnDetail)
             {
-                var backButtonShouldBeShown = (DisplayMode == MasterDetailDisplayMode.Compact) && (Detail != null);
-                if (backButtonShouldBeShown)
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                var backButtonShouldBeShown = ((DisplayMode == MasterDetailDisplayMode.Compact) && (Detail != null)) || (_frame?.CanGoBack ?? false);
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = backButtonShouldBeShown ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
             }
         }
 
