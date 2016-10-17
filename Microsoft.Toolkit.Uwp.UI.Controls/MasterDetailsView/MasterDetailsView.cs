@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Panel that allows for a Master/Details pattern.
+    /// </summary>
     public class MasterDetailsView : ItemsControl
     {
         private ContentPresenter _presenter;
@@ -28,6 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private SplitView _splitView;
         private Frame _frame;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
+        /// </summary>
         public MasterDetailsView()
         {
             DefaultStyleKey = typeof(MasterDetailsView);
