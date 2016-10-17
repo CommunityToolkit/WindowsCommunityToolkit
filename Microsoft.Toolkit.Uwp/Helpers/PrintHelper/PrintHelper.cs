@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <remarks>
         /// You can use this event to tweak the final rendering by adding/moving controls in the page.
         /// </remarks>
-        public event Action<List<Page>> PreviewPagesCreated;
+        public event Action<List<Page>> OnPreviewPagesCreated;
 
         /// <summary>
         /// Gets or sets the percent of app's margin width
@@ -263,10 +263,7 @@ namespace Microsoft.Toolkit.Uwp
                 AddOnePrintPreviewPage(element, pageDescription);
             }
 
-            if (PreviewPagesCreated != null)
-            {
-                PreviewPagesCreated?.Invoke(_printPreviewPages);
-            }
+            OnPreviewPagesCreated?.Invoke(_printPreviewPages);
 
             PrintDocument printDoc = (PrintDocument)sender;
 
