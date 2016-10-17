@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                var isHandled = HandleBackButton();
+                var isHandled = HandleBackButton(justCheck: true);
                 e.Cancel = isHandled;
             }
         }
@@ -299,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             e.Handled = isHandled;
         }
 
-        private bool HandleBackButton()
+        private bool HandleBackButton(bool justCheck = false)
         {
             var cancelBackButton = false;
             switch (DisplayMode)
@@ -311,10 +311,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var isDetail = Detail != null;
                     cancelBackButton = isDetail;
 
-                    VisualStateManager.GoToState(this, CompactMasterState, true);
-                    ShowSystemBackButton();
+                    if (!justCheck)
+                    {
+                        VisualStateManager.GoToState(this, CompactMasterState, true);
+                        ShowSystemBackButton();
 
-                    Detail = null;
+                        Detail = null;
+                    }
                     break;
 
                 default:
