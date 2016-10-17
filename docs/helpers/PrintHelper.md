@@ -3,9 +3,9 @@
 The PrintHelper is a class used to simplify document printing.
 It allows you to render a framework element per page.
 
-To use it, you only have to instanciate a `PrintHelper` object and call `AddFrameworkElementToPrint` method to add the XAML controls you want to print.
+To use it, you only have to instantiate a `PrintHelper` object and call `AddFrameworkElementToPrint` method to add the XAML controls you want to print.
 Please note that controls cannot be linked to a visual tree. This means that their parent property has to be null. 
-If you want to use a controlf rom your current XAML page, you can disconnect it before sending it to print (by removing it from its container) or you can create jsut create a new one from scratch.
+If you want to use a control from your current XAML page, you can disconnect it before sending it to print (by removing it from its container) or you can create just create a new one from scratch.
 
 Please check the sample app code to see how to disconnect/reconnect a control that you want to print: 
 https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs 
