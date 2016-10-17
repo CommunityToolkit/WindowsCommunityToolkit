@@ -37,9 +37,17 @@
                         </VisualStateManager.VisualStateGroups>
                         <SplitView x:Name="MasterSplitView" IsPaneOpen="True" PaneBackground="{TemplateBinding ListPaneBackground}">
                             <SplitView.Pane>
-                                <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
-                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          ItemTemplate="{TemplateBinding ItemTemplate}"/>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                                    <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
+                                              Grid.Row="1"
+                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"/>
+                                </Grid>                            
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <Border Background="{TemplateBinding Background}"

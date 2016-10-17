@@ -102,6 +102,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets or sets the content for the master pane's header
+        /// </summary>
+        /// <returns>
+        /// The content of the master pane's header. The default is null.
+        /// </returns>
+        public object MasterHeader
+        {
+            get { return (object)GetValue(MasterHeaderProperty); }
+            set { SetValue(MasterHeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MasterHeader"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterHeaderProperty = DependencyProperty.Register(
+            "MasterHeader",
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null, OnMasterHeaderChanged));
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the content of the master pane's header.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the master pane header object. The default is null.
+        /// </returns>
+        public DataTemplate MasterHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
+            set { SetValue(MasterHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MasterHeaderTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterHeaderTemplateProperty = DependencyProperty.Register(
+            "MasterHeaderTemplate",
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+
+        /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
         /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
         /// in your app. Override this method to influence the default post-template logic of a class.
@@ -116,6 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _splitView.PaneClosing += OnMasterPaneClosing;
             }
             _presenter = GetTemplateChild("DetailsPresenter") as ContentPresenter;
+            SetMasterHeaderVisibility();
         }
 
         /// <summary>
@@ -143,7 +189,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 panel._splitView.IsPaneOpen = panel.SelectedItem == null;
             }
+        }
 
+        /// <summary>
+        /// Fired when the <see cref="MasterHeader"/> is changed.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView) d;
+            view.SetMasterHeaderVisibility();
         }
 
         // Have to wait to get the VisualStateGroup until the control has Loaded
@@ -240,6 +296,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SelectedItem = null;
                 args.Handled = true;
                 SetBackButtonVisibility(_stateGroup.CurrentState);
+            }
+        }
+
+        private void SetMasterHeaderVisibility()
+        {
+            var headerPresenter = GetTemplateChild("HeaderContentPresenter") as FrameworkElement;
+            if (headerPresenter != null)
+            {
+                headerPresenter.Visibility = MasterHeader != null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             }
         }
 
