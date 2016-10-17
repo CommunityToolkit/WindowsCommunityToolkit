@@ -10,12 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     ///     The event args for DisplayVisibleChanged event
     /// </summary>
-    public class DisplayVisibleArgs
+    public class DisplayVisibleArgs : EventArgs
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="DisplayVisibleArgs" /> class.
