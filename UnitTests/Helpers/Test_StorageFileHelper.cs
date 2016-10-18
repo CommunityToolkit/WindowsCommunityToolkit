@@ -165,5 +165,41 @@ namespace UnitTests.Helpers
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
         }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageFileHelper_FileExists()
+        {
+            byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
+
+            var folder = ApplicationData.Current.LocalFolder;
+            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(folder, unicodeBytes, Filename);
+            Assert.IsNotNull(storageFile);
+
+            var exists = await folder.FileExistsAsync(Filename);
+            Assert.IsTrue(exists);
+
+            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageFileHelper_FileExists_Recursive()
+        {
+            byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
+
+            var folder = ApplicationData.Current.LocalFolder;
+            var subfolder = await folder.CreateFolderAsync("subfolder");
+            Assert.IsNotNull(subfolder);
+
+            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(subfolder, unicodeBytes, Filename);
+            Assert.IsNotNull(storageFile);
+
+            var exists = await folder.FileExistsAsync(Filename, true);
+            Assert.IsTrue(exists);
+
+            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+            await subfolder.DeleteAsync(StorageDeleteOption.Default);
+        }
     }
 }
