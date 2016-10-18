@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
@@ -26,7 +27,6 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {

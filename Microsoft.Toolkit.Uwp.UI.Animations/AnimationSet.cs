@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _compositor = Visual.Compositor;
             _animations = new Dictionary<string, CompositionAnimation>();
             _effectAnimations = new List<EffectAnimationDefinition>();
-            _manualResetEvent = new System.Threading.ManualResetEvent(false);
+            _manualResetEvent = new ManualResetEvent(false);
             _directPropertyChanges = new Dictionary<string, object>();
             _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _animationSets = new List<AnimationSet>();
