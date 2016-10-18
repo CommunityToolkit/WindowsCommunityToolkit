@@ -204,10 +204,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _compositor = _root.Compositor;
 
             _detailsPresenter = (FrameworkElement)GetTemplateChild("DetailsPresenter");
+            _detailsPresenter.SizeChanged += OnSizeChanged;
             _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
             SetDetailsOffset();
 
-            SizeChanged += OnSizeChanged;
             SetMasterHeaderVisibility();
         }
 
