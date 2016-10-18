@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
-    
+
     <Style TargetType="controls:MasterDetailsView" >
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
@@ -14,6 +14,14 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="NoSelection"/>
+                                <VisualState x:Name="HasSelection">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                             <VisualStateGroup x:Name="WidthStates">
                                 <VisualState x:Name="NarrowState">
                                     <VisualState.StateTriggers>
@@ -22,6 +30,7 @@
                                     <VisualState.Setters>
                                         <Setter Target="MasterSplitView.DisplayMode" Value="Overlay" />
                                         <Setter Target="MasterList.BorderThickness" Value="0"/>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">
@@ -50,21 +59,26 @@
                                               BorderBrush="{TemplateBinding BorderBrush}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"/>
-                                </Grid>                            
+                                </Grid>
                             </SplitView.Pane>
                             <SplitView.Content>
-                                <ContentPresenter x:Name="DetailsPresenter" 
-                                                  Content="{TemplateBinding SelectedItem}"
-                                                  Visibility="Collapsed"
-                                                  Foreground="{TemplateBinding Foreground}"
-                                                  Background="{TemplateBinding Background}"
-                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
-                                    <ContentPresenter.ContentTransitions>
-                                        <TransitionCollection>
-                                            <EdgeUIThemeTransition Edge="Right"/>
-                                        </TransitionCollection>
-                                    </ContentPresenter.ContentTransitions>
-                                </ContentPresenter>
+                                <Grid>
+                                    <ContentPresenter x:Name="NoSelectionPresenter" 
+                                                      Content="{TemplateBinding NoSelectionContent}"
+                                                      ContentTemplate="{TemplateBinding NoSelectionContentTemplate}"/>
+                                    <ContentPresenter x:Name="DetailsPresenter" 
+                                                      Content="{TemplateBinding SelectedItem}"
+                                                      Visibility="Collapsed"
+                                                      Foreground="{TemplateBinding Foreground}"
+                                                      Background="{TemplateBinding Background}"
+                                                      ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                        <ContentPresenter.ContentTransitions>
+                                            <TransitionCollection>
+                                                <EdgeUIThemeTransition Edge="Right"/>
+                                            </TransitionCollection>
+                                        </ContentPresenter.ContentTransitions>
+                                    </ContentPresenter>
+                                </Grid>
                             </SplitView.Content>
                         </SplitView>
                     </Border>

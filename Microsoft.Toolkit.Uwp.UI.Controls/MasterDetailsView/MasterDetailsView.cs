@@ -145,6 +145,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
 
+        /// <summary>
+        /// Gets or sets the content to dsiplay when there is no item selected in the master list.
+        /// </summary>
+        public object NoSelectionContent
+        {
+            get { return (object)GetValue(NoSelectionContentProperty); }
+            set { SetValue(NoSelectionContentProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NoSelectionContent"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="NoSelectionContent"/> dependency property.</returns>
+        public static readonly DependencyProperty NoSelectionContentProperty = DependencyProperty.Register(
+            nameof(NoSelectionContent),
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the content when there is no selection.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the content when there is no
+        /// selection. The default is null.
+        /// </returns>
+        public DataTemplate NoSelectionContentTemplate
+        {
+            get { return (DataTemplate)GetValue(NoSelectionContentTemplateProperty); }
+            set { SetValue(NoSelectionContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="NoSelectionContentTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="NoSelectionContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty NoSelectionContentTemplateProperty = DependencyProperty.Register(
+            nameof(NoSelectionContentTemplate),
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
@@ -160,6 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _splitView.SizeChanged += OnSplitViewSizeChanged;
                 _splitView.PaneClosing += OnMasterPaneClosing;
             }
+
             _presenter = GetTemplateChild("DetailsPresenter") as ContentPresenter;
             SetMasterHeaderVisibility();
         }
@@ -173,6 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
+            VisualStateManager.GoToState(view, view.SelectedItem == null ? "NoSelection" : "HasSelection", true);
 
             // quick hack to hide the content at first so the user doesn't have to
             // have some converter to hide text when selection is null
@@ -198,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e"></param>
         private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView) d;
+            var view = (MasterDetailsView)d;
             view.SetMasterHeaderVisibility();
         }
 
