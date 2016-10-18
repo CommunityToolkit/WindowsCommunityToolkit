@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp
 {
@@ -66,6 +67,6 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="filePath">Path to the file that will contain the object</param>
         /// <param name="value">Object to save</param>
         /// <returns>Waiting task until completion</returns>
-        Task SaveFileAsync<T>(string filePath, T value);
+        Task<StorageFile> SaveFileAsync<T>(string filePath, T value);
     }
 }
