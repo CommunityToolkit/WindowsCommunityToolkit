@@ -21,11 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class HeaderedTextBlock
     {
         /// <summary>
-        /// Defines the <see cref="HeaderStyle"/> dependency property.
+        /// Defines the <see cref="HeaderTemplate"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderStyleProperty = DependencyProperty.Register(
-            nameof(HeaderStyle),
-            typeof(Style),
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(
+            nameof(HeaderTemplate),
+            typeof(DataTemplate),
             typeof(HeaderedTextBlock),
             new PropertyMetadata(null));
 
@@ -77,16 +77,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the header style.
         /// </summary>
-        public Style HeaderStyle
+        public DataTemplate HeaderTemplate
         {
             get
             {
-                return (Style)GetValue(HeaderStyleProperty);
+                return (DataTemplate)GetValue(HeaderTemplateProperty);
             }
 
             set
             {
-                SetValue(HeaderStyleProperty, value);
+                SetValue(HeaderTemplateProperty, value);
             }
         }
 
