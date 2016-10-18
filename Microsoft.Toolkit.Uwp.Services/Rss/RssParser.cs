@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Rss
 {

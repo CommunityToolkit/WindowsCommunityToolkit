@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services
 {
     /// <summary>
     /// Parser interface.

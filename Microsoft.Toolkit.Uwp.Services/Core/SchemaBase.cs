@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.Services
 {
     /// <summary>
     /// Strong typed schema base class.
@@ -20,6 +20,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// <summary>
         /// Gets or sets identifier for strong typed record.
         /// </summary>
-        public string InternalId { get; set; }
+        public string InternalID { get; set; }
     }
 }

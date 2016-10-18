@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
             return from r in syndicationItems
                     select new BingResult
                     {
-                        InternalId = r.InternalId,
+                        InternalID = r.InternalID,
                         Title = r.Title,
                         Summary = r.Summary,
                         Link = r.FeedUrl,

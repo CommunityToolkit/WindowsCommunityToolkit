@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Rss
                 }
             }
 
-            rssItem.InternalId = id;
+            rssItem.InternalID = id;
             return rssItem;
         }
 
