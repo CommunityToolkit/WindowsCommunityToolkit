@@ -222,7 +222,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? "NoSelection" : "HasSelection", true);
+            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
+                ? "NoSelectionNarrow"
+                : "NoSelectionWide";
+            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
 
             if (view.SelectedItem != null)
             {

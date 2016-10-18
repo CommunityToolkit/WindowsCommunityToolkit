@@ -15,8 +15,13 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="NoSelection"/>
+                                <VisualState x:Name="NoSelectionWide"/>
                                 <VisualState x:Name="HasSelection">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NoSelectionNarrow">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
                                     </VisualState.Setters>
