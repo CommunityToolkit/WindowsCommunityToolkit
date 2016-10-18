@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(MasterDetailsView);
 
             Loaded += OnLoaded;
-            Unloaded += UnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void UnLoaded(object sender, RoutedEventArgs e)
+        private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
         }
