@@ -60,7 +60,7 @@
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"/>
                             </Grid>
-                            <Grid x:Name="DetailsPanel" Grid.Column="1" IsHitTestVisible="False">
+                            <Grid x:Name="DetailsPanel" Grid.Column="1">
                                 <ContentPresenter x:Name="NoSelectionPresenter" 
                                                   Content="{TemplateBinding NoSelectionContent}"
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}"/>
