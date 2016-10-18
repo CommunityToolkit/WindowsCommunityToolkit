@@ -618,7 +618,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
+    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
       <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
       <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
