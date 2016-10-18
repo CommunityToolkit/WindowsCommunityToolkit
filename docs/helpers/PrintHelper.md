@@ -1,20 +1,21 @@
-# PrintHelper
+# Print Helper
 
-The StorageFileHelper is a class used to simplify document printing.
-Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs
-
+The PrintHelper is a class used to simplify document printing.
 It allows you to render a framework element per page.
-To use it, you only need to instanciate a PrintHelper object and call the `AddFrameworkElementToPrint` method.
 
-**Please note that there is no page break support. Each control will be printed in a single page.**.
+To use it, you only have to instantiate a `PrintHelper` object and call `AddFrameworkElementToPrint` method to add the XAML controls you want to print.
+Please note that controls cannot be linked to a visual tree. This means that their parent property has to be null. 
+If you want to use a control from your current XAML page, you can disconnect it before sending it to print (by removing it from its container) or you can create just create a new one from scratch.
 
-When ready to print, just call `ShowPrintUIAsync` and let the helper do the work for you.
+Please check the sample app code to see how to disconnect/reconnect a control that you want to print: 
+https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs 
 
-You can register to 3 events to control the printing process:
-* OnPrintFailed will be called if user cancels the print or if the print has an issue
-* OnPrintSucceeded will be called after a successful print
-* PreviewPagesCreated
+Several events are available to control the printing process:
+* OnPrintFailed will be triggered if the user cancels the print or if something goes wrong
+* OnPrintSucceeded will be triggered after a successful print
+* OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
 
+** Please note that page breaks are not supported. Every control will be printed on a single page**
 
 ## Example
 
@@ -60,5 +61,5 @@ private async void PrintHelper_OnPrintFailed()
 | Namespace | Microsoft.Toolkit.Uwp |
 
 ## API
-* [PrintHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)
+* [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)
 
