@@ -172,22 +172,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e"></param>
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var panel = (MasterDetailsView)d;
+            var view = (MasterDetailsView)d;
 
             // quick hack to hide the content at first so the user doesn't have to
             // have some converter to hide text when selection is null
-            panel._presenter.Visibility = Visibility.Visible;
+            view._presenter.Visibility = Visibility.Visible;
 
             // Simple way to get the content to animate in
-            panel._presenter.ContentTransitions.Clear();
-            panel._presenter.Content = null;
-            panel._presenter.ContentTransitions.Add(new EdgeUIThemeTransition { Edge = EdgeTransitionLocation.Right });
-            panel._presenter.Content = panel.SelectedItem;
+            view._presenter.ContentTransitions.Clear();
+            view._presenter.Content = null;
+            view._presenter.ContentTransitions.Add(new EdgeUIThemeTransition { Edge = EdgeTransitionLocation.Right });
+            view._presenter.Content = view.SelectedItem;
 
-            panel.SetBackButtonVisibility(panel._stateGroup.CurrentState);
-            if (panel._stateGroup.CurrentState == panel._narrowState)
+            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            if (view._stateGroup.CurrentState == view._narrowState)
             {
-                panel._splitView.IsPaneOpen = panel.SelectedItem == null;
+                view._splitView.IsPaneOpen = view.SelectedItem == null;
             }
         }
 
