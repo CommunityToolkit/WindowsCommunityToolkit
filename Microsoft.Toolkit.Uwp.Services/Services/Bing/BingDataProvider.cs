@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             if (config?.Query == null)
             {
-                throw new ConfigParameterNullException("Query");
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
     }

@@ -66,8 +66,8 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-            this.Tokens = tokens;
-            this.RequiredPermissions = requiredPermissions;
+            Tokens = tokens;
+            RequiredPermissions = requiredPermissions;
 
             _vault = new PasswordVault();
         }
@@ -109,15 +109,15 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 return true;
             }
 
-            string authorizeCode = await GetAuthorizeCodeAsync(this.Tokens, this.RequiredPermissions);
+            string authorizeCode = await GetAuthorizeCodeAsync(Tokens, RequiredPermissions);
 
             if (!string.IsNullOrEmpty(authorizeCode))
             {
-                var accessToken = await GetAccessTokenAsync(this.Tokens, authorizeCode);
+                var accessToken = await GetAccessTokenAsync(Tokens, authorizeCode);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {
-                    this.Tokens.AccessToken = accessToken;
+                    Tokens.AccessToken = accessToken;
 
                     var passwordCredential = new PasswordCredential(LinkedInConstants.STORAGEKEYACCESSTOKEN, LinkedInConstants.STORAGEKEYUSER, accessToken);
                     ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] = LinkedInConstants.STORAGEKEYUSER;
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             var parser = new LinkedInParser<TSchema>();
 
-            var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={this.Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
+            var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
 
             using (var httpClient = new HttpClient())
             {
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
                 var requestParser = new LinkedInParser<LinkedInShareRequest>();
 
-                var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={this.Tokens.AccessToken}&format=json";
+                var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={Tokens.AccessToken}&format=json";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -231,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             if (config?.Query == null)
             {
-                throw new ConfigParameterNullException("Query");
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
 
