@@ -32,8 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
-
         private Uri _uri;
         private bool _isHttpSource;
         private bool _isLoadingImage;
@@ -60,7 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void SetSource(object source)
         {
-
             if (_isInitialized)
             {
                 _image.Source = null;
@@ -99,16 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
 
-                await _semaphore.WaitAsync();
-
-                try
-                {
-                    await LoadImageAsync();
-                }
-                finally
-                {
-                    _semaphore.Release();
-                }
+                await LoadImageAsync();
             }
         }
 
@@ -123,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     try
                     {
                         var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
-                        
+
                         // If you have many imageEx in a virtualized listview for instance
                         // controls will be recycled and the uri will change while waiting for the previous one to load
                         if (_uri == ogUri)
