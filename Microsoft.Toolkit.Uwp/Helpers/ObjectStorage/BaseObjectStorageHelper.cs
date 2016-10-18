@@ -79,9 +79,9 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="filePath">Key of the file (that contains object)</param>
         /// <returns>True if a value exists</returns>
-        public async Task<bool> FileExistsAsync(string filePath)
+        public Task<bool> FileExistsAsync(string filePath)
         {
-            return await Folder.IsFileExistsAsync(filePath);
+            return Folder.IsFileExistsAsync(filePath);
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="filePath">Path to the file that will contain the object</param>
         /// <param name="value">Object to save</param>
         /// <returns>Waiting task until completion</returns>
-        public async Task SaveFileAsync<T>(string filePath, T value)
+        public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            await StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
+            return StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }
