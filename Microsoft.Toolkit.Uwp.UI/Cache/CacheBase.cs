@@ -332,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (file == null)
             {
-                return true;
+                return treatNullFileAsOutOfData;
             }
 
             var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
