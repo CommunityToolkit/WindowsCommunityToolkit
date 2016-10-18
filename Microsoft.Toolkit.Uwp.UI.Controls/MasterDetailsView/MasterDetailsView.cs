@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
         public static readonly DependencyProperty MasterHeaderProperty = DependencyProperty.Register(
-            "MasterHeader",
+            nameof(MasterHeader),
             typeof(object),
             typeof(MasterDetailsView),
             new PropertyMetadata(null, OnMasterHeaderChanged));
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty MasterHeaderTemplateProperty = DependencyProperty.Register(
-            "MasterHeaderTemplate",
+            nameof(MasterHeaderTemplate),
             typeof(DataTemplate),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
