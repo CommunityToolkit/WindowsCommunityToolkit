@@ -56,6 +56,7 @@
                                     <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
                                     <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
                                               Grid.Row="1"
+                                              ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                               BorderBrush="{TemplateBinding BorderBrush}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"/>
