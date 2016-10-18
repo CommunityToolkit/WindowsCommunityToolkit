@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         public RotateBehaviorPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>

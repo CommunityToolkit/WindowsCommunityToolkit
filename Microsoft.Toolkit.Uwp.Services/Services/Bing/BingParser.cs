@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Microsoft.Toolkit.Uwp.Services.Rss;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
@@ -38,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
             return from r in syndicationItems
                     select new BingResult
                     {
-                        InternalID = r.InternalID,
+                        InternalId = r.InternalId,
                         Title = r.Title,
                         Summary = r.Summary,
                         Link = r.FeedUrl,
