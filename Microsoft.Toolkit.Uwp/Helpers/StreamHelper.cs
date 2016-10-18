@@ -136,6 +136,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsPackagedFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
@@ -147,6 +148,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsLocalFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
@@ -158,6 +160,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsLocalCacheFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
@@ -170,6 +173,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="knownFolderId">The well known folder ID to use</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsKnownFolderFileExistsAsync(
             KnownFolderId knownFolderId,
             string fileName)
@@ -184,6 +188,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="workingFolder">Folder to use.</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static async Task<bool> IsFileExistsAsync(
             this StorageFolder workingFolder,
             string fileName)
