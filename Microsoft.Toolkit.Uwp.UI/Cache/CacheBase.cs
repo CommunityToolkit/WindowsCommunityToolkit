@@ -328,11 +328,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfData = true)
+        private async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
         {
             if (file == null)
             {
-                return treatNullFileAsOutOfData;
+                return treatNullFileAsOutOfDate;
             }
 
             var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
