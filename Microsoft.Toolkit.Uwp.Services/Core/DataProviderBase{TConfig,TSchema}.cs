@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// Base class for data providers in this library.

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter

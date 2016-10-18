@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Uwp.Services.Core
 {
     /// <summary>
     /// Base class for data providers in this library.
