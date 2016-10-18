@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
-
         private Visual _root;
         private Compositor _compositor;
         private Visual _detailsVisual;
@@ -200,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            var detailsPanel = (FrameworkElement) GetTemplateChild("DetailsPanel");
+            var detailsPanel = (FrameworkElement)GetTemplateChild("DetailsPanel");
             _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
             _compositor = _root.Compositor;
 
@@ -213,11 +212,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Handles showing the back button in narrow mode and determining if the
-        /// list pane should be open
+        /// Fired when the SelectedItem changes.
         /// </summary>
         /// <param name="d"></param>
         /// <param name="e"></param>
+        /// <remarks>
+        /// Sets up animations for the DetailsPresenter for animating in/out.
+        /// </remarks>
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
@@ -279,8 +280,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks>
-        /// Handles showing the back button and if the list pane should be visible.
-        /// Not working when not debugging. Resorting to SizeChanged event
+        /// Handles showing/hiding the back button when the state changes
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
@@ -301,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Closed the details pane if we are in narrow state
+        /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
