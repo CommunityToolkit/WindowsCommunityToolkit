@@ -10,12 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Numerics;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -24,12 +26,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class MasterDetailsView : ItemsControl
     {
-        private ContentPresenter _presenter;
+        private FrameworkElement _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
-        private VisualState _currentState;
-        private SplitView _splitView;
         private Frame _frame;
+
+        private Visual _root;
+        private Compositor _compositor;
+        private Visual _detailsVisual;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -195,14 +199,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            _splitView = GetTemplateChild("MasterSplitView") as SplitView;
-            if (_splitView != null)
-            {
-                _splitView.SizeChanged += OnSplitViewSizeChanged;
-                _splitView.PaneClosing += OnMasterPaneClosing;
-            }
 
-            _presenter = GetTemplateChild("DetailsPresenter") as ContentPresenter;
+            var detailsPanel = (FrameworkElement) GetTemplateChild("DetailsPanel");
+            _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
+            _compositor = _root.Compositor;
+
+            _detailsPresenter = (FrameworkElement)GetTemplateChild("DetailsPresenter");
+            _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
+            SetDetailsOffset();
+
+            SizeChanged += OnSizeChanged;
             SetMasterHeaderVisibility();
         }
 
@@ -217,21 +223,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var view = (MasterDetailsView)d;
             VisualStateManager.GoToState(view, view.SelectedItem == null ? "NoSelection" : "HasSelection", true);
 
-            // quick hack to hide the content at first so the user doesn't have to
-            // have some converter to hide text when selection is null
-            view._presenter.Visibility = Visibility.Visible;
-
-            // Simple way to get the content to animate in
-            view._presenter.ContentTransitions.Clear();
-            view._presenter.Content = null;
-            view._presenter.ContentTransitions.Add(new EdgeUIThemeTransition { Edge = EdgeTransitionLocation.Right });
-            view._presenter.Content = view.SelectedItem;
-
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
-            if (view._stateGroup.CurrentState == view._narrowState)
+            if (view.SelectedItem != null)
             {
-                view._splitView.IsPaneOpen = view.SelectedItem == null;
+                // Move the visual to the side so it can animate back in
+                view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
             }
+
+            // determine the animate to create. If the SelectedItem is null we
+            // want to animate the content out. If the SelectedItem is not null
+            // we want to animate the content in
+            Vector3 offset = view.SelectedItem == null
+                ? new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0)
+                : new Vector3(-(float)view._detailsPresenter.ActualWidth, 0, 0);
+            view.AnimateFromCurrentByValue(view._detailsVisual, offset);
+            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
         /// <summary>
@@ -246,27 +251,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // Have to wait to get the VisualStateGroup until the control has Loaded
-        // If we try to get the VisualStateGroup in the OnApplyTemplate the 
+        // If we try to get the VisualStateGroup in the OnApplyTemplate the
         // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-            // The below event isn't firing properly. Using SizeChanged to handle 
-            // if (_stateGroup != null)
-            // {
-            //    _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
-            // }
-            _stateGroup = GetTemplateChild("WidthStates") as VisualStateGroup;
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
+            }
 
-            // The below event isn't firing properly. Using SizeChanged to handle
-            // _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+            _stateGroup = (VisualStateGroup)GetTemplateChild("WidthStates");
+            _stateGroup.CurrentStateChanged += OnVisualStateChanged;
 
             _narrowState = GetTemplateChild("NarrowState") as VisualState;
-            if (_splitView != null)
-            {
-                SetPaneLength(_splitView.ActualWidth);
-            }
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -275,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Fires when the addaptive trigger changes state. 
+        /// Fires when the addaptive trigger changes state.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -285,45 +284,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            OnVisualStateChanged(e.NewState);
+            SetBackButtonVisibility(e.NewState);
         }
 
         /// <summary>
-        /// Fires when the size of the SplitView changes
+        /// Fires when the size of the control changes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks>
-        /// Handles setting the OpenLaneLength of the SplitView. When in narrow state the list should
-        /// expand the entire width of the SplitView. We don't want this to be larger than the width
-        /// because the content will then be wider than it should be.
+        /// Handles setting the Offset of the DetailsPresenter if there is no SelectedItem
         /// </remarks>
-        private void OnSplitViewSizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_stateGroup == null)
-            {
-                return;
-            }
-
-            // Work around for CurrentStateChanged not firing when not debugging
-            if (_currentState != _stateGroup.CurrentState)
-            {
-                _currentState = _stateGroup.CurrentState;
-                OnVisualStateChanged(_currentState);
-            }
-
-            SetPaneLength(e.NewSize.Width);
-        }
-
-        private void OnMasterPaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
-        {
-            // The pane should only close when we are in a narrow state and there is a selected item.
-            // During Narrow state the DisplayMode is set to overlay to add animations. Side effect 
-            // of using Overlay is the pane will close when resizing or focus is off of the pane.
-            if (SelectedItem == null)
-            {
-                args.Cancel = true;
-            }
+            SetDetailsOffset();
         }
 
         /// <summary>
@@ -335,10 +309,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (((_stateGroup.CurrentState == _narrowState) || (_stateGroup.CurrentState == null)) && (SelectedItem != null))
             {
-                _splitView.IsPaneOpen = true;
                 SelectedItem = null;
                 args.Handled = true;
-                SetBackButtonVisibility(_stateGroup.CurrentState);
             }
         }
 
@@ -353,25 +325,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetPaneLength(double width)
+        private void SetDetailsOffset()
         {
-            // Would prefer to use the adaptive trigger to assign this but binding to
-            // the ActualWidth would not work
-            if (_stateGroup.CurrentState == _narrowState)
+            if (SelectedItem == null)
             {
-                _splitView.OpenPaneLength = width;
+                _detailsVisual.Offset = new Vector3((float)_detailsPresenter.ActualWidth, 0, 0);
             }
-        }
-
-        private void OnVisualStateChanged(VisualState currentState)
-        {
-            if (currentState == _narrowState)
-            {
-                // The pane should only be open is narrow state if the SelectedItem is null
-                _splitView.IsPaneOpen = SelectedItem == null;
-            }
-
-            SetBackButtonVisibility(currentState);
         }
 
         /// <summary>
@@ -398,6 +357,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Frame GetFrame()
         {
             return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
+        }
+
+        // Creates and defines the Keyframe animation using a current value of target Visual and animating by a value
+        private void AnimateFromCurrentByValue(Visual targetVisual, Vector3 delta)
+        {
+            var animation = _compositor.CreateVector3KeyFrameAnimation();
+
+            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value 
+            animation.InsertExpressionKeyFrame(1.00f, "this.StartingValue + delta");
+
+            // Define the value variable
+            animation.SetVector3Parameter("delta", delta);
+            animation.Duration = TimeSpan.FromMilliseconds(250);
+
+            targetVisual.StartAnimation("Offset", animation);
         }
     }
 }

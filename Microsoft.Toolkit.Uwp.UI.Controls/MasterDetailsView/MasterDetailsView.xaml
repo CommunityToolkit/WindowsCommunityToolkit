@@ -4,7 +4,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="controls:MasterDetailsView" >
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
@@ -28,8 +28,9 @@
                                         <AdaptiveTrigger MinWindowWidth="320" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
-                                        <Setter Target="MasterSplitView.DisplayMode" Value="Overlay" />
-                                        <Setter Target="MasterList.BorderThickness" Value="0"/>
+                                        <Setter Target="MasterColumn.Width" Value="*" />
+                                        <Setter Target="DetailsColumn.Width" Value="0" />
+                                        <Setter Target="DetailsPanel.(Grid.Column)" Value="0" />
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
                                     </VisualState.Setters>
                                 </VisualState>
@@ -37,51 +38,39 @@
                                     <VisualState.StateTriggers>
                                         <AdaptiveTrigger MinWindowWidth="720" />
                                     </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="MasterSplitView.OpenPaneLength" Value="450" />
-                                        <Setter Target="MasterSplitView.DisplayMode" Value="Inline" />
-                                        <Setter Target="MasterSplitView.IsPaneOpen" Value="True" />
-                                        <Setter Target="MasterList.BorderThickness" Value="0,0,1,0"/>
-                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <SplitView x:Name="MasterSplitView" IsPaneOpen="True" PaneBackground="{TemplateBinding ListPaneBackground}">
-                            <SplitView.Pane>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                                    <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
-                                              Grid.Row="1"
-                                              ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              ItemTemplate="{TemplateBinding ItemTemplate}"/>
-                                </Grid>
-                            </SplitView.Pane>
-                            <SplitView.Content>
-                                <Grid>
-                                    <ContentPresenter x:Name="NoSelectionPresenter" 
-                                                      Content="{TemplateBinding NoSelectionContent}"
-                                                      ContentTemplate="{TemplateBinding NoSelectionContentTemplate}"/>
-                                    <ContentPresenter x:Name="DetailsPresenter" 
-                                                      Content="{TemplateBinding SelectedItem}"
-                                                      Visibility="Collapsed"
-                                                      Foreground="{TemplateBinding Foreground}"
-                                                      Background="{TemplateBinding Background}"
-                                                      ContentTemplate="{TemplateBinding DetailsTemplate}">
-                                        <ContentPresenter.ContentTransitions>
-                                            <TransitionCollection>
-                                                <EdgeUIThemeTransition Edge="Right"/>
-                                            </TransitionCollection>
-                                        </ContentPresenter.ContentTransitions>
-                                    </ContentPresenter>
-                                </Grid>
-                            </SplitView.Content>
-                        </SplitView>
+                        <Grid x:Name="RootPanel">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="MasterColumn" Width="450"/>
+                                <ColumnDefinition x:Name="DetailsColumn" Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Background="{TemplateBinding ListPaneBackground}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                                <ListView x:Name="MasterList" ItemsSource="{TemplateBinding ItemsSource}"
+                                          Grid.Row="1"
+                                          BorderThickness="0,0,1,0"
+                                          ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"/>
+                            </Grid>
+                            <Grid x:Name="DetailsPanel" Grid.Column="1" IsHitTestVisible="False">
+                                <ContentPresenter x:Name="NoSelectionPresenter" 
+                                                  Content="{TemplateBinding NoSelectionContent}"
+                                                  ContentTemplate="{TemplateBinding NoSelectionContentTemplate}"/>
+                                <ContentPresenter x:Name="DetailsPresenter" 
+                                                  Background="{TemplateBinding Background}"
+                                                  Content="{TemplateBinding SelectedItem}"
+                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                </ContentPresenter>
+                            </Grid>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
