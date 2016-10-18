@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -102,7 +101,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(DetailTransitions), typeof(TransitionCollection), typeof(MasterDetail), new PropertyMetadata(default(TransitionCollection)));
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MasterDetail" /> class.
+        /// The minimum width for full display mode property
+        /// </summary>
+        public static readonly DependencyProperty MinWidthForFullDisplayModeProperty = DependencyProperty.Register(
+            nameof(MinWidthForFullDisplayMode), typeof(double), typeof(MasterDetail), new PropertyMetadata(default(double), OnMinWidthForFullDisplayModeChanged));
+
+        private static void OnMinWidthForFullDisplayModeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(e.NewValue is double))
+            {
+                return;
+            }
+
+            var width = (double)e.NewValue;
+            (sender as MasterDetail)?.SetDisplayMode(width);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MasterDetail" /> class.
         /// </summary>
         public MasterDetail()
         {
@@ -110,6 +126,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+        }
+
+        /// <summary>
+        /// Gets or sets the minimum width for full display mode.
+        /// </summary>
+        /// <value>
+        /// The minimum width for full display mode.
+        /// </value>
+        public double MinWidthForFullDisplayMode
+        {
+            get { return (double)GetValue(MinWidthForFullDisplayModeProperty); }
+            set { SetValue(MinWidthForFullDisplayModeProperty, value); }
         }
 
         /// <summary>
@@ -254,6 +282,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
+            SetDisplayMode(Window.Current.Bounds.Width);
+
             Update();
         }
 
@@ -266,6 +296,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 frame.Navigating -= FrameOnNavigating;
             }
+
+            Window.Current.SizeChanged -= CurrentOnSizeChanged;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -277,6 +309,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 frame.Navigating += FrameOnNavigating;
             }
+
+            Window.Current.SizeChanged -= CurrentOnSizeChanged;
+            Window.Current.SizeChanged += CurrentOnSizeChanged;
+        }
+
+        private void CurrentOnSizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            var width = e.Size.Width;
+            SetDisplayMode(width);
+        }
+
+        private void SetDisplayMode(double width)
+        {
+            DisplayMode = width <= MinWidthForFullDisplayMode ? MasterDetailDisplayMode.Compact : MasterDetailDisplayMode.Full;
         }
 
         private Frame GetFrame()

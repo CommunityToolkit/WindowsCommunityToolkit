@@ -16,6 +16,8 @@
                 </TransitionCollection>
             </Setter.Value>
         </Setter>
+        <Setter Property="MinWidthForFullDisplayMode"
+                Value="600"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MasterDetail">
