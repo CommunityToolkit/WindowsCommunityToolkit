@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="filePath">Path to the file that will contain the object</param>
         /// <param name="value">Object to save</param>
-        /// <returns>Waiting task until completion</returns>
+        /// <returns>When this method completes, it returns the <see cref="StorageFile"/> where the object was saved</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
             return StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
