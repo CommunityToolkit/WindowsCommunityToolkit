@@ -24,10 +24,10 @@ The StorageFileHelper is a static utility class that provides functions to help 
 	loadedText = await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt");
 
 	// Check if a file exists in a specific folder
-	bool exists = await StorageFileHelper.FileExistsAsync(localFolder, "appFilename.txt");
+	bool exists = await localFolder.FileExistsAsync("appFilename.txt");
 
 	// Check if a file exists in a specific folder or in one of its subfolders
-	bool exists = await StorageFileHelper.FileExistsAsync(localFolder, "appFilename.txt", true);
+	bool exists = await localFolder.FileExistsAsync("appFilename.txt", true);
 
 ```
 
