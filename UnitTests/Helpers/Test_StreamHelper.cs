@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace UnitTests.Helpers
@@ -55,7 +56,8 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_PackagedFile()
         {
-            Assert.IsTrue(await StreamHelper.IsPackagedFileExistsAsync(PackagedFilePath));
+            var packageFolder = Package.Current.InstalledLocation;
+            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(packageFolder, PackagedFilePath));
 
             using (var stream = await StreamHelper.GetPackagedFileStreamAsync(PackagedFilePath))
             {
@@ -68,12 +70,13 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_LocalFolder()
         {
-            Assert.IsFalse(await StreamHelper.IsLocalFileExistsAsync(Filename));
+            var localFolder = ApplicationData.Current.LocalFolder;
+            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(localFolder, Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsLocalFileExistsAsync(Filename));
+            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(localFolder, Filename));
 
             using (var stream = await StreamHelper.GetLocalFileStreamAsync(Filename))
             {
@@ -88,12 +91,13 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_LocalCacheFolder()
         {
-            Assert.IsFalse(await StreamHelper.IsLocalCacheFileExistsAsync(Filename));
+            var localCacheFolder = ApplicationData.Current.LocalCacheFolder;
+            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(localCacheFolder, Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsLocalCacheFileExistsAsync(Filename));
+            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(localCacheFolder, Filename));
 
             using (var stream = await StreamHelper.GetLocalCacheFileStreamAsync(Filename))
             {
@@ -108,14 +112,15 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_KnownFolder()
         {
+            var knownFolder = KnownFolders.PicturesLibrary;
             var folder = KnownFolderId.PicturesLibrary;
 
-            Assert.IsFalse(await StreamHelper.IsKnownFolderFileExistsAsync(folder, Filename));
+            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(knownFolder, Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToKnownFolderFileAsync(folder, SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StreamHelper.IsKnownFolderFileExistsAsync(folder, Filename));
+            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(knownFolder, Filename));
 
             using (var stream = await StreamHelper.GetKnowFoldersFileStreamAsync(folder, Filename))
             {
