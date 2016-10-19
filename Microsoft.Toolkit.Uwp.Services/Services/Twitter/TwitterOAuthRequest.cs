@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
 
-                request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                         {
                             var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                            request.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                            request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                             request.Content = multipartFormDataContent;
 

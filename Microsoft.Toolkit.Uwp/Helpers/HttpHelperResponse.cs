@@ -13,6 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 namespace Microsoft.Toolkit.Uwp
 {
@@ -21,25 +22,60 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public class HttpHelperResponse : IDisposable
     {
+        private HttpResponseMessage _responseMessage = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelperResponse"/> class.
-        /// Default constructor.
         /// </summary>
-        public HttpHelperResponse()
+        /// <param name="response">Http Response <see cref="HttpResponseMessage"/> being wrapped.</param>
+        public HttpHelperResponse(HttpResponseMessage response)
         {
-            StatusCode = HttpStatusCode.Ok;
-            Result = null;
+            _responseMessage = response;
         }
 
         /// <summary>
-        /// Gets or sets holds request StatusCode.
+        /// Gets the HTTP response StatusCode.
         /// </summary>
-        public HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode
+        {
+            get
+            {
+                return _responseMessage.StatusCode;
+            }
+        }
 
         /// <summary>
-        /// Gets or sets holds request Result.
+        /// Gets a value indicating whether the HTTP response was successful.
         /// </summary>
-        public IHttpContent Result { get; set; }
+        public bool Success
+        {
+            get
+            {
+                return _responseMessage.IsSuccessStatusCode;
+            }
+        }
+
+        /// <summary>
+        /// Gets the HTTP response header collection.
+        /// </summary>
+        public HttpResponseHeaderCollection Headers
+        {
+            get
+            {
+                return _responseMessage.Headers;
+            }
+        }
+
+        /// <summary>
+        /// Gets content from HTTP response.
+        /// </summary>
+        public IHttpContent Content
+        {
+            get
+            {
+                return _responseMessage.Content;
+            }
+        }
 
         /// <summary>
         /// Reads the Content as string and returns it to the caller.
@@ -47,18 +83,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>string content</returns>
         public Task<string> GetTextResultAsync()
         {
-            if (this.Result == null)
+            if (this.Content == null)
             {
                 return Task.FromResult<string>(null);
             }
 
-            return Result.ReadAsStringAsync().AsTask();
+            return Content.ReadAsStringAsync().AsTask();
         }
-
-        /// <summary>
-        /// Gets a value indicating whether holds request Success boolean.
-        /// </summary>
-        public bool Success => StatusCode == HttpStatusCode.Ok;
 
         /// <summary>
         /// Dispose underlying content
@@ -67,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp
         {
             try
             {
-                Result?.Dispose();
+                _responseMessage.Dispose();
             }
             catch (ObjectDisposedException)
             {

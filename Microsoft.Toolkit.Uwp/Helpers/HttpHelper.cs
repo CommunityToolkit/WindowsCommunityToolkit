@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Private instance field.
         /// </summary>
-        private HttpClient httpClient = null;
+        private HttpClient _httpClient = null;
 
         /// <summary>
         /// Gets public singleton property.
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp
             var filter = new HttpBaseProtocolFilter();
             filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
 
-            httpClient = new HttpClient(filter);
+            _httpClient = new HttpClient(filter);
         }
 
         /// <summary>
@@ -56,16 +56,12 @@ namespace Microsoft.Toolkit.Uwp
         public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
         {
             var httpRequestMessage = request.ToHttpRequestMessage();
-            using (var response = await httpClient.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false))
-            {
-                FixInvalidCharset(response);
 
-                return new HttpHelperResponse()
-                {
-                    StatusCode = response.StatusCode,
-                    Result = response.Content
-                };
-            }
+            var response = await _httpClient.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+
+            FixInvalidCharset(response);
+
+            return new HttpHelperResponse(response);
         }
 
         /// <summary>

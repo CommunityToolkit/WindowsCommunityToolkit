@@ -29,7 +29,7 @@ namespace UnitTests.Helpers
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request))
                 {
                     Assert.IsTrue(response.Success);
-                    Assert.IsNotNull(response.Result);
+                    Assert.IsNotNull(response.Content);
                 }
             }
         }

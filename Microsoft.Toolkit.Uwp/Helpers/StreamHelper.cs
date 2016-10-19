@@ -35,15 +35,16 @@ namespace Microsoft.Toolkit.Uwp
         {
             var outputStream = new InMemoryRandomAccessStream();
 
-            HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
-
-            using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+            using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                if (response.Success)
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    await response.Result.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
+                    if (response.Success)
+                    {
+                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
 
-                    outputStream.Seek(0);
+                        outputStream.Seek(0);
+                    }
                 }
             }
 
@@ -62,13 +63,14 @@ namespace Microsoft.Toolkit.Uwp
         {
             using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
-                HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get);
-
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
-                    if (response.Success)
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                     {
-                        await response.Result.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                        if (response.Success)
+                        {
+                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                        }
                     }
                 }
             }

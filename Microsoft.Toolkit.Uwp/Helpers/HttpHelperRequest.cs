@@ -18,15 +18,14 @@ using Windows.Web.Http.Headers;
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// HttpHelperRequest for holding request settings.
+    /// Represents an HTTP request message including headers.
     /// </summary>
     public class HttpHelperRequest : IDisposable
     {
-        private HttpRequestMessage requestMessage = null;
+        private HttpRequestMessage _requestMessage = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpHelperRequest"/> class.
-        /// Default constructor.
+        /// Initializes a new instance of the <see cref="HttpHelperRequest"/> class with Uri and HTTP GET Method.
         /// </summary>
         /// <param name="uri">Uri for the resource</param>
         public HttpHelperRequest(Uri uri)
@@ -35,16 +34,13 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpHelperRequest"/> class.
-        /// Default constructor.
+        /// Initializes a new instance of the <see cref="HttpHelperRequest"/> class with Uri and HTTP method.
         /// </summary>
         /// <param name="uri">Uri for the resource</param>
         /// <param name="method">Method to use when making the request</param>
         public HttpHelperRequest(Uri uri, HttpMethod method)
         {
-            Headers = new Dictionary<string, string>();
-
-            requestMessage = new HttpRequestMessage(method, uri);
+            _requestMessage = new HttpRequestMessage(method, uri);
         }
 
         /// <summary>
@@ -52,93 +48,43 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public HttpMethod Method
         {
-            get { return requestMessage.Method; }
+            get { return _requestMessage.Method; }
         }
 
         /// <summary>
         /// Gets the request Uri.
         /// </summary>
-        public Uri RequestedUri
+        public Uri RequestUri
         {
-            get { return requestMessage.RequestUri; }
+            get { return _requestMessage.RequestUri; }
         }
 
         /// <summary>
-        /// Gets the accept header collection for the request.
+        /// Gets HTTP header collection from the underlying HttpRequestMessage.
         /// </summary>
-        public HttpMediaTypeWithQualityHeaderValueCollection Accept
+        public HttpRequestHeaderCollection Headers
         {
-            get { return requestMessage.Headers.Accept; }
+            get
+            {
+                return _requestMessage.Headers;
+            }
         }
-
-        /// <summary>
-        /// Gets the accept encoding header collection for the request.
-        /// </summary>
-        public HttpContentCodingWithQualityHeaderValueCollection AcceptEncoding
-        {
-            get { return requestMessage.Headers.AcceptEncoding; }
-        }
-
-        /// <summary>
-        /// Gets the accept language header for the request.
-        /// </summary>
-        public HttpLanguageRangeWithQualityHeaderValueCollection AcceptLanguage
-        {
-            get { return requestMessage.Headers.AcceptLanguage; }
-        }
-
-        /// <summary>
-        /// Gets the connection header for the request.
-        /// </summary>
-        public HttpConnectionOptionHeaderValueCollection Connection
-        {
-            get { return requestMessage.Headers.Connection; }
-        }
-
-        /// <summary>
-        /// Gets or sets the If-Modified-Since header for the request.
-        /// </summary>
-        public DateTimeOffset? IfModifiedSince
-        {
-            get { return requestMessage.Headers.IfModifiedSince; }
-            set { requestMessage.Headers.IfModifiedSince = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the referer header for the request.
-        /// </summary>
-        public Uri Referer
-        {
-            get { return requestMessage.Headers.Referer; }
-            set { requestMessage.Headers.Referer = value; }
-        }
-
-        /// <summary>
-        /// Gets User Agent to pass to the request.
-        /// </summary>
-        public HttpProductInfoHeaderValueCollection UserAgent
-        {
-            get { return requestMessage.Headers.UserAgent; }
-        }
-
-        /// <summary>
-        /// Gets or sets authorization related credentials to the request
-        /// </summary>
-        public HttpCredentialsHeaderValue Authorization
-        {
-            get { return requestMessage.Headers.Authorization; }
-            set { requestMessage.Headers.Authorization = value; }
-        }
-
-        /// <summary>
-        /// Gets collection of headers to pass with the request.
-        /// </summary>
-        public Dictionary<string, string> Headers { get; private set; }
 
         /// <summary>
         /// Gets or sets holds request Result.
         /// </summary>
-        public IHttpContent Content { get; set; }
+        public IHttpContent Content
+        {
+            get
+            {
+                return _requestMessage.Content;
+            }
+
+            set
+            {
+                _requestMessage.Content = value;
+            }
+        }
 
         /// <summary>
         /// Creates HttpRequestMessage using the data.
@@ -146,55 +92,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Instance of <see cref="HttpRequestMessage"/></returns>
         public HttpRequestMessage ToHttpRequestMessage()
         {
-            if (Headers != null && Headers.Count > 0)
-            {
-                foreach (var pair in Headers)
-                {
-                    if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Accept), StringComparison.OrdinalIgnoreCase))
-                    {
-                        Accept.ParseAdd(pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptEncoding), StringComparison.OrdinalIgnoreCase))
-                    {
-                        AcceptEncoding.ParseAdd(pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.AcceptLanguage), StringComparison.OrdinalIgnoreCase))
-                    {
-                        AcceptLanguage.ParseAdd(pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Authorization), StringComparison.OrdinalIgnoreCase))
-                    {
-                        Authorization = new HttpCredentialsHeaderValue(nameof(HttpRequestHeaderCollection.Authorization), pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Connection), StringComparison.OrdinalIgnoreCase))
-                    {
-                        Connection.ParseAdd(pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.IfModifiedSince), StringComparison.OrdinalIgnoreCase))
-                    {
-                        IfModifiedSince = new DateTimeOffset(DateTime.Parse(pair.Value));
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.Referer)))
-                    {
-                        Referer = new Uri(pair.Value);
-                    }
-                    else if (pair.Key.Equals(nameof(HttpRequestHeaderCollection.UserAgent), StringComparison.OrdinalIgnoreCase))
-                    {
-                        UserAgent.ParseAdd(pair.Value);
-                    }
-                    else
-                    {
-                        requestMessage.Headers[pair.Key] = pair.Value;
-                    }
-                }
-            }
-
-            if (Content != null)
-            {
-                requestMessage.Content = Content;
-            }
-
-            return requestMessage;
+            return _requestMessage;
         }
 
         /// <summary>
@@ -204,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp
         {
             try
             {
-                Content?.Dispose();
+                _requestMessage.Dispose();
             }
             catch (ObjectDisposedException)
             {
