@@ -8,7 +8,7 @@ Represents an HTTP response message including headers.
 
 using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post))
 {
-    using (var response = await HttpHelper.Instance.SendRequestAsync(request).)
+    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
     {
         return await response.GetTextResultAsync();
     }
