@@ -2,28 +2,64 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
-                <controls:QuickReturnHeader TargetListViewBase="{x:Bind listView}" IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}" IsSticky="{Binding IsSticky.Value}">
-                    <StackPanel Padding="12" Background="#F0F0F0" BorderThickness="0,0,0,1" BorderBrush="#FFCCCCCC">
-                        <TextBlock Text="Quick Return Header" Foreground="Black" Style="{ThemeResource TitleTextBlockStyle}" />
-                        <TextBlock Text="The quick return header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again."
-                                   Foreground="Black"
-                                   Style="{ThemeResource BodyTextBlockStyle}" />
-                    </StackPanel>
+                <controls:QuickReturnHeader IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}"
+                                            IsSticky="{Binding IsSticky.Value}"
+                                            TargetListViewBase="{x:Bind listView}">
+                    <Grid x:Name="MyHeaderGrid"
+                      MinHeight="250"
+                      Background="{StaticResource Brush-Blue-01}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Margin="12"
+                                   FontSize="48"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource Brush-White}"
+                                   Text="Quick Return Header"
+                                   TextAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                            <TextBlock Margin="12,0,12,12"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource Brush-White}"
+                                   Text="The quick return header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again."
+                                   TextAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        </StackPanel>
+                    </Grid>
                 </controls:QuickReturnHeader>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Item">
-                    <TextBlock Text="{x:Bind Title}" />
+                    <Grid MinHeight="100" Background="{StaticResource Brush-Grey-04}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="ToolkitLogo"
+                               Grid.Column="0"
+                               Width="100"
+                               Height="100"
+                               Margin="0,0,24,0"
+                               Source="ms-appx:///Assets/ToolkitLogo.png" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind Title}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="12,12,24,12" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </Page>
