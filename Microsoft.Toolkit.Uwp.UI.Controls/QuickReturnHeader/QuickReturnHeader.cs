@@ -44,18 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsQuickReturnEnabled), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnIsQuickReturnEnabledChanged));
 
         /// <summary>
-        /// Gets or sets a value indicating whether the quick return header is enabled.
-        /// If true the quick return behavior is used.
-        /// If false regular header behavior is used.
-        /// Default is true.
-        /// </summary>
-        public bool IsQuickReturnEnabled
-        {
-            get { return (bool)GetValue(IsQuickReturnEnabledProperty); }
-            set { SetValue(IsQuickReturnEnabledProperty, value); }
-        }
-
-        /// <summary>
         /// Identifies the <see cref="IsSticky"/> property.
         /// </summary>
         public static readonly DependencyProperty IsStickyProperty =
@@ -66,6 +54,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty TargetListViewBaseProperty =
             DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(QuickReturnHeader), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the quick return header is enabled.
+        /// If true the quick return behavior is used.
+        /// If false regular header behavior is used.
+        /// Default is true.
+        /// </summary>
+        public bool IsQuickReturnEnabled
+        {
+            get { return (bool)GetValue(IsQuickReturnEnabledProperty); }
+            set { SetValue(IsQuickReturnEnabledProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the quick return header should always be visible.
