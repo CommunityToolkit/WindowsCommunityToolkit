@@ -101,9 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task LoadImageAsync()
         {
-            if (!_isLoadingImage && _uri != null)
+            if (_uri != null)
             {
-                _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
                     var ogUri = _uri;
@@ -133,8 +132,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
-
-                _isLoadingImage = false;
             }
         }
     }
