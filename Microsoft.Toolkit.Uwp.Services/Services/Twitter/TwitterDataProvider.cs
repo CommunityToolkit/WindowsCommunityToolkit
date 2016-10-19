@@ -15,8 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
 using Newtonsoft.Json;
@@ -376,11 +375,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             // Get picture data
             var fileBytes = new byte[stream.Size];
 
-            using (DataReader reader = new DataReader(stream))
-            {
-                await reader.LoadAsync((uint)stream.Size);
-                reader.ReadBytes(fileBytes);
-            }
+            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
+
+            stream.Seek(0);
 
             string boundary = DateTime.Now.Ticks.ToString("x");
 
@@ -579,22 +576,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string getResponse;
 
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-
-            using (HttpClient httpClient = new HttpClient(handler))
-            {
-                try
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    getResponse = await httpClient.GetStringAsync(new Uri(twitterUrl));
-                }
-                catch (HttpRequestException hre)
-                {
-                    Debug.WriteLine("HttpClient call failed trying to retrieve Twitter Request Tokens.  Message: {0}", hre.Message);
-                    return false;
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    if (response.Success)
+                    {
+                        getResponse = data;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
+                        return false;
+                    }
                 }
             }
 
@@ -659,29 +654,23 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             sigBaseString += Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
 
             string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
+            string data = null;
 
-            StringContent httpContent = new StringContent("oauth_verifier=" + oAuthVerifier, System.Text.Encoding.UTF8);
-            httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+            string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
 
-            string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_version=\"1.0\"";
-
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
+
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    data = await response.GetTextResultAsync().ConfigureAwait(false);
+                }
             }
 
-            string response;
-            using (HttpClient httpClient = new HttpClient(handler))
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
-                var httpResponseMessage = await httpClient.PostAsync(new Uri(twitterUrl), httpContent);
-                response = await httpResponseMessage.Content.ReadAsStringAsync();
-            }
-
-            var screenName = ExtractTokenFromResponse(response, TwitterOAuthTokenType.ScreenName);
-            var accessToken = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
-            var accessTokenSecret = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
+            var screenName = ExtractTokenFromResponse(data, TwitterOAuthTokenType.ScreenName);
+            var accessToken = ExtractTokenFromResponse(data, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
+            var accessTokenSecret = ExtractTokenFromResponse(data, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
             UserScreenName = screenName;
             _tokens.AccessToken = accessToken;
