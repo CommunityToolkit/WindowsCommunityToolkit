@@ -18,7 +18,7 @@ using Windows.Web.Http.Filters;
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// This class provides static helper methods for streams.
+    /// This class exposes functionality of HttpClient through a singleton to take advantage of built-in connection pooling.
     /// </summary>
     public class HttpHelper
     {
