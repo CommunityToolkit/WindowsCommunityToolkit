@@ -98,6 +98,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "DraggableContentControl",
+        "Type": "DraggableContentControlPage",
+        "About": "DraggableContentControl provides an easier way to create content that can be manipulated in a view, for example, a photo board.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DraggableContentControl",
+        "XamlCodeFile": "DraggableContentControlCode.bind",
+        "Icon": ""  
       }
     ]
   },

@@ -50,6 +50,8 @@
     <Compile Include="BladeControl\BladeControl.cs" />
     <Compile Include="BladeControl\BladeControl.Events.cs" />
     <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="DraggableContentControl\DraggableContentControl.cs" />
+    <Compile Include="DraggableContentControl\DraggableContentControl.Properties.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
@@ -98,6 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BladeControl\BladeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="DraggableContentControl\DraggableContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
