@@ -48,6 +48,7 @@
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlHelpers.Composition.cs" />

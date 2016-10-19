@@ -1,12 +1,31 @@
-﻿using Microsoft.Advertising.WinRT.UI;
-using System;
-using Windows.System.Profile;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using Microsoft.Advertising.WinRT.UI;
+#pragma warning disable SA1208 // System using directives must be placed before other using directives
+    using System;
+#pragma warning restore SA1208 // System using directives must be placed before other using directives
+    using Windows.System.Profile;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+
     // This control written per https://msdn.microsoft.com/windows/uwp/monetize/migrate-from-admediatorcontrol-to-adcontrol
+
+    /// <summary>A UWP AdMediator control</summary>
+    /// <seealso cref="Windows.UI.Xaml.Controls.UserControl" />
+    /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector" />
+    /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
     public sealed partial class UwpAdMediator : UserControl
     {
         public int MobileAdWidth
@@ -141,11 +160,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private AdControl myMicrosoftBanner = null;
         private AdDuplex.AdControl myAdDuplexBanner = null;
 
-        private string MicrosoftAppId => ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily) ? this.MobileApplicationId : this.DesktopApplicationId;
-        private string MicrosoftAdUnit => ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily) ? this.MobileAdUnit : this.DesktopAdUnit;
-        private int AdWidth => ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily) ? this.MobileAdWidth : this.DesktopAdWidth;
-        private int AdHeight => ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily) ? this.MobileAdHeight : this.DesktopAdHeight;
+        private string MicrosoftAppId => (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile") ? this.MobileApplicationId : this.DesktopApplicationId;
 
+        private string MicrosoftAdUnit => (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile") ? this.MobileAdUnit : this.DesktopAdUnit;
+
+        private int AdWidth => (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile") ? this.MobileAdWidth : this.DesktopAdWidth;
+
+        private int AdHeight => (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile") ? this.MobileAdHeight : this.DesktopAdHeight;
 
         public UwpAdMediator()
         {
@@ -164,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Start the timer to refresh the banner at the desired interval.
             myAdRefreshTimer.Interval = new TimeSpan(0, 0, this.AdRefreshSeconds);
-            myAdRefreshTimer.Tick += myAdRefreshTimer_Tick;
+            myAdRefreshTimer.Tick += MyAdRefreshTimer_Tick;
             myAdRefreshTimer.Start();
         }
 
@@ -177,9 +198,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //// AdDuplex as fallback. In France, AdDuplex is first. In other regions,
             //// this example uses a weighted average approach, with 50% to AdDuplex.
 
-            //int returnValue = 0;
-            //switch (GlobalizationPreferences.HomeGeographicRegion)
-            //{
+            // int returnValue = 0;
+            // switch (GlobalizationPreferences.HomeGeographicRegion)
+            // {
             //    case "CA":
             //    case "MX":
             //        returnValue = 0;
@@ -190,8 +211,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //    default:
             //        returnValue = 50;
             //        break;
-            //}
-            //return returnValue;
+            // }
+            // return returnValue;
         }
 
         private void ActivateMicrosoftBanner()
@@ -206,22 +227,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //// Use random number generator and house ads weight to determine whether
             //// to use paid ads or house ads. Paid is the default. You could alternatively
             //// write a method similar to GetAdDuplexWeight and override by region.
-            //string myAdUnit = myMicrosoftPaidUnitId;
-            //int houseWeight = HOUSE_AD_WEIGHT;
-            //int randomInt = randomGenerator.Next(0, 100);
-            //if (randomInt < houseWeight)
-            //{
+            // string myAdUnit = myMicrosoftPaidUnitId;
+            // int houseWeight = HOUSE_AD_WEIGHT;
+            // int randomInt = randomGenerator.Next(0, 100);
+            // if (randomInt < houseWeight)
+            // {
             //    myAdUnit = myMicrosoftHouseUnitId;
-            //}
+            // }
 
             // Hide the AdDuplex control if it is showing.
-            if (null != myAdDuplexBanner)
+            if (myAdDuplexBanner != null)
             {
                 myAdDuplexBanner.Visibility = Visibility.Collapsed;
             }
 
             // Initialize or display the Microsoft control.
-            if (null == myMicrosoftBanner)
+            if (myMicrosoftBanner == null)
             {
                 myMicrosoftBanner = new AdControl();
                 myMicrosoftBanner.ApplicationId = this.MicrosoftAppId;
@@ -230,8 +251,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 myMicrosoftBanner.Height = this.AdHeight;
                 myMicrosoftBanner.IsAutoRefreshEnabled = false;
 
-                myMicrosoftBanner.AdRefreshed += myMicrosoftBanner_AdRefreshed;
-                myMicrosoftBanner.ErrorOccurred += myMicrosoftBanner_ErrorOccurred;
+                myMicrosoftBanner.AdRefreshed += MyMicrosoftBanner_AdRefreshed;
+                myMicrosoftBanner.ErrorOccurred += MyMicrosoftBanner_ErrorOccurred;
 
                 myAdGrid.Children.Add(myMicrosoftBanner);
             }
@@ -252,13 +273,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Hide the Microsoft control if it is showing.
-            if (null != myMicrosoftBanner)
+            if (myMicrosoftBanner != null)
             {
                 myMicrosoftBanner.Visibility = Visibility.Collapsed;
             }
 
             // Initialize or display the AdDuplex control.
-            if (null == myAdDuplexBanner)
+            if (myAdDuplexBanner == null)
             {
                 myAdDuplexBanner = new AdDuplex.AdControl();
                 myAdDuplexBanner.AppKey = this.AdDuplexAppKey;
@@ -267,10 +288,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 myAdDuplexBanner.Height = this.AdHeight;
                 myAdDuplexBanner.RefreshInterval = this.AdRefreshSeconds;
 
-                myAdDuplexBanner.AdLoaded += myAdDuplexBanner_AdLoaded;
-                myAdDuplexBanner.AdCovered += myAdDuplexBanner_AdCovered;
-                myAdDuplexBanner.AdLoadingError += myAdDuplexBanner_AdLoadingError;
-                myAdDuplexBanner.NoAd += myAdDuplexBanner_NoAd;
+                myAdDuplexBanner.AdLoaded += MyAdDuplexBanner_AdLoaded;
+                myAdDuplexBanner.AdCovered += MyAdDuplexBanner_AdCovered;
+                myAdDuplexBanner.AdLoadingError += MyAdDuplexBanner_AdLoadingError;
+                myAdDuplexBanner.NoAd += MyAdDuplexBanner_NoAd;
 
                 myAdGrid.Children.Add(myAdDuplexBanner);
             }
@@ -280,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void myAdRefreshTimer_Tick(object sender, object e)
+        private void MyAdRefreshTimer_Tick(object sender, object e)
         {
             RefreshBanner();
         }
@@ -293,53 +314,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             myAdGrid.Visibility = Visibility.Visible;
 
             // Display ad from AdDuplex.
-            if (100 == adDuplexWeight)
+            if (adDuplexWeight == 100)
             {
                 ActivateAdDuplexBanner();
             }
+
             // Display Microsoft ad.
-            else if (0 == adDuplexWeight)
+            else if (adDuplexWeight == 0)
             {
                 ActivateMicrosoftBanner();
             }
+
             // Use weighted approach.
             else
             {
                 int randomInt = randomGenerator.Next(0, 100);
-                if (randomInt < adDuplexWeight) ActivateAdDuplexBanner();
-                else ActivateMicrosoftBanner();
+                if (randomInt < adDuplexWeight)
+                {
+                    ActivateAdDuplexBanner();
+                }
+                else
+                {
+                    ActivateMicrosoftBanner();
+                }
             }
         }
 
-        private void myMicrosoftBanner_AdRefreshed(object sender, RoutedEventArgs e)
+        private void MyMicrosoftBanner_AdRefreshed(object sender, RoutedEventArgs e)
         {
             // Add your code here as necessary.
         }
 
-        private void myMicrosoftBanner_ErrorOccurred(object sender, AdErrorEventArgs e)
+        private void MyMicrosoftBanner_ErrorOccurred(object sender, AdErrorEventArgs e)
         {
             errorCountCurrentRefresh++;
             ActivateAdDuplexBanner();
         }
 
-        private void myAdDuplexBanner_AdLoaded(object sender, AdDuplex.Banners.Models.BannerAdLoadedEventArgs e)
+        private void MyAdDuplexBanner_AdLoaded(object sender, AdDuplex.Banners.Models.BannerAdLoadedEventArgs e)
         {
             // Add your code here as necessary.
         }
 
-        private void myAdDuplexBanner_NoAd(object sender, AdDuplex.Common.Models.NoAdEventArgs e)
+        private void MyAdDuplexBanner_NoAd(object sender, AdDuplex.Common.Models.NoAdEventArgs e)
         {
             errorCountCurrentRefresh++;
             ActivateMicrosoftBanner();
         }
 
-        private void myAdDuplexBanner_AdLoadingError(object sender, AdDuplex.Common.Models.AdLoadingErrorEventArgs e)
+        private void MyAdDuplexBanner_AdLoadingError(object sender, AdDuplex.Common.Models.AdLoadingErrorEventArgs e)
         {
             errorCountCurrentRefresh++;
             ActivateMicrosoftBanner();
         }
 
-        private void myAdDuplexBanner_AdCovered(object sender, AdDuplex.Banners.Core.AdCoveredEventArgs e)
+        private void MyAdDuplexBanner_AdCovered(object sender, AdDuplex.Banners.Core.AdCoveredEventArgs e)
         {
             errorCountCurrentRefresh++;
             ActivateMicrosoftBanner();
