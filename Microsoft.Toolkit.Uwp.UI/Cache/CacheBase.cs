@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="duration">Optional timespan to compute whether file has expired or not. If no value is supplied, <see cref="CacheDuration"/> is used.</param>
         /// <returns>awaitable task</returns>
-        public async Task RemoveExpiredAsync(TimeSpan? duration)
+        public async Task RemoveExpiredAsync(TimeSpan? duration = null)
         {
             TimeSpan expiryDuration = duration.HasValue ? duration.Value : CacheDuration;
 
