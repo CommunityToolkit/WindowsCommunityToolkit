@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
@@ -23,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp
     public class HttpHelper
     {
         /// <summary>
+        /// Maximum number of Http Clients that can be pooled.
+        /// </summary>
+        private const int MaxPoolSize = 10;
+
+        /// <summary>
         /// Private singleton field.
         /// </summary>
         private static HttpHelper _instance;
@@ -30,7 +37,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Private instance field.
         /// </summary>
-        private HttpClient _httpClient = null;
+        private ConcurrentQueue<HttpClient> _httpClientQueue = null;
+
+        /// <summary>
+        /// count of how many HttpClient instances have been created.
+        /// </summary>
+        private int _queueCount = 0;
 
         /// <summary>
         /// Gets public singleton property.
@@ -42,10 +54,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         protected HttpHelper()
         {
-            var filter = new HttpBaseProtocolFilter();
-            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-
-            _httpClient = new HttpClient(filter);
+            _httpClientQueue = new ConcurrentQueue<HttpClient>();
         }
 
         /// <summary>
@@ -57,7 +66,36 @@ namespace Microsoft.Toolkit.Uwp
         {
             var httpRequestMessage = request.ToHttpRequestMessage();
 
-            var response = await _httpClient.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+            HttpClient client = null;
+
+            // Try and get HttpClient from the queue
+            if (!_httpClientQueue.TryDequeue(out client))
+            {
+                if (_queueCount == MaxPoolSize)
+                {
+                    do
+                    {
+                        // HttpClient connection queue all instances in use.. Wait
+                        await Task.Delay(50);
+                    }
+                    while (!_httpClientQueue.TryDequeue(out client));  // HttpClient connection queue free instance found
+                }
+                else
+                {
+                    var filter = new HttpBaseProtocolFilter();
+                    filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+
+                    client = new HttpClient(filter);
+
+                    // Increment HttpClient connection queue count.
+                    Interlocked.Increment(ref _queueCount);
+                }
+            }
+
+            var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+
+            // Add the HttpClient instance back to the queue.
+            _httpClientQueue.Enqueue(client);
 
             FixInvalidCharset(response);
 
