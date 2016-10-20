@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(AdaptiveGridView), new PropertyMetadata(null));
-        
+
         /// <summary>
         /// Identifies the <see cref="ItemHeight"/> dependency property.
         /// </summary>
