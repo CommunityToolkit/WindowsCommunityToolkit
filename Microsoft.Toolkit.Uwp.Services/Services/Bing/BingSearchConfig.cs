@@ -25,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         public BingCountry Country { get; set; }
 
         /// <summary>
+        /// Gets or sets search query language.
+        /// </summary>
+        public BingLanguage Language { get; set; }
+
+        /// <summary>
         /// Gets or sets search query.
         /// </summary>
         public string Query { get; set; }

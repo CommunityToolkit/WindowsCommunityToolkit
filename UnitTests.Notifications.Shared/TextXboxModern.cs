@@ -1,5 +1,4 @@
-﻿using System;
-#if WINDOWS_UWP
+﻿#if WINDOWS_UWP
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

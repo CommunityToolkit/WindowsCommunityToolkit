@@ -229,6 +229,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/MicrosoftGraph/",
         "CodeFile": "MicrosoftGraphCode.bind",
         "Icon": "/SamplePages/MicrosoftGraph Service/OfficeLogo.png"
+      },
+            {
+        "Name": "LinkedIn Service",
+        "Type": "LinkedInPage",
+        "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/LinkedIn/",
+        "CodeFile": "LinkedInCode.bind",
+        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
       }
     ]
   }
