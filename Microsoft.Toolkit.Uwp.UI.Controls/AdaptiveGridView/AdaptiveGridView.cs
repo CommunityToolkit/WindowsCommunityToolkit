@@ -45,12 +45,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RecalculateLayout(double containerWidth)
         {
-            if (containerWidth == 0 || DesiredWidth == 0)
+            if (containerWidth == 0)
             {
                 return;
             }
 
-            _columns = CalculateColumns(containerWidth, DesiredWidth);
+            double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
+
+            _columns = CalculateColumns(containerWidth, desiredWidth);
 
             // If there's less items than there's columns, reduce the column count;
             if (_listView != null && _listView.Items != null
