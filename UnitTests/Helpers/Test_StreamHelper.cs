@@ -57,7 +57,7 @@ namespace UnitTests.Helpers
         public async Task Test_StreamHelper_PackagedFile()
         {
             var packageFolder = Package.Current.InstalledLocation;
-            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(packageFolder, PackagedFilePath));
+            Assert.IsTrue(await packageFolder.FileExistsAsync(PackagedFilePath));
 
             using (var stream = await StreamHelper.GetPackagedFileStreamAsync(PackagedFilePath))
             {
@@ -71,12 +71,12 @@ namespace UnitTests.Helpers
         public async Task Test_StreamHelper_LocalFolder()
         {
             var localFolder = ApplicationData.Current.LocalFolder;
-            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(localFolder, Filename));
+            Assert.IsFalse(await localFolder.FileExistsAsync(Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(localFolder, Filename));
+            Assert.IsTrue(await localFolder.FileExistsAsync(Filename));
 
             using (var stream = await StreamHelper.GetLocalFileStreamAsync(Filename))
             {
@@ -92,12 +92,12 @@ namespace UnitTests.Helpers
         public async Task Test_StreamHelper_LocalCacheFolder()
         {
             var localCacheFolder = ApplicationData.Current.LocalCacheFolder;
-            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(localCacheFolder, Filename));
+            Assert.IsFalse(await localCacheFolder.FileExistsAsync(Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(localCacheFolder, Filename));
+            Assert.IsTrue(await localCacheFolder.FileExistsAsync(Filename));
 
             using (var stream = await StreamHelper.GetLocalCacheFileStreamAsync(Filename))
             {
@@ -115,12 +115,12 @@ namespace UnitTests.Helpers
             var knownFolder = KnownFolders.PicturesLibrary;
             var folder = KnownFolderId.PicturesLibrary;
 
-            Assert.IsFalse(await StorageFileHelper.FileExistsAsync(knownFolder, Filename));
+            Assert.IsFalse(await knownFolder.FileExistsAsync(Filename));
 
             var storageFile = await StorageFileHelper.WriteTextToKnownFolderFileAsync(folder, SampleText, Filename);
             Assert.IsNotNull(storageFile);
 
-            Assert.IsTrue(await StorageFileHelper.FileExistsAsync(knownFolder, Filename));
+            Assert.IsTrue(await knownFolder.FileExistsAsync(Filename));
 
             using (var stream = await StreamHelper.GetKnowFoldersFileStreamAsync(folder, Filename))
             {

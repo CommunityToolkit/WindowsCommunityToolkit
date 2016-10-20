@@ -78,10 +78,10 @@ namespace UnitTests.Helpers
         public async Task Test_StorageFileHelper_Text_StorageFolder()
         {
             var folder = ApplicationData.Current.LocalFolder;
-            var storageFile = await StorageFileHelper.WriteTextToFileAsync(folder, Sampletext, Filename);
+            var storageFile = await folder.WriteTextToFileAsync(Sampletext, Filename);
             Assert.IsNotNull(storageFile);
 
-            var loadedText = await StorageFileHelper.ReadTextFromFileAsync(folder, Filename);
+            var loadedText = await folder.ReadTextFromFileAsync(Filename);
             Assert.AreEqual(Sampletext, loadedText);
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
@@ -155,10 +155,10 @@ namespace UnitTests.Helpers
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
 
             var folder = ApplicationData.Current.LocalFolder;
-            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(folder, unicodeBytes, Filename);
+            var storageFile = await folder.WriteBytesToFileAsync(unicodeBytes, Filename);
             Assert.IsNotNull(storageFile);
 
-            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromFileAsync(folder, Filename);
+            byte[] loadedBytes = await folder.ReadBytesFromFileAsync(Filename);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(Sampletext, loadedText);
@@ -173,7 +173,7 @@ namespace UnitTests.Helpers
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
 
             var folder = ApplicationData.Current.LocalFolder;
-            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(folder, unicodeBytes, Filename);
+            var storageFile = await folder.WriteBytesToFileAsync(unicodeBytes, Filename);
             Assert.IsNotNull(storageFile);
 
             var exists = await folder.FileExistsAsync(Filename);
@@ -192,7 +192,7 @@ namespace UnitTests.Helpers
             var subfolder = await folder.CreateFolderAsync("subfolder");
             Assert.IsNotNull(subfolder);
 
-            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(subfolder, unicodeBytes, Filename);
+            var storageFile = await subfolder.WriteBytesToFileAsync(unicodeBytes, Filename);
             Assert.IsNotNull(storageFile);
 
             var exists = await folder.FileExistsAsync(Filename, true);
