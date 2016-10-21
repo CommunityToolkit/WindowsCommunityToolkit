@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             foreach (var item in _photoItems)
             {
-                await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), loadInMemory);
+                await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), false, loadInMemory);
             }
 
             var msg = $"Preloading {_photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";

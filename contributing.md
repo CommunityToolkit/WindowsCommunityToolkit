@@ -22,7 +22,7 @@ Every contribution has to come with:
 
 PR has to be validated by at least two core members before being merged.
 
-Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
+Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
 
 ## Quality insurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:

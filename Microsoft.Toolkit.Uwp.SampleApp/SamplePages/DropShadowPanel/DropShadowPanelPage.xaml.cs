@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         public DropShadowPanelPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>

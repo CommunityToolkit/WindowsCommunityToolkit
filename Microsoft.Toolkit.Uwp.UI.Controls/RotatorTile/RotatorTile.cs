@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string TranslatePartName = "Translate";
         private const string StackPartName = "Stack";
 
-        private static readonly Random _randomizer = new Random();
+        private static readonly Random Randomizer = new Random();
         private int _currentIndex = -1; // current index in the items displayed
         private DispatcherTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
@@ -368,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
-            return RotationDelay + TimeSpan.FromSeconds(_randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
+            return RotationDelay + TimeSpan.FromSeconds(Randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
         }
 
         /// <summary>

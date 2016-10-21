@@ -93,6 +93,7 @@
             Width="11"
             Background="{StaticResource Brush-Grey-04}"
             GripperCursor="@[GripperCursor:Enum:GripperCursorType.Default]"
+            HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Left]"
             Grid.Column="@[Column:Slider:1:0-2]"
             ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
             ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"

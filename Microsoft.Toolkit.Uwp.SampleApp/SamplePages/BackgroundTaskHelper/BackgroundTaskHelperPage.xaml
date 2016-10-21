@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.BackgroundTaskHelperPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel VerticalAlignment="Top">
+
+            <TextBlock Foreground="Red" Text="WARNING: Register Button only works on Anniversary Update (>= 14393)" Margin="5"></TextBlock>
+            
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Status:"></TextBlock>
+                <TextBlock x:Name="StatusMessage"></TextBlock>
+            </StackPanel>
+
+            <Button x:Name="RegisterButton" Content="Register Background Task" Margin="5" Click="RegisterButton_Click"></Button>
+
+            <Button x:Name="UnregisterButton" Content="Unregister Background Task" Margin="5" Click="UnregisterButton_Click"></Button>
+        </StackPanel>
+        
+    </Grid>
+</Page>

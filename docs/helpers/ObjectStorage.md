@@ -10,23 +10,23 @@ If you need to handle local saves of any object (generic), you can use `LocalObj
 
 ```csharp
 
-    var localStorageService = new LocalStorageService();
+    var helper = new LocalObjectStorageHelper();
 
     // Read simple objects
     string keySimpleObject = "simple";
-    if (localStorageService.KeyExists(keySimpleObject))
+    if (helper.KeyExists(keySimpleObject))
     {
-        string result = localStorageService.Read<string>(keySimpleObject);
+        string result = helper.Read<string>(keySimpleObject);
     }
 
     // Save simple objects
-    localStorageService.Save(keySimpleObject, 47);
+    helper.Save(keySimpleObject, 47);
 
     // Read complex/large objects 
     string keyLargeObject = "large";
-    if (await localStorageService.FileExistsAsync(keyLargeObject))
+    if (await helper.FileExistsAsync(keyLargeObject))
     {
-        var result = await localStorageService.ReadFileAsync<MyLargeObject>(keyLargeObject);
+        var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
     }
 
     // Save complex/large objects 
@@ -34,16 +34,7 @@ If you need to handle local saves of any object (generic), you can use `LocalObj
     {
         ...
     };
-    await localStorageService.SaveFileAsync(keySimpleObject, o);
-
-    // Complex object
-    public class MyLargeObject
-    {
-        public string MyContent { get; set; }
-        public List<string> MyContents { get; set; }
-        public List<MyLargeObject> MyObjects { get; set; }
-    }
-
+    await helper.SaveFileAsync(keySimpleObject, o);
 ```
 
 ### Roaming Storage
@@ -53,23 +44,23 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
 
 ```csharp
 
-    var roamingStorageService = new RoamingStorageService();
+    var helper = new RoamingObjectStorageHelper();
 
     // Read simple objects
     string keySimpleObject = "simple";
-    if (roamingStorageService.KeyExists(keySimpleObject))
+    if (helper.KeyExists(keySimpleObject))
     {
-        string result = roamingStorageService.Read<string>(keySimpleObject);
+        string result = helper.Read<string>(keySimpleObject);
     }
 
     // Save simple objects
-    roamingStorageService.Save(keySimpleObject, 47);
+    helper.Save(keySimpleObject, 47);
 
     // Read complex/large objects 
     string keyLargeObject = "large";
-    if (await roamingStorageService.FileExistsAsync(keyLargeObject))
+    if (await helper.FileExistsAsync(keyLargeObject))
     {
-        var result = await roamingStorageService.ReadFileAsync<MyLargeObject>(keyLargeObject);
+        var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
     }
 
     // Save complex/large objects 
@@ -77,16 +68,7 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
     {
         ...
     };
-    await roamingStorageService.SaveFileAsync(keySimpleObject, o);
-
-    // Complex object
-    public class MyLargeObject
-    {
-        public string MyContent { get; set; }
-        public List<string> MyContents { get; set; }
-        public List<MyLargeObject> MyObjects { get; set; }
-    }
-
+    await helper.SaveFileAsync(keySimpleObject, o);
 ```
 
 ## Requirements (Windows 10 Device Family)
