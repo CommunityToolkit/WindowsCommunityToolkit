@@ -33,8 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Uri _uri;
         private bool _isHttpSource;
-        private bool _isLoadingImage;
-
+        
         /// <summary>
         /// Gets or sets get or set the source used by the image
         /// </summary>
@@ -101,9 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task LoadImageAsync()
         {
-            if (!_isLoadingImage && _uri != null)
+            if (_uri != null)
             {
-                _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
                     var ogUri = _uri;
@@ -111,21 +109,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
 
-                        // If you have many imageEx in a virtualized listview for instance
-                        // controls will be recycled and the uri will change while waiting for the previous one to load
-                        if (_uri == ogUri)
+                        lock (_lockObj)
                         {
-                            _image.Source = img;
-                            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                            VisualStateManager.GoToState(this, LoadedState, true);
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == ogUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        if (_uri == ogUri)
+                        lock (_lockObj)
                         {
-                            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                            VisualStateManager.GoToState(this, FailedState, true);
+                            if (_uri == ogUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
                         }
                     }
                 }
@@ -133,8 +137,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
-
-                _isLoadingImage = false;
             }
         }
     }
