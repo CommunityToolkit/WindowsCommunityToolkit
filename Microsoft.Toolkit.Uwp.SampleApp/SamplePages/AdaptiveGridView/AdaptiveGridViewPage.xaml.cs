@@ -16,6 +16,8 @@ using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Data;
+using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -37,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            await GetItemsForDisplay();
+
             AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
             AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
         }
@@ -55,6 +58,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 await new MessageDialog($"You clicked {(e.ClickedItem as PhotoDataItem).Title}", "Item Clicked").ShowAsync();
             }
+        }
+
+        private async void CheckBox_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await GetItemsForDisplay();
+        }
+
+        private async Task GetItemsForDisplay()
+        {
+            if (ShowGroupedItems.IsChecked.GetValueOrDefault())
+            {
+                ItemsViewSource.IsSourceGrouped = true;
+                ItemsViewSource.Source = await new Data.PhotosDataSource().GetGroupedItemsAsync();
+
+            }
+            else
+            {
+                ItemsViewSource.IsSourceGrouped = false;
+                ItemsViewSource.Source = await new Data.PhotosDataSource().GetItemsAsync();
+            }
+        }
+
+        private async void CheckBox_Unchecked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await GetItemsForDisplay();
         }
     }
 }

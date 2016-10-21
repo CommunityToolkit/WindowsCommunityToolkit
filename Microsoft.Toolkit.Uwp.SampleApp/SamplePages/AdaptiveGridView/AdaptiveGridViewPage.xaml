@@ -9,7 +9,9 @@
     mc:Ignorable="d">
 
 	<Page.Resources>
-		<DataTemplate x:Key="PhotosTemplate">
+        <CollectionViewSource x:Name="ItemsViewSource" />
+
+        <DataTemplate x:Key="PhotosTemplate">
 			<Grid Background="White" BorderBrush="Black" BorderThickness="1">
 				<Image Source="{Binding Thumbnail}"
                     Stretch="UniformToFill"
@@ -25,19 +27,29 @@
 	<Grid Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" x:Name="SelectedItemCountTextBlock" Margin="0,12" Text="You haven't selected any items" FontFamily="Segoe UI Light" FontSize="21" HorizontalAlignment="Center" />
-        
+        <TextBlock Grid.Row="0" Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" x:Name="SelectedItemCountTextBlock" Margin="0,12" Text="You haven't selected any items" FontFamily="Segoe UI Light" FontSize="21" HorizontalAlignment="Center" />
+
+        <CheckBox 
+            x:Name="ShowGroupedItems" 
+            Grid.Row="1" 
+            Content="Show items in groups" 
+            Checked="CheckBox_Checked" 
+            Unchecked="CheckBox_Unchecked" 
+            IsChecked="False"/>
+
         <controls:AdaptiveGridView
-          Grid.Row="1"
-          x:Name="AdaptiveGridViewControl"
-          ItemHeight="{Binding ItemHeight.Value}"
-          DesiredWidth="{Binding DesiredWidth.Value}"
-          SelectionMode="{Binding SelectionMode.Value,Mode=TwoWay}"
-          IsItemClickEnabled="{Binding IsItemClickEnabled.Value,Mode=TwoWay}"  
-          ItemTemplate="{StaticResource PhotosTemplate}"/>
+            Grid.Row="2"
+            x:Name="AdaptiveGridViewControl"
+            ItemHeight="{Binding ItemHeight.Value}"
+            DesiredWidth="{Binding DesiredWidth.Value}"
+            SelectionMode="{Binding SelectionMode.Value,Mode=TwoWay}"
+            IsItemClickEnabled="{Binding IsItemClickEnabled.Value,Mode=TwoWay}"  
+            ItemTemplate="{StaticResource PhotosTemplate}"
+            ItemsSource="{Binding Source={StaticResource ItemsViewSource}}"/>
 	</Grid>
 </Page>
  

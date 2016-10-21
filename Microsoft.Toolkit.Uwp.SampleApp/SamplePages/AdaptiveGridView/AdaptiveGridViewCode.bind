@@ -8,6 +8,8 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <CollectionViewSource x:Name="ItemsViewSource" />
+
         <DataTemplate x:Key="PhotosTemplate">
             <Grid
                 Background="White"
@@ -27,6 +29,7 @@
                                      DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
                                      SelectionMode="@[SelectionMode:Enum:ListViewSelectionMode.Single]"
                                      IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
-                                     ItemTemplate="{StaticResource PhotosTemplate}"/>
+                                     ItemTemplate="{StaticResource PhotosTemplate}"
+                                     ItemsSource="{Binding Source={StaticResource ItemsViewSource}}"/>
     </Grid>
 </Page>
