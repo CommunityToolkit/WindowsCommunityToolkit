@@ -59,54 +59,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void SetSource(object source)
         {
-            await _semaphore.WaitAsync();
-
-            try
+            if (_isInitialized)
             {
-                if (_isInitialized)
+                _image.Source = null;
+
+                if (source == null)
                 {
-                    _image.Source = null;
+                    VisualStateManager.GoToState(this, UnloadedState, true);
+                    return;
+                }
 
-                    if (source == null)
+                VisualStateManager.GoToState(this, LoadingState, true);
+
+                var imageSource = source as ImageSource;
+                if (imageSource != null)
+                {
+                    _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
+                    return;
+                }
+
+                _uri = source as Uri;
+                if (_uri == null)
+                {
+                    var url = source as string ?? source.ToString();
+                    if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
                     {
-                        VisualStateManager.GoToState(this, UnloadedState, true);
+                        VisualStateManager.GoToState(this, FailedState, true);
                         return;
                     }
+                }
 
-                    VisualStateManager.GoToState(this, LoadingState, true);
+                _isHttpSource = IsHttpUri(_uri);
+                if (!_isHttpSource && !_uri.IsAbsoluteUri)
+                {
+                    _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
+                }
 
-                    var imageSource = source as ImageSource;
-                    if (imageSource != null)
-                    {
-                        _image.Source = imageSource;
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
-                        return;
-                    }
+                await _semaphore.WaitAsync();
 
-                    _uri = source as Uri;
-                    if (_uri == null)
-                    {
-                        var url = source as string ?? source.ToString();
-                        if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
-                        {
-                            VisualStateManager.GoToState(this, FailedState, true);
-                            return;
-                        }
-                    }
-
-                    _isHttpSource = IsHttpUri(_uri);
-                    if (!_isHttpSource && !_uri.IsAbsoluteUri)
-                    {
-                        _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
-                    }
-
+                try
+                {
                     await LoadImageAsync();
                 }
-            }
-            finally
-            {
-                _semaphore.Release();
+                finally
+                {
+                    _semaphore.Release();
+                }
             }
         }
 
