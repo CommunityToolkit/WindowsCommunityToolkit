@@ -23,7 +23,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public static partial class AnimationExtensions
     {
-        private static readonly EasingFunctionBase _defaultStoryboardEasingFunction = new CubicEase();
 
         /// <summary>
         /// Begins a Storyboard animation and returns a task that completes when the
@@ -132,6 +131,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return result;
+        }
+
+        private static EasingFunctionBase GetEasingFunction(InterpolationType interpolationType)
+        {
+            switch (interpolationType)
+            {
+                case InterpolationType.Linear:
+                    return null;
+                case InterpolationType.Cubic:
+                    return new CubicEase();
+                case InterpolationType.Back:
+                    return new BackEase();
+                case InterpolationType.Bounce:
+                    return new BounceEase();
+                case InterpolationType.Elastic:
+                    return new ElasticEase();
+                case InterpolationType.Circle:
+                    return new CircleEase();
+                case InterpolationType.Quadratic:
+                    return new QuadraticEase();
+                case InterpolationType.Quartic:
+                    return new QuarticEase();
+                case InterpolationType.Quintic:
+                    return new QuinticEase();
+                case InterpolationType.Sine:
+                    return new SineEase();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(interpolationType), interpolationType, null);
+            }
         }
     }
 }
