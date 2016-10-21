@@ -52,7 +52,7 @@
                                 <ColumnDefinition x:Name="MasterColumn" Width="450"/>
                                 <ColumnDefinition x:Name="DetailsColumn" Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid x:Name="MasterPanel" Background="{TemplateBinding ListPaneBackground}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0">
+                            <Grid x:Name="MasterPanel" Background="{TemplateBinding MasterPaneBackground}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>

@@ -89,18 +89,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the Brush to apply to the background of the list area of the control.
         /// </summary>
         /// <returns>The Brush to apply to the background of the list area of the control.</returns>
-        public Brush ListPaneBackground
+        public Brush MasterPaneBackground
         {
-            get { return (Brush)GetValue(ListPaneBackgroundProperty); }
-            set { SetValue(ListPaneBackgroundProperty, value); }
+            get { return (Brush)GetValue(MasterPaneBackgroundProperty); }
+            set { SetValue(MasterPaneBackgroundProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="ListPaneBackground"/> dependency property.
+        /// Identifies the <see cref="MasterPaneBackground"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="ListPaneBackground"/> dependency property.</returns>
-        public static readonly DependencyProperty ListPaneBackgroundProperty = DependencyProperty.Register(
-            nameof(ListPaneBackground),
+        /// <returns>The identifier for the <see cref="MasterPaneBackground"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterPaneBackgroundProperty = DependencyProperty.Register(
+            nameof(MasterPaneBackground),
             typeof(Brush),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
