@@ -150,6 +150,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets or sets the width of the master pane when the view is expanded.
+        /// </summary>
+        /// <returns>
+        /// The width of the SplitView pane when it's fully expanded. The default is 320
+        /// device-independent pixel (DIP).
+        /// </returns>
+        public double MasterPaneWidth
+        {
+            get { return (double)GetValue(MasterPaneWidthProperty); }
+            set { SetValue(MasterPaneWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterPaneWidthProperty = DependencyProperty.Register(
+            nameof(MasterPaneWidth),
+            typeof(double),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(320d));
+
+        /// <summary>
         /// Gets or sets the content to dsiplay when there is no item selected in the master list.
         /// </summary>
         public object NoSelectionContent
