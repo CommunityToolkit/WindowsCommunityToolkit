@@ -34,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         private static HttpHelper _instance;
 
+        private ManualResetEventSlim resetEvent = new ManualResetEventSlim();
+
         /// <summary>
         /// Private instance field.
         /// </summary>
@@ -66,7 +68,21 @@ namespace Microsoft.Toolkit.Uwp
         {
             var httpRequestMessage = request.ToHttpRequestMessage();
 
-            HttpClient client = null;
+            var client = await GetHttpClientInstance();
+
+            var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+
+            // Add the HttpClient instance back to the queue.
+            _httpClientQueue.Enqueue(client);
+
+            FixInvalidCharset(response);
+
+            return new HttpHelperResponse(response);
+        }
+
+        private async Task<HttpClient> GetHttpClientInstance()
+        {
+            HttpClient client;
 
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
@@ -76,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp
                     do
                     {
                         // HttpClient connection queue all instances in use.. Wait
-                        await Task.Delay(50);
+                        resetEvent.Wait(50);
                     }
                     while (!_httpClientQueue.TryDequeue(out client));  // HttpClient connection queue free instance found
                 }
@@ -92,14 +108,7 @@ namespace Microsoft.Toolkit.Uwp
                 }
             }
 
-            var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
-
-            // Add the HttpClient instance back to the queue.
-            _httpClientQueue.Enqueue(client);
-
-            FixInvalidCharset(response);
-
-            return new HttpHelperResponse(response);
+            return client;
         }
 
         /// <summary>
