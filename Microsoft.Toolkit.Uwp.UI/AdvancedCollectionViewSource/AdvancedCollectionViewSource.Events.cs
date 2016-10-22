@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// A collection view source implementation that supports filtering, grouping, sorting and incremental loading

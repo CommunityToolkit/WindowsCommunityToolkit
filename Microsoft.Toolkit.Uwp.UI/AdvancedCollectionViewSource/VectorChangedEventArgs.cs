@@ -12,7 +12,7 @@
 
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Vector changed EventArgs

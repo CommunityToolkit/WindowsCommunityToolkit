@@ -10,21 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Sort direction enum
+    /// Sort description
     /// </summary>
-    public enum SortDirection
+    public class SortDescription
     {
         /// <summary>
-        /// Ascending order (eg. abc...)
+        /// Gets the name of property to sort on
         /// </summary>
-        Ascending = 0,
+        public string PropertyName { get; private set; }
 
         /// <summary>
-        /// Descending order (eg. zyx...)
+        /// Gets the direction of sort
         /// </summary>
-        Descending = 1
+        public SortDirection Direction { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortDescription"/> class.
+        /// </summary>
+        /// <param name="propertyName">name of property to sort on</param>
+        /// <param name="direction">direction of sort</param>
+        public SortDescription(string propertyName, SortDirection direction)
+        {
+            PropertyName = propertyName;
+            Direction = direction;
+        }
     }
 }

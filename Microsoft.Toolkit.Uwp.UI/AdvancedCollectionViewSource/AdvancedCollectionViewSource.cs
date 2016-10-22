@@ -23,7 +23,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// A collection view source implementation that supports filtering, sorting and incremental loading
@@ -107,162 +107,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// </summary>
         public void Refresh()
         {
-            HandleSourceChanged();
-        }
-
-        private void HandleSourceChanged()
-        {
-            _sortProperties.Clear();
-            var currentItem = CurrentItem;
-            _view.Clear();
-            foreach (var item in Source)
-            {
-                if (_filter != null && !_filter(item))
-                {
-                    continue;
-                }
-
-                if (_sortDescriptions.Any())
-                {
-                    var targetIndex = _view.BinarySearch(item, this);
-                    if (targetIndex < 0)
-                    {
-                        targetIndex = ~targetIndex;
-                    }
-
-                    _view.Insert(targetIndex, item);
-                }
-                else
-                {
-                    _view.Add(item);
-                }
-            }
-
-            _sortProperties.Clear();
-            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
-            MoveCurrentTo(currentItem);
-        }
-
-        private void SourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (_deferCounter > 0)
-            {
-                return;
-            }
-
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    if (e.NewItems?.Count == 1)
-                    {
-                        HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
-                    }
-
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    if (e.OldItems?.Count == 1)
-                    {
-                        HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
-                    }
-
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                case NotifyCollectionChangedAction.Replace:
-                case NotifyCollectionChangedAction.Reset:
-                    HandleSourceChanged();
-                    break;
-            }
-        }
-
-        private void HandleItemAdded(int newStartingIndex, object newItem)
-        {
-            if (_filter != null && !_filter(newItem))
-            {
-                return;
-            }
-
-            if (_sortDescriptions.Any())
-            {
-                _sortProperties.Clear();
-                newStartingIndex = _view.BinarySearch(newItem, this);
-                if (newStartingIndex < 0)
-                {
-                    newStartingIndex = ~newStartingIndex;
-                }
-            }
-            else if (_filter != null)
-            {
-                if (_sourceList == null)
-                {
-                    HandleSourceChanged();
-                    return;
-                }
-
-                var visibleBelowIndex = 0;
-                for (var i = newStartingIndex; i < _sourceList.Count; i++)
-                {
-                    if (!_filter(_sourceList[i]))
-                    {
-                        visibleBelowIndex++;
-                    }
-                }
-
-                newStartingIndex = _view.Count - visibleBelowIndex;
-            }
-
-            _view.Insert(newStartingIndex, newItem);
-            if (newStartingIndex <= _index)
-            {
-                _index++;
-            }
-
-            var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newStartingIndex, newItem);
-            OnVectorChanged(e);
-        }
-
-        private void HandleItemRemoved(int oldStartingIndex, object oldItem)
-        {
-            if (_filter != null && !_filter(oldItem))
-            {
-                return;
-            }
-
-            if (oldStartingIndex < 0 || oldStartingIndex >= _view.Count || !Equals(_view[oldStartingIndex], oldItem))
-            {
-                oldStartingIndex = _view.IndexOf(oldItem);
-            }
-
-            if (oldStartingIndex < 0)
-            {
-                return;
-            }
-
-            _view.RemoveAt(oldStartingIndex);
-            if (oldStartingIndex <= _index)
-            {
-                _index--;
-            }
-
-            var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldStartingIndex, oldItem);
-            OnVectorChanged(e);
-        }
-
-        private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (_deferCounter > 0)
-            {
-                return;
-            }
-
             HandleSourceChanged();
         }
 
@@ -368,30 +212,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// <param name="item">item</param>
         /// <returns>success of operation</returns>
         public bool MoveCurrentTo(object item) => item == CurrentItem || MoveCurrentToIndex(IndexOf(item));
-
-        private bool MoveCurrentToIndex(int i)
-        {
-            if (i < -1 || i >= _view.Count)
-            {
-                return false;
-            }
-
-            if (i == _index)
-            {
-                return false;
-            }
-
-            var e = new CurrentChangingEventArgs();
-            OnCurrentChanging(e);
-            if (e.Cancel)
-            {
-                return false;
-            }
-
-            _index = i;
-            OnCurrentChanged(null);
-            return true;
-        }
 
         /// <summary>
         /// Moves selected item to position
@@ -586,6 +406,186 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void HandleSourceChanged()
+        {
+            _sortProperties.Clear();
+            var currentItem = CurrentItem;
+            _view.Clear();
+            foreach (var item in Source)
+            {
+                if (_filter != null && !_filter(item))
+                {
+                    continue;
+                }
+
+                if (_sortDescriptions.Any())
+                {
+                    var targetIndex = _view.BinarySearch(item, this);
+                    if (targetIndex < 0)
+                    {
+                        targetIndex = ~targetIndex;
+                    }
+
+                    _view.Insert(targetIndex, item);
+                }
+                else
+                {
+                    _view.Add(item);
+                }
+            }
+
+            _sortProperties.Clear();
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
+            MoveCurrentTo(currentItem);
+        }
+
+        private void SourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_deferCounter > 0)
+            {
+                return;
+            }
+
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewItems?.Count == 1)
+                    {
+                        HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
+                    }
+                    else
+                    {
+                        HandleSourceChanged();
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldItems?.Count == 1)
+                    {
+                        HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
+                    }
+                    else
+                    {
+                        HandleSourceChanged();
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Reset:
+                    HandleSourceChanged();
+                    break;
+            }
+        }
+
+        private void HandleItemAdded(int newStartingIndex, object newItem)
+        {
+            if (_filter != null && !_filter(newItem))
+            {
+                return;
+            }
+
+            if (_sortDescriptions.Any())
+            {
+                _sortProperties.Clear();
+                newStartingIndex = _view.BinarySearch(newItem, this);
+                if (newStartingIndex < 0)
+                {
+                    newStartingIndex = ~newStartingIndex;
+                }
+            }
+            else if (_filter != null)
+            {
+                if (_sourceList == null)
+                {
+                    HandleSourceChanged();
+                    return;
+                }
+
+                var visibleBelowIndex = 0;
+                for (var i = newStartingIndex; i < _sourceList.Count; i++)
+                {
+                    if (!_filter(_sourceList[i]))
+                    {
+                        visibleBelowIndex++;
+                    }
+                }
+
+                newStartingIndex = _view.Count - visibleBelowIndex;
+            }
+
+            _view.Insert(newStartingIndex, newItem);
+            if (newStartingIndex <= _index)
+            {
+                _index++;
+            }
+
+            var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newStartingIndex, newItem);
+            OnVectorChanged(e);
+        }
+
+        private void HandleItemRemoved(int oldStartingIndex, object oldItem)
+        {
+            if (_filter != null && !_filter(oldItem))
+            {
+                return;
+            }
+
+            if (oldStartingIndex < 0 || oldStartingIndex >= _view.Count || !Equals(_view[oldStartingIndex], oldItem))
+            {
+                oldStartingIndex = _view.IndexOf(oldItem);
+            }
+
+            if (oldStartingIndex < 0)
+            {
+                return;
+            }
+
+            _view.RemoveAt(oldStartingIndex);
+            if (oldStartingIndex <= _index)
+            {
+                _index--;
+            }
+
+            var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldStartingIndex, oldItem);
+            OnVectorChanged(e);
+        }
+
+        private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_deferCounter > 0)
+            {
+                return;
+            }
+
+            HandleSourceChanged();
+        }
+
+        private bool MoveCurrentToIndex(int i)
+        {
+            if (i < -1 || i >= _view.Count)
+            {
+                return false;
+            }
+
+            if (i == _index)
+            {
+                return false;
+            }
+
+            var e = new CurrentChangingEventArgs();
+            OnCurrentChanging(e);
+            if (e.Cancel)
+            {
+                return false;
+            }
+
+            _index = i;
+            OnCurrentChanged(null);
+            return true;
         }
     }
 }
