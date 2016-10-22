@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
 {
     /// <summary>
-    /// A collection view source implementation that supports filtering, grouping, sorting and incremental loading
+    /// A collection view source implementation that supports filtering, sorting and incremental loading
     /// </summary>
     public partial class AdvancedCollectionViewSource : ICollectionViewEx, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     {
@@ -266,10 +266,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
             HandleSourceChanged();
         }
 
+        /// <inheritdoc />
         public IEnumerator<object> GetEnumerator() => _view.GetEnumerator();
 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => _view.GetEnumerator();
 
+        /// <inheritdoc />
         public void Add(object item)
         {
             if (IsReadOnly)
@@ -280,6 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
             _sourceList.Add(item);
         }
 
+        /// <inheritdoc />
         public void Clear()
         {
             if (IsReadOnly)
@@ -290,10 +294,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
             _sourceList.Clear();
         }
 
+        /// <inheritdoc />
         public bool Contains(object item) => _view.Contains(item);
 
+        /// <inheritdoc />
         public void CopyTo(object[] array, int arrayIndex) => _view.CopyTo(array, arrayIndex);
 
+        /// <inheritdoc />
         public bool Remove(object item)
         {
             if (IsReadOnly)
@@ -305,12 +312,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
             return true;
         }
 
+        /// <inheritdoc />
         public int Count => _view.Count;
 
+        /// <inheritdoc />
         public bool IsReadOnly => _sourceList == null || _sourceList.IsReadOnly;
 
+        /// <inheritdoc />
         public int IndexOf(object item) => _view.IndexOf(item);
 
+        /// <inheritdoc />
         public void Insert(int index, object item)
         {
             if (IsReadOnly)
@@ -428,7 +439,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// <summary>
         /// Gets the groups in collection
         /// </summary>
-        public IObservableVector<object> CollectionGroups => null; // todo
+        public IObservableVector<object> CollectionGroups => null;
 
         /// <summary>
         /// Gets or sets the current item
@@ -506,15 +517,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// </summary>
         public IList<SortDescription> SortDescriptions => _sortDescriptions;
 
+        /*
         /// <summary>
         /// Gets a value indicating whether this CollectionView can group its items
         /// </summary>
-        public bool CanGroup => false; // todo
+        public bool CanGroup => false;
 
         /// <summary>
         /// Gets GroupDescriptions to group the visible items
         /// </summary>
-        public IList<object> GroupDescriptions => null; // todo
+        public IList<object> GroupDescriptions => null;
+        */
 
         /// <summary>
         /// Gets the source collection

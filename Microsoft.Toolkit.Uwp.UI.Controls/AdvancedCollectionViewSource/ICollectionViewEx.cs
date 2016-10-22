@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// </summary>
         IList<SortDescription> SortDescriptions { get; }
 
+        /*
         /// <summary>
         /// Gets a value indicating whether this CollectionView can group its items
         /// </summary>
@@ -51,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.AdvancedCollectionViewSource
         /// Gets GroupDescriptions to group the visible items
         /// </summary>
         IList<object> GroupDescriptions { get; }
+        */
 
         /// <summary>
         /// Gets the source collection
