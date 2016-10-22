@@ -12,7 +12,6 @@
 
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -32,12 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
-
         private Uri _uri;
         private bool _isHttpSource;
-        private bool _isLoadingImage;
-
+        
         /// <summary>
         /// Gets or sets get or set the source used by the image
         /// </summary>
@@ -60,7 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void SetSource(object source)
         {
-
             if (_isInitialized)
             {
                 _image.Source = null;
@@ -99,44 +94,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
 
-                await _semaphore.WaitAsync();
-
-                try
-                {
-                    await LoadImageAsync();
-                }
-                finally
-                {
-                    _semaphore.Release();
-                }
+                await LoadImageAsync();
             }
         }
 
         private async Task LoadImageAsync()
         {
-            if (!_isLoadingImage && _uri != null)
+            if (_uri != null)
             {
-                _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
+                    var ogUri = _uri;
                     try
                     {
-                        _image.Source = await ImageCache.Instance.GetFromCacheAsync(_uri, Path.GetFileName(_uri.ToString()), true);
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
+
+                        lock (_lockObj)
+                        {
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == ogUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
+                        lock (_lockObj)
+                        {
+                            if (_uri == ogUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
+                        }
                     }
                 }
                 else
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
-
-                _isLoadingImage = false;
             }
         }
     }

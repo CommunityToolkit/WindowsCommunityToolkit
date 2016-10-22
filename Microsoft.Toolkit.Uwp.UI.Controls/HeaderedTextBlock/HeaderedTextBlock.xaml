@@ -16,15 +16,9 @@
         <Setter Property="LineHeight" Value="28" />
     </Style>
 
-    <Style x:Key="HeaderedTextBlockHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource HeaderedTextBlockTextStyle}">
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-        <Setter Property="FontWeight" Value="Normal" />
-    </Style>
-
     <Style TargetType="controls:HeaderedTextBlock">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Orientation" Value="Vertical" />
-        <Setter Property="HeaderStyle" Value="{ThemeResource HeaderedTextBlockHeaderStyle}" />
         <Setter Property="TextStyle" Value="{ThemeResource HeaderedTextBlockTextStyle}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
@@ -43,10 +37,17 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <TextBlock x:Name="HeaderContent" 
-                                   AutomationProperties.Name="Header content"
-                                   Text="{TemplateBinding Header}" 
-                                   Style="{TemplateBinding HeaderStyle}" />
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                            AutomationProperties.Name="Header content"
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                            Grid.ColumnSpan="4"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            IsHitTestVisible="False"
+                            AutomationProperties.AccessibilityView="Raw" />
+
                         <TextBlock x:Name="TextContent" 
                                    AutomationProperties.Name="Text content"
                                    Text="{TemplateBinding Text}" 

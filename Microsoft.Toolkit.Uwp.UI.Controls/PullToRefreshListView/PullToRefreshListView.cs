@@ -12,9 +12,7 @@
 
 using System;
 using System.Windows.Input;
-using Windows.ApplicationModel;
 using Windows.Foundation;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -297,10 +295,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = _pullDistance / PullThreshold;
             }
 
-            if (PullProgressChanged != null)
-            {
-                PullProgressChanged(this, new RefreshProgressEventArgs() { PullProgress = pullProgress });
-            }
+            PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = pullProgress });
         }
 
         /// <summary>

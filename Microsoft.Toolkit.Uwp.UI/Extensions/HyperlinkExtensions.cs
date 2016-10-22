@@ -102,10 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             ICommand command = GetCommand(sender);
             object parameter = GetCommandParameter(sender);
 
-            if (command != null)
-            {
-                command.Execute(parameter);
-            }
+            command?.Execute(parameter);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public HeaderedTextBlockPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
