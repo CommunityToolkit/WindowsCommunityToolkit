@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private int _deferCounter;
 
-        private WeakEventListener<AdvancedCollectionViewSource, INotifyCollectionChanged, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
+        private WeakEventListener<AdvancedCollectionViewSource, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedCollectionViewSource"/> class.
@@ -87,14 +87,15 @@ namespace Microsoft.Toolkit.Uwp.UI
                 if (sourceNcc != null)
                 {
                     _sourceWeakEventListener =
-                        new WeakEventListener<AdvancedCollectionViewSource, INotifyCollectionChanged, NotifyCollectionChangedEventArgs>(this)
+                        new WeakEventListener<AdvancedCollectionViewSource, object, NotifyCollectionChangedEventArgs>(this)
                         {
                             // Call the actual collection changed event
-                            OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(null, arg3),
+                            OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(source, arg3),
 
                             // The source doesn't exist anymore
-                            OnDetachAction = listener => Source = null
+                            OnDetachAction = (listener) => sourceNcc.CollectionChanged -= _sourceWeakEventListener.OnEvent
                         };
+                    sourceNcc.CollectionChanged += _sourceWeakEventListener.OnEvent;
                 }
 
                 HandleSourceChanged();
