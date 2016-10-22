@@ -34,17 +34,12 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         private static HttpHelper _instance;
 
-        private ManualResetEventSlim resetEvent = new ManualResetEventSlim();
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(MaxPoolSize);
 
         /// <summary>
         /// Private instance field.
         /// </summary>
         private ConcurrentQueue<HttpClient> _httpClientQueue = null;
-
-        /// <summary>
-        /// count of how many HttpClient instances have been created.
-        /// </summary>
-        private int _queueCount = 0;
 
         /// <summary>
         /// Gets public singleton property.
@@ -66,46 +61,45 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
         public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
         {
-            var httpRequestMessage = request.ToHttpRequestMessage();
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
-            var client = await GetHttpClientInstance();
+            HttpClient client = null;
 
-            var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+            try
+            {
+                var httpRequestMessage = request.ToHttpRequestMessage();
 
-            // Add the HttpClient instance back to the queue.
-            _httpClientQueue.Enqueue(client);
+                client = GetHttpClientInstance();
 
-            FixInvalidCharset(response);
+                var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
 
-            return new HttpHelperResponse(response);
+                FixInvalidCharset(response);
+
+                return new HttpHelperResponse(response);
+            }
+            finally
+            {
+                // Add the HttpClient instance back to the queue.
+                if (client != null)
+                {
+                    _httpClientQueue.Enqueue(client);
+                }
+
+                _semaphore.Release();
+            }
         }
 
-        private async Task<HttpClient> GetHttpClientInstance()
+        private HttpClient GetHttpClientInstance()
         {
-            HttpClient client;
+            HttpClient client = null;
 
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                if (_queueCount == MaxPoolSize)
-                {
-                    do
-                    {
-                        // HttpClient connection queue all instances in use.. Wait
-                        resetEvent.Wait(50);
-                    }
-                    while (!_httpClientQueue.TryDequeue(out client));  // HttpClient connection queue free instance found
-                }
-                else
-                {
-                    var filter = new HttpBaseProtocolFilter();
-                    filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+                var filter = new HttpBaseProtocolFilter();
+                filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
 
-                    client = new HttpClient(filter);
-
-                    // Increment HttpClient connection queue count.
-                    Interlocked.Increment(ref _queueCount);
-                }
+                client = new HttpClient(filter);
             }
 
             return client;
