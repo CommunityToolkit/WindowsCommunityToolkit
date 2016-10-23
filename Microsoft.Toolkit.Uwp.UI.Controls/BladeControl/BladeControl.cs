@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl : Control
+    public partial class BladeControl : ItemsControl
     {
         private ScrollViewer _scrollViewer;
 
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
             string bladeName = GetToggleBlade(pressedButton);
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Blades.FirstOrDefault(_ => _.BladeId == bladeName);
+            var blade = container.Items.OfType<Blade>().FirstOrDefault(_ => _.BladeId == bladeName);
 
             if (blade == null)
             {
@@ -57,7 +57,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public BladeControl()
         {
             DefaultStyleKey = typeof(BladeControl);
-            Blades = new ObservableCollection<Blade>();
         }
 
         /// <summary>
@@ -69,10 +68,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CycleBlades();
         }
 
+        /// <summary>
+        /// Creates or identifies the element that is used to display the given item.
+        /// </summary>
+        /// <returns>
+        /// The element that is used to display the given item.
+        /// </returns>
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new Blade();
+        }
+    
         private void CycleBlades()
         {
             ActiveBlades = new ObservableCollection<Blade>();
-            foreach (var blade in Blades)
+            foreach (var blade in Items.OfType<Blade>())
             {
                 if (blade.IsOpen)
                 {
@@ -89,6 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (visibility == Visibility.Visible)
             {
+                Items.Remove(blade);
+                Items.Add(blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
                 GetScrollViewer();

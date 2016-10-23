@@ -22,11 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class BladeControl
     {
         /// <summary>
-        /// Identifies the <see cref="Blades"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null, PropertyChangedCallback));
-
-        /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null));
@@ -35,17 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ToggleBlade"/> attached property.
         /// </summary>
         public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets a collection of blades
-        /// </summary>
-        public IList<Blade> Blades
-        {
-            get { return (IList<Blade>)GetValue(BladesProperty); }
-            set { SetValue(BladesProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets a collection of visible blades
         /// </summary>
         public IList<Blade> ActiveBlades
@@ -76,10 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return element.GetValue(ToggleBladeProperty).ToString();
         }
-
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            ((BladeControl)dependencyObject).CycleBlades();
         }
     }
 }
