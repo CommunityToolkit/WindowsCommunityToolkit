@@ -27,30 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private ScrollViewer _scrollViewer;
 
-        private static void ToggleBlade(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
-        {
-            Button pressedButton = sender as Button;
-            string bladeName = GetToggleBlade(pressedButton);
-            BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
-
-            if (blade == null)
-            {
-                throw new KeyNotFoundException($"Could not find a blade with ID {bladeName}");
-            }
-
-            if (blade.IsOpen)
-            {
-                blade.IsOpen = false;
-                BladeClosed?.Invoke(container, blade);
-            }
-            else
-            {
-                blade.IsOpen = true;
-                BladeOpened?.Invoke(container, blade);
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeControl"/> class.
         /// </summary>
@@ -78,7 +54,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return new BladeItem();
         }
-    
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            var blade = element as BladeItem;
+            if (blade != null)
+            {
+                blade.VisibilityChanged += BladeOnVisibilityChanged;
+            }
+
+            base.PrepareContainerForItemOverride(element, item);
+        }
+
+        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        {
+            var blade = element as BladeItem;
+            if (blade != null)
+            {
+                blade.VisibilityChanged -= BladeOnVisibilityChanged;
+            }
+
+            base.ClearContainerForItemOverride(element, item);
+        }
+
         private void CycleBlades()
         {
             ActiveBlades = new ObservableCollection<BladeItem>();
@@ -88,8 +86,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     ActiveBlades.Add(blade);
                 }
-
-                blade.VisibilityChanged += BladeOnVisibilityChanged;
             }
         }
 
@@ -101,6 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Items.Remove(blade);
                 Items.Add(blade);
+                BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
                 GetScrollViewer();
@@ -108,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            BladeClosed?.Invoke(this, blade);
             ActiveBlades.Remove(blade);
         }
 

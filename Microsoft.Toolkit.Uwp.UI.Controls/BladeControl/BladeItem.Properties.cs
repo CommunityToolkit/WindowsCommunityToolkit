@@ -135,8 +135,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            BladeItem bladeItem = dependencyObject as BladeItem;
-            bladeItem?.VisibilityChanged?.Invoke(bladeItem, bladeItem.IsOpen ? Visibility.Visible : Visibility.Collapsed);
+            BladeItem bladeItem = (BladeItem)dependencyObject;
+            bladeItem.Visibility = bladeItem.IsOpen ? Visibility.Visible : Visibility.Collapsed;
+            bladeItem.VisibilityChanged?.Invoke(bladeItem, bladeItem.Visibility);
         }
     }
 }
