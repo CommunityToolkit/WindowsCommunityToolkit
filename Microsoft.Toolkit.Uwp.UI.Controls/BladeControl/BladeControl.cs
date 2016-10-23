@@ -100,8 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
-                GetScrollViewer();
-                _scrollViewer.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
                 return;
             }
 
@@ -109,12 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ActiveBlades.Remove(blade);
         }
 
-        private void GetScrollViewer()
+        private ScrollViewer GetScrollViewer()
         {
-            if (_scrollViewer == null)
-            {
-                _scrollViewer = this.FindDescendant<ScrollViewer>();
-            }
+            return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
         }
     }
 }
