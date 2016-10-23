@@ -53,6 +53,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new BladeItem();
         }
 
+        /// <summary>
+        /// Prepares the specified element to display the specified item.
+        /// </summary>
+        /// <param name="element">The element that's used to display the specified item.</param>
+        /// <param name="item">The item to display.</param>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
@@ -64,6 +69,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.PrepareContainerForItemOverride(element, item);
         }
 
+        /// <summary>
+        /// Undoes the effects of the PrepareContainerForItemOverride method.
+        /// </summary>
+        /// <param name="element">The container element.</param>
+        /// <param name="item">The item.</param>
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
