@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The Blade is used as a child in the BladeControl
     /// </summary>
-    public partial class Blade
+    public partial class BladeItem
     {
         /// <summary>
         /// Fires when the blade is opened or closed

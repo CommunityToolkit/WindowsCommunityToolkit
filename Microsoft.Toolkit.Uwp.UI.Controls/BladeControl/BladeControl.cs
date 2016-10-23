@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
     public partial class BladeControl : ItemsControl
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
             string bladeName = GetToggleBlade(pressedButton);
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Items.OfType<Blade>().FirstOrDefault(_ => _.BladeId == bladeName);
+            var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
 
             if (blade == null)
             {
@@ -76,13 +76,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new Blade();
+            return new BladeItem();
         }
     
         private void CycleBlades()
         {
-            ActiveBlades = new ObservableCollection<Blade>();
-            foreach (var blade in Items.OfType<Blade>())
+            ActiveBlades = new ObservableCollection<BladeItem>();
+            foreach (var blade in Items.OfType<BladeItem>())
             {
                 if (blade.IsOpen)
                 {
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
-            var blade = sender as Blade;
+            var blade = sender as BladeItem;
 
             if (visibility == Visibility.Visible)
             {

@@ -37,7 +37,7 @@
                                Padding="24"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch">
-            <controls:Blade x:Name="FirstBlade"
+            <controls:BladeItem x:Name="FirstBlade"
                                 Title="Test"
                                 IsOpen="True"
                                 Width="400"
@@ -57,9 +57,9 @@
                             controls:BladeControl.ToggleBlade="BladeTest3"
                             Content="Custom close button" />
                 </StackPanel>
-            </controls:Blade>
+            </controls:BladeItem>
 
-            <controls:Blade Title="Default blade"
+            <controls:BladeItem Title="Default blade"
                             x:Name="SecondBlade"
                             BladeId="BladeTest1"
                             IsOpen="False"
@@ -70,9 +70,9 @@
                            VerticalAlignment="Center"
                            Margin="24"
                            Text="This is a blade with all settings set to default." />
-            </controls:Blade>
+            </controls:BladeItem>
 
-            <controls:Blade Title="Custom title bar"
+            <controls:BladeItem Title="Custom title bar"
                             x:Name="ThirdBlade"
                             BladeId="BladeTest2"
                             IsOpen="False"
@@ -86,9 +86,9 @@
                            VerticalAlignment="Center"
                            Margin="24"
                            Text="This is a blade with custom titlebar colors." />
-            </controls:Blade>
+            </controls:BladeItem>
 
-            <controls:Blade Title="Custom close button color"
+            <controls:BladeItem Title="Custom close button color"
                             x:Name="FourthBlade"
                             BladeId="BladeTest3"
                             Width="400"
@@ -101,7 +101,7 @@
                            VerticalAlignment="Center"
                            Margin="24"
                            Text="This is a blade with a custom close button color." />
-            </controls:Blade>
+            </controls:BladeItem>
         </controls:BladeControl>
     </Grid>
 </Page>

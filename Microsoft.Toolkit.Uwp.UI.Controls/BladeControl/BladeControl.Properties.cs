@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
     public partial class BladeControl
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ToggleBlade"/> attached property.
@@ -32,9 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
         /// Gets or sets a collection of visible blades
         /// </summary>
-        public IList<Blade> ActiveBlades
+        public IList<BladeItem> ActiveBlades
         {
-            get { return (IList<Blade>)GetValue(ActiveBladesProperty); }
+            get { return (IList<BladeItem>)GetValue(ActiveBladesProperty); }
             set { SetValue(ActiveBladesProperty, value); }
         }
 

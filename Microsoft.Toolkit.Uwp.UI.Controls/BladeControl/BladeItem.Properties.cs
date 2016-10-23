@@ -19,47 +19,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The Blade is used as a child in the BladeControl
     /// </summary>
-    public partial class Blade
+    public partial class BladeItem
     {
         /// <summary>
         /// Identifies the <see cref="TitleBarVisibility"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleBarVisibilityProperty = DependencyProperty.Register(nameof(TitleBarVisibility), typeof(Visibility), typeof(Blade), new PropertyMetadata(default(Visibility)));
+        public static readonly DependencyProperty TitleBarVisibilityProperty = DependencyProperty.Register(nameof(TitleBarVisibility), typeof(Visibility), typeof(BladeItem), new PropertyMetadata(default(Visibility)));
 
         /// <summary>
         /// Identifies the <see cref="Title"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(Blade), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Identifies the <see cref="TitleBarBackground"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleBarBackgroundProperty = DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(Blade), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty TitleBarBackgroundProperty = DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// Identifies the <see cref="CloseButtonBackground"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty CloseButtonBackgroundProperty = DependencyProperty.Register(nameof(CloseButtonBackground), typeof(Brush), typeof(Blade), new PropertyMetadata(default(Brush)));
+        public static readonly DependencyProperty CloseButtonBackgroundProperty = DependencyProperty.Register(nameof(CloseButtonBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// Identifies the <see cref="IsOpen"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(Blade), new PropertyMetadata(default(bool), IsOpenChangedCallback));
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(BladeItem), new PropertyMetadata(default(bool), IsOpenChangedCallback));
 
         /// <summary>
         /// Identifies the <see cref="BladeId"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty BladeIdProperty = DependencyProperty.Register(nameof(BladeId), typeof(string), typeof(Blade), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty BladeIdProperty = DependencyProperty.Register(nameof(BladeId), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Identifies the <see cref="TitleBarForeground"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty TitleBarForegroundProperty = DependencyProperty.Register(nameof(TitleBarForeground), typeof(Brush), typeof(Blade), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        public static readonly DependencyProperty TitleBarForegroundProperty = DependencyProperty.Register(nameof(TitleBarForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
         /// Identifies the <see cref="CloseButtonForeground"/> dependency property
         /// </summary>
-        public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(Blade), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
         /// Gets or sets the foreground color of the close button
@@ -135,8 +135,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            Blade blade = dependencyObject as Blade;
-            blade?.VisibilityChanged?.Invoke(blade, blade.IsOpen ? Visibility.Visible : Visibility.Collapsed);
+            BladeItem bladeItem = dependencyObject as BladeItem;
+            bladeItem?.VisibilityChanged?.Invoke(bladeItem, bladeItem.IsOpen ? Visibility.Visible : Visibility.Collapsed);
         }
     }
 }

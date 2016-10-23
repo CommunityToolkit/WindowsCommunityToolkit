@@ -19,16 +19,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The Blade is used as a child in the BladeControl
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-    public partial class Blade : ContentControl
+    public partial class BladeItem : ContentControl
     {
         private Button _closeButton;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Blade"/> class.
+        /// Initializes a new instance of the <see cref="BladeItem"/> class.
         /// </summary>
-        public Blade()
+        public BladeItem()
         {
-            DefaultStyleKey = typeof(Blade);
+            DefaultStyleKey = typeof(BladeItem);
         }
 
         /// <summary>

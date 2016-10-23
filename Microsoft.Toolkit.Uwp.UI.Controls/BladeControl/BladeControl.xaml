@@ -52,7 +52,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:Blade">
+    <Style TargetType="controls:BladeItem">
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -70,7 +70,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:Blade">
+                <ControlTemplate TargetType="controls:BladeItem">
                     <Grid BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
