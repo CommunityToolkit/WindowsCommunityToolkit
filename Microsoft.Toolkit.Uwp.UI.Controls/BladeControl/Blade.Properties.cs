@@ -22,11 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Blade
     {
         /// <summary>
-        /// Identifies the <see cref="Element"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ElementProperty = DependencyProperty.Register(nameof(Element), typeof(UIElement), typeof(Blade), new PropertyMetadata(default(UIElement)));
-
-        /// <summary>
         /// Identifies the <see cref="TitleBarVisibility"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TitleBarVisibilityProperty = DependencyProperty.Register(nameof(TitleBarVisibility), typeof(Visibility), typeof(Blade), new PropertyMetadata(default(Visibility)));
@@ -82,15 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Brush)GetValue(TitleBarForegroundProperty); }
             set { SetValue(TitleBarForegroundProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the visual content of this blade
-        /// </summary>
-        public UIElement Element
-        {
-            get { return (UIElement)GetValue(ElementProperty); }
-            set { SetValue(ElementProperty, value); }
         }
 
         /// <summary>

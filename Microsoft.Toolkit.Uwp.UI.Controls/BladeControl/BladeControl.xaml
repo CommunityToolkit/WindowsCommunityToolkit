@@ -101,7 +101,6 @@
                         <ContentPresenter Grid.Row="1"
                                           VerticalAlignment="Stretch"
                                           Background="{TemplateBinding Background}"
-                                          Content="{TemplateBinding Element}"
                                           Visibility="{TemplateBinding IsOpen}" />
                     </Grid>
                 </ControlTemplate>
