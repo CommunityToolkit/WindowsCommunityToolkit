@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Uri _uri;
         private bool _isHttpSource;
-        
+
         /// <summary>
         /// Gets or sets get or set the source used by the image
         /// </summary>

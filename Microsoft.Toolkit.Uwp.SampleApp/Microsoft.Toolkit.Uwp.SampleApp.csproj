@@ -317,6 +317,7 @@
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
+    <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -328,6 +329,9 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
+      <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
@@ -475,6 +479,10 @@
     <Page Include="Controls\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
       <SubType>Designer</SubType>
