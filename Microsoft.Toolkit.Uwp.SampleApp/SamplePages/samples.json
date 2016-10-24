@@ -98,6 +98,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "MasterDetail",
+        "Type": "MasterDetailPage",
+        "About": "Allows you to use the Master/Detail navigation mechanism",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetail",
+        "XamlCodeFile": "MasterDetailXaml.bind",
+        "Icon": "/SamplePages/MasterDetail/MasterDetail.png"
       }
     ]
   },

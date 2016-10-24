@@ -1,0 +1,60 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MasterDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:MasterDetail x:Name="MasterDetail">
+            <controls:MasterDetail.Master>
+                <ListView x:Name="ItemsList"
+                          SelectionChanged="ItemsList_OnSelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Header}"
+                                           Style="{StaticResource SubheaderTextBlockStyle}"
+                                           Margin="0,6"/>
+                                <TextBlock Text="{Binding Subject}"
+                                           Style="{StaticResource BodyTextBlockStyle}"
+                                           TextWrapping="NoWrap"
+                                           Opacity="0.5"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </controls:MasterDetail.Master>
+            <controls:MasterDetail.DetailTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="12">
+                        <TextBlock Text="{Binding Header}"
+                                   Style="{StaticResource SubheaderTextBlockStyle}"
+                                   Margin="0,6"
+                                   Foreground="Black"/>
+                        <TextBlock Text="{Binding Subject}"
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Foreground="Black"
+                                   Opacity="0.5"
+                                   Margin="0,6,0,12"/>
+                        <TextBlock Text="{Binding Content}"
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Foreground="Black"
+                                   Margin="0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </controls:MasterDetail.DetailTemplate>
+            <controls:MasterDetail.NoSelectionView>
+                <Grid HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                    <TextBlock Text="Please select something from the left"
+                               Style="{StaticResource SubheaderTextBlockStyle}"
+                               Foreground="Black"/>
+                </Grid>
+            </controls:MasterDetail.NoSelectionView>
+        </controls:MasterDetail>
+    </Grid>
+</Page>
+
