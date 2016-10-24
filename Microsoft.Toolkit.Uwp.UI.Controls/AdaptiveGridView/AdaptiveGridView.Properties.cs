@@ -123,6 +123,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(OneRowModeEnabledProperty, value); }
         }
 
+        /// <summary>
+        /// Gets the template that defines the panel that controls the layout of items.
+        /// </summary>
+        /// <remarks>
+        /// This property overrides the base ItemsPanel to prevent changing it.
+        /// </remarks>
+        /// <returns>
+        /// An ItemsPanelTemplate that defines the panel to use for the layout of the items.
+        /// The default value for the ItemsControl is an ItemsPanelTemplate that specifies
+        /// a StackPanel.
+        /// </returns>
+        public new ItemsPanelTemplate ItemsPanel => base.ItemsPanel;
+
         private double ItemWidth
         {
             get { return (double)GetValue(ItemWidthProperty); }
