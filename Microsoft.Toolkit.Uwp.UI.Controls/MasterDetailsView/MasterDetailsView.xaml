@@ -72,7 +72,6 @@
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}"/>
                                 <ContentPresenter x:Name="DetailsPresenter" 
                                                   Background="{TemplateBinding Background}"
-                                                  Content="{TemplateBinding SelectedItem}"
                                                   ContentTemplate="{TemplateBinding DetailsTemplate}">
                                 </ContentPresenter>
                             </Grid>

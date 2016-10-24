@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class MasterDetailsView : ItemsControl
     {
-        private FrameworkElement _detailsPresenter;
+        private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
             _compositor = _root.Compositor;
 
-            _detailsPresenter = (FrameworkElement)GetTemplateChild("DetailsPresenter");
+            _detailsPresenter = (ContentPresenter)GetTemplateChild("DetailsPresenter");
             _detailsPresenter.SizeChanged += OnSizeChanged;
             _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
             SetDetailsOffset();
@@ -89,6 +89,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Move the visual to the side so it can animate back in
                 view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
             }
+
+            view._detailsPresenter.Content = view.MapDetails == null
+                ? view.SelectedItem
+                : view.MapDetails(view.SelectedItem);
 
             // determine the animate to create. If the SelectedItem is null we
             // want to animate the content out. If the SelectedItem is not null

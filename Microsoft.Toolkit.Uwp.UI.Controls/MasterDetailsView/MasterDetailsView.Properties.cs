@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -184,5 +185,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (DataTemplate)GetValue(NoSelectionContentTemplateProperty); }
             set { SetValue(NoSelectionContentTemplateProperty, value); }
         }
+
+        /// <summary>
+        /// Gets or sets a function for mapping the selected item to a different model.
+        /// This new model will be the DataContext of the Details area.
+        /// </summary>
+        public Func<object, object> MapDetails { get; set; }
     }
 }
