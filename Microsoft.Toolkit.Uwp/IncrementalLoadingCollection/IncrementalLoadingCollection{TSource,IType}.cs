@@ -40,18 +40,28 @@ namespace Microsoft.Toolkit.Uwp
          ISupportIncrementalLoading
          where TSource : IIncrementalSource<IType>, new()
     {
-        private readonly TSource _source;
+        /// <summary>
+        /// Gets a value indicating the source of incremental loading.
+        /// </summary>
+        protected TSource Source { get; }
+
+        /// <summary>
+        /// Gets a value indicating how many items that must be retrieved for each incremental call.
+        /// </summary>
+        protected int ItemsPerPage { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating The zero-based index of the current items page.
+        /// </summary>
+        protected int CurrentPageIndex { get; set; }
+
         private readonly Action _onStartLoading;
         private readonly Action _onEndLoading;
         private readonly Action<Exception> _onError;
 
-        private readonly int _itemsPerPage;
-        private int _currentPageIndex;
-
-        private CancellationToken _cancellationToken;
-
         private bool _isLoading;
         private bool _hasMoreItems;
+        private CancellationToken _cancellationToken;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -124,13 +134,13 @@ namespace Microsoft.Toolkit.Uwp
         /// </param>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
         {
-            _source = new TSource();
+            Source = new TSource();
 
             _onStartLoading = onStartLoading;
             _onEndLoading = onEndLoading;
             _onError = onError;
 
-            _itemsPerPage = itemsPerPage;
+            ItemsPerPage = itemsPerPage;
             _hasMoreItems = true;
         }
 
@@ -146,6 +156,21 @@ namespace Microsoft.Toolkit.Uwp
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
             => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
 
+        /// <summary>
+        /// Actually performs the incremental loading.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// Used to propagate notification that operation should be canceled.
+        /// </param>
+        /// <returns>
+        /// Returns a collection of <typeparamref name="IType"/>.
+        /// </returns>
+        protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
+        {
+            var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
+            return result;
+        }
+
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
         {
             uint resultCount = 0;
@@ -159,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp
                     try
                     {
                         IsLoading = true;
-                        data = await LoadDataAsync(count, _cancellationToken);
+                        data = await LoadDataAsync(_cancellationToken);
                     }
                     catch (OperationCanceledException)
                     {
@@ -197,12 +222,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return new LoadMoreItemsResult { Count = resultCount };
-        }
-
-        private async Task<IEnumerable<IType>> LoadDataAsync(uint count, CancellationToken cancellationToken)
-        {
-            var result = await _source.GetPagedItemsAsync(_currentPageIndex++, _itemsPerPage, cancellationToken);
-            return result;
         }
     }
 }

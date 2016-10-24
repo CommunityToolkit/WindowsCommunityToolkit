@@ -19,12 +19,17 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
+    /// A sample implementation of the <see cref="IIncrementalSource{TSource,TArgs}"/> interface.
     /// </summary>
-    /// <seealso cref="IIncrementalSource{TSource}"/>
-    public class PeopleSource : IIncrementalSource<Person>
+    /// <seealso cref="IIncrementalSource{TSource,TArgs}"/>
+    public class PeopleSource : IIncrementalSource<Person, string>
     {
         private readonly List<Person> _people;
+
+        /// <summary>
+        /// Gets or sets a value indicating additional arguments used to perform data pagination (for example, they can be search paramenters).
+        /// </summary>
+        public string Arguments { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PeopleSource"/> class.
@@ -55,11 +60,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </param>
         /// <returns>
         /// Returns a collection of <see cref="Person"/>.
+        /// </returns>
         public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Gets items from the collection according to pageIndex and pageSize parameters.
+            // Gets items from the collection according to pageIndex and pageSize parameters, taking
+            // care of the Arguments property.
             var result = (from p in _people
-                          select p).Skip(pageIndex * pageSize).Take(pageSize);
+                          select p).Skip(pageIndex * pageSize).Take(pageSize)
+                          .Select(p => new Person
+                          {
+                              Name = $"{p.Name} (requested at: {Arguments})"
+                          });
 
             // Simulates a longer request...
             await Task.Delay(1000);

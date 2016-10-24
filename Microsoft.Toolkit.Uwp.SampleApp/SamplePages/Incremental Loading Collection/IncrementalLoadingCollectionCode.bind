@@ -6,9 +6,11 @@ public class Person
     public string Name { get; set; }
 }
 
-public class PeopleSource : IIncrementalSource<Person>
+public class PeopleSource : IIncrementalSource<Person, string>
 {
     private readonly List<Person> people;
+
+    public string Arguments { get; set; }
 
     public PeopleSource()
     {
@@ -24,9 +26,14 @@ public class PeopleSource : IIncrementalSource<Person>
 
     public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize)
     {
-        // Gets items from the collection according to pageIndex and pageSize parameters.
-        var result = (from p in people
-                        select p).Skip(pageIndex * pageSize).Take(pageSize);
+        // Gets items from the collection according to pageIndex and pageSize parameters, taking
+        // care of the Arguments property.
+        var result = (from p in _people
+                      select p).Skip(pageIndex * pageSize).Take(pageSize)
+                      .Select(p => new Person
+                      {
+                          Name = $"{p.Name} (requested at: {Arguments})"
+                      });
 
         // Simulates a longer request...
         await Task.Delay(1000);
@@ -37,7 +44,13 @@ public class PeopleSource : IIncrementalSource<Person>
 
 // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
 
-var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
+var collection = new IncrementalLoadingCollection<PeopleSource, Person, string>(() =>
+{
+    // Simulates a method that sends additional paremeters to the source.
+    var now = DateTime.Now;
+    return Task.FromResult(now.ToString());
+});
+
 PeopleListView.ItemsSource = collection;
 
 // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.

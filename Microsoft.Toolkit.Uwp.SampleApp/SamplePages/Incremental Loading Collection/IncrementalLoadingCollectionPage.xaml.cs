@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Navigation;
 
@@ -40,7 +41,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedTo(e);
 
             // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
-            var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
+            var collection = new IncrementalLoadingCollection<PeopleSource, Person, string>(() =>
+            {
+                // Simulates a method that sends additional paremeters to the source.
+                var now = DateTime.Now;
+                return Task.FromResult(now.ToString());
+            });
 
             PeopleListView.ItemsSource = collection;
 
