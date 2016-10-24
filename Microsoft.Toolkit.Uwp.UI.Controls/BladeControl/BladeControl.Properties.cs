@@ -15,6 +15,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -29,6 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         [Deprecated("This property has been replaced with the Items property of the control. It is no longer required to place content within the Blades property.", DeprecationType.Deprecate, 1)]
         public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null, OnBladesChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="ToggleBlade"/> attached property.
+        /// </summary>
+        [Deprecated("This property has been deprecated. Please use the IsOpen property of the BladeItem.", DeprecationType.Deprecate, 1)]
+        public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
@@ -54,6 +62,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(BladesProperty, value); }
         }
 
+        /// <summary>
+        /// Sets the ID of a blade to toggle on a UIElement tap
+        /// </summary>
+        /// <param name="element">The UIElement to toggle the blade</param>
+        /// <param name="value">The ID of the blade we want to toggle</param>
+        [Deprecated("This property has been deprecated. Please use the IsOpen property of the BladeItem.", DeprecationType.Deprecate, 1)]
+        public static void SetToggleBlade(UIElement element, string value)
+        {
+            element.Tapped -= ToggleBlade;
+            element.Tapped += ToggleBlade;
+
+            element.SetValue(ToggleBladeProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the ID of a blade to toggle on a UIElement tap
+        /// </summary>
+        /// <param name="element">The UIElement to toggle the blade</param>
+        /// <returns>The ID of the blade</returns>
+        [Deprecated("This property has been deprecated. Please use the IsOpen property of the BladeItem.", DeprecationType.Deprecate, 1)]
+        public static string GetToggleBlade(UIElement element)
+        {
+            return element.GetValue(ToggleBladeProperty).ToString();
+        }
+
         private static void OnBladesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var bladeControl = (BladeControl)d;
@@ -70,6 +103,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     collection.CollectionChanged += bladeControl.OnBladeCollectionChanged;
                 }
             }
+        }
+
+        private static void ToggleBlade(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
+        {
+            Button pressedButton = sender as Button;
+            string bladeName = GetToggleBlade(pressedButton);
+            BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
+            var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
+
+            if (blade == null)
+            {
+                throw new KeyNotFoundException($"Could not find a blade with ID {bladeName}");
+            }
+
+            blade.IsOpen = !blade.IsOpen;
         }
 
         private void OnBladeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
