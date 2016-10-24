@@ -67,6 +67,7 @@
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
     <Compile Include="BladeControl\Blade.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
+    <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
