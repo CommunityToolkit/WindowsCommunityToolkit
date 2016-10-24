@@ -317,6 +317,7 @@
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
+    <Content Include="SamplePages\DraggableContentControl\DraggableContentControlCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -330,6 +331,9 @@
     <Compile Include="Common\Tools.cs" />
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DraggableContentControl\DraggableContentControlPage.xaml.cs">
+      <DependentUpon>DraggableContentControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
       <DependentUpon>HelpersPage.xaml</DependentUpon>
@@ -477,6 +481,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DraggableContentControl\DraggableContentControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
