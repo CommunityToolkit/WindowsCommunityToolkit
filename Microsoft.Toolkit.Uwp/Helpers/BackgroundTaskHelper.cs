@@ -56,11 +56,11 @@ namespace Microsoft.Toolkit.Uwp
         public static BackgroundTaskRegistration Register(string backgroundTaskName, string backgroundTaskEntryPoint, IBackgroundTrigger trigger, bool forceRegister = false, bool enforceConditions = true, params IBackgroundCondition[] conditions)
         {
             // Check if the task is already registered.
-            if (IsBackgroundTaskRegistered(backgroundTaskName) == true)
+            if (IsBackgroundTaskRegistered(backgroundTaskName))
             {
                 BackgroundTaskRegistration previouslyRegistered = GetBackgroundTask(backgroundTaskName) as BackgroundTaskRegistration;
 
-                if (forceRegister == true)
+                if (forceRegister)
                 {
                     Unregister(previouslyRegistered);
                 }

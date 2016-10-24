@@ -556,7 +556,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var file = await fileLocation.GetFileAsync(fileName);
-            return await StorageFileHelper.ReadBytesAsync(file);
+            return await file.ReadBytesAsync();
         }
 
         /// <summary>

@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 throw new ArgumentNullException(nameof(customContent));
             }
 
-            this.CustomContent = customContent;
+            CustomContent = customContent;
         }
 
         internal Element_ToastAction ConvertToElement()

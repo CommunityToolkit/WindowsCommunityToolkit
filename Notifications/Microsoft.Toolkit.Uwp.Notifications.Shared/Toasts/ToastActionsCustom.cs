@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             var el = new Element_ToastActions();
 
-            foreach (var input in this.Inputs)
+            foreach (var input in Inputs)
             {
                 el.Children.Add(ConvertToInputElement(input));
             }

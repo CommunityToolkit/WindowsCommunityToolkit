@@ -10,18 +10,28 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using System;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace UnitTests.Helpers
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class HelpersPage : Page
+    [TestClass]
+    public class Test_HttpHelper
     {
-        public HelpersPage()
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_HttpHelper_SendRequestAsync()
         {
-            InitializeComponent();
+            using (var request = new HttpHelperRequest(new Uri("http://dev.windows.com")))
+            {
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                {
+                    Assert.IsTrue(response.Success);
+                    Assert.IsNotNull(response.Content);
+                }
+            }
         }
     }
 }

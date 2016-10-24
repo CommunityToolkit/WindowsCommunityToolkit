@@ -47,17 +47,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 throw new ArgumentNullException(nameof(customContent));
             }
 
-            this.CustomContent = customContent;
+            CustomContent = customContent;
         }
 
         internal Element_ToastAction ConvertToElement()
         {
             return new Element_ToastAction()
                        {
-                           Content = this.CustomContent == null ? string.Empty : this.CustomContent, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
+                           Content = CustomContent ?? string.Empty, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
                            Arguments = "snooze",
                            ActivationType = Element_ToastActivationType.System,
-                           InputId = this.SelectionBoxId
+                           InputId = SelectionBoxId
 
                            // ImageUri is useless since Shell doesn't display it for system buttons
                        };

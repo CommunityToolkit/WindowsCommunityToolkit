@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public BackgroundTaskHelperPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)

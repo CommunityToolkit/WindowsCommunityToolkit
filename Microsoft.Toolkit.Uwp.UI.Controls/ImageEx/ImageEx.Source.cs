@@ -12,7 +12,6 @@
 
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -32,12 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
-
         private Uri _uri;
         private bool _isHttpSource;
-        private bool _isLoadingImage;
-
+        
         /// <summary>
         /// Gets or sets get or set the source used by the image
         /// </summary>
@@ -98,46 +94,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
                 }
 
-                await _semaphore.WaitAsync();
-
-                try
-                {
-                    await LoadImageAsync();
-                }
-                finally
-                {
-                    _semaphore.Release();
-                }
+                await LoadImageAsync();
             }
         }
 
         private async Task LoadImageAsync()
         {
-            if (!_isLoadingImage && _uri != null)
+            if (_uri != null)
             {
-                _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
                     var ogUri = _uri;
                     try
                     {
                         var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
-                        
-                        // If you have many imageEx in a virtualized listview for instance
-                        // controls will be recycled and the uri will change while waiting for the previous one to load
-                        if (_uri == ogUri)
+
+                        lock (_lockObj)
                         {
-                            _image.Source = img;
-                            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                            VisualStateManager.GoToState(this, LoadedState, true);
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == ogUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        if (_uri == ogUri)
+                        lock (_lockObj)
                         {
-                            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                            VisualStateManager.GoToState(this, FailedState, true);
+                            if (_uri == ogUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
                         }
                     }
                 }
@@ -145,8 +137,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
-
-                _isLoadingImage = false;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace UnitTests.Helpers
         [TestCleanup]
         public void TestCleanUp()
         {
-            if (BackgroundTaskHelper.IsBackgroundTaskRegistered("TaskName") == true)
+            if (BackgroundTaskHelper.IsBackgroundTaskRegistered("TaskName"))
             {
                 BackgroundTaskHelper.Unregister("TaskName");
             }
