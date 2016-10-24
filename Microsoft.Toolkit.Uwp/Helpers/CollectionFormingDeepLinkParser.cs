@@ -29,7 +29,6 @@ namespace Microsoft.Toolkit.Uwp
     /// </example>
     public class CollectionFormingDeepLinkParser : DeepLinkParser
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionFormingDeepLinkParser"/> class.
         /// </summary>

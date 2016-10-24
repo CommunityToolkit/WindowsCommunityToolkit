@@ -50,7 +50,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public QueryParameterCollection(string uri)
             : base(CreatePairsFromUri(uri))
         {
-
         }
     }
 }

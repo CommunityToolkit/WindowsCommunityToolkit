@@ -1,9 +1,9 @@
 ﻿namespace Tests
 {
-    using Microsoft.Toolkit.Uwp;
-    using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
     using System;
     using System.Diagnostics;
+    using Microsoft.Toolkit.Uwp;
+    using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
     using UnitTests;
 
     [TestClass]

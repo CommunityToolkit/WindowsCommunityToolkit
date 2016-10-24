@@ -165,7 +165,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             int queryStartPosition = origString.IndexOf('?');
-            queryString = null;
             if (queryStartPosition == -1)
             { // No querystring on the URI
                 this.Root = origString;
