@@ -63,10 +63,8 @@
     <Compile Include="Helpers\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
-    <Compile Include="IncrementalLoadingCollection\IIncrementalSource{TSource,TArgs}.cs" />
-    <Compile Include="IncrementalLoadingCollection\IIncrementalSource{TSource}.cs" />
-    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection{TSource,IType,TArgs}.cs" />
-    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection{TSource,IType}.cs" />
+    <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
+    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />

@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class, optionally specifying how many items to load for each data page.
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class optionally specifying how many items to load for each data page.
         /// </summary>
         /// <param name="itemsPerPage">
         /// The number of items to retrieve for each call. Default is 20.
@@ -133,8 +133,31 @@ namespace Microsoft.Toolkit.Uwp
         /// An <see cref="Action"/> that is called if an error occours during data retrieval.
         /// </param>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
+            : this(new TSource(), itemsPerPage, onStartLoading, onEndLoading, onError)
         {
-            Source = new TSource();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class using the specified <see cref="IIncrementalSource{TSource}"/> implementation and, optionally, how many items to load for each data page.
+        /// </summary>
+        /// <param name="source">
+        /// An <see cref="IIncrementalSource{TSource}"/> implementation that is used to actually loads data incrementally.
+        /// </param>
+        /// <param name="itemsPerPage">
+        /// The number of items to retrieve for each call. Default is 20.
+        /// </param>
+        /// <param name="onStartLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </param>
+        /// <param name="onEndLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </param>
+        /// <param name="onError">
+        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// </param>
+        public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
+        {
+            Source = source;
 
             _onStartLoading = onStartLoading;
             _onEndLoading = onEndLoading;

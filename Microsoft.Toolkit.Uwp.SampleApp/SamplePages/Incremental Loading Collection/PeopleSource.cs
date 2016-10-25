@@ -19,17 +19,12 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="IIncrementalSource{TSource,TArgs}"/> interface.
+    /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
     /// </summary>
-    /// <seealso cref="IIncrementalSource{TSource,TArgs}"/>
-    public class PeopleSource : IIncrementalSource<Person, string>
+    /// <seealso cref="IIncrementalSource{TSource}"/>
+    public class PeopleSource : IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
-
-        /// <summary>
-        /// Gets or sets a value indicating additional arguments used to perform data pagination (for example, they can be search paramenters).
-        /// </summary>
-        public string Arguments { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PeopleSource"/> class.
@@ -63,14 +58,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </returns>
         public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Gets items from the collection according to pageIndex and pageSize parameters, taking
-            // care of the Arguments property.
+            // Gets items from the collection according to pageIndex and pageSize parameters.
             var result = (from p in _people
-                          select p).Skip(pageIndex * pageSize).Take(pageSize)
-                          .Select(p => new Person
-                          {
-                              Name = $"{p.Name} (requested at: {Arguments})"
-                          });
+                          select p).Skip(pageIndex * pageSize).Take(pageSize);
 
             // Simulates a longer request...
             await Task.Delay(1000);
