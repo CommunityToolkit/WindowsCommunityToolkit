@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
-            InitControl();
 
             // Adding Grip to Grid Splitter
             if (Element == default(UIElement))
@@ -65,6 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
 
+            SetSplitterColumnRowSize();
+
             base.OnManipulationStarted(e);
         }
 
@@ -72,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = PreviousCursor;
+            ReleaseSplitterColumnRowSize();
 
             base.OnManipulationCompleted(e);
         }

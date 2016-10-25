@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private void InitControl()
+        private void SetSplitterColumnRowSize()
         {
             if (Resizable == null)
             {
@@ -85,7 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                        && (currentIndex < Resizable.ColumnDefinitions.Count))
                 {
                     var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
-                    splitterColumn.MinWidth = ActualWidth;
+                    if (splitterColumn.MinWidth < ActualWidth)
+                    {
+                        _currentColumnMinWidth = splitterColumn.MinWidth;
+                        splitterColumn.MinWidth = ActualWidth;
+                    }
                 }
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
@@ -96,9 +100,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                        && (currentIndex < Resizable.RowDefinitions.Count))
                 {
                     var splitterRow = Resizable.RowDefinitions[currentIndex];
-                    splitterRow.MinHeight = ActualHeight;
+                    if (splitterRow.MinHeight < ActualHeight)
+                    {
+                        _currentRowMinHeight = splitterRow.MinHeight;
+                        splitterRow.MinHeight = ActualHeight;
+                    }
                 }
             }
+        }
+
+        private void ReleaseSplitterColumnRowSize()
+        {
+            if (Resizable == null)
+            {
+                return;
+            }
+
+            if (_resizeDirection == GridResizeDirection.Columns && _currentColumnMinWidth.HasValue)
+            {
+                // resetting the Column min width to the original width of the column
+                var currentIndex = Grid.GetColumn(TargetControl);
+                if ((currentIndex >= 0)
+                       && (currentIndex < Resizable.ColumnDefinitions.Count))
+                {
+                    var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
+                    splitterColumn.MinWidth = _currentColumnMinWidth.Value;
+                }
+            }
+            else if (_resizeDirection == GridResizeDirection.Rows && _currentRowMinHeight.HasValue)
+            {
+                // resetting the Row min height to the original height of the row
+                var currentIndex = Grid.GetRow(TargetControl);
+                if ((currentIndex >= 0)
+                       && (currentIndex < Resizable.RowDefinitions.Count))
+                {
+                    var splitterRow = Resizable.RowDefinitions[currentIndex];
+                    splitterRow.MinHeight = _currentRowMinHeight.Value;
+                }
+            }
+
+            // re setting to default value
+            _currentRowMinHeight = _currentColumnMinWidth = null;
         }
 
         // Return the targeted Column based on the resize behavior

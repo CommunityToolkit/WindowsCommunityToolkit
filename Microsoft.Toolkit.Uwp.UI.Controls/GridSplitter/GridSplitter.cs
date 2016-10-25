@@ -31,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
         private GripperHoverWrapper _hoverWrapper;
+        private double? _currentColumnMinWidth;
+        private double? _currentRowMinHeight;
 
         /// <summary>
         /// Gets the target parent grid from level
