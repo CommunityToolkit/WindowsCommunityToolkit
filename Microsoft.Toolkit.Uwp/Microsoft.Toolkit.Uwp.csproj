@@ -50,12 +50,17 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\ConnectionType.cs" />
     <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
+    <Compile Include="Helpers\HttpHelper.cs" />
+    <Compile Include="Helpers\HttpHelperRequest.cs" />
+    <Compile Include="Helpers\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
@@ -111,6 +116,20 @@
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>bin\Publish\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoStdLib>true</NoStdLib>

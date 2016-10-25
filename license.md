@@ -1,6 +1,6 @@
 # UWP Community Toolkit
 
-Copyright (c) Microsoft Corporation
+Copyright (c) .NET Foundation and Contributors
 
 All rights reserved. 
 

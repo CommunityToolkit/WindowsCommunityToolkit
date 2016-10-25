@@ -107,10 +107,7 @@
     <Compile Include="Exceptions\TooManyRequestsException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Services\Facebook\FacebookDataConfig.cs" />
-    <Compile Include="Core\HttpRequestResult.cs" />
-    <Compile Include="Core\HttpRequestSettings.cs" />
     <Compile Include="Core\IParser.cs" />
-    <Compile Include="Core\HttpRequest.cs" />
     <Compile Include="Rss\AtomParser.cs" />
     <Compile Include="Rss\BaseRssParser.cs" />
     <Compile Include="Rss\Rss2Parser.cs" />
@@ -142,6 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+      <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
+      <Name>Microsoft.Toolkit.Uwp</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
@@ -186,6 +189,18 @@
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>bin\Publish\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>

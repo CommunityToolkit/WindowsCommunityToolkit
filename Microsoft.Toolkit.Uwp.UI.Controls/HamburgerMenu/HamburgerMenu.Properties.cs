@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -136,7 +137,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the items list.
         /// </summary>
-        public ItemCollection Items => _buttonsListView?.Items;
+        /// <exception cref="Exception">
+        /// Exception thrown if ButtonsListView is not yet defined.
+        /// </exception>
+        public ItemCollection Items
+        {
+            get
+            {
+                if (_buttonsListView == null)
+                {
+                    throw new Exception("ButtonsListView is not defined yet. Please use ItemsSource instead.");
+                }
+
+                return _buttonsListView.Items;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the selected menu item.

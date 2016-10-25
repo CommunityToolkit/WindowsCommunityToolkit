@@ -9,8 +9,8 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
-| Production | master | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/master?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/master) | 1.1 |
-| Pre-release beta testing | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o1jjdpx3bsvi350n/branch/dev?svg=true)](https://ci.appveyor.com/project/PedroLamas/uwpcommunitytoolkit/branch/dev) | Use our [pre-release Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) |
+| Production | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+| Pre-release beta testing | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/dev?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/dev) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
 
@@ -42,48 +42,48 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ### Animations
 
-* [Blur](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Blur/)
-* [Offset](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Offset/)
-* [Fade](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Fade/)
-* [Rotate](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Rotate/)
-* [Scale](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/Scale/)
-* [FadeHeader](http://uwpcommunitytoolkit.readthedocs.io/en/master/animations/FadeHeader/)
+* [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
+* [Offset](http://docs.uwpcommunitytoolkit.com/en/master/animations/Offset/)
+* [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
+* [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
+* [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
+* [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 
 ### Controls
 
-* [AdaptiveGridView](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/AdaptiveGridView/)
-* [BladeControl](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/BladeControl/)
-* [DropShadowPanel](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/DropShadowPanel/)
-* [GridSplitter](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/GridSplitter/)
-* [HamburgerMenu](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HamburgerMenu/)
-* [HeaderedTextBlock](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/HeaderedTextBlock/)
-* [ImageEx](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/ImageEx/)
-* [PullToRefreshListView](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/PullToRefreshListview/)
-* [RadialGauge](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RadialGauge/)
-* [RangeSelector](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RangeSelector/)
-* [RotatorTile](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/RotatorTile/)
-* [SlideableListItem](http://uwpcommunitytoolkit.readthedocs.io/en/master/controls/SlidableListItem/)
+* [AdaptiveGridView](http://docs.uwpcommunitytoolkit.com/en/master/controls/AdaptiveGridView/)
+* [BladeControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/BladeControl/)
+* [DropShadowPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DropShadowPanel/)
+* [GridSplitter](http://docs.uwpcommunitytoolkit.com/en/master/controls/GridSplitter/)
+* [HamburgerMenu](http://docs.uwpcommunitytoolkit.com/en/master/controls/HamburgerMenu/)
+* [HeaderedTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedTextBlock/)
+* [ImageEx](http://docs.uwpcommunitytoolkit.com/en/master/controls/ImageEx/)
+* [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
+* [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
+* [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
+* [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
+* [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
 
 ### Code Helpers
 
-* [Colors](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Colors/)
-* [Connection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ConnectionHelper/)
-* [Converters](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/)
-* [ImageCache](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ImageCache/)
-* [Incremental Loading Collection](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/IncrementalLoadingCollection/)
-* [Object Storage](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/ObjectStorageHelper/)
-* [StorageFiles](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFiles/)
-* [Streams](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Streams/)
-* [VisualTreeExtensions](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/VisualTreeExtensions/)
-* [WeakEventListener](http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/WeakEventListener/)
+* [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
+* [Connection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ConnectionHelper/)
+* [Converters](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Converters/)
+* [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
+* [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
+* [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
+* [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
+* [Streams](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Streams/)
+* [VisualTreeExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/VisualTreeExtensions/)
+* [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
 
 ### Services
 
-* [Bing](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Bing/)
-* [Facebook](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Facebook/)
-* [LinkedIn](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/LinkedId/)
-* [Microsoft Graph](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/MicrosoftGraph/)
-* [Twitter](http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/)
+* [Bing](http://docs.uwpcommunitytoolkit.com/en/master/services/Bing/)
+* [Facebook](http://docs.uwpcommunitytoolkit.com/en/master/services/Facebook/)
+* [LinkedIn](http://docs.uwpcommunitytoolkit.com/en/master/services/Linkedin/)
+* [Microsoft Graph](http://docs.uwpcommunitytoolkit.com/en/master/services/MicrosoftGraph/)
+* [Twitter](http://docs.uwpcommunitytoolkit.com/en/master/services/Twitter/)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
@@ -104,10 +104,16 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
  - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
  - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
+to clarify expected behavior in our community.
+For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct). 
 
 ## Roadmap
 
 Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.2), and feel free to ask questions.
 
-By adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio, you can also get pre-release packages of upcoming version (updated on every pull request).
+By adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio, you can also get pre-release packages of upcoming version.
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
