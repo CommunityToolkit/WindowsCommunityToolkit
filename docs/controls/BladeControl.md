@@ -7,31 +7,25 @@ The BladeControl provides a container to host blades as extra detail pages in, f
 ```xaml
 
 <controls:BladeControl>
-    <controls:BladeControl.Blades>
-        <controls:Blade IsOpen="True"
-                        TitleBarVisibility="Collapsed">
-            <controls:Blade.Element>
-                <StackPanel Margin="8">
-                        <Button Width="180"
-                            Height="100"
-                            Margin="0, 20, 0, 0"
-                            controls:BladeControl.ToggleBlade="Blade1"
-                            Content="Default blade" />
-                </StackPanel>
-            </controls:Blade.Element>
-        </controls:Blade>
+    <controls:Blade IsOpen="True"
+                    TitleBarVisibility="Collapsed">
+        <StackPanel Margin="8">
+            <ToggleButton Width="180"
+                          Height="100"
+                          Margin="0, 20, 0, 0"
+                          IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
+                          Content="Default blade" />
+        </StackPanel>
+    </controls:Blade>
 
-        <controls:Blade Title="A blade"
-                        BladeID="Blade1"
-                        IsOpen="False">
-            <controls:Blade.Element>
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource SubtitleTextBlockStyle}"
-                           Text="This is a blade with all settings set to default." />
-            </controls:Blade.Element>
-        </controls:Blade>
-    </controls:BladeControl.Blades>
+    <controls:Blade x:Name="DefaultBlade" 
+	                Title="A blade"
+                    IsOpen="False">
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource SubtitleTextBlockStyle}"
+                   Text="This is a blade with all settings set to default." />
+    </controls:Blade>
 </controls:BladeControl>
 
 ```
