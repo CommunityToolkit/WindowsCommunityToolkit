@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -82,14 +83,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
 
             _columns = CalculateColumns(containerWidth, desiredWidth);
+            bool fillsAtLeastOneRow = true;
 
             // If there's less items than there's columns, reduce the column count;
             if (Items != null && Items.Count > 0 && Items.Count < _columns)
             {
                 _columns = Items.Count;
+                fillsAtLeastOneRow = false;
             }
 
-            ItemWidth = (containerWidth / _columns) - 5;
+            if (fillsAtLeastOneRow || !MaintainAspectRatio)
+            {
+                ItemWidth = (containerWidth / _columns) - 5;
+            }
+            else
+            {
+                ItemWidth = (desiredWidth * ((Items.Count + 0.5) / Items.Count)) - 5;
+            }
         }
 
         /// <summary>

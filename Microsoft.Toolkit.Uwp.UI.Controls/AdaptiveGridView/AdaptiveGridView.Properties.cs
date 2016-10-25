@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -59,6 +60,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DesiredWidthProperty =
             DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN, DesiredWidthChanged));
 
+        /// <summary>
+        /// Identifies the <see cref="MaintainAspectRatio"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaintainAspectRatioProperty =
+        DependencyProperty.Register("MaintainAspectRatio", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, OnMaintainAspectRatioPropertyChanged));
+
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
             var self = d as AdaptiveGridView;
@@ -83,6 +90,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             self.RecalculateLayout(self.ActualWidth);
         }
 
+        private static void OnMaintainAspectRatioPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var self = d as AdaptiveGridView;
+            self.RecalculateLayout(self.ActualWidth);
+        }
+
         /// <summary>
         /// Gets or sets the desired width of each item
         /// </summary>
@@ -91,6 +104,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(DesiredWidthProperty); }
             set { SetValue(DesiredWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control should try to maintain the aspect ratio of items.
+        /// </summary>
+        /// <remarks>
+        /// If set to <c>false</c> (default), items can be stretched to any width, to always fill at least one row.
+        /// If set to <c>true</c>, stretching of items will be restricted to remain close to the normal aspect ratio of the items.
+        /// A gap will appear at the end of the rpw, if this is set to <c>true</c> and there are not enough items to fill one row.
+        /// </remarks>
+        /// <value>A value indicating whether the control should try to maintain the aspect ratio of items.</value>
+        public bool MaintainAspectRatio
+        {
+            get { return (bool)GetValue(MaintainAspectRatioProperty); }
+            set { SetValue(MaintainAspectRatioProperty, value); }
         }
 
         /// <summary>
@@ -144,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static int CalculateColumns(double containerWidth, double itemWidth)
         {
-            var columns = (int)(containerWidth / itemWidth);
+            var columns = (int)Math.Round(containerWidth / itemWidth);
             if (columns == 0)
             {
                 columns = 1;
