@@ -132,6 +132,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="onError">
         /// An <see cref="Action"/> that is called if an error occours during data retrieval.
         /// </param>
+        /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
             : this(new TSource(), itemsPerPage, onStartLoading, onEndLoading, onError)
         {
@@ -141,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class using the specified <see cref="IIncrementalSource{TSource}"/> implementation and, optionally, how many items to load for each data page.
         /// </summary>
         /// <param name="source">
-        /// An <see cref="IIncrementalSource{TSource}"/> implementation that is used to actually loads data incrementally.
+        /// An implementation of the <see cref="IIncrementalSource{TSource}"/> interface that contains the logic to actually loads data incrementally.
         /// </param>
         /// <param name="itemsPerPage">
         /// The number of items to retrieve for each call. Default is 20.
@@ -155,6 +156,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="onError">
         /// An <see cref="Action"/> that is called if an error occours during data retrieval.
         /// </param>
+        /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
         {
             Source = source;
