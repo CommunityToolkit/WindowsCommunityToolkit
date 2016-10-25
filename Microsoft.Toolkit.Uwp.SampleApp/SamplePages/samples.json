@@ -277,6 +277,13 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/SamplePages/Helpers/Helpers.png"
+      },      {
+        "Name": "ConnectionHelper",
+        "Type": "ConnectionHelperPage",
+        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
+        "CodeFile": "ConnectionHelperCode.bind",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       },
       {
         "Name": "More",
