@@ -55,7 +55,8 @@
                                   Content="Custom titlebar" />
                     <ToggleButton Margin="0, 24, 0, 0"
                                   IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}"
-                                  Content="Custom close button" />                </StackPanel>
+                                  Content="Custom close button" />
+                </StackPanel>
             </controls:BladeItem>
 
             <controls:BladeItem Title="Default blade"
