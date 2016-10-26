@@ -316,6 +316,14 @@ namespace Microsoft.Toolkit.Uwp
         {
             var page = new Page();
 
+            // Save state
+            if (!_stateBags.ContainsKey(element))
+            {
+                var stateBag = new PrintHelperStateBag();
+                stateBag.Capture(element);
+                _stateBags.Add(element, stateBag);
+            }
+
             // Set "paper" width
             page.Width = printPageDescription.PageSize.Width;
             page.Height = printPageDescription.PageSize.Height;
@@ -325,10 +333,6 @@ namespace Microsoft.Toolkit.Uwp
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
-            var stateBag = new PrintHelperStateBag();
-            stateBag.Capture(element);
-            _stateBags.Add(element, stateBag);
-
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
 
