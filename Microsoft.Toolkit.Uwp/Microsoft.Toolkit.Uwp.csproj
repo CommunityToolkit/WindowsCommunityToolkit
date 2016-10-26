@@ -58,6 +58,8 @@
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\HttpHelperRequest.cs" />
     <Compile Include="Helpers\HttpHelperResponse.cs" />
