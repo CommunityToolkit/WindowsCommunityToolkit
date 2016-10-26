@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class using the specified <see cref="IIncrementalSource{TSource}"/> implementation and, optionally, how many items to load for each data page.
         /// </summary>
         /// <param name="source">
-        /// An implementation of the <see cref="IIncrementalSource{TSource}"/> interface that contains the logic to actually loads data incrementally.
+        /// An implementation of the <see cref="IIncrementalSource{TSource}"/> interface that contains the logic to actually load data incrementally.
         /// </param>
         /// <param name="itemsPerPage">
         /// The number of items to retrieve for each call. Default is 20.
