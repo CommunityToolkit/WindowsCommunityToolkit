@@ -2,6 +2,8 @@
 
 The **AdaptiveGridView Control** presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.
 
+If there are not enough items to fill one row, the control will stretch the items until all available space is filled. This can result in much wider items than specified. If you prefer your items to always stay close to the DesiredWidth, you can set the **MaintainAspectRatio** property to **true**, to prevent further stretching.
+
 ## Syntax
 
 ```xaml

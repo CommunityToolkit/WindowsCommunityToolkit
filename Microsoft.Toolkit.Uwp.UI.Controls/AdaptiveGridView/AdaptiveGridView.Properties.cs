@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MaintainAspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MaintainAspectRatioProperty =
-        DependencyProperty.Register("MaintainAspectRatio", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, OnMaintainAspectRatioPropertyChanged));
+        DependencyProperty.Register(nameof(MaintainAspectRatio), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, OnMaintainAspectRatioPropertyChanged));
 
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
