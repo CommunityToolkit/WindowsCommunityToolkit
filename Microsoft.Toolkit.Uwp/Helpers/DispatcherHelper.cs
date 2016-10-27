@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -26,12 +27,38 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public class DispatcherHelper
     {
         /// <summary>
-        /// Execute the delegate on the UI thread of the current view.
+        /// Execute the given function asynchronously on UI thread of the current view
         /// </summary>
-        /// <param name="handler">Delegate to be executed on the current view / UI thread</param>
-        public void ExecuteOnUIThread(DispatchedHandler handler)
+        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public async Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            Windows.ApplicationModel.Core.CoreApplication.GetCurrentView()?.CoreWindow?.Dispatcher?.RunAsync(CoreDispatcherPriority.Normal, handler);
+            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
+
+            await CoreApplication.GetCurrentView()?.CoreWindow?.Dispatcher?.RunAsync(priority, async () =>
+            {
+                taskCompletionSource.TrySetResult(await function());
+            });
+
+            return await taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// Execute the given function asynchronously on UI thread of the current view
+        /// </summary>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task</returns>
+        public async Task ExecutionOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            await ExecuteOnUIThreadAsync<bool>(
+                async () =>
+           {
+               await function();
+               return true;
+           }, CoreDispatcherPriority.Normal);
         }
     }
 }
