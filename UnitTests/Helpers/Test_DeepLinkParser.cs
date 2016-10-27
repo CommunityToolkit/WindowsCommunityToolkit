@@ -19,7 +19,7 @@ namespace Tests
     using UnitTests;
 
     [TestClass]
-    public class DeepLinkParserTests
+    public class Test_DeepLinkParser
     {
         public TestContext TestContext { get; set; }
 
