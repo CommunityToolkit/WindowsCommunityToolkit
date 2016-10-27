@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Fix invalid charset returned by some web sites.
         /// </summary>
         /// <param name="response">HttpResponseMessage instance.</param>
-        private static void FixInvalidCharset(HttpResponseMessage response)
+        private void FixInvalidCharset(HttpResponseMessage response)
         {
             if (response != null && response.Content != null && response.Content.Headers != null
                 && response.Content.Headers.ContentType != null && response.Content.Headers.ContentType.CharSet != null)
