@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,39 +22,75 @@ namespace Microsoft.Toolkit.Uwp.UI
     public static class WebViewExtensions
     {
         /// <summary>
-        /// Using a DependencyProperty as the backing store for HTML.  This enables animation, styling, binding, etc.
+        /// Using a DependencyProperty as the backing store for HTML content. This enables binding html string content.
         /// </summary>
-        public static readonly DependencyProperty HTMLProperty = DependencyProperty.RegisterAttached(
-            "HTML",
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
+            "Content",
             typeof(string),
             typeof(WebViewExtensions),
-            new PropertyMetadata(string.Empty, OnHTMLChanged));
+            new PropertyMetadata(string.Empty, OnContentChanged));
 
         /// <summary>
-        /// Gets HTML associated with the <see cref="WebView"/>
+        /// Using a DependencyProperty as the backing store for Content Uri.  This binding Content Uri.
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> from which to get the associated HTML from.</param>
+        public static readonly DependencyProperty ContentUriProperty = DependencyProperty.RegisterAttached(
+            "ContentUri",
+            typeof(Uri),
+            typeof(WebViewExtensions),
+            new PropertyMetadata(null, OnContentUriChanged));
+
+        /// <summary>
+        /// Gets Content associated with the <see cref="WebView"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> that has the content</param>
         /// <returns>HTML content</returns>
-        public static string GetHTML(DependencyObject obj)
+        public static string GetContent(DependencyObject obj)
         {
-            return (string)obj.GetValue(HTMLProperty);
+            return (string)obj.GetValue(ContentProperty);
         }
 
         /// <summary>
         /// Sets HTML from the <see cref="WebView"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> to set the HTML content to.</param>
+        /// <param name="obj">The <see cref="DependencyObject"/> that content is being set to.</param>
         /// <param name="value">HTML content</param>
-        public static void SetHTML(DependencyObject obj, string value)
+        public static void SetContent(DependencyObject obj, string value)
         {
-            obj.SetValue(HTMLProperty, value);
+            obj.SetValue(ContentProperty, value);
         }
 
-        private static void OnHTMLChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets Uri source associated with the <see cref="WebView"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> that has the content uri.</param>
+        /// <returns>HTML content</returns>
+        public static Uri GetContentUri(DependencyObject obj)
+        {
+            return (Uri)obj.GetValue(ContentUriProperty);
+        }
+
+        /// <summary>
+        /// Sets HTML from the <see cref="WebView"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> that content uri is being set to.</param>
+        /// <param name="value">HTML content</param>
+        public static void SetContentUri(DependencyObject obj, Uri value)
+        {
+            obj.SetValue(ContentUriProperty, value);
+        }
+
+        private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WebView wv = d as WebView;
 
             wv?.NavigateToString((string)e.NewValue);
+        }
+
+        private static void OnContentUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WebView wv = d as WebView;
+
+            wv?.Navigate((Uri)e.NewValue);
         }
     }
 }
