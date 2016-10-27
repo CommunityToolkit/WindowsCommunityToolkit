@@ -59,9 +59,11 @@
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
-    <Compile Include="Helpers\HttpHelper.cs" />
-    <Compile Include="Helpers\HttpHelperRequest.cs" />
-    <Compile Include="Helpers\HttpHelperResponse.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />

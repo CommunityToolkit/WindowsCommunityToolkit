@@ -70,37 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private void InitControl()
-        {
-            if (Resizable == null)
-            {
-                return;
-            }
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                // setting the Column min width to the width of the GridSplitter
-                var currentIndex = Grid.GetColumn(TargetControl);
-                if ((currentIndex >= 0)
-                       && (currentIndex < Resizable.ColumnDefinitions.Count))
-                {
-                    var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
-                    splitterColumn.MinWidth = ActualWidth;
-                }
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                // setting the Row min height to the height of the GridSplitter
-                var currentIndex = Grid.GetRow(TargetControl);
-                if ((currentIndex >= 0)
-                       && (currentIndex < Resizable.RowDefinitions.Count))
-                {
-                    var splitterRow = Resizable.RowDefinitions[currentIndex];
-                    splitterRow.MinHeight = ActualHeight;
-                }
-            }
-        }
-
         // Return the targeted Column based on the resize behavior
         private int GetTargetedColumn()
         {

@@ -285,10 +285,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read).AsTask().ConfigureAwait(MaintainContext))
-                {
-                    instance = await InitializeTypeAsync(fileStream).ConfigureAwait(false);
-                }
+                instance = await InitializeTypeAsync(baseFile).ConfigureAwait(false);
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {

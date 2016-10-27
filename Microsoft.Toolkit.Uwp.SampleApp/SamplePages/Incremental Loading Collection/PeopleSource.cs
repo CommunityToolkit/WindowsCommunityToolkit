@@ -55,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </param>
         /// <returns>
         /// Returns a collection of <see cref="Person"/>.
+        /// </returns>
         public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Gets items from the collection according to pageIndex and pageSize parameters.
