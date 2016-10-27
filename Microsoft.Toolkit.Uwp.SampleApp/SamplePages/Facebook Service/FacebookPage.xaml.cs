@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (QueryType.SelectedIndex == 3)
             {
-                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserAlbumsAsync();
+                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserAlbumsAsync(20, FacebookAlbum.Fields);
                 ShareBox.Visibility = Visibility.Collapsed;
                 PhotoBox.Visibility = Visibility.Visible;
                 HidePostPanel();
@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (addedItem != null)
             {
-                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
+                PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id, 20, FacebookPhoto.Fields);
             }
 
             Shell.Current.DisplayWaitRing = false;

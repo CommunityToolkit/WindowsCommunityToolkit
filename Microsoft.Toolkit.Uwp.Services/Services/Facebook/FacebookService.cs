@@ -199,6 +199,45 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
         /// <param name="config">FacebookDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
+        {
+            return await RequestAsync<FacebookPost>(config, maxRecords, FacebookPost.Fields);
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <typeparam name="T">Strong type of model.</typeparam>
+        /// <param name="config">FacebookDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<T>> RequestAsync<T>(FacebookDataConfig config, int maxRecords = 20, string fields = "id,message,from,created_time,link,full_picture")
+        {
+            if (Provider.LoggedIn)
+            {
+                var requestSource = new FacebookRequestSource<T>(config, fields, maxRecords.ToString(), 1);
+
+                var list = await requestSource.GetPagedItemsAsync(0, maxRecords);
+
+                return new List<T>(list);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await RequestAsync<T>(config, maxRecords, fields);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="pageSize">Upper limit of records to return.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
@@ -228,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await RequestAsync<T>(config, pageSize, fields);
+                return await RequestAsync<T>(config, pageSize, fields, maxPages);
             }
 
             return null;
@@ -269,6 +308,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <summary>
         /// Retrieves list of user photo albums.
         /// </summary>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <param name="fields">Custom list of Album fields to retrieve.</param>
+        /// <returns>List of User Photo Albums.</returns>
+        public async Task<List<FacebookAlbum>> GetUserAlbumsAsync(int maxRecords = 20, string fields = null)
+        {
+            fields = fields ?? FacebookAlbum.Fields;
+            var config = new FacebookDataConfig { Query = "/me/albums" };
+
+            return await RequestAsync<FacebookAlbum>(config, maxRecords, fields);
+        }
+
+        /// <summary>
+        /// Retrieves list of user photo albums.
+        /// </summary>
         /// <param name="pageSize">Number of records to retrieve per page.</param>
         /// <param name="fields">Custom list of Album fields to retrieve.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
@@ -279,6 +332,21 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var config = new FacebookDataConfig { Query = "/me/albums" };
 
             return await RequestAsync<FacebookAlbum>(config, pageSize, fields, maxPages);
+        }
+
+        /// <summary>
+        /// Retrieves list of user photos by album id.
+        /// </summary>
+        /// <param name="albumId">Albums Id for photos.</param>
+        /// <param name="maxRecords">Upper limit of records to return</param>
+        /// <param name="fields">Custom list of Photo fields to retrieve.</param>
+        /// <returns>List of User Photos.</returns>
+        public async Task<List<FacebookPhoto>> GetUserPhotosByAlbumIdAsync(string albumId, int maxRecords = 20, string fields = null)
+        {
+            fields = fields ?? FacebookPhoto.Fields;
+            var config = new FacebookDataConfig { Query = $"/{albumId}/photos" };
+
+            return await RequestAsync<FacebookPhoto>(config, maxRecords, fields);
         }
 
         /// <summary>
