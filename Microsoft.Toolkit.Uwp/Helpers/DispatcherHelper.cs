@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
     /// </summary>
-    public class DispatcherHelper
+    public static class DispatcherHelper
     {
         /// <summary>
         /// Execute the given function asynchronously on UI thread of the current view
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public async Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static async Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
 
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public async Task ExecutionOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static async Task ExecutionOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             await ExecuteOnUIThreadAsync<bool>(
                 async () =>
