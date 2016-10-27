@@ -83,14 +83,28 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             WebView wv = d as WebView;
 
-            wv?.NavigateToString((string)e.NewValue);
+            var content = e.NewValue as string;
+
+            if (!string.IsNullOrEmpty(content))
+            {
+                return;
+            }
+
+            wv?.NavigateToString(content);
         }
 
         private static void OnContentUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WebView wv = d as WebView;
 
-            wv?.Navigate((Uri)e.NewValue);
+            var uri = e.NewValue as Uri;
+
+            if (uri == null)
+            {
+                return;
+            }
+
+            wv?.Navigate(uri);
         }
     }
 }
