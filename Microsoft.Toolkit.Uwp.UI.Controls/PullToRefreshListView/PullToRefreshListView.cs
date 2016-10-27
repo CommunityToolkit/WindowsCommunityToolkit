@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartScrollerContent, Type = typeof(Grid))]
     [TemplatePart(Name = PartRefreshIndicatorBorder, Type = typeof(Border))]
     [TemplatePart(Name = PartIndicatorTransform, Type = typeof(CompositeTransform))]
-    [TemplatePart(Name = PartDefaultIndicatorContent, Type = typeof(TextBlock))]
+    [TemplatePart(Name = PartDefaultIndicatorContent, Type = typeof(ContentControl))]
     public class PullToRefreshListView : ListView
     {
         /// <summary>
@@ -59,13 +59,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PullToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty PullToRefreshLabelProperty =
-            DependencyProperty.Register("PullToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
+            DependencyProperty.Register("PullToRefreshLabel", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
 
         /// <summary>
         /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
-            DependencyProperty.Register("ReleaseToRefreshLabel", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
+            DependencyProperty.Register("ReleaseToRefreshLabel", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
         private ItemsPresenter _scrollerContent;
-        private TextBlock _defaultIndicatorContent;
+        private ContentPresenter _defaultIndicatorContent;
         private double _lastOffset = 0.0;
         private double _pullDistance = 0.0;
         private DateTime _lastRefreshActivation = default(DateTime);
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
             _refreshIndicatorBorder = GetTemplateChild(PartRefreshIndicatorBorder) as Border;
             _refreshIndicatorTransform = GetTemplateChild(PartIndicatorTransform) as CompositeTransform;
-            _defaultIndicatorContent = GetTemplateChild(PartDefaultIndicatorContent) as TextBlock;
+            _defaultIndicatorContent = GetTemplateChild(PartDefaultIndicatorContent) as ContentPresenter;
 
             if (_root != null &&
                 _scroller != null &&
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (RefreshIndicatorContent == null)
                 {
-                    _defaultIndicatorContent.Text = PullToRefreshLabel;
+                    _defaultIndicatorContent.Content = PullToRefreshLabel;
                 }
 
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
-                    _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
+                    _defaultIndicatorContent.Content = ReleaseToRefreshLabel;
                 }
             }
             else if (_lastRefreshActivation != DateTime.MinValue)
@@ -282,7 +282,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
-                        _defaultIndicatorContent.Text = PullToRefreshLabel;
+                        _defaultIndicatorContent.Content = PullToRefreshLabel;
                     }
                 }
                 else
@@ -365,9 +365,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the label that will be shown when the user pulls down to refresh.
         /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
         /// </summary>
-        public string PullToRefreshLabel
+        public object PullToRefreshLabel
         {
-            get { return (string)GetValue(PullToRefreshLabelProperty); }
+            get { return (object)GetValue(PullToRefreshLabelProperty); }
             set { SetValue(PullToRefreshLabelProperty, value); }
         }
 
@@ -375,9 +375,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Gets or sets the label that will be shown when the user needs to release to refresh.
         // Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
         // </summary>
-        public string ReleaseToRefreshLabel
+        public object ReleaseToRefreshLabel
         {
-            get { return (string)GetValue(ReleaseToRefreshLabelProperty); }
+            get { return (object)GetValue(ReleaseToRefreshLabelProperty); }
             set { SetValue(ReleaseToRefreshLabelProperty, value); }
         }
     }
