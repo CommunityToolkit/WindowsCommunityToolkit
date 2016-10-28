@@ -297,7 +297,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if(_defaultIndicatorContent != null)
                     _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
                     if(_pullAndReleaseIndicatorContent != null)
-                    _pullAndReleaseIndicatorContent.Content = ReleaseToRefreshLabel;
+                    _pullAndReleaseIndicatorContent.Content = ReleaseToRefreshContent;
                 }
             }
             else if (_lastRefreshActivation != DateTime.MinValue)
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if(_defaultIndicatorContent != null)
                         _defaultIndicatorContent.Text = PullToRefreshLabel;
                         if(_pullAndReleaseIndicatorContent != null)
-                        _pullAndReleaseIndicatorContent.Content = PullToRefreshLabel;
+                        _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
                     }
                 }
                 else
