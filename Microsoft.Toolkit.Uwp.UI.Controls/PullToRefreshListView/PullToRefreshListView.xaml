@@ -40,9 +40,8 @@
                         <Grid>
                             <Border x:Name="RefreshIndicator" VerticalAlignment="Top">
                                 <Grid>
-                                    <!--<TextBlock x:Name="DefaultIndicatorContent" HorizontalAlignment="Center" FontSize="20"></TextBlock>-->
-                                    <ContentPresenter x:Name="PullAndReleaseIndicatorContent" HorizontalAlignment="Center" FontSize="20"></ContentPresenter>
-                                    <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}"></ContentPresenter>
+                                    <ContentPresenter x:Name="PullAndReleaseIndicatorContent" HorizontalAlignment="Center" FontSize="20" />
+                                    <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}" />
                                 </Grid>
                                 <Border.RenderTransform>
                                     <CompositeTransform x:Name="RefreshIndicatorTransform"></CompositeTransform>
