@@ -95,6 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
         private ItemsPresenter _scrollerContent;
+        [Obsolete]
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
         private double _lastOffset = 0.0;
@@ -165,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _scrollerContent != null &&
                 _refreshIndicatorBorder != null &&
                 _refreshIndicatorTransform != null &&
-                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null)) //after removing defaultIndicatorContent 
+                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null)) // if _defaultIndicatorContent is removed check for _pullAndReleaseIndicatorContent only)
             {
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
@@ -200,10 +201,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (RefreshIndicatorContent == null)
                 {
-                    if(_defaultIndicatorContent != null)
-                    _defaultIndicatorContent.Text = PullToRefreshLabel;
-                    if(_pullAndReleaseIndicatorContent != null)
-                    _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
+                    if (_defaultIndicatorContent != null)
+                    {
+                        _defaultIndicatorContent.Text = PullToRefreshLabel;
+                    }
+
+                    if (_pullAndReleaseIndicatorContent != null)
+                    {
+                        _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
+                    }
                 }
 
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -294,10 +300,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
-                    if(_defaultIndicatorContent != null)
-                    _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
-                    if(_pullAndReleaseIndicatorContent != null)
-                    _pullAndReleaseIndicatorContent.Content = ReleaseToRefreshContent;
+                    if (_defaultIndicatorContent != null)
+                    {
+                        _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
+                    }
+
+                    if (_pullAndReleaseIndicatorContent != null)
+                    {
+                        _pullAndReleaseIndicatorContent.Content = ReleaseToRefreshContent;
+                    }
                 }
             }
             else if (_lastRefreshActivation != DateTime.MinValue)
@@ -312,10 +323,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
-                        if(_defaultIndicatorContent != null)
-                        _defaultIndicatorContent.Text = PullToRefreshLabel;
-                        if(_pullAndReleaseIndicatorContent != null)
-                        _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
+                        if (_defaultIndicatorContent != null)
+                        {
+                            _defaultIndicatorContent.Text = PullToRefreshLabel;
+                        }
+
+                        if (_pullAndReleaseIndicatorContent != null)
+                        {
+                            _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
+                        }
                     }
                 }
                 else
@@ -408,7 +424,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _pullAndReleaseIndicatorContent.Visibility = value == null ? Visibility.Visible : Visibility.Collapsed;
                 }
-
 
                 SetValue(RefreshIndicatorContentProperty, value);
             }
