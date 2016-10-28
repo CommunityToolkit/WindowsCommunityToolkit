@@ -425,10 +425,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(PullToRefreshLabelProperty, value); }
         }
 
-        // <summary>
-        // Gets or sets the label that will be shown when the user needs to release to refresh.
-        // Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
-        // </summary>
+        /// <summary>
+        /// Gets or sets the label that will be shown when the user needs to release to refresh.
+        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        /// </summary>
         [Obsolete("Use " + nameof(ReleaseToRefreshContent))]
         public string ReleaseToRefreshLabel
         {
@@ -436,12 +436,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ReleaseToRefreshLabelProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the content that will be shown when the user pulls down to refresh.
+        /// </summary>
+        /// <remarks>
+        /// This content will only show up if <see cref="RefreshIndicatorContent" /> is null
+        /// </remarks>
         public object PullToRefreshContent
         {
             get { return (string)GetValue(PullToRefreshContentProperty); }
             set { SetValue(PullToRefreshContentProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the content that will be shown when the user needs to release to refresh.
+        /// </summary>
+        /// <remarks>
+        /// This content will only show up if <see cref="RefreshIndicatorContent" /> is null
+        /// </remarks>
         public object ReleaseToRefreshContent
         {
             get { return (string)GetValue(ReleaseToRefreshContentProperty); }
