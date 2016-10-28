@@ -10,23 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.Foundation.Metadata;
-using Windows.UI.Xaml;
-
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Dynamic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.SampleApp.Models;
+    using Microsoft.Toolkit.Uwp.UI.Controls;
+    using Windows.Foundation.Metadata;
+    using Windows.UI.Xaml;
+
     public class Sample
     {
+        internal static async Task<Sample> FindAsync(string category, string name)
+        {
+            var categories = await Samples.GetCategoriesAsync();
+            return categories?
+                .FirstOrDefault(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase))?
+                .Samples
+                .FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
         private PropertyDescriptor _propertyDescriptor;
 
         public string Name { get; set; }

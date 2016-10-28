@@ -10,17 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Pages;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+    using Windows.UI.Core;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Navigation;
+
     public sealed partial class Shell
     {
         private const int RootGridColumnsMinWidth = 300;
@@ -69,6 +69,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             Title.Text = title;
             HideInfoArea();
+        }
+
+        /// <summary>
+        /// Navigates to a Sample via a deep link.
+        /// </summary>
+        /// <param name="deepLink">The deep link. Specified as protocol://[collectionName]?sample=[sampleName]</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task NavigateToSampleAsync(string deepLink)
+        {
+            var parser = DeepLinkParser.Create(deepLink);
+            var targetCategory = (await Samples.GetCategoriesAsync()).FirstOrDefault(c => c.Name.Equals(parser.Root, StringComparison.OrdinalIgnoreCase));
+            if (targetCategory != null)
+            {
+                var targetSample = targetCategory.Samples.FirstOrDefault(s => s.Name.Equals(parser["sample"], StringComparison.OrdinalIgnoreCase));
+                if (targetSample != null)
+                {
+                    await NavigateToSampleAsync(targetSample);
+                }
+            }
         }
 
         public async Task NavigateToSampleAsync(Sample sample)
@@ -138,7 +157,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
 
             // Get list of samples
-            HamburgerMenu.ItemsSource = await Samples.GetCategoriesAsync();
+            var sampleCategories = await Samples.GetCategoriesAsync();
+            HamburgerMenu.ItemsSource = sampleCategories;
 
             // Options
             HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
@@ -147,6 +167,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+
+            if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
+            {
+                var parser = DeepLinkParser.Create(e.Parameter.ToString());
+                var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
+                if (targetSample != null)
+                {
+                    await this.NavigateToSampleAsync(targetSample);
+                }
+            }
         }
 
         private void UpdateRootGridMinWidth()
