@@ -60,25 +60,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="PullToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty PullToRefreshLabelProperty =
-            DependencyProperty.Register("PullToRefreshLabel", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh", OnPullToRefreshLabelChanged));
-        
+            DependencyProperty.Register(nameof(PullToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh", OnPullToRefreshLabelChanged));
+
         /// <summary>
         /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
-            DependencyProperty.Register("ReleaseToRefreshLabel", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh", OnReleaseToRefreshLabelChanged));
-        
+            DependencyProperty.Register(nameof(ReleaseToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh", OnReleaseToRefreshLabelChanged));
+
         /// <summary>
         /// Identifies the <see cref="PullToRefreshContent"/> property.
         /// </summary>
         public static readonly DependencyProperty PullToRefreshContentProperty =
-            DependencyProperty.Register("PullToRefreshContent", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
+            DependencyProperty.Register(nameof(PullToRefreshContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh"));
 
         /// <summary>
         /// Identifies the <see cref="ReleaseToRefreshContent"/> property.
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshContentProperty =
-            DependencyProperty.Register("ReleaseToRefreshContent", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
+            DependencyProperty.Register(nameof(ReleaseToRefreshContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
