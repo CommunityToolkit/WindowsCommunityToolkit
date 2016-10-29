@@ -26,6 +26,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class MasterDetailsView : ItemsControl
     {
+        private const string PartDetailsPresenter = "DetailsPresenter";
+        private const string PartDetailsPanel = "DetailsPanel";
+        private const string PartHeaderContentPresenter = "HeaderContentPresenter";
+        private const string NarrowState = "NarrowState";
+        private const string WidthStates = "WidthStates";
+        private const string NoSelectionNarrowState = "NoSelectionNarrow";
+        private const string NoSelectionWideState = "NoSelectionWide";
+
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
@@ -54,11 +62,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            var detailsPanel = (FrameworkElement)GetTemplateChild("DetailsPanel");
+            var detailsPanel = (FrameworkElement)GetTemplateChild(PartDetailsPanel);
             _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
             _compositor = _root.Compositor;
 
-            _detailsPresenter = (ContentPresenter)GetTemplateChild("DetailsPresenter");
+            _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
             _detailsPresenter.SizeChanged += OnSizeChanged;
             _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
             SetDetailsOffset();
@@ -78,8 +86,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var view = (MasterDetailsView)d;
             string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? "NoSelectionNarrow"
-                : "NoSelectionWide";
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
             VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
@@ -127,10 +135,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
             }
 
-            _stateGroup = (VisualStateGroup)GetTemplateChild("WidthStates");
+            _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
             _stateGroup.CurrentStateChanged += OnVisualStateChanged;
 
-            _narrowState = GetTemplateChild("NarrowState") as VisualState;
+            _narrowState = GetTemplateChild(NarrowState) as VisualState;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -180,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetMasterHeaderVisibility()
         {
-            var headerPresenter = GetTemplateChild("HeaderContentPresenter") as FrameworkElement;
+            var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
             if (headerPresenter != null)
             {
                 headerPresenter.Visibility = MasterHeader != null
