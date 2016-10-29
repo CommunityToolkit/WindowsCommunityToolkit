@@ -232,6 +232,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                return;
+            }
+
             if (e.Cumulative.Translation.Y <= 0)
             {
                 return;
