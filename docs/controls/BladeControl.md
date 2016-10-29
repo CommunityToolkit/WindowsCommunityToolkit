@@ -7,7 +7,7 @@ The BladeControl provides a container to host blades as extra detail pages in, f
 ```xaml
 
 <controls:BladeControl>
-    <controls:Blade IsOpen="True"
+    <controls:BladeItem IsOpen="True"
                     TitleBarVisibility="Collapsed">
         <StackPanel Margin="8">
             <ToggleButton Width="180"
@@ -16,16 +16,16 @@ The BladeControl provides a container to host blades as extra detail pages in, f
                           IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
                           Content="Default blade" />
         </StackPanel>
-    </controls:Blade>
+    </controls:BladeItem>
 
-    <controls:Blade x:Name="DefaultBlade" 
+    <controls:BladeItem x:Name="DefaultBlade" 
 	                Title="A blade"
                     IsOpen="False">
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource SubtitleTextBlockStyle}"
                    Text="This is a blade with all settings set to default." />
-    </controls:Blade>
+    </controls:BladeItem>
 </controls:BladeControl>
 
 ```
