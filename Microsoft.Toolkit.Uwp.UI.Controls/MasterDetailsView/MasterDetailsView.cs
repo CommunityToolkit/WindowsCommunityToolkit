@@ -24,6 +24,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
+    [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     public partial class MasterDetailsView : ItemsControl
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
