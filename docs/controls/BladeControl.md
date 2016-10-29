@@ -8,7 +8,7 @@ The BladeControl provides a container to host blades as extra detail pages in, f
 
 <controls:BladeControl>
     <controls:BladeItem IsOpen="True"
-                    TitleBarVisibility="Collapsed">
+                        TitleBarVisibility="Collapsed">
         <StackPanel Margin="8">
             <ToggleButton Width="180"
                           Height="100"
@@ -19,8 +19,8 @@ The BladeControl provides a container to host blades as extra detail pages in, f
     </controls:BladeItem>
 
     <controls:BladeItem x:Name="DefaultBlade" 
-	                Title="A blade"
-                    IsOpen="False">
+	                    Title="A blade"
+                        IsOpen="False">
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource SubtitleTextBlockStyle}"
