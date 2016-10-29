@@ -11,7 +11,7 @@
         <controls:BladeControl Margin="12"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch">
-            <controls:Blade Title="Test"
+            <controls:BladeItem Title="Test"
                             IsOpen="True"
                             TitleBarVisibility="Collapsed">
                 <StackPanel Margin="8">
@@ -27,18 +27,18 @@
                                   IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}"
                                   Content="Custom close button" />
                 </StackPanel>
-            </controls:Blade>
+            </controls:BladeItem>
             
-            <controls:Blade x:Name="SecondBlade" 
+            <controls:BladeItem x:Name="SecondBlade" 
                             Title="Default blade"
                             IsOpen="False">
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="This is a blade with all settings set to default." />
-            </controls:Blade>
+            </controls:BladeItem>
           
-            <controls:Blade x:Name="ThirdBlade" 
+            <controls:BladeItem x:Name="ThirdBlade" 
                             Title="Custom title bar"
                             IsOpen="False"
                             TitleBarBackground="CornflowerBlue"
@@ -47,9 +47,9 @@
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="This is a blade with custom titlebar colors." />
-            </controls:Blade>
+            </controls:BladeItem>
             
-            <controls:Blade x:Name="ForthBlade" 
+            <controls:BladeItem x:Name="ForthBlade" 
                             Title="Custom close button color"
                             CloseButtonBackground="Black"
                             CloseButtonForeground="White"
@@ -58,7 +58,7 @@
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="This is a blade with a custom close button color." />
-            </controls:Blade>
+            </controls:BladeItem>
         </controls:BladeControl>
     </Grid>
 </Page>
