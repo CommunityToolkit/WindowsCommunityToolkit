@@ -12,8 +12,8 @@
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch">
             <controls:BladeItem Title="Test"
-                            IsOpen="True"
-                            TitleBarVisibility="Collapsed">
+                                IsOpen="True"
+                                TitleBarVisibility="Collapsed">
                 <StackPanel Margin="8">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="This first blade has a hidden TitleBar, so you can't close it." />
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened." />
@@ -30,8 +30,8 @@
             </controls:BladeItem>
             
             <controls:BladeItem x:Name="SecondBlade" 
-                            Title="Default blade"
-                            IsOpen="False">
+                                Title="Default blade"
+                                IsOpen="False">
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
@@ -39,10 +39,10 @@
             </controls:BladeItem>
           
             <controls:BladeItem x:Name="ThirdBlade" 
-                            Title="Custom title bar"
-                            IsOpen="False"
-                            TitleBarBackground="CornflowerBlue"
-                            TitleBarForeground="White">
+                                Title="Custom title bar"
+                                IsOpen="False"
+                                TitleBarBackground="CornflowerBlue"
+                                TitleBarForeground="White">
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
@@ -50,10 +50,10 @@
             </controls:BladeItem>
             
             <controls:BladeItem x:Name="ForthBlade" 
-                            Title="Custom close button color"
-                            CloseButtonBackground="Black"
-                            CloseButtonForeground="White"
-                            IsOpen="False">
+                                Title="Custom close button color"
+                                CloseButtonBackground="Black"
+                                CloseButtonForeground="White"
+                                IsOpen="False">
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Style="{StaticResource SubtitleTextBlockStyle}"
