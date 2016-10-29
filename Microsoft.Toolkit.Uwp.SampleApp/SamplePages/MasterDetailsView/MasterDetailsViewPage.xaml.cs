@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
