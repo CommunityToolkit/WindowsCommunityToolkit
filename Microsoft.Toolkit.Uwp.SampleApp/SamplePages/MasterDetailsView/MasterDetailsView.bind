@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:MasterDetailsView x:Name="MasterDetails" ItemsSource="{x:Bind Emails}"
+        <controls:MasterDetailsView ItemsSource="{x:Bind Emails}"
                                     Foreground="Black">
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="models:Email">
