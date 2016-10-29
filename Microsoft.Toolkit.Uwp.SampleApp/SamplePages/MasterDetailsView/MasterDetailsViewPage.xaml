@@ -10,6 +10,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:MasterDetailsView ItemsSource="{x:Bind Emails}"
+                                    NoSelectionContent="Select an item to view"
                                     Foreground="Black">
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="models:Email">
@@ -30,6 +31,18 @@
                     </RelativePanel>
                 </DataTemplate>
             </controls:MasterDetailsView.DetailsTemplate>
+            <controls:MasterDetailsView.NoSelectionContentTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Mail" RenderTransformOrigin=".5,.5">
+                            <SymbolIcon.RenderTransform>
+                                <CompositeTransform ScaleX="2" ScaleY="2"/>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                        <TextBlock Text="{Binding}" FontSize="24" Margin="0,12"/>
+                    </StackPanel>
+                </DataTemplate>
+            </controls:MasterDetailsView.NoSelectionContentTemplate>
         </controls:MasterDetailsView>
     </Grid>
 </Page>
