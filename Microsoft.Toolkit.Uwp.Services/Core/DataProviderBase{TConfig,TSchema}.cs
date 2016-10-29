@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper record limit.</param>
         /// <returns>List of strong typed objects.</returns>
-        public async Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
+        public Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
         {
-            return await LoadDataAsync(config, maxRecords, GetDefaultParser(config));
+            return LoadDataAsync(config, maxRecords, GetDefaultParser(config));
         }
 
         /// <summary>

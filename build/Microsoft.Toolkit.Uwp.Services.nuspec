@@ -18,6 +18,7 @@
       <reference file="Microsoft.Toolkit.Uwp.Services.dll" />
     </references>
     <dependencies>
+      <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="winsdkfb" version="0.11.20160720.1" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="Microsoft.Graph" version="1.0.1"/>

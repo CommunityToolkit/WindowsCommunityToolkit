@@ -71,7 +71,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="value">Object to save</param>
         public void Save<T>(string key, T value)
         {
-            Settings.Values[key] = JsonConvert.SerializeObject(value);
+            if (KeyExists(key))
+            {
+                Settings.Values[key] = JsonConvert.SerializeObject(value);
+            }
+            else
+            {
+                Settings.Values.Add(key, JsonConvert.SerializeObject(value));
+            }
         }
 
         /// <summary>
@@ -79,9 +86,9 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="filePath">Key of the file (that contains object)</param>
         /// <returns>True if a value exists</returns>
-        public async Task<bool> FileExistsAsync(string filePath)
+        public Task<bool> FileExistsAsync(string filePath)
         {
-            return await Folder.IsFileExistsAsync(filePath);
+            return Folder.IsFileExistsAsync(filePath);
         }
 
         /// <summary>
@@ -104,10 +111,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="filePath">Path to the file that will contain the object</param>
         /// <param name="value">Object to save</param>
-        /// <returns>Waiting task until completion</returns>
-        public async Task SaveFileAsync<T>(string filePath, T value)
+        /// <returns>When this method completes, it returns the <see cref="StorageFile"/> where the object was saved</returns>
+        public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            await StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
+            return StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }

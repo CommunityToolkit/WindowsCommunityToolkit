@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public HelpersPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

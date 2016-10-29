@@ -26,8 +26,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public string Source
         {
-            get { return this._source; }
-            set { BaseImageHelper.SetSource(ref this._source, value); }
+            get { return _source; }
+            set { BaseImageHelper.SetSource(ref _source, value); }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             get
             {
-                return this._hintOverlay;
+                return _hintOverlay;
             }
 
             set
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     Element_TileBinding.CheckOverlayValue(value.Value);
                 }
 
-                this._hintOverlay = value;
+                _hintOverlay = value;
             }
         }
 
@@ -74,15 +74,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             Element_AdaptiveImage image = BaseImageHelper.CreateBaseElement(this);
 
             image.Placement = AdaptiveImagePlacement.Background;
-            image.Crop = this.GetAdaptiveImageCrop();
-            image.Overlay = this.HintOverlay;
+            image.Crop = GetAdaptiveImageCrop();
+            image.Overlay = HintOverlay;
 
             return image;
         }
 
         private AdaptiveImageCrop GetAdaptiveImageCrop()
         {
-            switch (this.HintCrop)
+            switch (HintCrop)
             {
                 case TileBackgroundImageCrop.Circle:
                     return AdaptiveImageCrop.Circle;

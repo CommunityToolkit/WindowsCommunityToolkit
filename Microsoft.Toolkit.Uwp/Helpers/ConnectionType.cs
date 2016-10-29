@@ -10,38 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.Web.Http;
-
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// HttpRequestResult type for hold request results.
+    /// Enumeration denoting connection type.
     /// </summary>
-    internal class HttpRequestResult
+    public enum ConnectionType
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpRequestResult"/> class.
-        /// Default constructor.
+        /// Connected to wired network
         /// </summary>
-        public HttpRequestResult()
-        {
-            StatusCode = HttpStatusCode.Ok;
-            Result = string.Empty;
-        }
+        Ethernet,
 
         /// <summary>
-        /// Gets or sets holds request StatusCode.
+        /// Connected to wireless network
         /// </summary>
-        public HttpStatusCode StatusCode { get; set; }
+        WiFi,
 
         /// <summary>
-        /// Gets or sets holds request Result.
+        /// Connected to mobile data connection
         /// </summary>
-        public string Result { get; set; }
+        Data,
 
         /// <summary>
-        /// Gets a value indicating whether holds request Success boolean.
+        /// Connection type not identified
         /// </summary>
-        public bool Success => StatusCode == HttpStatusCode.Ok && !string.IsNullOrEmpty(Result);
+        Unknown,
     }
 }

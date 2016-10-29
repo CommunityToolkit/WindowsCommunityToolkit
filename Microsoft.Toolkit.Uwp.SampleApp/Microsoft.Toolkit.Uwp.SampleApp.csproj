@@ -252,6 +252,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
@@ -319,6 +320,8 @@
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
+    <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
+    <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -331,6 +334,9 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
+      <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
@@ -391,6 +397,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
+      <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -482,6 +491,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -535,6 +548,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -628,7 +645,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
+    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
       <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
       <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
