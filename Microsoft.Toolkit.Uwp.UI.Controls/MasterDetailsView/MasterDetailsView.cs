@@ -26,13 +26,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
+    [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
+    [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
     public partial class MasterDetailsView : ItemsControl
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string NarrowState = "NarrowState";
+        private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
+        private const string SelectionStates = "SelectionStates";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
