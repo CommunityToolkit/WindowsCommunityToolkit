@@ -27,7 +27,6 @@
                         <TextBlock Text="{Binding From}" Style="{ThemeResource SubtitleTextBlockStyle}" RelativePanel.RightOf="FromEllipse" Margin="12,-6,0,0"/>
                         <TextBlock x:Name="SubjectLine" Text="{Binding Subject}" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.Below="FromEllipse"/>
                         <TextBlock x:Name="Body" Text="{Binding Body}" Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap" RelativePanel.Below="SubjectLine" Margin="0,12,0,0"/>
-                        <Button Content="Click ME!" RelativePanel.Below="Body"/>
                     </RelativePanel>
                 </DataTemplate>
             </controls:MasterDetailsView.DetailsTemplate>
