@@ -32,10 +32,12 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        
         <controls:BladeControl x:Name="BladeControl"
                                Padding="0"
                                HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch">
+                               VerticalAlignment="Stretch"
+                               FullScreenBlades="True">
             <controls:BladeControl.Blades>
                 <controls:Blade x:Name="FirstBlade"
                                 Title="Test"

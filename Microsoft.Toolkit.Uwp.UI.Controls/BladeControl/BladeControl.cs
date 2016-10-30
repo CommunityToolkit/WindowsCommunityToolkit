@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -58,6 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(BladeControl);
             Blades = new ObservableCollection<Blade>();
+
+            Window.Current.SizeChanged += WindowSizeChanged;
         }
 
         /// <summary>
@@ -67,6 +70,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
             CycleBlades();
+
+            if (FullScreenBlades)
+            {
+                HandleFullScreenBlades();
+            }
         }
 
         private void CycleBlades()
@@ -104,6 +112,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_scrollViewer == null)
             {
                 _scrollViewer = this.FindDescendant<ScrollViewer>();
+            }
+        }
+
+        private void WindowSizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if (FullScreenBlades)
+            {
+                HandleFullScreenBlades();
+            }
+        }
+
+        private void HandleFullScreenBlades()
+        {
+            GetScrollViewer();
+
+            if (_scrollViewer != null)
+            {
+                foreach (var blade in Blades)
+                {
+                    blade.Width = _scrollViewer.ActualWidth;
+                    blade.Height = _scrollViewer.ActualHeight;
+                }
             }
         }
     }

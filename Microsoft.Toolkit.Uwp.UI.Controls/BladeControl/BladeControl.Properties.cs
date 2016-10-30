@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="FullScreenBlades"/> attached property.
+        /// </summary>
+        public static readonly DependencyProperty FullScreenBladesProperty = DependencyProperty.RegisterAttached(nameof(FullScreenBlades), typeof(bool), typeof(BladeControl), new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets a collection of blades
         /// </summary>
         public IList<Blade> Blades
@@ -52,6 +57,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (IList<Blade>)GetValue(ActiveBladesProperty); }
             set { SetValue(ActiveBladesProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether blades are full screen
+        /// </summary>
+        public bool FullScreenBlades
+        {
+            get { return (bool)GetValue(FullScreenBladesProperty); }
+            set { SetValue(FullScreenBladesProperty, value); }
         }
 
         /// <summary>
