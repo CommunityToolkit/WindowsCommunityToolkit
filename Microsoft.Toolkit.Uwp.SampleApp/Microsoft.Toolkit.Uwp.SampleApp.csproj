@@ -235,6 +235,8 @@
     <Content Include="SamplePages\BladeControl\BladeControl.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\DropShadow\Trex.png" />
+    <Content Include="SamplePages\DropShadow\Unicorn.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
@@ -320,6 +322,7 @@
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <Content Include="SamplePages\DropShadow\DropShadowBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -336,6 +339,9 @@
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DropShadow\DropShadowBehaviorPage.xaml.cs">
+      <DependentUpon>DropShadowBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
       <DependentUpon>HelpersPage.xaml</DependentUpon>
@@ -490,6 +496,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DropShadow\DropShadowBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
