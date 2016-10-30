@@ -20,7 +20,6 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="BladeControl.Padding" Value="12" />
                         <Setter Target="FirstBlade.Width" Value="280" />
                         <Setter Target="FirstBlade.FontSize" Value="12" />
                         <Setter Target="SecondBlade.Width" Value="280" />
@@ -34,7 +33,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <controls:BladeControl x:Name="BladeControl"
-                               Padding="24"
+                               Padding="0"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch">
             <controls:BladeControl.Blades>
@@ -42,6 +41,8 @@
                                 Title="Test"
                                 IsOpen="True"
                                 Width="400"
+                                Margin="0"
+                                BorderThickness="0,0,1,0"
                                 TitleBarVisibility="Collapsed"
                                 Background="{StaticResource Brush-White}"
                                 BorderBrush="{StaticResource Brush-Grey-04}">
@@ -67,6 +68,8 @@
                                 BladeId="BladeTest1"
                                 IsOpen="False"
                                 Width="400"
+                                Margin="0"
+                                BorderThickness="0,0,1,0"
                                 Background="{StaticResource Brush-White}"
                                 BorderBrush="{StaticResource Brush-Grey-04}">
                     <controls:Blade.Element>
@@ -82,6 +85,8 @@
                                 BladeId="BladeTest2"
                                 IsOpen="False"
                                 Width="400"
+                                Margin="0"
+                                BorderThickness="0,0,1,0"
                                 TitleBarBackground="{StaticResource Brush-Blue-01}"
                                 TitleBarForeground="{StaticResource Brush-White}"
                                 CloseButtonForeground="{StaticResource Brush-White}"
@@ -99,6 +104,8 @@
                                 x:Name="FourthBlade"
                                 BladeId="BladeTest3"
                                 Width="400"
+                                Margin="0"
+                                BorderThickness="0,0,1,0"
                                 CloseButtonBackground="{StaticResource Brush-Grey-01}"
                                 CloseButtonForeground="{StaticResource Brush-White}"
                                 Background="{StaticResource Brush-White}"
