@@ -12,6 +12,9 @@
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <StackPanel Orientation="Horizontal">
+      <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+
       <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image Source="Unicorn.png" Stretch="Uniform">
           <interactivity:Interaction.Behaviors>
@@ -29,6 +32,40 @@
           </interactivity:Interaction.Behaviors>
         </Image>
       </Grid>
+
+      <TextBlock Style="{StaticResource TitleText}">TextBlock</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+
+      <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock TextWrapping="Wrap">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum.
+          <interactivity:Interaction.Behaviors>
+            <behaviors:DropShadow
+                AutomaticallyStart="True"
+                OffsetX="0"
+                OffsetY="0"
+                SizeX="700"
+                SizeY="50" />
+          </interactivity:Interaction.Behaviors>
+        </TextBlock>
+      </Grid>
+
+      <TextBlock Style="{StaticResource TitleText}">Shapes</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+
+      <StackPanel Orientation="Horizontal">
+        <Grid Margin="20">
+          <Polygon
+              Fill="Blue"
+              Points="50,0 0,50 50,50"
+              Stroke="Blue"
+              StrokeThickness="2">
+            <interactivity:Interaction.Behaviors>
+              <behaviors:DropShadow AutomaticallyStart="True" />
+            </interactivity:Interaction.Behaviors>
+          </Polygon>
+        </Grid>
+      </StackPanel>
     </StackPanel>
   </Grid>
 </Page>

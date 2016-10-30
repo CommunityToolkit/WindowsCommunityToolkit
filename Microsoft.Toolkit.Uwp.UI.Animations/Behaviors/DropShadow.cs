@@ -24,9 +24,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// Gets or sets Shadow size Y
         /// </summary>
-        public float SizeY
+        public double SizeY
         {
-            get { return (float)GetValue(SizeYProperty); }
+            get
+            {
+                return (double)GetValue(SizeYProperty);
+            }
             set { SetValue(SizeYProperty, value); }
         }
 
@@ -36,16 +39,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty SizeYProperty =
             DependencyProperty.Register(
                 nameof(SizeY),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(50f, PropertyChangedCallback));
+                new PropertyMetadata(50d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow size X
         /// </summary>
-        public float SizeX
+        public double SizeX
         {
-            get { return (float)GetValue(SizeXProperty); }
+            get { return (double)GetValue(SizeXProperty); }
             set { SetValue(SizeXProperty, value); }
         }
 
@@ -55,16 +58,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty SizeXProperty =
             DependencyProperty.Register(
                 nameof(SizeX),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(50f, PropertyChangedCallback));
+                new PropertyMetadata(50d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow blur radius
         /// </summary>
-        public float BlurRadius
+        public double BlurRadius
         {
-            get { return (float)GetValue(BlurRadiusProperty); }
+            get { return (double)GetValue(BlurRadiusProperty); }
             set { SetValue(BlurRadiusProperty, value); }
         }
 
@@ -74,16 +77,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty BlurRadiusProperty =
             DependencyProperty.Register(
                 nameof(BlurRadius),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(1f, PropertyChangedCallback));
+                new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow blur Opacity
         /// </summary>
-        public float Opacity
+        public double Opacity
         {
-            get { return (float)GetValue(OpacityProperty); }
+            get { return (double)GetValue(OpacityProperty); }
             set { SetValue(OpacityProperty, value); }
         }
 
@@ -93,9 +96,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty OpacityProperty =
             DependencyProperty.Register(
                 nameof(Opacity),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(.5f, PropertyChangedCallback));
+                new PropertyMetadata(.5d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow color
@@ -119,9 +122,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// Gets or sets Shadow OffsetZ
         /// </summary>
-        public float OffsetZ
+        public double OffsetZ
         {
-            get { return (float)GetValue(OffsetZProperty); }
+            get { return (double)GetValue(OffsetZProperty); }
             set { SetValue(OffsetZProperty, value); }
         }
 
@@ -131,16 +134,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty OffsetZProperty =
             DependencyProperty.Register(
                 nameof(OffsetZ),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(10f, PropertyChangedCallback));
+                new PropertyMetadata(10d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow OffsetY
         /// </summary>
-        public float OffsetY
+        public double OffsetY
         {
-            get { return (float)GetValue(OffsetYProperty); }
+            get { return (double)GetValue(OffsetYProperty); }
             set { SetValue(OffsetYProperty, value); }
         }
 
@@ -150,16 +153,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty OffsetYProperty =
             DependencyProperty.Register(
                 nameof(OffsetY),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(10f, PropertyChangedCallback));
+                new PropertyMetadata(10d, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets Shadow OffsetX
         /// </summary>
-        public float OffsetX
+        public double OffsetX
         {
-            get { return (float)GetValue(OffsetXProperty); }
+            get { return (double)GetValue(OffsetXProperty); }
             set { SetValue(OffsetXProperty, value); }
         }
 
@@ -169,17 +172,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty OffsetXProperty =
             DependencyProperty.Register(
                 nameof(OffsetX),
-                typeof(float),
+                typeof(double),
                 typeof(DropShadow),
-                new PropertyMetadata(10f, PropertyChangedCallback));
+                new PropertyMetadata(10d, PropertyChangedCallback));
 
         /// <summary>
         /// Starts the animation.
         /// </summary>
         public override void StartAnimation()
         {
-            AssociatedObject.DropShadow(
-               OffsetX, OffsetY, OffsetZ, ShadowColor, Opacity, BlurRadius, SizeX, SizeY)
+            AssociatedObject?.DropShadow(
+              (float)OffsetX,
+              (float)OffsetY,
+              (float)OffsetZ,
+              ShadowColor,
+              (float)Opacity,
+              (float)BlurRadius,
+              (float)SizeX,
+              (float)SizeY)
                 .Start();
         }
     }

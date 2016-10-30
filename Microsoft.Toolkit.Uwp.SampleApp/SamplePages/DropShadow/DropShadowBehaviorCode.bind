@@ -1,0 +1,7 @@
+// XAML UIElement
+<Image Source="Unicorn.png" Stretch="Uniform" Name="ToolkitLogo">
+
+// C# - Drop Shadow can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+await ToolkitLogo.DropShadow().StartAsync();

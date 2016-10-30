@@ -48,7 +48,10 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="Unicorn.png" Stretch="Uniform">
+                        <Image
+                            x:Name="ToolkitLogo"
+                            Source="Unicorn.png"
+                            Stretch="Uniform">
                             <interactivity:Interaction.Behaviors>
                                 <behaviors:DropShadow
                                     AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
@@ -73,13 +76,13 @@
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum.
-                        Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla,
-                        at interdum dolor sapien ut odio. Sed ullamcorper sapien velit, id finibus risus gravida vitae. Morbi ac ultrices lectus. Aenean felis
-                        justo, aliquet a risus ut, condimentum malesuada metus. Duis vehicula pharetra dolor vel finibus. Nunc auctor tortor nunc, in varius velit
-                        lobortis vel. Duis viverra, ante id mollis mattis, sem mauris ullamcorper dolor, sed rhoncus est erat eget ligula. Aliquam rutrum velit et
-                        felis sollicitudin, eget dapibus dui accumsan.
                         <interactivity:Interaction.Behaviors>
-                            <behaviors:DropShadow AutomaticallyStart="True" />
+                            <behaviors:DropShadow
+                                AutomaticallyStart="True"
+                                OffsetX="0"
+                                OffsetY="0"
+                                SizeX="700"
+                                SizeY="50" />
                         </interactivity:Interaction.Behaviors>
                     </TextBlock>
                 </Grid>
