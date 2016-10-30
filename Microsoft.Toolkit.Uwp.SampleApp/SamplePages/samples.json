@@ -195,7 +195,7 @@
       {
         "Name": "DropShadow",
         "Type": "DropShadowBehaviorPage",
-        "About": "",
+        "About": "Drop Shadow UI Element",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "DropShadowBehaviorCode.bind",
         "XamlCodeFile": "DropShadowBehaviorXaml.bind",

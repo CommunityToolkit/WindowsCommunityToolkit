@@ -235,6 +235,7 @@
     <Content Include="SamplePages\BladeControl\BladeControl.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\DropShadow\DropShadowBehavior.png" />
     <Content Include="SamplePages\DropShadow\Trex.png" />
     <Content Include="SamplePages\DropShadow\Unicorn.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
