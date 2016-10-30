@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// IsPullToRefreshWithMouseEnabled Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
-            DependencyProperty.Register("IsPullToRefreshWithMouseEnabled", typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
