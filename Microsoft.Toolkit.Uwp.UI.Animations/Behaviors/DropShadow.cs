@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 
@@ -26,10 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public double SizeY
         {
-            get
-            {
-                return (double)GetValue(SizeYProperty);
-            }
+            get { return (double)GetValue(SizeYProperty); }
             set { SetValue(SizeYProperty, value); }
         }
 
