@@ -43,6 +43,30 @@
             Margin="15,15,0,15"
             VerticalScrollBarVisibility="Auto">
             <StackPanel>
+                <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
+                <Border Style="{StaticResource DividingBorder}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Unicorn.png" Stretch="Uniform">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:DropShadow
+                                    AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
+                                    BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
+                                    Delay="{Binding Delay.Value, Mode=OneWay}"
+                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
+                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+                                    OffsetZ="{Binding OffsetZ.Value, Mode=OneWay}"
+                                    Opacity="{Binding Opacity.Value, Mode=OneWay}"
+                                    SizeX="{Binding SizeX.Value, Mode=OneWay}"
+                                    SizeY="{Binding SizeY.Value, Mode=OneWay}"
+                                    Duration="{Binding Duration.Value, Mode=OneWay}" />
+                            </interactivity:Interaction.Behaviors>
+                        </Image>
+                    </Grid>
+                </StackPanel>
+
+
                 <TextBlock Style="{StaticResource TitleText}">TextBlock</TextBlock>
                 <Border Style="{StaticResource DividingBorder}" />
 
@@ -54,6 +78,9 @@
                         justo, aliquet a risus ut, condimentum malesuada metus. Duis vehicula pharetra dolor vel finibus. Nunc auctor tortor nunc, in varius velit
                         lobortis vel. Duis viverra, ante id mollis mattis, sem mauris ullamcorper dolor, sed rhoncus est erat eget ligula. Aliquam rutrum velit et
                         felis sollicitudin, eget dapibus dui accumsan.
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:DropShadow AutomaticallyStart="True" />
+                        </interactivity:Interaction.Behaviors>
                     </TextBlock>
                 </Grid>
 
@@ -66,43 +93,15 @@
                             Fill="Blue"
                             Points="50,0 0,50 50,50"
                             Stroke="Blue"
-                            StrokeThickness="2" />
-                    </Grid>
-
-                    <Grid Margin="20">
-                        <Rectangle
-                            Width="100"
-                            Height="50"
-                            Stroke="Green"
-                            StrokeThickness="5" />
-                    </Grid>
-
-                    <Grid Margin="20">
-                        <Polyline
-                            Points="0,0 50,50 50,0 0,50"
-                            Stroke="Black"
-                            StrokeThickness="2" />
-                    </Grid>
-                </StackPanel>
-
-                <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
-                <Border Style="{StaticResource DividingBorder}" />
-
-                <StackPanel Orientation="Horizontal">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="Unicorn.png" Stretch="Uniform">
+                            StrokeThickness="2">
                             <interactivity:Interaction.Behaviors>
-                                <behaviors:DropShadow
-                                    AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                    Delay="{Binding Delay.Value, Mode=OneWay}"
-                                    Duration="{Binding Duration.Value, Mode=OneWay}" />
+                                <behaviors:DropShadow AutomaticallyStart="True" />
                             </interactivity:Interaction.Behaviors>
-                        </Image>
-                    </Grid>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="Trex.png" Stretch="Uniform" />
+                        </Polygon>
                     </Grid>
                 </StackPanel>
+
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

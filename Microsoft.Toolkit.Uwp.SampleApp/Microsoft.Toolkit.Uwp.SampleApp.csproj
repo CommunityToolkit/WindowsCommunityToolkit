@@ -323,6 +323,7 @@
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\DropShadow\DropShadowBehaviorCode.bind" />
+    <Content Include="SamplePages\DropShadow\DropShadowBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
