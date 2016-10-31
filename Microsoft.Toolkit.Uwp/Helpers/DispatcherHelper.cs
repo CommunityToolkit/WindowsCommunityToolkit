@@ -99,7 +99,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             await dispatcher?.RunAsync(priority, async () =>
             {
-                taskCompletionSource.SetResult(await function());
+                try
+                {
+                    taskCompletionSource.SetResult(await function());
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
             });
 
             return await taskCompletionSource.Task;
