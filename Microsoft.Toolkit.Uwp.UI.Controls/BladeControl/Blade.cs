@@ -10,48 +10,34 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// The Blade is used as a child in the BladeControl
-    /// </summary>
-    [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-    public partial class Blade : Control
+    [Deprecated("The Blade class has been replaced with the BladeItem class. Please use that going forward", DeprecationType.Deprecate, 1)]
+    public class Blade : BladeItem
     {
-        private Button _closeButton;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Blade"/> class.
+        /// Gets or sets the visual content of this blade
         /// </summary>
-        public Blade()
+        [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
+        public UIElement Element
         {
-            DefaultStyleKey = typeof(Blade);
+            get { return (UIElement)GetValue(ElementProperty); }
+            set { SetValue(ElementProperty, value); }
         }
 
         /// <summary>
-        /// Override default OnApplyTemplate to capture child controls
+        /// Identifies the <see cref="Element"/> dependency property.
         /// </summary>
-        protected override void OnApplyTemplate()
+        [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
+        public static readonly DependencyProperty ElementProperty = DependencyProperty.Register(nameof(Element), typeof(UIElement), typeof(Blade), new PropertyMetadata(null, OnElementChanged));
+
+        private static void OnElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            base.OnApplyTemplate();
-
-            _closeButton = GetTemplateChild("CloseButton") as Button;
-
-            if (_closeButton == null)
-            {
-                return;
-            }
-
-            _closeButton.Tapped -= CloseButtonOnTap;
-            _closeButton.Tapped += CloseButtonOnTap;
-        }
-
-        private void CloseButtonOnTap(object sender, RoutedEventArgs routedEventArgs)
-        {
-            IsOpen = false;
+            var blade = (Blade) d;
+            blade.Content = e.NewValue;
         }
     }
 }
