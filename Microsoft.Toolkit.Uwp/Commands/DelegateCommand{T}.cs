@@ -14,38 +14,34 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.Commands
 {
     /// <summary>
-    /// Represents a command that can perform a given action.
+    /// Represents a command that can perform a given action for a particular type.
     /// </summary>
-    public class DelegateCommand : ICommand
+    /// <typeparam name="T">The parameter type</typeparam>
+    /// <seealso cref="System.Windows.Input.ICommand" />
+    public class DelegateCommand<T> : ICommand
     {
-        private readonly Action commandExecuteAction;
+        private readonly Action<T> _commandExecuteAction;
 
-        private readonly Func<bool> commandCanExecute;
+        private readonly Func<T, bool> _commandCanExecute;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
+        /// Initializes a new instance of the <see cref="DelegateCommand{T}"/> class.
         /// </summary>
-        /// <param name="execute">
-        /// The action to execute when called.
-        /// </param>
-        /// <param name="canExecute">
-        /// The function to call to determine if the command can execute the action.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if the execute action is null.
-        /// </exception>
-        public DelegateCommand(Action execute, Func<bool> canExecute = null)
+        /// <param name="executeAction">The execute action.</param>
+        /// <param name="canExecute">The can execute.</param>
+        /// <exception cref="System.ArgumentNullException">If executeAction is null</exception>
+        public DelegateCommand(Action<T> executeAction, Func<T, bool> canExecute = null)
         {
-            if (execute == null)
+            if (executeAction == null)
             {
-                throw new ArgumentNullException(nameof(execute));
+                throw new ArgumentNullException(nameof(executeAction));
             }
 
-            commandExecuteAction = execute;
-            commandCanExecute = canExecute ?? (() => true);
+            _commandExecuteAction = executeAction;
+            _commandCanExecute = canExecute ?? (e => true);
         }
 
         /// <summary>
@@ -62,11 +58,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
         /// <returns>
         /// Returns a value indicating whether this command can be executed.
         /// </returns>
-        public bool CanExecute(object parameter = null)
+        public bool CanExecute(object parameter)
         {
             try
             {
-                return commandCanExecute();
+                return _commandCanExecute(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -89,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
             try
             {
-                commandExecuteAction();
+                _commandExecuteAction(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -97,9 +93,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             }
         }
 
+        /// <summary>
+        /// Raises the can execute changed.
+        /// </summary>
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static T ConvertParameterValue(object parameter)
+        {
+            parameter = parameter is T ? parameter : Convert.ChangeType(parameter, typeof(T));
+            return (T)parameter;
         }
     }
 }
