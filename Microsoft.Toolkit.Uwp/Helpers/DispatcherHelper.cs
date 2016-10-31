@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public static class DispatcherHelper
     {
         /// <summary>
-        /// Execute the given function asynchronously on UI thread of the current view
+        /// Execute the given function asynchronously on UI thread of the main view
         /// </summary>
         /// <typeparam name="T">returned data type of the function</typeparam>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
@@ -35,9 +35,22 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
         public static async Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
+            return await ExecuteOnUIThreadAsync<T>(CoreApplication.MainView, function, priority);
+        }
+
+        /// <summary>
+        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// </summary>
+        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public static async Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
             TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
 
-            await CoreApplication.GetCurrentView()?.CoreWindow?.Dispatcher?.RunAsync(priority, async () =>
+            await viewToExecuteOn?.CoreWindow?.Dispatcher?.RunAsync(priority, async () =>
             {
                 taskCompletionSource.TrySetResult(await function());
             });
@@ -46,19 +59,37 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on UI thread of the current view
+        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// </summary>
+        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task</returns>
+        public static async Task ExecuteOnUIThreadAsync(CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            await ExecuteOnUIThreadAsync<bool>(
+                viewToExecuteOn,
+                async () =>
+            {
+                await function();
+                return true;
+            }, priority);
+        }
+
+        /// <summary>
+        /// Execute the given function asynchronously on UI thread of the main view
         /// </summary>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public static async Task ExecutionOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static async Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             await ExecuteOnUIThreadAsync<bool>(
                 async () =>
            {
                await function();
                return true;
-           }, CoreDispatcherPriority.Normal);
+           }, priority);
         }
     }
 }
