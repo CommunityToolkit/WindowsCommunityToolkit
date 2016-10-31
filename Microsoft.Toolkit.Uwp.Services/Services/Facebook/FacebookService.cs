@@ -201,9 +201,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
+        public Task<List<FacebookPost>> RequestAsync(FacebookDataConfig config, int maxRecords = 20)
         {
-            return await RequestAsync<FacebookPost>(config, maxRecords, FacebookPost.Fields);
+            return RequestAsync<FacebookPost>(config, maxRecords, FacebookPost.Fields);
         }
 
         /// <summary>
@@ -241,9 +241,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="pageSize">Upper limit of records to return.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookPost>, FacebookPost>> RequestAsync(FacebookDataConfig config, int pageSize = 20, int maxPages = 5)
+        public Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookPost>, FacebookPost>> RequestAsync(FacebookDataConfig config, int pageSize, int maxPages)
         {
-            return RequestAsync<FacebookPost>(config, pageSize, FacebookPost.Fields, maxPages);
+            return RequestAsync<FacebookPost>(config, pageSize, maxPages, FacebookPost.Fields);
         }
 
         /// <summary>
@@ -252,10 +252,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <typeparam name="T">Strong type of model.</typeparam>
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="pageSize">Upper limit of records to return.</param>
-        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
+        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<IncrementalLoadingCollection<FacebookRequestSource<T>, T>> RequestAsync<T>(FacebookDataConfig config, int pageSize = 20, string fields = "id,message,from,created_time,link,full_picture", int maxPages = 5)
+        public async Task<IncrementalLoadingCollection<FacebookRequestSource<T>, T>> RequestAsync<T>(FacebookDataConfig config, int pageSize, int maxPages, string fields = "id,message,from,created_time,link,full_picture")
         {
             if (Provider.LoggedIn)
             {
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await RequestAsync<T>(config, pageSize, fields, maxPages);
+                return await RequestAsync<T>(config, pageSize, maxPages, fields);
             }
 
             return null;
@@ -323,15 +323,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Retrieves list of user photo albums.
         /// </summary>
         /// <param name="pageSize">Number of records to retrieve per page.</param>
-        /// <param name="fields">Custom list of Album fields to retrieve.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
+        /// <param name="fields">Custom list of Album fields to retrieve.</param>
         /// <returns>List of User Photo Albums.</returns>
-        public async Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookAlbum>, FacebookAlbum>> GetUserAlbumsAsync(int pageSize = 20, string fields = null, int maxPages = 5)
+        public async Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookAlbum>, FacebookAlbum>> GetUserAlbumsAsync(int pageSize, int maxPages, string fields = null)
         {
             fields = fields ?? FacebookAlbum.Fields;
             var config = new FacebookDataConfig { Query = "/me/albums" };
 
-            return await RequestAsync<FacebookAlbum>(config, pageSize, fields, maxPages);
+            return await RequestAsync<FacebookAlbum>(config, pageSize, maxPages, fields);
         }
 
         /// <summary>
@@ -354,15 +354,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// </summary>
         /// <param name="albumId">Albums Id for photos.</param>
         /// <param name="pageSize">Number of records to retrieve per page.</param>
-        /// <param name="fields">Custom list of Photo fields to retrieve.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
+        /// <param name="fields">Custom list of Photo fields to retrieve.</param>
         /// <returns>List of User Photos.</returns>
-        public async Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookPhoto>, FacebookPhoto>> GetUserPhotosByAlbumIdAsync(string albumId, int pageSize = 20, string fields = null, int maxPages = 5)
+        public async Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookPhoto>, FacebookPhoto>> GetUserPhotosByAlbumIdAsync(string albumId, int pageSize, int maxPages, string fields = null)
         {
             fields = fields ?? FacebookPhoto.Fields;
             var config = new FacebookDataConfig { Query = $"/{albumId}/photos" };
 
-            return await RequestAsync<FacebookPhoto>(config, pageSize, fields, maxPages);
+            return await RequestAsync<FacebookPhoto>(config, pageSize, maxPages, fields);
         }
 
         /// <summary>

@@ -83,10 +83,10 @@ await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, Descrip
 await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, picture.Name, stream);
 
 // Get current user's photo albums
-await FacebookService.Instance.GetUserAlbumsAsync(20, FacebookAlbum.Fields);
+await FacebookService.Instance.GetUserAlbumsAsync();
 
 // Get current user's photos by album Id
-await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id, 20, FacebookPhoto.Fields);
+await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
 
 ```
  
