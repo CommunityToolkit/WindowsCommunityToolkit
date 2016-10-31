@@ -48,14 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
         public static async Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
-
-            await viewToExecuteOn?.CoreWindow?.Dispatcher?.RunAsync(priority, async () =>
-            {
-                taskCompletionSource.TrySetResult(await function());
-            });
-
-            return await taskCompletionSource.Task;
+            return await viewToExecuteOn?.Dispatcher?.AwaitableRunAsync<T>(function, priority);
         }
 
         /// <summary>
@@ -90,6 +83,43 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                await function();
                return true;
            }, priority);
+        }
+
+        /// <summary>
+        /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
+        /// </summary>
+        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
+        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public static async Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
+
+            await dispatcher?.RunAsync(priority, async () =>
+            {
+                taskCompletionSource.TrySetResult(await function());
+            });
+
+            return await taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
+        /// </summary>
+        /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
+        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task</returns>
+        public static async Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            await dispatcher.AwaitableRunAsync<bool>(
+                async () =>
+            {
+                await function();
+                return true;
+            }, priority);
         }
     }
 }
