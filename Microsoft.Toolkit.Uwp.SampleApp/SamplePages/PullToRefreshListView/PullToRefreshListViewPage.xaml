@@ -17,6 +17,7 @@
             Background="White"
             ItemsSource="{x:Bind _items}"
             OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
+            IsPullToRefreshWithMouseEnabled="{Binding IsPullToRefreshWithMouseEnabled.Value, Mode=OneWay}"
             PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
             RefreshRequested="ListView_RefreshCommand">
             <controls:PullToRefreshListView.ItemTemplate>
