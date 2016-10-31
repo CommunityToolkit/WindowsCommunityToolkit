@@ -10,20 +10,20 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Metadata;
+using Windows.Graphics.Display;
+using Windows.UI;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
-    using System;
-    using Microsoft.Toolkit.Uwp.SampleApp.Common;
-    using Windows.ApplicationModel;
-    using Windows.ApplicationModel.Activation;
-    using Windows.Foundation.Metadata;
-    using Windows.Graphics.Display;
-    using Windows.UI;
-    using Windows.UI.ViewManagement;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
-
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
