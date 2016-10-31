@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
     [ContentProperty(Name = nameof(CastingElement))]
-    public sealed partial class DropShadowPanel : UserControl
+    public partial class DropShadowPanel : UserControl
     {
         private readonly DropShadow _dropShadow;
         private readonly SpriteVisual _shadowVisual;
