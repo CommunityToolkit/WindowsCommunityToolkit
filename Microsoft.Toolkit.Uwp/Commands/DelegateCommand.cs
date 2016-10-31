@@ -11,20 +11,14 @@
 // ******************************************************************
 
 using System;
-using System.Diagnostics;
-using System.Windows.Input;
 
 namespace Microsoft.Toolkit.Uwp.Commands
 {
     /// <summary>
     /// Represents a command that can perform a given action.
     /// </summary>
-    public class DelegateCommand : ICommand
+    public class DelegateCommand : DelegateCommand<object>
     {
-        private readonly Action _commandExecuteAction;
-
-        private readonly Func<bool> _commandCanExecute;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DelegateCommand"/> class.
         /// </summary>
@@ -37,72 +31,9 @@ namespace Microsoft.Toolkit.Uwp.Commands
         /// <exception cref="ArgumentNullException">
         /// Thrown if the execute action is null.
         /// </exception>
-        public DelegateCommand(Action execute, Func<bool> canExecute = null)
+        public DelegateCommand(Action<object> execute, Func<object, bool> canExecute = null)
+            : base(execute, canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-
-            _commandExecuteAction = execute;
-            _commandCanExecute = canExecute ?? (() => true);
-        }
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute.
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
-
-        /// <summary>
-        /// Defines the method that determines whether the command can execute in its current state.
-        /// </summary>
-        /// <param name="parameter">
-        /// The parameter used by the command.
-        /// </param>
-        /// <returns>
-        /// Returns a value indicating whether this command can be executed.
-        /// </returns>
-        public bool CanExecute(object parameter = null)
-        {
-            try
-            {
-                return _commandCanExecute();
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Defines the method to be called when the command is invoked.
-        /// </summary>
-        /// <param name="parameter">
-        /// The parameter used by the command.
-        /// </param>
-        public void Execute(object parameter)
-        {
-            if (!CanExecute(parameter))
-            {
-                return;
-            }
-
-            try
-            {
-                _commandExecuteAction();
-            }
-            catch
-            {
-                Debugger.Break();
-            }
-        }
-
-        /// <summary>
-        /// Raises the can execute changed.
-        /// </summary>
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Commands
         }
 
         /// <summary>
-        /// Raises the can execute changed.
+        /// Raises the <see cref="CanExecuteChanged"/> event.
         /// </summary>
         public void RaiseCanExecuteChanged()
         {

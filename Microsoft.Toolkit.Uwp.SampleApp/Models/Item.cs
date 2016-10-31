@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Commands;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Models
@@ -34,12 +35,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 
         public DelegateCommand ToggleFavorite => _toggleFavorite ?? (_toggleFavorite = new DelegateCommand(ExecuteToggleFavoriteCommand, CanExecuteToggleFavoriteCommand));
 
-        private bool CanExecuteToggleFavoriteCommand()
+        private bool CanExecuteToggleFavoriteCommand(object obj)
         {
             return true;
         }
 
-        private void ExecuteToggleFavoriteCommand()
+        private void ExecuteToggleFavoriteCommand(object obj)
         {
             IsFavorite = !IsFavorite;
         }
