@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <returns>The value to be passed to the source object.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            bool result = Equals(value, ConverterTools.Convert(TrueValue, targetType));
+            bool result = Equals(value, ConverterTools.Convert(TrueValue, value.GetType()));
 
             if (ConverterTools.TryParseBool(parameter))
             {
