@@ -10,22 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Converters
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
+
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
-    /// This class converts a string value into a an object (if the value is null or empty returns the false value).
-    /// Can be used to bind a visibility, a color or an image to the value of a string.
+    /// Holds the value.
+    /// Can be used to change several objects' properties at a time.
     /// </summary>
-    public class EmptyStringToObjectConverter : EmptyObjectToObjectConverter
+    [ContentProperty(Name = nameof(Value))]
+    public class BindableValueHolder : DependencyObject
     {
         /// <summary>
-        /// Checks string for emptiness.
+        /// Identifies the <see cref="Value"/> property.
         /// </summary>
-        /// <param name="value">Value to be checked.</param>
-        /// <returns>True if value is null or empty string, false otherwise.</returns>
-        protected override bool CheckValueIsEmpty(object value)
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(BindableValueHolder), null);
+
+        /// <summary>
+        /// Gets or sets the held value.
+        /// </summary>
+        public object Value
         {
-            return string.IsNullOrEmpty(value?.ToString());
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
     }
 }
