@@ -11,15 +11,11 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
@@ -33,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static async Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return await ExecuteOnUIThreadAsync<T>(CoreApplication.MainView, function, priority);
+            return ExecuteOnUIThreadAsync<T>(CoreApplication.MainView, function, priority);
         }
 
         /// <summary>
@@ -46,9 +42,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static async Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return await viewToExecuteOn?.Dispatcher?.AwaitableRunAsync<T>(function, priority);
+            if (viewToExecuteOn == null)
+            {
+                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+            }
+
+            return viewToExecuteOn.Dispatcher.AwaitableRunAsync<T>(function, priority);
         }
 
         /// <summary>
@@ -58,14 +59,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public static async Task ExecuteOnUIThreadAsync(CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task ExecuteOnUIThreadAsync(CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            await ExecuteOnUIThreadAsync<bool>(
+            return ExecuteOnUIThreadAsync<object>(
                 viewToExecuteOn,
                 async () =>
             {
-                await function();
-                return true;
+                await function().ConfigureAwait(false);
+                return null;
             }, priority);
         }
 
@@ -75,13 +76,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public static async Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            await ExecuteOnUIThreadAsync<bool>(
+            return ExecuteOnUIThreadAsync<object>(
                 async () =>
            {
-               await function();
-               return true;
+               await function().ConfigureAwait(false);
+               return null;
            }, priority);
         }
 
@@ -93,23 +94,28 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static async Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
+            if (function == null)
+            {
+                throw new ArgumentNullException("function can't be null!");
+            }
+
             TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
 
-            await dispatcher?.RunAsync(priority, async () =>
-            {
-                try
-                {
-                    taskCompletionSource.SetResult(await function());
-                }
-                catch (Exception e)
-                {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+            var ignored = dispatcher.RunAsync(priority, async () =>
+             {
+                 try
+                 {
+                     taskCompletionSource.SetResult(await function().ConfigureAwait(false));
+                 }
+                 catch (Exception e)
+                 {
+                     taskCompletionSource.SetException(e);
+                 }
+             });
 
-            return await taskCompletionSource.Task;
+            return taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -119,13 +125,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public static async Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            await dispatcher.AwaitableRunAsync<bool>(
+            return dispatcher.AwaitableRunAsync<object>(
                 async () =>
             {
-                await function();
-                return true;
+                await function().ConfigureAwait(false);
+                return null;
             }, priority);
         }
     }
