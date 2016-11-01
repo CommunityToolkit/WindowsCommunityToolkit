@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -32,7 +31,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
+            var propertyDesc = e.Parameter as Microsoft.Toolkit.Uwp.SampleApp.Models.PropertyDescriptor;
 
             if (propertyDesc != null)
             {
