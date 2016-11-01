@@ -15,69 +15,73 @@ using Windows.ApplicationModel;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.System;
 using Windows.System.Profile;
+using Windows.System.UserProfile;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Defines class providing information of OS and application
     /// </summary>
-    public class SystemInformation
+    public static class SystemInformation
     {
         /// <summary>
         /// Gets Application's name
         /// </summary>
-        public string ApplicationName { get; private set; }
+        public static string ApplicationName { get; }
 
         /// <summary>
         /// Gets Application's version
         /// </summary>
-        public PackageVersion ApplicationVersion { get; private set; }
+        public static PackageVersion ApplicationVersion { get;  }
 
         /// <summary>
         /// Gets current culture
         /// </summary>
-        public string Culture { get; private set; }
+        public static string Culture { get; }
 
         /// <summary>
         /// Gets device's family
         /// </summary>
-        public string DeviceFamily { get; private set; }
+        public static string DeviceFamily { get; }
 
         /// <summary>
         /// Gets operating system
         /// </summary>
-        public string OperatingSystem { get; private set; }
+        public static string OperatingSystem { get; }
 
         /// <summary>
         /// Gets operating system version
         /// </summary>
-        public OSVersion OperatingSystemVersion { get; private set; }
+        public static OSVersion OperatingSystemVersion { get; }
 
         /// <summary>
         /// Gets architecture of the processor
         /// </summary>
-        public ProcessorArchitecture OperatingSystemArchitecture { get; private set; }
+        public static ProcessorArchitecture OperatingSystemArchitecture { get; }
 
         /// <summary>
         /// Gets available memory
         /// </summary>
-        public float AvailableMemory { get; private set; }
+        public static float AvailableMemory => (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
 
         /// <summary>
         /// Gets device model
         /// </summary>
-        public string DeviceModel { get; private set; }
+        public static string DeviceModel { get;  }
 
         /// <summary>
         /// Gets device's manufacturer
         /// </summary>
-        public string DeviceManufacturer { get; private set; }
+        public static string DeviceManufacturer { get; }
 
-        private SystemInformation()
+        /// <summary>
+        /// Initializes static members of the <see cref="SystemInformation"/> class.
+        /// </summary>
+        static SystemInformation()
         {
             ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
-            Culture = Windows.System.UserProfile.GlobalizationPreferences.Languages.FirstOrDefault() ?? string.Empty;
+            Culture = GlobalizationPreferences.Languages.FirstOrDefault() ?? string.Empty;
             DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
             ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             OperatingSystemVersion = new OSVersion
@@ -92,13 +96,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             OperatingSystem = deviceInfo.OperatingSystem;
             DeviceManufacturer = deviceInfo.SystemManufacturer;
             DeviceModel = deviceInfo.SystemProductName;
-            AvailableMemory = (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
         }
-
-        /// <summary>
-        /// Method responsible for getting current system information
-        /// </summary>
-        /// <returns>current system information</returns>
-        public static SystemInformation GetCurrent() => new SystemInformation();
     }
 }
