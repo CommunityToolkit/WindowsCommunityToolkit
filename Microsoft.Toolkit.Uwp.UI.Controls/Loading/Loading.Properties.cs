@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -20,8 +21,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Loading control allows to show an loading animation with some xaml in it.
     /// </summary>
-    public sealed partial class Loading
+    public partial class Loading
     {
+        public event EventHandler LoadingRequired;
+
         public static readonly DependencyProperty LoadingVerticalAlignmentProperty = DependencyProperty.Register(
             nameof(LoadingVerticalAlignment), typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
 

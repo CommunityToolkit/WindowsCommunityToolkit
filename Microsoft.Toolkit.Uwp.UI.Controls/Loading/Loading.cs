@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -23,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "BackgroundGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "ContentGrid", Type = typeof(ContentPresenter))]
-    public sealed partial class Loading : ContentControl
+    public partial class Loading : ContentControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Loading"/> class.
@@ -41,7 +42,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CreateLoadingControl();
 
+            OnLoadingRequired();
+
             base.OnApplyTemplate();
+        }
+
+        protected virtual void OnLoadingRequired()
+        {
+            LoadingRequired?.Invoke(this, EventArgs.Empty);
         }
 
         private void CreateLoadingControl()

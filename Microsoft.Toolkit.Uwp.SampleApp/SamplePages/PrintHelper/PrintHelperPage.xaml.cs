@@ -12,6 +12,7 @@
 
 using System;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
 

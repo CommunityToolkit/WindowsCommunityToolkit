@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -25,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public LoadingPage()
         {
             InitializeComponent();
+            LoadingControl.LoadingRequired += LoadingControl_LoadingRequired;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -64,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LoadingControl.IsLoading = true;
             await Task.Delay(3000);
             LoadingControl.IsLoading = false;
+        }
+
+        private void LoadingControl_LoadingRequired(object sender, System.EventArgs e)
+        {
+            LoadingContentControl.Blur(1, 3000, 0);
         }
     }
 }

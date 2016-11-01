@@ -15,6 +15,7 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -42,14 +43,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
         }
 
-        private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private void AdaptiveGridViewControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItemCountTextBlock.Text = AdaptiveGridViewControl.SelectedItems.Any()
                 ? $"You have selected {AdaptiveGridViewControl.SelectedItems.Count} items."
                 : "You haven't selected any items";
         }
 
-        private async void AdaptiveGridViewControl_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
+        private async void AdaptiveGridViewControl_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem != null)
             {
