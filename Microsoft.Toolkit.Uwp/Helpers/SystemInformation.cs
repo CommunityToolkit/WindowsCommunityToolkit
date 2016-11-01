@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets Application's version
         /// </summary>
-        public static PackageVersion ApplicationVersion { get;  }
+        public static PackageVersion ApplicationVersion { get; }
 
         /// <summary>
         /// Gets the most preferred culture by the user
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets device model
         /// </summary>
-        public static string DeviceModel { get;  }
+        public static string DeviceModel { get; }
 
         /// <summary>
         /// Gets device's manufacturer
@@ -82,7 +82,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
-            Culture = GlobalizationPreferences.Languages.Count > 0 ? new CultureInfo(GlobalizationPreferences.Languages.First()) : null;
+            try
+            {
+                Culture = GlobalizationPreferences.Languages.Count > 0 ? new CultureInfo(GlobalizationPreferences.Languages.First()) : null;
+            }
+            catch
+            {
+                Culture = null;
+            }
+
             DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
             ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             OperatingSystemVersion = new OSVersion
