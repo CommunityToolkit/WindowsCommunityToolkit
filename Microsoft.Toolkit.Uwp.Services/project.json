@@ -4,7 +4,7 @@
     "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.19.208020213",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "StyleCop.Analyzers": "1.0.0",
-    "winsdkfb": "0.11.20160720.1"
+    "winsdkfb": "0.12.20161020.4"
   },
   "frameworks": {
     "uap10.0": {}

@@ -38,6 +38,8 @@
                                               Name="ButtonsListView" 
                                               ItemsSource="{TemplateBinding ItemsSource}" 
                                               ItemTemplate="{TemplateBinding ItemTemplate}" 
+                                              SelectedIndex="{TemplateBinding SelectedIndex}"
+                                              SelectedItem="{TemplateBinding SelectedItem}"
                                               IsItemClickEnabled="True"
                                               Width="{TemplateBinding OpenPaneLength}">
                                         <ListView.ItemContainerStyle>
@@ -59,6 +61,8 @@
                                                   AutomationProperties.Name="Option items"
                                                   ItemsSource="{TemplateBinding OptionsItemsSource}" 
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}" 
+                                                  SelectedIndex="{TemplateBinding SelectedOptionsIndex}"
+                                                  SelectedItem="{TemplateBinding SelectedOptionsItem}"
                                                   IsItemClickEnabled="True"
                                                   Width="{TemplateBinding OpenPaneLength}" 
                                                   VerticalAlignment="Bottom">
