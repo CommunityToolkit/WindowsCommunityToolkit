@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Text;
@@ -32,23 +33,22 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Response stream</returns>
         public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            if (content == null)
-            {
-                return null;
-            }
-
             var outputStream = new InMemoryRandomAccessStream();
 
-            using (content)
+            using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                await content.WriteToStreamAsync(outputStream);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    if (response.Success)
+                    {
+                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
 
-                outputStream.Seek(0);
-
-                return outputStream;
+                        outputStream.Seek(0);
+                    }
+                }
             }
+
+            return outputStream;
         }
 
         /// <summary>
@@ -61,13 +61,17 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            using (content)
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
-                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
-                    await content.WriteToStreamAsync(fileStream);
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    {
+                        if (response.Success)
+                        {
+                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                        }
+                    }
                 }
             }
         }
@@ -218,24 +222,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return encoding.GetString(bytes);
-        }
-
-        private static async Task<IHttpContent> GetHttpContentAsync(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    return response.Content;
-                }
-            }
         }
 
         private static async Task<IRandomAccessStream> GetFileStreamAsync(

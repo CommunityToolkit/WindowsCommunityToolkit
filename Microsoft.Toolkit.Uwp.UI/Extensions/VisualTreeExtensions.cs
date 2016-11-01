@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -54,26 +55,26 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Find first descendant control of a specified type.
         /// </summary>
-        /// <typeparam name="tType">Type to search for.</typeparam>
+        /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Parent element.</param>
         /// <returns>Descendant control or null if not found.</returns>
-        public static tType FindDescendant<tType>(this DependencyObject element)
-            where tType : DependencyObject
+        public static T FindDescendant<T>(this DependencyObject element)
+            where T : DependencyObject
         {
-            tType retValue = null;
+            T retValue = null;
             var childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
             for (var i = 0; i < childrenCount; i++)
             {
                 var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as tType;
+                var type = child as T;
                 if (type != null)
                 {
                     retValue = type;
                     break;
                 }
 
-                retValue = FindDescendant<tType>(child);
+                retValue = FindDescendant<T>(child);
 
                 if (retValue != null)
                 {
@@ -87,33 +88,33 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Find first ascendant control of a specified type.
         /// </summary>
-        /// <typeparam name="tType">Type to search for.</typeparam>
+        /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
-        public static tType FindAscendant<tType>(this FrameworkElement element)
-            where tType : FrameworkElement
+        public static T FindAscendant<T>(this FrameworkElement element)
+            where T : FrameworkElement
         {
             if (element.Parent == null)
             {
                 return null;
             }
 
-            if (element.Parent is tType)
+            if (element.Parent is T)
             {
-                return element.Parent as tType;
+                return element.Parent as T;
             }
 
-            return (element.Parent as FrameworkElement).FindAscendant<tType>();
+            return (element.Parent as FrameworkElement).FindAscendant<T>();
         }
 
         /// <summary>
         /// Find first visual ascendant control of a specified type.
         /// </summary>
-        /// <typeparam name="tType">Type to search for.</typeparam>
+        /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
-        public static tType FindVisualAscendant<tType>(this FrameworkElement element)
-            where tType : FrameworkElement
+        public static T FindVisualAscendant<T>(this FrameworkElement element)
+            where T : FrameworkElement
         {
             var parent = VisualTreeHelper.GetParent(element);
 
@@ -122,12 +123,12 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return null;
             }
 
-            if (parent is tType)
+            if (parent is T)
             {
-                return parent as tType;
+                return parent as T;
             }
 
-            return (parent as FrameworkElement).FindVisualAscendant<tType>();
+            return (parent as FrameworkElement).FindVisualAscendant<T>();
         }
     }
 }

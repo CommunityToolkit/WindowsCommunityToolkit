@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public SlidableListItemPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)

@@ -9,8 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
-using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Image _image;
         private ProgressRing _progress;
+        private object _lockObj;
 
         private bool _isInitialized;
 
@@ -50,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(ImageEx);
             Loaded += OnLoaded;
+            _lockObj = new object();
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
 
-            if (_progress.Width == newSquareSize)
+            if (_progress?.Width == newSquareSize)
             {
                 _progress.Height = newSquareSize;
             }

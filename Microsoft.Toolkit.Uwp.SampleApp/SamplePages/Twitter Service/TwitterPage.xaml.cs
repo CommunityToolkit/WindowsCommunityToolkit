@@ -63,7 +63,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ShowSearchPanel();
             ShowTweetPanel();
 
-            var user = await TwitterService.Instance.GetUserAsync();
+            TwitterUser user;
+            try
+            {
+                user = await TwitterService.Instance.GetUserAsync();
+            }
+            catch (TwitterException ex)
+            {
+                if ((ex.Errors?.Errors?.Length > 0) && (ex.Errors.Errors[0].Code == 89))
+                {
+                    await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
+                    TwitterService.Instance.Logout();
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 

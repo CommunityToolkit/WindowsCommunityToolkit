@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System.Net.NetworkInformation;
 using Windows.Networking.Connectivity;
 
@@ -45,7 +46,64 @@ namespace Microsoft.Toolkit.Uwp
                     return false;
                 }
 
-                return NetworkInformation.GetInternetConnectionProfile() != null;
+                var profile = NetworkInformation.GetInternetConnectionProfile();
+
+                NetworkConnectivityLevel level = profile.GetNetworkConnectivityLevel();
+
+                switch (level)
+                {
+                    case NetworkConnectivityLevel.None:
+                    case NetworkConnectivityLevel.LocalAccess:
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets connection type for the current Internet Connection Profile.
+        /// </summary>
+        /// <returns>value of <see cref="ConnectionType"/></returns>
+        public static ConnectionType ConnectionType
+        {
+            get
+            {
+                ConnectionProfile profile = null;
+                ConnectionType connectionType = ConnectionType.Unknown;
+                try
+                {
+                    profile = NetworkInformation.GetInternetConnectionProfile();
+                }
+                catch
+                {
+                }
+
+                if (profile != null)
+                {
+                    switch (profile.NetworkAdapter.IanaInterfaceType)
+                    {
+                        case 6:
+                            connectionType = ConnectionType.Ethernet;
+                            break;
+
+                        case 71:
+                            connectionType = ConnectionType.WiFi;
+                            break;
+
+                        case 243:
+                        case 244:
+                            connectionType = ConnectionType.Data;
+                            break;
+
+                        default:
+                            connectionType = ConnectionType.Unknown;
+                            break;
+                    }
+                }
+
+                return connectionType;
             }
         }
     }

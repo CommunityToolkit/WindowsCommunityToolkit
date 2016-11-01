@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -32,7 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Uri _uri;
         private bool _isHttpSource;
-        private bool _isLoadingImage;
 
         /// <summary>
         /// Gets or sets get or set the source used by the image
@@ -72,6 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (imageSource != null)
                 {
                     _image.Source = imageSource;
+                    ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                    VisualStateManager.GoToState(this, LoadedState, true);
                     return;
                 }
 
@@ -98,29 +100,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task LoadImageAsync()
         {
-            if (!_isLoadingImage && _uri != null)
+            if (_uri != null)
             {
-                _isLoadingImage = true;
                 if (IsCacheEnabled && _isHttpSource)
                 {
+                    var ogUri = _uri;
                     try
                     {
-                        _image.Source = await ImageCache.GetFromCacheAsync(_uri, true);
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, true);
+
+                        lock (_lockObj)
+                        {
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == ogUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
+                        lock (_lockObj)
+                        {
+                            if (_uri == ogUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
+                        }
                     }
                 }
                 else
                 {
                     _image.Source = new BitmapImage(_uri);
                 }
-
-                _isLoadingImage = false;
             }
         }
     }

@@ -1,4 +1,16 @@
-﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Represents the control that redistributes space between columns or rows of a Grid control.
@@ -51,6 +63,103 @@
             /// Resize the previous and next Columns or Rows.
             /// </summary>
             PreviousAndNext
+        }
+
+        /// <summary>
+        ///  Enum to indicate the supported gripper cursor types.
+        /// </summary>
+        public enum GripperCursorType
+        {
+            /// <summary>
+            /// Change the cursor based on the splitter direction
+            /// </summary>
+            Default = -1,
+
+            /// <summary>
+            /// Standard Arrow cursor
+            /// </summary>
+            Arrow,
+
+            /// <summary>
+            /// Standard Cross cursor
+            /// </summary>
+            Cross,
+
+            /// <summary>
+            /// Standard Custom cursor
+            /// </summary>
+            Custom,
+
+            /// <summary>
+            /// Standard Hand cursor
+            /// </summary>
+            Hand,
+
+            /// <summary>
+            /// Standard Help cursor
+            /// </summary>
+            Help,
+
+            /// <summary>
+            /// Standard IBeam cursor
+            /// </summary>
+            IBeam,
+
+            /// <summary>
+            /// Standard SizeAll cursor
+            /// </summary>
+            SizeAll,
+
+            /// <summary>
+            /// Standard SizeNortheastSouthwest cursor
+            /// </summary>
+            SizeNortheastSouthwest,
+
+            /// <summary>
+            /// Standard SizeNorthSouth cursor
+            /// </summary>
+            SizeNorthSouth,
+
+            /// <summary>
+            /// Standard SizeNorthwestSoutheast cursor
+            /// </summary>
+            SizeNorthwestSoutheast,
+
+            /// <summary>
+            /// Standard SizeWestEast cursor
+            /// </summary>
+            SizeWestEast,
+
+            /// <summary>
+            /// Standard UniversalNo cursor
+            /// </summary>
+            UniversalNo,
+
+            /// <summary>
+            /// Standard UpArrow cursor
+            /// </summary>
+            UpArrow,
+
+            /// <summary>
+            /// Standard Wait cursor
+            /// </summary>
+            Wait
+        }
+
+        /// <summary>
+        ///  Enum to indicate the behavior of window cursor on grid splitter hover
+        /// </summary>
+        public enum SplitterCursorBehavior
+        {
+            /// <summary>
+            /// Update window cursor on Grid Splitter hover
+            /// </summary>
+            ChangeOnSplitterHover,
+
+            /// <summary>
+            /// Update window cursor on Grid Splitter Gripper hover
+            /// </summary>
+            ChangeOnGripperHover
         }
     }
 }

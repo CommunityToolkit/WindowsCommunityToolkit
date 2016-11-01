@@ -3,7 +3,7 @@
 This document describes how to add a new sample page for a new control you want to add to the toolkit.
 
 ## Sample page
-First you need to create a Xaml page in the folder /SamplePages/YouControl.
+First you need to create a Xaml page in the folder /SamplePages/YourControl.
 This page needs to add this specific code to be able to connect with the property UI:
 ```
         protected override void OnNavigatedTo(NavigationEventArgs e)

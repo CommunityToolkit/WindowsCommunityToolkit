@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectionHelperPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Is Internet Available:" FontSize="22" FontWeight="Bold"></TextBlock>
+                <TextBlock x:Name="IsInternetAvailableText" Margin="20,0" FontSize="22"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Is Internet On Metered Connection:" FontSize="22" FontWeight="Bold"></TextBlock>
+                <TextBlock x:Name="IsInternetOnMeteredConnectionText" Margin="20,0" FontSize="22"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Connection Type:" FontSize="22" FontWeight="Bold"></TextBlock>
+                <TextBlock x:Name="ConnectionTypeText" Margin="20,0" FontSize="22"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        
+    </Grid>
+</Page>

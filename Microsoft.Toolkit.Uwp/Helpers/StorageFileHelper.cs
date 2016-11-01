@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -555,7 +556,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var file = await fileLocation.GetFileAsync(fileName);
-            return await StorageFileHelper.ReadBytesAsync(file);
+            return await file.ReadBytesAsync();
         }
 
         /// <summary>

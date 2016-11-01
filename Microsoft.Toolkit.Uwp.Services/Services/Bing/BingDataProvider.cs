@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,8 +8,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,6 +17,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
@@ -70,18 +70,22 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
                     break;
             }
 
-            var settings = new HttpRequestSettings
-            {
-                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
-            };
+            var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}");
 
-            HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
-            if (result.Success)
+            using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                return parser.Parse(result.Result);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+
+                    if (response.Success && !string.IsNullOrEmpty(data))
+                    {
+                        return parser.Parse(data);
+                    }
+
+                    throw new RequestFailedException(response.StatusCode, data);
+                }
             }
-
-            throw new RequestFailedException(result.StatusCode, result.Result);
         }
 
         /// <summary>
@@ -102,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             if (config?.Query == null)
             {
-                throw new ConfigParameterNullException("Query");
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
     }

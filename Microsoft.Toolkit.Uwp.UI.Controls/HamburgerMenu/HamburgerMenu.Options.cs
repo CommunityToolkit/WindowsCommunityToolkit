@@ -9,6 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -34,6 +36,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty OptionsVisibilityProperty = DependencyProperty.Register(nameof(OptionsVisibility), typeof(Visibility), typeof(HamburgerMenu), new PropertyMetadata(Visibility.Visible));
 
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedOptionsItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedOptionsItemProperty = DependencyProperty.Register(nameof(SelectedOptionsItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedOptionsIndex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedOptionsIndexProperty = DependencyProperty.Register(nameof(SelectedOptionsIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
+
+
         /// <summary>
         ///     Gets or sets an object source used to generate the content of the options.
         /// </summary>
@@ -55,7 +69,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the option list.
         /// </summary>
-        public ItemCollection OptionsItems => _optionsListView?.Items;
+        /// <exception cref="Exception">
+        /// Exception thrown if OptionsListView is not yet defined.
+        /// </exception>
+        public ItemCollection OptionsItems
+        {
+            get
+            {
+                if (_optionsListView == null)
+                {
+                    throw new Exception("OptionsListView is not defined yet. Please use OptionsItemsSource instead.");
+                }
+
+                return _optionsListView?.Items;
+            }
+        }
 
         /// <summary>
         /// Gets or sets options' visibility.
@@ -71,8 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object SelectedOptionsItem
         {
-            get { return _optionsListView.SelectedItem; }
-            set { _optionsListView.SelectedItem = value; }
+            get { return GetValue(SelectedOptionsItemProperty); }
+            set { SetValue(SelectedOptionsItemProperty, value); }
         }
 
         /// <summary>
@@ -80,8 +108,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public int SelectedOptionsIndex
         {
-            get { return _optionsListView.SelectedIndex; }
-            set { _optionsListView.SelectedIndex = value; }
+            get { return (int)GetValue(SelectedOptionsIndexProperty); }
+            set { SetValue(SelectedOptionsIndexProperty, value); }
         }
     }
 }

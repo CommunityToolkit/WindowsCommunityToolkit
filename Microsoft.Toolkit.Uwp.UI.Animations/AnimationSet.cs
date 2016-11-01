@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _compositor = Visual.Compositor;
             _animations = new Dictionary<string, CompositionAnimation>();
             _effectAnimations = new List<EffectAnimationDefinition>();
-            _manualResetEvent = new System.Threading.ManualResetEvent(false);
+            _manualResetEvent = new ManualResetEvent(false);
             _directPropertyChanges = new Dictionary<string, object>();
             _directEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _animationSets = new List<AnimationSet>();
@@ -164,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             tasks.Add(_storyboard.BeginAsync());
 
             await Task.WhenAll(tasks);
+            Completed?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 effect.EffectBrush.StopAnimation(effect.PropertyName);
             }
 
-            _storyboard.Stop();
+            _storyboard.Pause();
         }
 
         /// <summary>
@@ -322,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 delayTime = 0;
             }
 
-            return this.SetDelay(TimeSpan.FromMilliseconds(delayTime));
+            return SetDelay(TimeSpan.FromMilliseconds(delayTime));
         }
 
         /// <summary>
@@ -505,7 +506,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void Batch_Completed(object sender, CompositionBatchCompletedEventArgs args)
         {
             _manualResetEvent.Set();
-            Completed?.Invoke(this, new EventArgs());
         }
     }
 }

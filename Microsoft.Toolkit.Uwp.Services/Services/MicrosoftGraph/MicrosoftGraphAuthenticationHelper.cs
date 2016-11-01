@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,13 +8,12 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -105,14 +103,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Success or failure</returns>
         internal async Task<bool> LogoutAsync()
         {
-            HttpResponseMessage response = null;
-            using (var client = new HttpClient())
+            using (var request = new HttpHelperRequest(new Uri(LogoutUrl), HttpMethod.Get))
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrl);
-                response = await client.SendAsync(request);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    return response.Success;
+                }
             }
-
-            return response.IsSuccessStatusCode;
         }
     }
 }

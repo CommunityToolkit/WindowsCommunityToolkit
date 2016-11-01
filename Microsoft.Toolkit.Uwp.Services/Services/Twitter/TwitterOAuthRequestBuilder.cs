@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,8 +8,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -113,9 +112,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             RequestUriWithoutQuery = new Uri(requestUri.AbsoluteWithoutQuery());
 
-            QueryParams = requestUri.GetQueryParams()
-                                        .Select(p => new OAuthParameter(p.Key, Uri.UnescapeDataString(p.Value)))
-                                        .ToList();
+            if (!string.IsNullOrEmpty(requestUri.Query))
+            {
+                QueryParams = requestUri.GetQueryParams()
+                    .Select(p => new OAuthParameter(p.Key, Uri.UnescapeDataString(p.Value)))
+                    .ToList();
+            }
+            else
+            {
+                QueryParams = new List<OAuthParameter>();
+            }
 
             EncodedRequestUri = GetEncodedUri(requestUri, QueryParams);
 

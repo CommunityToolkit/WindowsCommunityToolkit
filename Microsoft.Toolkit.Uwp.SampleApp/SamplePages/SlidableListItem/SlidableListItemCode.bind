@@ -23,10 +23,11 @@
                     LeftForeground ="@[LeftForeground:Brush:White]" 
                     RightForeground ="@[RightForeground:Brush:White]"
                     ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
-                    IsRightSwipeEnabled="@[IsRightSwipeEnabled:Bool:true]"
-                    IsLeftSwipeEnabled="@[IsLeftSwipeEnabled:Bool:true]"
+                    IsLeftCommandEnabled="@[IsLeftCommandEnabled:Bool:true]"
+                    IsRightCommandEnabled="@[IsRightCommandEnabled:Bool:true]"
                     IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
                     MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    IsPointerReleasedOnSwipingHandled="@[IsPointerReleasedOnSwipingHandled:Bool:false]"
                     LeftCommand="{x:Bind ToggleFavorite}"
                     RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
                     RightCommandParameter="{Binding}">
