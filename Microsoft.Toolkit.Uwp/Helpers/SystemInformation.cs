@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
 using Windows.Security.ExchangeActiveSyncProvisioning;
@@ -35,9 +36,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static PackageVersion ApplicationVersion { get;  }
 
         /// <summary>
-        /// Gets current culture
+        /// Gets the most preferred culture by the user
         /// </summary>
-        public static string Culture { get; }
+        public static CultureInfo Culture { get; }
 
         /// <summary>
         /// Gets device's family
@@ -81,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
-            Culture = GlobalizationPreferences.Languages.FirstOrDefault() ?? string.Empty;
+            Culture = GlobalizationPreferences.Languages.Count > 0 ? new CultureInfo(GlobalizationPreferences.Languages.First()) : null;
             DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
             ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             OperatingSystemVersion = new OSVersion
