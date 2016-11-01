@@ -11,71 +11,54 @@
         <controls:BladeControl Margin="12"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch">
-            <controls:BladeControl.Blades>
-                <controls:Blade Title="Test"
+            <controls:BladeItem Title="Test"
                                 IsOpen="True"
                                 TitleBarVisibility="Collapsed">
-                    <controls:Blade.Element>
-                        <StackPanel Margin="8">
-                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="This first blade has a hidden TitleBar, so you can't close it." />
-                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened." />
-                            <Button Width="180"
-                                    Height="100"
-                                    Margin="0, 20, 0, 0"
-                                    controls:BladeControl.ToggleBlade="BladeTest1"
-                                    Content="Default blade" />
-                            <Button Width="180"
-                                    Height="100"
-                                    Margin="0, 20, 0, 0"
-                                    controls:BladeControl.ToggleBlade="BladeTest2"
-                                    Content="Custom titlebar" />
-                            <Button Width="180"
-                                    Height="100"
-                                    Margin="0, 20, 0, 0"
-                                    controls:BladeControl.ToggleBlade="BladeTest3"
-                                    Content="Custom close button" />
-                        </StackPanel>
-                    </controls:Blade.Element>
-                </controls:Blade>
-
-                <controls:Blade Title="Default blade"
-                                BladeID="BladeTest1"
+                <StackPanel Margin="8">
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="This first blade has a hidden TitleBar, so you can't close it." />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened." />
+                    <ToggleButton Margin="0, 24, 0, 0"
+                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=SecondBlade}"
+                                  Content="Default blade" />
+                    <ToggleButton Margin="0, 24, 0, 0"
+                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=ThirdBlade}"
+                                  Content="Custom titlebar" />
+                    <ToggleButton Margin="0, 24, 0, 0"
+                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}"
+                                  Content="Custom close button" />
+                </StackPanel>
+            </controls:BladeItem>
+            
+            <controls:BladeItem x:Name="SecondBlade" 
+                                Title="Default blade"
                                 IsOpen="False">
-                    <controls:Blade.Element>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource SubtitleTextBlockStyle}"
-                                   Text="This is a blade with all settings set to default." />
-                    </controls:Blade.Element>
-                </controls:Blade>
-
-                <controls:Blade Title="Custom title bar"
-                                BladeID="BladeTest2"
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="This is a blade with all settings set to default." />
+            </controls:BladeItem>
+          
+            <controls:BladeItem x:Name="ThirdBlade" 
+                                Title="Custom title bar"
                                 IsOpen="False"
                                 TitleBarBackground="CornflowerBlue"
                                 TitleBarForeground="White">
-                    <controls:Blade.Element>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource SubtitleTextBlockStyle}"
-                                   Text="This is a blade with custom titlebar colors." />
-                    </controls:Blade.Element>
-                </controls:Blade>
-
-                <controls:Blade Title="Custom close button color"
-                                BladeID="BladeTest3"
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="This is a blade with custom titlebar colors." />
+            </controls:BladeItem>
+            
+            <controls:BladeItem x:Name="ForthBlade" 
+                                Title="Custom close button color"
                                 CloseButtonBackground="Black"
                                 CloseButtonForeground="White"
                                 IsOpen="False">
-                    <controls:Blade.Element>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource SubtitleTextBlockStyle}"
-                                   Text="This is a blade with a custom close button color." />
-                    </controls:Blade.Element>
-                </controls:Blade>
-              
-            </controls:BladeControl.Blades>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="This is a blade with a custom close button color." />
+            </controls:BladeItem>
         </controls:BladeControl>
     </Grid>
 </Page>
