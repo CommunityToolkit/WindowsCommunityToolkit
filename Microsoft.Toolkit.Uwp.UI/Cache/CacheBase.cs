@@ -286,6 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
+            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
 
             if (baseFile == null || await IsFileOutOfDate(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
@@ -351,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
-            return DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
 
         private async Task InternalClearAsync(IEnumerable<StorageFile> files)
