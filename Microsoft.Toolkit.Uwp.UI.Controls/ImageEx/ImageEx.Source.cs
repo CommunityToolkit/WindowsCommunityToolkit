@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var ogUri = _uri;
                     try
                     {
-                        var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, Path.GetFileName(ogUri.ToString()), true);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, true);
 
                         lock (_lockObj)
                         {
