@@ -249,14 +249,15 @@
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
-    <Content Include="SamplePages\MicrosoftGraph Service\OfficeLogo.png" />
-    <Content Include="SamplePages\MicrosoftGraph Service\user.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
+    <Content Include="SamplePages\ResizeBehavior\ResizeBehaviorCode.txt" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
@@ -292,7 +293,7 @@
     <Content Include="Assets\Prettify\prettify.js" />
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
-    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind"/>
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
@@ -309,7 +310,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
-    <Content Include="SamplePages\Loading\LoadingCode.bind"/>
+    <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
@@ -318,10 +319,10 @@
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
-    <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <None Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -386,8 +387,10 @@
     <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MicrosoftGraph Service\IncrementalCollection.cs" />
-    <Compile Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml.cs">
+    <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
+      <DependentUpon>ImageCachePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml.cs">
       <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphSource.cs" />
@@ -395,11 +398,11 @@
     <Compile Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml.cs">
       <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
-      <DependentUpon>ImageCachePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml.cs">
+      <DependentUpon>ResizeBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -539,7 +542,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\MicrosoftGraph Service\MicrosoftGraphPage.xaml">
+    <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -547,11 +554,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
+    <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
+    <Page Include="SamplePages\ResizeBehavior\ResizeBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
