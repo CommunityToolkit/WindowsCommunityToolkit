@@ -87,6 +87,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return element.GetValue(ToggleBladeProperty).ToString();
         }
 
+        /// <summary>
+        /// Fired when the deprecated Blades property changes.
+        /// Handles moving items from the Blades collection to the Items collection.
+        /// Subscribes to the CollectionChanged event if Blades implements INotifyCollectionChanged
+        /// in order to add or remove Blades from the Items collection.
+        /// </summary>
+        /// <param name="d">The sender.</param>
+        /// <param name="e">The event args.</param>
         private static void OnBladesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var bladeControl = (BladeControl)d;
