@@ -10,7 +10,9 @@ $nuget = "$toolsDir\nuget\nuget.exe"
 
 $xamlstyler = "$tempDir\XamlStyler.Console\tools\xstyler.exe"
 
+if(!(Test-Path $xamlstyler)){
 .$nuget install -excludeversion xamlstyler.console -outputdirectory $tempDir 
+}
 
 $stylerfile = "$baseDir\settings.xamlstyler"
 
