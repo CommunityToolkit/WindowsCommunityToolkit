@@ -90,14 +90,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnBladesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var bladeControl = (BladeControl)d;
-            if (bladeControl.Blades != null)
+#pragma warning disable CS0618 // Type or member is obsolete
+            IList<Blade> blades = bladeControl.Blades;
+#pragma warning restore CS0618 // Type or member is obsolete
+            if (blades != null)
             {
-                foreach (var blade in bladeControl.Blades)
+                foreach (var blade in blades)
                 {
                     bladeControl.Items.Add(blade);
                 }
 
-                var collection = bladeControl.Blades as INotifyCollectionChanged;
+                var collection = blades as INotifyCollectionChanged;
                 if (collection != null)
                 {
                     collection.CollectionChanged += bladeControl.OnBladeCollectionChanged;
@@ -108,7 +111,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void ToggleBlade(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
         {
             Button pressedButton = sender as Button;
+#pragma warning disable CS0618 // Type or member is obsolete
             string bladeName = GetToggleBlade(pressedButton);
+#pragma warning restore CS0618 // Type or member is obsolete
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
             var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
 
@@ -122,6 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnBladeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             if (e.OldItems != null)
             {
                 foreach (var blade in e.OldItems.OfType<Blade>())
@@ -137,6 +143,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Items.Add(blade);
                 }
             }
+#pragma warning restore CS0618 // Type or member is obsolete
+
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var blade = (Blade) d;
+            var blade = (Blade)d;
             blade.Content = e.NewValue;
         }
     }
