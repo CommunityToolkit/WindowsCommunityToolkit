@@ -30,8 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public partial class AdaptiveGridView : GridView
     {
-        private int _columns;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
@@ -73,33 +71,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RecalculateLayout(double containerWidth)
+        /// <summary>
+        /// Calculates the width of the grid items.
+        /// </summary>
+        /// <param name="containerWidth">The width of the container control.</param>
+        /// <returns>The calculated item width.</returns>
+        protected virtual double CalculateItemWidth(double containerWidth)
         {
-            if (containerWidth == 0)
-            {
-                return;
-            }
-
             double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
 
-            _columns = CalculateColumns(containerWidth, desiredWidth);
-            bool fillsAtLeastOneRow = true;
+            var columns = CalculateColumns(containerWidth, desiredWidth);
 
-            // If there's less items than there's columns, reduce the column count;
-            if (Items != null && Items.Count > 0 && Items.Count < _columns)
+            // If there's less items than there's columns, reduce the column count (if requested);
+            if (Items != null && Items.Count > 0 && Items.Count < columns && StretchContentForSingleRow)
             {
-                _columns = Items.Count;
-                fillsAtLeastOneRow = false;
+                columns = Items.Count;
             }
 
-            if (fillsAtLeastOneRow || !MaintainAspectRatio)
-            {
-                ItemWidth = (containerWidth / _columns) - 5;
-            }
-            else
-            {
-                ItemWidth = (desiredWidth * ((Items.Count + 0.5) / Items.Count)) - 5;
-            }
+            return (containerWidth / columns) - 5;
         }
 
         /// <summary>
@@ -142,6 +131,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.PreviousSize.Width != e.NewSize.Width)
             {
                 RecalculateLayout(e.NewSize.Width);
+            }
+        }
+
+        private void RecalculateLayout(double containerWidth)
+        {
+            if (containerWidth > 0)
+            {
+                ItemWidth = CalculateItemWidth(containerWidth);
             }
         }
     }

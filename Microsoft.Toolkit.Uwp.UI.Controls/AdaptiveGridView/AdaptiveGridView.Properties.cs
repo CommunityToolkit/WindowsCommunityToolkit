@@ -61,10 +61,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN, DesiredWidthChanged));
 
         /// <summary>
-        /// Identifies the <see cref="MaintainAspectRatio"/> dependency property.
+        /// Identifies the <see cref="StretchContentForSingleRow"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty MaintainAspectRatioProperty =
-        DependencyProperty.Register(nameof(MaintainAspectRatio), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false, OnMaintainAspectRatioPropertyChanged));
+        public static readonly DependencyProperty StretchContentForSingleRowProperty =
+        DependencyProperty.Register(nameof(StretchContentForSingleRow), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true, OnStretchContentForSingleRowPropertyChanged));
 
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             self.RecalculateLayout(self.ActualWidth);
         }
 
-        private static void OnMaintainAspectRatioPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnStretchContentForSingleRowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var self = d as AdaptiveGridView;
             self.RecalculateLayout(self.ActualWidth);
@@ -107,18 +107,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control should try to maintain the aspect ratio of items.
+        /// Gets or sets a value indicating whether the control should stretch the content to fill at least one row.
         /// </summary>
         /// <remarks>
-        /// If set to <c>false</c> (default), items can be stretched to any width, to always fill at least one row.
-        /// If set to <c>true</c>, stretching of items will be restricted to remain close to the normal aspect ratio of the items.
-        /// A gap will appear at the end of the rpw, if this is set to <c>true</c> and there are not enough items to fill one row.
+        /// If set to <c>true</c> (default) and there is only one row of items, the items will be stretched to fill the complete row.
+        /// If set to <c>false</c>, items will have their normal size, which means a gap can exist at the end of the row.
         /// </remarks>
-        /// <value>A value indicating whether the control should try to maintain the aspect ratio of items.</value>
-        public bool MaintainAspectRatio
+        /// <value>A value indicatingwhether the control should stretch the content to fill at least one row.</value>
+        public bool StretchContentForSingleRow
         {
-            get { return (bool)GetValue(MaintainAspectRatioProperty); }
-            set { SetValue(MaintainAspectRatioProperty, value); }
+            get { return (bool)GetValue(StretchContentForSingleRowProperty); }
+            set { SetValue(StretchContentForSingleRowProperty, value); }
         }
 
         /// <summary>
