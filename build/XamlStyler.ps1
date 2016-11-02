@@ -1,15 +1,24 @@
-﻿$invocation = (Get-Variable MyInvocation).Value
-$directorypath = Split-Path $invocation.MyCommand.Path
+﻿$baseDir = Resolve-Path ..
+$buildDir = "$baseDir\build"
+$toolsDir = "$baseDir\build\tools"
+$binDir = "$baseDir\bin"
 
-$slndir = (get-item $directorypath).Parent.FullName
-$stylerfile = $slndir + '\settings.xamlstyler'
-$stylerexe = $slndir + '\build\tools\xamlstyler\xstyler.exe'
+$tempDir = "$binDir\temp"
+$binariesDir = "$binDir\binaries"
+$nupkgDir = "$binDir\nupkg"
+$nuget = "$toolsDir\nuget\nuget.exe"
 
-$Dir = Get-ChildItem -Path $slndir -recurse 
+$xamlstyler = "$tempDir\XamlStyler.Console\tools\xstyler.exe"
+
+.$nuget install -excludeversion xamlstyler.console -outputdirectory $tempDir 
+
+$stylerfile = "$baseDir\settings.xamlstyler"
+
+$Dir = Get-ChildItem -Path $baseDir -recurse 
 $List = $Dir | where {$_.Extension -eq ".xaml" -and $_.FullName -notmatch 'obj' }
 
 $List | ForEach-Object {
     $filePath = $_.FullName
 
-    & $stylerexe -f "$filePath" -c "$stylerfile"
+    & $xamlstyler -f "$filePath" -c "$stylerfile"
 }
