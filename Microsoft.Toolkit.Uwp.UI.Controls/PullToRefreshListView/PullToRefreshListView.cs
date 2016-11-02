@@ -57,17 +57,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
             DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Identifies the <see cref="PullToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty PullToRefreshLabelProperty =
             DependencyProperty.Register(nameof(PullToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh", OnPullToRefreshLabelChanged));
+#pragma warning restore CS0618 // Type or member is obsolete
 
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
             DependencyProperty.Register(nameof(ReleaseToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh", OnReleaseToRefreshLabelChanged));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Identifies the <see cref="PullToRefreshContent"/> property.
@@ -161,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
             }
 
+#pragma warning disable CS0612 // Type or member is obsolete
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
             _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
@@ -174,9 +179,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _scrollerContent != null &&
                 _refreshIndicatorBorder != null &&
                 _refreshIndicatorTransform != null &&
-                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null)) // if _defaultIndicatorContent is removed check for _pullAndReleaseIndicatorContent only)
+                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null))
             {
-                _root.ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.TranslateY;
+                // TODO: if _defaultIndicatorContent is removed check for _pullAndReleaseIndicatorContent only)
+                _root.ManipulationMode = ManipulationModes.TranslateY;
                 _root.ManipulationDelta += Scroller_ManipulationDelta;
                 _root.ManipulationStarted += Scroller_ManipulationStarted;
                 _root.ManipulationCompleted += Scroller_ManipulationCompleted;
@@ -198,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _overscrollMultiplier = OverscrollLimit * 8;
             }
-
+#pragma warning restore CS0612 // Type or member is obsolete
             base.OnApplyTemplate();
         }
 
@@ -285,10 +291,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (RefreshIndicatorContent == null)
             {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                 if (_defaultIndicatorContent != null)
                 {
                     _defaultIndicatorContent.Text = PullToRefreshLabel;
                 }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 if (_pullAndReleaseIndicatorContent != null)
                 {
@@ -412,10 +422,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                     if (_defaultIndicatorContent != null)
                     {
                         _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
                     }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                     if (_pullAndReleaseIndicatorContent != null)
                     {
@@ -435,10 +449,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                         if (_defaultIndicatorContent != null)
                         {
                             _defaultIndicatorContent.Text = PullToRefreshLabel;
                         }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                         if (_pullAndReleaseIndicatorContent != null)
                         {
@@ -523,6 +541,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
+#pragma warning disable CS0612 // Type or member is obsolete
                 if (_defaultIndicatorContent != null && _pullAndReleaseIndicatorContent != null)
                 {
                     _defaultIndicatorContent.Visibility = Visibility.Collapsed;
@@ -531,6 +550,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _defaultIndicatorContent.Visibility = value == null ? Visibility.Visible : Visibility.Collapsed;
                 }
+#pragma warning restore CS0612 // Type or member is obsolete
 
                 if (_pullAndReleaseIndicatorContent != null)
                 {
