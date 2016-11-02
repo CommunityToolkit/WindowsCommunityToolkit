@@ -22,28 +22,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuBindingPage
     {
+        SampleViewModel viewModel;
+
         public HamburgerMenuBindingPage()
         {
             InitializeComponent();
 
-            this.DataContext = new SampleViewModel();
+            viewModel = new SampleViewModel();
+            this.DataContext = viewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ContentGrid.DataContext = e.ClickedItem;
+            var item = e.ClickedItem as SampleMenuItem;
+            viewModel.MenuItems.Add(new SampleMenuItem() { Label = item.Label, ImagePath = item.ImagePath });
         }
 
         private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)

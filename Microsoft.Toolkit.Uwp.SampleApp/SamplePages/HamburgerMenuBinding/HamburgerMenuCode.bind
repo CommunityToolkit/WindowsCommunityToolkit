@@ -7,7 +7,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
   <Page.Resources>
-    <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
+    <DataTemplate x:Key="HamburgerMenuItem">
       <Grid Width="240" Height="48">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="48" />
@@ -16,10 +16,10 @@
         <FontIcon Grid.Column="0"
                   Margin="12,12,11,12"
                   FontFamily="Segoe MDL2 Assets"
-                  Glyph="{Binding Glyph}"
+                  Glyph="{Binding SymbolAsChar}"
                   Foreground="White" />
         <TextBlock Grid.Column="1"
-                   Text="{x:Bind Label}"
+                   Text="{Binding Label}"
                    Foreground="White"
                    FontSize="16"
                    VerticalAlignment="Center" />
@@ -55,14 +55,8 @@
         OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
         HamburgerWidth="48"
         ItemsSource="{Binding MenuItems}"
+        OptionsItemsSource="{Binding OptionItems}"
             >
-
-      <!--Options-->
-      <controls:HamburgerMenu.OptionsItemsSource>
-        <controls:HamburgerMenuItemCollection>
-          <controls:HamburgerMenuGlyphItem Label="About" Glyph=""/>
-        </controls:HamburgerMenuItemCollection>
-      </controls:HamburgerMenu.OptionsItemsSource>
 
       <!--Content-->
       <Grid x:Name="ContentGrid">
