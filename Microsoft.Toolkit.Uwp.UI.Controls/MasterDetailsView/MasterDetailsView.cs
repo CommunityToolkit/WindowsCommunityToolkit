@@ -85,8 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the SelectedItem changes.
         /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
         /// <remarks>
         /// Sets up animations for the DetailsPresenter for animating in/out.
         /// </remarks>
@@ -123,8 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the <see cref="MasterHeader"/> is changed.
         /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
         private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
@@ -157,8 +157,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fires when the addaptive trigger changes state.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The event args</param>
         /// <remarks>
         /// Handles showing/hiding the back button when the state changes
         /// </remarks>
@@ -170,8 +170,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fires when the size of the control changes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The event args</param>
         /// <remarks>
         /// Handles setting the Offset of the DetailsPresenter if there is no SelectedItem
         /// </remarks>
@@ -183,8 +183,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">The sender</param>
+        /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
             if (((_stateGroup.CurrentState == _narrowState) || (_stateGroup.CurrentState == null)) && (SelectedItem != null))
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var animation = _compositor.CreateVector3KeyFrameAnimation();
 
-            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value 
+            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value
             animation.InsertExpressionKeyFrame(1.00f, "this.StartingValue + delta");
 
             // Define the value variable
