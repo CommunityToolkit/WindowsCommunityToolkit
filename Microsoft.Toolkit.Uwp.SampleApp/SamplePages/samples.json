@@ -20,6 +20,14 @@
         "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png"
       },
       {
+        "Name": "HamburgerMenuBinding",
+        "Type": "HamburgerMenuBindingPage",
+        "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
+        "XamlCodeFile": "HamburgerMenuCode.bind",
+        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png"
+      },
+      {
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
