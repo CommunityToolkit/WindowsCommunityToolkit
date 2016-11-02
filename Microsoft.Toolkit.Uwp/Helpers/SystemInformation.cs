@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static OSVersion OperatingSystemVersion { get; }
 
         /// <summary>
-        /// Gets architecture of the processor
+        /// Gets used processor architecture
         /// </summary>
         public static ProcessorArchitecture OperatingSystemArchitecture { get; }
 

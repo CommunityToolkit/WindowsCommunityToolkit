@@ -245,61 +245,70 @@
     "Name": "Helpers",
     "Icon": "Icons/Helpers.png",
     "Samples": [
-      {
-        "Name": "ImageCache",
-        "Type": "ImageCachePage",
-        "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
-        "CodeFile": "ImageCacheCode.bind",
-        "XamlCodeFile": "ImageCacheXaml.bind",
-        "Icon": "/SamplePages/ImageCache/ImageEx.png"
-      },
-      {
-        "Name": "Object Storage",
-        "Type": "ObjectStoragePage",
-        "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
-        "CodeFile": "ObjectStorageCode.bind",
-        "Icon": "/SamplePages/Object Storage/ObjectStorage.png"
-      },
-      {
-        "Name": "Incremental Loading Collection",
-        "Type": "IncrementalLoadingCollectionPage",
-        "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
-        "CodeFile": "IncrementalLoadingCollectionCode.bind",
-        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
-      },
-      {
-        "Name": "BackgroundTaskHelper",
-        "Type": "BackgroundTaskHelperPage",
-        "About": "Allows easy registration and maintainance of background task",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
-        "CodeFile": "BackgroundTaskHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
-      },      {
-        "Name": "ConnectionHelper",
-        "Type": "ConnectionHelperPage",
-        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
-        "CodeFile": "ConnectionHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
-      },
-      {
-        "Name": "PrintHelper",
-        "Type": "PrintHelperPage",
-        "About": "Allows to easily print XAML controls",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
-        "CodeFile": "PrintHelperCode.bind",
-        "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
-      },
-      {
-        "Name": "More",
-        "Type": "HelpersPage",
-        "About": "Find more information about all helpers available in the UWP Community toolkit.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
-      }
+        {
+            "Name": "ImageCache",
+            "Type": "ImageCachePage",
+            "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
+            "CodeFile": "ImageCacheCode.bind",
+            "XamlCodeFile": "ImageCacheXaml.bind",
+            "Icon": "/SamplePages/ImageCache/ImageEx.png"
+        },
+        {
+            "Name": "Object Storage",
+            "Type": "ObjectStoragePage",
+            "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
+            "CodeFile": "ObjectStorageCode.bind",
+            "Icon": "/SamplePages/Object Storage/ObjectStorage.png"
+        },
+        {
+            "Name": "Incremental Loading Collection",
+            "Type": "IncrementalLoadingCollectionPage",
+            "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+            "CodeFile": "IncrementalLoadingCollectionCode.bind",
+            "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+        },
+        {
+            "Name": "BackgroundTaskHelper",
+            "Type": "BackgroundTaskHelperPage",
+            "About": "Allows easy registration and maintainance of background task",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
+            "CodeFile": "BackgroundTaskHelperCode.bind",
+            "Icon": "/SamplePages/Helpers/Helpers.png"
+        },
+        {
+            "Name": "ConnectionHelper",
+            "Type": "ConnectionHelperPage",
+            "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
+            "CodeFile": "ConnectionHelperCode.bind",
+            "Icon": "/SamplePages/Helpers/Helpers.png"
+        },
+        {
+            "Name": "SystemInformation",
+            "Type": "SystemInformationPage",
+            "About": "The SystemInformation class provides easy access to some of system/app/device information",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+            "CodeFile": "SystemInformationCode.bind",
+            "Icon": "/SamplePages/Helpers/Helpers.png"
+        },
+        {
+            "Name": "PrintHelper",
+            "Type": "PrintHelperPage",
+            "About": "Allows to easily print XAML controls",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
+            "CodeFile": "PrintHelperCode.bind",
+            "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
+        },
+        {
+            "Name": "More",
+            "Type": "HelpersPage",
+            "About": "Find more information about all helpers available in the UWP Community toolkit.",
+            "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
+            "Icon": "/SamplePages/Helpers/Helpers.png"
+        }
     ]
   }
 ]
