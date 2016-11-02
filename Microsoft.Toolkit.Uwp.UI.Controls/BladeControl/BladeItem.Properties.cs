@@ -47,11 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(BladeItem), new PropertyMetadata(true, IsOpenChangedCallback));
 
         /// <summary>
-        /// Identifies the <see cref="BladeId"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty BladeIdProperty = DependencyProperty.Register(nameof(BladeId), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string)));
-
-        /// <summary>
         /// Identifies the <see cref="TitleBarForeground"/> dependency property
         /// </summary>
         public static readonly DependencyProperty TitleBarForegroundProperty = DependencyProperty.Register(nameof(TitleBarForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
@@ -122,15 +117,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsOpenProperty); }
             set { SetValue(IsOpenProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Blade Id, this needs to be set in order to use the attached property to toggle a blade
-        /// </summary>
-        public string BladeId
-        {
-            get { return (string)GetValue(BladeIdProperty); }
-            set { SetValue(BladeIdProperty, value); }
         }
 
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
