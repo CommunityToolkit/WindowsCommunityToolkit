@@ -13,7 +13,7 @@ The SystemInformation is a static utility class that provides properties with so
 |DeviceFamily | Gets the family of used device as a _string_ |
 |OperatingSystem | Gets the operating system as a _string_ |
 |OperatingSystemVersion | Gets the operating system version (for example 10.0.10586.0) as _OSVersion_ structure |
-|OperatingSystemArchitecture | Gets the processor architecture as [ProcessorArchitecture](https://msdn.microsoft.com/en-us/library/windows/apps/windows.system.processorarchitecture) |
+|OperatingSystemArchitecture | Gets used processor architecture as [ProcessorArchitecture](https://msdn.microsoft.com/en-us/library/windows/apps/windows.system.processorarchitecture) |
 |AvailableMemory | Gets the available memory in _MB_ as a _float_ |
 |DeviceModel | Gets the model of the device as a _string_ |
 |DeviceManufacturer | Gets the name of device manufacturer as a _string_ |
