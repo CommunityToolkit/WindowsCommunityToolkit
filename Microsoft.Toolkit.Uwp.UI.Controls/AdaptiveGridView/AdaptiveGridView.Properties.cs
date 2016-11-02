@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// If set to <c>true</c> (default) and there is only one row of items, the items will be stretched to fill the complete row.
         /// If set to <c>false</c>, items will have their normal size, which means a gap can exist at the end of the row.
         /// </remarks>
-        /// <value>A value indicatingwhether the control should stretch the content to fill at least one row.</value>
+        /// <value>A value indicating whether the control should stretch the content to fill at least one row.</value>
         public bool StretchContentForSingleRow
         {
             get { return (bool)GetValue(StretchContentForSingleRowProperty); }
