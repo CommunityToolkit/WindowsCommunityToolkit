@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Initialises FileCache and provides root folder and cache folder name
+        /// Initializes FileCache and provides root folder and cache folder name
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
@@ -149,23 +149,23 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Assures that image is available in the cache
+        /// Assures that file is available in the cache
         /// </summary>
-        /// <param name="uri">Uri of the image</param>
-        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
-        /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
-        /// <returns>void</returns>
+        /// <param name="uri">Uri of the file</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if file cannot be loaded</param>
+        /// <param name="storeToMemoryCache">Indicates if file should be available also in memory cache</param>
+        /// <returns>awaitable task</returns>
         public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false)
         {
             return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
         }
 
         /// <summary>
-        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
+        /// Load a specific file from the cache. If the file is not in the cache try to download and store it.
         /// </summary>
-        /// <param name="uri">Uri of the image.</param>
-        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
-        /// <returns>a BitmapImage</returns>
+        /// <param name="uri">Uri of the file.</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if file cannot be loaded</param>
+        /// <returns>awaitable task</returns>
         public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
             return GetItemAsync(uri, throwOnError, false);
@@ -371,7 +371,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Initialises with default values if user has not initialised explicitly
+        /// Initializes with default values if user has not initialized explicitly
         /// </summary>
         /// <returns>awaitable task</returns>
         private async Task ForceInitialiseAsync()
