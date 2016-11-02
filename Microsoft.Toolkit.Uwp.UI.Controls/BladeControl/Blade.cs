@@ -19,6 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class Blade : BladeItem
     {
         /// <summary>
+        /// Identifies the <see cref="BladeId"/> dependency property.
+        /// </summary>
+        [Deprecated("This property is no longer required along with the attached ToggleBlade property. Please use the IsOpen property instead.", DeprecationType.Deprecate, 1)]
+        public static readonly DependencyProperty BladeIdProperty = DependencyProperty.Register(nameof(BladeId), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string)));
+
+        /// <summary>
         /// Gets or sets the visual content of this blade
         /// </summary>
         [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
@@ -33,6 +39,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
         public static readonly DependencyProperty ElementProperty = DependencyProperty.Register(nameof(Element), typeof(UIElement), typeof(Blade), new PropertyMetadata(null, OnElementChanged));
+
+        /// <summary>
+        /// Gets or sets the Blade Id, this needs to be set in order to use the attached property to toggle a blade
+        /// </summary>
+        [Deprecated("This property is no longer required along with the attached ToggleBlade property. Please use the IsOpen property instead.", DeprecationType.Deprecate, 1)]
+        public string BladeId
+        {
+            get { return (string)GetValue(BladeIdProperty); }
+            set { SetValue(BladeIdProperty, value); }
+        }
 
         private static void OnElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

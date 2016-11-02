@@ -121,9 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
 #pragma warning disable CS0618 // Type or member is obsolete
             string bladeName = GetToggleBlade(pressedButton);
-#pragma warning restore CS0618 // Type or member is obsolete
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
+            var blade = container.Items.OfType<Blade>().FirstOrDefault(_ => _.BladeId == bladeName);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (blade == null)
             {
