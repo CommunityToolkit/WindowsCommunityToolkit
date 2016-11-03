@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(NuGetPackageRoot)' == ''">
+    <NuGetPackageRoot>$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+  </PropertyGroup>
+  <ImportGroup>
+    <Import Project="$(NuGetPackageRoot)\Microsoft.Advertising.JS\10.1609.2\build\Microsoft.Advertising.JS.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Advertising.JS\10.1609.2\build\Microsoft.Advertising.JS.targets')" />
+    <Import Project="$(NuGetPackageRoot)\Microsoft.Advertising.Xaml\10.1609.2\build\Microsoft.Advertising.XAML.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Advertising.Xaml\10.1609.2\build\Microsoft.Advertising.XAML.targets')" />
+    <Import Project="$(NuGetPackageRoot)\Microsoft.Services.Store.Engagement\10.1606.0\build\Microsoft.Services.Store.Engagement.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Services.Store.Engagement\10.1606.0\build\Microsoft.Services.Store.Engagement.targets')" />
+  </ImportGroup>
+</Project>
