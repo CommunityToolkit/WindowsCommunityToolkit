@@ -46,6 +46,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Compile Include="BladeView\Blade.cs" />
+    <Compile Include="BladeView\BladeControl.cs" />
     <Compile Include="BladeView\BladeItem.cs" />
     <Compile Include="BladeView\BladeItem.Properties.cs" />
     <Compile Include="BladeView\BladeView.cs" />
