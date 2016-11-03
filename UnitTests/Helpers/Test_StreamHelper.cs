@@ -31,7 +31,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_GetHttpStream()
         {
-            using (var stream = await StreamHelper.GetHttpStreamAsync(new Uri("http://dev.windows.com")))
+            using (var stream = await new Uri("http://dev.windows.com").GetHttpStreamAsync())
             {
                 Assert.IsNotNull(stream);
             }
@@ -44,7 +44,7 @@ namespace UnitTests.Helpers
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             StorageFile file = await folder.CreateFileAsync(Filename, CreationCollisionOption.ReplaceExisting);
 
-            await StreamHelper.GetHttpStreamToStorageFileAsync(new Uri("http://dev.windows.com"), file);
+            await new Uri("http://dev.windows.com").GetHttpStreamToStorageFileAsync(file);
 
             var properties = await file.GetBasicPropertiesAsync();
             Assert.IsTrue(properties.Size > 0);
@@ -100,29 +100,6 @@ namespace UnitTests.Helpers
             Assert.IsTrue(await localCacheFolder.FileExistsAsync(Filename));
 
             using (var stream = await StreamHelper.GetLocalCacheFileStreamAsync(Filename))
-            {
-                var loadedText = await stream.ReadTextAsync(Encoding.UTF8);
-                StringAssert.Contains(loadedText, SampleText);
-            }
-
-            await storageFile.DeleteAsync(StorageDeleteOption.Default);
-        }
-
-        [TestCategory("Helpers")]
-        [TestMethod]
-        public async Task Test_StreamHelper_KnownFolder()
-        {
-            var knownFolder = KnownFolders.PicturesLibrary;
-            var folder = KnownFolderId.PicturesLibrary;
-
-            Assert.IsFalse(await knownFolder.FileExistsAsync(Filename));
-
-            var storageFile = await StorageFileHelper.WriteTextToKnownFolderFileAsync(folder, SampleText, Filename);
-            Assert.IsNotNull(storageFile);
-
-            Assert.IsTrue(await knownFolder.FileExistsAsync(Filename));
-
-            using (var stream = await StreamHelper.GetKnowFoldersFileStreamAsync(folder, Filename))
             {
                 var loadedText = await stream.ReadTextAsync(Encoding.UTF8);
                 StringAssert.Contains(loadedText, SampleText);

@@ -556,8 +556,8 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var file = await fileLocation.GetFileAsync(fileName);
-            return await StorageFileHelper.ReadBytesAsync(file);
+            var file = await fileLocation.GetFileAsync(fileName).AsTask().ConfigureAwait(false);
+            return await file.ReadBytesAsync();
         }
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
-            var item = await folder.TryGetItemAsync(fileName);
+            var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
             return (item != null) && item.IsOfType(StorageItemTypes.File);
         }
 
@@ -654,7 +654,7 @@ namespace Microsoft.Toolkit.Uwp
                 UserSearchFilter = $"filename:=\"{fileName}\"" // “:=” is the exact-match operator
             };
 
-            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync();
+            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync().AsTask().ConfigureAwait(false);
             return files.Count > 0;
         }
 
