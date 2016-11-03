@@ -44,6 +44,14 @@
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
       },
       {
+        "Name": "MasterDetailsView",
+        "Type": "MasterDetailsViewPage",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
+        "XamlCodeFile": "MasterDetailsView.bind",
+        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
@@ -231,7 +239,7 @@
         "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
         "ApiCheck": "Windows.System.UserProfile.UserInformation"
       },
-            {
+      {
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",

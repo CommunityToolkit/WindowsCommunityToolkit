@@ -61,7 +61,6 @@
 
             <controls:BladeItem Title="Default blade"
                             x:Name="SecondBlade"
-                            BladeId="BladeTest1"
                             IsOpen="False"
                             Width="400"
                             Background="{StaticResource Brush-White}"
@@ -74,7 +73,6 @@
 
             <controls:BladeItem Title="Custom title bar"
                             x:Name="ThirdBlade"
-                            BladeId="BladeTest2"
                             IsOpen="False"
                             Width="400"
                             TitleBarBackground="{StaticResource Brush-Blue-01}"
@@ -90,7 +88,6 @@
 
             <controls:BladeItem Title="Custom close button color"
                             x:Name="FourthBlade"
-                            BladeId="BladeTest3"
                             Width="400"
                             CloseButtonBackground="{StaticResource Brush-Grey-01}"
                             CloseButtonForeground="{StaticResource Brush-White}"
