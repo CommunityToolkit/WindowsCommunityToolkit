@@ -1,0 +1,85 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.HamburgerMenuBindingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+  <Page.Resources>
+    <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
+      <Grid Width="240" Height="48">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="48" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <FontIcon Grid.Column="0"
+                  Margin="12,12,11,12"
+                  FontFamily="Segoe MDL2 Assets"
+                  Glyph="{Binding Glyph}"
+                  Foreground="White" />
+        <TextBlock Grid.Column="1"
+                   Text="{x:Bind Label}"
+                   Foreground="White"
+                   FontSize="16"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="HamburgerMenuImageItem">
+      <Grid Width="240" Height="48">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="48" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image Source="{Binding ImagePath}"
+               Stretch="UniformToFill"
+               Margin="12,12,11,12" />
+        <TextBlock Grid.Column="1"
+                   Text="{Binding Label}"
+                   Foreground="White"
+                   FontSize="16"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid Background="{StaticResource Brush-Grey-05}" Padding="50">
+    <controls:HamburgerMenu
+        x:Name="HamburgerMenuControl"
+        PaneBackground="Blue"
+        Foreground="White"
+        ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+        OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
+        ItemClick="HamburgerMenu_OnItemClick"
+        OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
+        HamburgerWidth="48"
+        ItemsSource="{Binding MenuItems}"
+            >
+
+      <!--Options-->
+      <controls:HamburgerMenu.OptionsItemsSource>
+        <controls:HamburgerMenuItemCollection>
+          <controls:HamburgerMenuGlyphItem Label="About" Glyph=""/>
+        </controls:HamburgerMenuItemCollection>
+      </controls:HamburgerMenu.OptionsItemsSource>
+
+      <!--Content-->
+      <Grid x:Name="ContentGrid">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="48" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border Background="Black" Grid.Row="0">
+          <TextBlock x:Name="Header"
+                     FontSize="24"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Text="{Binding Label}"
+                     Foreground="White"/>
+        </Border>
+        <Image x:Name="Image" Grid.Row="1" Source="{Binding Glyph}" />
+      </Grid>
+    </controls:HamburgerMenu>
+  </Grid>
+</Page>
