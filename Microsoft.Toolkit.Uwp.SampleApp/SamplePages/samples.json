@@ -89,7 +89,7 @@
         "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
-        "Icon": "/SamplePages/BladeControl/BladeView.png"
+        "Icon": "/SamplePages/BladeView/BladeView.png"
       },
       {
         "Name": "GridSplitter",

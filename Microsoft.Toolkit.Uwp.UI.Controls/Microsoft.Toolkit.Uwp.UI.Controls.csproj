@@ -45,12 +45,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Compile Include="BladeControl\Blade.cs" />
-    <Compile Include="BladeControl\BladeItem.cs" />
-    <Compile Include="BladeControl\BladeItem.Properties.cs" />
-    <Compile Include="BladeControl\BladeView.cs" />
-    <Compile Include="BladeControl\BladeView.Events.cs" />
-    <Compile Include="BladeControl\BladeView.Properties.cs" />
+    <Compile Include="BladeView\Blade.cs" />
+    <Compile Include="BladeView\BladeItem.cs" />
+    <Compile Include="BladeView\BladeItem.Properties.cs" />
+    <Compile Include="BladeView\BladeView.cs" />
+    <Compile Include="BladeView\BladeView.Events.cs" />
+    <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
-    <Compile Include="BladeControl\BladeItem.Events.cs" />
+    <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
@@ -101,7 +101,7 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BladeControl\BladeView.xaml">
+    <Page Include="BladeView\BladeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
