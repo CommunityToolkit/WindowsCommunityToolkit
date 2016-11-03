@@ -36,7 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty OptionsVisibilityProperty = DependencyProperty.Register(nameof(OptionsVisibility), typeof(Visibility), typeof(HamburgerMenu), new PropertyMetadata(Visibility.Visible));
 
-
         /// <summary>
         /// Identifies the <see cref="SelectedOptionsItem"/> dependency property.
         /// </summary>
@@ -46,7 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SelectedOptionsIndex"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedOptionsIndexProperty = DependencyProperty.Register(nameof(SelectedOptionsIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
-
 
         /// <summary>
         ///     Gets or sets an object source used to generate the content of the options.

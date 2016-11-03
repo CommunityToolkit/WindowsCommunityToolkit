@@ -68,6 +68,7 @@
     <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
+    <Compile Include="Helpers\SystemInformation.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
     <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />
     <Compile Include="Structures\HsvColor.cs" />
+    <Compile Include="Structures\OSVersion.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

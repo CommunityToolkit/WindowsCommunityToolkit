@@ -10,24 +10,42 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using Windows.System.Profile;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Panel that allows for a Master/Details pattern.
+    /// Defines Operating System version
     /// </summary>
-    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
-    public partial class MasterDetailsView
+    public struct OSVersion
     {
         /// <summary>
-        /// Occurs when the currently selected item changes.
+        /// Value describing major version
         /// </summary>
-        public event SelectionChangedEventHandler SelectionChanged;
+        public ushort Major;
 
-        private void OnSelectionChanged(SelectionChangedEventArgs e)
+        /// <summary>
+        /// Value describing minor version
+        /// </summary>
+        public ushort Minor;
+
+        /// <summary>
+        /// Value describing build
+        /// </summary>
+        public ushort Build;
+
+        /// <summary>
+        /// Value describing revision
+        /// </summary>
+        public ushort Revision;
+
+        /// <summary>
+        /// Converts OSVersion to string
+        /// </summary>
+        /// <returns>Major.Minor.Build.Revision as a string</returns>
+        public override string ToString()
         {
-            SelectionChanged?.Invoke(this, e);
+            return $"{Major}.{Minor}.{Build}.{Revision}";
         }
     }
 }
