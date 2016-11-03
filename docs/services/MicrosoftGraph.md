@@ -28,7 +28,7 @@ To register your app by using Visual Studio, see [Using Visual Studio to registe
 
 After you've registered your app, Azure AD will generate a client ID for your app. You'll need to use this client ID to get your access token.
 
-When you register your app in the [Application Registration Portal](https://apps.dev.microsoft.com), you will need to configure details about your application with the following steps:
+When you register your app in the [Azure Management Portal](manage.windowsazure.com), you will need to configure details about your application with the following steps:
 
 1. Specify your application as a **Web application and/or web API**
 2. Specify the Redirect Uri as **http://localhost:8000**
