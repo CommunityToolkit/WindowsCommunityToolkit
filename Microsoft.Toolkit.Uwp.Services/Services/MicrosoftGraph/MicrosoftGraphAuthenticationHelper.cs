@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private const string Authority = "https://login.microsoftonline.com/common";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
-        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+        private const string DefaultRedirectUri = "http://localhost:8000";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
