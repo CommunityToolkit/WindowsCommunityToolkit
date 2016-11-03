@@ -232,7 +232,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
-    <Content Include="SamplePages\BladeControl\BladeControl.png" />
+    <Content Include="SamplePages\BladeControl\BladeView.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />

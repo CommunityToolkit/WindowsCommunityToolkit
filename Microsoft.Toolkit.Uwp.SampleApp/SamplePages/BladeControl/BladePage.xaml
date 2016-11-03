@@ -20,7 +20,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="BladeControl.Padding" Value="12" />
+                        <Setter Target="BladeView.Padding" Value="12" />
                         <Setter Target="FirstBlade.Width" Value="280" />
                         <Setter Target="FirstBlade.FontSize" Value="12" />
                         <Setter Target="SecondBlade.Width" Value="280" />
@@ -33,10 +33,9 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <controls:BladeControl x:Name="BladeControl"
-                               Padding="24"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch">
+        <controls:BladeView Padding="24"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
             <controls:BladeItem x:Name="FirstBlade"
                                 Title="Test"
                                 IsOpen="True"
@@ -99,6 +98,6 @@
                            Margin="24"
                            Text="This is a blade with a custom close button color." />
             </controls:BladeItem>
-        </controls:BladeControl>
+        </controls:BladeView>
     </Grid>
 </Page>

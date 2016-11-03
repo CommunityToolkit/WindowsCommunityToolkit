@@ -48,9 +48,9 @@
     <Compile Include="BladeControl\Blade.cs" />
     <Compile Include="BladeControl\BladeItem.cs" />
     <Compile Include="BladeControl\BladeItem.Properties.cs" />
-    <Compile Include="BladeControl\BladeControl.cs" />
-    <Compile Include="BladeControl\BladeControl.Events.cs" />
-    <Compile Include="BladeControl\BladeControl.Properties.cs" />
+    <Compile Include="BladeControl\BladeView.cs" />
+    <Compile Include="BladeControl\BladeView.Events.cs" />
+    <Compile Include="BladeControl\BladeView.Properties.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BladeControl\BladeControl.xaml">
+    <Page Include="BladeControl\BladeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

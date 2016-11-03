@@ -24,24 +24,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl
+    public partial class BladeView
     {
         /// <summary>
         /// Identifies the <see cref="Blades"/> dependency property.
         /// </summary>
         [Deprecated("This property has been replaced with the Items property of the control. It is no longer required to place content within the Blades property.", DeprecationType.Deprecate, 1)]
-        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeControl), new PropertyMetadata(null, OnBladesChanged));
+        public static readonly DependencyProperty BladesProperty = DependencyProperty.Register(nameof(Blades), typeof(IList<Blade>), typeof(BladeView), new PropertyMetadata(null, OnBladesChanged));
 
         /// <summary>
         /// Identifies the <see cref="ToggleBlade"/> attached property.
         /// </summary>
         [Deprecated("This property has been deprecated. Please use the IsOpen property of the BladeItem.", DeprecationType.Deprecate, 1)]
-        public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeView), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a collection of visible blades
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event args.</param>
         private static void OnBladesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var bladeControl = (BladeControl)d;
+            var bladeControl = (BladeView)d;
 #pragma warning disable CS0618 // Type or member is obsolete
             IList<Blade> blades = bladeControl.Blades;
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
 #pragma warning disable CS0618 // Type or member is obsolete
             string bladeName = GetToggleBlade(pressedButton);
-            BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
+            BladeView container = pressedButton.FindVisualAscendant<BladeView>();
             var blade = container.Items.OfType<Blade>().FirstOrDefault(_ => _.BladeId == bladeName);
 #pragma warning restore CS0618 // Type or member is obsolete
 

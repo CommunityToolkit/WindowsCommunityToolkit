@@ -8,9 +8,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:BladeControl Margin="12"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch">
+        <controls:BladeView Margin="12"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
             <controls:BladeItem Title="Test"
                                 IsOpen="True"
                                 TitleBarVisibility="Collapsed">
@@ -59,6 +59,6 @@
                            Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="This is a blade with a custom close button color." />
             </controls:BladeItem>
-        </controls:BladeControl>
+        </controls:BladeView>
     </Grid>
 </Page>

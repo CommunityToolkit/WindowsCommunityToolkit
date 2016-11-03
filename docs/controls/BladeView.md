@@ -1,12 +1,12 @@
 # Blade XAML Control 
 
-The BladeControl provides a container to host blades as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works. 
+The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works. 
 
 ## Syntax
 
 ```xaml
 
-<controls:BladeControl>
+<controls:BladeView>
     <controls:BladeItem IsOpen="True"
                         TitleBarVisibility="Collapsed">
         <StackPanel Margin="8">
@@ -26,21 +26,21 @@ The BladeControl provides a container to host blades as extra detail pages in, f
                    Style="{StaticResource SubtitleTextBlockStyle}"
                    Text="This is a blade with all settings set to default." />
     </controls:BladeItem>
-</controls:BladeControl>
+</controls:BladeView>
 
 ```
 
 ## Example Image
 
-![BladeControl animation](../resources/images/Controls-BladeControl.gif "BladeControl")
+![BladeView animation](../resources/images/Controls-BladeView.gif "BladeView")
 
 ## Example Code
 
-[BladeControl Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BladeControl)
+[BladeView Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BladeControl)
 
 ## Default Template 
 
-[BladeControl XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl/BladeControl.xaml) is the XAML template used in the toolkit for the default styling.
+[BladeView XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl/BladeView.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -50,5 +50,5 @@ The BladeControl provides a container to host blades as extra detail pages in, f
 
 ## API
 
-* [BladeControl source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl)
+* [BladeView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl)
 
