@@ -152,25 +152,23 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Assures that image is available in the cache
         /// </summary>
         /// <param name="uri">Uri of the image</param>
-        /// <param name="fileName">fileName to for local storage</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
         /// <returns>void</returns>
-        public Task PreCacheAsync(Uri uri, string fileName, bool throwOnError = false, bool storeToMemoryCache = false)
+        public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false)
         {
-            return GetItemAsync(uri, fileName, throwOnError, !storeToMemoryCache);
+            return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
         }
 
         /// <summary>
         /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
-        /// <param name="fileName">fileName to for local storage</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
         /// <returns>a BitmapImage</returns>
-        public Task<T> GetFromCacheAsync(Uri uri, string fileName, bool throwOnError = false)
+        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
-            return GetItemAsync(uri, fileName, throwOnError, false);
+            return GetItemAsync(uri, throwOnError, false);
         }
 
         /// <summary>
@@ -187,9 +185,29 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
 
-        private async Task<T> GetItemAsync(Uri uri, string fileName, bool throwOnError, bool preCacheOnly)
+        private static string GetCacheFileName(Uri uri)
+        {
+            return CreateHash64(uri.ToString()).ToString();
+        }
+
+        private static ulong CreateHash64(string str)
+        {
+            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(str);
+
+            ulong value = (ulong)utf8.Length;
+            for (int n = 0; n < utf8.Length; n++)
+            {
+                value += (ulong)utf8[n] << ((n * 5) % 56);
+            }
+
+            return value;
+        }
+
+        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly)
         {
             T instance = default(T);
+
+            string fileName = GetCacheFileName(uri);
 
             ConcurrentRequest request = null;
 
@@ -268,6 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
+            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
 
             if (baseFile == null || await IsFileOutOfDate(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
@@ -285,10 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                using (var fileStream = await baseFile.OpenAsync(FileAccessMode.Read).AsTask().ConfigureAwait(MaintainContext))
-                {
-                    instance = await InitializeTypeAsync(fileStream).ConfigureAwait(false);
-                }
+                instance = await InitializeTypeAsync(baseFile).ConfigureAwait(false);
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
@@ -336,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
-            return DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
 
         private async Task InternalClearAsync(IEnumerable<StorageFile> files)

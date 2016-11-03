@@ -15,7 +15,7 @@ The **ImageCache** provides methods and tools to cache images in a temporary loc
 	var distantUri = new Uri("http://www.myserver.com/image.jpg");
 
 	// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it
-	var bitmapImage = await ImageCache.Instance.GetFromCacheAsync(distantUri, Path.GetFileName(distantUri.ToString()));
+	var bitmapImage = await ImageCache.Instance.GetFromCacheAsync(distantUri));
 
 	// Clear the cache. Please note that you can provide a parameter to define a timespan from now to select cache entries to delete.
 	await ImageCache.Instance.ClearAsync();	

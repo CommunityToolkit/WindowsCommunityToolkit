@@ -10,46 +10,20 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl : Control
+    public partial class BladeControl : ItemsControl
     {
         private ScrollViewer _scrollViewer;
-
-        private static void ToggleBlade(object sender, TappedRoutedEventArgs tappedRoutedEventArgs)
-        {
-            Button pressedButton = sender as Button;
-            string bladeName = GetToggleBlade(pressedButton);
-            BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Blades.FirstOrDefault(_ => _.BladeId == bladeName);
-
-            if (blade == null)
-            {
-                throw new KeyNotFoundException($"Could not find a blade with ID {bladeName}");
-            }
-
-            if (blade.IsOpen)
-            {
-                blade.IsOpen = false;
-                BladeClosed?.Invoke(container, blade);
-            }
-            else
-            {
-                blade.IsOpen = true;
-                BladeOpened?.Invoke(container, blade);
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeControl"/> class.
@@ -57,7 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public BladeControl()
         {
             DefaultStyleKey = typeof(BladeControl);
+#pragma warning disable CS0618 // Type or member is obsolete
             Blades = new ObservableCollection<Blade>();
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>
@@ -69,42 +45,83 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CycleBlades();
         }
 
+        /// <summary>
+        /// Creates or identifies the element that is used to display the given item.
+        /// </summary>
+        /// <returns>
+        /// The element that is used to display the given item.
+        /// </returns>
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new BladeItem();
+        }
+
+        /// <summary>
+        /// Prepares the specified element to display the specified item.
+        /// </summary>
+        /// <param name="element">The element that's used to display the specified item.</param>
+        /// <param name="item">The item to display.</param>
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            var blade = element as BladeItem;
+            if (blade != null)
+            {
+                blade.VisibilityChanged += BladeOnVisibilityChanged;
+            }
+
+            base.PrepareContainerForItemOverride(element, item);
+        }
+
+        /// <summary>
+        /// Undoes the effects of the PrepareContainerForItemOverride method.
+        /// </summary>
+        /// <param name="element">The container element.</param>
+        /// <param name="item">The item.</param>
+        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        {
+            var blade = element as BladeItem;
+            if (blade != null)
+            {
+                blade.VisibilityChanged -= BladeOnVisibilityChanged;
+            }
+
+            base.ClearContainerForItemOverride(element, item);
+        }
+
         private void CycleBlades()
         {
-            ActiveBlades = new ObservableCollection<Blade>();
-            foreach (var blade in Blades)
+            ActiveBlades = new ObservableCollection<BladeItem>();
+            foreach (var blade in Items.OfType<BladeItem>())
             {
                 if (blade.IsOpen)
                 {
                     ActiveBlades.Add(blade);
                 }
-
-                blade.VisibilityChanged += BladeOnVisibilityChanged;
             }
         }
 
         private void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
-            var blade = sender as Blade;
+            var blade = sender as BladeItem;
 
             if (visibility == Visibility.Visible)
             {
+                Items.Remove(blade);
+                Items.Add(blade);
+                BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
-                GetScrollViewer();
-                _scrollViewer.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
                 return;
             }
 
+            BladeClosed?.Invoke(this, blade);
             ActiveBlades.Remove(blade);
         }
 
-        private void GetScrollViewer()
+        private ScrollViewer GetScrollViewer()
         {
-            if (_scrollViewer == null)
-            {
-                _scrollViewer = this.FindDescendant<ScrollViewer>();
-            }
+            return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
         }
     }
 }

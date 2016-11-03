@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -59,6 +60,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DesiredWidthProperty =
             DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN, DesiredWidthChanged));
 
+        /// <summary>
+        /// Identifies the <see cref="StretchContentForSingleRow"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty StretchContentForSingleRowProperty =
+        DependencyProperty.Register(nameof(StretchContentForSingleRow), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true, OnStretchContentForSingleRowPropertyChanged));
+
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
             var self = d as AdaptiveGridView;
@@ -83,6 +90,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             self.RecalculateLayout(self.ActualWidth);
         }
 
+        private static void OnStretchContentForSingleRowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var self = d as AdaptiveGridView;
+            self.RecalculateLayout(self.ActualWidth);
+        }
+
         /// <summary>
         /// Gets or sets the desired width of each item
         /// </summary>
@@ -91,6 +104,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(DesiredWidthProperty); }
             set { SetValue(DesiredWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control should stretch the content to fill at least one row.
+        /// </summary>
+        /// <remarks>
+        /// If set to <c>true</c> (default) and there is only one row of items, the items will be stretched to fill the complete row.
+        /// If set to <c>false</c>, items will have their normal size, which means a gap can exist at the end of the row.
+        /// </remarks>
+        /// <value>A value indicating whether the control should stretch the content to fill at least one row.</value>
+        public bool StretchContentForSingleRow
+        {
+            get { return (bool)GetValue(StretchContentForSingleRowProperty); }
+            set { SetValue(StretchContentForSingleRowProperty, value); }
         }
 
         /// <summary>
@@ -144,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static int CalculateColumns(double containerWidth, double itemWidth)
         {
-            var columns = (int)(containerWidth / itemWidth);
+            var columns = (int)Math.Round(containerWidth / itemWidth);
             if (columns == 0)
             {
                 columns = 1;

@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
@@ -23,14 +25,21 @@ namespace Microsoft.Toolkit.Uwp
     public class HttpHelper
     {
         /// <summary>
+        /// Maximum number of Http Clients that can be pooled.
+        /// </summary>
+        private const int MaxPoolSize = 10;
+
+        /// <summary>
         /// Private singleton field.
         /// </summary>
         private static HttpHelper _instance;
 
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(MaxPoolSize);
+
         /// <summary>
         /// Private instance field.
         /// </summary>
-        private HttpClient _httpClient = null;
+        private ConcurrentQueue<HttpClient> _httpClientQueue = null;
 
         /// <summary>
         /// Gets public singleton property.
@@ -42,10 +51,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         protected HttpHelper()
         {
-            var filter = new HttpBaseProtocolFilter();
-            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-
-            _httpClient = new HttpClient(filter);
+            _httpClientQueue = new ConcurrentQueue<HttpClient>();
         }
 
         /// <summary>
@@ -55,20 +61,55 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
         public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
         {
-            var httpRequestMessage = request.ToHttpRequestMessage();
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
-            var response = await _httpClient.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+            HttpClient client = null;
 
-            FixInvalidCharset(response);
+            try
+            {
+                var httpRequestMessage = request.ToHttpRequestMessage();
 
-            return new HttpHelperResponse(response);
+                client = GetHttpClientInstance();
+
+                var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+
+                FixInvalidCharset(response);
+
+                return new HttpHelperResponse(response);
+            }
+            finally
+            {
+                // Add the HttpClient instance back to the queue.
+                if (client != null)
+                {
+                    _httpClientQueue.Enqueue(client);
+                }
+
+                _semaphore.Release();
+            }
+        }
+
+        private HttpClient GetHttpClientInstance()
+        {
+            HttpClient client = null;
+
+            // Try and get HttpClient from the queue
+            if (!_httpClientQueue.TryDequeue(out client))
+            {
+                var filter = new HttpBaseProtocolFilter();
+                filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+
+                client = new HttpClient(filter);
+            }
+
+            return client;
         }
 
         /// <summary>
         /// Fix invalid charset returned by some web sites.
         /// </summary>
         /// <param name="response">HttpResponseMessage instance.</param>
-        private static void FixInvalidCharset(HttpResponseMessage response)
+        private void FixInvalidCharset(HttpResponseMessage response)
         {
             if (response != null && response.Content != null && response.Content.Headers != null
                 && response.Content.Headers.ContentType != null && response.Content.Headers.ContentType.CharSet != null)

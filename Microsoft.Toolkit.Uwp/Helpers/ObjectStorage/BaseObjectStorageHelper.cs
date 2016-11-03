@@ -71,7 +71,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="value">Object to save</param>
         public void Save<T>(string key, T value)
         {
-            Settings.Values[key] = JsonConvert.SerializeObject(value);
+            if (KeyExists(key))
+            {
+                Settings.Values[key] = JsonConvert.SerializeObject(value);
+            }
+            else
+            {
+                Settings.Values.Add(key, JsonConvert.SerializeObject(value));
+            }
         }
 
         /// <summary>
@@ -81,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>True if a value exists</returns>
         public Task<bool> FileExistsAsync(string filePath)
         {
-            return Folder.IsFileExistsAsync(filePath);
+            return Folder.FileExistsAsync(filePath);
         }
 
         /// <summary>

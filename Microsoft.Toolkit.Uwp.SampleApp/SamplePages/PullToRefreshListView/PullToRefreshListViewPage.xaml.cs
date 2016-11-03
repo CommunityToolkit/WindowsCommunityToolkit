@@ -13,9 +13,6 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -54,13 +51,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void ListView_RefreshCommand(object sender, EventArgs e)
         {
             AddItems();
-        }
-
-        private void ListView_PullProgressChanged(object sender, RefreshProgressEventArgs e)
-        {
-            refreshindicator.Opacity = e.PullProgress;
-
-            refreshindicator.Background = e.PullProgress < 1.0 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Blue);
         }
     }
 }
