@@ -241,6 +241,7 @@
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
+    <Content Include="SamplePages\HamburgerMenuBinding\HamburgerMenu.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\Helpers\Helpers.png" />
@@ -322,6 +323,7 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <Content Include="SamplePages\HamburgerMenuBinding\HamburgerMenuCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -340,6 +342,11 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\HamburgerMenuBinding\HamburgerMenuBindingPage.xaml.cs">
+      <DependentUpon>HamburgerMenuBindingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HamburgerMenuBinding\SampleMenuItem.cs" />
+    <Compile Include="SamplePages\HamburgerMenuBinding\SampleViewModel.cs" />
     <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
       <DependentUpon>HelpersPage.xaml</DependentUpon>
     </Compile>
@@ -498,6 +505,10 @@
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\HamburgerMenuBinding\HamburgerMenuBindingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Helpers\HelpersPage.xaml">
       <SubType>Designer</SubType>
