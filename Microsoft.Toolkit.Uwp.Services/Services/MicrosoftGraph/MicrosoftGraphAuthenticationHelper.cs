@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // refresh silently the token
             if (_tokenForUser == null)
             {
-                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new PlatformParameters(PromptBehavior.Always,false));
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new PlatformParameters(PromptBehavior.Always, false));
                 _tokenForUser = userAuthnResult.AccessToken;
                 _expiration = userAuthnResult.ExpiresOn;
             }
