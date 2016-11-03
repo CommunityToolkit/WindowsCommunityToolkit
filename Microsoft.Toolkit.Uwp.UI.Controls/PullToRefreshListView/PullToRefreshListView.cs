@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -56,17 +57,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
             DependencyProperty.Register(nameof(RefreshIndicatorContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Identifies the <see cref="PullToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty PullToRefreshLabelProperty =
             DependencyProperty.Register(nameof(PullToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Pull To Refresh", OnPullToRefreshLabelChanged));
+#pragma warning restore CS0618 // Type or member is obsolete
 
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Identifies the <see cref="ReleaseToRefreshLabel"/> property.
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshLabelProperty =
             DependencyProperty.Register(nameof(ReleaseToRefreshLabel), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh", OnReleaseToRefreshLabelChanged));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Identifies the <see cref="PullToRefreshContent"/> property.
@@ -79,6 +84,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ReleaseToRefreshContentProperty =
             DependencyProperty.Register(nameof(ReleaseToRefreshContent), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata("Release to Refresh"));
+
+        /// <summary>
+        /// IsPullToRefreshWithMouseEnabled Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
+            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -103,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private DateTime _lastRefreshActivation = default(DateTime);
         private bool _refreshActivated = false;
         private double _overscrollMultiplier;
+        private bool _isManipulatingWithMouse;
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
@@ -153,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
             }
 
+#pragma warning disable CS0612 // Type or member is obsolete
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
             _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
@@ -166,8 +179,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _scrollerContent != null &&
                 _refreshIndicatorBorder != null &&
                 _refreshIndicatorTransform != null &&
-                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null)) // if _defaultIndicatorContent is removed check for _pullAndReleaseIndicatorContent only)
+                (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null))
             {
+                // TODO: if _defaultIndicatorContent is removed check for _pullAndReleaseIndicatorContent only)
+                _root.ManipulationMode = ManipulationModes.TranslateY;
+                _root.ManipulationDelta += Scroller_ManipulationDelta;
+                _root.ManipulationStarted += Scroller_ManipulationStarted;
+                _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
 
@@ -185,8 +204,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _overscrollMultiplier = OverscrollLimit * 8;
             }
-
+#pragma warning restore CS0612 // Type or member is obsolete
             base.OnApplyTemplate();
+        }
+
+        private void Scroller_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (!IsPullToRefreshWithMouseEnabled)
+            {
+                return;
+            }
+
+            OnManipulationCompleted();
+        }
+
+        private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            // Other input are already managed by the scroll viewer
+            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
+                && IsPullToRefreshWithMouseEnabled)
+            {
+                DisplayPullToRefreshContent();
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                CompositionTarget.Rendering += CompositionTarget_Rendering;
+                _isManipulatingWithMouse = true;
+            }
+        }
+
+        private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+            if (!IsPullToRefreshWithMouseEnabled)
+            {
+                return;
+            }
+
+            if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                return;
+            }
+
+            if (e.Cumulative.Translation.Y <= 0)
+            {
+                return;
+            }
+
+            // content is not "moved" automagically by the scrollviewer in this case
+            // so we need to apply our own transformation.
+            // and to do so we use a little Sin Easing.
+
+            // how much "drag" to go to the max translation
+            var mouseMaxDragDistance = 100;
+
+            // make it harder to drag (life is not easy)
+            double translationToUse = e.Cumulative.Translation.Y / 3;
+            var deltaCumulative = Math.Min(translationToUse, mouseMaxDragDistance) / mouseMaxDragDistance;
+
+            // let's do some quartic ease-out
+            double f = deltaCumulative - 1;
+            var easing = 1 + (f * f * f * (1 - deltaCumulative));
+
+            var maxTranslation = 150;
+            _contentTransform.TranslateY = easing * maxTranslation;
         }
 
         private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -199,24 +277,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
-                if (RefreshIndicatorContent == null)
-                {
-                    if (_defaultIndicatorContent != null)
-                    {
-                        _defaultIndicatorContent.Text = PullToRefreshLabel;
-                    }
+                DisplayPullToRefreshContent();
 
-                    if (_pullAndReleaseIndicatorContent != null)
-                    {
-                        _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
-                    }
-                }
-
+                OnManipulationCompleted();
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
 
+        /// <summary>
+        /// Display the pull to refresh content
+        /// </summary>
+        private void DisplayPullToRefreshContent()
+        {
+            if (RefreshIndicatorContent == null)
+            {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
+                if (_defaultIndicatorContent != null)
+                {
+                    _defaultIndicatorContent.Text = PullToRefreshLabel;
+                }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                if (_pullAndReleaseIndicatorContent != null)
+                {
+                    _pullAndReleaseIndicatorContent.Content = PullToRefreshContent;
+                }
+            }
+        }
+
         private void Scroller_DirectManipulationCompleted(object sender, object e)
+        {
+            OnManipulationCompleted();
+        }
+
+        /// <summary>
+        /// Method called at the end of manipulation to clean up everything
+        /// </summary>
+        private void OnManipulationCompleted()
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
             _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
@@ -234,10 +333,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            _lastOffset = 0;
+            _pullDistance = 0;
             _refreshActivated = false;
             _lastRefreshActivation = default(DateTime);
 
-            PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
+            PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = 0 });
         }
 
         private void CompositionTarget_Rendering(object sender, object e)
@@ -255,7 +356,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshActivated = false;
                 _lastRefreshActivation = default(DateTime);
 
-                PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs() { PullProgress = 0 });
+                PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = 0 });
+                _isManipulatingWithMouse = false;
 
                 return;
             }
@@ -274,25 +376,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
 
+            // content is not "moved" automagically by the scrollviewer in this case
+            // so we apply our own transformation too and need to take it in account.
+            if (_isManipulatingWithMouse)
+            {
+                elementBounds = _contentTransform.TransformBounds(elementBounds);
+            }
+
             var offset = elementBounds.Y;
             var delta = offset - _lastOffset;
             _lastOffset = offset;
 
             _pullDistance += delta * _overscrollMultiplier;
 
+            if (_isManipulatingWithMouse)
+            {
+                _pullDistance = 2 * offset;
+            }
+
             if (_pullDistance > 0)
             {
-                _contentTransform.TranslateY = _pullDistance - offset;
-                _refreshIndicatorTransform.TranslateY = _pullDistance - offset - _refreshIndicatorBorder.ActualHeight;
+                if (!_isManipulatingWithMouse)
+                {
+                    _contentTransform.TranslateY = _pullDistance - offset;
+                }
+
+                _refreshIndicatorTransform.TranslateY = _pullDistance - offset
+                                                        - _refreshIndicatorBorder.ActualHeight;
             }
             else
             {
-                _contentTransform.TranslateY = 0;
+                if (!_isManipulatingWithMouse)
+                {
+                    _contentTransform.TranslateY = 0;
+                }
+
                 _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
             }
 
-            var pullProgress = 0.0;
-
+            double pullProgress;
             if (_pullDistance >= PullThreshold)
             {
                 _lastRefreshActivation = DateTime.Now;
@@ -300,10 +422,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                     if (_defaultIndicatorContent != null)
                     {
                         _defaultIndicatorContent.Text = ReleaseToRefreshLabel;
                     }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                     if (_pullAndReleaseIndicatorContent != null)
                     {
@@ -323,10 +449,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     pullProgress = _pullDistance / PullThreshold;
                     if (RefreshIndicatorContent == null)
                     {
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                         if (_defaultIndicatorContent != null)
                         {
                             _defaultIndicatorContent.Text = PullToRefreshLabel;
                         }
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
                         if (_pullAndReleaseIndicatorContent != null)
                         {
@@ -411,6 +541,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
+#pragma warning disable CS0612 // Type or member is obsolete
                 if (_defaultIndicatorContent != null && _pullAndReleaseIndicatorContent != null)
                 {
                     _defaultIndicatorContent.Visibility = Visibility.Collapsed;
@@ -419,6 +550,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _defaultIndicatorContent.Visibility = value == null ? Visibility.Visible : Visibility.Collapsed;
                 }
+#pragma warning restore CS0612 // Type or member is obsolete
 
                 if (_pullAndReleaseIndicatorContent != null)
                 {
@@ -473,6 +605,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(ReleaseToRefreshContentProperty); }
             set { SetValue(ReleaseToRefreshContentProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether PullToRefresh is enabled with a mouse
+        /// </summary>
+        public bool IsPullToRefreshWithMouseEnabled
+        {
+            get { return (bool)GetValue(IsPullToRefreshWithMouseEnabledProperty); }
+            set { SetValue(IsPullToRefreshWithMouseEnabledProperty, value); }
         }
     }
 }

@@ -10,24 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
-    /// Based on the Azure portal UI
+    /// Panel that allows for a Master/Details pattern.
     /// </summary>
-    public partial class BladeControl
+    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
+    public partial class MasterDetailsView
     {
         /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is opened
+        /// Occurs when the currently selected item changes.
         /// </summary>
-        public static event EventHandler<BladeItem> BladeOpened;
+        public event SelectionChangedEventHandler SelectionChanged;
 
-        /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is closed
-        /// </summary>
-        public static event EventHandler<BladeItem> BladeClosed;
+        private void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            SelectionChanged?.Invoke(this, e);
+        }
     }
 }

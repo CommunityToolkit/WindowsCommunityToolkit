@@ -10,19 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// Holds the value.
+    /// Can be used to change several objects' properties at a time.
     /// </summary>
-    public partial class Blade
+    [ContentProperty(Name = nameof(Value))]
+    public class BindableValueHolder : DependencyObject
     {
         /// <summary>
-        /// Fires when the blade is opened or closed
+        /// Identifies the <see cref="Value"/> property.
         /// </summary>
-        public event EventHandler<Visibility> VisibilityChanged;
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(BindableValueHolder), null);
+
+        /// <summary>
+        /// Gets or sets the held value.
+        /// </summary>
+        public object Value
+        {
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
     }
 }

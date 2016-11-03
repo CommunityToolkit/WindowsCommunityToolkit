@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>True if a value exists</returns>
         public Task<bool> FileExistsAsync(string filePath)
         {
-            return Folder.IsFileExistsAsync(filePath);
+            return Folder.FileExistsAsync(filePath);
         }
 
         /// <summary>

@@ -10,24 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
-    /// <summary>
-    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
-    /// Based on the Azure portal UI
-    /// </summary>
-    public partial class BladeControl
+    public class Email
     {
-        /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is opened
-        /// </summary>
-        public static event EventHandler<BladeItem> BladeOpened;
+        public string From { get; set; }
 
-        /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is closed
-        /// </summary>
-        public static event EventHandler<BladeItem> BladeClosed;
+        public string Subject { get; set; }
+
+        public string Body { get; set; }
     }
 }

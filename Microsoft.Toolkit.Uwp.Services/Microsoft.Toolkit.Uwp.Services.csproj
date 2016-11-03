@@ -61,6 +61,7 @@
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookAlbum.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\Facebook\FacebookRequestSource.cs" />
     <Compile Include="Services\LinkedIn\LinkedInConstants.cs" />
     <Compile Include="Services\LinkedIn\LinkedInContent.cs" />
     <Compile Include="Services\LinkedIn\LinkedInDataConfig.cs" />
