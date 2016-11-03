@@ -320,6 +320,7 @@
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -336,6 +337,9 @@
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml.cs">
+      <DependentUpon>DispatcherHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
       <DependentUpon>HelpersPage.xaml</DependentUpon>
@@ -490,6 +494,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

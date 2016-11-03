@@ -277,7 +277,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/SamplePages/Helpers/Helpers.png"
-      },      {
+      },
+      {
         "Name": "ConnectionHelper",
         "Type": "ConnectionHelperPage",
         "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
@@ -292,6 +293,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
         "CodeFile": "PrintHelperCode.bind",
         "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
+      },
+      {
+        "Name": "DispatcherHelper",
+        "Type": "DispatcherHelperPage",
+        "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
+        "CodeFile": "DispatcherHelperCode.bind",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       },
       {
         "Name": "More",
