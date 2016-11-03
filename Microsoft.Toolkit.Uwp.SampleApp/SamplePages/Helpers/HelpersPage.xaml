@@ -20,6 +20,8 @@
                              NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/Converters/"/>
             <HyperlinkButton Content="HyperlinkExtensions" 
                              NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/HyperlinkExtensions/"/>
+            <HyperlinkButton Content="SystemInformation" 
+                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/SystemInformation/"/>
             <HyperlinkButton Content="StorageFileHelper" 
                              NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/helpers/StorageFileHelper/"/>
             <HyperlinkButton Content="Streams" 

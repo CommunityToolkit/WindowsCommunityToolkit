@@ -322,6 +322,7 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -409,6 +410,9 @@
     </Compile>
     <Compile Include="SamplePages\Object Storage\ObjectStoragePage.xaml.cs">
       <DependentUpon>ObjectStoragePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SystemInformation\SystemInformationPage.xaml.cs">
+      <DependentUpon>SystemInformationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
@@ -574,6 +578,10 @@
     <Page Include="SamplePages\Object Storage\ObjectStoragePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SystemInformation\SystemInformationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Toast\ToastPage.xaml">
       <Generator>MSBuild:Compile</Generator>

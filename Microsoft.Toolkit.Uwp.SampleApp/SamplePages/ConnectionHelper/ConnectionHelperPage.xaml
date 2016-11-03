@@ -22,6 +22,5 @@
                 <TextBlock x:Name="ConnectionTypeText" Margin="20,0" FontSize="22"></TextBlock>
             </StackPanel>
         </StackPanel>
-        
     </Grid>
 </Page>
