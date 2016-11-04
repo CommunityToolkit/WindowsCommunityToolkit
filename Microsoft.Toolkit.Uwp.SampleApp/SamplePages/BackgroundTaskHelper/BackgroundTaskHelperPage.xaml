@@ -30,7 +30,7 @@
 
         <StackPanel VerticalAlignment="Top">
 
-            <TextBlock Foreground="Red" Text="WARNING: Register Button only works on Anniversary Update (>= 14393)" Margin="5"></TextBlock>
+            <TextBlock Foreground="Red" Text="WARNING: Register Button only works on Anniversary Update (>= 14393)" Margin="5" TextWrapping="Wrap"></TextBlock>
             
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Status:"></TextBlock>
