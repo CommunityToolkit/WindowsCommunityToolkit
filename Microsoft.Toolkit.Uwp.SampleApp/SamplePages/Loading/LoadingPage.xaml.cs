@@ -11,7 +11,9 @@
 // ******************************************************************
 
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -70,7 +72,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void LoadingControl_LoadingRequired(object sender, System.EventArgs e)
         {
-            LoadingContentControl.Blur(1, 3000, 0);
+            if (LoadingControl.IsLoading)
+            {
+                LoadingControl.Background = new SolidColorBrush(Colors.Red);
+                LoadingContentControl.Blur(10, 1000, 0);
+            }
         }
     }
 }

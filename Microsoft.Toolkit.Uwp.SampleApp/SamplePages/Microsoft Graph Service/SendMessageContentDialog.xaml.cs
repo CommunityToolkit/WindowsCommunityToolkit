@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.UI.Popups;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -52,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             string subject = TxtSubject.Text;
             string content;
-            richEditBoxContent.Document.GetText(Windows.UI.Text.TextGetOptions.None, out content);
+            richEditBoxContent.Document.GetText(TextGetOptions.None, out content);
             try
             {
                 await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);

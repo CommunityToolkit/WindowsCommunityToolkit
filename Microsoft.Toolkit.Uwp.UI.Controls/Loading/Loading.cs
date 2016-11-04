@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _backgroundGrid = GetTemplateChild("BackgroundGrid") as Grid;
             _contentGrid = GetTemplateChild("ContentGrid") as ContentPresenter;
 
-            CreateLoadingControl();
-
             OnLoadingRequired();
+
+            CreateLoadingControl();
 
             base.OnApplyTemplate();
         }
