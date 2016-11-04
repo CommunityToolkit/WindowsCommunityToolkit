@@ -11,7 +11,7 @@
         <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
                 <controls:QuickReturnHeader IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}"
-                                            IsSticky="{Binding IsSticky.Value}"
+                                            Sticky="{Binding Sticky.Value}"
                                             Fade="{Binding Fade.Value}"
                                             TargetListViewBase="{x:Bind listView}">
                     <Grid x:Name="MyHeaderGrid"

@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsQuickReturnEnabled), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnIsQuickReturnEnabledChanged));
 
         /// <summary>
-        /// Identifies the <see cref="IsSticky"/> property.
+        /// Identifies the <see cref="Sticky"/> property.
         /// </summary>
-        public static readonly DependencyProperty IsStickyProperty =
-            DependencyProperty.Register(nameof(IsSticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnIsStickyChanged));
+        public static readonly DependencyProperty StickyProperty =
+            DependencyProperty.Register(nameof(Sticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnStickyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Fade"/> property.
@@ -81,10 +81,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// If false the header will move out of view when scrolling down.
         /// Default is false.
         /// </summary>
-        public bool IsSticky
+        public bool Sticky
         {
-            get { return (bool)GetValue(IsStickyProperty); }
-            set { SetValue(IsStickyProperty, value); }
+            get { return (bool)GetValue(StickyProperty); }
+            set { SetValue(StickyProperty, value); }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void OnIsStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var me = d as QuickReturnHeader;
 
@@ -243,7 +243,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_animationProperties != null)
             {
-                if (!IsSticky)
+                if (!Sticky)
                 {
                     float oldOffsetY = 0.0f;
                     _animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
