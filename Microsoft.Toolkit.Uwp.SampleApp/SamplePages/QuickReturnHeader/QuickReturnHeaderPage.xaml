@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
-                <controls:QuickReturnHeader IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}"
+                <controls:QuickReturnHeader QuickReturn="{Binding QuickReturn.Value}"
                                             Sticky="{Binding Sticky.Value}"
                                             Fade="{Binding Fade.Value}"
                                             TargetListViewBase="{x:Bind listView}">

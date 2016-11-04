@@ -40,10 +40,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="IsQuickReturnEnabled"/> property.
+        /// Identifies the <see cref="QuickReturn"/> property.
         /// </summary>
-        public static readonly DependencyProperty IsQuickReturnEnabledProperty =
-            DependencyProperty.Register(nameof(IsQuickReturnEnabled), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnIsQuickReturnEnabledChanged));
+        public static readonly DependencyProperty QuickReturnProperty =
+            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnQuickReturnChanged));
 
         /// <summary>
         /// Identifies the <see cref="Sticky"/> property.
@@ -69,10 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// If false regular header behavior is used.
         /// Default is true.
         /// </summary>
-        public bool IsQuickReturnEnabled
+        public bool QuickReturn
         {
-            get { return (bool)GetValue(IsQuickReturnEnabledProperty); }
-            set { SetValue(IsQuickReturnEnabledProperty, value); }
+            get { return (bool)GetValue(QuickReturnProperty); }
+            set { SetValue(QuickReturnProperty, value); }
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
 
-            if (IsQuickReturnEnabled)
+            if (QuickReturn)
             {
                 StartAnimation();
             }
@@ -168,13 +168,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return null;
         }
 
-        private static void OnIsQuickReturnEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnQuickReturnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var me = d as QuickReturnHeader;
 
             if (me.TargetListViewBase != null)
             {
-                if (me.IsQuickReturnEnabled)
+                if (me.QuickReturn)
                 {
                     me.StartAnimation();
                 }
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 me.StopAnimation();
 
-                if (me.IsQuickReturnEnabled)
+                if (me.QuickReturn)
                 {
                     me.StartAnimation();
                 }
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 StopAnimation();
 
-                if (IsQuickReturnEnabled)
+                if (QuickReturn)
                 {
                     StartAnimation();
                 }
@@ -300,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
             expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
 
-            if (_headerVisual != null && IsQuickReturnEnabled)
+            if (_headerVisual != null && QuickReturn)
             {
                 _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
             }
