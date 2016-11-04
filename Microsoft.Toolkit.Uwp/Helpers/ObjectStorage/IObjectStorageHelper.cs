@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
         /// <param name="key">Key of the value saved</param>
         /// <param name="value">Object to save</param>
-        void Save<T>(string compositeKey, string key, T value)
+        void Save<T>(string compositeKey, string key, T value);
 
         /// <summary>
         /// Detect if a file already exists
