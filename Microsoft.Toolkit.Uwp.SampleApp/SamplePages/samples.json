@@ -292,7 +292,7 @@
         "About": "Allows easy registration and maintainance of background task",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Icon": "/Assets/Helpers.png"
       },
       {
         "Name": "ConnectionHelper",
@@ -300,7 +300,7 @@
         "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
         "CodeFile": "ConnectionHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Icon": "/Assets/Helpers.png"
       },
       {
           "Name": "SystemInformation",
@@ -308,7 +308,7 @@
           "About": "The SystemInformation class provides easy access to some of system/app/device information",
           "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
           "CodeFile": "SystemInformationCode.bind",
-          "Icon": "/SamplePages/Helpers/Helpers.png"
+          "Icon": "/Assets/Helpers.png"
       },      
       {
         "Name": "PrintHelper",
@@ -324,14 +324,7 @@
         "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
         "CodeFile": "DispatcherHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
-      },
-      {
-        "Name": "More",
-        "Type": "HelpersPage",
-        "About": "Find more information about all helpers available in the UWP Community toolkit.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Icon": "/Assets/Helpers.png"
       }
     ]
   }

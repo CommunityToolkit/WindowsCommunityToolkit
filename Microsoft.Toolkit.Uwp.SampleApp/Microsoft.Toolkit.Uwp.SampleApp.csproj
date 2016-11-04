@@ -112,6 +112,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\Helpers.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
     <Content Include="Assets\NotificationAssets\Drizzle-Square.png" />
@@ -243,7 +244,6 @@
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
-    <Content Include="SamplePages\Helpers\Helpers.png" />
     <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
@@ -324,9 +324,8 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
     <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
-	<Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
-	<Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
-    <None Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
+    <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
+    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -347,9 +346,6 @@
     </Compile>
     <Compile Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml.cs">
       <DependentUpon>DispatcherHelperPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Helpers\HelpersPage.xaml.cs">
-      <DependentUpon>HelpersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
       <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
@@ -517,10 +513,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Helpers\HelpersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

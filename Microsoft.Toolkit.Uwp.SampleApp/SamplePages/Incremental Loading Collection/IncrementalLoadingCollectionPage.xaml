@@ -12,7 +12,7 @@
 
     <Grid
         MaxWidth="800"
-        Margin="24"
+        Padding="24"
         Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,13 +23,13 @@
                    Text="Items are loaded incrementally when the view needs to show them (i.e., when the user scrolls the ListView)"
                    TextWrapping="Wrap"/>
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" 
                        Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
-            <TextBlock Grid.Column="1" 
+            <TextBlock Grid.Row="1" 
                        HorizontalAlignment="Center" 
                        Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
         </Grid>
