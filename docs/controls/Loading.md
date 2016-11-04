@@ -38,7 +38,7 @@ An example of how we can build the loading control.
 
 ## Example Image
 
-![Loading animation]( "Loading Xaml Control")
+![Loading animation](../resources/images/LoadingXamlControl.gif "Loading Xaml Control")
 
 ## Example Code
 
