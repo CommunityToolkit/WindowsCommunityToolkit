@@ -10,7 +10,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
       <ListView.Header>
-        <controls:QuickReturnHeader TargetListViewBase="{x:Bind listView}" IsQuickReturnEnabled="@[QuickReturnEnabled:Bool:True]" IsSticky="@[IsSticky:Bool:False]">
+        <controls:QuickReturnHeader TargetListViewBase="{x:Bind listView}" IsQuickReturnEnabled="@[QuickReturnEnabled:Bool:True]" IsSticky="@[IsSticky:Bool:False]" Fade="@[Fade:Bool:False]">
           <Grid x:Name="MyHeaderGrid"
             MinHeight="250"
             Background="{StaticResource Brush-Blue-01}">

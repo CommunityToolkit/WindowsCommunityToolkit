@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
+using Microsoft.Xaml.Interactivity;
 using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -50,6 +52,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsSticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnIsStickyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="Fade"/> property.
+        /// </summary>
+        public static readonly DependencyProperty FadeProperty =
+            DependencyProperty.Register(nameof(Fade), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnFadeChanged));
+
+        /// <summary>
         /// Identifies the <see cref="TargetListViewBase"/> property.
         /// </summary>
         public static readonly DependencyProperty TargetListViewBaseProperty =
@@ -77,6 +85,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsStickyProperty); }
             set { SetValue(IsStickyProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether header fading is enabled.
+        /// If true the header fades in and out.
+        /// If false regular header behavior is used.
+        /// Default is false.
+        /// </summary>
+        public bool Fade
+        {
+            get { return (bool)GetValue(FadeProperty); }
+            set { SetValue(FadeProperty, value); }
         }
 
         /// <summary>
@@ -176,6 +196,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (me.IsQuickReturnEnabled)
                 {
                     me.StartAnimation();
+                }
+            }
+        }
+
+        private static void OnFadeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var me = d as QuickReturnHeader;
+
+            if (me.TargetListViewBase != null)
+            {
+                if (me.Fade)
+                {
+                    var behavior = new FadeHeaderBehavior();
+
+                    Interaction.GetBehaviors(me.TargetListViewBase).Add(behavior);
+                }
+                else
+                {
+                    foreach (var behavior in Interaction.GetBehaviors(me.TargetListViewBase))
+                    {
+                        if (behavior is FadeHeaderBehavior)
+                        {
+                            Interaction.GetBehaviors(me.TargetListViewBase).Remove(behavior);
+                            break;
+                        }
+                    }
                 }
             }
         }

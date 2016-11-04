@@ -12,6 +12,7 @@
             <ListView.Header>
                 <controls:QuickReturnHeader IsQuickReturnEnabled="{Binding QuickReturnEnabled.Value}"
                                             IsSticky="{Binding IsSticky.Value}"
+                                            Fade="{Binding Fade.Value}"
                                             TargetListViewBase="{x:Bind listView}">
                     <Grid x:Name="MyHeaderGrid"
                       MinHeight="250"
