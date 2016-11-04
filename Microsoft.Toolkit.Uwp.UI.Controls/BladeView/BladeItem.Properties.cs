@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// The Blade is used as a child in the BladeView
     /// </summary>
     public partial class BladeItem
     {

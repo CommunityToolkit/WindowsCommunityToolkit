@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// The Blade is used as a child in the BladeView
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
     public partial class BladeItem : ContentControl

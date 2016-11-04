@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static partial class AnimationExtensions
     {
         /// <summary>
-        /// Stores all the point lights along with the visuals that they are applied to. 
+        /// Stores all the point lights along with the visuals that they are applied to.
         /// This is to stop mulitplication of point lights on a single visual.
         /// </summary>
         private static Dictionary<Visual, PointLight> pointLights = new Dictionary<Visual, PointLight>();

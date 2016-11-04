@@ -28,6 +28,11 @@
                         TextWrapping="WrapWholeWords" />
                 </DataTemplate>
             </controls:PullToRefreshListView.ItemTemplate>
+            <controls:PullToRefreshListView.PullToRefreshContent>
+                <TextBlock Text="Pull down to refresh data" 
+                           Opacity="0.5" 
+                           FontSize="16"/>
+            </controls:PullToRefreshListView.PullToRefreshContent>
         </controls:PullToRefreshListView>
     </Grid>
 </Page>

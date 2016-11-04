@@ -6,57 +6,139 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-                    <Setter Property="FontSize" Value="22"/>
-                    <Setter Property="Margin" Value="50,10,10,10"/>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock>
-                <Run Text="Application name: " FontWeight="Bold"/>
-                <Run Text="{x:Bind ApplicationName}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Application version: " FontWeight="Bold"/>
-                <Run Text="{x:Bind ApplicationVersion}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="User's culture: " FontWeight="Bold"/>
-                <Run Text="{x:Bind Culture}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Operating system: " FontWeight="Bold"/>
-                <Run Text="{x:Bind OperatingSystem}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Application name: " FontWeight="Bold"/>
-                <Run Text="{x:Bind OperatingSystemArchitecture}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Operating system version: " FontWeight="Bold"/>
-                <Run Text="{x:Bind OperatingSystemVersion}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Device family: " FontWeight="Bold"/>
-                <Run Text="{x:Bind DeviceFamily}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Device model: " FontWeight="Bold"/>
-                <Run Text="{x:Bind DeviceModel}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Device manufacturer: " FontWeight="Bold"/>
-                <Run Text="{x:Bind DeviceManufacturer}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="Available memory: " FontWeight="Bold"/>
-                <Run Text="{x:Bind AvailableMemory}"/>
-                <Run Text=" MB"/>
-            </TextBlock>
-        </StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="Stack0.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack1.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack2.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack3.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack4.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack5.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack6.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack7.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack8.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack9.Orientation"  Value="Vertical"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <ScrollViewer HorizontalScrollMode="Disabled" 
+                      VerticalScrollMode="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel x:Name="Stack0" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Application name:" 
+                           FontSize="18" 
+                           FontWeight="Bold" 
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind ApplicationName}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack1" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Application version:" 
+                           FontSize="18" 
+                           FontWeight="Bold" 
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind ApplicationVersion}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack2" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="User's culture:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind Culture}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack3" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Operating system:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind OperatingSystem}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack4" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Operating system architecture:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind OperatingSystemArchitecture}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack5" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Operating system version:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind OperatingSystemVersion}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack6" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Device family:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind DeviceFamily}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack7" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Device model:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind DeviceModel}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack8" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Device manufacturer:" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind DeviceManufacturer}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+                <StackPanel x:Name="Stack9" Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Available memory (MB):" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Bind AvailableMemory}" 
+                               TextWrapping="Wrap"
+                               Margin="20,0" 
+                               FontSize="18"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
