@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public BladeView()
         {
             DefaultStyleKey = typeof(BladeView);
-#pragma warning disable CS0618 // Type or member is obsolete
-            Blades = new ObservableCollection<Blade>();
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>
