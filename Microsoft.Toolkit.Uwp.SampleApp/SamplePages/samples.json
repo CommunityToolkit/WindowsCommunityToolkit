@@ -44,6 +44,14 @@
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
       },
       {
+        "Name": "MasterDetailsView",
+        "Type": "MasterDetailsViewPage",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
+        "XamlCodeFile": "MasterDetailsView.bind",
+        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
@@ -239,7 +247,7 @@
         "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
         "ApiCheck": "Windows.System.UserProfile.UserInformation"
       },
-            {
+      {
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
@@ -277,6 +285,46 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
         "CodeFile": "IncrementalLoadingCollectionCode.bind",
         "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+      },
+      {
+        "Name": "BackgroundTaskHelper",
+        "Type": "BackgroundTaskHelperPage",
+        "About": "Allows easy registration and maintainance of background task",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
+        "CodeFile": "BackgroundTaskHelperCode.bind",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
+      },
+      {
+        "Name": "ConnectionHelper",
+        "Type": "ConnectionHelperPage",
+        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
+        "CodeFile": "ConnectionHelperCode.bind",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
+      },
+      {
+          "Name": "SystemInformation",
+          "Type": "SystemInformationPage",
+          "About": "The SystemInformation class provides easy access to some of system/app/device information",
+          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+          "CodeFile": "SystemInformationCode.bind",
+          "Icon": "/SamplePages/Helpers/Helpers.png"
+      },      
+      {
+        "Name": "PrintHelper",
+        "Type": "PrintHelperPage",
+        "About": "Allows to easily print XAML controls",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
+        "CodeFile": "PrintHelperCode.bind",
+        "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
+      },
+      {
+        "Name": "DispatcherHelper",
+        "Type": "DispatcherHelperPage",
+        "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
+        "CodeFile": "DispatcherHelperCode.bind",
+        "Icon": "/SamplePages/Helpers/Helpers.png"
       },
       {
         "Name": "More",

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public LinkedInPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             var loggedIn = await LinkedInService.Instance.LoginAsync();
 
-            if (loggedIn == true)
+            if (loggedIn)
             {
                 var profile = await LinkedInService.Instance.GetUserProfileAsync();
 

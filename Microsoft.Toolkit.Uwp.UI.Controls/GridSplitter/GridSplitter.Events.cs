@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
-            InitControl();
 
             // Adding Grip to Grid Splitter
             if (Element == default(UIElement))
@@ -124,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Star);
                         }
-                        else
+                        else if (IsStarColumn(columnDefinition))
                         {
                             columnDefinition.Width = new GridLength(columnDefinition.ActualWidth, GridUnitType.Star);
                         }
@@ -174,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Star);
                         }
-                        else
+                        else if (IsStarRow(rowDefinition))
                         {
                             rowDefinition.Height = new GridLength(rowDefinition.ActualHeight, GridUnitType.Star);
                         }

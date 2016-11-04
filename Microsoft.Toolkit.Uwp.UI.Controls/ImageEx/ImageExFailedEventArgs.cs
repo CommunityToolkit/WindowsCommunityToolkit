@@ -21,6 +21,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ImageExFailedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageExFailedEventArgs"/> class.
+        /// </summary>
+        /// <param name="errorException">exception that caused the error condition</param>
         public ImageExFailedEventArgs(Exception errorException)
         {
             ErrorException = errorException;

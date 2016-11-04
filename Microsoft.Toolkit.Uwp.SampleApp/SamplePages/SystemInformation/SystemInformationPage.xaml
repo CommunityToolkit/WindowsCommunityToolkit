@@ -1,0 +1,62 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SystemInformationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                    <Setter Property="FontSize" Value="22"/>
+                    <Setter Property="Margin" Value="50,10,10,10"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock>
+                <Run Text="Application name: " FontWeight="Bold"/>
+                <Run Text="{x:Bind ApplicationName}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Application version: " FontWeight="Bold"/>
+                <Run Text="{x:Bind ApplicationVersion}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="User's culture: " FontWeight="Bold"/>
+                <Run Text="{x:Bind Culture}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Operating system: " FontWeight="Bold"/>
+                <Run Text="{x:Bind OperatingSystem}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Application name: " FontWeight="Bold"/>
+                <Run Text="{x:Bind OperatingSystemArchitecture}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Operating system version: " FontWeight="Bold"/>
+                <Run Text="{x:Bind OperatingSystemVersion}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Device family: " FontWeight="Bold"/>
+                <Run Text="{x:Bind DeviceFamily}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Device model: " FontWeight="Bold"/>
+                <Run Text="{x:Bind DeviceModel}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Device manufacturer: " FontWeight="Bold"/>
+                <Run Text="{x:Bind DeviceManufacturer}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Available memory: " FontWeight="Bold"/>
+                <Run Text="{x:Bind AvailableMemory}"/>
+                <Run Text=" MB"/>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

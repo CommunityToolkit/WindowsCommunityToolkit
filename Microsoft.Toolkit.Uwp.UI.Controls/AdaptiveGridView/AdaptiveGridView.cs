@@ -10,9 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -27,39 +28,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
     /// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
     /// new column.</remarks>
-    [TemplatePart(Name = "ListView", Type = typeof(ListViewBase))]
-    public partial class AdaptiveGridView : Control, ISemanticZoomInformation
+    public partial class AdaptiveGridView : GridView
     {
-        private int _columns;
-        private bool _isInitialized;
-        private ListViewBase _listView;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
         public AdaptiveGridView()
         {
             IsTabStop = false;
-            DefaultStyleKey = typeof(AdaptiveGridView);
+            SizeChanged += OnSizeChanged;
+            ItemClick += OnItemClick;
+            Items.VectorChanged += ItemsOnVectorChanged;
         }
 
-        private void RecalculateLayout(double containerWidth)
+        /// <summary>
+        /// Prepares the specified element to display the specified item.
+        /// </summary>
+        /// <param name="obj">The element that's used to display the specified item.</param>
+        /// <param name="item">The item to display.</param>
+        protected override void PrepareContainerForItemOverride(DependencyObject obj, object item)
         {
-            if (containerWidth == 0 || DesiredWidth == 0)
+            base.PrepareContainerForItemOverride(obj, item);
+            var element = obj as FrameworkElement;
+            if (element != null)
             {
-                return;
+                var heightBinding = new Binding()
+                {
+                    Source = this,
+                    Path = new PropertyPath("ItemHeight"),
+                    Mode = BindingMode.TwoWay
+                };
+
+                var widthBinding = new Binding()
+                {
+                    Source = this,
+                    Path = new PropertyPath("ItemWidth"),
+                    Mode = BindingMode.TwoWay
+                };
+
+                element.SetBinding(FrameworkElement.HeightProperty, heightBinding);
+                element.SetBinding(FrameworkElement.WidthProperty, widthBinding);
+            }
+        }
+
+        /// <summary>
+        /// Calculates the width of the grid items.
+        /// </summary>
+        /// <param name="containerWidth">The width of the container control.</param>
+        /// <returns>The calculated item width.</returns>
+        protected virtual double CalculateItemWidth(double containerWidth)
+        {
+            double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
+
+            var columns = CalculateColumns(containerWidth, desiredWidth);
+
+            // If there's less items than there's columns, reduce the column count (if requested);
+            if (Items != null && Items.Count > 0 && Items.Count < columns && StretchContentForSingleRow)
+            {
+                columns = Items.Count;
             }
 
-            _columns = CalculateColumns(containerWidth, DesiredWidth);
-
-            // If there's less items than there's columns, reduce the column count;
-            if (_listView != null && _listView.Items != null
-                && _listView.Items.Count > 0 && _listView.Items.Count < _columns)
-            {
-                _columns = _listView.Items.Count;
-            }
-
-            ItemWidth = (containerWidth / _columns) - 5;
+            return (containerWidth / columns) - 5;
         }
 
         /// <summary>
@@ -70,66 +99,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            if (_listView != null)
-            {
-                _listView.SizeChanged -= ListView_SizeChanged;
-                _listView.ItemClick -= ListView_ItemClick;
-                _listView.Items.VectorChanged -= ListViewItems_VectorChanged;
-                _listView.SelectionChanged -= ListView_SelectionChanged;
-                _listView = null;
-            }
 
-            _listView = GetTemplateChild("ListView") as ListViewBase;
-            if (_listView != null)
-            {
-                _listView.SizeChanged += ListView_SizeChanged;
-                _listView.ItemClick += ListView_ItemClick;
-                _listView.Items.VectorChanged += ListViewItems_VectorChanged;
-                _listView.SelectionChanged += ListView_SelectionChanged;
-            }
-
-            _isInitialized = true;
             OnOneRowModeEnabledChanged(this, OneRowModeEnabled);
-            InitializeBindings();
         }
 
-        private void InitializeBindings()
+        private void ItemsOnVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
         {
-            // Set bindings from base control.
-            var selectedItemBinding = new Binding()
-            {
-                Source = this,
-                Path = new PropertyPath("SelectedItem"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var selectionIndexBinding = new Binding()
-            {
-                Source = this,
-                Path = new PropertyPath("SelectedIndex"),
-                Mode = BindingMode.TwoWay
-            };
-
-            _listView.SetBinding(Selector.SelectedItemProperty, selectedItemBinding);
-            _listView.SetBinding(Selector.SelectedIndexProperty, selectionIndexBinding);
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectionChanged?.Invoke(this, e);
-        }
-
-        private void ListViewItems_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
-        {
-            if (_listView != null && !double.IsNaN(_listView.ActualWidth))
+            if (!double.IsNaN(ActualWidth))
             {
                 // If the item count changes, check if more or less columns needs to be rendered,
                 // in case we were having fewer items than columns.
-                RecalculateLayout(_listView.ActualWidth);
+                RecalculateLayout(ActualWidth);
             }
         }
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void OnItemClick(object sender, ItemClickEventArgs e)
         {
             var cmd = ItemClickCommand;
             if (cmd != null)
@@ -139,11 +123,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     cmd.Execute(e.ClickedItem);
                 }
             }
-
-            ItemClick?.Invoke(this, e);
         }
 
-        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // If the width of the internal list view changes, check if more or less columns needs to be rendered.
             if (e.PreviousSize.Width != e.NewSize.Width)
@@ -152,76 +134,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Initializes the changes to related aspects of presentation (such as scrolling UI or state)
-        /// when the overall view for a SemanticZoom is about to change.
-        /// </summary>
-        public void InitializeViewChange()
+        private void RecalculateLayout(double containerWidth)
         {
-        }
-
-        /// <summary>
-        /// Changes related aspects of presentation(such as scrolling UI or state)
-        /// when the overall view for a SemanticZoom changes.
-        /// </summary>
-        public void CompleteViewChange()
-        {
-        }
-
-        /// <summary>
-        /// Forces content in the view to scroll until the item specified by SemanticZoomLocation is visible.
-        /// Also focuses that item if found.
-        /// </summary>
-        /// <param name="item">The item in the view to scroll to.</param>
-        public void MakeVisible(SemanticZoomLocation item)
-        {
-        }
-
-        /// <summary>
-        /// Initializes item-wise operations related to a view change
-        /// when the implementing view is the source view and the pending
-        /// destination view is a potentially different implementing view.
-        /// </summary>
-        /// <param name="source">The view item as represented in the source view.</param>
-        /// <param name="destination">The view item as represented in the destination view.</param>
-        public void StartViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
-        {
-            destination.Item = SelectedItem;
-        }
-
-        /// <summary>
-        /// Initializes item-wise operations related to a view change
-        /// when the source view is a different view and the pending
-        /// destination view is the implementing view.
-        /// </summary>
-        /// <param name="source">The view item as represented in the source view.</param>
-        /// <param name="destination">The view item as represented in the destination view.</param>
-        public void StartViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
-        {
-        }
-
-        /// <summary>
-        /// Completes item-wise operations related to a view change
-        /// when the implementing view is the source view and the new view is a potentially
-        /// different implementing view.
-        /// </summary>
-        /// <param name="source">The view item as represented in the source view.</param>
-        /// <param name="destination">The view item as represented in the destination view.</param>
-        public void CompleteViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
-        {
-        }
-
-        /// <summary>
-        /// Completes item-wise operations related to a view change
-        /// when the implementing view is the destination view and the source view is a potentially
-        /// different implementing view.
-        /// </summary>
-        /// <param name="source">The view item as represented in the source view.</param>
-        /// <param name="destination">The view item as represented in the destination view.</param>
-        public void CompleteViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
-        {
-            SelectedItem = source.Item;
-            Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            if (containerWidth > 0)
+            {
+                ItemWidth = CalculateItemWidth(containerWidth);
+            }
         }
     }
 }

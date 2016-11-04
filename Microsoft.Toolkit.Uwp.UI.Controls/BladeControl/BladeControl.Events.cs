@@ -15,19 +15,19 @@ using System;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
     public partial class BladeControl
     {
         /// <summary>
-        /// Fires whenever a <see cref="Blade"/> is opened
+        /// Fires whenever a <see cref="BladeItem"/> is opened
         /// </summary>
-        public static event EventHandler<Blade> BladeOpened;
+        public static event EventHandler<BladeItem> BladeOpened;
 
         /// <summary>
-        /// Fires whenever a <see cref="Blade"/> is closed
+        /// Fires whenever a <see cref="BladeItem"/> is closed
         /// </summary>
-        public static event EventHandler<Blade> BladeClosed;
+        public static event EventHandler<BladeItem> BladeClosed;
     }
 }
