@@ -21,17 +21,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl : ItemsControl
+    public partial class BladeView : ItemsControl
     {
         private ScrollViewer _scrollViewer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BladeControl"/> class.
+        /// Initializes a new instance of the <see cref="BladeView"/> class.
         /// </summary>
-        public BladeControl()
+        public BladeView()
         {
-            DefaultStyleKey = typeof(BladeControl);
-            Blades = new ObservableCollection<Blade>();
+            DefaultStyleKey = typeof(BladeView);
         }
 
         /// <summary>

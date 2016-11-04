@@ -9,7 +9,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
     </Style>
 
-    <Style TargetType="controls:BladeControl">
+    <Style TargetType="controls:BladeView">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="TabNavigation" Value="Once"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -41,7 +41,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:BladeControl">
+                <ControlTemplate TargetType="controls:BladeView">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             Background="{TemplateBinding Background}">

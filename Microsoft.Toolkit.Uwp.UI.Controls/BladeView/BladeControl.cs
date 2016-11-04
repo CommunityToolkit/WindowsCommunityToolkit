@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Windows.Foundation.Metadata;
@@ -24,8 +25,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl
+    [Deprecated("The BladeControl class has been replaced with the BladeView class. Please use that going forward", DeprecationType.Deprecate, 1)]
+    public class BladeControl : BladeView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BladeControl"/> class.
+        /// </summary>
+        public BladeControl()
+        {
+            Blades = new ObservableCollection<Blade>();
+        }
+
         /// <summary>
         /// Identifies the <see cref="Blades"/> dependency property.
         /// </summary>
@@ -37,30 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         [Deprecated("This property has been deprecated. Please use the IsOpen property of the BladeItem.", DeprecationType.Deprecate, 1)]
         public static readonly DependencyProperty ToggleBladeProperty = DependencyProperty.RegisterAttached(nameof(ToggleBlade), typeof(string), typeof(BladeControl), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="ActiveBlades"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeControl), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets a collection of visible blades
-        /// </summary>
-        public IList<BladeItem> ActiveBlades
-        {
-            get { return (IList<BladeItem>)GetValue(ActiveBladesProperty); }
-            set { SetValue(ActiveBladesProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a collection of blades
-        /// </summary>
-        [Deprecated("This property has been replaced with the Items property of the control. It is no longer required to place content within the Blades property.", DeprecationType.Deprecate, 1)]
-        public IList<Blade> Blades
-        {
-            get { return (IList<Blade>)GetValue(BladesProperty); }
-            set { SetValue(BladesProperty, value); }
-        }
 
         /// <summary>
         /// Sets the ID of a blade to toggle on a UIElement tap
@@ -87,17 +73,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return element.GetValue(ToggleBladeProperty).ToString();
         }
 
+        /// <summary>
+        /// Gets or sets a collection of blades
+        /// </summary>
+        [Deprecated("This property has been replaced with the Items property of the control. It is no longer required to place content within the Blades property.", DeprecationType.Deprecate, 1)]
+        public IList<Blade> Blades
+        {
+            get { return (IList<Blade>)GetValue(BladesProperty); }
+            set { SetValue(BladesProperty, value); }
+        }
+
+        /// <summary>
+        /// Fired when the deprecated Blades property changes.
+        /// Handles moving items from the Blades collection to the Items collection.
+        /// Subscribes to the CollectionChanged event if Blades implements INotifyCollectionChanged
+        /// in order to add or remove Blades from the Items collection.
+        /// </summary>
+        /// <param name="d">The sender.</param>
+        /// <param name="e">The event args.</param>
         private static void OnBladesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var bladeControl = (BladeControl)d;
-            if (bladeControl.Blades != null)
+            IList<Blade> blades = bladeControl.Blades;
+            if (blades != null)
             {
-                foreach (var blade in bladeControl.Blades)
+                foreach (var blade in blades)
                 {
                     bladeControl.Items.Add(blade);
                 }
 
-                var collection = bladeControl.Blades as INotifyCollectionChanged;
+                var collection = blades as INotifyCollectionChanged;
                 if (collection != null)
                 {
                     collection.CollectionChanged += bladeControl.OnBladeCollectionChanged;
@@ -110,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Button pressedButton = sender as Button;
             string bladeName = GetToggleBlade(pressedButton);
             BladeControl container = pressedButton.FindVisualAscendant<BladeControl>();
-            var blade = container.Items.OfType<BladeItem>().FirstOrDefault(_ => _.BladeId == bladeName);
+            var blade = container.Items.OfType<Blade>().FirstOrDefault(_ => _.BladeId == bladeName);
 
             if (blade == null)
             {

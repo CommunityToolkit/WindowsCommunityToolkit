@@ -146,7 +146,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HideInfoArea();
 
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
         }
 
         private void UpdateRootGridMinWidth()
@@ -220,6 +219,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="backRequestedEventArgs">The <see cref="BackRequestedEventArgs"/> instance containing the event data.</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs backRequestedEventArgs)
         {
+            if (backRequestedEventArgs.Handled)
+            {
+                return;
+            }
+
             if (NavigationFrame.CanGoBack)
             {
                 backRequestedEventArgs.Handled = true;
@@ -246,9 +250,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
         private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
+            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+
+            // subscribe to the BackRequested event when the content is loaded.
+            // This allows the content to subscribe to BackRequested and handle
+            // it without navigating back
+            var element = navigationEventArgs.Content as FrameworkElement;
+            if (element != null)
+            {
+                element.Loaded += ElementOnLoaded;
+            }
+
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Fired when the content of navigation is loaded.
+        /// </summary>
+        /// <param name="sender">The sender of the loaded event.</param>
+        /// <param name="routedEventArgs">the <see cref="RoutedEventArgs"/> of the event.</param>
+        /// <remarks>
+        /// When the content is loaded we will subscribe to the BackRequested
+        /// event. This allows the content to handle the BackRequested event
+        /// before the Shell to prevent navigating back
+        /// </remarks>
+        private void ElementOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            var element = (FrameworkElement)sender;
+            element.Loaded -= ElementOnLoaded;
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
