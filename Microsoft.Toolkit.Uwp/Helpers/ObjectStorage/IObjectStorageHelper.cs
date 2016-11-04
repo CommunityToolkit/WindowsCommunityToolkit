@@ -28,6 +28,14 @@ namespace Microsoft.Toolkit.Uwp
         bool KeyExists(string key);
 
         /// <summary>
+        /// Detect if a setting already exists in a composite.
+        /// </summary>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the setting (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        bool KeyExists(string compositeKey, string key);
+
+        /// <summary>
         /// Retrieve single item by its key
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
@@ -37,12 +45,33 @@ namespace Microsoft.Toolkit.Uwp
         T Read<T>(string key, T @default = default(T));
 
         /// <summary>
+        /// Retrieve single item by its key in composite.
+        /// </summary>
+        /// <typeparam name="T">Type of object retrieved</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the object</param>
+        /// <param name="default">Default value of the object</param>
+        /// <returns>The T object</returns>
+        T Read<T>(string compositeKey, string key, T @default = default(T));
+
+        /// <summary>
         /// Save single item by its key
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="key">Key of the value saved</param>
         /// <param name="value">Object to save</param>
         void Save<T>(string key, T value);
+
+        /// <summary>
+        /// Save single item by its key in composite.
+        /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
+        /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects).
+        /// </summary>
+        /// <typeparam name="T">Type of object saved</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the value saved</param>
+        /// <param name="value">Object to save</param>
+        void Save<T>(string compositeKey, string key, T value)
 
         /// <summary>
         /// Detect if a file already exists
