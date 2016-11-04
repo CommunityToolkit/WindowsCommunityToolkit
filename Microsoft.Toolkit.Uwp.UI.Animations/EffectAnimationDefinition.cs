@@ -21,9 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     internal class EffectAnimationDefinition
     {
         /// <summary>
-        /// Gets or sets <see cref="CompositionEffectBrush"/> that will be animated
+        /// Gets or sets <see cref="CompositionObject"/> that will be animated
         /// </summary>
-        public CompositionEffectBrush EffectBrush { get; set; }
+        public CompositionObject EffectBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="CompositionAnimation"/>
