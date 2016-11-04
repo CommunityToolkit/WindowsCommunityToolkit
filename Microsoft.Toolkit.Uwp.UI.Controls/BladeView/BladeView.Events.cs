@@ -11,18 +11,23 @@
 // ******************************************************************
 
 using System;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
+    /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeItem
+    public partial class BladeView
     {
         /// <summary>
-        /// Fires when the blade is opened or closed
+        /// Fires whenever a <see cref="BladeItem"/> is opened
         /// </summary>
-        public event EventHandler<Visibility> VisibilityChanged;
+        public static event EventHandler<BladeItem> BladeOpened;
+
+        /// <summary>
+        /// Fires whenever a <see cref="BladeItem"/> is closed
+        /// </summary>
+        public static event EventHandler<BladeItem> BladeClosed;
     }
 }
