@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,7 +32,7 @@ namespace Microsoft.Windows.Toolkit.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as Microsoft.Toolkit.Uwp.SampleApp.Models.PropertyDescriptor;
+            var propertyDesc = e.Parameter as PropertyDescriptor;
 
             if (propertyDesc != null)
             {

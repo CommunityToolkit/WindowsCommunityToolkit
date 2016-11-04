@@ -23,20 +23,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Loading
     {
+        /// <summary>
+        /// EventHandler who enables manipulation of the content before control appears.
+        /// </summary>
         public event EventHandler LoadingRequired;
 
+        /// <summary>
+        /// Identifies the <see cref="LoadingVerticalAlignment"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LoadingVerticalAlignmentProperty = DependencyProperty.Register(
             nameof(LoadingVerticalAlignment), typeof(VerticalAlignment), typeof(Loading), new PropertyMetadata(default(VerticalAlignment)));
 
+        /// <summary>
+        /// Identifies the <see cref="LoadingHorizontalAlignment"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LoadingHorizontalAlignmentProperty = DependencyProperty.Register(
             nameof(LoadingHorizontalAlignment), typeof(HorizontalAlignment), typeof(Loading), new PropertyMetadata(default(HorizontalAlignment)));
 
+        /// <summary>
+        /// Identifies the <see cref="IsLoading"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
             nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
+        /// <summary>
+        /// Identifies the <see cref="LoadingOpacity"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LoadingOpacityProperty = DependencyProperty.Register(
             nameof(LoadingOpacity), typeof(double), typeof(Loading), new PropertyMetadata(default(double)));
 
+        /// <summary>
+        /// Identifies the <see cref="LoadingBackground"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LoadingBackgroundProperty = DependencyProperty.Register(
             nameof(LoadingBackground), typeof(SolidColorBrush), typeof(Loading), new PropertyMetadata(default(SolidColorBrush)));
 
@@ -45,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ContentPresenter _contentGrid;
 
         /// <summary>
-        /// Gets or sets loadingVerticalAlignment
+        /// Gets or sets how a child element is vertically positioned or stretched.
         /// </summary>
         public VerticalAlignment LoadingVerticalAlignment
         {
@@ -54,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets loadingHorizontalAlignment
+        /// Gets or sets where an element should be displayed on the horizontal axis.
         /// </summary>
         public HorizontalAlignment LoadingHorizontalAlignment
         {
@@ -63,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether isLoading
+        /// Gets or sets a value indicating whether isLoading.
         /// </summary>
         public bool IsLoading
         {
@@ -72,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets loadingOpacity
+        /// Gets or sets the opacity for the panel who appears and disappears behind our custom control.
         /// </summary>
         public double LoadingOpacity
         {
@@ -81,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets loadingBackground
+        /// Gets or sets the background for the panel who appears and disappears behind our custom control.
         /// </summary>
         public SolidColorBrush LoadingBackground
         {
