@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -24,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class BladeView : ItemsControl
     {
         private ScrollViewer _scrollViewer;
+
+        private Dictionary<BladeItem, Vector2> _cachedBladeItemSizes = new Dictionary<BladeItem, Vector2>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeView"/> class.
