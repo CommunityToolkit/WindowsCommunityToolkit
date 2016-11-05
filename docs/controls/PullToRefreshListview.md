@@ -4,7 +4,11 @@ The **PullToRefreshListView Control**, is derived from the built-in List View in
 
 This control is very common on mobile devices, where the user can pull from the top to force a content refresh in applications like Twitter.
 
-By default, the control uses the properties *PullToRefreshLabel* and *ReleaseToRefreshLabel* to provide a visual indication to the user. The *RefreshIndicatorContent* can be used with the *PullProgressChanged* event to provide a custom visual for the user.  
+This control uses the *PullToRefreshLabel* and *ReleaseToRefreshLabel* properties to provide a visual indication to the user.
+
+If you want more than a text to display, you can then use *PullToRefreshContent* and *ReleaseToRefreshContent*. In this case the *PullToRefreshLabel* and *ReleaseToRefreshLabel* properties will be ignored.
+
+The *RefreshIndicatorContent* can be used with the *PullProgressChanged* event to provide a custom visual for the user.
 
 ## Syntax
 
@@ -16,7 +20,10 @@ By default, the control uses the properties *PullToRefreshLabel* and *ReleaseToR
 	PullThreshold="100"
 	RefreshRequested="ListView_RefreshCommand" 
 	PullProgressChanged="ListView_PullProgressChanged">
-</controls:PullToRefreshListView.ItemTemplate>
+	<controls:PullToRefreshListView.RefreshIndicatorContent>
+		<Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
+	</controls:PullToRefreshListView.RefreshIndicatorContent>
+</controls:PullToRefreshListView>
 
 ```
 

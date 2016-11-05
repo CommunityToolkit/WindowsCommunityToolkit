@@ -63,6 +63,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
+
+        /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>
         public double OpenPaneLength
@@ -158,8 +168,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object SelectedItem
         {
-            get { return _buttonsListView.SelectedItem; }
-            set { _buttonsListView.SelectedItem = value; }
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
@@ -167,8 +177,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public int SelectedIndex
         {
-            get { return _buttonsListView.SelectedIndex; }
-            set { _buttonsListView.SelectedIndex = value; }
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
         }
     }
 }

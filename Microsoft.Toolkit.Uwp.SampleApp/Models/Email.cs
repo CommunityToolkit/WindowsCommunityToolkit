@@ -10,19 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Windows.UI.Xaml;
-
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
-    /// <summary>
-    /// The Blade is used as a child in the BladeControl
-    /// </summary>
-    public partial class Blade
+    public class Email
     {
-        /// <summary>
-        /// Fires when the blade is opened or closed
-        /// </summary>
-        public event EventHandler<Visibility> VisibilityChanged;
+        public string From { get; set; }
+
+        public string Subject { get; set; }
+
+        public string Body { get; set; }
     }
 }

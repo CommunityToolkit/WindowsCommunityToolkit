@@ -8,20 +8,54 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="Stack0.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack1.Orientation"  Value="Vertical"/>
+                        <Setter Target="Stack2.Orientation"  Value="Vertical"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Is Internet Available:" FontSize="22" FontWeight="Bold"></TextBlock>
-                <TextBlock x:Name="IsInternetAvailableText" Margin="20,0" FontSize="22"></TextBlock>
+            <StackPanel x:Name="Stack0" Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Is Internet Available:" 
+                           FontSize="22" 
+                           FontWeight="Bold" 
+                           TextWrapping="Wrap"/>
+                <TextBlock x:Name="IsInternetAvailableText" 
+                           Margin="20,0" 
+                           FontSize="22"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Is Internet On Metered Connection:" FontSize="22" FontWeight="Bold"></TextBlock>
-                <TextBlock x:Name="IsInternetOnMeteredConnectionText" Margin="20,0" FontSize="22"></TextBlock>
+            <StackPanel x:Name="Stack1" Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Is Internet On Metered Connection:" 
+                           FontSize="22" 
+                           FontWeight="Bold" 
+                           TextWrapping="Wrap"/>
+                <TextBlock x:Name="IsInternetOnMeteredConnectionText" 
+                           Margin="20,0" 
+                           FontSize="22"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Connection Type:" FontSize="22" FontWeight="Bold"></TextBlock>
-                <TextBlock x:Name="ConnectionTypeText" Margin="20,0" FontSize="22"></TextBlock>
+            <StackPanel x:Name="Stack2" Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Connection Type:" 
+                           FontSize="22" 
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
+                <TextBlock x:Name="ConnectionTypeText" 
+                           Margin="20,0" 
+                           FontSize="22"/>
             </StackPanel>
         </StackPanel>
-        
     </Grid>
 </Page>

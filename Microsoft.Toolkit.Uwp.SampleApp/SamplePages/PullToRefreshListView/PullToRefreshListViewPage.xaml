@@ -17,6 +17,7 @@
             Background="White"
             ItemsSource="{x:Bind _items}"
             OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
+            IsPullToRefreshWithMouseEnabled="{Binding IsPullToRefreshWithMouseEnabled.Value, Mode=OneWay}"
             PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
             RefreshRequested="ListView_RefreshCommand">
             <controls:PullToRefreshListView.ItemTemplate>
@@ -27,6 +28,11 @@
                         TextWrapping="WrapWholeWords" />
                 </DataTemplate>
             </controls:PullToRefreshListView.ItemTemplate>
+            <controls:PullToRefreshListView.PullToRefreshContent>
+                <TextBlock Text="Pull down to refresh data" 
+                           Opacity="0.5" 
+                           FontSize="16"/>
+            </controls:PullToRefreshListView.PullToRefreshContent>
         </controls:PullToRefreshListView>
     </Grid>
 </Page>

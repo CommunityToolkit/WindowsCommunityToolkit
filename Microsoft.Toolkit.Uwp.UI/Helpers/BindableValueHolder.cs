@@ -10,24 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
-    /// A container that hosts <see cref="Blade"/> controls in a horizontal scrolling list
-    /// Based on the Azure portal UI
+    /// Holds the value.
+    /// Can be used to change several objects' properties at a time.
     /// </summary>
-    public partial class BladeControl
+    [ContentProperty(Name = nameof(Value))]
+    public class BindableValueHolder : DependencyObject
     {
         /// <summary>
-        /// Fires whenever a <see cref="Blade"/> is opened
+        /// Identifies the <see cref="Value"/> property.
         /// </summary>
-        public static event EventHandler<Blade> BladeOpened;
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(BindableValueHolder), null);
 
         /// <summary>
-        /// Fires whenever a <see cref="Blade"/> is closed
+        /// Gets or sets the held value.
         /// </summary>
-        public static event EventHandler<Blade> BladeClosed;
+        public object Value
+        {
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
     }
 }

@@ -10,18 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using System;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
+    /// Based on the Azure portal UI
     /// </summary>
-    public sealed partial class HelpersPage : Page
+    public partial class BladeView
     {
-        public HelpersPage()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Fires whenever a <see cref="BladeItem"/> is opened
+        /// </summary>
+        public static event EventHandler<BladeItem> BladeOpened;
+
+        /// <summary>
+        /// Fires whenever a <see cref="BladeItem"/> is closed
+        /// </summary>
+        public static event EventHandler<BladeItem> BladeClosed;
     }
 }

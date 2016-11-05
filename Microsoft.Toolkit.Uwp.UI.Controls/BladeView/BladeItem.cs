@@ -16,19 +16,19 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// The Blade is used as a child in the BladeView
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-    public partial class Blade : Control
+    public partial class BladeItem : ContentControl
     {
         private Button _closeButton;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Blade"/> class.
+        /// Initializes a new instance of the <see cref="BladeItem"/> class.
         /// </summary>
-        public Blade()
+        public BladeItem()
         {
-            DefaultStyleKey = typeof(Blade);
+            DefaultStyleKey = typeof(BladeItem);
         }
 
         /// <summary>

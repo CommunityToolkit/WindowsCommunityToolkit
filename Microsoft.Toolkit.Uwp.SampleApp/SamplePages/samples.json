@@ -44,6 +44,14 @@
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
       },
       {
+        "Name": "MasterDetailsView",
+        "Type": "MasterDetailsViewPage",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
+        "XamlCodeFile": "MasterDetailsView.bind",
+        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
@@ -76,12 +84,12 @@
         "Icon": "/SamplePages/RotatorTile/RotatorTile.png"
       },
       {
-        "Name": "BladeControl",
+        "Name": "BladeView",
         "Type": "BladePage",
-        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
+        "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
-        "Icon": "/SamplePages/BladeControl/BladeControl.png"
+        "Icon": "/SamplePages/BladeView/BladeView.png"
       },
       {
         "Name": "GridSplitter",
@@ -231,7 +239,7 @@
         "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
         "ApiCheck": "Windows.System.UserProfile.UserInformation"
       },
-            {
+      {
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
@@ -276,15 +284,24 @@
         "About": "Allows easy registration and maintainance of background task",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
-      },      {
+        "Icon": "/Assets/Helpers.png"
+      },
+      {
         "Name": "ConnectionHelper",
         "Type": "ConnectionHelperPage",
         "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
         "CodeFile": "ConnectionHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Icon": "/Assets/Helpers.png"
       },
+      {
+          "Name": "SystemInformation",
+          "Type": "SystemInformationPage",
+          "About": "The SystemInformation class provides easy access to some of system/app/device information",
+          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+          "CodeFile": "SystemInformationCode.bind",
+          "Icon": "/Assets/Helpers.png"
+      },      
       {
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
@@ -294,11 +311,12 @@
         "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
       },
       {
-        "Name": "More",
-        "Type": "HelpersPage",
-        "About": "Find more information about all helpers available in the UWP Community toolkit.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Name": "DispatcherHelper",
+        "Type": "DispatcherHelperPage",
+        "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
+        "CodeFile": "DispatcherHelperCode.bind",
+        "Icon": "/Assets/Helpers.png"
       }
     ]
   }
