@@ -12,7 +12,6 @@
 
 using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -33,14 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(BladeView);
 
-            Loaded += (sender, e) =>
-            {
-                if (FullScreenBlades)
-                {
-                    HandleFullScreenBlades();
-                }
-            };
-            Window.Current.SizeChanged += WindowSizeChanged;
+            Loaded += (sender, e) => AdjustBladeItemSize();
+            SizeChanged += (sender, e) => AdjustBladeItemSize();
         }
 
         /// <summary>
@@ -50,11 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
             CycleBlades();
-
-            if (FullScreenBlades)
-            {
-                HandleFullScreenBlades();
-            }
+            AdjustBladeItemSize();
         }
 
         /// <summary>
@@ -136,24 +125,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
         }
 
-        private void WindowSizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void AdjustBladeItemSize()
         {
             if (FullScreenBlades)
             {
-                HandleFullScreenBlades();
-            }
-        }
+                GetScrollViewer();
 
-        private void HandleFullScreenBlades()
-        {
-            GetScrollViewer();
-
-            if (_scrollViewer != null)
-            {
-                foreach (BladeItem blade in Items)
+                if (_scrollViewer != null)
                 {
-                    blade.Width = _scrollViewer.ActualWidth;
-                    blade.Height = _scrollViewer.ActualHeight;
+                    foreach (BladeItem blade in Items)
+                    {
+                        blade.Width = _scrollViewer.ActualWidth;
+                        blade.Height = _scrollViewer.ActualHeight;
+                    }
                 }
             }
         }
