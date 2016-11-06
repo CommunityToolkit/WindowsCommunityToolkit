@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Numerics;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private ScrollViewer _scrollViewer;
 
-        private Dictionary<BladeItem, Vector2> _cachedBladeItemSizes = new Dictionary<BladeItem, Vector2>();
+        private Dictionary<BladeItem, Size> _cachedBladeItemSizes = new Dictionary<BladeItem, Size>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeView"/> class.
@@ -131,17 +131,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AdjustBladeItemSize()
         {
-            if (FullScreenBlades)
+            if (FullScreenBlades && GetScrollViewer() != null)
             {
-                GetScrollViewer();
-
-                if (_scrollViewer != null)
+                foreach (BladeItem blade in Items)
                 {
-                    foreach (BladeItem blade in Items)
-                    {
-                        blade.Width = _scrollViewer.ActualWidth;
-                        blade.Height = _scrollViewer.ActualHeight;
-                    }
+                    blade.Width = _scrollViewer.ActualWidth;
+                    blade.Height = _scrollViewer.ActualHeight;
                 }
             }
         }

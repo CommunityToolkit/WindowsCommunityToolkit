@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Numerics;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="FullScreenBlades"/> attached property.
         /// </summary>
-        public static readonly DependencyProperty FullScreenBladesProperty = DependencyProperty.RegisterAttached(nameof(FullScreenBlades), typeof(bool), typeof(BladeView), new PropertyMetadata(false, FullScreenBladesChangedCallback));
+        public static readonly DependencyProperty FullScreenBladesProperty = DependencyProperty.RegisterAttached(nameof(FullScreenBlades), typeof(bool), typeof(BladeView), new PropertyMetadata(false, OnFullScreenBladesChanged));
 
         /// <summary>
         /// Gets or sets a collection of visible blades
@@ -51,44 +51,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(FullScreenBladesProperty, value); }
         }
 
-        private static void FullScreenBladesChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnFullScreenBladesChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            // Check if value changed
-            if (e.NewValue != e.OldValue)
+            var bladeView = (BladeView)dependencyObject;
+            var bladeScrollViewer = bladeView.GetScrollViewer();
+
+            if (bladeView.FullScreenBlades)
             {
-                var bladeView = (BladeView)dependencyObject;
-                var bladeScrollViewer = bladeView.GetScrollViewer();
-
-                if (bladeView.FullScreenBlades)
+                // Cache previous values of blade items properties (width & height)
+                bladeView._cachedBladeItemSizes.Clear();
+                foreach (BladeItem bladeItem in bladeView.Items)
                 {
-                    // Cache previous values of blade items properties (width & height)
-                    bladeView._cachedBladeItemSizes.Clear();
-                    foreach (BladeItem bladeItem in bladeView.Items)
-                    {
-                        bladeView._cachedBladeItemSizes.Add(bladeItem, new Vector2((float)bladeItem.Width, (float)bladeItem.Height));
-                    }
-
-                    // Change ScrollView behavior
-                    bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
-                }
-                else
-                {
-                    // Reset blade items properties & clear cache
-                    foreach (var kvBladeItemSize in bladeView._cachedBladeItemSizes)
-                    {
-                        kvBladeItemSize.Key.Width = kvBladeItemSize.Value.X;
-                        kvBladeItemSize.Key.Height = kvBladeItemSize.Value.Y;
-                    }
-
-                    bladeView._cachedBladeItemSizes.Clear();
-
-                    // Change ScrollView behavior
-                    bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.Optional;
+                    bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
                 }
 
-                // Execute change of blade item size
-                bladeView.AdjustBladeItemSize();
+                // Change ScrollView behavior
+                bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
             }
+            else
+            {
+                // Reset blade items properties & clear cache
+                foreach (var kvBladeItemSize in bladeView._cachedBladeItemSizes)
+                {
+                    kvBladeItemSize.Key.Width = kvBladeItemSize.Value.Width;
+                    kvBladeItemSize.Key.Height = kvBladeItemSize.Value.Height;
+                }
+
+                bladeView._cachedBladeItemSizes.Clear();
+
+                // Change ScrollView behavior
+                bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.Optional;
+            }
+
+            // Execute change of blade item size
+            bladeView.AdjustBladeItemSize();
         }
     }
 }
