@@ -88,7 +88,7 @@
     <Compile Include="ImageEx\ImageEx.Members.cs" />
     <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
     <Compile Include="ImageEx\ImageEx.Source.cs" />
-    <Compile Include="QuickReturnHeader\QuickReturnHeader.cs" />
+    <Compile Include="ScrollHeader\ScrollHeader.cs" />
     <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
     <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
@@ -132,7 +132,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="QuickReturnHeader\QuickReturnHeader.xaml">
+    <Page Include="ScrollHeader\ScrollHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

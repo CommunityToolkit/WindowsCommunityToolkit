@@ -254,7 +254,7 @@
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
-    <Content Include="SamplePages\QuickReturnHeader\QuickReturnHeader.png" />
+    <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
@@ -306,7 +306,7 @@
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\BladeView\BladeCode.bind" />
-    <Content Include="SamplePages\QuickReturnHeader\QuickReturnHeaderCode.bind" />
+    <Content Include="SamplePages\ScrollHeader\ScrollHeaderCode.bind" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
@@ -374,8 +374,8 @@
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\QuickReturnHeader\QuickReturnHeaderPage.xaml.cs">
-      <DependentUpon>QuickReturnHeaderPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml.cs">
+      <DependentUpon>ScrollHeaderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\GridSplitter\GridSplitterPage.xaml.cs">
       <DependentUpon>GridSplitterPage.xaml</DependentUpon>
@@ -525,7 +525,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\QuickReturnHeader\QuickReturnHeaderPage.xaml">
+    <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

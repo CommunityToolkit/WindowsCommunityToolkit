@@ -23,9 +23,9 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Quick return header control to be used with ListViews
+    /// Quick return header control to be used with ListViews or GridViews
     /// </summary>
-    public class QuickReturnHeader : ContentControl
+    public class ScrollHeader : ContentControl
     {
         private ScrollViewer _scrollViewer;
         private double _previousVerticalScrollOffset;
@@ -33,9 +33,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositionPropertySet _animationProperties;
         private Visual _headerVisual;
 
-        public QuickReturnHeader()
+        public ScrollHeader()
         {
-            DefaultStyleKey = typeof(QuickReturnHeader);
+            DefaultStyleKey = typeof(ScrollHeader);
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
         }
 
@@ -43,25 +43,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="QuickReturn"/> property.
         /// </summary>
         public static readonly DependencyProperty QuickReturnProperty =
-            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(true, OnQuickReturnChanged));
+            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(true, OnQuickReturnChanged));
 
         /// <summary>
         /// Identifies the <see cref="Sticky"/> property.
         /// </summary>
         public static readonly DependencyProperty StickyProperty =
-            DependencyProperty.Register(nameof(Sticky), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnStickyChanged));
+            DependencyProperty.Register(nameof(Sticky), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnStickyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Fade"/> property.
         /// </summary>
         public static readonly DependencyProperty FadeProperty =
-            DependencyProperty.Register(nameof(Fade), typeof(bool), typeof(QuickReturnHeader), new PropertyMetadata(false, OnFadeChanged));
+            DependencyProperty.Register(nameof(Fade), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnFadeChanged));
 
         /// <summary>
         /// Identifies the <see cref="TargetListViewBase"/> property.
         /// </summary>
         public static readonly DependencyProperty TargetListViewBaseProperty =
-            DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(QuickReturnHeader), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value indicating whether the quick return header is enabled.
@@ -123,8 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            SizeChanged -= QuickReturnHeader_SizeChanged;
-            SizeChanged += QuickReturnHeader_SizeChanged;
+            SizeChanged -= ScrollHeader_SizeChanged;
+            SizeChanged += ScrollHeader_SizeChanged;
 
             if (TargetListViewBase != null)
             {
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnQuickReturnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var me = d as QuickReturnHeader;
+            var me = d as ScrollHeader;
 
             if (me.TargetListViewBase != null)
             {
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var me = d as QuickReturnHeader;
+            var me = d as ScrollHeader;
 
             if (me.TargetListViewBase != null)
             {
@@ -202,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnFadeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var me = d as QuickReturnHeader;
+            var me = d as ScrollHeader;
 
             if (me.TargetListViewBase != null)
             {
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void QuickReturnHeader_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void ScrollHeader_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (TargetListViewBase != null)
             {

@@ -92,12 +92,12 @@
         "Icon": "/SamplePages/BladeView/BladeView.png"
       },
       {
-        "Name": "QuickReturnHeader",
-        "Type": "QuickReturnHeaderPage",
-        "About": "A UI control that works as a quick return ListView header.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/QuickReturnHeader",
-        "XamlCodeFile": "QuickReturnHeaderCode.bind",
-        "Icon": "/SamplePages/QuickReturnHeader/QuickReturnHeader.png"
+        "Name": "ScrollHeader",
+        "Type": "ScrollHeaderPage",
+        "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
+        "XamlCodeFile": "ScrollHeaderCode.bind",
+        "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
       },
       {
           "Name": "GridSplitter",

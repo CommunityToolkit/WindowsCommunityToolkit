@@ -19,17 +19,17 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class QuickReturnHeaderPage
+    public sealed partial class ScrollHeaderPage
     {
         private ObservableCollection<Item> _items;
 
-        public QuickReturnHeaderPage()
+        public ScrollHeaderPage()
         {
             InitializeComponent();
 
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
-            for (var i = 0; i < 500; i++)
+            for (var i = 0; i < 100; i++)
             {
                 items.Add(new Item() { Title = "Item " + i });
             }
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         /// <summary>
-        /// Called on navigating to the QuickReturnHeader sample page.
+        /// Called on navigating to the ScrollHeader sample page.
         /// </summary>
         /// <param name="e">
         /// The navigation event arguments.
