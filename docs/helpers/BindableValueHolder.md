@@ -4,7 +4,7 @@ The **BindableValueHolder** lets users change several objects' states at a time.
 
 ## Example
 
-You can use it to switch several object states by declaring it:
+You can use it to switch several object states by declaring it as a Resource (either in a page or control):
 
 ```xaml
 
