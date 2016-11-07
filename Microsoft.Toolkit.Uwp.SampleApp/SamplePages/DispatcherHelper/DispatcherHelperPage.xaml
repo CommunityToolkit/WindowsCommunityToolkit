@@ -13,20 +13,21 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Button x:Name="ExecuteFromDifferentThreadButton"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="16"
                 Content="Update UI from different thread"
                 Grid.Row ="0"
-                Click="ExecuteFromDifferentThreadButton_Click"></Button>
+                Click="ExecuteFromDifferentThreadButton_Click"/>
 
         <TextBlock x:Name="NormalTextBlock"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="16"
                    Grid.Row="1"
-                   Foreground="Red"></TextBlock>
+                   TextWrapping="Wrap"
+                   Foreground="Red"/>
     </Grid>
 </Page>
