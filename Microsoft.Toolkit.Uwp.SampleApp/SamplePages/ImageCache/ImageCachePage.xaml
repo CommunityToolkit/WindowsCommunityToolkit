@@ -1,91 +1,81 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ImageCachePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ImageCachePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotosTemplate">
-            <controls:ImageEx
-                Source="{Binding Thumbnail}"
-                Stretch="Uniform"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-        </DataTemplate>
-    </Page.Resources>
-    <Grid Background="{StaticResource Brush-Grey-05}" >
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Small">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
+  <Page.Resources>
+    <DataTemplate x:Key="PhotosTemplate">
+      <controls:ImageEx HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding Thumbnail}"
+                        Stretch="Uniform" />
+    </DataTemplate>
+  </Page.Resources>
+  <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-                    <VisualState.Setters>
-                        <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <StackPanel>
+      <StackPanel Name="ButtonsPanel"
+                  HorizontalAlignment="Center"
+                  Orientation="Horizontal">
+        <Button Name="PreCache"
+                Margin="10, 20"
+                Content="PreCache photos"
+                Tapped="PreCache_Tapped" />
 
-        <StackPanel>
-            <StackPanel
-                Name="ButtonsPanel"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
-                <Button 
-                        Margin="10, 20"
-                        Name="PreCache"
-                        Tapped="PreCache_Tapped"
-                        Content="PreCache photos" />
+        <Button Name="PreCacheInMemory"
+                Margin="10, 20"
+                Content="PreCache photos in memory"
+                Tapped="PreCacheInMemory_Tapped" />
 
-                <Button 
-                        Margin="10, 20"
-                        Name="PreCacheInMemory"
-                        Tapped="PreCacheInMemory_Tapped"
-                        Content="PreCache photos in memory" />
+        <Button Name="LoadImages"
+                Margin="10, 20"
+                Content="Load photos"
+                Tapped="LoadImages_Tapped" />
 
-                <Button 
-                        Margin="10, 20"
-                        Name="LoadImages"
-                        Tapped="LoadImages_Tapped"
-                        Content="Load photos" />
+        <Button Name="ClearCache"
+                Margin="10, 20"
+                Content="Clear cache"
+                Tapped="ClearCache_Tapped" />
+      </StackPanel>
+      <TextBlock Name="Message"
+                 Margin="24"
+                 HorizontalAlignment="Center"
+                 TextWrapping="Wrap" />
+    </StackPanel>
 
-                <Button 
-                        Margin="10, 20"
-                        Name="ClearCache"
-                        Tapped="ClearCache_Tapped"
-                        Content="Clear cache" />
-            </StackPanel>
-            <TextBlock
-                TextWrapping="Wrap"
-                Name="Message"
-                HorizontalAlignment="Center" 
-                Margin="24"/>
-        </StackPanel>
-        
-        <ListView Name="PhotoList"
-            Grid.Row="1"
-            ItemTemplate="{StaticResource PhotosTemplate}"/>
+    <ListView Name="PhotoList"
+              Grid.Row="1"
+              ItemTemplate="{StaticResource PhotosTemplate}" />
 
-        <ProgressRing 
-            Grid.RowSpan="2"
-            Name="BusyIndicator" 
-            Foreground="Blue"
-            Background="White"/>
+    <ProgressRing Name="BusyIndicator"
+                  Grid.RowSpan="2"
+                  Background="White"
+                  Foreground="Blue" />
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Full">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="600" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Small">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
 
-    </Grid>
+          <VisualState.Setters>
+            <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
 </Page>
- 
+
