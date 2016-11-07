@@ -49,6 +49,7 @@
     <Compile Include="BladeView\BladeControl.cs" />
     <Compile Include="BladeView\BladeItem.cs" />
     <Compile Include="BladeView\BladeItem.Properties.cs" />
+    <Compile Include="BladeView\BladeMode.cs" />
     <Compile Include="BladeView\BladeView.cs" />
     <Compile Include="BladeView\BladeView.Events.cs" />
     <Compile Include="BladeView\BladeView.Properties.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlHelpers.Composition.cs" />

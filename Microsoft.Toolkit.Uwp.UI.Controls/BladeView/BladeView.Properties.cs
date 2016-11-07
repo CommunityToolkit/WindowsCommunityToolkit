@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeView), new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="FullScreenBlades"/> attached property.
+        /// Identifies the <see cref="BladeMode"/> attached property.
         /// </summary>
-        public static readonly DependencyProperty FullScreenBladesProperty = DependencyProperty.RegisterAttached(nameof(FullScreenBlades), typeof(bool), typeof(BladeView), new PropertyMetadata(false, OnFullScreenBladesChanged));
+        public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
         /// <summary>
         /// Gets or sets a collection of visible blades
@@ -43,20 +43,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether blades are full screen
+        /// Gets or sets a value indicating whether blade mode (ex: whether blades are full screen or not)
         /// </summary>
-        public bool FullScreenBlades
+        public BladeMode BladeMode
         {
-            get { return (bool)GetValue(FullScreenBladesProperty); }
-            set { SetValue(FullScreenBladesProperty, value); }
+            get { return (BladeMode)GetValue(BladeModeProperty); }
+            set { SetValue(BladeModeProperty, value); }
         }
 
-        private static void OnFullScreenBladesChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var bladeView = (BladeView)dependencyObject;
             var bladeScrollViewer = bladeView.GetScrollViewer();
 
-            if (bladeView.FullScreenBlades)
+            if (bladeView.BladeMode == BladeMode.Fullscreen)
             {
                 // Cache previous values of blade items properties (width & height)
                 bladeView._cachedBladeItemSizes.Clear();
@@ -68,7 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Change ScrollView behavior
                 bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
             }
-            else
+
+            if (bladeView.BladeMode == BladeMode.Normal)
             {
                 // Reset blade items properties & clear cache
                 foreach (var kvBladeItemSize in bladeView._cachedBladeItemSizes)

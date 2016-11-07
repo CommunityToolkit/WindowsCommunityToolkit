@@ -131,7 +131,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AdjustBladeItemSize()
         {
-            if (FullScreenBlades && GetScrollViewer() != null)
+            // Adjust blade items to be full screen
+            if (BladeMode == BladeMode.Fullscreen && GetScrollViewer() != null)
             {
                 foreach (BladeItem blade in Items)
                 {

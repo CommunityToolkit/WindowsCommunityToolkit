@@ -4,7 +4,15 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:samples="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <!-- Converters -->
+            <samples:BladeModeToBooleanConverter x:Key="BladeModeToBooleanConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <VisualStateManager.VisualStateGroups>
@@ -45,12 +53,12 @@
                                 BorderBrush="{StaticResource Brush-Grey-04}">
                 <StackPanel Margin="24">
                     <TextBlock TextWrapping="WrapWholeWords" Text="This first blade has a hidden TitleBar, so you can't close it." />
-                    
+
                     <TextBlock TextWrapping="WrapWholeWords" Margin="0,12,0,0" Text="You can automatically set blade dimensions to be fullscreen. Toggle the button below to enable/disable fullscreen blades" />
                     <ToggleButton Margin="0, 24, 0, 0"
-                                  IsChecked="{Binding FullScreenBlades, Mode=TwoWay, ElementName=BladeView}"
+                                  IsChecked="{Binding Path=BladeMode, Mode=TwoWay, ElementName=BladeView, Converter={StaticResource BladeModeToBooleanConverter}}"
                                   Content="Toggle fullscreen blades" />
-                    
+
                     <TextBlock TextWrapping="WrapWholeWords" Margin="0,12,0,0" Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened." />
                     <ToggleButton Margin="0, 24, 0, 0"
                                   IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=SecondBlade}"
@@ -61,7 +69,7 @@
                     <ToggleButton Margin="0, 24, 0, 0"
                                   IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}"
                                   Content="Custom close button" />
-                    
+
                 </StackPanel>
             </controls:BladeItem>
 
