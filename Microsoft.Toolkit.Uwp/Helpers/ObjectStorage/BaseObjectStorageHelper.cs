@@ -59,15 +59,9 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     return composite.ContainsKey(key);
                 }
-                else
-                {
-                    return false;
-                }
             }
-            else
-            {
-                return false;
-            }
+                
+            return false;
         }
 
         /// <summary>
