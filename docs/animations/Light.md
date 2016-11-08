@@ -26,8 +26,8 @@ You can either use the light behavior from your XAML code:
 or directly from code:
 
 ```csharp
-
-await ToolkitLogo.LightAsync(value: 10, duration: 500, delay: 0);       
+var animation = await ToolkitLogo.LightAsync(value: 10, duration: 500, delay: 0); 
+await animation.StartAsync();
 
 ```
 
