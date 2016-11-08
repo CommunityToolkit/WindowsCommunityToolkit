@@ -65,8 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
                 }
 
-                // Change ScrollView behavior
-                bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
+                VisualStateManager.GoToState(bladeView, "FullScreen", false);
             }
 
             if (bladeView.BladeMode == BladeMode.Normal)
@@ -80,8 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 bladeView._cachedBladeItemSizes.Clear();
 
-                // Change ScrollView behavior
-                bladeScrollViewer.HorizontalSnapPointsType = SnapPointsType.Optional;
+                VisualStateManager.GoToState(bladeView, "Normal", false);
             }
 
             // Execute change of blade item size
