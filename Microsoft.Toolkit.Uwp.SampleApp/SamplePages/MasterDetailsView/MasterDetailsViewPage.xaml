@@ -1,48 +1,73 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MasterDetailsViewPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MasterDetailsViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+      mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:MasterDetailsView ItemsSource="{x:Bind Emails}"
-                                    NoSelectionContent="Select an item to view"
-                                    Foreground="Black">
-            <controls:MasterDetailsView.ItemTemplate>
-                <DataTemplate x:DataType="models:Email">
-                    <StackPanel Margin="0,8">
-                        <TextBlock Text="{x:Bind From}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                        <TextBlock Text="{x:Bind Subject}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource Brush-Blue-01}" MaxLines="1"/>
-                        <TextBlock Text="{x:Bind Body}" Style="{ThemeResource BodyTextBlockStyle}" Opacity=".6" MaxLines="1"/>
-                    </StackPanel>
-                </DataTemplate>
-            </controls:MasterDetailsView.ItemTemplate>
-            <controls:MasterDetailsView.DetailsTemplate>
-                <DataTemplate>
-                    <RelativePanel Margin="24">
-                        <Ellipse x:Name="FromEllipse" Height="50" Width="50" Fill="Gray"></Ellipse>
-                        <TextBlock Text="{Binding From}" Style="{ThemeResource SubtitleTextBlockStyle}" RelativePanel.RightOf="FromEllipse" Margin="12,-6,0,0"/>
-                        <TextBlock x:Name="SubjectLine" Text="{Binding Subject}" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.Below="FromEllipse"/>
-                        <TextBlock x:Name="Body" Text="{Binding Body}" Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap" RelativePanel.Below="SubjectLine" Margin="0,12,0,0"/>
-                    </RelativePanel>
-                </DataTemplate>
-            </controls:MasterDetailsView.DetailsTemplate>
-            <controls:MasterDetailsView.NoSelectionContentTemplate>
-                <DataTemplate>
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <SymbolIcon Symbol="Mail" RenderTransformOrigin=".5,.5">
-                            <SymbolIcon.RenderTransform>
-                                <CompositeTransform ScaleX="2" ScaleY="2"/>
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
-                        <TextBlock Text="{Binding}" FontSize="24" Margin="0,12"/>
-                    </StackPanel>
-                </DataTemplate>
-            </controls:MasterDetailsView.NoSelectionContentTemplate>
-        </controls:MasterDetailsView>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <controls:MasterDetailsView Foreground="Black"
+                                ItemsSource="{x:Bind Emails}"
+                                NoSelectionContent="Select an item to view">
+      <controls:MasterDetailsView.ItemTemplate>
+        <DataTemplate x:DataType="models:Email">
+          <StackPanel Margin="0,8">
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                       Text="{x:Bind From}" />
+            <TextBlock Foreground="{ThemeResource Brush-Blue-01}"
+                       MaxLines="1"
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="{x:Bind Subject}" />
+            <TextBlock MaxLines="1"
+                       Opacity=".6"
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="{x:Bind Body}" />
+          </StackPanel>
+        </DataTemplate>
+      </controls:MasterDetailsView.ItemTemplate>
+      <controls:MasterDetailsView.DetailsTemplate>
+        <DataTemplate>
+          <RelativePanel Margin="24">
+            <Ellipse x:Name="FromEllipse"
+                     Width="50"
+                     Height="50"
+                     Fill="Gray" />
+            <TextBlock Margin="12,-6,0,0"
+                       RelativePanel.RightOf="FromEllipse"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"
+                       Text="{Binding From}" />
+            <TextBlock x:Name="SubjectLine"
+                       RelativePanel.Below="FromEllipse"
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="{Binding Subject}" />
+            <TextBlock x:Name="Body"
+                       Margin="0,12,0,0"
+                       RelativePanel.Below="SubjectLine"
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="{Binding Body}"
+                       TextWrapping="Wrap" />
+          </RelativePanel>
+        </DataTemplate>
+      </controls:MasterDetailsView.DetailsTemplate>
+      <controls:MasterDetailsView.NoSelectionContentTemplate>
+        <DataTemplate>
+          <StackPanel HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <SymbolIcon RenderTransformOrigin=".5,.5"
+                        Symbol="Mail">
+              <SymbolIcon.RenderTransform>
+                <CompositeTransform ScaleX="2"
+                                    ScaleY="2" />
+              </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+            <TextBlock Margin="0,12"
+                       FontSize="24"
+                       Text="{Binding}" />
+          </StackPanel>
+        </DataTemplate>
+      </controls:MasterDetailsView.NoSelectionContentTemplate>
+    </controls:MasterDetailsView>
+  </Grid>
 </Page>

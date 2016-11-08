@@ -1,90 +1,111 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RotatorTilePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RotatorTilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotoTemplate">
-            <Grid>
-                <Image HorizontalAlignment="Center" Stretch="UniformToFill" >
-                    <Image.Source>
-                        <BitmapImage UriSource="{Binding Thumbnail}" DecodePixelHeight="200" />
-                    </Image.Source>
-                </Image>
-                <Border VerticalAlignment="Bottom">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Transparent" />
-                            <GradientStop Offset="1" Color="#33000000" />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <TextBlock Text="{Binding Category}" VerticalAlignment="Bottom" Margin="5,20,5,5" />
-                </Border>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="800" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Small">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
+  <Page.Resources>
+    <DataTemplate x:Key="PhotoTemplate">
+      <Grid>
+        <Image HorizontalAlignment="Center"
+               Stretch="UniformToFill">
+          <Image.Source>
+            <BitmapImage DecodePixelHeight="200"
+                         UriSource="{Binding Thumbnail}" />
+          </Image.Source>
+        </Image>
+        <Border VerticalAlignment="Bottom">
+          <Border.Background>
+            <LinearGradientBrush EndPoint="0,1">
+              <GradientStop Offset="0" Color="Transparent" />
+              <GradientStop Offset="1" Color="#33000000" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <TextBlock Margin="5,20,5,5"
+                     VerticalAlignment="Bottom"
+                     Text="{Binding Category}" />
+        </Border>
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+  <Grid Background="{StaticResource Brush-Grey-05}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  VerticalScrollMode="Auto">
+      <Grid HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-                    <VisualState.Setters>
-                        <Setter Target="Panel2.(Grid.Column)" Value="0" />
-                        <Setter Target="Panel2.(Grid.Row)" Value="1" />
-                        <Setter Target="Panel1.Width" Value="250" />
-                        <Setter Target="Panel2.Width" Value="150" />
-                        <Setter Target="Tile1.Height" Value="150" />
-                        <Setter Target="Tile2.Height" Value="150" />
-                        <Setter Target="Panel1.Margin" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+        <StackPanel x:Name="Panel1"
+                    Grid.Column="0"
+                    Width="400"
+                    Margin="0,0,20,0">
+          <controls:RotatorTile x:Name="Tile1"
+                                Height="200"
+                                Background="LightGray"
+                                Direction="Up"
+                                ItemTemplate="{StaticResource PhotoTemplate}" />
 
-                <StackPanel Grid.Column="0" x:Name="Panel1" Width="400" Margin="0,0,20,0">
-                    <controls:RotatorTile Background="LightGray" x:Name="Tile1" 
-                            Direction="Up" 
-                            Height="200"
-                            ItemTemplate="{StaticResource PhotoTemplate}" />
+          <Border Height="75"
+                  Margin="20,20,20,20"
+                  Padding="5">
+            <TextBlock VerticalAlignment="Top"
+                       Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}"
+                       TextWrapping="Wrap" />
+          </Border>
+        </StackPanel>
 
-                    <Border Padding="5" Height="75" Margin="20,20,20,20">
-                        <TextBlock Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-                    </Border>
-                </StackPanel>
+        <StackPanel x:Name="Panel2"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="200">
+          <controls:RotatorTile x:Name="Tile2"
+                                Height="200"
+                                Background="LightGray"
+                                Direction="Left"
+                                ItemTemplate="{StaticResource PhotoTemplate}" />
 
-                <StackPanel Grid.Column="1" Grid.Row="0" x:Name="Panel2" Width="200">
-                    <controls:RotatorTile Background="LightGray" x:Name="Tile2"
-                            Direction="Left"
-                            Height="200" 
-                            ItemTemplate="{StaticResource PhotoTemplate}"/>
+          <Border Height="75"
+                  Margin="20,20,20,0"
+                  Padding="5">
+            <TextBlock VerticalAlignment="Top"
+                       Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}"
+                       TextWrapping="Wrap" />
+          </Border>
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="Full">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="800" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Small">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
 
-                    <Border Padding="5" Height="75" Margin="20,20,20,0">
-                        <TextBlock Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-                    </Border>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
-    </Grid>
+          <VisualState.Setters>
+            <Setter Target="Panel2.(Grid.Column)" Value="0" />
+            <Setter Target="Panel2.(Grid.Row)" Value="1" />
+            <Setter Target="Panel1.Width" Value="250" />
+            <Setter Target="Panel2.Width" Value="150" />
+            <Setter Target="Tile1.Height" Value="150" />
+            <Setter Target="Tile2.Height" Value="150" />
+            <Setter Target="Panel1.Margin" Value="0" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
 </Page>

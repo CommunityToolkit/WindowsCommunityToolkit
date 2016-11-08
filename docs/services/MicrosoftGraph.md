@@ -30,8 +30,8 @@ After you've registered your app, Azure AD will generate a client ID for your ap
 
 When you register your app in the [Azure Management Portal](manage.windowsazure.com), you will need to configure details about your application with the following steps:
 
-1. Specify your application as a **Native Client Application**
-2. Specify the Redirect Uri as **urn:ietf:wg:oauth:2.0:oob**
+1. Specify your application as a **Web application and/or web API**
+2. Specify the Redirect Uri as **http://localhost:8000**
 3. Add Application: Choose **Microsoft Graph** API 
 4. Specify the permission levels the MicrosoftGraph Service requires from the Office 365 API (Microsoft Graph). Choose at least:
    * **Sign in and read user profile** to access user's profile.
@@ -41,8 +41,8 @@ When you register your app in the [Azure Management Portal](manage.windowsazure.
  
 |Setting|Value|
 |----------|:-------------:|
-|Native Client Application|Yes|
-|Redirect Uri|urn:ietf:wg:oauth:2.0:oob|
+|Web application and/or web API|Yes|
+|Redirect Uri|http://localhost:8080|
 |Resource to Add|Microsoft Graph|
 |Delegate Permissions |Sign in and read user profile, Read user mail and Send mail|
 
@@ -133,7 +133,7 @@ if (messages == null)
 }
 
 // Send a message
-string[] toRecipients = "user1@contoso.com;user2@contoso.com";
+string[] toRecipients = { "user1@contoso.com", "user2@contoso.com" };
 string subject = "This is the subject of my message;
 string content = "This is the content of my message";
 

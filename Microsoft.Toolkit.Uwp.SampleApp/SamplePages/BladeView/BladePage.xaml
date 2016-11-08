@@ -73,46 +73,60 @@
                 </StackPanel>
             </controls:BladeItem>
 
-            <controls:BladeItem Title="Default blade"
-                            x:Name="SecondBlade"
-                            IsOpen="False"
-                            Width="400"
-                            Background="{StaticResource Brush-White}"
-                            BorderBrush="{StaticResource Brush-Grey-04}">
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Margin="24"
-                           Text="This is a blade with all settings set to default." />
+            <controls:BladeItem x:Name="ThirdBlade"
+                          Title="Custom title bar"
+                          Width="400"
+                          Background="{StaticResource Brush-White}"
+                          BorderBrush="{StaticResource Brush-Grey-04}"
+                          CloseButtonForeground="{StaticResource Brush-White}"
+                          IsOpen="False"
+                          TitleBarBackground="{StaticResource Brush-Blue-01}"
+                          TitleBarForeground="{StaticResource Brush-White}">
+                <TextBlock Margin="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="This is a blade with custom titlebar colors." />
             </controls:BladeItem>
 
-            <controls:BladeItem Title="Custom title bar"
-                            x:Name="ThirdBlade"
-                            IsOpen="False"
-                            Width="400"
-                            TitleBarBackground="{StaticResource Brush-Blue-01}"
-                            TitleBarForeground="{StaticResource Brush-White}"
-                            CloseButtonForeground="{StaticResource Brush-White}"
-                            Background="{StaticResource Brush-White}"
-                            BorderBrush="{StaticResource Brush-Grey-04}">
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Margin="24"
-                           Text="This is a blade with custom titlebar colors." />
-            </controls:BladeItem>
-
-            <controls:BladeItem Title="Custom close button color"
-                            x:Name="FourthBlade"
-                            Width="400"
-                            CloseButtonBackground="{StaticResource Brush-Grey-01}"
-                            CloseButtonForeground="{StaticResource Brush-White}"
-                            Background="{StaticResource Brush-White}"
-                            BorderBrush="{StaticResource Brush-Grey-04}"
-                            IsOpen="False">
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Margin="24"
-                           Text="This is a blade with a custom close button color." />
+            <controls:BladeItem x:Name="FourthBlade"
+                          Title="Custom close button color"
+                          Width="400"
+                          Background="{StaticResource Brush-White}"
+                          BorderBrush="{StaticResource Brush-Grey-04}"
+                          CloseButtonBackground="{StaticResource Brush-Grey-01}"
+                          CloseButtonForeground="{StaticResource Brush-White}"
+                          IsOpen="False">
+                <TextBlock Margin="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="This is a blade with a custom close button color." />
             </controls:BladeItem>
         </controls:BladeView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="BladeView.Padding" Value="12" />
+                        <Setter Target="FirstBlade.Width" Value="280" />
+                        <Setter Target="FirstBlade.FontSize" Value="12" />
+                        <Setter Target="SecondBlade.Width" Value="280" />
+                        <Setter Target="SecondBlade.FontSize" Value="12" />
+                        <Setter Target="ThirdBlade.Width" Value="280" />
+                        <Setter Target="ThirdBlade.FontSize" Value="12" />
+                        <Setter Target="FourthBlade.Width" Value="280" />
+                        <Setter Target="FourthBlade.FontSize" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
