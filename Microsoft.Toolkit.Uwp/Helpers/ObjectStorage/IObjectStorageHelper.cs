@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp
         void Save<T>(string key, T value);
 
         /// <summary>
-        /// Save single item by its key in a composite.
+        /// Save a group of items by its key in a composite.
         /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
         /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects) and for groups of settings which 
         /// need to be treated in an atomic way.
