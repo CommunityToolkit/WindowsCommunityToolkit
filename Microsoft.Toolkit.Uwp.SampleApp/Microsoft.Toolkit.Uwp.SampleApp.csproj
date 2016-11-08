@@ -327,6 +327,7 @@
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -403,6 +404,7 @@
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\OneDrive Service\VisibilityConverter.cs" />
     <Compile Include="SamplePages\OneDrive Service\FileFolderDataTemplateSelector.cs" />
     <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
       <DependentUpon>OneDrivePage.xaml</DependentUpon>

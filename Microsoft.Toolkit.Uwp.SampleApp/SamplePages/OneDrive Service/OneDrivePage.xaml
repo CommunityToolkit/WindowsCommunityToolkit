@@ -6,9 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:selector="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    
     mc:Ignorable="d">
     <Page.Resources>
-
+        <selector:VisibilyConverter x:Key="VisibilityConverter"/>
         <selector:FileFolderDataTemplateSelector
                         x:Key="FileFolderDataTemplateSelector" 
                         FolderTemplate="{StaticResource FolderTemplate}"
@@ -468,10 +469,10 @@
                                        Margin="12,6" 
                                        Foreground="{StaticResource Brush-Grey-01}" />
                         </Grid>
-                        <StackPanel Grid.Row="1" Margin="24,24,403,24" x:Name="FilesPanel" >
+                        <StackPanel Grid.Row="1" Margin="0" x:Name="FilesPanel" >
                             <TextBox Header="#Items by page:" 
                                      x:Name="TopText" 
-                                     Margin="0,0,157,0" 
+                                     Margin="0,0,10,0" 
                                      InputScope="Number" Height="59"/>
                             <Button Content="Get Folders and Files" 
                                     x:Name="GetFoldersAndFilesButton"  
@@ -479,20 +480,20 @@
                                     Click="GetFoldersAndFilesButton_Click" 
                                     Width="166"></Button>
                         </StackPanel>
-                        <ProgressBar 
-                            
+                    </Grid>
+                    <ProgressBar                             
                             Value="{Binding UploadProgression}" 
                             x:Name="UploadProgress" 
                             Height="22" 
-                            Margin="226,159,10,-32" 
-                            Grid.Row="1"
+                            Margin="181,10,0,10" 
+                            Grid.Row="3"
+                            Visibility="{Binding ProgressBarVisibility, Converter={StaticResource VisibilityConverter}}"
                             Maximum="{Binding TotalSizeFile}"/>
-                        <ProgressRing 
+                    <ProgressRing 
                             x:Name="progressRing" 
-                            Grid.Row="1" 
-                            Margin="189,159,541,-30"
-                            IsActive="{Binding RingActive}" RenderTransformOrigin="-7.8,-0.562"/>
-                    </Grid>
+                            Grid.Row="3" 
+                            Margin="156,15,574,17"
+                            IsActive="{Binding RingActive}" />
                     <AppBarButton x:Name="backButton" Grid.Row="3"
                             Icon="Back"                            
                             Command="{Binding NavigateBackCommand}" 

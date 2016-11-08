@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             FilesBox.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
             backButton.Visibility = Visibility.Collapsed;
-            
+
             _viewModel = new OneDriveViewModel();
             _viewModel.Dispatcher = this.Dispatcher;
             this.DataContext = _viewModel;
@@ -45,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
             {
                 return;
             }
@@ -95,6 +100,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+            backButton.Visibility = Visibility.Collapsed;
+            menuButton.Visibility = Visibility.Collapsed;
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)
@@ -113,13 +120,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 switchButton.Content = "";
                 box.Visibility = Visibility.Visible;
-
             }
         }
 
         private async void GetFoldersAndFilesButton_Click(object sender, RoutedEventArgs e)
         {
-
             if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
@@ -165,6 +170,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             await _viewModel.NavigateToFolder(e.ClickedItem as OneDriveStorageItem);
         }
-
     }
 }

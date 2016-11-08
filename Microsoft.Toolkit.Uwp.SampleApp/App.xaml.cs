@@ -12,7 +12,6 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;

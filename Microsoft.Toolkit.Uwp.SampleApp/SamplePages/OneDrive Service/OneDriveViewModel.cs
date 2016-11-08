@@ -12,17 +12,13 @@
 //
 // ******************************************************************
 
-using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.Services;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -49,18 +45,38 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <summary>
         /// Gets or sets the size of a big file
         /// </summary>
-        public double TotalSizeFile { get { return _totalSizeFile; } set { Set(ref _totalSizeFile, value); } }
+        public double TotalSizeFile
+        {
+            get { return _totalSizeFile; } set { Set(ref _totalSizeFile, value); }
+        }
+
+        private bool _progressBarVisibility;
+
+        /// <summary>
+        /// Gets or sets a value indicating the progress bar's visibility
+        /// </summary>
+        public bool ProgressBarVisibility
+        {
+            get { return _progressBarVisibility; }
+            set { Set(ref _progressBarVisibility, value); }
+        }
 
         private bool _ringActive;
 
-        public bool RingActive { get { return _ringActive; } set { Set(ref _ringActive, value); } }
+        public bool RingActive
+        {
+            get { return _ringActive; } set { Set(ref _ringActive, value); }
+        }
 
         private long _uploadProgression = 0;
 
         /// <summary>
         /// Gets or sets the progression when uploading a big file
         /// </summary>
-        public long UploadProgression { get { return _uploadProgression; } set { Set(ref _uploadProgression, value); } }
+        public long UploadProgression
+        {
+            get { return _uploadProgression; } set { Set(ref _uploadProgression, value); }
+        }
 
         private OneDriveStorageFolder _currentFolder = null;
 
@@ -78,6 +94,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async Task SigninAsync(string appClientId)
         {
+
             Shell.Current.DisplayWaitRing = true;
             try
             {
@@ -207,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return _newFolder;
             }
         }
+
         private DelegateCommand _navigateBack = default(DelegateCommand);
 
         /// <summary>
@@ -237,7 +255,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                                 Items = await currentFolder.GetItemsAsync(100);
                                 _currentFolder = currentFolder;
-
                             }
                             catch (ServiceException ex)
                             {
@@ -269,15 +286,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void ExecuteDeleteItemCommand(OneDriveStorageItem item)
         {
             MessageDialog messageDialog = new MessageDialog($"Are you sur you want to delete '{item.Name}'", "Delete");
-            messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) => 
+            messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
                 try
                 {
                     await item.DeleteAsync();
-                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { Items = await _currentFolder.GetItemsAsync(100); });                    
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { Items = await _currentFolder.GetItemsAsync(100); });
                 }
-                catch(ServiceException ex)
+                catch (ServiceException ex)
                 {
                     DisplayMessageAsync(ex.Error.Message);
                 }
@@ -285,7 +302,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
                 }
-                
             })));
 
             messageDialog.Commands.Add(new UICommand("No", new UICommandInvokedHandler((cmd) => { return; })));
@@ -386,7 +402,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         using (var localStream = await selectedFile.OpenReadAsync())
                         {
-
                             // You have several way to upload or create new file
                             // 1. if the file is less than 4MB Create a file
                             // var fileCreated = await currentFolder.CreateFileAsync(selectedFile.Name);
@@ -429,10 +444,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <summary>
         /// Upload a big file.
         /// </summary>
-        /// <param name="item">The destination folder to upload the file.</param>
         private async void ExecuteUploadBigFileCommand()
         {
-
             try
             {
                 if (_currentFolder != null)
@@ -442,13 +455,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     using (var localStream = await selectedFile.OpenReadAsync())
                     {
-
                             _cancellationTokenSource = new CancellationTokenSource();
                             TotalSizeFile = localStream.Size;
                             RingActive = true;
+                            ProgressBarVisibility = true;
+
                             // If the file exceed the Maximum size (ie 4MB)
                             _currentFolder.OnUploadSession += CurrentFolder_OnUploadSession;
                             var largeFileCreated = await _currentFolder.UploadFileAsync(selectedFile.Name, localStream, _cancellationTokenSource.Token, 320 * 1024);
+
                     }
 
                         await DisplayMessageAsync("Succeeded!");
@@ -471,13 +486,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             finally
             {
                 RingActive = false;
+                ProgressBarVisibility = false;
             }
-
         }
 
         private async void CurrentFolder_OnUploadSession(object sender, OneDriveUploadSessionEventArgs e)
         {
-            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new DispatchedHandler(() =>
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() =>
             {
                 UploadProgression = e.UploadSessionTotalSize - e.UploadSessionRemaining;
             }));
