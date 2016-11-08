@@ -12,7 +12,6 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
@@ -63,14 +62,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
             {
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                Color blueBrush = default(Color);
-                Color lightGreyBrush = default(Color);
-                Color greyBrush03 = default(Color);
-                Color greyBrush01 = default(Color);
-                blueBrush = (Color)Resources["Blue-01"];
-                lightGreyBrush = (Color)Resources["Grey-04"];
-                greyBrush03 = (Color)Resources["Grey-03"];
-                greyBrush01 = (Color)Resources["Grey-01"];
+                var lightGreyBrush = (Color)Resources["Grey-04"];
+                var greyBrush03 = (Color)Resources["Grey-03"];
+                var greyBrush01 = (Color)Resources["Grey-01"];
 
                 if (titleBar != null)
                 {
