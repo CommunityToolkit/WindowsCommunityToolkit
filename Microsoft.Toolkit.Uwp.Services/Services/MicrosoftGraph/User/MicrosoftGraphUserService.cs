@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,6 +9,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
 
 using System.IO;
@@ -29,10 +31,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
         /// </summary>
-        /// <param name="graphClientProvider">Instance of GraphClientService class</param>
-        public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
+        /// <param name="graphtProvider">Instance of GraphClientService class</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphtProvider)
         {
-            _graphProvider = graphClientProvider;
+            _graphProvider = graphtProvider;
         }
 
         ///// <summary>
@@ -46,6 +48,19 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphServiceMessage Message
         {
             get { return _message; }
+        }
+
+        ///// <summary>
+        ///// MicrosoftGraphServiceDrive instance
+        ///// </summary>
+        private MicrosoftGraphOneDriveService _oneDrive;
+
+        /// <summary>
+        /// Gets MicrosoftGraphServiceMessage instance
+        /// </summary>
+        public MicrosoftGraphOneDriveService OneDrive
+        {
+            get { return _oneDrive; }
         }
 
         /// <summary>
@@ -79,8 +94,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
                 _currentConnectedUser = await _graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
-
-            InitializeMessage();
 
             return _currentConnectedUser;
         }
@@ -126,9 +139,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create an instance of MicrosoftGraphServiceMessage
         /// </summary>
-        private void InitializeMessage()
+        internal void InitializeMessage()
         {
             _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
+        }
+
+        /// <summary>
+        /// Create an instance of MicrosoftGraphServiceMessage
+        /// </summary>
+        internal void InitializeDrive()
+        {
+            _oneDrive = new MicrosoftGraphOneDriveService(_graphProvider);
         }
     }
 }

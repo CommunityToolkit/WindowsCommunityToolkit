@@ -1,4 +1,5 @@
 ﻿// ******************************************************************
+//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -8,12 +9,18 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+//
 // ******************************************************************
-
 using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Windows.Web.Http;
+using Newtonsoft.Json;
+using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -26,10 +33,15 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private const string Authority = "https://login.microsoftonline.com/common";
+        private const string Authority = "https://login.microsoftonline.com/common/";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
         private const string DefaultRedirectUri = "http://localhost:8000";
+
+        private const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+        private const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+        private const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
+        private const string Scope = "openid+profile+https://graph.microsoft.com/Files.ReadWrite https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/User.ReadWrite+offline_access";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
@@ -65,14 +77,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // refresh silently the token
             if (_tokenForUser == null)
             {
-                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new PlatformParameters(PromptBehavior.Always, false));
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
                 _tokenForUser = userAuthnResult.AccessToken;
                 _expiration = userAuthnResult.ExpiresOn;
             }
 
             if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
                 _tokenForUser = userAuthnResult.AccessToken;
                 _expiration = userAuthnResult.ExpiresOn;
             }
@@ -92,16 +104,145 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Logout the user
         /// </summary>
+        /// <param name="authenticationModel">Authentication version endPoint</param>
         /// <returns>Success or failure</returns>
-        internal async Task<bool> LogoutAsync()
+        internal async Task<bool> LogoutAsync(string authenticationModel)
         {
-            using (var request = new HttpHelperRequest(new Uri(LogoutUrl), HttpMethod.Get))
+            HttpResponseMessage response = null;
+            using (var client = new HttpClient())
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                var logoutUrl = authenticationModel.Equals("V1") ? LogoutUrl : LogoutUrlV2Model;
+                var request = new HttpRequestMessage(HttpMethod.Get, logoutUrl);
+                response = await client.SendAsync(request);
+            }
+
+            return response.IsSuccessStatusCode;
+        }
+
+        /// <summary>
+        /// Get a Microsoft Graph access token using the v2.0 Endpoint.
+        /// </summary>
+        /// <param name="appClientId">Application client ID</param>
+        /// <returns>An oauth2 access token.</returns>
+        internal async Task<string> GetUserTokenV2PreviewAsync(string appClientId)
+        {
+            PublicClientApplication identityClientApp = new PublicClientApplication(appClientId);
+            string[] scopes = { "Files.ReadWrite", "Mail.ReadWrite", "User.ReadWrite" };
+            if (_tokenForUser == null)
+            {
+                Identity.Client.AuthenticationResult authResult = await identityClientApp.AcquireTokenAsync(scopes);
+                _tokenForUser = authResult.Token;
+                _expiration = authResult.ExpiresOn;
+            }
+
+            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                Identity.Client.AuthenticationResult authResult = await identityClientApp.AcquireTokenSilentAsync(scopes);
+                _tokenForUser = authResult.Token;
+                _expiration = authResult.ExpiresOn;
+            }
+
+            return _tokenForUser;
+        }
+
+        /// <summary>
+        /// Get a Microsoft Graph access token using the v2.0 Endpoint.
+        /// </summary>
+        /// <param name="appClientId">Application client ID</param>
+        /// <returns>An oauth2 access token.</returns>
+        internal async Task<string> GetUserTokenV2Async(string appClientId)
+        {
+            string authorizationCode = null;
+            string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={Scope}&response_mode=query";
+
+            JwToken jwtToken = null;
+            if (_tokenForUser == null)
+            {
+                var webAuthResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authorizationUrl), new Uri(DefaultRedirectUri));
+
+                // Process the navigation result.
+                if (webAuthResult.ResponseStatus == WebAuthenticationStatus.Success)
                 {
-                    return response.Success;
+                    authorizationCode = ParseAuthorizationCode(webAuthResult.ResponseData);
+                    jwtToken = await RequestTokenAsync(appClientId, authorizationCode);
+                    _tokenForUser = jwtToken.AccessToken;
                 }
             }
+
+            return _tokenForUser;
+        }
+
+        private async Task<JwToken> RequestTokenAsync(string appClientId, string code)
+        {
+            var requestBody = $"grant_type=authorization_code&client_id={appClientId}&code={code}&redirect_uri={DefaultRedirectUri}&scope={Scope}";
+            var requestBytes = Encoding.UTF8.GetBytes(requestBody);
+
+            // Build request.
+            var request = HttpWebRequest.CreateHttp(AuthorizationTokenService);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            var requestStream = await request.GetRequestStreamAsync()
+                                                    .ConfigureAwait(continueOnCapturedContext: true);
+            await requestStream.WriteAsync(requestBytes, 0, requestBytes.Length);
+
+            // Get response.
+            var response = await request.GetResponseAsync()
+                                            .ConfigureAwait(continueOnCapturedContext: true)
+                                as HttpWebResponse;
+            var responseReader = new StreamReader(response.GetResponseStream());
+            var responseBody = await responseReader.ReadToEndAsync()
+                                                        .ConfigureAwait(continueOnCapturedContext: true);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                // Parse the JWT.
+                var jwt = JsonConvert.DeserializeObject<JwToken>(responseBody);
+                return jwt;
+            }
+
+            // Consent was not obtained.
+            return null;
+        }
+
+       /// <summary>
+       /// Retrieve the authorisation code
+       /// </summary>
+       /// <param name="responseData">string contening the authorisation code</param>
+       /// <returns>The authorization code</returns>
+        private string ParseAuthorizationCode(string responseData)
+        {
+            string code = null;
+            var queryParams = SplitQueryString(responseData);
+            foreach (var param in queryParams)
+            {
+                // Split the current parameter into name and value.
+                var parts = param.Split('=');
+                var paramName = parts[0].ToLowerInvariant().Trim();
+                var paramValue = WebUtility.UrlDecode(parts[1]).Trim();
+
+                // Process the output parameter.
+                if (paramName.Equals("code"))
+                {
+                    code = paramValue;
+                }
+            }
+
+            return code;
+        }
+
+        private string[] SplitQueryString(string queryString)
+        {
+            // Do some hygiene on the query string upfront to ease the parsing.
+            queryString.Trim();
+            var queryStringBegin = queryString.IndexOf('?');
+
+            if (queryStringBegin >= 0)
+            {
+                queryString = queryString.Substring(queryStringBegin + 1);
+            }
+
+            // Now split the query string.
+            return queryString.Split('&');
         }
     }
 }

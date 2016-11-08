@@ -12,37 +12,31 @@
 //
 // ******************************************************************
 
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
-    /// Microsoft Graph Helper
+    ///  Class OneDriveItemConflictBehavior which define
     /// </summary>
-    internal class MicrosoftGraphHelper
+    public class OneDriveItemConflictBehavior
     {
         /// <summary>
-        /// Build string with an array's items
+        /// Gets or sets the item's name
         /// </summary>
-        /// <typeparam name='T'>enum type</typeparam>
-        /// <param name='t'>an array of enum containing the fields</param>
-        /// <returns>a string with all fields separate by a comma.</returns>
-        internal static string BuildString<T>(T[] t)
-        {
-            StringBuilder sb = new StringBuilder();
+        [JsonProperty("item")]
+        public Item Item { get; set; }
+    }
 
-            foreach (var field in t)
-            {
-                sb.Append(field.ToString());
-                sb.Append(',');
-            }
-
-            string tempo = sb.ToString();
-
-            // Remove the trailing comma character
-            int lastPosition = tempo.Length - 1;
-
-            return tempo.Substring(0, lastPosition);
-        }
+    /// <summary>
+    /// Class Item
+    /// </summary>
+    public class Item
+    {
+        /// <summary>
+        /// Gets or sets the conflict resolution behavior for actions that create a new item
+        /// </summary>
+        [JsonProperty("@microsoft.graph.conflictBehavior")]
+        public string MicrosoftGraphConflictBehavior { get; set; }
     }
 }

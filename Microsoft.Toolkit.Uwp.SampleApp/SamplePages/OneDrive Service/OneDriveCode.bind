@@ -1,0 +1,82 @@
+// In order to use this service, you need to register an application using the V2 Model
+// 1) Go to: https://apps.dev.microsoft.com
+// 2) Signin with your Microsoft Account
+// 3) Add a new Application
+// 4) Copy the Application ID
+// 5) Add a platform and select mobile application
+
+// 
+// Initialize the service
+// The AuthenticationModel.V2 parameter, allows you to use, either a Microsoft Account or an Office 365 account
+// The third parameter allow to initialize the desired service (OneDrive, Message)
+// You can combine both (ServicesToInitialize.OneDrive | ServicesToInitialize.Message), in order to have access to both service 
+if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text, AuthenticationModel.V2, ServicesToInitialize.OneDrive))
+{
+    return;
+}
+// Sign in 
+if (!await MicrosoftGraphService.Instance.LoginAsync())
+{
+    return;
+}
+
+
+// First get the root of your OneDrive
+var rootFolder=await MicrosoftGraphService.Instance.User.OneDrive.RootFolderAsync();
+
+//List the Items from the current folder
+ var OneDriveItems = await folder.GetItemsAsync();
+do
+{
+	//Get the next page of items
+    OneDriveItems = await folder.NextItemsAsync();   
+}
+while (OneDriveItems != null);
+
+// Then from there you can play with folders and files
+// Create Folder
+var level1Folder = await rootFolder.CreateFolderAsync("Level1");
+var level2Folder = await level1Folder.CreateFolderAsync("Level2");
+var level3Folder = await level2Folder.CreateFolderAsync("Level3");
+// You can get a sub folder by path
+var level3Folder = await rootFolder.GetFolderAsync("Level1/Level2/Level3");
+
+//Move Folder
+var result=await level3Folder.MoveAsync(rootFolder);
+// Copy Folder
+Var result=level3Folder.CopyAsync(destFolder)
+
+// Rename Folder
+await level3Folder.RenameAsync("NewLevel3");
+// Create new files
+// 1)
+var fileCreated = await subFolder.CreateFileAsync("Newfile.docx");
+// Push the content from the local file to the remote file
+await fileCreated.WriteAsync(localStream);
+
+// Or passing the stream directly to the method
+var fileCreated = await level3Folder.CreateFileAsync(selectedFile.Name, localStream);
+
+/For big file (>4MB) use the UploadFileAsync method instead
+var largeFileCreated = await level3Folder.UploadFileAsync(selectedFile.Name, localStream, _cancellationTokenSource.Token, 320 * 1024);
+
+// You can also Move, Copy or Rename a file
+await fileCreated.MoveAsync(destFolder);
+await fileCreated.CopyAsync(destFolder);
+await fileCreated.RenameAsync("newName");
+
+// Download a file and save the content in a local file
+var remoteFile=await level3Folder.GetFile("NewFile.docx"); 
+using (var remoteStream = await remoteFile.OpenAsync())
+ {
+     byte[] buffer = new byte[remoteStream.Size];
+     var localBuffer = await remoteStream.ReadAsync(buffer.AsBuffer(), (uint)remoteStream.Size, InputStreamOptions.ReadAhead);
+	 var localFolder = ApplicationData.Current.LocalFolder;
+     var myLocalFile = await localFolder.CreateFileAsync($"{oneDriveFile.Name}", CreationCollisionOption.GenerateUniqueName);
+     using (var localStream = await myLocalFile.OpenAsync(FileAccessMode.ReadWrite))
+     {
+         await localStream.WriteAsync(localBuffer);
+         await localStream.FlushAsync();
+     }
+ }
+

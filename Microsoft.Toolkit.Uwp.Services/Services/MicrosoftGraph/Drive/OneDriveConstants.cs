@@ -12,37 +12,26 @@
 //
 // ******************************************************************
 
-using System.Text;
-
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
-    /// Microsoft Graph Helper
+    ///  Class ofr the OneDrive Constants
     /// </summary>
-    internal class MicrosoftGraphHelper
+    public class OneDriveConstants
     {
         /// <summary>
-        /// Build string with an array's items
+        /// Maximum file size for a simple upload
         /// </summary>
-        /// <typeparam name='T'>enum type</typeparam>
-        /// <param name='t'>an array of enum containing the fields</param>
-        /// <returns>a string with all fields separate by a comma.</returns>
-        internal static string BuildString<T>(T[] t)
-        {
-            StringBuilder sb = new StringBuilder();
+        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
 
-            foreach (var field in t)
-            {
-                sb.Append(field.ToString());
-                sb.Append(',');
-            }
+        /// <summary>
+        /// Default chunk when uploading a karge file
+        /// </summary>
+        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
 
-            string tempo = sb.ToString();
-
-            // Remove the trailing comma character
-            int lastPosition = tempo.Length - 1;
-
-            return tempo.Substring(0, lastPosition);
-        }
+        /// <summary>
+        /// Chunk size increment
+        /// </summary>
+        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
     }
 }

@@ -12,37 +12,45 @@
 //
 // ******************************************************************
 
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
-    /// Microsoft Graph Helper
+    ///  RootParentReference class
     /// </summary>
-    internal class MicrosoftGraphHelper
+    public class OneDriveParentReference
     {
         /// <summary>
-        /// Build string with an array's items
+        /// Initializes a new instance of the <see cref="OneDriveParentReference"/> class.
         /// </summary>
-        /// <typeparam name='T'>enum type</typeparam>
-        /// <param name='t'>an array of enum containing the fields</param>
-        /// <returns>a string with all fields separate by a comma.</returns>
-        internal static string BuildString<T>(T[] t)
+        public OneDriveParentReference()
         {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (var field in t)
-            {
-                sb.Append(field.ToString());
-                sb.Append(',');
-            }
-
-            string tempo = sb.ToString();
-
-            // Remove the trailing comma character
-            int lastPosition = tempo.Length - 1;
-
-            return tempo.Substring(0, lastPosition);
+            Parent = new Parent();
         }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent's item
+        /// </summary>
+        [JsonProperty("parentReference")]
+        public Parent Parent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the item's name
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
+
+    /// <summary>
+    /// Parente class
+    /// </summary>
+    public class Parent
+    {
+        /// <summary>
+        /// Gets or sets parent path
+        /// </summary>
+        [JsonProperty("path")]
+        public string Path { get; set; }
     }
 }

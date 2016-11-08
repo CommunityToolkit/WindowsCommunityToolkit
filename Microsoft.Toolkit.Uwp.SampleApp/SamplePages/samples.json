@@ -239,6 +239,14 @@
         "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png"
       },
       {
+        "Name": "OneDrive Service",
+        "Type": "OneDrivePage",
+        "About": "The OneDrive service allows you to get your files from OneDrive using an Microsoft Account or OneDrive For Business using an Office 365 account",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/OneDrive/",
+        "CodeFile": "OneDriveCode.bind",
+        "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png"
+      },
+      {
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
