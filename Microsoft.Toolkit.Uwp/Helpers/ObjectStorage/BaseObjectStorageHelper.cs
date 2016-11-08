@@ -126,14 +126,14 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-+       /// Save a group of items by its key in a composite.
- +      /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
- +      /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects) and for groups of settings which 
- +      /// need to be treated in an atomic way.
- +      /// </summary>
- +      /// <typeparam name="T">Type of object saved</typeparam>
- +      /// <param name="compositeKey">Key of the composite (that contains settings)</param>
- +      /// <param name="values">Objects to save</param>
+        /// Save a group of items by its key in a composite.
+        /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
+        /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects) and for groups of settings which 
+        /// need to be treated in an atomic way.
+        /// </summary>
+        /// <typeparam name="T">Type of object saved</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="values">Objects to save</param>
         public void Save<T>(string compositeKey, IDictionary<string, T> values)
         {
             if (KeyExists(compositeKey))
