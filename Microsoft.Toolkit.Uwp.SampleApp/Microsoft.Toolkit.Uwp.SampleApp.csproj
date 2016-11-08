@@ -257,6 +257,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
+    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\LiveTile\icon.jpg" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
@@ -324,6 +325,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -402,6 +404,9 @@
     </Compile>
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml.cs">
+      <DependentUpon>ReorderGridPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -559,6 +564,10 @@
     <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RotatorTile\RotatorTilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
