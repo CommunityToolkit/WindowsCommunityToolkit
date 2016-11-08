@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,6 +14,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private static readonly DependencyProperty ReorderAnimationProperty =
             DependencyProperty.RegisterAttached("ReorderAnimation", typeof(bool), typeof(ReorderGridAnimation), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets a value indicating whether the platform supports the animation.
+        /// </summary>
+        /// <remarks>
+        /// On platforms not supporting the animation, this class has no effect.
+        /// </remarks>
+        public static bool IsSupported =>
+            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Gets a value indicating the duration, in milliseconds, the animation should take.
@@ -42,6 +52,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnDurationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (IsSupported == false)
+            {
+                return;
+            }
+
             GridView view = d as GridView;
             if (view != null)
             {
