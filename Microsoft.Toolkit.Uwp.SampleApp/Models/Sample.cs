@@ -149,9 +149,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
-
-                                        sliderOptions.MinValue = double.Parse(split[0]);
-                                        sliderOptions.MaxValue = double.Parse(split[1]);
+                                        if (split.Length == 2)
+                                        {
+                                            sliderOptions.MinValue = double.Parse(split[0]);
+                                            sliderOptions.MaxValue = double.Parse(split[1]);
+                                        }
+                                        else if(split.Length == 3)
+                                        {
+                                            sliderOptions.MinValue = -double.Parse(split[1]);
+                                            sliderOptions.MaxValue = double.Parse(split[2]);
+                                        }
 
                                         options = sliderOptions;
                                     }
