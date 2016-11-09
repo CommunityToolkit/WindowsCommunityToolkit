@@ -25,6 +25,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
+        /// Identifies the Duration attached dependency property.
+        /// </summary>
+        /// <returns>The identifier for the Duration attached dependency property.</returns>
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.RegisterAttached("Duration", typeof(double), typeof(ReorderGridAnimation), new PropertyMetadata(double.NaN, OnDurationChanged));
+
+        /// <summary>
         /// Gets a value indicating the duration, in milliseconds, the animation should take.
         /// </summary>
         /// <param name="obj">The object to get the value from.</param>
@@ -43,12 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             obj.SetValue(DurationProperty, value);
         }
-
-        /// <summary>
-        /// Identifies the Duration attached dependency property.
-        /// </summary>
-        /// <returns>The identifier for the Duration attached dependency property.</returns>
-        public static readonly DependencyProperty DurationProperty = DependencyProperty.RegisterAttached("Duration", typeof(double), typeof(ReorderGridAnimation), new PropertyMetadata(double.NaN, OnDurationChanged));
 
         private static void OnDurationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
