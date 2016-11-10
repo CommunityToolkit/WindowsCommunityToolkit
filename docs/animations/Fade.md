@@ -29,7 +29,7 @@ or directly from code:
 | --- | --- | --- |
 | Value | float | The amount to fade an element. The value should be between 0.0 and l.0 |
 | Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
+| Delay | double | The number of milliseconds before the animation is started |
 
 ## Chaining animations
 

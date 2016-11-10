@@ -35,7 +35,9 @@ ToolkitLogo.Blur(value: 10, duration: 500, delay: 250);
 | --- | --- | --- |
 | Value | double | The amount of Gaussian blur to apply to the pixel |
 | Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behavior animations can also be chained and awaited.
 
