@@ -14,8 +14,8 @@ You can either use the blur behavior from your XAML code:
     <interactivity:Interaction.Behaviors>
     <behaviors:Blur x:Name="BlurBehavior" 
            Value="10" 
-           Duration="10" 
-           Delay="0" 
+           Duration="500" 
+           Delay="250" 
            AutomaticallyStart="True"/>
     </interactivity:Interaction.Behaviors>
 
@@ -25,7 +25,7 @@ or directly from code:
 
 ```csharp
 
-ToolkitLogo.Blur(value: 10, duration: 10, delay: 0);       
+ToolkitLogo.Blur(value: 10, duration: 500, delay: 250);       
 
 ```
 
@@ -51,6 +51,14 @@ Behavior animations can also be chained and awaited.
 ## Example Image
 
 ![Blur Behavior animation](../resources/images/Animations-Blur.gif "Blur Behavior")
+
+## Properties
+
+| [Property Name] | [Type] | [Description]
+| --- | --- | --- |
+| Value | double | The amount of Gaussian blur to apply to the pixel |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of millisecon before the animation is started |
 
 ## Requirements (Windows 10 Device Family)
 
