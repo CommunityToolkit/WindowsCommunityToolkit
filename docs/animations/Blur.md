@@ -29,6 +29,14 @@ ToolkitLogo.Blur(value: 10, duration: 500, delay: 250);
 
 ```
 
+## Properties
+
+| Property Name | Type | Description |
+| --- | --- | --- |
+| Value | double | The amount of Gaussian blur to apply to the pixel |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of millisecon before the animation is started |
+
 Behavior animations can also be chained and awaited.
 
 ```csharp
@@ -51,14 +59,6 @@ Behavior animations can also be chained and awaited.
 ## Example Image
 
 ![Blur Behavior animation](../resources/images/Animations-Blur.gif "Blur Behavior")
-
-## Properties
-
-| Property Name | Type | Description |
-| --- | --- | --- |
-| Value | double | The amount of Gaussian blur to apply to the pixel |
-| Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
 
 ## Requirements (Windows 10 Device Family)
 

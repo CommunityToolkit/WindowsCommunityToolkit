@@ -9,8 +9,8 @@ The **Offset animation behavior** gets the number of pixels, from the origin of 
 <behaviors:Offset x:Name="OffsetBehavior" 
 	OffsetX="25.0" 
 	OffsetY="25.0"
-	Duration="2.0" 
-	Delay="0.5" 
+	Duration="500" 
+	Delay="250" 
 	AutomaticallyStart="True"/>
 </behaviors:Offset>
 
@@ -27,6 +27,15 @@ MyRectangle.Offset(
                 delay: Delay);
 
 ```
+
+## Properties
+
+| Property Name | Type | Description |
+| --- | --- | --- |
+| OffsetX | float | The number of pixels to move across the x axis |
+| OffsetY | float | The number of pixels to move across the y axis |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of millisecon before the animation is started |
 
 Behavior animations can also be chained and awaited.
 
