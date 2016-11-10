@@ -35,10 +35,12 @@ or directly from code:
 | Property Name | Type | Description |
 | --- | --- | --- |
 | Value | float | The rotation of the element in degrees |
-| CenterX | float | The pivot point on the x axis based |
-| CenterY | float | The pivot point on the y axis based |
+| CenterX | float | The pivot point on the x axis |
+| CenterY | float | The pivot point on the y axis |
 | Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behavior animations can also be chained and awaited.
 

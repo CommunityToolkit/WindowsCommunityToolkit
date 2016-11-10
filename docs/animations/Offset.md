@@ -32,10 +32,12 @@ MyRectangle.Offset(
 
 | Property Name | Type | Description |
 | --- | --- | --- |
-| OffsetX | float | The number of pixels to move across the x axis |
-| OffsetY | float | The number of pixels to move across the y axis |
+| OffsetX | float | The number of pixels to move along the x axis |
+| OffsetY | float | The number of pixels to move along the y axis |
 | Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behavior animations can also be chained and awaited.
 

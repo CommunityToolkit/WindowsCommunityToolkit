@@ -39,10 +39,12 @@ MyRectangle.Scale(
 | --- | --- | --- |
 | ScaleX | float | The scale of the element along the x axis |
 | ScaleY | float | The scale of the element along the y axis |
-| CenterX | float | The pivot point on the x axis based |
-| CenterY | float | The pivot point on the y axis based |
+| CenterX | float | The pivot point on the x axis |
+| CenterY | float | The pivot point on the y axis |
 | Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of millisecon before the animation is started |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behaviors can also be chained and awaited.
 
