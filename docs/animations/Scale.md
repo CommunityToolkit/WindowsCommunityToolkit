@@ -12,8 +12,8 @@ The **Scale animation behavior** allows you to change a control's scale by incre
                      ScaleY="2.0"
                      CenterX="0.0"
                      CenterY="0.0" 
-                     Duration="1.0" 
-                     Delay="0.5" 
+                     Duration="1000" 
+                     Delay="500" 
                      AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 
@@ -32,6 +32,17 @@ MyRectangle.Scale(
                 delay: Delay);                
 
 ```
+
+## Properties
+
+| Property Name | Type | Description |
+| --- | --- | --- |
+| ScaleX | float | The scale of the element along the x axis |
+| ScaleY | float | The scale of the element along the y axis |
+| CenterX | float | The pivot point on the x axis based |
+| CenterY | float | The pivot point on the y axis based |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of millisecon before the animation is started |
 
 Behaviors can also be chained and awaited.
 
