@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class ReorderGridAnimation
     {
         private static readonly DependencyProperty ReorderAnimationProperty =
-            DependencyProperty.RegisterAttached("ReorderAnimation", typeof(bool), typeof(ReorderGridAnimation), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("ReorderAnimation", typeof(bool), typeof(ImplicitAnimationCollection), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets a value indicating whether the platform supports the animation.
