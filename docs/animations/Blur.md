@@ -54,7 +54,7 @@ Behavior animations can also be chained and awaited.
 
 ## Properties
 
-| [Property Name] | [Type] | [Description]
+| Property Name | Type | Description |
 | --- | --- | --- |
 | Value | double | The amount of Gaussian blur to apply to the pixel |
 | Duration | double | The number of milliseconds the animation should run for |
