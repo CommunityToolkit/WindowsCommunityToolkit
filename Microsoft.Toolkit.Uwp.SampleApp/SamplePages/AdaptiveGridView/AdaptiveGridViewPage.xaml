@@ -39,6 +39,7 @@
 
     <controls:AdaptiveGridView x:Name="AdaptiveGridViewControl"
                                Grid.Row="1"
+                               OneRowModeEnabled="{Binding OneRowModeEnabled.Value}"
                                DesiredWidth="{Binding DesiredWidth.Value}"
                                IsItemClickEnabled="{Binding IsItemClickEnabled.Value, Mode=TwoWay}"
                                ItemHeight="{Binding ItemHeight.Value}"
