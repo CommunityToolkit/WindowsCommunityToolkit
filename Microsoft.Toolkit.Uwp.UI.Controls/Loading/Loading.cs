@@ -21,9 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplateVisualState(Name = "LoadingIn", GroupName = "CommonStates")]
     [TemplateVisualState(Name = "LoadingOut", GroupName = "CommonStates")]
-    [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
-    [TemplatePart(Name = "BackgroundGrid", Type = typeof(Grid))]
-    [TemplatePart(Name = "ContentGrid", Type = typeof(ContentPresenter))]
     public partial class Loading : ContentControl
     {
         /// <summary>
@@ -36,42 +33,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            _rootGrid = GetTemplateChild("RootGrid") as Grid;
-            _backgroundGrid = GetTemplateChild("BackgroundGrid") as Grid;
-            _contentGrid = GetTemplateChild("ContentGrid") as ContentPresenter;
-
-            OnLoadingRequired();
-
-            CreateLoadingControl();
-
             base.OnApplyTemplate();
+
+            Update();
         }
 
-        protected virtual void OnLoadingRequired()
+        private void Update()
         {
             LoadingRequired?.Invoke(this, EventArgs.Empty);
-        }
 
-        private void CreateLoadingControl()
-        {
-            if (IsLoading)
-            {
-                if (LoadingBackground == null && LoadingOpacity == 0d)
-                {
-                    _backgroundGrid = null;
-                }
-                else
-                {
-                    _backgroundGrid.Background = LoadingBackground;
-                    _backgroundGrid.Opacity = LoadingOpacity;
-                }
-
-                VisualStateManager.GoToState(this, "LoadingIn", true);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, "LoadingOut", true);
-            }
+            VisualStateManager.GoToState(this, IsLoading ? "LoadingIn" : "LoadingOut", true);
         }
     }
 }

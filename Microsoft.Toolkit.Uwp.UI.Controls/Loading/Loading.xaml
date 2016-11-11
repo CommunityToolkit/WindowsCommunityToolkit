@@ -4,13 +4,17 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
     
     <Style TargetType="controls:Loading">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Loading">
-                    <Grid x:Name="RootGrid" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                    <Border x:Name="RootGrid" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            Opacity="{TemplateBinding Opacity}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="LoadingIn">
@@ -97,13 +101,12 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="BackgroundGrid" Background="{TemplateBinding LoadingBackground}" Opacity="{TemplateBinding LoadingOpacity}"/>
-                        <ContentPresenter x:Name="ContentGrid" HorizontalContentAlignment="{TemplateBinding LoadingHorizontalAlignment}" VerticalContentAlignment="{TemplateBinding LoadingVerticalAlignment}">
+                        <ContentPresenter x:Name="ContentGrid" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ContentPresenter.RenderTransform>
                                 <CompositeTransform></CompositeTransform>
                             </ContentPresenter.RenderTransform>
                         </ContentPresenter>
-                    </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
