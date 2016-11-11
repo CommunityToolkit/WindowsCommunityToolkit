@@ -29,17 +29,19 @@
       </controls:MasterDetailsView.ItemTemplate>
       <controls:MasterDetailsView.DetailsTemplate>
         <DataTemplate>
-          <RelativePanel Margin="24">
+          <RelativePanel Margin="8">
             <Ellipse x:Name="FromEllipse"
                      Width="50"
                      Height="50"
                      Fill="Gray" />
-            <TextBlock Margin="12,-6,0,0"
+            <TextBlock Margin="12,10,0,0"
+                       VerticalAlignment="Center"
                        RelativePanel.RightOf="FromEllipse"
                        Style="{ThemeResource SubtitleTextBlockStyle}"
                        Text="{Binding From}" />
             <TextBlock x:Name="SubjectLine"
                        RelativePanel.Below="FromEllipse"
+                       Margin="0,12,0,0"
                        Style="{ThemeResource BodyTextBlockStyle}"
                        Text="{Binding Subject}" />
             <TextBlock x:Name="Body"
