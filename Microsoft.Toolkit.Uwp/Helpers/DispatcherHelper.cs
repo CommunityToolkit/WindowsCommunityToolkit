@@ -165,7 +165,16 @@ namespace Microsoft.Toolkit.Uwp
              {
                  try
                  {
-                     taskCompletionSource.SetResult(await function().ConfigureAwait(false));
+                     var awaitableResult = function();
+                     if (awaitableResult != null)
+                     {
+                         var result = await awaitableResult.ConfigureAwait(false);
+                         taskCompletionSource.SetResult(result);
+                     }
+                     else
+                     {
+                         taskCompletionSource.SetResult(default(T));
+                     }
                  }
                  catch (Exception e)
                  {

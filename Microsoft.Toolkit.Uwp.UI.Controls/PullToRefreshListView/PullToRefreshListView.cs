@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-            if (!IsPullToRefreshWithMouseEnabled)
+            if (!IsPullToRefreshWithMouseEnabled || _contentTransform == null)
             {
                 return;
             }
