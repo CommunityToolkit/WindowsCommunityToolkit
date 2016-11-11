@@ -30,6 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public partial class AdaptiveGridView : GridView
     {
+        private bool _isLoaded;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
@@ -39,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged += OnSizeChanged;
             ItemClick += OnItemClick;
             Items.VectorChanged += ItemsOnVectorChanged;
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         /// <summary>
@@ -131,6 +135,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.PreviousSize.Width != e.NewSize.Width)
             {
                 RecalculateLayout(e.NewSize.Width);
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _isLoaded = true;
+            DetermineOneRowMode();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            _isLoaded = false;
+        }
+
+        private void DetermineOneRowMode()
+        {
+            if (_isLoaded)
+            {
+                var itemsWrapGridPanel = ItemsPanelRoot as ItemsWrapGrid;
+
+                if (OneRowModeEnabled)
+                {
+                    var b = new Binding()
+                    {
+                        Source = this,
+                        Path = new PropertyPath("ItemHeight")
+                    };
+
+                    itemsWrapGridPanel.Orientation = Orientation.Vertical;
+                    this.SetBinding(GridView.MaxHeightProperty, b);
+
+                    ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Visible);
+                    ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Enabled);
+                }
+                else
+                {
+                    this.ClearValue(GridView.MaxHeightProperty);
+                    itemsWrapGridPanel.Orientation = Orientation.Horizontal;
+
+                    ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Enabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Visible);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Disabled);
+                }
             }
         }
 

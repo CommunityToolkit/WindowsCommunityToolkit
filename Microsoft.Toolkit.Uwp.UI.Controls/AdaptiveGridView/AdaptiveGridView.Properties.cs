@@ -69,19 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
             var self = d as AdaptiveGridView;
-
-            if ((bool)newValue)
-            {
-                var b = new Binding()
-                {
-                    Source = self,
-                    Path = new PropertyPath("ItemHeight")
-                };
-
-                self.SetBinding(GridView.MaxHeightProperty, b);
-                ScrollViewer.SetVerticalScrollMode(self, ScrollMode.Disabled);
-                ScrollViewer.SetVerticalScrollBarVisibility(self, ScrollBarVisibility.Hidden);
-            }
+            self.DetermineOneRowMode();
         }
 
         private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
