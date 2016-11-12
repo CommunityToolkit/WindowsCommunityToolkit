@@ -44,6 +44,32 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Detect if a setting already exists in a composite.
+        /// </summary>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the setting (that contains object)</param>
+        /// <returns>True if a value exists</returns>
+        public bool KeyExists(string compositeKey, string key)
+        {
+            if (KeyExists(compositeKey))
+            {
+                Windows.Storage.ApplicationDataCompositeValue composite = (Windows.Storage.ApplicationDataCompositeValue)Settings.Values[compositeKey];
+                if (composite != null)
+                {
+                    return composite.ContainsKey(key);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Retrieve single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
@@ -56,6 +82,29 @@ namespace Microsoft.Toolkit.Uwp
             if (value != null)
             {
                 return JsonConvert.DeserializeObject<T>(value);
+            }
+
+            return @default;
+        }
+
+        /// <summary>
+        /// Retrieve single item by its key in composite.
+        /// </summary>
+        /// <typeparam name="T">Type of object retrieved</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the object</param>
+        /// <param name="default">Default value of the object</param>
+        /// <returns>The T object</returns>
+        public T Read<T>(string compositeKey, string key, T @default = default(T))
+        {
+            Windows.Storage.ApplicationDataCompositeValue composite = (Windows.Storage.ApplicationDataCompositeValue)Settings.Values[compositeKey];
+            if (composite != null)
+            {
+                string value = (string)composite[key];
+                if (value != null)
+                {
+                    return JsonConvert.DeserializeObject<T>(value);
+                }
             }
 
             return @default;
@@ -78,6 +127,37 @@ namespace Microsoft.Toolkit.Uwp
             else
             {
                 Settings.Values.Add(key, JsonConvert.SerializeObject(value));
+            }
+        }
+
+        /// <summary>
+        /// Save single item by its key in composite.
+        /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
+        /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects).
+        /// </summary>
+        /// <typeparam name="T">Type of object saved</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings)</param>
+        /// <param name="key">Key of the value saved</param>
+        /// <param name="value">Object to save</param>
+        public void Save<T>(string compositeKey, string key, T value)
+        {
+            if (KeyExists(compositeKey))
+            {
+                Windows.Storage.ApplicationDataCompositeValue composite = (Windows.Storage.ApplicationDataCompositeValue)Settings.Values[compositeKey];
+                if (KeyExists(compositeKey, key))
+                {
+                    composite[key] = JsonConvert.SerializeObject(value);
+                }
+                else
+                {
+                    composite.Add(key, JsonConvert.SerializeObject(value));
+                }
+            }
+            else
+            {
+                Windows.Storage.ApplicationDataCompositeValue composite = new Windows.Storage.ApplicationDataCompositeValue();
+                composite.Add(key, JsonConvert.SerializeObject(value));
+                Settings.Values[compositeKey] = composite;
             }
         }
 
