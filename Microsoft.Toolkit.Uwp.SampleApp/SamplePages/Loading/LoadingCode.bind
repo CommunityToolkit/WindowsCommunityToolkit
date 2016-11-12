@@ -1,5 +1,4 @@
-<Page x:Name="PageName"
-      x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.LoadingPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.LoadingPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -63,9 +62,9 @@
             </StackPanel>
         </ScrollViewer>
 
-        <controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="@[LoadingContentHorizontalAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]" 
-                          LoadingVerticalAlignment="@[LoadingContentVerticalAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]"
-                          LoadingBackground="@[LoadingBackground:Brush:CadetBlue]" LoadingOpacity="@[OpacityForLoadingControl:DoubleSlider:0.75:0-1]">
+        <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="@[LoadingContentHorizontalAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]" 
+                          VerticalContentAlignment="@[LoadingContentVerticalAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]"
+                          Background="@[LoadingBackground:Brush:CadetBlue]" Opacity="@[OpacityForLoadingControl:DoubleSlider:0.75:0-1]">
           <ContentControl x:Name="LoadingContentControl"/>
         </controls:Loading>
     </Grid>
