@@ -1,0 +1,104 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    >
+
+    <Style TargetType="controls:TaskControl">
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:TaskControl">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Resources>
+                            <converters:BoolToObjectConverter x:Name="InvBoolConverter" TrueValue="false" FalseValue="true"/>
+                        </Border.Resources>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="TaskStates">
+                                <VisualState x:Name="NotStarted">
+                                    <VisualState.Setters>
+                                        <Setter Target="ProgressPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="MainContentPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="FaultedPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="CanceledPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="NotStartedPresenter.Visibility" Value="Visible"/>
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding Task.IsStarted, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InvBoolConverter}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="Running">
+                                    <VisualState.Setters>
+                                        <Setter Target="ProgressPresenter.Visibility" Value="Visible"/>
+                                        <Setter Target="MainContentPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="FaultedPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="CanceledPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="NotStartedPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding Task.IsRunning, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="Successfull">
+                                    <VisualState.Setters>
+                                        <Setter Target="ProgressPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="MainContentPresenter.Visibility" Value="Visible"/>
+                                        <Setter Target="FaultedPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="CanceledPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="NotStartedPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding Task.IsSuccessfull, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="Faulted">
+                                    <VisualState.Setters>
+                                        <Setter Target="ProgressPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="MainContentPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="FaultedPresenter.Visibility" Value="Visible"/>
+                                        <Setter Target="CanceledPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="NotStartedPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding Task.IsFaulted, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="Cancelled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ProgressPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="MainContentPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="FaultedPresenter.Visibility" Value="Collapsed"/>
+                                        <Setter Target="CanceledPresenter.Visibility" Value="Visible"/>
+                                        <Setter Target="NotStartedPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding Task.IsCanceled, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="RootPanel">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding MasterHeaderTemplate}" Content="{TemplateBinding MasterHeader}" Margin="12,0" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                            <ContentPresenter x:Name="MainContentPresenter" Grid.Row="1" Content="{Binding Task.Result, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            <ContentPresenter x:Name="NotStartedPresenter" Grid.Row="1" Content="{TemplateBinding NotStartedContent}" ContentTemplate="{TemplateBinding NotStartedContentTemplate}"/>
+                            <ContentPresenter x:Name="ProgressPresenter" Grid.Row="1" Content="{TemplateBinding ProgressContent}" ContentTemplate="{TemplateBinding ProgressContentTemplate}"/>
+                            <ContentPresenter x:Name="FaultedPresenter" Grid.Row="1" Content="{TemplateBinding FaultedContent}" ContentTemplate="{TemplateBinding FaultedContentTemplate}"/>
+                            <ContentPresenter x:Name="CanceledPresenter" Grid.Row="1" Content="{TemplateBinding CanceledContent}" ContentTemplate="{TemplateBinding CanceledContentTemplate}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

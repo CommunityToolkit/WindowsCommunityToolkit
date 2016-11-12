@@ -1,0 +1,84 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TaskControlPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+  <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!--Normal task with default templates-->
+    <!--<StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Start normal task" Click="Button_NormalStart" Margin="10" HorizontalAlignment="Center"/>
+            <Button Content="Start normal task with exception" Click="Button_NormalStartException"  Margin="10" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <controls:TaskControl Task="{x:Bind NormalTask, Mode=OneWay}" Margin="10" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <controls:TaskControl.ContentTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="24" Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </DataTemplate>
+            </controls:TaskControl.ContentTemplate>
+        </controls:TaskControl>-->
+
+    <!--Image task with defined templates-->
+    <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+      <Button Content="Start image task" Click="Button_ImageStart"  Margin="10" HorizontalAlignment="Center"/>
+      <Button Content="Start image task with exception" Click="Button_ImageStartException"  Margin="10" HorizontalAlignment="Center"/>
+    </StackPanel>
+    <controls:TaskControl Task="{x:Bind ImageTask, Mode=OneWay}" Margin="10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <controls:TaskControl.ContentTemplate>
+        <DataTemplate>
+          <Image Source="{Binding}" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </DataTemplate>
+      </controls:TaskControl.ContentTemplate>
+      <controls:TaskControl.NotStartedContent>
+        <SymbolIcon Symbol="Emoji2" Foreground="Red"/>
+      </controls:TaskControl.NotStartedContent>
+      <controls:TaskControl.ProgressContent>
+        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Red"/>
+      </controls:TaskControl.ProgressContent>
+      <controls:TaskControl.FaultedContent>
+        <SymbolIcon Symbol="Important" Foreground="Red"/>
+      </controls:TaskControl.FaultedContent>
+      <controls:TaskControl.CanceledContent>
+        <SymbolIcon Symbol="Emoji" Foreground="Red"/>
+      </controls:TaskControl.CanceledContent>
+    </controls:TaskControl>
+
+    <!--Normal task with default templates and complex class-->
+    <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+      <Button Content="Start complex task" Click="Button_ComplexStart"  Margin="10" HorizontalAlignment="Center"/>
+      <Button Content="Start complex task with exception" Click="Button_ComplexStartException"  Margin="10" HorizontalAlignment="Center"/>
+    </StackPanel>
+    <controls:TaskControl Task="{x:Bind ComplexTask, Mode=OneWay}" Margin="10" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <controls:TaskControl.ContentTemplate>
+        <DataTemplate>
+          <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock FontSize="24" Foreground="Blue" VerticalAlignment="Center" HorizontalAlignment="Center">
+              <Run Text="Name: "/>
+              <Run Text="{Binding Name}"/>
+            </TextBlock>
+            <TextBlock FontSize="24" Foreground="Orange" VerticalAlignment="Center" HorizontalAlignment="Center">
+              <Run Text="Profession: "/>
+              <Run Text="{Binding Profession}"/>
+            </TextBlock>
+          </StackPanel>
+        </DataTemplate>
+      </controls:TaskControl.ContentTemplate>
+    </controls:TaskControl>
+
+    <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Cancel tasks" Click="Button_Cancel" HorizontalAlignment="Center" Margin="20"/>
+  </Grid>
+</Page>
