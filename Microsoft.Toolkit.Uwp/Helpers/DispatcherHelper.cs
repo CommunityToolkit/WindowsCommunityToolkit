@@ -207,7 +207,12 @@ namespace Microsoft.Toolkit.Uwp
             return dispatcher.AwaitableRunAsync<object>(
                 async () =>
             {
-                await function().ConfigureAwait(false);
+                var task = function();
+                if (task == null)
+                {
+                    throw new InvalidOperationException("The Task returned by function cannot be null.");
+                }
+                await task.ConfigureAwait(false);
                 return null;
             }, priority);
         }
