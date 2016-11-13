@@ -65,7 +65,12 @@ namespace Microsoft.Toolkit.Uwp
                 viewToExecuteOn,
                 async () =>
                 {
-                    await function().ConfigureAwait(false);
+                    var task = function();
+                    if (task == null)
+                    {
+                        throw new InvalidOperationException("The Task returned by function cannot be null.");
+                    }
+                    await task.ConfigureAwait(false);
                     return null;
                 }, priority);
         }
@@ -81,7 +86,12 @@ namespace Microsoft.Toolkit.Uwp
             return ExecuteOnUIThreadAsync<object>(
                 async () =>
                 {
-                    await function().ConfigureAwait(false);
+                    var task = function();
+                    if (task == null)
+                    {
+                        throw new InvalidOperationException("The Task returned by function cannot be null.");
+                    }
+                    await task.ConfigureAwait(false);
                     return null;
                 }, priority);
         }
@@ -173,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp
                      }
                      else
                      {
-                         taskCompletionSource.SetResult(default(T));
+                         taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
                      }
                  }
                  catch (Exception e)
