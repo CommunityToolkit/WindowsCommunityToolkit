@@ -24,7 +24,7 @@
             <Button Content="Start normal task" Click="Button_NormalStart" Margin="10" HorizontalAlignment="Center"/>
             <Button Content="Start normal task with exception" Click="Button_NormalStartException"  Margin="10" HorizontalAlignment="Center"/>
         </StackPanel>
-        <controls:TaskControl Task="{x:Bind NormalTask, Mode=OneWay}" Margin="10" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:TaskControl Task="{x:Bind NormalTask, Mode=OneWay}" Margin="10" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <controls:TaskControl.ContentTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" FontSize="24" Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -37,7 +37,7 @@
             <Button Content="Start image task" Click="Button_ImageStart"  Margin="10" HorizontalAlignment="Center"/>
             <Button Content="Start image task with exception" Click="Button_ImageStartException"  Margin="10" HorizontalAlignment="Center"/>
         </StackPanel>
-        <controls:TaskControl Task="{x:Bind ImageTask, Mode=OneWay}" Margin="10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:TaskControl Task="{x:Bind ImageTask, Mode=OneWay}" Margin="10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <controls:TaskControl.ContentTemplate>
                 <DataTemplate>
                     <Image Source="{Binding}" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -62,7 +62,7 @@
             <Button Content="Start complex task" Click="Button_ComplexStart"  Margin="10" HorizontalAlignment="Center"/>
             <Button Content="Start complex task with exception" Click="Button_ComplexStartException"  Margin="10" HorizontalAlignment="Center"/>
         </StackPanel>
-        <controls:TaskControl Task="{x:Bind ComplexTask, Mode=OneWay}" Margin="10" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:TaskControl Task="{x:Bind ComplexTask, Mode=OneWay}" Margin="10" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <controls:TaskControl.ContentTemplate>
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -81,7 +81,7 @@
                 <TextBlock Text="Waiting for start" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </controls:TaskControl.NotStartedContent>
             <controls:TaskControl.ProgressContent>
-                <ProgressRing IsActive="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="Gold" Margin="30"/>
+                <ProgressRing IsActive="True" Width="120" Height="120" Foreground="Gold" Margin="30"/>
             </controls:TaskControl.ProgressContent>
         </controls:TaskControl>
 
