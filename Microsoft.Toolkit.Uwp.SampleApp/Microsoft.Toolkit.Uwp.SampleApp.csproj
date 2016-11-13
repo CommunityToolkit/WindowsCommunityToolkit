@@ -324,7 +324,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
-    <Content Include="SamplePages\TaskControl\TaskControlCode.bind"/>
+    <Content Include="SamplePages\TaskControl\TaskControlCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
