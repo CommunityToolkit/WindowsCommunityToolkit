@@ -60,9 +60,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private TaskWithNotification<SamplePerson> complexTask;
+        private TaskWithNotification<Person> complexTask;
 
-        public TaskWithNotification<SamplePerson> ComplexTask
+        public TaskWithNotification<Person> ComplexTask
         {
             get
             {
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Button_ComplexStart(object sender, RoutedEventArgs e)
         {
             complexTaskCTS = new CancellationTokenSource();
-            ComplexTask = new TaskWithNotification<SamplePerson>(Task.Run(
+            ComplexTask = new TaskWithNotification<Person>(Task.Run(
                 async () =>
                 {
                     for (int i = 0; i < 10; i++)
@@ -170,14 +170,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         complexTaskCTS.Token.ThrowIfCancellationRequested();
                     }
 
-                    return new SamplePerson { Name = "John", Profession = "Programmer" };
+                    return new Person { Name = "John", Profession = "Programmer" };
                 }, complexTaskCTS.Token));
         }
 
         private void Button_ComplexStartException(object sender, RoutedEventArgs e)
         {
             complexTaskCTS = new CancellationTokenSource();
-            Func<Task<SamplePerson>> myFunc = async () =>
+            Func<Task<Person>> myFunc = async () =>
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 throw new Exception();
             };
-            ComplexTask = new TaskWithNotification<SamplePerson>(myFunc.Invoke());
+            ComplexTask = new TaskWithNotification<Person>(myFunc.Invoke());
         }
 
         private void Button_Cancel(object sender, RoutedEventArgs e)

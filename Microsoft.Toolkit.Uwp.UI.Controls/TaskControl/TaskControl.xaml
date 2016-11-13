@@ -4,7 +4,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     >
-
+    
     <Style TargetType="controls:TaskControl">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>

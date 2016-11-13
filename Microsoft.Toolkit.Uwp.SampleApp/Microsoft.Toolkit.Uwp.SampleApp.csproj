@@ -419,7 +419,6 @@
     <Compile Include="SamplePages\SystemInformation\SystemInformationPage.xaml.cs">
       <DependentUpon>SystemInformationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\TaskControl\SamplePerson.cs" />
     <Compile Include="SamplePages\TaskControl\TaskControlPage.xaml.cs">
       <DependentUpon>TaskControlPage.xaml</DependentUpon>
     </Compile>
