@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <!--Normal task with default templates-->
-        <!--<StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Content="Start normal task" Click="Button_NormalStart" Margin="10" HorizontalAlignment="Center"/>
             <Button Content="Start normal task with exception" Click="Button_NormalStartException"  Margin="10" HorizontalAlignment="Center"/>
         </StackPanel>
@@ -30,7 +30,7 @@
                     <TextBlock Text="{Binding}" FontSize="24" Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </DataTemplate>
             </controls:TaskControl.ContentTemplate>
-        </controls:TaskControl>-->
+        </controls:TaskControl>
 
         <!--Image task with defined templates-->
         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -57,7 +57,7 @@
             </controls:TaskControl.CanceledContent>
         </controls:TaskControl>
 
-        <!--Normal task with default templates and complex class-->
+        <!--Normal task with complex class-->
         <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Content="Start complex task" Click="Button_ComplexStart"  Margin="10" HorizontalAlignment="Center"/>
             <Button Content="Start complex task with exception" Click="Button_ComplexStartException"  Margin="10" HorizontalAlignment="Center"/>
@@ -67,19 +67,24 @@
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock FontSize="24" Foreground="Blue" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run Text="Name: "/>
-                        <Run Text="{Binding Name}"/>
+                            <Run Text="Name: "/>
+                            <Run Text="{Binding Name}"/>
                         </TextBlock>
                         <TextBlock FontSize="24" Foreground="Orange" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run Text="Profession: "/>
-                        <Run Text="{Binding Profession}"/>
+                            <Run Text="Profession: "/>
+                            <Run Text="{Binding Profession}"/>
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </controls:TaskControl.ContentTemplate>
+            <controls:TaskControl.NotStartedContent>
+                <TextBlock Text="Waiting for start" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </controls:TaskControl.NotStartedContent>
+            <controls:TaskControl.ProgressContent>
+                <ProgressRing IsActive="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="Gold" Margin="30"/>
+            </controls:TaskControl.ProgressContent>
         </controls:TaskControl>
 
         <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Cancel tasks" Click="Button_Cancel" HorizontalAlignment="Center" Margin="20"/>
     </Grid>
 </Page>
- 

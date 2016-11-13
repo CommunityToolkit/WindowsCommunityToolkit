@@ -123,13 +123,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             BitmapImage image = new BitmapImage();
             MemoryStream memoryStream = new MemoryStream();
-            await Task.Run(
-                async () =>
-                {
-                    Stream tempStream = await new HttpClient().GetStreamAsync(@"https://apod.nasa.gov/apod/image/1605/quivertrees_breuer_1080.jpg");
-                    await tempStream.CopyToAsync(memoryStream);
-                    memoryStream.Position = 0;
-                }, token);
+            Stream tempStream = await new HttpClient().GetStreamAsync(@"https://apod.nasa.gov/apod/image/1605/quivertrees_breuer_1080.jpg");
+            token.ThrowIfCancellationRequested();
+            await tempStream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
             await image.SetSourceAsync(memoryStream.AsRandomAccessStream());
             return image;
         }
@@ -164,17 +161,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Button_ComplexStart(object sender, RoutedEventArgs e)
         {
             complexTaskCTS = new CancellationTokenSource();
-            Func<Task<SamplePerson>> myFunc = async () =>
-            {
-                for (int i = 0; i < 10; i++)
+            ComplexTask = new TaskWithNotification<SamplePerson>(Task.Run(
+                async () =>
                 {
-                    await Task.Delay(500);
-                    complexTaskCTS.Token.ThrowIfCancellationRequested();
-                }
+                    for (int i = 0; i < 10; i++)
+                    {
+                        await Task.Delay(500);
+                        complexTaskCTS.Token.ThrowIfCancellationRequested();
+                    }
 
-                return new SamplePerson { Name = "John", Profession = "Programmer" };
-            };
-            ComplexTask = new TaskWithNotification<SamplePerson>(myFunc.Invoke());
+                    return new SamplePerson { Name = "John", Profession = "Programmer" };
+                }, complexTaskCTS.Token));
         }
 
         private void Button_ComplexStartException(object sender, RoutedEventArgs e)

@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using System;
     using Helpers;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -52,25 +53,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(TaskControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty NotStartedContentProperty =
-            DependencyProperty.Register(nameof(NotStartedContent), typeof(object), typeof(TaskControl), new PropertyMetadata(new TextBlock { Text = "NOT STARTED", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }));
+            DependencyProperty.Register(nameof(NotStartedContent), typeof(object), typeof(TaskControl), new PropertyMetadata("NOT STARTED"));
 
         public static readonly DependencyProperty NotStartedContentTemplateProperty =
             DependencyProperty.Register(nameof(NotStartedContentTemplate), typeof(DataTemplate), typeof(TaskControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ProgressContentProperty =
-            DependencyProperty.Register(nameof(ProgressContent), typeof(object), typeof(TaskControl), new PropertyMetadata(new ProgressRing { IsActive = true }));
+            DependencyProperty.Register(nameof(ProgressContent), typeof(object), typeof(TaskControl), new PropertyMetadata("WORKING"));
 
         public static readonly DependencyProperty ProgressContentTemplateProperty =
             DependencyProperty.Register(nameof(ProgressContentTemplate), typeof(DataTemplate), typeof(TaskControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty CanceledContentProperty =
-            DependencyProperty.Register(nameof(CanceledContent), typeof(object), typeof(TaskControl), new PropertyMetadata(new TextBlock { Text = "CANCELED", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }));
+            DependencyProperty.Register(nameof(CanceledContent), typeof(object), typeof(TaskControl), new PropertyMetadata("CANCELED"));
 
         public static readonly DependencyProperty CanceledContentTemplateProperty =
             DependencyProperty.Register(nameof(CanceledContentTemplate), typeof(DataTemplate), typeof(TaskControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty FaultedContentProperty =
-            DependencyProperty.Register(nameof(FaultedContent), typeof(object), typeof(TaskControl), new PropertyMetadata(new TextBlock { Text = "EXCEPTION", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }));
+            DependencyProperty.Register(nameof(FaultedContent), typeof(object), typeof(TaskControl), new PropertyMetadata("EXCEPTION"));
 
         public static readonly DependencyProperty FaultedContentTemplateProperty =
             DependencyProperty.Register(nameof(FaultedContentTemplate), typeof(DataTemplate), typeof(TaskControl), new PropertyMetadata(null));
