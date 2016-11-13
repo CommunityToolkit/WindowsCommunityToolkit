@@ -10,22 +10,47 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
+    /// <summary>
+    /// This interface represents a task, which exposes properties for binding.
+    /// </summary>
+    /// <seealso cref="TaskWithNotification{TResult}"/>
     public interface ITaskWithNotification
     {
+        /// <summary>
+        /// Gets a value indicating whether task was canceled
+        /// </summary>
         bool IsCanceled { get; }
-        bool IsCompleted { get; }
-        bool IsFaulted { get; }
-        bool IsRunning { get; }
-        bool IsStarted { get; }
-        bool IsSuccessfull { get; }
-        object Result { get; }
 
-        event EventHandler<TaskStatus> OnTaskStateChanged;
+        /// <summary>
+        /// Gets a value indicating whether task is completed
+        /// </summary>
+        bool IsCompleted { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether task ended with exception
+        /// </summary>
+        bool IsFaulted { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether task is still running
+        /// </summary>
+        bool IsRunning { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether task has been started
+        /// </summary>
+        bool IsStarted { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether task has successfully ended
+        /// </summary>
+        bool IsSuccessfull { get; }
+
+        /// <summary>
+        /// Gets a value representing result of the task
+        /// </summary>
+        object Result { get; }
     }
 }
