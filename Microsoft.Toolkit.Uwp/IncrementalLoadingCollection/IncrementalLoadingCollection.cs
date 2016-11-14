@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -118,6 +119,27 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class optionally specifying how many items to load for each data page.
+        /// </summary>
+        /// <param name="itemsPerPage">
+        /// The number of items to retrieve for each call. Default is 20.
+        /// </param>
+        /// <param name="onStartLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </param>
+        /// <param name="onEndLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </param>
+        /// <param name="onError">
+        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// </param>
+        /// <seealso cref="IIncrementalSource{TSource}"/>
+        public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
+            : this(default(TSource), itemsPerPage, onStartLoading, onEndLoading, onError)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class using the specified <see cref="IIncrementalSource{TSource}"/> implementation and, optionally, how many items to load for each data page.
         /// </summary>
         /// <param name="source">
@@ -138,6 +160,18 @@ namespace Microsoft.Toolkit.Uwp
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
         {
+            if (EqualityComparer<TSource>.Default.Equals(source, default(TSource)))
+            {
+                var type = typeof(TSource);
+                ConstructorInfo constructor = type.GetConstructor(new Type[0]);
+                if (constructor == null)
+                {
+                    throw new InvalidOperationException("TSource must have a parameterless constructor");
+                }
+
+                source = (TSource)constructor.Invoke(null);
+            }
+
             Source = source;
 
             _onStartLoading = onStartLoading;
