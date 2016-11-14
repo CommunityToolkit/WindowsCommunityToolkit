@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </param>
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
-            : this(default(TSource), itemsPerPage, onStartLoading, onEndLoading, onError)
+            : this(InstantiateSourceByReflection(), itemsPerPage, onStartLoading, onEndLoading, onError)
         {
         }
 
@@ -160,16 +160,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
         {
-            if (EqualityComparer<TSource>.Default.Equals(source, default(TSource)))
+            if (source == null)
             {
-                var type = typeof(TSource);
-                ConstructorInfo constructor = type.GetConstructor(new Type[0]);
-                if (constructor == null)
-                {
-                    throw new InvalidOperationException("TSource must have a parameterless constructor");
-                }
-
-                source = (TSource)constructor.Invoke(null);
+                throw new ArgumentNullException(nameof(source));
             }
 
             Source = source;
@@ -207,6 +200,18 @@ namespace Microsoft.Toolkit.Uwp
         {
             var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
             return result;
+        }
+
+        private static TSource InstantiateSourceByReflection()
+        {
+            var type = typeof(TSource);
+            ConstructorInfo constructor = type.GetConstructor(new Type[0]);
+            if (constructor == null)
+            {
+                throw new InvalidOperationException("TSource must have a parameterless constructor");
+            }
+
+            return (TSource)constructor.Invoke(null);
         }
 
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
