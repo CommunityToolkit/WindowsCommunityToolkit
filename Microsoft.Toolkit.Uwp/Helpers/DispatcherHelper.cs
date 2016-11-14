@@ -260,27 +260,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (function == null)
-            {
-                throw new ArgumentNullException("function can't be null!");
-            }
-
-            var taskCompletionSource = new TaskCompletionSource<object>();
-
-            var ignored = dispatcher.RunAsync(priority, () =>
-            {
-                try
+            return dispatcher.AwaitableRunAsync(
+                () =>
                 {
                     function();
-                    taskCompletionSource.SetResult(null);
-                }
-                catch (Exception e)
-                {
-                    taskCompletionSource.SetException(e);
-                }
-            });
-
-            return taskCompletionSource.Task;
+                    return (object)null;
+                }, priority);
+            }
         }
     }
 }
