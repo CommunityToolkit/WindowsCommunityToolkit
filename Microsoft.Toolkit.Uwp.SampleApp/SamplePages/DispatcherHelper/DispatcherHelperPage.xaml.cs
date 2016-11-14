@@ -32,13 +32,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
-                int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
+                int returnedFromOtherThread = await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
-                    return 1;
+
+                    int value = await Task.Run(() => { return 1 + 1; });
+
+                    return value;
                 });
 
-                return returnedFromUIThread + 1;
+                return returnedFromOtherThread + 1;
             });
 
             await Task.Delay(200);
