@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (task == null)
                     {
-                        new InvalidOperationException("Task returned from async function parameter cannot be null!");
+                        throw new InvalidOperationException("Task returned from async function parameter cannot be null!");
                     }
 
                     await task.ConfigureAwait(false);
