@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : IIncrementalSource<IType>, new()
+         where TSource : IIncrementalSource<IType>
     {
         /// <summary>
         /// Gets a value indicating the source of incremental loading.
@@ -115,27 +115,6 @@ namespace Microsoft.Toolkit.Uwp
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
                 }
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class optionally specifying how many items to load for each data page.
-        /// </summary>
-        /// <param name="itemsPerPage">
-        /// The number of items to retrieve for each call. Default is 20.
-        /// </param>
-        /// <param name="onStartLoading">
-        /// An <see cref="Action"/> that is called when a retrieval operation begins.
-        /// </param>
-        /// <param name="onEndLoading">
-        /// An <see cref="Action"/> that is called when a retrieval operation ends.
-        /// </param>
-        /// <param name="onError">
-        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
-        /// </param>
-        /// <seealso cref="IIncrementalSource{TSource}"/>
-        public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
-            : this(new TSource(), itemsPerPage, onStartLoading, onEndLoading, onError)
-        {
         }
 
         /// <summary>

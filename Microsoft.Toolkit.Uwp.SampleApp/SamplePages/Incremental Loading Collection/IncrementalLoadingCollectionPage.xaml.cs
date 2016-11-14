@@ -41,7 +41,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedTo(e);
 
             // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
-            var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
+            var source = new PeopleSource();
+            var collection = new IncrementalLoadingCollection<PeopleSource, Person>(source);
             PeopleListView.ItemsSource = collection;
 
             // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.

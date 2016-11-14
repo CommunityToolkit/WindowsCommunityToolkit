@@ -54,6 +54,7 @@ The *GetPagedItemsAsync* method is invoked everytime the view need to show more 
 `IncrementalLoadingCollection` can then be bound to a [ListView](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.listview.aspx) or a [GridView-like](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.gridview.aspx) control:
 
 ```csharp
+    var source = new PeopleSource();
     var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
     PeopleListView.ItemsSource = collection;
 ```
@@ -62,7 +63,7 @@ The **IncrementalLoadingCollection** constructor accepts the following arguments
 
 | Name | Description | Type |
 | --- | --- | --- |
-| source | An implementation of the **IIncrementalSource** interface that contains the logic to actually load data incrementally. If the source isn't provided to the constructor, it is created automatically. | IIncrementalSource |  
+| source | An implementation of the **IIncrementalSource** interface that contains the logic to actually load data incrementally. | IIncrementalSource |  
 | itemsPerPage | The number of items to retrieve for each call. Default is 20. | [Integer](https://msdn.microsoft.com/library/windows/apps/System.Int32) |  
 | onStartLoading | (optional) An Action that is called when a retrieval operation begins. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
 | onEndLoading | (optional) An Action that is called when a retrieval operation ends. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
