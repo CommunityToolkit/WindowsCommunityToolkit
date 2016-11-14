@@ -117,9 +117,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            var source = new MicrosoftGraphSource();
             var collection = new IncrementalLoadingCollection<MicrosoftGraphSource, Message>(
-                source,
                 top,
                 async () =>
                 {
