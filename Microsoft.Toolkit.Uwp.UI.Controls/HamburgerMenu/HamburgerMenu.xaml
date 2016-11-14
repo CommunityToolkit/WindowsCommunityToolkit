@@ -1,100 +1,103 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="local:HamburgerMenu">
-        <Setter Property="HamburgerMenuTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" 
-                              Glyph="&#xE700;"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:HamburgerMenu">
-                    <Grid>
-                        <SplitView x:Name="MainSplitView" 
-                                   OpenPaneLength="{TemplateBinding OpenPaneLength}" 
-                                   PanePlacement="{TemplateBinding PanePlacement}" 
-                                   DisplayMode="{TemplateBinding DisplayMode}" 
-                                   CompactPaneLength="{TemplateBinding CompactPaneLength}" 
-                                   PaneBackground="{TemplateBinding PaneBackground}" 
-                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                            <SplitView.Pane>
-                                <Grid x:Name="PaneGrid">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" Height="{TemplateBinding HamburgerHeight}" />
-                                    <ListView Grid.Row="1" 
-                                              TabIndex="1"
-                                              AutomationProperties.Name="Menu items"
-                                              SelectionMode="Single" 
-                                              Name="ButtonsListView" 
-                                              ItemsSource="{TemplateBinding ItemsSource}" 
-                                              ItemTemplate="{TemplateBinding ItemTemplate}" 
-                                              IsItemClickEnabled="True"
-                                              Width="{TemplateBinding OpenPaneLength}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="Padding" Value="0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                    </ListView>
+  <Style TargetType="local:HamburgerMenu">
+    <Setter Property="HamburgerMenuTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <FontIcon FontFamily="Segoe MDL2 Assets"
+                    Glyph="&#xE700;" />
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:HamburgerMenu">
+          <Grid>
+            <SplitView x:Name="MainSplitView"
+                       CompactPaneLength="{TemplateBinding CompactPaneLength}"
+                       DisplayMode="{TemplateBinding DisplayMode}"
+                       IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                       OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                       PaneBackground="{TemplateBinding PaneBackground}"
+                       PanePlacement="{TemplateBinding PanePlacement}">
+              <SplitView.Pane>
+                <Grid x:Name="PaneGrid">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid Grid.Row="0"
+                        Height="{TemplateBinding HamburgerHeight}" />
+                  <ListView Name="ButtonsListView"
+                            Grid.Row="1"
+                            Width="{TemplateBinding OpenPaneLength}"
+                            AutomationProperties.Name="Menu items"
+                            IsItemClickEnabled="True"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            SelectedIndex="{TemplateBinding SelectedIndex}"
+                            SelectedItem="{TemplateBinding SelectedItem}"
+                            SelectionMode="Single"
+                            TabIndex="1">
+                    <ListView.ItemContainerStyle>
+                      <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0" />
+                      </Style>
+                    </ListView.ItemContainerStyle>
+                  </ListView>
 
-                                    <Grid Grid.Row="2" Visibility="{TemplateBinding OptionsVisibility}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
+                  <Grid Grid.Row="2"
+                        Visibility="{TemplateBinding OptionsVisibility}">
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                                        <ListView Grid.Row="1" 
-                                                  TabIndex="2"
-                                                  Name="OptionsListView" 
-                                                  AutomationProperties.Name="Option items"
-                                                  ItemsSource="{TemplateBinding OptionsItemsSource}" 
-                                                  ItemTemplate="{TemplateBinding OptionsItemTemplate}" 
-                                                  IsItemClickEnabled="True"
-                                                  Width="{TemplateBinding OpenPaneLength}" 
-                                                  VerticalAlignment="Bottom">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="Padding" Value="0" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                        </ListView>
-                                    </Grid>
+                    <ListView Name="OptionsListView"
+                              Grid.Row="1"
+                              Width="{TemplateBinding OpenPaneLength}"
+                              VerticalAlignment="Bottom"
+                              AutomationProperties.Name="Option items"
+                              IsItemClickEnabled="True"
+                              ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                              ItemsSource="{TemplateBinding OptionsItemsSource}"
+                              SelectedIndex="{TemplateBinding SelectedOptionsIndex}"
+                              SelectedItem="{TemplateBinding SelectedOptionsItem}"
+                              TabIndex="2">
+                      <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                          <Setter Property="Padding" Value="0" />
+                        </Style>
+                      </ListView.ItemContainerStyle>
+                    </ListView>
+                  </Grid>
 
-                                </Grid>
-                            </SplitView.Pane>
-                            <ContentPresenter 
+                </Grid>
+              </SplitView.Pane>
+              <ContentPresenter x:Name="ContentPart"
                                 AutomationProperties.Name="Content"
-                                Content="{TemplateBinding Content}" 
-                                x:Name="ContentPart" />
-                        </SplitView>
-                        <Button Name="HamburgerButton" 
-                                TabIndex="0"
-                                AutomationProperties.Name="Main button"
-                                Padding="0" 
-                                Width="{TemplateBinding HamburgerWidth}" 
-                                Height="{TemplateBinding HamburgerHeight}" 
-                                BorderThickness="0" 
-                                VerticalAlignment="Top" 
-                                Background="Transparent">
-                            <ContentControl 
-                                            IsTabStop="False"
-                                            ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                            Margin="{TemplateBinding HamburgerMargin}"
-                                            Foreground="{TemplateBinding Foreground}"/>
-                        </Button>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                                Content="{TemplateBinding Content}" />
+            </SplitView>
+            <Button Name="HamburgerButton"
+                    Width="{TemplateBinding HamburgerWidth}"
+                    Height="{TemplateBinding HamburgerHeight}"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="Main button"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    TabIndex="0">
+              <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                              ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                              Foreground="{TemplateBinding Foreground}"
+                              IsTabStop="False" />
+            </Button>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

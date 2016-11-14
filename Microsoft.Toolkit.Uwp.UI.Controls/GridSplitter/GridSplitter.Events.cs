@@ -1,4 +1,16 @@
-﻿using Windows.UI.Xaml;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -12,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
-            InitControl();
 
             // Adding Grip to Grid Splitter
             if (Element == default(UIElement))
@@ -112,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Star);
                         }
-                        else
+                        else if (IsStarColumn(columnDefinition))
                         {
                             columnDefinition.Width = new GridLength(columnDefinition.ActualWidth, GridUnitType.Star);
                         }
@@ -162,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Star);
                         }
-                        else
+                        else if (IsStarRow(rowDefinition))
                         {
                             rowDefinition.Height = new GridLength(rowDefinition.ActualHeight, GridUnitType.Star);
                         }

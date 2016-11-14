@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -19,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
-    public sealed partial class DropShadowPanel
+    public partial class DropShadowPanel
     {
         public static bool IsShadowSupported =>
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393

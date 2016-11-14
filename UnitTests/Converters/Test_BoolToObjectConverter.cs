@@ -1,4 +1,16 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Converters;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -184,7 +196,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), null, "en-us");
+            var result = converter.ConvertBack(Visibility.Visible, typeof(bool), null, "en-us");
             Assert.AreEqual(true, result);
         }
 
@@ -197,7 +209,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), null, "en-us");
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(bool), null, "en-us");
             Assert.AreEqual(false, result);
         }
 
@@ -210,7 +222,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), "true", "en-us");
+            var result = converter.ConvertBack(Visibility.Visible, typeof(bool), "true", "en-us");
             Assert.AreEqual(false, result);
         }
 
@@ -223,7 +235,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), "true", "en-us");
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(bool), "true", "en-us");
             Assert.AreEqual(true, result);
         }
 
@@ -236,7 +248,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Visible, typeof(Visibility), "false", "en-us");
+            var result = converter.ConvertBack(Visibility.Visible, typeof(bool), "false", "en-us");
             Assert.AreEqual(true, result);
         }
 
@@ -249,7 +261,7 @@ namespace UnitTests.Converters
                 TrueValue = Visibility.Visible,
                 FalseValue = Visibility.Collapsed
             };
-            var result = converter.ConvertBack(Visibility.Collapsed, typeof(Visibility), "false", "en-us");
+            var result = converter.ConvertBack(Visibility.Collapsed, typeof(bool), "false", "en-us");
             Assert.AreEqual(false, result);
         }
 
@@ -264,7 +276,7 @@ namespace UnitTests.Converters
                 TrueValue = greenBrush,
                 FalseValue = redBrush
             };
-            var result = converter.ConvertBack(greenBrush, typeof(Brush), null, "en-us");
+            var result = converter.ConvertBack(greenBrush, typeof(bool), null, "en-us");
             Assert.AreEqual(true, result);
         }
 
@@ -279,7 +291,7 @@ namespace UnitTests.Converters
                 TrueValue = greenBrush,
                 FalseValue = redBrush
             };
-            var result = converter.ConvertBack(redBrush, typeof(Brush), null, "en-us");
+            var result = converter.ConvertBack(redBrush, typeof(bool), null, "en-us");
             Assert.AreEqual(false, result);
         }
 
@@ -293,8 +305,8 @@ namespace UnitTests.Converters
                 FalseValue = "ms-appx:///Assets/False.png"
             };
 
-            var result = converter.ConvertBack(converter.TrueValue, typeof(ImageSource), null, "en-us");
-            Assert.AreEqual(false, result);
+            var result = converter.ConvertBack(converter.TrueValue, typeof(bool), null, "en-us");
+            Assert.AreEqual(true, result);
         }
 
         [TestCategory("Converters")]
@@ -307,7 +319,7 @@ namespace UnitTests.Converters
                 FalseValue = "ms-appx:///Assets/False.png"
             };
 
-            var result = converter.ConvertBack(converter.FalseValue, typeof(ImageSource), null, "en-us");
+            var result = converter.ConvertBack(converter.FalseValue, typeof(bool), null, "en-us");
             Assert.AreEqual(false, result);
         }
     }

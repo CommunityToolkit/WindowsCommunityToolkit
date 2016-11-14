@@ -9,7 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -18,17 +20,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// This class converts a boolean value into an other object.
     /// Can be used to convert true/false to visibility, a couple of colors, couple of images, etc.
     /// </summary>
-    public class BoolToObjectConverter : IValueConverter
+    public class BoolToObjectConverter : DependencyObject, IValueConverter
     {
+        /// <summary>
+        /// Identifies the <see cref="TrueValue"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TrueValueProperty =
+            DependencyProperty.Register(nameof(TrueValue), typeof(object), typeof(BoolToObjectConverter), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="FalseValue"/> property.
+        /// </summary>
+        public static readonly DependencyProperty FalseValueProperty =
+            DependencyProperty.Register(nameof(FalseValue), typeof(object), typeof(BoolToObjectConverter), new PropertyMetadata(null));
+
         /// <summary>
         /// Gets or sets the value to be returned when the boolean is true
         /// </summary>
-        public object TrueValue { get; set; }
+        public object TrueValue
+        {
+            get { return GetValue(TrueValueProperty); }
+            set { SetValue(TrueValueProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the value to be returned when the boolean is false
         /// </summary>
-        public object FalseValue { get; set; }
+        public object FalseValue
+        {
+            get { return GetValue(FalseValueProperty); }
+            set { SetValue(FalseValueProperty, value); }
+        }
 
         /// <summary>
         /// Convert a boolean value to an other object.
@@ -62,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <returns>The value to be passed to the source object.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            bool result = Equals(value, ConverterTools.Convert(TrueValue, targetType));
+            bool result = Equals(value, ConverterTools.Convert(TrueValue, value.GetType()));
 
             if (ConverterTools.TryParseBool(parameter))
             {

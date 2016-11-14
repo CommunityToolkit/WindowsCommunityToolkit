@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Text;
@@ -32,23 +33,22 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Response stream</returns>
         public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            if (content == null)
-            {
-                return null;
-            }
-
             var outputStream = new InMemoryRandomAccessStream();
 
-            using (content)
+            using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                await content.WriteToStreamAsync(outputStream);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    if (response.Success)
+                    {
+                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
 
-                outputStream.Seek(0);
-
-                return outputStream;
+                        outputStream.Seek(0);
+                    }
+                }
             }
+
+            return outputStream;
         }
 
         /// <summary>
@@ -61,13 +61,17 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            using (content)
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
-                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
-                    await content.WriteToStreamAsync(fileStream);
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    {
+                        if (response.Success)
+                        {
+                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                        }
+                    }
                 }
             }
         }
@@ -135,6 +139,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsPackagedFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
@@ -146,6 +151,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsLocalFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
@@ -157,6 +163,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsLocalCacheFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
@@ -169,6 +176,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="knownFolderId">The well known folder ID to use</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static Task<bool> IsKnownFolderFileExistsAsync(
             KnownFolderId knownFolderId,
             string fileName)
@@ -183,6 +191,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="workingFolder">Folder to use.</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static async Task<bool> IsFileExistsAsync(
             this StorageFolder workingFolder,
             string fileName)
@@ -218,24 +227,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return encoding.GetString(bytes);
-        }
-
-        private static async Task<IHttpContent> GetHttpContentAsync(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    return response.Content;
-                }
-            }
         }
 
         private static async Task<IRandomAccessStream> GetFileStreamAsync(

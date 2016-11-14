@@ -9,7 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System.Collections.Generic;
+
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,58 +31,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class AdaptiveGridView
     {
         /// <summary>
-        /// Identifies the <see cref="SelectedIndex"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(AdaptiveGridView), new PropertyMetadata(-1));
-
-        /// <summary>
-        /// Identifies the <see cref="SelectedItem"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(AdaptiveGridView), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="SelectedItems"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList<object>), typeof(AdaptiveGridView), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="SelectionMode"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectionModeProperty =
-            DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewSelectionMode), typeof(AdaptiveGridView), new PropertyMetadata(ListViewSelectionMode.None));
-
-        /// <summary>
-        /// Identifies the <see cref="IsItemClickEnabled"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty IsItemClickEnabledProperty =
-            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true));
-
-        /// <summary>
         /// Identifies the <see cref="ItemClickCommand"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemClickCommandProperty =
             DependencyProperty.Register(nameof(ItemClickCommand), typeof(ICommand), typeof(AdaptiveGridView), new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="ItemsSource"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(AdaptiveGridView), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="ItemTemplate"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(AdaptiveGridView), new PropertyMetadata(null));
-
-        /// <summary>
         /// Identifies the <see cref="ItemHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemHeightProperty =
-            DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D));
+            DependencyProperty.Register(nameof(ItemHeight), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN));
 
         /// <summary>
         /// Identifies the <see cref="OneRowModeEnabled"/> dependency property.
@@ -93,52 +52,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ItemWidth"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ItemWidthProperty =
-            DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D));
+            DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN));
 
         /// <summary>
         /// Identifies the <see cref="DesiredWidth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DesiredWidthProperty =
-            DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(0D, DesiredWidthChanged));
+            DependencyProperty.Register(nameof(DesiredWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN, DesiredWidthChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="StretchContentForSingleRow"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty StretchContentForSingleRowProperty =
+        DependencyProperty.Register(nameof(StretchContentForSingleRow), typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(true, OnStretchContentForSingleRowPropertyChanged));
 
         private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
         {
             var self = d as AdaptiveGridView;
-
-            if ((bool)newValue)
-            {
-                if (self._isInitialized)
-                {
-                    var b = new Binding()
-                    {
-                        Source = self,
-                        Path = new PropertyPath("ItemHeight")
-                    };
-
-                    self._listView.SetBinding(GridView.MaxHeightProperty, b);
-                    ScrollViewer.SetVerticalScrollMode(self, ScrollMode.Disabled);
-                    ScrollViewer.SetVerticalScrollBarVisibility(self, ScrollBarVisibility.Hidden);
-                }
-            }
+            self.DetermineOneRowMode();
         }
 
         private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var self = d as AdaptiveGridView;
-            if (self._isInitialized)
-            {
-                self.RecalculateLayout(self._listView.ActualWidth);
-            }
+            self.RecalculateLayout(self.ActualWidth);
         }
 
-        /// <summary>
-        /// Gets or sets the index of the selected object.
-        /// </summary>
-        /// <value>The index of the selected item in the collection. Default is -1 when initialized.</value>
-        public int SelectedIndex
+        private static void OnStretchContentForSingleRowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return (int)GetValue(SelectedIndexProperty); }
-            set { SetValue(SelectedIndexProperty, value); }
+            var self = d as AdaptiveGridView;
+            self.RecalculateLayout(self.ActualWidth);
         }
 
         /// <summary>
@@ -152,6 +95,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the control should stretch the content to fill at least one row.
+        /// </summary>
+        /// <remarks>
+        /// If set to <c>true</c> (default) and there is only one row of items, the items will be stretched to fill the complete row.
+        /// If set to <c>false</c>, items will have their normal size, which means a gap can exist at the end of the row.
+        /// </remarks>
+        /// <value>A value indicating whether the control should stretch the content to fill at least one row.</value>
+        public bool StretchContentForSingleRow
+        {
+            get { return (bool)GetValue(StretchContentForSingleRowProperty); }
+            set { SetValue(StretchContentForSingleRowProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the command to execute when an item is clicked.
         /// </summary>
         /// <value>The item click command.</value>
@@ -159,32 +116,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ICommand)GetValue(ItemClickCommandProperty); }
             set { SetValue(ItemClickCommandProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets the selected multiple objects in the collection.
-        /// </summary>
-        /// <value>The object that is used to store selected multiple items.</value>
-        public IList<object> SelectedItems => _listView.SelectedItems;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether gets or sets whether the items are clickable or not.
-        /// </summary>
-        /// <value>Default is false.</value>
-        public bool IsItemClickEnabled
-        {
-            get { return (bool)GetValue(IsItemClickEnabledProperty); }
-            set { SetValue(IsItemClickEnabledProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the SelectionMode property of ListViewBase.
-        /// </summary>
-        /// <value>Default is None.</value>
-        public ListViewSelectionMode SelectionMode
-        {
-            get { return (ListViewSelectionMode)GetValue(SelectionModeProperty); }
-            set { SetValue(SelectionModeProperty, value); }
         }
 
         /// <summary>
@@ -198,36 +129,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the single selected object when the SelectionMode is set to Single.
-        /// </summary>
-        /// <value>Stores the single selected item. Default is null.</value>
-        public object SelectedItem
-        {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets an object source used to generate the content of the grid.
-        /// </summary>
-        /// <value>The object that is used to generate the content of the ItemsControl. The default is null</value>
-        public object ItemsSource
-        {
-            get { return GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the DataTemplate used to display each item.
-        /// </summary>
-        /// <value>The template that specifies the visualization of the data objects. The default is null.</value>
-        public DataTemplate ItemTemplate
-        {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether only one row should be displayed.
         /// </summary>
         /// <value><c>true</c> if only one row is displayed; otherwise, <c>false</c>.</value>
@@ -238,14 +139,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Event raised when an item is clicked
+        /// Gets the template that defines the panel that controls the layout of items.
         /// </summary>
-        public event ItemClickEventHandler ItemClick;
-
-        /// <summary>
-        /// Event raised when an item is added or removed to/from the collection.
-        /// </summary>
-        public event SelectionChangedEventHandler SelectionChanged;
+        /// <remarks>
+        /// This property overrides the base ItemsPanel to prevent changing it.
+        /// </remarks>
+        /// <returns>
+        /// An ItemsPanelTemplate that defines the panel to use for the layout of the items.
+        /// The default value for the ItemsControl is an ItemsPanelTemplate that specifies
+        /// a StackPanel.
+        /// </returns>
+        public new ItemsPanelTemplate ItemsPanel => base.ItemsPanel;
 
         private double ItemWidth
         {
@@ -253,24 +157,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemWidthProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the AdaptiveGridView instance is the active view in its owning SemanticZoom.
-        /// </summary>
-        public bool IsActiveView { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the AdaptiveGridView instance is the zoomed-in view in its owning SemanticZoom.
-        /// </summary>
-        public bool IsZoomedInView { get; set; }
-
-        /// <summary>
-        /// Gets or sets the SemanticZoom instance that hosts the AdaptiveGridView.
-        /// </summary>
-        public SemanticZoom SemanticZoomOwner { get; set; }
-
         private static int CalculateColumns(double containerWidth, double itemWidth)
         {
-            var columns = (int)(containerWidth / itemWidth);
+            var columns = (int)Math.Round(containerWidth / itemWidth);
             if (columns == 0)
             {
                 columns = 1;

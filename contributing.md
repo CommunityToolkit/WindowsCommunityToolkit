@@ -14,7 +14,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 Every contribution has to come with:
 
 * Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
-* A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
+* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once valdied your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
 * You tested your code with SDK 10586 and SDK 14393
@@ -22,7 +22,7 @@ Every contribution has to come with:
 
 PR has to be validated by at least two core members before being merged.
 
-Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-dev) to your Visual Studio.
+Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
 
 ## Quality insurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:

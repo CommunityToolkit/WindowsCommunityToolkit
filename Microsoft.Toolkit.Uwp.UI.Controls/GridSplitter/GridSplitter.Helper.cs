@@ -1,4 +1,16 @@
-﻿using Windows.UI.Xaml;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -56,37 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return false;
-        }
-
-        private void InitControl()
-        {
-            if (Resizable == null)
-            {
-                return;
-            }
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                // setting the Column min width to the width of the GridSplitter
-                var currentIndex = Grid.GetColumn(TargetControl);
-                if ((currentIndex >= 0)
-                       && (currentIndex < Resizable.ColumnDefinitions.Count))
-                {
-                    var splitterColumn = Resizable.ColumnDefinitions[currentIndex];
-                    splitterColumn.MinWidth = ActualWidth;
-                }
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                // setting the Row min height to the height of the GridSplitter
-                var currentIndex = Grid.GetRow(TargetControl);
-                if ((currentIndex >= 0)
-                       && (currentIndex < Resizable.RowDefinitions.Count))
-                {
-                    var splitterRow = Resizable.RowDefinitions[currentIndex];
-                    splitterRow.MinHeight = ActualHeight;
-                }
-            }
         }
 
         // Return the targeted Column based on the resize behavior

@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -49,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             foreach (var item in _photoItems)
             {
-                await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), Path.GetFileName(item.Thumbnail), loadInMemory);
+                await ImageCache.Instance.PreCacheAsync(new Uri(item.Thumbnail), false, loadInMemory);
             }
 
             var msg = $"Preloading {_photoItems.Count} photo took {DateTime.Now.Subtract(dtStart).TotalSeconds} seconds";

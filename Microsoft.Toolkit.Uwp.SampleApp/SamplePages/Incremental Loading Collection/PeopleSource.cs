@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </param>
         /// <returns>
         /// Returns a collection of <see cref="Person"/>.
+        /// </returns>
         public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Gets items from the collection according to pageIndex and pageSize parameters.

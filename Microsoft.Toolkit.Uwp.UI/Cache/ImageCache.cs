@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -19,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
+        public static ImageCache Instance => _instance ?? (_instance = new ImageCache() { MaintainContext = true });
 
         /// <summary>
         /// Cache specific hooks to proccess items from http response
@@ -28,9 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
         {
-            // nothing to do in this instance;
             BitmapImage image = new BitmapImage();
-            await image.SetSourceAsync(stream);
+            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
 
             return image;
         }
@@ -42,9 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
         {
-            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(false))
+            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
             {
-                return await InitializeTypeAsync(stream);
+                return await InitializeTypeAsync(stream).ConfigureAwait(false);
             }
         }
     }

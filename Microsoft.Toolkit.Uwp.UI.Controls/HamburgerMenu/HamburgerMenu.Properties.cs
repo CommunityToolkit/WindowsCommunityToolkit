@@ -1,4 +1,17 @@
-﻿using Windows.UI.Xaml;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -48,6 +61,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ItemTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
 
         /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
@@ -124,15 +147,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection used to generate the content of the items list.
         /// </summary>
-        public ItemCollection Items => _buttonsListView?.Items;
+        /// <exception cref="Exception">
+        /// Exception thrown if ButtonsListView is not yet defined.
+        /// </exception>
+        public ItemCollection Items
+        {
+            get
+            {
+                if (_buttonsListView == null)
+                {
+                    throw new Exception("ButtonsListView is not defined yet. Please use ItemsSource instead.");
+                }
+
+                return _buttonsListView.Items;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the selected menu item.
         /// </summary>
         public object SelectedItem
         {
-            get { return _buttonsListView.SelectedItem; }
-            set { _buttonsListView.SelectedItem = value; }
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
@@ -140,8 +177,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public int SelectedIndex
         {
-            get { return _buttonsListView.SelectedIndex; }
-            set { _buttonsListView.SelectedIndex = value; }
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
         }
     }
 }

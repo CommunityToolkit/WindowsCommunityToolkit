@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,8 +8,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper record limit.</param>
         /// <returns>List of strong typed objects.</returns>
-        public async Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
+        public Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
         {
-            return await LoadDataAsync(config, maxRecords, GetDefaultParser(config));
+            return LoadDataAsync(config, maxRecords, GetDefaultParser(config));
         }
 
         /// <summary>

@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
@@ -66,10 +78,10 @@ namespace UnitTests.Helpers
         public async Task Test_StorageFileHelper_Text_StorageFolder()
         {
             var folder = ApplicationData.Current.LocalFolder;
-            var storageFile = await StorageFileHelper.WriteTextToFileAsync(folder, Sampletext, Filename);
+            var storageFile = await folder.WriteTextToFileAsync(Sampletext, Filename);
             Assert.IsNotNull(storageFile);
 
-            var loadedText = await StorageFileHelper.ReadTextFromFileAsync(folder, Filename);
+            var loadedText = await folder.ReadTextFromFileAsync(Filename);
             Assert.AreEqual(Sampletext, loadedText);
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
@@ -143,15 +155,51 @@ namespace UnitTests.Helpers
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
 
             var folder = ApplicationData.Current.LocalFolder;
-            var storageFile = await StorageFileHelper.WriteBytesToFileAsync(folder, unicodeBytes, Filename);
+            var storageFile = await folder.WriteBytesToFileAsync(unicodeBytes, Filename);
             Assert.IsNotNull(storageFile);
 
-            byte[] loadedBytes = await StorageFileHelper.ReadBytesFromFileAsync(folder, Filename);
+            byte[] loadedBytes = await folder.ReadBytesFromFileAsync(Filename);
 
             string loadedText = Encoding.Unicode.GetString(loadedBytes);
             Assert.AreEqual(Sampletext, loadedText);
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageFileHelper_FileExists()
+        {
+            byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
+
+            var folder = ApplicationData.Current.LocalFolder;
+            var storageFile = await folder.WriteBytesToFileAsync(unicodeBytes, Filename);
+            Assert.IsNotNull(storageFile);
+
+            var exists = await folder.FileExistsAsync(Filename);
+            Assert.IsTrue(exists);
+
+            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageFileHelper_FileExists_Recursive()
+        {
+            byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
+
+            var folder = ApplicationData.Current.LocalFolder;
+            var subfolder = await folder.CreateFolderAsync("subfolder");
+            Assert.IsNotNull(subfolder);
+
+            var storageFile = await subfolder.WriteBytesToFileAsync(unicodeBytes, Filename);
+            Assert.IsNotNull(storageFile);
+
+            var exists = await folder.FileExistsAsync(Filename, true);
+            Assert.IsTrue(exists);
+
+            await storageFile.DeleteAsync(StorageDeleteOption.Default);
+            await subfolder.DeleteAsync(StorageDeleteOption.Default);
         }
     }
 }

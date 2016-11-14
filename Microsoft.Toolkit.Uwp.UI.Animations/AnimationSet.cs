@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 delayTime = 0;
             }
 
-            return this.SetDelay(TimeSpan.FromMilliseconds(delayTime));
+            return SetDelay(TimeSpan.FromMilliseconds(delayTime));
         }
 
         /// <summary>

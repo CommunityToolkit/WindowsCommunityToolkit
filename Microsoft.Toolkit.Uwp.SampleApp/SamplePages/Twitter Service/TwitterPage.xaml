@@ -1,156 +1,266 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TwitterPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:twitter="using:Microsoft.Toolkit.Uwp.Services.Twitter"
-    mc:Ignorable="d">
-    <Page.Resources>
-        <DataTemplate x:Key="TwitterSchemaTemplate" x:DataType="twitter:Tweet">
-            <Border Margin="12,0,12,12" Padding="12" Background="White" BorderBrush="#FFCCCCCC" BorderThickness="1" CornerRadius="4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="{Binding User.ProfileImageUrl}" Stretch="Uniform" Height="50" Width="50" Grid.RowSpan="2" Margin="0,0,12,0" VerticalAlignment="Top"/>
-                        <TextBlock Text="{x:Bind User.Name}" Grid.Column="1" FontWeight="SemiBold"/>
-                        <TextBlock Text="{x:Bind User.ScreenName}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" FontWeight="Light"/>
-                        <Image Grid.Column="2" Grid.RowSpan="2" Source="/SamplePages/Twitter Service/TwitterLogo.png" Height="24" Width="24" Stretch="Uniform" VerticalAlignment="Top"/>
-                    </Grid>
-                    <TextBlock Text="{x:Bind Text}" Grid.Row="1" FontWeight="SemiBold" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Text="{x:Bind CreationDate}" Grid.Row="2" HorizontalAlignment="Right" FontWeight="ExtraLight" />
-                </Grid>
-            </Border>
-        </DataTemplate>
-    </Page.Resources>
-
-    <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
-        <Grid Margin="24" BorderThickness="1" BorderBrush="#FFCCCCCC" Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TwitterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:twitter="using:Microsoft.Toolkit.Uwp.Services.Twitter"
+      mc:Ignorable="d">
+  <Page.Resources>
+    <DataTemplate x:Key="TwitterSchemaTemplate"
+                  x:DataType="twitter:Tweet">
+      <Border Margin="12,0,12,12"
+              Padding="12"
+              Background="White"
+              BorderBrush="#FFCCCCCC"
+              BorderThickness="1"
+              CornerRadius="4">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
+              <RowDefinition Height="Auto" />
+              <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Height="100" Width="100" Stretch="Uniform" Source="/SamplePages/Twitter Service/TwitterLogo.png" Margin="24"/>
-                <Border CornerRadius="50" x:Name="ProfileImage" Height="100" Width="100" Visibility="Collapsed">
-                    <Border.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="{Binding ProfileImageUrl}"/>
-                    </Border.Background>
-                </Border>
-            </StackPanel>
-
-            <ScrollViewer Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <!-- Credentials area -->
-                    <Grid >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid Background="#FFCCCCCC">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="CredentialsBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="CredentialsBoxExpandButton_OnClick"/>
-                            <TextBlock Grid.Column="1" Text="Credentials" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                        </Grid>
-
-                        <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get these values" NavigateUri="https://developer.microsoft.com/en-us/windows/uwp-community-toolkit/services/twitter" Margin="0,0,0,15"/>
-                            <TextBox Header="Consumer Key:" x:Name="ConsumerKey" Margin="0,0,0,12"/>
-                            <TextBox Header="Consumer Secret:" x:Name="ConsumerSecret" Margin="0,0,0,12"/>
-                            <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>
-                            <Button Content="Connect" x:Name="ConnectButton" Click="ConnectButton_OnClick" Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Tweet area -->
-                    <Grid Grid.Row="1" x:Name="ShareBox">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid Background="#FFCCCCCC">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="TweetBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="TweetBoxExpandButton_OnClick"/>
-                            <TextBlock Grid.Column="1" Text="Tweet" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                        </Grid>
-
-                        <StackPanel Grid.Row="1" Margin="24" x:Name="TweetPanel">
-                            <TextBox Header="Tweet" x:Name="TweetText" Margin="0,0,0,12"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Share" x:Name="ShareButton" Click="ShareButton_OnClick" Margin="0,0,12,0"/>
-                                <Button Content="Share with picture" x:Name="SharePictureButton" Click="SharePictureButton_OnClick"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Search area -->
-                    <Grid Grid.Row="2" x:Name="SearchBox">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid Background="#FFCCCCCC">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="SearchBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="SearchBoxExpandButton_OnClick"/>
-                            <TextBlock Grid.Column="1" Text="Search" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                        </Grid>
-
-                        <StackPanel Grid.Row="1" Margin="24" x:Name="SearchPanel">
-                            <TextBox Header="Search tag:" x:Name="TagText" Margin="0,0,0,12"/>
-                            <Button Content="Search" x:Name="SearchButton" Click="SearchButton_OnClick" Margin="0,10,0,0"></Button>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Results area -->
-                    <ListView Grid.Row="3" ItemTemplate="{StaticResource TwitterSchemaTemplate}" x:Name="ListView" Margin="0,12,0,0" SelectionMode="None" IsItemClickEnabled="False">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <ListViewItemPresenter PointerOverBackground="{x:Null}"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                </Grid>
-            </ScrollViewer>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.RowSpan="2"
+                   Width="50"
+                   Height="50"
+                   Margin="0,0,12,0"
+                   VerticalAlignment="Top"
+                   Source="{Binding User.ProfileImageUrl}"
+                   Stretch="Uniform" />
+            <TextBlock Grid.Column="1"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind User.Name}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       VerticalAlignment="Top"
+                       FontWeight="Light"
+                       Text="{x:Bind User.ScreenName}" />
+            <Image Grid.RowSpan="2"
+                   Grid.Column="2"
+                   Width="24"
+                   Height="24"
+                   VerticalAlignment="Top"
+                   Source="/SamplePages/Twitter Service/TwitterLogo.png"
+                   Stretch="Uniform" />
+          </Grid>
+          <TextBlock Grid.Row="1"
+                     FontWeight="SemiBold"
+                     Text="{x:Bind Text}"
+                     TextTrimming="CharacterEllipsis"
+                     TextWrapping="WrapWholeWords" />
+          <TextBlock Grid.Row="2"
+                     HorizontalAlignment="Right"
+                     FontWeight="ExtraLight"
+                     Text="{x:Bind CreationDate}" />
         </Grid>
+      </Border>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid MaxWidth="800"
+        Background="{StaticResource Brush-Grey-05}">
+    <Grid Margin="24"
+          Background="{StaticResource Brush-Grey-04}"
+          BorderBrush="#FFCCCCCC"
+          BorderThickness="1"
+          CornerRadius="4">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <StackPanel HorizontalAlignment="Center"
+                  Orientation="Horizontal">
+        <Image Width="100"
+               Height="100"
+               Margin="24"
+               Source="/SamplePages/Twitter Service/TwitterLogo.png"
+               Stretch="Uniform" />
+        <Border x:Name="ProfileImage"
+                Width="100"
+                Height="100"
+                CornerRadius="50"
+                Visibility="Collapsed">
+          <Border.Background>
+            <ImageBrush ImageSource="{Binding ProfileImageUrl}"
+                        Stretch="Uniform" />
+          </Border.Background>
+        </Border>
+      </StackPanel>
+
+      <ScrollViewer Grid.Row="1">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
+          <!--  Credentials area  -->
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Background="#FFCCCCCC">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button x:Name="CredentialsBoxExpandButton"
+                      VerticalAlignment="Stretch"
+                      Click="CredentialsBoxExpandButton_OnClick"
+                      Content=""
+                      FontFamily="Segoe MDL2 Assets" />
+              <TextBlock Grid.Column="1"
+                         Margin="12,6"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush-Grey-01}"
+                         Text="Credentials" />
+            </Grid>
+
+            <StackPanel x:Name="CredentialsBox"
+                        Grid.Row="1"
+                        Margin="24"
+                        Orientation="Vertical">
+              <HyperlinkButton Margin="0,0,0,15"
+                               Content="Show me how to get these values"
+                               NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/" />
+              <TextBox x:Name="ConsumerKey"
+                       Margin="0,0,0,12"
+                       Header="Consumer Key:" />
+              <TextBox x:Name="ConsumerSecret"
+                       Margin="0,0,0,12"
+                       Header="Consumer Secret:" />
+              <TextBox x:Name="CallbackUri"
+                       Margin="0,0,0,12"
+                       Header="Callback URI:" />
+              <Button x:Name="ConnectButton"
+                      Margin="0,10,0,0"
+                      VerticalAlignment="Bottom"
+                      Click="ConnectButton_OnClick"
+                      Content="Connect" />
+            </StackPanel>
+          </Grid>
+
+          <!--  Tweet area  -->
+          <Grid x:Name="ShareBox"
+                Grid.Row="1">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Background="#FFCCCCCC">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button x:Name="TweetBoxExpandButton"
+                      VerticalAlignment="Stretch"
+                      Click="TweetBoxExpandButton_OnClick"
+                      Content=""
+                      FontFamily="Segoe MDL2 Assets" />
+              <TextBlock Grid.Column="1"
+                         Margin="12,6"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush-Grey-01}"
+                         Text="Tweet" />
+            </Grid>
+
+            <StackPanel x:Name="TweetPanel"
+                        Grid.Row="1"
+                        Margin="24">
+              <TextBox x:Name="TweetText"
+                       Margin="0,0,0,12"
+                       Header="Tweet" />
+              <StackPanel Orientation="Horizontal">
+                <Button x:Name="ShareButton"
+                        Margin="0,0,12,0"
+                        Click="ShareButton_OnClick"
+                        Content="Share" />
+                <Button x:Name="SharePictureButton"
+                        Click="SharePictureButton_OnClick"
+                        Content="Share with picture" />
+              </StackPanel>
+            </StackPanel>
+          </Grid>
+
+          <!--  Search area  -->
+          <Grid x:Name="SearchBox"
+                Grid.Row="2">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Background="#FFCCCCCC">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button x:Name="SearchBoxExpandButton"
+                      VerticalAlignment="Stretch"
+                      Click="SearchBoxExpandButton_OnClick"
+                      Content=""
+                      FontFamily="Segoe MDL2 Assets" />
+              <TextBlock Grid.Column="1"
+                         Margin="12,6"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush-Grey-01}"
+                         Text="Search" />
+            </Grid>
+
+            <StackPanel x:Name="SearchPanel"
+                        Grid.Row="1"
+                        Margin="24">
+              <TextBox x:Name="TagText"
+                       Margin="0,0,0,12"
+                       Header="Search tag:" />
+              <Button x:Name="SearchButton"
+                      Margin="0,10,0,0"
+                      Click="SearchButton_OnClick"
+                      Content="Search" />
+            </StackPanel>
+          </Grid>
+
+          <!--  Results area  -->
+          <ListView x:Name="ListView"
+                    Grid.Row="3"
+                    Margin="0,12,0,0"
+                    IsItemClickEnabled="False"
+                    ItemTemplate="{StaticResource TwitterSchemaTemplate}"
+                    SelectionMode="None">
+            <ListView.ItemContainerStyle>
+              <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Template">
+                  <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                      <ListViewItemPresenter PointerOverBackground="{x:Null}" />
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </ListView.ItemContainerStyle>
+          </ListView>
+        </Grid>
+      </ScrollViewer>
     </Grid>
+  </Grid>
 </Page>
- 
+

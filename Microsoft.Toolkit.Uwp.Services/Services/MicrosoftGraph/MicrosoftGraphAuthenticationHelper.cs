@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,13 +8,12 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -31,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private const string Authority = "https://login.microsoftonline.com/common";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
-        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+        private const string DefaultRedirectUri = "http://localhost:8000";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
@@ -44,11 +42,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Store the Oauth2 access token.
         /// </summary>
         private string _tokenForUser = null;
-
-        /// <summary>
-        /// Store the refresh token
-        /// </summary>
-        private string _refreshToken = null;
 
         /// <summary>
         /// Store The lifetime in seconds of the access token.
@@ -72,18 +65,16 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // refresh silently the token
             if (_tokenForUser == null)
             {
-                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), PromptBehavior.Always);
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new PlatformParameters(PromptBehavior.Always, false));
                 _tokenForUser = userAuthnResult.AccessToken;
                 _expiration = userAuthnResult.ExpiresOn;
-                _refreshToken = userAuthnResult.RefreshToken;
             }
 
             if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenByRefreshTokenAsync(_refreshToken, appClientId);
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
                 _tokenForUser = userAuthnResult.AccessToken;
                 _expiration = userAuthnResult.ExpiresOn;
-                _refreshToken = userAuthnResult.RefreshToken;
             }
 
             return _tokenForUser;
@@ -95,7 +86,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         internal void CleanToken()
         {
             _tokenForUser = null;
-            _refreshToken = null;
             _azureAdContext.TokenCache.Clear();
         }
 
@@ -105,14 +95,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Success or failure</returns>
         internal async Task<bool> LogoutAsync()
         {
-            HttpResponseMessage response = null;
-            using (var client = new HttpClient())
+            using (var request = new HttpHelperRequest(new Uri(LogoutUrl), HttpMethod.Get))
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrl);
-                response = await client.SendAsync(request);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    return response.Success;
+                }
             }
-
-            return response.IsSuccessStatusCode;
         }
     }
 }

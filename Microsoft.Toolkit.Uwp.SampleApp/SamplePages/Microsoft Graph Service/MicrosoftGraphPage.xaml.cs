@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -40,6 +41,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
             {
                 return;
             }

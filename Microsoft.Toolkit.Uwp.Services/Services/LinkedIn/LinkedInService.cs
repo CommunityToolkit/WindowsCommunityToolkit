@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -133,8 +145,8 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
 
-            this._oAuthTokens = oAuthTokens;
-            this._requiredPermissions = requiredPermissions;
+            _oAuthTokens = oAuthTokens;
+            _requiredPermissions = requiredPermissions;
 
             Provider.RequiredPermissions = requiredPermissions;
             Provider.Tokens = oAuthTokens;
@@ -186,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 fields += ",email-address";
             }
 
-            if (Provider.LoggedIn == true)
+            if (Provider.LoggedIn)
             {
                 var results = await LinkedInService.Instance.RequestAsync<LinkedInProfile>(new LinkedInDataConfig { Query = "/people" }, 1, 0, fields);
 
