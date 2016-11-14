@@ -21,6 +21,7 @@
       <controls:PullToRefreshListView.ItemTemplate>
         <DataTemplate x:DataType="data:Item">
           <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                     AutomationProperties.Name="{x:Bind Title}"
                      Text="{x:Bind Title}"
                      TextWrapping="WrapWholeWords" />
         </DataTemplate>
