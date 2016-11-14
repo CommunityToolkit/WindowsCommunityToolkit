@@ -266,7 +266,6 @@ namespace Microsoft.Toolkit.Uwp
                     function();
                     return (object)null;
                 }, priority);
-            }
         }
     }
 }
