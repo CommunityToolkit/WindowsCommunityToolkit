@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// Visibilty Converter
+    /// Visibility Converter
     /// </summary>
     public class VisibilyConverter : IValueConverter
     {

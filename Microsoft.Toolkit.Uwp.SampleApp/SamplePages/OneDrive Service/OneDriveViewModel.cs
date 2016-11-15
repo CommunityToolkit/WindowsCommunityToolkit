@@ -94,7 +94,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async Task SigninAsync(string appClientId)
         {
-
             Shell.Current.DisplayWaitRing = true;
             try
             {
