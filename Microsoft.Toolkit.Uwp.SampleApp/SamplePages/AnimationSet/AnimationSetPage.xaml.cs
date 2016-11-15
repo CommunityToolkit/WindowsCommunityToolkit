@@ -72,10 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ResetClicked(object sender, RoutedEventArgs e)
         {
-            if (_anim != null)
-            {
-                _anim.ResetStoryboard();
-            }
+            _anim = null;
         }
     }
 
