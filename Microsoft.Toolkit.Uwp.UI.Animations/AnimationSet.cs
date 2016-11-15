@@ -426,7 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property animated</param>
         /// <param name="animation">The animation to be applied</param>
         /// <param name="propertyName">The property of the effect to be animated</param>
-        public void AddCompositionEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
+        public void AddCompositionEffectAnimation(CompositionObject effectBrush, CompositionAnimation animation, string propertyName)
         {
             var effect = new EffectAnimationDefinition()
             {
@@ -493,10 +493,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds an effect propety change to be run on <see cref="StartAsync"/>
         /// </summary>
-        /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property changed</param>
+        /// <param name="effectBrush">The <see cref="CompositionObject"/> that will have a property changed</param>
         /// <param name="value">The value to be applied</param>
         /// <param name="propertyName">The property of the effect to be animated</param>
-        internal void AddEffectDirectPropertyChange(CompositionEffectBrush effectBrush, float value, string propertyName)
+        internal void AddEffectDirectPropertyChange(CompositionObject effectBrush, float value, string propertyName)
         {
             var definition = new EffectDirectPropertyChangeDefinition()
             {
