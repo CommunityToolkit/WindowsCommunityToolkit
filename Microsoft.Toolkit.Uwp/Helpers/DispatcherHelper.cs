@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
             {
@@ -59,15 +59,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
-        public static Task ExecuteOnUIThreadAsync(CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return ExecuteOnUIThreadAsync<object>(
-                viewToExecuteOn,
-                async () =>
-                {
-                    await function().ConfigureAwait(false);
-                    return null;
-                }, priority);
+            if (viewToExecuteOn == null)
+            {
+                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+            }
+
+            return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
         }
 
         /// <summary>
@@ -78,12 +77,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Awaitable Task</returns>
         public static Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return ExecuteOnUIThreadAsync<object>(
-                async () =>
-                {
-                    await function().ConfigureAwait(false);
-                    return null;
-                }, priority);
+            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
         }
 
         /// <summary>
@@ -93,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task/></returns>
-        public static Task ExecuteOnUIThreadAsync(CoreApplicationView viewToExecuteOn, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
             {
@@ -122,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="function">Synchronous function with return type <typeparamref name="T"/> to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(CoreApplicationView viewToExecuteOn, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
             {
@@ -159,28 +153,28 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException("function can't be null!");
             }
 
-            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
 
             var ignored = dispatcher.RunAsync(priority, async () =>
-             {
-                 try
-                 {
-                     var awaitableResult = function();
-                     if (awaitableResult != null)
-                     {
-                         var result = await awaitableResult.ConfigureAwait(false);
-                         taskCompletionSource.SetResult(result);
-                     }
-                     else
-                     {
-                         taskCompletionSource.SetResult(default(T));
-                     }
-                 }
-                 catch (Exception e)
-                 {
-                     taskCompletionSource.SetException(e);
-                 }
-             });
+            {
+                try
+                {
+                    var awaitableResult = function();
+                    if (awaitableResult != null)
+                    {
+                        var result = await awaitableResult.ConfigureAwait(false);
+                        taskCompletionSource.SetResult(result);
+                    }
+                    else
+                    {
+                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                    }
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
+            });
 
             return taskCompletionSource.Task;
         }
@@ -194,12 +188,35 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return dispatcher.AwaitableRunAsync<object>(
-                async () =>
+            if (function == null)
             {
-                await function().ConfigureAwait(false);
-                return null;
-            }, priority);
+                throw new ArgumentNullException("function can't be null!");
+            }
+
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            var ignored = dispatcher.RunAsync(priority, async () =>
+            {
+                try
+                {
+                    var awaitableResult = function();
+                    if (awaitableResult != null)
+                    {
+                        await awaitableResult.ConfigureAwait(false);
+                        taskCompletionSource.SetResult(null);
+                    }
+                    else
+                    {
+                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                    }
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
+            });
+
+            return taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -217,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException("function can't be null!");
             }
 
-            TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
 
             var ignored = dispatcher.RunAsync(priority, () =>
             {
@@ -243,11 +260,11 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return dispatcher.AwaitableRunAsync<object>(
+            return dispatcher.AwaitableRunAsync(
                 () =>
                 {
                     function();
-                    return null;
+                    return (object)null;
                 }, priority);
         }
     }
