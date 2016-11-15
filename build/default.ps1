@@ -15,6 +15,10 @@ properties {
   
   $nuget = "$toolsDir\nuget\nuget.exe"
   $gitversion = "$toolsDir\gitversion\gitversion.exe"
+  
+  $signClientSettings = "$buildDir\SignClientSettings.json"
+  $hasSignClientSecret = !([string]::IsNullOrEmpty($env:SignClientSecret))
+  $signClientAppPath = "$tempDir\SignClient\Tools\SignClient.dll"
 }
 
 Framework "4.6x86"
@@ -135,25 +139,34 @@ task PackNuGetNoBuild -description "Create the NuGet packages with existing bina
   Get-ChildItem $buildDir\*.nuspec | % {
     $fullFilename = $_.FullName
     
-    Exec { .$nuget pack "$fullFilename" -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
+    Exec { .$nuget pack "$fullFilename" -symbols -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
   }
 }
 
-task PublishNuget -depends PackNuGet -description "Publish the NuGet packages to the remote repositories" {
-  Get-ChildItem $nupkgDir\*.nupkg | % {
-    $nupkg = $_.FullName
+task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the Code Signing service" {
+
+  if($hasSignClientSecret) {
+
+    WriteColoredOutput -ForegroundColor Green "Downloading Sign Client...`n"
     
-    if ($isAppVeyor) {
-      WriteColoredOutput -ForegroundColor Green "Archiving '$nupkg' artifact...`n"
+    Exec { .$nuget install -excludeversion SignClient -Version 0.5.0-beta4 -pre -outputdirectory $tempDir } "Error downloading Sign Client"
+   
+    WriteColoredOutput -ForegroundColor Green "Signing NuPkg files...`n"
+
+    Get-ChildItem $nupkgDir\*.nupkg | % {
+      $nupkg = $_.FullName
       
-      Push-AppveyorArtifact $nupkg
-    }
-    else {
-      WriteColoredOutput -ForegroundColor Green "Publishing '$nupkg'...`n"
+      WriteColoredOutput -ForegroundColor Green "Submitting '$nupkg' for signing...`n"
       
-      Exec { .$nuget push "$nupkg" } "Error publishing '$nupkg'"
+      dotnet $signClientAppPath 'zip' -c $signClientSettings -i $nupkg -s $env:SignClientSecret -n 'UWP Community Toolkit' -d 'UWP Community Toolkit' -u 'https://developer.microsoft.com/en-us/windows/uwp-community-toolkit' 
+  
+      WriteColoredOutput -ForegroundColor Green "Finished signing '$nupkg'`n"
     }
+  
+  } else {
+    WriteColoredOutput -ForegroundColor Yellow "Client Secret not found, not signing packages...`n"
   }
+  
 }
 
 task ? -description "Show the help screen" {

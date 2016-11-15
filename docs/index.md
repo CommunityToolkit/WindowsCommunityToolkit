@@ -1,4 +1,4 @@
-# UWP Community Toolkit Documentation! 
+# UWP Community Toolkit Documentation
 
 The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10. 
 
@@ -17,4 +17,3 @@ Feel free to browse the documentation using the table of contents on the left si
 [UWP Community Toolkit Source Code ](http://aka.ms/uwptoolkit)
 
 Built as an open source project hosted on GitHub with support from the community. 
-

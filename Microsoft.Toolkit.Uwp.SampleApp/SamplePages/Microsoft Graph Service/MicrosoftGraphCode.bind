@@ -10,7 +10,7 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 }
 
 //Send a message
-string[] toRecipients = "user1@contoso.com;user2@contoso.com";
+string[] toRecipients = { "user1@contoso.com", "user2@contoso.com" };
 string subject = "This is the subject of my message";
 string content = "This is the content of my message";
 

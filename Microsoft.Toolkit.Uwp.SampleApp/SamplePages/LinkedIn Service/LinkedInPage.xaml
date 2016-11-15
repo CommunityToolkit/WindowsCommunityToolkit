@@ -1,91 +1,142 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.LinkedInPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.LinkedInPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}" MaxWidth="800">
-        <Grid Margin="24" 
-              BorderThickness="1" 
-              BorderBrush="#FFCCCCCC" 
-              Background="{StaticResource Brush-Grey-04}" CornerRadius="4">
+  <Grid MaxWidth="800"
+        Background="{StaticResource Brush-Grey-05}">
+    <Grid Margin="24"
+          Background="{StaticResource Brush-Grey-04}"
+          BorderBrush="#FFCCCCCC"
+          BorderThickness="1"
+          CornerRadius="4">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <StackPanel HorizontalAlignment="Center"
+                  Orientation="Horizontal">
+        <Image Width="100"
+               Height="100"
+               Margin="24"
+               Source="/SamplePages/LinkedIn Service/LinkedInLogo.png"
+               Stretch="Uniform" />
+        <Border x:Name="ProfileImage"
+                Width="100"
+                Height="100"
+                CornerRadius="50"
+                Visibility="Collapsed">
+          <Border.Background>
+            <ImageBrush ImageSource="{Binding PictureUrl}"
+                        Stretch="Uniform" />
+          </Border.Background>
+        </Border>
+      </StackPanel>
+
+      <ScrollViewer Grid.Row="1">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
+          <!--  Credentials area  -->
+          <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Height="100" Width="100" Stretch="Uniform" Source="/SamplePages/LinkedIn Service/LinkedInLogo.png" Margin="24"/>
-                <Border CornerRadius="50" x:Name="ProfileImage" Height="100" Width="100" Visibility="Collapsed">
-                    <Border.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="{Binding PictureUrl}"/>
-                    </Border.Background>
-                </Border>
+
+            <Grid Background="#FFCCCCCC">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button x:Name="CredentialsBoxExpandButton"
+                      VerticalAlignment="Stretch"
+                      Content=""
+                      FontFamily="Segoe MDL2 Assets" />
+              <TextBlock Grid.Column="1"
+                         Margin="12,6"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush-Grey-01}"
+                         Text="Credentials" />
+            </Grid>
+
+            <StackPanel x:Name="CredentialsBox"
+                        Grid.Row="1"
+                        Margin="24"
+                        Orientation="Vertical">
+              <HyperlinkButton Margin="0,0,0,15"
+                               Content="Show me how to get these values"
+                               NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Linkedin/" />
+              <TextBox x:Name="ClientId"
+                       Margin="0,0,0,12"
+                       Header="Client Id:" />
+              <TextBox x:Name="ClientSecret"
+                       Margin="0,0,0,12"
+                       Header="Client Secret:" />
+              <TextBox x:Name="CallbackUri"
+                       Margin="0,0,0,12"
+                       Header="Callback URI:" />
+              <Button x:Name="ConnectButton"
+                      Margin="0,10,0,0"
+                      VerticalAlignment="Bottom"
+                      Click="ConnectButton_Click"
+                      Content="Connect" />
             </StackPanel>
+          </Grid>
 
-            <ScrollViewer Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
+          <!--  Share area  -->
+          <Grid x:Name="ShareBox"
+                Grid.Row="1"
+                Visibility="Collapsed">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                    <!-- Credentials area -->
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+            <Grid Background="#FFCCCCCC">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button x:Name="ShareExpandButton"
+                      VerticalAlignment="Stretch"
+                      Click="ShareExpandButton_Click"
+                      Content=""
+                      FontFamily="Segoe MDL2 Assets" />
+              <TextBlock Grid.Column="1"
+                         Margin="12,6"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="{StaticResource Brush-Grey-01}"
+                         Text="Share" />
+            </Grid>
 
-                        <Grid Background="#FFCCCCCC">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="CredentialsBoxExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" />
-                            <TextBlock Grid.Column="1" Text="Credentials" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                        </Grid>
-
-                        <StackPanel x:Name="CredentialsBox" Orientation="Vertical" Margin="24" Grid.Row="1">
-                            <HyperlinkButton Content="Show me how to get these values" 
-                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Linkedin/" 
-                                             Margin="0,0,0,15"/>
-                            <TextBox Header="Client Id:" x:Name="ClientId" Margin="0,0,0,12"/>
-                            <TextBox Header="Client Secret:" x:Name="ClientSecret" Margin="0,0,0,12"/>
-                            <TextBox Header="Callback URI:" x:Name="CallbackUri" Margin="0,0,0,12"/>
-                            <Button Content="Connect" x:Name="ConnectButton" Click="ConnectButton_Click"  Margin="0,10,0,0" VerticalAlignment="Bottom"></Button>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Share area -->
-                    <Grid Grid.Row="1" x:Name="ShareBox" Visibility="Collapsed">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid Background="#FFCCCCCC">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="ShareExpandButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch" Content="" Click="ShareExpandButton_Click" />
-                            <TextBlock Grid.Column="1" Text="Share" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,6" Foreground="{StaticResource Brush-Grey-01}" />
-                        </Grid>
-
-                        <StackPanel Grid.Row="1" Margin="24" x:Name="SharePanel">
-                            <TextBox Header="Share" x:Name="ShareText" Text="Check out the UWP Community Toolkit! https://aka.ms/uwpct" Margin="0,0,0,12"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Share" x:Name="ShareButton" Click="ShareButton_Click" Margin="0,0,12,0"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </ScrollViewer>
+            <StackPanel x:Name="SharePanel"
+                        Grid.Row="1"
+                        Margin="24">
+              <TextBox x:Name="ShareText"
+                       Margin="0,0,0,12"
+                       Header="Share"
+                       Text="Check out the UWP Community Toolkit! https://aka.ms/uwpct" />
+              <StackPanel Orientation="Horizontal">
+                <Button x:Name="ShareButton"
+                        Margin="0,0,12,0"
+                        Click="ShareButton_Click"
+                        Content="Share" />
+              </StackPanel>
+            </StackPanel>
+          </Grid>
         </Grid>
+      </ScrollViewer>
     </Grid>
+  </Grid>
 </Page>

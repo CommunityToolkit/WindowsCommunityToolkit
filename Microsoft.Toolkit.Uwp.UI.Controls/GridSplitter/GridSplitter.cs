@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the Sibling Column definition of the parent Grid
+        /// Gets the Sibling Row definition of the parent Grid
         /// </summary>
         private RowDefinition SiblingRow
         {
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var gridSplitterSiblingRowIndex = GetSiblingRow();
 
                 if ((gridSplitterSiblingRowIndex >= 0)
-                    && (gridSplitterSiblingRowIndex < Resizable.ColumnDefinitions.Count))
+                    && (gridSplitterSiblingRowIndex < Resizable.RowDefinitions.Count))
                 {
                     return Resizable.RowDefinitions[gridSplitterSiblingRowIndex];
                 }
