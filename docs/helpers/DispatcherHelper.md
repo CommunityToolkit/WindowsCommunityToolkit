@@ -1,10 +1,11 @@
 # DispatcherHelper
 
-The DispatcherHelper class enables easy interaction with [CoreDispatcher](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.core.coredispatcher.aspx), mainly in the case of executing a block of code in UI thread from a non-UI thread.
+The DispatcherHelper class enables easy interaction with [CoreDispatcher](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.core.coredispatcher.aspx), mainly in the case of executing a block of code on the UI thread from a non-UI thread.
 
 _What is included in the helper?_
 - Extension method with overloads for [CoreDispatcher](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.core.coredispatcher.aspx) class.
-- Static helper methods of executing a specific function in UI thread current application's main window (configu)
+- Extension method with overloads for [CoreApplicationView](https://msdn.microsoft.com/en-us/library/windows/apps/windows.applicationmodel.core.coreapplicationview.aspx) (for multi window applications).
+- Static helper methods for executing a specific function on the UI thread of the current application's main window.
 
 
 ## Example
@@ -14,7 +15,7 @@ _What is included in the helper?_
     // Executing from a non-UI thread with helper method
      int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
      {
-         // Code to execute with UI thread
+         // Code to execute on main window's UI thread
          NormalTextBlock.Text = "Updated from a random thread!";
          return 1;
      });
@@ -39,5 +40,5 @@ _What is included in the helper?_
 
 ## API
 
-* [Connection Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs)
+* [DispatcherHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs)
 
