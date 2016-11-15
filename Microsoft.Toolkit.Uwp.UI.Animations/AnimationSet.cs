@@ -201,6 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             State = AnimationSetState.NotStarted;
+            _animationTask = null;
             _storyboard.Stop();
         }
 
