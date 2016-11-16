@@ -42,11 +42,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _anim = Element.Offset(50, 50)
                    .Rotate(45, 50, 50)
+                   .LightAsync(2)
                    .SetDuration(2000)
                    .Then()
                    .Rotate(0, 50, 50)
                    .Offset(0, 0)
+                   .LightAsync(10)
                    .SetDuration(2000);
+
+                //_anim = Element.LightAsync(2)
+                //   .SetDuration(2000)
+                //   .Then()
+                //   .LightAsync(10)
+                //   .SetDuration(2000);
+
+                //_anim = Element.LightAsync(5).SetDuration(20000);
 
                 _anim.Completed += Anim_Completed;
 
