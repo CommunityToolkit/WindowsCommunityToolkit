@@ -9,30 +9,30 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Rectangle Width="100"
-               Height="100"
-               Fill="red">
-      <interactivity:Interaction.Behaviors>
-        <behaviors:Resize x:Name="Resize"
-                          AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"
-                          Delay="{Binding Delay.Value, Mode=TwoWay}"
-                          ResizeX="{Binding ResizeX.Value, Mode=TwoWay}"
-                          ResizeY="{Binding ResizeY.Value, Mode=TwoWay}"
-                          Duration="{Binding Duration.Value, Mode=TwoWay}" />
-      </interactivity:Interaction.Behaviors>
-    </Rectangle>
-    <StackPanel HorizontalAlignment="Right"
-                VerticalAlignment="Bottom">
-      <Button Margin="10"
-              Content="Apply">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction MethodName="StartAnimation"
-                                   TargetObject="{Binding ElementName=Resize}" />
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
-  </Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Rectangle Width="100"
+                   Height="100"
+                   Fill="red">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Resize x:Name="Resize"
+                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=TwoWay}"
+                                  Delay="{Binding Delay.Value, Mode=TwoWay}"
+                                  ResizeX="{Binding ResizeX.Value, Mode=TwoWay}"
+                                  ResizeY="{Binding ResizeY.Value, Mode=TwoWay}"
+                                  Duration="{Binding Duration.Value, Mode=TwoWay}" />
+            </interactivity:Interaction.Behaviors>
+        </Rectangle>
+        <StackPanel HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Margin="10"
+                    Content="Apply">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:CallMethodAction MethodName="StartAnimation"
+                                               TargetObject="{Binding ElementName=Resize}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </Grid>
 </Page>

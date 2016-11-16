@@ -11,41 +11,41 @@
                PrimaryButtonText="OK"
                mc:Ignorable="d">
 
-  <Grid Height="549"
-        Margin="0,0,-25,0">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="55" />
-      <ColumnDefinition Width="500" />
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="200" />
-      <RowDefinition Height="350" />
-    </Grid.RowDefinitions>
-    <AppBarButton x:Name="AppBarButton"
-                  Width="55"
-                  Height="54"
-                  Margin="0,82,0,63"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Click="AppBarButton_Click"
-                  Icon="Send"
-                  Label="Send" />
-    <StackPanel Grid.RowSpan="2"
-                Grid.Column="1"
-                Margin="0,0,32,345">
-      <TextBox x:Name="TxtTo"
-               Margin="10,0,0,0"
-               Header="To:" />
-      <TextBox x:Name="TxtCc"
-               Margin="10,0,0,0"
-               Header="Cc:" />
-      <TextBox x:Name="TxtSubject"
-               Margin="10,0,0,0"
-               Header="Subject:" />
-    </StackPanel>
-    <RichEditBox x:Name="richEditBoxContent"
-                 Grid.Row="1"
-                 Grid.ColumnSpan="2"
-                 Margin="0,0,32,0" />
-  </Grid>
+    <Grid Height="549"
+          Margin="0,0,-25,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55" />
+            <ColumnDefinition Width="500" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="350" />
+        </Grid.RowDefinitions>
+        <AppBarButton x:Name="AppBarButton"
+                      Width="55"
+                      Height="54"
+                      Margin="0,82,0,63"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Click="AppBarButton_Click"
+                      Icon="Send"
+                      Label="Send" />
+        <StackPanel Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="0,0,32,345">
+            <TextBox x:Name="TxtTo"
+                     Margin="10,0,0,0"
+                     Header="To:" />
+            <TextBox x:Name="TxtCc"
+                     Margin="10,0,0,0"
+                     Header="Cc:" />
+            <TextBox x:Name="TxtSubject"
+                     Margin="10,0,0,0"
+                     Header="Subject:" />
+        </StackPanel>
+        <RichEditBox x:Name="richEditBoxContent"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     Margin="0,0,32,0" />
+    </Grid>
 </ContentDialog>
