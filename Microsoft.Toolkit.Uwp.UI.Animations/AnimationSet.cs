@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private List<AnimationTask> _animationTasks;
 
-        private Task _animationTask;
+        private Task _mainRunningTask;
         private Task _internalTask;
         private CancellationTokenSource _cts;
         private ManualResetEvent _manualResetEvent;
@@ -105,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _animationSets = new List<AnimationSet>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
+            _animationTasks = new List<AnimationTask>();
 
             _taskResetEvent = new ManualResetEventSlim();
             _manualResetEvent = new ManualResetEvent(false);
@@ -129,9 +130,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
         public Task StartAsync()
         {
-            if (_animationTask == null)
+            if (_mainRunningTask == null)
             {
-                _animationTask = Task.Run(() =>
+                _mainRunningTask = Task.Run(() =>
                 {
                     _manualResetEvent.Reset();
                     _manualResetEvent.WaitOne();
@@ -150,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var nop = StartTheAnimationAsync(_cts.Token);
             }
 
-            return _animationTask;
+            return _mainRunningTask;
         }
 
         /// <summary>
@@ -208,6 +209,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             savedAnimationSet._storyboard = _storyboard;
             savedAnimationSet._storyboardAnimations = _storyboardAnimations;
 
+            _animationTasks.ForEach(t => t.AnimationSet = savedAnimationSet);
+            savedAnimationSet._animationTasks = _animationTasks;
+
             _animationSets.Add(savedAnimationSet);
 
             _compositionAnimations = new Dictionary<string, CompositionAnimation>();
@@ -216,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _directCompositionEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
+            _animationTasks = new List<AnimationTask>();
 
             return this;
         }
@@ -426,7 +431,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property animated</param>
         /// <param name="animation">The animation to be applied</param>
         /// <param name="propertyName">The property of the effect to be animated</param>
-        public void AddCompositionEffectAnimation(CompositionEffectBrush effectBrush, CompositionAnimation animation, string propertyName)
+        public void AddCompositionEffectAnimation(CompositionObject effectBrush, CompositionAnimation animation, string propertyName)
         {
             var effect = new EffectAnimationDefinition()
             {
@@ -491,12 +496,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a <see cref="AnimationTask"/> to the AnimationSet that
+        /// will run add an animation once completed. Usefull when an animation
+        /// needs to do asyncronous initialization before running
+        /// </summary>
+        /// <param name="animationTask">The <see cref="AnimationTask"/> to be added</param>
+        internal void AddAnimationThroughTask(AnimationTask animationTask)
+        {
+            _animationTasks.Add(animationTask);
+        }
+
+        /// <summary>
         /// Adds an effect propety change to be run on <see cref="StartAsync"/>
         /// </summary>
-        /// <param name="effectBrush">The <see cref="CompositionEffectBrush"/> that will have a property changed</param>
+        /// <param name="effectBrush">The <see cref="CompositionObject"/> that will have a property changed</param>
         /// <param name="value">The value to be applied</param>
         /// <param name="propertyName">The property of the effect to be animated</param>
-        internal void AddEffectDirectPropertyChange(CompositionEffectBrush effectBrush, float value, string propertyName)
+        internal void AddEffectDirectPropertyChange(CompositionObject effectBrush, float value, string propertyName)
         {
             var definition = new EffectDirectPropertyChangeDefinition()
             {
