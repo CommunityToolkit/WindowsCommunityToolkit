@@ -576,6 +576,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
+            _animationTasks.Clear();
+
             foreach (var property in _directCompositionPropertyChanges)
             {
                 typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
