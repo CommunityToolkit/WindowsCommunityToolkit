@@ -5,160 +5,160 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-  <Grid Background="{StaticResource Brush-Grey-05}">
-    <ScrollViewer HorizontalScrollMode="Disabled"
-                  VerticalScrollBarVisibility="Auto"
-                  VerticalScrollMode="Auto">
-      <StackPanel HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
-        <StackPanel x:Name="Stack0"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Application name:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind ApplicationName}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack1"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Application version:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind ApplicationVersion}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack2"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="User's culture:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind Culture}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack3"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Operating system:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind OperatingSystem}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack4"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Operating system architecture:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind OperatingSystemArchitecture}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack5"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Operating system version:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind OperatingSystemVersion}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack6"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Device family:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind DeviceFamily}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack7"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Device model:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind DeviceModel}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack8"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Device manufacturer:"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind DeviceManufacturer}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-        <StackPanel x:Name="Stack9"
-                    Margin="10"
-                    Orientation="Horizontal">
-          <TextBlock FontSize="18"
-                     FontWeight="Bold"
-                     Text="Available memory (MB):"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="20,0"
-                     FontSize="18"
-                     Text="{x:Bind AvailableMemory}"
-                     TextWrapping="Wrap" />
-        </StackPanel>
-      </StackPanel>
-    </ScrollViewer>
-    <VisualStateManager.VisualStateGroups>
-      <VisualStateGroup>
-        <VisualState x:Name="Full">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="600" />
-          </VisualState.StateTriggers>
-        </VisualState>
-        <VisualState x:Name="Small">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="0" />
-          </VisualState.StateTriggers>
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <ScrollViewer HorizontalScrollMode="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Auto">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <StackPanel x:Name="Stack0"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Application name:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind ApplicationName}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack1"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Application version:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind ApplicationVersion}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack2"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="User's culture:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind Culture}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack3"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Operating system:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind OperatingSystem}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack4"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Operating system architecture:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind OperatingSystemArchitecture}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack5"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Operating system version:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind OperatingSystemVersion}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack6"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Device family:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind DeviceFamily}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack7"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Device model:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind DeviceModel}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack8"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Device manufacturer:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind DeviceManufacturer}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack9"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Available memory (MB):"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind AvailableMemory}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
 
-          <VisualState.Setters>
-            <Setter Target="Stack0.Orientation" Value="Vertical" />
-            <Setter Target="Stack1.Orientation" Value="Vertical" />
-            <Setter Target="Stack2.Orientation" Value="Vertical" />
-            <Setter Target="Stack3.Orientation" Value="Vertical" />
-            <Setter Target="Stack4.Orientation" Value="Vertical" />
-            <Setter Target="Stack5.Orientation" Value="Vertical" />
-            <Setter Target="Stack6.Orientation" Value="Vertical" />
-            <Setter Target="Stack7.Orientation" Value="Vertical" />
-            <Setter Target="Stack8.Orientation" Value="Vertical" />
-            <Setter Target="Stack9.Orientation" Value="Vertical" />
-          </VisualState.Setters>
-        </VisualState>
-      </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-  </Grid>
+                    <VisualState.Setters>
+                        <Setter Target="Stack0.Orientation" Value="Vertical" />
+                        <Setter Target="Stack1.Orientation" Value="Vertical" />
+                        <Setter Target="Stack2.Orientation" Value="Vertical" />
+                        <Setter Target="Stack3.Orientation" Value="Vertical" />
+                        <Setter Target="Stack4.Orientation" Value="Vertical" />
+                        <Setter Target="Stack5.Orientation" Value="Vertical" />
+                        <Setter Target="Stack6.Orientation" Value="Vertical" />
+                        <Setter Target="Stack7.Orientation" Value="Vertical" />
+                        <Setter Target="Stack8.Orientation" Value="Vertical" />
+                        <Setter Target="Stack9.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
 </Page>
