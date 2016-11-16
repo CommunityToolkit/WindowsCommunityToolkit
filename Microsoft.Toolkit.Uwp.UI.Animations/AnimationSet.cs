@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private List<AnimationTask> _animationTasks;
 
-        private Task _animationTask;
+        private Task _mainRunningTask;
         private Task _internalTask;
         private CancellationTokenSource _cts;
         private ManualResetEvent _manualResetEvent;
@@ -105,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _animationSets = new List<AnimationSet>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
+            _animationTasks = new List<AnimationTask>();
 
             _taskResetEvent = new ManualResetEventSlim();
             _manualResetEvent = new ManualResetEvent(false);
@@ -129,9 +130,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
         public Task StartAsync()
         {
-            if (_animationTask == null)
+            if (_mainRunningTask == null)
             {
-                _animationTask = Task.Run(() =>
+                _mainRunningTask = Task.Run(() =>
                 {
                     _manualResetEvent.Reset();
                     _manualResetEvent.WaitOne();
@@ -150,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var nop = StartTheAnimationAsync(_cts.Token);
             }
 
-            return _animationTask;
+            return _mainRunningTask;
         }
 
         /// <summary>
@@ -208,6 +209,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             savedAnimationSet._storyboard = _storyboard;
             savedAnimationSet._storyboardAnimations = _storyboardAnimations;
 
+            _animationTasks.ForEach(t => t.AnimationSet = savedAnimationSet);
+            savedAnimationSet._animationTasks = _animationTasks;
+
             _animationSets.Add(savedAnimationSet);
 
             _compositionAnimations = new Dictionary<string, CompositionAnimation>();
@@ -216,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _directCompositionEffectPropertyChanges = new List<EffectDirectPropertyChangeDefinition>();
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
+            _animationTasks = new List<AnimationTask>();
 
             return this;
         }
@@ -488,6 +493,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             _manualResetEvent?.Dispose();
             _taskResetEvent?.Dispose();
+        }
+
+        /// <summary>
+        /// Adds a <see cref="AnimationTask"/> to the AnimationSet that
+        /// will run add an animation once completed. Usefull when an animation
+        /// needs to do asyncronous initialization before running
+        /// </summary>
+        /// <param name="animationTask">The <see cref="AnimationTask"/> to be added</param>
+        internal void AddAnimationThroughTask(AnimationTask animationTask)
+        {
+            _animationTasks.Add(animationTask);
         }
 
         /// <summary>
