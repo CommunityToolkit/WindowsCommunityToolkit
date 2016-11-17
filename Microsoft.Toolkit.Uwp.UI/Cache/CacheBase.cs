@@ -165,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
             var filesToDelete = new List<StorageFile>();
+            var keys = new List<string>();
 
             Dictionary<string, StorageFile> hashDictionary = new Dictionary<string, StorageFile>();
 
@@ -182,10 +183,13 @@ namespace Microsoft.Toolkit.Uwp.UI
                 if (hashDictionary.TryGetValue(fileName, out file))
                 {
                     filesToDelete.Add(file);
+                    keys.Add(fileName);
                 }
             }
 
             await InternalClearAsync(files).ConfigureAwait(false);
+
+            _inMemoryFileStorage.Remove(keys);
         }
 
         /// <summary>
