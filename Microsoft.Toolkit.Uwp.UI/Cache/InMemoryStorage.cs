@@ -91,6 +91,21 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Remove items based on provided keys
+        /// </summary>
+        /// <param name="keys">identified of the in-memory storage item</param>
+        public void Remove(IEnumerable<string> keys)
+        {
+            lock (this)
+            {
+                foreach (var key in keys)
+                {
+                    _inMemoryStorage.Remove(key);
+                }
+            }
+        }
+
+        /// <summary>
         /// Add new item to in-memory storage
         /// </summary>
         /// <param name="item">item to be stored</param>
