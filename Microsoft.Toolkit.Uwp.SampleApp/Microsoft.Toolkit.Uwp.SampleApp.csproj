@@ -336,7 +336,6 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Models\Email.cs" />
-    <Compile Include="SamplePages\BladeView\BladeModeToBooleanConverter.cs" />
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
