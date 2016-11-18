@@ -112,7 +112,7 @@
         "Type": "TextBoxMaskPage",
         "About": "",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
-        "XamlCodeFile": "TextBoxMask1.bind",
+        "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
       }
     ]
