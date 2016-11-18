@@ -6,27 +6,27 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-    <Button x:Name="ExecuteFromDifferentThreadButton"
-            Grid.Row="0"
-            Margin="16"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="ExecuteFromDifferentThreadButton_Click"
-            Content="Update UI from different thread" />
+        <Button x:Name="ExecuteFromDifferentThreadButton"
+                Grid.Row="0"
+                Margin="16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="ExecuteFromDifferentThreadButton_Click"
+                Content="Update UI from different thread" />
 
-    <TextBlock x:Name="NormalTextBlock"
-               Grid.Row="1"
-               Margin="16"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               Foreground="Red"
-               TextWrapping="Wrap" />
-  </Grid>
+        <TextBlock x:Name="NormalTextBlock"
+                   Grid.Row="1"
+                   Margin="16"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Foreground="Red"
+                   TextWrapping="Wrap" />
+    </Grid>
 </Page>

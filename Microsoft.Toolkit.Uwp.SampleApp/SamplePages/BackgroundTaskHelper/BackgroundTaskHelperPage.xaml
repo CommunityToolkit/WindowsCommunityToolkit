@@ -6,48 +6,48 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{StaticResource Brush-Grey-05}">
-    <StackPanel VerticalAlignment="Top">
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <StackPanel VerticalAlignment="Top">
 
-      <TextBlock Margin="5"
-                 Foreground="Red"
-                 Text="WARNING: Register Button only works on Anniversary Update (&gt;= 14393)"
-                 TextWrapping="Wrap" />
+            <TextBlock Margin="5"
+                       Foreground="Red"
+                       Text="WARNING: Register Button only works on Anniversary Update (&gt;= 14393)"
+                       TextWrapping="Wrap" />
 
-      <StackPanel Margin="5"
-                  Orientation="Horizontal">
-        <TextBlock Text="Status:" />
-        <TextBlock x:Name="StatusMessage" />
-      </StackPanel>
+            <StackPanel Margin="5"
+                        Orientation="Horizontal">
+                <TextBlock Text="Status:" />
+                <TextBlock x:Name="StatusMessage" />
+            </StackPanel>
 
-      <Button x:Name="RegisterButton"
-              Margin="5"
-              Click="RegisterButton_Click"
-              Content="Register Background Task" />
+            <Button x:Name="RegisterButton"
+                    Margin="5"
+                    Click="RegisterButton_Click"
+                    Content="Register Background Task" />
 
-      <Button x:Name="UnregisterButton"
-              Margin="5"
-              Click="UnregisterButton_Click"
-              Content="Unregister Background Task" />
-    </StackPanel>
+            <Button x:Name="UnregisterButton"
+                    Margin="5"
+                    Click="UnregisterButton_Click"
+                    Content="Unregister Background Task" />
+        </StackPanel>
 
-    <VisualStateManager.VisualStateGroups>
-      <VisualStateGroup>
-        <VisualState x:Name="Full">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="600" />
-          </VisualState.StateTriggers>
-        </VisualState>
-        <VisualState x:Name="Small">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="0" />
-          </VisualState.StateTriggers>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
 
-          <VisualState.Setters>
-            <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
-          </VisualState.Setters>
-        </VisualState>
-      </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-  </Grid>
+                    <VisualState.Setters>
+                        <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
 </Page>

@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var spriteVisual = ElementCompositionPreview.GetElementChildVisual(animationSet.Element) as SpriteVisual;
             var blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
 
-            if (blurBrush != null || blurBrush.Comment == "Blur")
+            if (blurBrush != null && blurBrush.Comment == "Blur")
             {
                 spriteVisual.Brush = null;
             }
