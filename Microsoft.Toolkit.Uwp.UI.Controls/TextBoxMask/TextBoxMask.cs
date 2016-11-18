@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -54,21 +56,75 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 Replace(NumericCharacterRepresentation.Key, placeHolder.Value).
                                 Replace(AlphaNumericRepresentation.Key, placeHolder.Value);
             textbox.Text = displayText;
+            textbox.TextChanging -= Textbox_TextChanging;
+            textbox.SelectionChanged -= Textbox_SelectionChanged;
+            textbox.Paste -= Textbox_Paste;
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
+            textbox.Paste += Textbox_Paste;
             textbox.SetValue(OldTextProperty, displayText);
+        }
+
+        private static async void Textbox_Paste(object sender, TextControlPasteEventArgs e)
+        {
+            e.Handled = true;
+            DataPackageView dataPackageView = Clipboard.GetContent();
+            if (!dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                return;
+            }
+
+            var pasteText = await dataPackageView.GetTextAsync();
+            if (string.IsNullOrWhiteSpace(pasteText))
+            {
+                return;
+            }
+
+            var textbox = sender as TextBox;
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            var placeHolder = (char?)textbox?.GetValue(PlaceHolderProperty);
+            if (string.IsNullOrWhiteSpace(mask) ||
+                representationDictionary == null ||
+                !placeHolder.HasValue)
+            {
+                return;
+            }
+
+            // to update the textbox text without triggering TextChanging text
+            textbox.TextChanging -= Textbox_TextChanging;
+
+            var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
+            var maxLength = pasteText.Length < mask.Length ? pasteText.Length : mask.Length;
+            var textArray = textbox.Text.ToCharArray();
+
+            for (int i = oldSelectionStart; i < oldSelectionStart + maxLength; i++)
+            {
+                var maskChar = mask[i];
+                var selectedChar = pasteText[i - oldSelectionStart];
+
+                // If dynamic character a,9,* or custom
+                if (representationDictionary.ContainsKey(maskChar))
+                {
+                    var pattern = representationDictionary[maskChar];
+                    if (Regex.IsMatch(selectedChar.ToString(), pattern))
+                    {
+                        textArray[i] = selectedChar;
+                    }
+                }
+            }
+
+            textbox.Text = new string(textArray);
+            textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SelectionStart = oldSelectionStart + maxLength;
+            textbox.TextChanging += Textbox_TextChanging;
         }
 
         private static void Textbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var textbox = sender as TextBox;
-            if (textbox == null)
-            {
-                return;
-            }
-
-            textbox.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
-            textbox.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
+            textbox?.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
+            textbox?.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
         }
 
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
@@ -117,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var selectedCharacter = textbox.SelectionStart > 0 ?
+            var selectedChar = textbox.SelectionStart > 0 ?
                 textbox.Text[textbox.SelectionStart - 1] :
                 placeHolder.Value;
 
@@ -142,12 +198,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     var pattern = representationDictionary[maskChar];
-                    if (Regex.IsMatch(selectedCharacter.ToString(), pattern))
+                    if (Regex.IsMatch(selectedChar.ToString(), pattern))
                     {
-                        textArray[i] = selectedCharacter;
+                        textArray[i] = selectedChar;
 
                         // updating text box new index
-                        // TODO apply this change in selection
                         newSelectionIndex++;
                     }
 
