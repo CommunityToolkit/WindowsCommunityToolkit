@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
@@ -14,31 +13,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class TextBoxMask
     {
-        private const char DefaultPlaceHolder = '_';
+        private const string DefaultPlaceHolder = "_";
         private static readonly KeyValuePair<char, string> AlphaCharacterRepresentation = new KeyValuePair<char, string>('a', "[A-Za-z]");
         private static readonly KeyValuePair<char, string> NumericCharacterRepresentation = new KeyValuePair<char, string>('9', "[0-9]");
         private static readonly KeyValuePair<char, string> AlphaNumericRepresentation = new KeyValuePair<char, string>('*', "[A-Za-z0-9]");
 
         private static void OnMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            InitTextBoxMask(d, e);
+        }
+
+        private static void OnPlaceHolderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            InitTextBoxMask(d, e);
+        }
+
+        private static void InitTextBoxMask(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
             var textbox = d as TextBox;
-            if (textbox == null)
-            {
-                return;
-            }
 
             // incase no value is provided us it as normal textbox
-            var value = e.NewValue as string;
-            if (string.IsNullOrWhiteSpace(value))
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
             }
 
-            var placeHolder = (char?)textbox.GetValue(PlaceHolderProperty);
-            if (!placeHolder.HasValue)
+            var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
+            if (string.IsNullOrEmpty(placeHolderValue))
             {
                 return;
             }
+
+            var placeHolder = placeHolderValue[0];
 
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             if (representationDictionary == null)
@@ -52,9 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // TODO: insert generic custom representation
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
-            var displayText = value.Replace(AlphaCharacterRepresentation.Key, placeHolder.Value).
-                                Replace(NumericCharacterRepresentation.Key, placeHolder.Value).
-                                Replace(AlphaNumericRepresentation.Key, placeHolder.Value);
+            var displayText = mask.Replace(AlphaCharacterRepresentation.Key, placeHolder).
+                                Replace(NumericCharacterRepresentation.Key, placeHolder).
+                                Replace(AlphaNumericRepresentation.Key, placeHolder);
             textbox.Text = displayText;
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.SelectionChanged -= Textbox_SelectionChanged;
@@ -83,10 +90,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var textbox = sender as TextBox;
             var mask = textbox?.GetValue(MaskProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            var placeHolder = (char?)textbox?.GetValue(PlaceHolderProperty);
             if (string.IsNullOrWhiteSpace(mask) ||
-                representationDictionary == null ||
-                !placeHolder.HasValue)
+                representationDictionary == null)
             {
                 return;
             }
@@ -131,17 +136,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var mask = textbox.GetValue(MaskProperty) as string;
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            var placeHolder = (char?)textbox.GetValue(PlaceHolderProperty);
+            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             var oldSelectionLength = (int)textbox.GetValue(OldSelectionLengthProperty);
             if (string.IsNullOrWhiteSpace(mask) ||
                 representationDictionary == null ||
-                !placeHolder.HasValue || oldText == null)
+                string.IsNullOrEmpty(placeHolderValue) ||
+                oldText == null)
             {
                 return;
             }
 
+            var placeHolder = placeHolderValue[0];
             var isDeleteOrBackspace = false;
             var deleteBackspaceIndex = 0;
 
@@ -175,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectedChar = textbox.SelectionStart > 0 ?
                 textbox.Text[textbox.SelectionStart - 1] :
-                placeHolder.Value;
+                placeHolder;
 
             var textArray = oldText.ToCharArray();
 
@@ -193,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (isDeleteOrBackspace)
                     {
-                        textArray[i] = placeHolder.Value;
+                        textArray[i] = placeHolder;
                         continue;
                     }
 
@@ -218,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
                         else
                         {
-                            textArray[i] = placeHolder.Value;
+                            textArray[i] = placeHolder;
                         }
                     }
                 }
@@ -227,6 +234,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     textArray[i] = oldText[i];
+
+                    // updating text box new index
+                    newSelectionIndex++;
                 }
             }
 

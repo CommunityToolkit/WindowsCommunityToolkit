@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -22,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Represents the mask place holder
         /// </summary>
-        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(char), typeof(TextBoxMask), new PropertyMetadata(DefaultPlaceHolder));
+        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxMask), new PropertyMetadata(DefaultPlaceHolder, OnPlaceHolderChanged));
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty OldSelectionLengthProperty = DependencyProperty.RegisterAttached("OldSelectionLength", typeof(int), typeof(TextBoxMask), new PropertyMetadata(0));
@@ -55,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>placeholder value</returns>
         public static string GetPlaceHolder(DependencyObject obj)
         {
-            return (string)obj.GetValue(MaskProperty);
+            return (string)obj.GetValue(PlaceHolderProperty);
         }
 
         /// <summary>
@@ -65,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="value">placeholder Value</param>
         public static void SetPlaceHolder(DependencyObject obj, string value)
         {
-            obj.SetValue(MaskProperty, value);
+            obj.SetValue(PlaceHolderProperty, value);
         }
     }
 }
