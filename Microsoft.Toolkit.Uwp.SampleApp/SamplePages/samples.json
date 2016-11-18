@@ -106,6 +106,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "TextBoxMask",
+        "Type": "TextBoxMaskPage",
+        "About": "",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
+        "XamlCodeFile": "TextBoxMask1.bind",
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
       }
     ]
   },

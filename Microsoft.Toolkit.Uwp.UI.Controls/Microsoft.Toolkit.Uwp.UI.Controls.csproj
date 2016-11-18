@@ -73,6 +73,8 @@
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
