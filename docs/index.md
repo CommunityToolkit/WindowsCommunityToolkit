@@ -10,8 +10,6 @@ You can also preview the capabilities of the toolkit by downloading the [UWP Com
 
 Feel free to browse the documentation using the table of contents on the left side of this page.
 
-![Toolkit](resources/images/herotile.png "UWP Toolkit")
-
 ## Open Source
 
 [UWP Community Toolkit Source Code ](http://aka.ms/uwptoolkit)
