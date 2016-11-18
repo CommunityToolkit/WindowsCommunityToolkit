@@ -72,9 +72,6 @@
     <Compile Include="BladeControl\BladeItem.Events.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
-    <Compile Include="TaskControl\TaskControl.cs" />
-    <Compile Include="TaskControl\TaskControl.Events.cs" />
-    <Compile Include="TaskControl\TaskControl.Properties.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -157,11 +154,6 @@
     <Page Include="SlidableListItem\SlidableListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="TaskControl\TaskControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

@@ -36,14 +36,6 @@
         "Icon": "/SamplePages/ImageEx/ImageEx.png"
       },
       {
-        "Name": "TaskControl",
-        "Type": "TaskControlPage",
-        "About": "Task based control sample.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TaskControl",
-        "XamlCodeFile": "TaskControlCode.bind",
-        "Icon": "/SamplePages/ImageEx/ImageEx.png"
-      },
-      {
         "Name": "HeaderedTextBlock",
         "Type": "HeaderedTextBlockPage",
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",

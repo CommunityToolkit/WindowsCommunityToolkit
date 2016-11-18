@@ -68,8 +68,6 @@
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WebViewExtensions.cs" />
     <Compile Include="Helpers\BindableValueHolder.cs" />
-    <Compile Include="Helpers\ITaskWithNotification.cs" />
-    <Compile Include="Helpers\TaskWithNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
