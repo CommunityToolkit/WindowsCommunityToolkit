@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly KeyValuePair<char, string> NumericCharacterRepresentation = new KeyValuePair<char, string>('9', "[0-9]");
         private static readonly KeyValuePair<char, string> AlphaNumericRepresentation = new KeyValuePair<char, string>('*', "[A-Za-z0-9]");
 
-        // TODO handle Control Z cases
         private static void OnMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textbox = d as TextBox;
@@ -51,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // TODO: insert generic custom representation
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
-            string displayText = value.Replace(AlphaCharacterRepresentation.Key, placeHolder.Value).
+            var displayText = value.Replace(AlphaCharacterRepresentation.Key, placeHolder.Value).
                                 Replace(NumericCharacterRepresentation.Key, placeHolder.Value).
                                 Replace(AlphaNumericRepresentation.Key, placeHolder.Value);
             textbox.Text = displayText;
@@ -123,7 +122,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 placeHolder.Value;
 
             var textArray = oldText.ToCharArray();
+
+            // detect if backspace or delete is triggered to handle the right removed character
             var newSelectionIndex = oldSelectionStart - deleteBackspaceIndex;
+
+            // for handling single key click add +1 to match length for selection =1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
             for (int i = newSelectionIndex; i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex); i++)
             {
