@@ -177,7 +177,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
-            textbox.SelectionStart = newSelectionIndex;
+
+            // without selection
+            if (oldSelectionLength == 0)
+            {
+                textbox.SelectionStart = newSelectionIndex;
+            }
+            else
+            {
+                // we can't handle both selection direction because there is no property to detect which direction the selection was
+                // so considering the most common direction from left to right and position the index based on it
+                textbox.SelectionStart = oldSelectionStart + oldSelectionLength;
+            }
         }
     }
 }
