@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Text Mask allows a user to more easily enter fixed width text in TextBox control
+    /// TextBox Mask property allows a user to more easily enter fixed width text in TextBox control
     /// where you would like them to enter the data in a certain format
     /// </summary>
     public partial class TextBoxMask
