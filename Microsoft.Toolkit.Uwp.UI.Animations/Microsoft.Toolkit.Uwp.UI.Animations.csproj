@@ -60,6 +60,7 @@
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
+    <Compile Include="Extensions\AnimationExtensions.DropShadow.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />
     <Compile Include="Extensions\AnimationExtensions.Offset.cs" />
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />

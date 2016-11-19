@@ -1,0 +1,13 @@
+
+// XAML UIElement
+<Grid x:Name="ShadowHost" Height="100">
+    <Rectangle x:Name="ShapeMask" Fill="{StaticResource Brush-Grey-01}" />
+</Grid>
+
+// C# - DropShadow can be applied to any UIElement that contains a Shape element (a Rectangle for example). In this case the ShapeMask element will have a shadow/blur based on the properties you send.
+using Windows.UI;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+var color = (Color)Application.Current.Resources["Grey-02"];
+await ShadowHost.DropShadow(shapeMask: ShapeMask, blurRadius: 15f, color: color, offset: new Vector3(0, 2.5f, 0)).StartAsync();
+       

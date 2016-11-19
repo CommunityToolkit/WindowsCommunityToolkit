@@ -199,6 +199,14 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
+      },
+      {
+        "Name": "DropShadow",
+        "Type": "DropShadowPage",
+        "About": "Enable DropShadow animation",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "DropShadowCode.bind",
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
       }
     ]
   },

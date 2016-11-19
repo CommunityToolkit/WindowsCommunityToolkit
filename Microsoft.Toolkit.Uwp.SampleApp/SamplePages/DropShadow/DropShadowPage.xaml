@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.DropShadowPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="WarningText"
+                   Margin="0,20"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}"
+                   Text="DropShadow is only available on Windows 10 Anniversary Update or greater"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
+
+        <Grid>
+            <Grid x:Name="ShadowHost" Height="100">
+                <Rectangle x:Name="ShapeMask" Fill="{StaticResource Brush-Grey-01}" />
+            </Grid>
+
+            <TextBlock Text="This grid contains a rectangle that has a shadow around it." 
+                       TextWrapping="Wrap"
+                       Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Grid>
+    </Grid>
+</Page>
