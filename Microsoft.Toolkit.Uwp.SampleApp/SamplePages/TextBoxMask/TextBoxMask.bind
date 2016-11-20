@@ -1,19 +1,51 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMask"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMaskPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-             <TextBox 
-                 TextBoxMask.Mask="000-000"
-                 HorizontalAlignment="Left" 
-                 Margin="117,304,0,0"
-                 TextWrapping="Wrap" 
-                 VerticalAlignment="Top" 
-                 Width="181" Height="34"/>
-    </Grid>
+  <Page.Resources>
+    <Style x:Key="TitleText"
+           TargetType="TextBlock">
+      <Setter Property="Margin" Value="5,20,0,5" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Foreground" Value="{StaticResource Brush-Grey-03}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="DividingBorder"
+           TargetType="Border">
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="Black" />
+      <Setter Property="Margin" Value="0,0,0,20" />
+    </Style>
+  </Page.Resources>
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
+      <TextBlock Style="{StaticResource TitleText}">Text box with Mask 9a9a-a9a*</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+      <TextBox
+      controls:TextBoxMask.Mask="9a9a-a9a*"
+           TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="166"/>
+
+      <TextBlock Style="{StaticResource TitleText}">Text box with Mask +1999-9999 and place holder space</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+      <TextBox
+      controls:TextBoxMask.Mask="+1999-9999"
+      controls:TextBoxMask.PlaceHolder=" "
+           TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="166"/>
+
+      <TextBlock Style="{StaticResource TitleText}">Text box with Custom Mask</TextBlock>
+      <Border Style="{StaticResource DividingBorder}" />
+      <TextBox
+      controls:TextBoxMask.Mask="a5c-5c*9"
+          controls:TextBoxMask.CustomMask="5:[1-5],c:^[a-c]"
+           TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="166"/>
+    </StackPanel>
+
+  </Grid>
 </Page>

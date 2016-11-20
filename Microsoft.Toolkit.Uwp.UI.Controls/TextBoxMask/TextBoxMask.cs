@@ -28,6 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InitTextBoxMask(d, e);
         }
 
+        private static void OnCustomMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            InitTextBoxMask(d, e);
+        }
+
         private static void InitTextBoxMask(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textbox = d as TextBox;
@@ -48,20 +53,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var placeHolder = placeHolderValue[0];
 
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            if (representationDictionary == null)
+            representationDictionary = new Dictionary<char, string>();
+            representationDictionary.Add(AlphaCharacterRepresentation.Key, AlphaCharacterRepresentation.Value);
+            representationDictionary.Add(NumericCharacterRepresentation.Key, NumericCharacterRepresentation.Value);
+            representationDictionary.Add(AlphaNumericRepresentation.Key, AlphaNumericRepresentation.Value);
+
+            var customDictionaryValue = textbox.GetValue(CustomMaskProperty) as string;
+            if (!string.IsNullOrWhiteSpace(customDictionaryValue))
             {
-                representationDictionary = new Dictionary<char, string>();
-                representationDictionary.Add(AlphaCharacterRepresentation.Key, AlphaCharacterRepresentation.Value);
-                representationDictionary.Add(NumericCharacterRepresentation.Key, NumericCharacterRepresentation.Value);
-                representationDictionary.Add(AlphaNumericRepresentation.Key, AlphaNumericRepresentation.Value);
+                var customRoles = customDictionaryValue.Split(',');
+                foreach (var role in customRoles)
+                {
+                    var roleValues = role.Split(':');
+                    if (roleValues.Length != 2)
+                    {
+                        throw new Exception("Invalid custom mask");
+                    }
+
+                    var keyValue = roleValues[0];
+                    var value = roleValues[1];
+                    char key;
+
+                    // an exception should be throw if the regex is not valid
+                    Regex.Match(string.Empty, value);
+                    if (!char.TryParse(keyValue, out key))
+                    {
+                        throw new Exception("Invalid custom mask, please validate the mask key");
+                    }
+
+                    representationDictionary.Add(key, value);
+                }
             }
 
             // TODO: insert generic custom representation
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
-            var displayText = mask.Replace(AlphaCharacterRepresentation.Key, placeHolder).
-                                Replace(NumericCharacterRepresentation.Key, placeHolder).
-                                Replace(AlphaNumericRepresentation.Key, placeHolder);
+            var displayText = mask;
+            foreach (var key in representationDictionary.Keys)
+            {
+                displayText = displayText.Replace(key, placeHolder);
+            }
+
             textbox.Text = displayText;
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.SelectionChanged -= Textbox_SelectionChanged;
