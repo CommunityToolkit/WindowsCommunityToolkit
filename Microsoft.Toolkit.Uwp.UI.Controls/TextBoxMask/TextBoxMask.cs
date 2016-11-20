@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var roleValues = role.Split(':');
                     if (roleValues.Length != 2)
                     {
-                        throw new Exception("Invalid custom mask");
+                        throw new ArgumentException("Invalid CustomMask property");
                     }
 
                     var keyValue = roleValues[0];
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Regex.Match(string.Empty, value);
                     if (!char.TryParse(keyValue, out key))
                     {
-                        throw new Exception("Invalid custom mask, please validate the mask key");
+                        throw new ArgumentException("Invalid CustomMask property, please validate the mask key");
                     }
 
                     representationDictionary.Add(key, value);
