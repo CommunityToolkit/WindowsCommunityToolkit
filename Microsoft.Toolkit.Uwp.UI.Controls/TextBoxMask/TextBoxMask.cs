@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
@@ -49,8 +50,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var textbox = d as TextBox;
 
+            if (textbox == null)
+            {
+                return;
+            }
+
+            textbox.TextChanging -= Textbox_TextChanging;
+            textbox.SelectionChanged -= Textbox_SelectionChanged;
+            textbox.Paste -= Textbox_Paste;
+
             // incase no value is provided us it as normal textbox
-            var mask = textbox?.GetValue(MaskProperty) as string;
+            var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
@@ -59,13 +69,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
             if (string.IsNullOrEmpty(placeHolderValue))
             {
-                return;
+                throw new ArgumentException("PlaceHolder can't be null or empty");
             }
 
             var placeHolder = placeHolderValue[0];
 
-            var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            representationDictionary = new Dictionary<char, string>();
+            var representationDictionary = new Dictionary<char, string>();
             representationDictionary.Add(AlphaCharacterRepresentation.Key, AlphaCharacterRepresentation.Value);
             representationDictionary.Add(NumericCharacterRepresentation.Key, NumericCharacterRepresentation.Value);
             representationDictionary.Add(AlphaNumericRepresentation.Key, AlphaNumericRepresentation.Value);
@@ -97,7 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // TODO: insert generic custom representation
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
             var displayText = mask;
@@ -107,9 +115,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             textbox.Text = displayText;
-            textbox.TextChanging -= Textbox_TextChanging;
-            textbox.SelectionChanged -= Textbox_SelectionChanged;
-            textbox.Paste -= Textbox_Paste;
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
