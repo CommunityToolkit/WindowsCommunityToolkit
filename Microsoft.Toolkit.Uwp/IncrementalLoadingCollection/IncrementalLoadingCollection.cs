@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </param>
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
-            : this(InstantiateSourceByReflection(), itemsPerPage, onStartLoading, onEndLoading, onError)
+            : this(Activator.CreateInstance<TSource>(), itemsPerPage, onStartLoading, onEndLoading, onError)
         {
         }
 
@@ -200,18 +200,6 @@ namespace Microsoft.Toolkit.Uwp
         {
             var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
             return result;
-        }
-
-        private static TSource InstantiateSourceByReflection()
-        {
-            var type = typeof(TSource);
-            ConstructorInfo constructor = type.GetConstructor(new Type[0]);
-            if (constructor == null)
-            {
-                throw new InvalidOperationException("TSource must have a parameterless constructor");
-            }
-
-            return (TSource)constructor.Invoke(null);
         }
 
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
