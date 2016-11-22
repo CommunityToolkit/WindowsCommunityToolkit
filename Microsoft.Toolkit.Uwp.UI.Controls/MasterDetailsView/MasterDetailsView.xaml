@@ -37,6 +37,7 @@
                                 <ListView x:Name="MasterList"
                                           Grid.Row="1"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
