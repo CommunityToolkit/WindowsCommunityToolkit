@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -105,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void BladeOnVisibilityChanged(object sender, Visibility visibility)
+        private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
 
@@ -116,12 +117,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
-                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+
+                if (BladeMode == BladeMode.Normal)
+                {
+                    GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                }
+
+                if (BladeMode == BladeMode.Fullscreen)
+                {
+                    for (int x = 1; x < ActiveBlades.Count; x++)
+                    {
+                        await ScrollAsync(GetScrollViewer());
+                    }
+                }
+
                 return;
             }
 
             BladeClosed?.Invoke(this, blade);
             ActiveBlades.Remove(blade);
+        }
+
+        private async Task ScrollAsync(ScrollViewer scrollViewer)
+        {
+            scrollViewer.ChangeView(scrollViewer.ScrollableWidth, null, null);
+            await Task.Delay(500);
         }
 
         private ScrollViewer GetScrollViewer()
