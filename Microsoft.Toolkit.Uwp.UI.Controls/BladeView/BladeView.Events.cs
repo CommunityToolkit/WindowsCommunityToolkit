@@ -18,16 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
     /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeControl
+    public partial class BladeView
     {
         /// <summary>
         /// Fires whenever a <see cref="BladeItem"/> is opened
         /// </summary>
-        public static event EventHandler<BladeItem> BladeOpened;
+        public event EventHandler<BladeItem> BladeOpened;
 
         /// <summary>
         /// Fires whenever a <see cref="BladeItem"/> is closed
         /// </summary>
-        public static event EventHandler<BladeItem> BladeClosed;
+        public event EventHandler<BladeItem> BladeClosed;
     }
 }

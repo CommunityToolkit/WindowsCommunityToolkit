@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ExecuteFromDifferentThreadButton_Click(object sender, RoutedEventArgs e)
         {
-            int crossThreadReturnedValue = await Task.Run<int>( async () =>
+            int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
                 int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
                 {

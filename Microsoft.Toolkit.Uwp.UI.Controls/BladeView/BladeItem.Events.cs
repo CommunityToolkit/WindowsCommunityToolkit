@@ -10,18 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using System;
+using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The Blade is used as a child in the BladeView
     /// </summary>
-    public sealed partial class HelpersPage : Page
+    public partial class BladeItem
     {
-        public HelpersPage()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Fires when the blade is opened or closed
+        /// </summary>
+        public event EventHandler<Visibility> VisibilityChanged;
     }
 }

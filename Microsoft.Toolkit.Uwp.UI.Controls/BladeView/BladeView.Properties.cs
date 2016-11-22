@@ -10,19 +10,29 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The Blade is used as a child in the BladeControl
+    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
+    /// Based on the Azure portal UI
     /// </summary>
-    public partial class BladeItem
+    public partial class BladeView
     {
         /// <summary>
-        /// Fires when the blade is opened or closed
+        /// Identifies the <see cref="ActiveBlades"/> dependency property.
         /// </summary>
-        public event EventHandler<Visibility> VisibilityChanged;
+        public static readonly DependencyProperty ActiveBladesProperty = DependencyProperty.Register(nameof(ActiveBlades), typeof(IList<BladeItem>), typeof(BladeView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets a collection of visible blades
+        /// </summary>
+        public IList<BladeItem> ActiveBlades
+        {
+            get { return (IList<BladeItem>)GetValue(ActiveBladesProperty); }
+            set { SetValue(ActiveBladesProperty, value); }
+        }
     }
 }
