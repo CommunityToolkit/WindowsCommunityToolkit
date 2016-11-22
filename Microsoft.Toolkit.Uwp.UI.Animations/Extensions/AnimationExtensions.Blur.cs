@@ -157,7 +157,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationSet.AddCompositionEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
             }
 
+            if (value == 0)
+            {
+                animationSet.Completed += AnimationSet_Completed;
+            }
+
             return animationSet;
+        }
+
+        private static void AnimationSet_Completed(object sender, EventArgs e)
+        {
+            var animationSet = sender as AnimationSet;
+            animationSet.Completed -= AnimationSet_Completed;
+
+            var spriteVisual = ElementCompositionPreview.GetElementChildVisual(animationSet.Element) as SpriteVisual;
+            var blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
+
+            if (blurBrush != null && blurBrush.Comment == "Blur")
+            {
+                spriteVisual.Brush = null;
+            }
         }
     }
 }

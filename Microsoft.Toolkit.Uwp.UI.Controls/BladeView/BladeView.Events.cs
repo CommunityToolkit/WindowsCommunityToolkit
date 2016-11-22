@@ -23,11 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fires whenever a <see cref="BladeItem"/> is opened
         /// </summary>
-        public static event EventHandler<BladeItem> BladeOpened;
+        public event EventHandler<BladeItem> BladeOpened;
 
         /// <summary>
         /// Fires whenever a <see cref="BladeItem"/> is closed
         /// </summary>
-        public static event EventHandler<BladeItem> BladeClosed;
+        public event EventHandler<BladeItem> BladeClosed;
     }
 }

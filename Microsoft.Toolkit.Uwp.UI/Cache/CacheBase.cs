@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -146,6 +147,49 @@ namespace Microsoft.Toolkit.Uwp.UI
             await InternalClearAsync(files).ConfigureAwait(false);
 
             _inMemoryFileStorage.Clear(expiryDuration);
+        }
+
+        /// <summary>
+        /// Removed items based on uri list passed
+        /// </summary>
+        /// <param name="uriForCachedItems">Enumerable uri list</param>
+        /// <returns>awaitable Task</returns>
+        public async Task RemoveAsync(IEnumerable<Uri> uriForCachedItems)
+        {
+            if (uriForCachedItems == null || !uriForCachedItems.Any())
+            {
+                return;
+            }
+
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+
+            var filesToDelete = new List<StorageFile>();
+            var keys = new List<string>();
+
+            Dictionary<string, StorageFile> hashDictionary = new Dictionary<string, StorageFile>();
+
+            foreach (var file in files)
+            {
+                hashDictionary.Add(file.Name, file);
+            }
+
+            foreach (var uri in uriForCachedItems)
+            {
+                string fileName = GetCacheFileName(uri);
+
+                StorageFile file = null;
+
+                if (hashDictionary.TryGetValue(fileName, out file))
+                {
+                    filesToDelete.Add(file);
+                    keys.Add(fileName);
+                }
+            }
+
+            await InternalClearAsync(files).ConfigureAwait(false);
+
+            _inMemoryFileStorage.Remove(keys);
         }
 
         /// <summary>
