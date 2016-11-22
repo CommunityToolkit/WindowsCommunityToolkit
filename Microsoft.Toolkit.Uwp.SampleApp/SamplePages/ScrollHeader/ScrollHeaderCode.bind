@@ -10,7 +10,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
       <ListView.Header>
-        <controls:ScrollHeader TargetListViewBase="{x:Bind listView}" QuickReturn="@[QuickReturn:Bool:True]" Sticky="@[Sticky:Bool:False]" Fade="@[Fade:Bool:False]">
+        <controls:ScrollHeader TargetListViewBase="{x:Bind listView}" QuickReturn="@[QuickReturn:Bool:False]" Sticky="@[Sticky:Bool:False]" Fade="@[Fade:Bool:False]">
           <Grid x:Name="MyHeaderGrid"
             MinHeight="250"
             Background="{StaticResource Brush-Blue-01}">

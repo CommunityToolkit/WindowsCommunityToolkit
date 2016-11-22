@@ -10,15 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
 using Microsoft.Xaml.Interactivity;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -27,12 +23,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ScrollHeader : ContentControl
     {
-        private ScrollViewer _scrollViewer;
-        private double _previousVerticalScrollOffset;
-        private CompositionPropertySet _scrollProperties;
-        private CompositionPropertySet _animationProperties;
-        private Visual _headerVisual;
-
         public ScrollHeader()
         {
             DefaultStyleKey = typeof(ScrollHeader);
@@ -43,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="QuickReturn"/> property.
         /// </summary>
         public static readonly DependencyProperty QuickReturnProperty =
-            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(true, OnQuickReturnChanged));
+            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnQuickReturnChanged));
 
         /// <summary>
         /// Identifies the <see cref="Sticky"/> property.
@@ -113,91 +103,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Show()
         {
-            if (_headerVisual != null && _scrollViewer != null)
-            {
-                _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
+            var scrollHeaderBehavior = GetScrollHeaderBehavior();
 
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
+            if (scrollHeaderBehavior != null)
+            {
+                scrollHeaderBehavior.Show();
             }
         }
 
         protected override void OnApplyTemplate()
         {
-            SizeChanged -= ScrollHeader_SizeChanged;
-            SizeChanged += ScrollHeader_SizeChanged;
-
             if (TargetListViewBase != null)
             {
-                _scrollViewer = GetScrollViewer(TargetListViewBase);
-
                 // Place items below header
                 var panel = TargetListViewBase.ItemsPanelRoot;
                 Canvas.SetZIndex(panel, -1);
             }
-
-            if (_scrollViewer != null)
-            {
-                _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
-                _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-            }
-
-            if (QuickReturn)
-            {
-                StartAnimation();
-            }
-        }
-
-        private static ScrollViewer GetScrollViewer(DependencyObject o)
-        {
-            if (o is ScrollViewer)
-            {
-                return o as ScrollViewer;
-            }
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
-            {
-                var child = VisualTreeHelper.GetChild(o, i);
-
-                var result = GetScrollViewer(child);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
         }
 
         private static void OnQuickReturnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var me = d as ScrollHeader;
-
-            if (me.TargetListViewBase != null)
-            {
-                if (me.QuickReturn)
-                {
-                    me.StartAnimation();
-                }
-                else
-                {
-                    me.StopAnimation();
-                }
-            }
+            (d as ScrollHeader).UpdateScrollHeaderBehavior();
         }
 
         private static void OnStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var me = d as ScrollHeader;
-
-            if (me.TargetListViewBase != null)
-            {
-                me.StopAnimation();
-
-                if (me.QuickReturn)
-                {
-                    me.StartAnimation();
-                }
-            }
+            (d as ScrollHeader).UpdateScrollHeaderBehavior();
         }
 
         private static void OnFadeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -226,97 +157,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ScrollHeader_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void UpdateScrollHeaderBehavior()
         {
             if (TargetListViewBase != null)
             {
-                StopAnimation();
+                bool attachBehavior = false;
+                ScrollHeaderBehavior behavior = GetScrollHeaderBehavior();
 
-                if (QuickReturn)
+                if (behavior == null)
                 {
-                    StartAnimation();
+                    behavior = new ScrollHeaderBehavior();
+                    attachBehavior = true;
+                }
+
+                behavior.QuickReturn = QuickReturn;
+                behavior.Sticky = Sticky;
+
+                if (attachBehavior)
+                {
+                    Interaction.GetBehaviors(TargetListViewBase).Add(behavior);
                 }
             }
         }
 
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private ScrollHeaderBehavior GetScrollHeaderBehavior()
         {
-            if (_animationProperties != null)
+            foreach (var attachedBehavior in Interaction.GetBehaviors(TargetListViewBase))
             {
-                if (!Sticky)
+                if (attachedBehavior is ScrollHeaderBehavior)
                 {
-                    float oldOffsetY = 0.0f;
-                    _animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
-
-                    var delta = _scrollViewer.VerticalOffset - _previousVerticalScrollOffset;
-                    _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-                    var newOffsetY = oldOffsetY - (float)delta;
-
-                    // Keep values within negativ header size and 0
-                    FrameworkElement header = (FrameworkElement)TargetListViewBase.Header;
-                    newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
-                    newOffsetY = Math.Min(0, newOffsetY);
-
-                    if (oldOffsetY != newOffsetY)
-                    {
-                        _animationProperties.InsertScalar("OffsetY", newOffsetY);
-                    }
+                    return attachedBehavior as ScrollHeaderBehavior;
                 }
             }
-        }
 
-        private void StartAnimation()
-        {
-            // Windows.UI.Xaml.Hosting.ElementCompositionPreview is only available in Windows 10 10586 or later
-            if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
-            {
-                return;
-            }
-
-            if (_scrollViewer == null)
-            {
-                return;
-            }
-
-            if (_scrollProperties == null)
-            {
-                _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
-            }
-
-            var compositor = _scrollProperties.Compositor;
-
-            if (_animationProperties == null)
-            {
-                _animationProperties = compositor.CreatePropertySet();
-            }
-
-            _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-            _headerVisual = ElementCompositionPreview.GetElementVisual((UIElement)TargetListViewBase.Header);
-
-            _animationProperties.InsertScalar("OffsetY", 0.0f);
-
-            ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation($"Round(max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0))");
-            expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
-            expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
-
-            if (_headerVisual != null && QuickReturn)
-            {
-                _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
-            }
-        }
-
-        private void StopAnimation()
-        {
-            if (_headerVisual != null)
-            {
-                _headerVisual.StopAnimation("Offset.Y");
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
-
-                var offset = _headerVisual.Offset;
-                offset.Y = 0.0f;
-                _headerVisual.Offset = offset;
-            }
+            return null;
         }
     }
 }
