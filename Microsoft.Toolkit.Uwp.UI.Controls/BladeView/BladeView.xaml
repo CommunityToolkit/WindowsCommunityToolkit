@@ -53,13 +53,13 @@
                                 <VisualState x:Name="FullScreen">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="HorizontalSnapPointsType" Storyboard.TargetName="ScrollViewer">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="MandatorySingle"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Mandatory"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <ScrollViewer x:Name="ScrollViewer"
                                       AutomationProperties.AccessibilityView="Raw"
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
