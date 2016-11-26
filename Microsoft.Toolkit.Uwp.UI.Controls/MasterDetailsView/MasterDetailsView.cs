@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetMasterHeaderVisibility()
+        protected virtual void SetMasterHeaderVisibility()
         {
             var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
             if (headerPresenter != null)
