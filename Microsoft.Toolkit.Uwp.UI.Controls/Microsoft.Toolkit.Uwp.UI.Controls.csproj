@@ -71,6 +71,7 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
+    <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />

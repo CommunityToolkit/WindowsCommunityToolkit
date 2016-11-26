@@ -147,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _stateGroup.CurrentStateChanged += OnVisualStateChanged;
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
+
+            UpdateViewState();
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -187,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
-            if (((_stateGroup.CurrentState == _narrowState) || (_stateGroup.CurrentState == null)) && (SelectedItem != null))
+            if (ViewState == MasterDetailsViewState.Details)
             {
                 SelectedItem = null;
                 args.Handled = true;
@@ -218,7 +220,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetBackButtonVisibility(VisualState currentState)
         {
-            if ((currentState == _narrowState) && (SelectedItem != null))
+            UpdateViewState();
+
+            if (ViewState == MasterDetailsViewState.Details)
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Visible;
@@ -252,6 +256,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             animation.Duration = TimeSpan.FromMilliseconds(250);
 
             targetVisual.StartAnimation("Offset", animation);
+        }
+
+        private void UpdateViewState()
+        {
+            if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
+            {
+                ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+            }
+            else
+            {
+                ViewState = MasterDetailsViewState.Both;
+            }
         }
     }
 }
