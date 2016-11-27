@@ -37,18 +37,73 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging -= Textbox_TextChanging_RegexMask;
             textbox.Paste -= Textbox_Paste_RegexMask;
 
+            var mask = textbox.GetValue(MaskProperty) as string;
+            if (string.IsNullOrWhiteSpace(mask))
+            {
+                throw new ArgumentException("Mask property can't be used with Regex Mask property");
+            }
+
+            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
+            if (string.IsNullOrWhiteSpace(regexMask))
+            {
+                return;
+            }
+
+            // an exception should be throw if the regex is not valid
+            Regex.Match(string.Empty, regexMask);
+
             textbox.TextChanging += Textbox_TextChanging_RegexMask;
             textbox.Paste += Textbox_Paste_RegexMask;
         }
 
-        private static void Textbox_Paste_RegexMask(object sender, TextControlPasteEventArgs e)
+        private static async void Textbox_Paste_RegexMask(object sender, TextControlPasteEventArgs e)
         {
-            throw new NotImplementedException();
+            e.Handled = true;
+            DataPackageView dataPackageView = Clipboard.GetContent();
+            if (!dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                return;
+            }
+
+            var pasteText = await dataPackageView.GetTextAsync();
+            if (string.IsNullOrWhiteSpace(pasteText))
+            {
+                return;
+            }
+
+            var textbox = sender as TextBox;
+            var regexMask = textbox?.GetValue(RegexMaskProperty) as string;
+            if (string.IsNullOrWhiteSpace(regexMask))
+            {
+                return;
+            }
+
+            // to update the textbox text without triggering TextChanging text
+            textbox.TextChanging -= Textbox_TextChanging_RegexMask;
+
+            if (Regex.IsMatch(pasteText, regexMask))
+            {
+                textbox.Text = pasteText;
+            }
+
+            // Resubscribe to the event
+            textbox.TextChanging += Textbox_TextChanging_RegexMask;
         }
 
-        private static void Textbox_TextChanging_RegexMask(TextBox sender, TextBoxTextChangingEventArgs args)
+        private static void Textbox_TextChanging_RegexMask(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
-            throw new NotImplementedException();
+            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
+            var oldText = textbox.GetValue(OldTextProperty) as string;
+            if (string.IsNullOrWhiteSpace(regexMask) ||
+                oldText == null)
+            {
+                return;
+            }
+
+            if (!Regex.IsMatch(textbox.Text, regexMask))
+            {
+                textbox.Text = oldText;
+            }
         }
     }
 }

@@ -66,7 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             obj.SetValue(MaskProperty, value);
         }
 
-
         /// <summary>
         /// Gets mask value
         /// </summary>
