@@ -23,19 +23,19 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBox controls:TextBoxMask.Mask="9a9a-a9a*"
+        <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
                  Header="Text box with Mask 9a9a-a9a*"
                  Style="{StaticResource MaskedTextBoxStyle}" />
 
         <TextBox Grid.Row="1"
-                 controls:TextBoxMask.Mask="+1999-9999"
-                 controls:TextBoxMask.PlaceHolder=" "
+                 controls:TextBoxMasks.Mask="+1999-9999"
+                 controls:TextBoxMasks.PlaceHolder=" "
                  Header="Text box with Mask +1999-9999 and place holder space"
                  Style="{StaticResource MaskedTextBoxStyle}" />
 
         <TextBox Grid.Row="2"
-                 controls:TextBoxMask.CustomMask="5:[1-5],c:^[a-c]"
-                 controls:TextBoxMask.Mask="a5c-5c*9"
+                 controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
+                 controls:TextBoxMasks.Mask="a5c-5c*9"
                  Header="Text box with Custom Mask"
                  Style="{StaticResource MaskedTextBoxStyle}" />
     </Grid>

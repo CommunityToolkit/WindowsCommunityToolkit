@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// TextBox Mask property allows a user to more easily enter fixed width text in TextBox control
     /// where you would like them to enter the data in a certain format
     /// </summary>
-    public partial class TextBoxMask
+    public partial class TextBoxMasks
     {
         private const string DefaultPlaceHolder = "_";
         private static readonly KeyValuePair<char, string> AlphaCharacterRepresentation = new KeyValuePair<char, string>('a', "[A-Za-z]");
