@@ -81,7 +81,16 @@
                                               AutomationProperties.Name="Content"
                                               Content="{TemplateBinding Content}" />
                         </SplitView>
-                        <Button Name="HamburgerButton"
+                        <local:HamburgerButton Width="{TemplateBinding HamburgerWidth}"
+                                            Height="{TemplateBinding HamburgerHeight}"
+                                            Background="Transparent"
+                                               
+                                            TabIndex="0"
+                                            x:Name="HamburgerButton" 
+                                            Padding="10"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"   ></local:HamburgerButton>
+                        <!--<Button Name="HamburgerButton"
                                 Width="{TemplateBinding HamburgerWidth}"
                                 Height="{TemplateBinding HamburgerHeight}"
                                 Padding="0"
@@ -94,7 +103,7 @@
                                             ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Foreground="{TemplateBinding Foreground}"
                                             IsTabStop="False" />
-                        </Button>
+                        </Button>-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
