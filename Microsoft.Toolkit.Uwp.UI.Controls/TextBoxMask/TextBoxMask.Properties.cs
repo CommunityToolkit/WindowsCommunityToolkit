@@ -22,17 +22,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TextBoxMask
     {
         /// <summary>
-        /// Represents the mask for the textbox
+        /// Represents a mask/format for the textbox that the user must follow
         /// </summary>
         public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached("Mask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null, OnMaskChanged));
 
         /// <summary>
-        /// Represents the mask place holder
+        /// Represents the mask place holder which represents the variable character that the user can edit in the textbox
         /// </summary>
         public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxMask), new PropertyMetadata(DefaultPlaceHolder, OnPlaceHolderChanged));
 
         /// <summary>
-        /// Represents the custom mask
+        /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
         /// </summary>
         public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null, OnCustomMaskChanged));
 
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Sets mask property
+        /// Sets textbox mask property which represents mask/format for the textbox that the user must follow
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">Mask Value</param>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Sets placeholder property
+        /// Sets placeholder property which represents the variable character that the user can edit in the textbox
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">placeholder Value</param>
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Sets CustomMask property
+        /// Sets CustomMask property which represents the custom mask that the user can create to add his own variable characters based on certain regex expression
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">CustomMask Value</param>
