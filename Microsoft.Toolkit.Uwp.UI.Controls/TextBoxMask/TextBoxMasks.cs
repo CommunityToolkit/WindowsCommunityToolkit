@@ -58,6 +58,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.SelectionChanged -= Textbox_SelectionChanged;
             textbox.Paste -= Textbox_Paste;
 
+            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
+            if (!string.IsNullOrWhiteSpace(regexMask))
+            {
+                throw new ArgumentException("RegexMask property can't be used with Mask property");
+            }
+
             // incase no value is provided us it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))

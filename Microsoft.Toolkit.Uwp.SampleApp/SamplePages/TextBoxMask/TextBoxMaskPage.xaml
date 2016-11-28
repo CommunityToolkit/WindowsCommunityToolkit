@@ -21,6 +21,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
@@ -37,6 +38,11 @@
                  controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
                  controls:TextBoxMasks.Mask="a5c-5c*9"
                  Header="Text box with Custom Mask"
+                 Style="{StaticResource MaskedTextBoxStyle}" />
+
+        <TextBox Grid.Row="3"
+                 controls:TextBoxMasks.RegexMask="^\d+$"
+                 Header="Numbers Regex Mask using RegexMask property for ^\d+$"
                  Style="{StaticResource MaskedTextBoxStyle}" />
     </Grid>
 </Page>

@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>mask value</returns>
         public static string GetRegexMask(DependencyObject obj)
         {
-            return (string)obj.GetValue(MaskProperty);
+            return (string)obj.GetValue(RegexMaskProperty);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="value">Mask Value</param>
         public static void SetRegexMask(DependencyObject obj, string value)
         {
-            obj.SetValue(MaskProperty, value);
+            obj.SetValue(RegexMaskProperty, value);
         }
 
         /// <summary>

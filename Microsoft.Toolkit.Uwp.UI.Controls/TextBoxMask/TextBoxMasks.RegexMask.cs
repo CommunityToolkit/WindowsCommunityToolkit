@@ -38,9 +38,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.Paste -= Textbox_Paste_RegexMask;
 
             var mask = textbox.GetValue(MaskProperty) as string;
-            if (string.IsNullOrWhiteSpace(mask))
+            if (!string.IsNullOrWhiteSpace(mask))
             {
-                throw new ArgumentException("Mask property can't be used with Regex Mask property");
+                throw new ArgumentException("Mask property can't be used with RegexMask property");
             }
 
             var regexMask = textbox.GetValue(RegexMaskProperty) as string;
@@ -54,11 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.TextChanging += Textbox_TextChanging_RegexMask;
             textbox.Paste += Textbox_Paste_RegexMask;
+            textbox.SetValue(OldTextProperty, textbox.Text);
         }
 
         private static async void Textbox_Paste_RegexMask(object sender, TextControlPasteEventArgs e)
         {
-            e.Handled = true;
             DataPackageView dataPackageView = Clipboard.GetContent();
             if (!dataPackageView.Contains(StandardDataFormats.Text))
             {
@@ -79,15 +79,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // to update the textbox text without triggering TextChanging text
-            textbox.TextChanging -= Textbox_TextChanging_RegexMask;
-
-            if (Regex.IsMatch(pasteText, regexMask))
+            if (!Regex.IsMatch(pasteText, regexMask))
             {
-                textbox.Text = pasteText;
+                e.Handled = true;
             }
 
             // Resubscribe to the event
-            textbox.TextChanging += Textbox_TextChanging_RegexMask;
+            textbox.SetValue(OldTextProperty, textbox.Text);
         }
 
         private static void Textbox_TextChanging_RegexMask(TextBox textbox, TextBoxTextChangingEventArgs args)
@@ -100,10 +98,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (!Regex.IsMatch(textbox.Text, regexMask))
+            // in this event regex ismatch shouldn't called on a big text so we need to apply it only on the difference because matching the whole text make the application don't respond to inputs.
+            if (!Regex.IsMatch(textbox.Text, regexMask) && !string.IsNullOrEmpty(textbox.Text))
             {
+                var oldSelectionStart = textbox.SelectionStart;
                 textbox.Text = oldText;
+                textbox.SelectionStart = oldSelectionStart;
             }
+
+            textbox.SetValue(OldTextProperty, textbox.Text);
         }
     }
 }
