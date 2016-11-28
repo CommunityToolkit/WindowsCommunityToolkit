@@ -38,8 +38,8 @@
                                               IsItemClickEnabled="True"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              SelectedIndex="{TemplateBinding SelectedIndex}"
-                                              SelectedItem="{TemplateBinding SelectedItem}"
+                                              SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                               SelectionMode="Single"
                                               TabIndex="1">
                                         <ListView.ItemContainerStyle>
@@ -64,8 +64,8 @@
                                                   IsItemClickEnabled="True"
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                                   ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                                  SelectedIndex="{TemplateBinding SelectedOptionsIndex}"
-                                                  SelectedItem="{TemplateBinding SelectedOptionsItem}"
+                                                  SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                                   TabIndex="2">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
