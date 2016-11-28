@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
@@ -36,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.TextChanging -= Textbox_TextChanging_RegexMask;
             textbox.Paste -= Textbox_Paste_RegexMask;
+            textbox.SelectionChanged -= Textbox_SelectionChanged;
 
             var mask = textbox.GetValue(MaskProperty) as string;
             if (!string.IsNullOrWhiteSpace(mask))
@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.TextChanging += Textbox_TextChanging_RegexMask;
             textbox.Paste += Textbox_Paste_RegexMask;
+            textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.SetValue(OldTextProperty, textbox.Text);
         }
 
@@ -92,18 +93,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var regexMask = textbox.GetValue(RegexMaskProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
+            var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             if (string.IsNullOrWhiteSpace(regexMask) ||
                 oldText == null)
             {
                 return;
             }
 
-            // in this event regex ismatch shouldn't called on a big text so we need to apply it only on the difference because matching the whole text make the application don't respond to inputs.
-            if (!Regex.IsMatch(textbox.Text, regexMask) && !string.IsNullOrEmpty(textbox.Text))
+            if (textbox.SelectionStart > 0)
             {
-                var oldSelectionStart = textbox.SelectionStart;
-                textbox.Text = oldText;
-                textbox.SelectionStart = oldSelectionStart;
+                var selectedChar = textbox.Text[textbox.SelectionStart - 1];
+
+                // checking regex over all textbox text is a tough operation so we check only the selected char
+                if (!Regex.IsMatch(selectedChar.ToString(), regexMask))
+                {
+                    textbox.Text = oldText;
+                    textbox.SelectionStart = oldSelectionStart;
+                    return;
+                }
             }
 
             textbox.SetValue(OldTextProperty, textbox.Text);

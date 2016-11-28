@@ -42,7 +42,7 @@
 
         <TextBox Grid.Row="3"
                  controls:TextBoxMasks.RegexMask="^\d+$"
-                 Header="Numbers Regex Mask using RegexMask property for ^\d+$"
+                 Header="Numbers Mask using RegexMask property for ^\d+$"
                  Style="{StaticResource MaskedTextBoxStyle}" />
     </Grid>
 </Page>
