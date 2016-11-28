@@ -14,35 +14,45 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
+        <DataTemplate x:Key="HeaderTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding}"
+                           TextWrapping="WrapWholeWords" />
+            </StackPanel>
+        </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
-                 Header="Text box with Mask 9a9a-a9a*"
-                 Style="{StaticResource MaskedTextBoxStyle}" />
+            <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
+                     Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
+                     HeaderTemplate="{StaticResource HeaderTemplate}"
+                     Style="{StaticResource MaskedTextBoxStyle}" />
 
-        <TextBox Grid.Row="1"
-                 controls:TextBoxMasks.Mask="+1999-9999"
-                 controls:TextBoxMasks.PlaceHolder=" "
-                 Header="Text box with Mask +1999-9999 and place holder space"
-                 Style="{StaticResource MaskedTextBoxStyle}" />
+            <TextBox Grid.Row="1"
+                     controls:TextBoxMasks.Mask="+1999-9999"
+                     controls:TextBoxMasks.PlaceHolder=" "
+                     Header="Text box with Mask +1999-9999 and place holder as space (Place holder represents the characters the user can change on runtime)"
+                     HeaderTemplate="{StaticResource HeaderTemplate}"
+                     Style="{StaticResource MaskedTextBoxStyle}" />
 
-        <TextBox Grid.Row="2"
-                 controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
-                 controls:TextBoxMasks.Mask="a5c-5c*9"
-                 Header="Text box with Custom Mask"
-                 Style="{StaticResource MaskedTextBoxStyle}" />
+            <TextBox Grid.Row="2"
+                     controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
+                     controls:TextBoxMasks.Mask="a5c-5c*9"
+                     Header="Text box with Custom Mask incase you want to define your own variable character like a,9 and *"
+                     Style="{StaticResource MaskedTextBoxStyle}" />
 
-        <TextBox Grid.Row="3"
-                 controls:TextBoxMasks.RegexMask="^\d+$"
-                 Header="Numbers Mask using RegexMask property for ^\d+$"
-                 Style="{StaticResource MaskedTextBoxStyle}" />
+            <TextBox Grid.Row="3"
+                     controls:TextBoxMasks.RegexMask="^\d+$"
+                     Header="Numbers Mask using RegexMask property for ^\d+$ that allows only numbers"
+                     Style="{StaticResource MaskedTextBoxStyle}" />
+        </Grid>
     </Grid>
 </Page>
