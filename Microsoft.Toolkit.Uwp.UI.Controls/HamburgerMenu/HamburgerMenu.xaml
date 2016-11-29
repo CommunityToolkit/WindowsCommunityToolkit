@@ -39,7 +39,7 @@
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                              SelectedItem="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                               SelectionMode="Single"
                                               TabIndex="1">
                                         <ListView.ItemContainerStyle>
