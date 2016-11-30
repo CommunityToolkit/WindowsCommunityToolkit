@@ -1,20 +1,20 @@
-var localStorageService = new LocalStorageService();
-var roamingStorageService = new RoamingStorageService();
+var localObjectStorageHelper = new LocalObjectStorageHelper();
+var roamingObjectStorageHelper = new RoamingObjectStorageHelper();
 
 // Read and Save with simple objects
 string keySimpleObject = "simple";
-string result = localStorageService.Read<string>(keySimpleObject);
-localStorageService.Save(keySimpleObject, 47);
+string result = localObjectStorageHelper.Read<string>(keySimpleObject);
+localObjectStorageHelper.Save(keySimpleObject, 47);
 
 // Read and Save with complex/large objects
 string keyLargeObject = "large";
-var result = localStorageService.ReadFileAsync<MyLargeObject>(keyLargeObject);
+var result = localObjectStorageHelper.ReadFileAsync<MyLargeObject>(keyLargeObject);
 
 var o = new MyLargeObject
 {
     ...
 };
-localStorageService.SaveFileAsync(keySimpleObject, o);
+localObjectStorageHelper.SaveFileAsync(keySimpleObject, o);
 
 // Complex object
 public class MyLargeObject

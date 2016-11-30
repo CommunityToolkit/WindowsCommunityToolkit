@@ -10,30 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Windows.UI.Xaml.Controls;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// Panel that allows for a Master/Details pattern.
-    /// </summary>
-    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
-    public partial class MasterDetailsView
+    public enum MasterDetailsViewState
     {
         /// <summary>
-        /// Occurs when the currently selected item changes.
+        /// Only the Master view is shown
         /// </summary>
-        public event SelectionChangedEventHandler SelectionChanged;
+        Master,
 
         /// <summary>
-        /// Occurs when the view state changes
+        /// Only the Details view is shown
         /// </summary>
-        public event EventHandler<MasterDetailsViewState> ViewStateChanged;
+        Details,
 
-        private void OnSelectionChanged(SelectionChangedEventArgs e)
-        {
-            SelectionChanged?.Invoke(this, e);
-        }
+        /// <summary>
+        /// Both the Master and Details views are shown
+        /// </summary>
+        Both
     }
 }
