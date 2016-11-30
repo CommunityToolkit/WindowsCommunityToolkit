@@ -28,12 +28,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// </seealso>
     public class ScrollHeaderBehavior : Behavior<FrameworkElement>
     {
-        private ScrollViewer _scrollViewer;
-        private double _previousVerticalScrollOffset;
-        private CompositionPropertySet _scrollProperties;
-        private CompositionPropertySet _animationProperties;
-        private Visual _headerVisual;
-
         /// <summary>
         /// Identifies the <see cref="QuickReturn"/> property.
         /// </summary>
@@ -51,6 +45,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
             nameof(HeaderElement), typeof(UIElement), typeof(ScrollHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
+
+        private ScrollViewer _scrollViewer;
+        private double _previousVerticalScrollOffset;
+        private CompositionPropertySet _scrollProperties;
+        private CompositionPropertySet _animationProperties;
+        private Visual _headerVisual;
 
         /// <summary>
         /// Gets or sets a value indicating whether the quick return header is enabled.

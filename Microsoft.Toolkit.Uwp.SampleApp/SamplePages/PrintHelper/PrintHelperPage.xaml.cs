@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ReleasePrintHelper()
         {
-            _printHelper.Dispose();
+          //  _printHelper.Dispose();
             RootGrid.Children.Add(PrintableContent);
 
             Shell.Current.DisplayWaitRing = false;

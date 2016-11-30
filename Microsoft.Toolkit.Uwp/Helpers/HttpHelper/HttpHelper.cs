@@ -118,8 +118,6 @@ namespace Microsoft.Toolkit.Uwp
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                
-
                 client = new HttpClient(_httpFilter);
             }
 
