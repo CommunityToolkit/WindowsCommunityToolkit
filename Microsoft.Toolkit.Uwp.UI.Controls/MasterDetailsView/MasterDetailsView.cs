@@ -260,6 +260,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateViewState()
         {
+            var before = ViewState;
+
             if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
             {
                 ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
@@ -267,6 +269,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 ViewState = MasterDetailsViewState.Both;
+            }
+
+            var after = ViewState;
+
+            if (before != after)
+            {
+                ViewStateChanged?.Invoke(this, after);
             }
         }
     }
