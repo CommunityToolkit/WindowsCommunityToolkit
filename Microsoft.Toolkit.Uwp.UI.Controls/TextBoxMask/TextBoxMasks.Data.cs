@@ -26,12 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// <summary>
             /// Normal mask with placeholder
             /// </summary>
-            Mask,
+            Placeholder,
 
             /// <summary>
             /// Regex mask with no placeholder
             /// </summary>
-            RegexMask
+            Regex
         }
     }
 }

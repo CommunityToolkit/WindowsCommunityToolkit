@@ -24,22 +24,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Represents a mask/format for the textbox that the user must follow
         /// </summary>
-        public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached("Mask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, OnMaskChanged));
+        public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached("Mask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, InitTextBoxMask));
 
         /// <summary>
         /// Represents the mask place holder which represents the variable character that the user can edit in the textbox
         /// </summary>
-        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(DefaultPlaceHolder, OnPlaceHolderChanged));
+        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(DefaultPlaceHolder, InitTextBoxMask));
 
         /// <summary>
         /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
         /// </summary>
-        public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, OnCustomMaskChanged));
+        public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, InitTextBoxMask));
 
         /// <summary>
         /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
         /// </summary>
-        public static readonly DependencyProperty MaskTypeProperty = DependencyProperty.RegisterAttached("MaskType", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(MaskBehavior.Mask));
+        public static readonly DependencyProperty MaskTypeProperty = DependencyProperty.RegisterAttached("MaskType", typeof(MaskBehavior), typeof(TextBoxMasks), new PropertyMetadata(MaskBehavior.Placeholder, InitTextBoxMask));
 
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMasks), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null));

@@ -51,7 +51,7 @@
 
             <TextBox Grid.Row="3"
                      controls:TextBoxMasks.Mask="^\d+$"
-                     controls:TextBoxMasks.MaskType="RegexMask"
+                     controls:TextBoxMasks.MaskType="Regex"
                      Header="Numbers mask using RegexMask property for ^\d+$ that allows only numbers"
                      Style="{StaticResource MaskedTextBoxStyle}" />
         </Grid>

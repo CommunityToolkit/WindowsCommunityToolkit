@@ -30,21 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly KeyValuePair<char, string> NumericCharacterRepresentation = new KeyValuePair<char, string>('9', "[0-9]");
         private static readonly KeyValuePair<char, string> AlphaNumericRepresentation = new KeyValuePair<char, string>('*', "[A-Za-z0-9]");
 
-        private static void OnMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            InitTextBoxMask(d, e);
-        }
-
-        private static void OnPlaceHolderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            InitTextBoxMask(d, e);
-        }
-
-        private static void OnCustomMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            InitTextBoxMask(d, e);
-        }
-
         private static void InitTextBoxMask(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textbox = d as TextBox;
@@ -59,17 +44,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging -= Textbox_TextChanging_RegexMask;
             textbox.Paste -= Textbox_Paste;
             textbox.Paste -= Textbox_Paste_RegexMask;
+            textbox.Loaded -= Textbox_Loaded;
+            textbox.Loaded += Textbox_Loaded;
+        }
 
-            var maskType = (MaskBehavior?)textbox.GetValue(MaskTypeProperty);
+        private static void Textbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
 
-            if (!maskType.HasValue)
+            var maskType = (MaskBehavior?)textbox?.GetValue(MaskTypeProperty);
+
+            if (maskType == null)
             {
                 return;
             }
 
-            if (maskType.Value == MaskBehavior.Mask)
+            if (maskType.Value == MaskBehavior.Placeholder)
             {
-                InitNormalMask(textbox);
+                InitPlaceholderMask(textbox);
             }
             else
             {
@@ -77,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void InitNormalMask(TextBox textbox)
+        private static void InitPlaceholderMask(TextBox textbox)
         {
             // incase no value is provided us it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
