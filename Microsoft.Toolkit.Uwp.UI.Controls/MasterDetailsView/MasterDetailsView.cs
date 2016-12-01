@@ -18,6 +18,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -137,6 +138,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            var frame = GetFrame();
+            if (frame != null)
+            {
+                frame.Navigating += OnFrameNavigating;
+            }
 
             if (_stateGroup != null)
             {
@@ -154,6 +160,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+
+            var frame = GetFrame();
+            if (frame != null)
+            {
+                frame.Navigating -= OnFrameNavigating;
+            }
         }
 
         /// <summary>
@@ -186,7 +198,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="args">The event args</param>
+        /// <param name="args">The event args</para>m
+        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
+        {
+            if (ViewState == MasterDetailsViewState.Details)
+            {
+                SelectedItem = null;
+                args.Cancel = true;
+            }
+        }
+
+        /// <summary>
+        /// Closes the details pane if we are in narrow state
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="args">The event args</para>m
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
             if (ViewState == MasterDetailsViewState.Details)
