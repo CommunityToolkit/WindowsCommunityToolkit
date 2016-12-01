@@ -39,19 +39,20 @@
             <TextBox Grid.Row="1"
                      controls:TextBoxMasks.Mask="+1999-9999"
                      controls:TextBoxMasks.PlaceHolder=" "
-                     Header="Text box with Mask +1999-9999 and place holder as space (Place holder represents the characters the user can change on runtime)"
+                     Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="2"
                      controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
                      controls:TextBoxMasks.Mask="a5c-5c*9"
-                     Header="Text box with Custom Mask incase you want to define your own variable character like a,9 and *"
+                     Header="Text box with CustomMask in case you want to define your own variable character like a,9 and *"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="3"
-                     controls:TextBoxMasks.RegexMask="^\d+$"
-                     Header="Numbers Mask using RegexMask property for ^\d+$ that allows only numbers"
+                     controls:TextBoxMasks.Mask="^\d+$"
+                     controls:TextBoxMasks.MaskType="RegexMask"
+                     Header="Numbers mask using RegexMask property for ^\d+$ that allows only numbers"
                      Style="{StaticResource MaskedTextBoxStyle}" />
         </Grid>
     </Grid>

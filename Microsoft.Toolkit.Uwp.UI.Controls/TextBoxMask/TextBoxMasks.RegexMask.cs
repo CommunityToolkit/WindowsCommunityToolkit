@@ -13,44 +13,26 @@
 using System;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// TextBox Mask property allows a user to more easily enter fixed width text in TextBox control
+    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
     /// where you would like them to enter the data in a certain format
     /// </summary>
     public partial class TextBoxMasks
     {
-        private static void OnRegexMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void InitRegexMask(TextBox textbox)
         {
-            var textbox = d as TextBox;
-
-            if (textbox == null)
-            {
-                return;
-            }
-
-            textbox.TextChanging -= Textbox_TextChanging_RegexMask;
-            textbox.Paste -= Textbox_Paste_RegexMask;
-            textbox.SelectionChanged -= Textbox_SelectionChanged;
-
             var mask = textbox.GetValue(MaskProperty) as string;
-            if (!string.IsNullOrWhiteSpace(mask))
-            {
-                throw new ArgumentException("Mask property can't be used with RegexMask property");
-            }
-
-            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
-            if (string.IsNullOrWhiteSpace(regexMask))
+            if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
             }
 
             // an exception should be throw if the regex is not valid
-            Regex.Match(string.Empty, regexMask);
+            Regex.Match(string.Empty, mask);
 
             textbox.TextChanging += Textbox_TextChanging_RegexMask;
             textbox.Paste += Textbox_Paste_RegexMask;
@@ -73,14 +55,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var textbox = sender as TextBox;
-            var regexMask = textbox?.GetValue(RegexMaskProperty) as string;
-            if (string.IsNullOrWhiteSpace(regexMask))
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
             }
 
             // to update the textbox text without triggering TextChanging text
-            if (!Regex.IsMatch(pasteText, regexMask))
+            if (!Regex.IsMatch(pasteText, mask))
             {
                 e.Handled = true;
             }
@@ -91,10 +73,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void Textbox_TextChanging_RegexMask(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
-            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
+            var mask = textbox.GetValue(MaskProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-            if (string.IsNullOrWhiteSpace(regexMask) ||
+            if (string.IsNullOrWhiteSpace(mask) ||
                 oldText == null)
             {
                 return;
@@ -105,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var selectedChar = textbox.Text[textbox.SelectionStart - 1];
 
                 // checking regex over all textbox text is a tough operation so we check only the selected char
-                if (!Regex.IsMatch(selectedChar.ToString(), regexMask))
+                if (!Regex.IsMatch(selectedChar.ToString(), mask))
                 {
                     textbox.Text = oldText;
                     textbox.SelectionStart = oldSelectionStart;

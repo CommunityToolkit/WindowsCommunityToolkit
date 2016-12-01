@@ -16,16 +16,11 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// TextBox Mask property allows a user to more easily enter fixed width text in TextBox control
+    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
     /// where you would like them to enter the data in a certain format
     /// </summary>
     public partial class TextBoxMasks
     {
-        /// <summary>
-        /// Represents a regex format that the user must follow
-        /// </summary>
-        public static readonly DependencyProperty RegexMaskProperty = DependencyProperty.RegisterAttached("RegexMask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, OnRegexMaskChanged));
-
         /// <summary>
         /// Represents a mask/format for the textbox that the user must follow
         /// </summary>
@@ -41,30 +36,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, OnCustomMaskChanged));
 
+        /// <summary>
+        /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
+        /// </summary>
+        public static readonly DependencyProperty MaskTypeProperty = DependencyProperty.RegisterAttached("MaskType", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(MaskBehavior.Mask));
+
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMasks), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null));
         private static readonly DependencyProperty OldSelectionLengthProperty = DependencyProperty.RegisterAttached("OldSelectionLength", typeof(int), typeof(TextBoxMasks), new PropertyMetadata(0));
         private static readonly DependencyProperty OldSelectionStartProperty = DependencyProperty.RegisterAttached("OldSelectionStart", typeof(int), typeof(TextBoxMasks), new PropertyMetadata(0));
-
-        /// <summary>
-        /// Gets regex mask value
-        /// </summary>
-        /// <param name="obj">TextBox control</param>
-        /// <returns>mask value</returns>
-        public static string GetRegexMask(DependencyObject obj)
-        {
-            return (string)obj.GetValue(RegexMaskProperty);
-        }
-
-        /// <summary>
-        /// Sets textbox mask property which represents a regex format that the user must follow
-        /// </summary>
-        /// <param name="obj">TextBox Control</param>
-        /// <param name="value">Mask Value</param>
-        public static void SetRegexMask(DependencyObject obj, string value)
-        {
-            obj.SetValue(RegexMaskProperty, value);
-        }
 
         /// <summary>
         /// Gets mask value
@@ -124,6 +104,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static void SetCustomMask(DependencyObject obj, string value)
         {
             obj.SetValue(CustomMaskProperty, value);
+        }
+
+        /// <summary>
+        /// Gets textbox mask type
+        /// </summary>
+        /// <param name="obj">TextBox control</param>
+        /// <returns>mask value</returns>
+        public static MaskBehavior GetMaskType(DependencyObject obj)
+        {
+            return (MaskBehavior)obj.GetValue(MaskTypeProperty);
+        }
+
+        /// <summary>
+        /// Sets textbox mask type to determine wheatehr to be normal mask or regex mask
+        /// </summary>
+        /// <param name="obj">TextBox Control</param>
+        /// <param name="value">Mask Value</param>
+        public static void SetMaskType(DependencyObject obj, MaskBehavior value)
+        {
+            obj.SetValue(MaskTypeProperty, value);
         }
     }
 }

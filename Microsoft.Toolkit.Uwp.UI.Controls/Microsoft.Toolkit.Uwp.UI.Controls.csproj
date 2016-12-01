@@ -73,6 +73,7 @@
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="TextBoxMask\TextBoxMasks.Data.cs" />
     <Compile Include="TextBoxMask\TextBoxMasks.RegexMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMasks.cs" />
     <Compile Include="TextBoxMask\TextBoxMasks.Properties.cs" />

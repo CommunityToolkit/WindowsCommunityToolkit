@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// TextBox Mask property allows a user to more easily enter fixed width text in TextBox control
+    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
     /// where you would like them to enter the data in a certain format
     /// </summary>
     public partial class TextBoxMasks
@@ -54,16 +54,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            textbox.TextChanging -= Textbox_TextChanging;
             textbox.SelectionChanged -= Textbox_SelectionChanged;
+            textbox.TextChanging -= Textbox_TextChanging;
+            textbox.TextChanging -= Textbox_TextChanging_RegexMask;
             textbox.Paste -= Textbox_Paste;
+            textbox.Paste -= Textbox_Paste_RegexMask;
 
-            var regexMask = textbox.GetValue(RegexMaskProperty) as string;
-            if (!string.IsNullOrWhiteSpace(regexMask))
+            var maskType = (MaskBehavior?)textbox.GetValue(MaskTypeProperty);
+
+            if (!maskType.HasValue)
             {
-                throw new ArgumentException("RegexMask property can't be used with Mask property");
+                return;
             }
 
+            if (maskType.Value == MaskBehavior.Mask)
+            {
+                InitNormalMask(textbox);
+            }
+            else
+            {
+                InitRegexMask(textbox);
+            }
+        }
+
+        private static void InitNormalMask(TextBox textbox)
+        {
             // incase no value is provided us it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
