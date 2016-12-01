@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="args">The event args</para>m
+        /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
             if (ViewState == MasterDetailsViewState.Details)
@@ -212,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="args">The event args</para>m
+        /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
             if (ViewState == MasterDetailsViewState.Details)
