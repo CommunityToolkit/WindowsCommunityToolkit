@@ -296,8 +296,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textArray[i] = oldText[i];
 
-                    // updating text box new index
-                    newSelectionIndex++;
+                    if (!isDeleteOrBackspace)
+                    {
+                        // updating text box new index
+                        newSelectionIndex++;
+                    }
                 }
             }
 
