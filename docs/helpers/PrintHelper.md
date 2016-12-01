@@ -17,6 +17,8 @@ Several events are available to control the printing process:
 
 ** Please note that page breaks are not supported. Every control will be printed on a single page**
 
+Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to define that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. 
+
 ## Example
 
 ```csharp
@@ -51,6 +53,19 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
+
+```
+
+Direct print example:
+
+```csharp
+
+// Create a new PrintHelper instance
+// "container" is a XAML panel that will be used to get the list of printable controls. 
+var printHelper = new PrintHelper(container);
+
+// Start printing process
+await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
 
 ```
 
