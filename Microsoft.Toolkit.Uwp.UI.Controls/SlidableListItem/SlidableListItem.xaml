@@ -52,7 +52,7 @@
                         <Grid x:Name="ContentGrid" 
                               Background="{TemplateBinding Background}"
                               ManipulationMode="TranslateX,System">
-                            <ContentPresenter x:Name="content" />
+                            <ContentPresenter />
                             <Grid.RenderTransform>
                                 <CompositeTransform x:Name="ContentTransform" />
                             </Grid.RenderTransform>
