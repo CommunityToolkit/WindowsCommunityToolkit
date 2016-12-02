@@ -41,9 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.SelectionChanged -= Textbox_SelectionChanged;
             textbox.TextChanging -= Textbox_TextChanging;
-            textbox.TextChanging -= Textbox_TextChanging_RegexMask;
             textbox.Paste -= Textbox_Paste;
-            textbox.Paste -= Textbox_Paste_RegexMask;
             textbox.Loaded -= Textbox_Loaded;
             textbox.Loaded += Textbox_Loaded;
         }
@@ -52,27 +50,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var textbox = sender as TextBox;
 
-            var maskType = (MaskBehavior?)textbox?.GetValue(MaskTypeProperty);
-
-            if (maskType == null)
-            {
-                return;
-            }
-
-            if (maskType.Value == MaskBehavior.Placeholder)
-            {
-                InitPlaceholderMask(textbox);
-            }
-            else
-            {
-                InitRegexMask(textbox);
-            }
-        }
-
-        private static void InitPlaceholderMask(TextBox textbox)
-        {
             // incase no value is provided us it as normal textbox
-            var mask = textbox.GetValue(MaskProperty) as string;
+            var mask = textbox?.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
                 return;

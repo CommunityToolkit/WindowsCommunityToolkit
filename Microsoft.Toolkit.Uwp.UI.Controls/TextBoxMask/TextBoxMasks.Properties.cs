@@ -36,11 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null, InitTextBoxMask));
 
-        /// <summary>
-        /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
-        /// </summary>
-        public static readonly DependencyProperty MaskTypeProperty = DependencyProperty.RegisterAttached("MaskType", typeof(MaskBehavior), typeof(TextBoxMasks), new PropertyMetadata(MaskBehavior.Placeholder, InitTextBoxMask));
-
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMasks), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMasks), new PropertyMetadata(null));
         private static readonly DependencyProperty OldSelectionLengthProperty = DependencyProperty.RegisterAttached("OldSelectionLength", typeof(int), typeof(TextBoxMasks), new PropertyMetadata(0));
@@ -104,26 +99,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static void SetCustomMask(DependencyObject obj, string value)
         {
             obj.SetValue(CustomMaskProperty, value);
-        }
-
-        /// <summary>
-        /// Gets textbox mask type
-        /// </summary>
-        /// <param name="obj">TextBox control</param>
-        /// <returns>mask value</returns>
-        public static MaskBehavior GetMaskType(DependencyObject obj)
-        {
-            return (MaskBehavior)obj.GetValue(MaskTypeProperty);
-        }
-
-        /// <summary>
-        /// Sets textbox mask type to determine wheatehr to be normal mask or regex mask
-        /// </summary>
-        /// <param name="obj">TextBox Control</param>
-        /// <param name="value">Mask Value</param>
-        public static void SetMaskType(DependencyObject obj, MaskBehavior value)
-        {
-            obj.SetValue(MaskTypeProperty, value);
         }
     }
 }

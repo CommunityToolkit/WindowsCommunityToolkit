@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -28,7 +27,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
 
             <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
@@ -44,16 +42,12 @@
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="2"
-                     controls:TextBoxMasks.CustomMask="5:[1-5],c:^[a-c]"
+                     controls:TextBoxMasks.CustomMask="5:[1-5],c:[a-c]"
                      controls:TextBoxMasks.Mask="a5c-5c*9"
-                     Header="Text box with CustomMask in case you want to define your own variable character like a,9 and *"
+                     Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
+                     HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
-            <TextBox Grid.Row="3"
-                     controls:TextBoxMasks.Mask="^\d+$"
-                     controls:TextBoxMasks.MaskType="Regex"
-                     Header="Numbers mask using RegexMask property for ^\d+$ that allows only numbers"
-                     Style="{StaticResource MaskedTextBoxStyle}" />
         </Grid>
     </Grid>
 </Page>
