@@ -10,6 +10,8 @@
         <Setter Property="ActivationWidth" Value="80" />
         <Setter Property="IsOffsetLimited" Value="True" />
         <Setter Property="ExtraSwipeThreshold" Value="40" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TabIndex" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">
@@ -47,10 +49,10 @@
                                 </StackPanel.RenderTransform>
                             </StackPanel>
                         </Grid>
-                        <Grid x:Name="ContentGrid"
+                        <Grid x:Name="ContentGrid" 
                               Background="{TemplateBinding Background}"
                               ManipulationMode="TranslateX,System">
-                            <ContentPresenter />
+                            <ContentPresenter x:Name="content" />
                             <Grid.RenderTransform>
                                 <CompositeTransform x:Name="ContentTransform" />
                             </Grid.RenderTransform>
