@@ -1,6 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+
 
     <Style TargetType="local:HamburgerMenu">
         <Setter Property="HamburgerMenuTemplate">
@@ -81,15 +87,70 @@
                                               AutomationProperties.Name="Content"
                                               Content="{TemplateBinding Content}" />
                         </SplitView>
-                        <Button Name="HamburgerButton"
-                                Width="{TemplateBinding HamburgerWidth}"
-                                Height="{TemplateBinding HamburgerHeight}"
-                                Padding="0"
-                                VerticalAlignment="Top"
-                                AutomationProperties.Name="Main button"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                TabIndex="0">
+                        <Button 
+                            Name="HamburgerButton"
+                            Width="{TemplateBinding HamburgerWidth}"
+                            Height="{TemplateBinding HamburgerHeight}"
+                            Padding="0"
+                            VerticalAlignment="Top"
+                            AutomationProperties.Name="Main button"
+                            Background="{TemplateBinding AccentColor}"
+                            BorderThickness="0"
+                            TabIndex="0"
+                            >
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="PointerOver">
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                        <DoubleAnimation Duration="0" To="0.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle" d:IsOptimized="True"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <Storyboard>
+                                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle" d:IsOptimized="True"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <ContentPresenter 
+                                            x:Name="ContentPresenter" 
+                                            AutomationProperties.AccessibilityView="Raw" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                            ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                            Content="{TemplateBinding Content}" 
+                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                            Padding="{TemplateBinding Padding}" 
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            />
+                                        <Rectangle x:Name="rectangle" Fill="#7FFFFFFF" Opacity="0" IsHitTestVisible="False" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
                             <ContentControl Margin="{TemplateBinding HamburgerMargin}"
                                             ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Foreground="{TemplateBinding Foreground}"

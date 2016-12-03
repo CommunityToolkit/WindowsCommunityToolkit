@@ -61,7 +61,8 @@
                                 OpenPaneLength="{Binding OpenPaneLength.Value}"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
-                                PaneBackground="{Binding PaneBackground.Value}">
+                                PaneBackground="{Binding PaneBackground.Value}"
+                                AccentColor="{Binding AccentColor.Value}">
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
