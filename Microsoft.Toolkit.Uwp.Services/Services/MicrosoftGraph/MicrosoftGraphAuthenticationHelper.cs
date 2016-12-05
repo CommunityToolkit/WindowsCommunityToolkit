@@ -20,6 +20,8 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
+using Windows.Security.Credentials;
+using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -47,7 +49,33 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         public MicrosoftGraphAuthenticationHelper()
         {
+            _vault = new PasswordVault();
         }
+
+        /// <summary>
+        /// Storage key name for access token.
+        /// </summary>
+        private static readonly string STORAGEKEYACCESSTOKEN = "AccessToken";
+
+        /// <summary>
+        /// Storage key name for token expiration.
+        /// </summary>
+        private static readonly string STORAGEKEYEXPIRATION = "Expiration";
+
+        /// <summary>
+        /// Storage key name for user name.
+        /// </summary>
+        private static readonly string STORAGEKEYUSER = "user";
+
+        /// <summary>
+        /// Password vault used to store access tokens
+        /// </summary>
+        private readonly PasswordVault _vault;
+
+        /// <summary>
+        /// Store the current connected user
+        /// </summary>
+        private Identity.Client.User _user;
 
         /// <summary>
         /// Store the Oauth2 access token.
@@ -59,6 +87,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <remarks>By default the life time of the first access token is 3600 (1h)</remarks>
         private DateTimeOffset _expiration;
+
+        private PasswordCredential _passwordCredential;
 
         /// <summary>
         /// Azure Active Directory Authentication context use to get an access token
@@ -108,48 +138,94 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         internal async Task<bool> LogoutAsync(string authenticationModel)
         {
             HttpResponseMessage response = null;
-            using (var client = new HttpClient())
+            if (authenticationModel.Equals("V1"))
             {
-                var logoutUrl = authenticationModel.Equals("V1") ? LogoutUrl : LogoutUrlV2Model;
-                var request = new HttpRequestMessage(HttpMethod.Get, logoutUrl);
-                response = await client.SendAsync(request);
+                using (var client = new HttpClient())
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrl);
+                    response = await client.SendAsync(request);
+                    return response.IsSuccessStatusCode;
+                }
+            }
+           else if (authenticationModel.Equals("V2"))
+            {
+                if (_user != null)
+                {
+                    _user.SignOut();
+                }
             }
 
-            return response.IsSuccessStatusCode;
+            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
+            if (_passwordCredential != null)
+            {
+                _vault.Remove(_passwordCredential);
+            }
+
+            return true;
         }
 
         /// <summary>
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.
         /// </summary>
         /// <param name="appClientId">Application client ID</param>
+        /// <param name="scopes">Permission levels than an app can request from a user</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2PreviewAsync(string appClientId)
+        internal async Task<string> GetUserTokenV2PreviewAsync(string appClientId, string[] scopes)
         {
             PublicClientApplication identityClientApp = new PublicClientApplication(appClientId);
-            string[] scopes = { "Files.ReadWrite", "Mail.ReadWrite", "User.ReadWrite" };
-            if (_tokenForUser == null)
+
+            if (scopes == null || scopes.Length == 0)
             {
-                Identity.Client.AuthenticationResult authResult = await identityClientApp.AcquireTokenAsync(scopes);
-                _tokenForUser = authResult.Token;
-                _expiration = authResult.ExpiresOn;
+                scopes = new string[] { "Files.ReadWrite", "Mail.ReadWrite", "User.ReadWrite" };
+            }
+
+            Identity.Client.AuthenticationResult authResult = null;
+
+            string currentUser = ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] as string;
+
+            if (currentUser == null)
+            {
+                authResult = await identityClientApp.AcquireTokenAsync(scopes);
+                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
+            }
+            else
+            {
+                _expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
             }
 
             if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                Identity.Client.AuthenticationResult authResult = await identityClientApp.AcquireTokenSilentAsync(scopes);
-                _tokenForUser = authResult.Token;
-                _expiration = authResult.ExpiresOn;
+                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
+            }
+            else
+            {
+                if (_tokenForUser == null)
+                {
+                   var passwordCredential = _vault.Retrieve(STORAGEKEYACCESSTOKEN, currentUser);
+                    _tokenForUser = passwordCredential.Password;
+                }
             }
 
             return _tokenForUser;
         }
 
+        private string StoreCredential(Identity.Client.AuthenticationResult authResult)
+        {
+            _user = authResult.User;
+            _expiration = authResult.ExpiresOn;
+            ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION] = authResult.ExpiresOn;
+            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = authResult.User.DisplayableId;
+            _passwordCredential = new PasswordCredential(STORAGEKEYACCESSTOKEN, authResult.User.DisplayableId, authResult.Token);
+            _vault.Add(_passwordCredential);
+            return authResult.Token;
+        }
+
         /// <summary>
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.
         /// </summary>
         /// <param name="appClientId">Application client ID</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId)
+        private async Task<string> GetUserTokenV2Async(string appClientId)
         {
             string authorizationCode = null;
             string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={Scope}&response_mode=query";

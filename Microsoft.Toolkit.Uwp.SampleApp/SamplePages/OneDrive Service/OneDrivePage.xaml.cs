@@ -49,12 +49,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 return;
             }
-            ClientId.Text = "75f78111-d2b3-4d46-8567-0f641201d236";
+
             if (string.IsNullOrEmpty(ClientId.Text))
             {
                 return;
             }
-            
+
             Shell.Current.DisplayWaitRing = true;
             try
             {

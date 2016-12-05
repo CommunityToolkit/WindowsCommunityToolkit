@@ -10,7 +10,10 @@
 // The AuthenticationModel.V2 parameter, allows you to use, either a Microsoft Account or an Office 365 account
 // The third parameter allow to initialize the desired service (OneDrive, Message)
 // You can combine both (ServicesToInitialize.OneDrive | ServicesToInitialize.Message), in order to have access to both service 
-if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text, AuthenticationModel.V2, ServicesToInitialize.OneDrive))
+// The last parameters represent the various permission levels that an app can request from a user
+
+string[] scopes = new string[] { "Files.ReadWrite" };
+if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text, AuthenticationModel.V2, ServicesToInitialize.OneDrive, scopes))
 {
     return;
 }

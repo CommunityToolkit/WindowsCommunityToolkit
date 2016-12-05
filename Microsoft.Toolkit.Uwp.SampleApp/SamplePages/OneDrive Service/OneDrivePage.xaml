@@ -5,11 +5,12 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:selector="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     
     mc:Ignorable="d">
     <Page.Resources>
-        <selector:VisibilyConverter x:Key="VisibilityConverter"/>
+        <converter:BoolToVisibilityConverter  x:Key="VisibilityConverter"/>
         <selector:FileFolderDataTemplateSelector
                         x:Key="FileFolderDataTemplateSelector" 
                         FolderTemplate="{StaticResource FolderTemplate}"

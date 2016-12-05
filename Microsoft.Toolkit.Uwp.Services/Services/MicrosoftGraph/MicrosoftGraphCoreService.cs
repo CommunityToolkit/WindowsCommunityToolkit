@@ -83,6 +83,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private MicrosoftGraphUserService _user;
 
         /// <summary>
+        /// Fields to store the permission levels than an app can request from a user
+        /// </summary>
+        private string[] _scopes;
+
+        /// <summary>
         /// Gets a reference to an instance of the MicrosoftGraphUserService class
         /// </summary>
         public MicrosoftGraphUserService User
@@ -97,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="authenticationModel">One of the enumeration values that determines the authorization EndPoint to use </param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, AuthenticationModel authenticationModel = AuthenticationModel.V1, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message)
+        public bool Initialize(string appClientId, AuthenticationModel authenticationModel = AuthenticationModel.V1, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
@@ -112,9 +117,32 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
             else
             {
-                _graphProvider = CreateGraphClientProviderForV2Model(appClientId);
+                _graphProvider = CreateGraphClientProviderForV2Model(appClientId, null);
             }
 
+            _servicesToInitialize = servicesToInitialize;
+            _isInitialized = true;
+            return true;
+        }
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <param name="appClientId">Azure AD's App client id V2 Model</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="scopes">Scopes represent the various permission levels that an app can request from a user</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string appClientId,  ServicesToInitialize servicesToInitialize, string[] scopes)
+        {
+            if (string.IsNullOrEmpty(appClientId))
+            {
+                throw new ArgumentNullException(nameof(appClientId));
+            }
+
+            _scopes = scopes;
+            _appClientId = appClientId;
+            _authenticationModel = AuthenticationModel.V2;
+            _graphProvider = CreateGraphClientProviderForV2Model(appClientId, scopes);
             _servicesToInitialize = servicesToInitialize;
             _isInitialized = true;
             return true;
@@ -157,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             else
             {
                 // accessToken = await _authentication.GetUserTokenV2Async(_appClientId);
-                accessToken = await _authentication.GetUserTokenV2PreviewAsync(_appClientId);
+                accessToken = await _authentication.GetUserTokenV2PreviewAsync(_appClientId, _scopes);
             }
 
             if (string.IsNullOrEmpty(accessToken))
@@ -169,7 +197,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             _user = new MicrosoftGraphUserService(_graphProvider);
 
-            await GetUserAsyncProfile();
+            if ((_servicesToInitialize & ServicesToInitialize.UserProfile) == ServicesToInitialize.UserProfile)
+            {
+                await GetUserAsyncProfile();
+            }
 
             if ((_servicesToInitialize & ServicesToInitialize.OneDrive) == ServicesToInitialize.OneDrive)
             {
@@ -204,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                      }));
         }
 
-        private GraphServiceClient CreateGraphClientProviderForV2Model(string appClientId)
+        private GraphServiceClient CreateGraphClientProviderForV2Model(string appClientId, string[] scopes)
         {
             return new GraphServiceClient(
                   new DelegateAuthenticationProvider(
@@ -214,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await _authentication.GetUserTokenV2PreviewAsync(appClientId).ConfigureAwait(false));
+                                                     await _authentication.GetUserTokenV2PreviewAsync(appClientId, scopes).ConfigureAwait(false));
                          return;
                      }));
         }

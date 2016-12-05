@@ -70,7 +70,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             /// <summary>
             /// Message
             /// </summary>
-            Message = 0x02
+            Message = 0x02,
+
+            /// <summary>
+            /// user Profile
+            /// </summary>
+            UserProfile = 0x03
         }
 
         /// <summary>

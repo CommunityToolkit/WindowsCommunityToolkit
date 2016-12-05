@@ -96,7 +96,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 // Initialize the service
-                MicrosoftGraphService.Instance.Initialize(appClientId, AuthenticationModel.V2, ServicesToInitialize.OneDrive);
+                string[] scopes = new string[] { "Files.ReadWrite", "User.Read" };
+                MicrosoftGraphService.Instance.Initialize(appClientId, ServicesToInitialize.OneDrive, scopes);
 
                 if (!await MicrosoftGraphService.Instance.LoginAsync())
                 {
@@ -460,7 +461,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                             // If the file exceed the Maximum size (ie 4MB)
                             _currentFolder.OnUploadSession += CurrentFolder_OnUploadSession;
                             var largeFileCreated = await _currentFolder.UploadFileAsync(selectedFile.Name, localStream, _cancellationTokenSource.Token, 320 * 1024);
-
                     }
 
                         await DisplayMessageAsync("Succeeded!");
