@@ -64,10 +64,10 @@
         </ScrollViewer>
 
         <controls:Loading x:Name="LoadingControl"
-                          HorizontalContentAlignment="{Binding LoadingContentHorizontalAlignment.Value}"
-                          VerticalContentAlignment="{Binding LoadingContentVerticalAlignment.Value}"
-                          Background="{Binding LoadingBackground.Value}"
-                          Opacity="{Binding OpacityForLoadingControl.Value}">
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment.Value}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment.Value}"
+                          Background="{Binding Background.Value}"
+                          Opacity="{Binding Opacity.Value}">
             <ContentControl x:Name="LoadingContentControl" />
         </controls:Loading>
     </Grid>

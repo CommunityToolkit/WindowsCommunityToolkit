@@ -7,9 +7,9 @@ The loading control is for showing an animation with some content when the user 
 An example of how we can build the loading control.
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
-                    VerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
-                    Background="{Binding LoadingBackground.Value}" Opacity="{Binding OpacityForLoadingControl.Value}">
+<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding HorizontalAlignment.Value}" 
+                    VerticalAlignment="{Binding VerticalAlignment.Value}"
+                    Background="{Binding Background.Value}" Opacity="{Binding Opacity.Value}">
     <ContentControl x:Name="LoadingContentControl"/>
 </controls:Loading>
 ```
@@ -18,9 +18,9 @@ An example of how we can build the loading control.
 - **ContentControl** could be everything done with xaml. For example:
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
-                    VerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
-                    Background="{Binding LoadingBackground.Value}" Opacity="{Binding OpacityForLoadingControl.Value}">
+<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding HorizontalAlignment.Value}" 
+                    VerticalAlignment="{Binding VerticalAlignment.Value}"
+                    Background="{Binding Background.Value}" Opacity="{Binding Opacity.Value}">
     <StackPanel Orientation="Horizontal" Padding="12">
         <Grid Margin="0,0,8,0">
             <Image Source="../../Assets/ToolkitLogo.png" Height="50" />
