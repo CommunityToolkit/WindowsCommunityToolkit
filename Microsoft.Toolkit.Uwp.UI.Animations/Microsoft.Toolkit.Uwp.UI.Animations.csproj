@@ -48,6 +48,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationSetState.cs" />
+    <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
