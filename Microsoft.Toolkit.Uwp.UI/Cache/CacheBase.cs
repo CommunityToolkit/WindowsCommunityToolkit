@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -79,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Initialises FileCache and provides root folder and cache folder name
+        /// Initializes FileCache and provides root folder and cache folder name
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
@@ -149,37 +150,96 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Assures that image is available in the cache
+        /// Removed items based on uri list passed
         /// </summary>
-        /// <param name="uri">Uri of the image</param>
-        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
-        /// <param name="storeToMemoryCache">Indicates if image should be available also in memory cache</param>
-        /// <returns>void</returns>
+        /// <param name="uriForCachedItems">Enumerable uri list</param>
+        /// <returns>awaitable Task</returns>
+        public async Task RemoveAsync(IEnumerable<Uri> uriForCachedItems)
+        {
+            if (uriForCachedItems == null || !uriForCachedItems.Any())
+            {
+                return;
+            }
+
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+
+            var filesToDelete = new List<StorageFile>();
+            var keys = new List<string>();
+
+            Dictionary<string, StorageFile> hashDictionary = new Dictionary<string, StorageFile>();
+
+            foreach (var file in files)
+            {
+                hashDictionary.Add(file.Name, file);
+            }
+
+            foreach (var uri in uriForCachedItems)
+            {
+                string fileName = GetCacheFileName(uri);
+
+                StorageFile file = null;
+
+                if (hashDictionary.TryGetValue(fileName, out file))
+                {
+                    filesToDelete.Add(file);
+                    keys.Add(fileName);
+                }
+            }
+
+            await InternalClearAsync(files).ConfigureAwait(false);
+
+            _inMemoryFileStorage.Remove(keys);
+        }
+
+        /// <summary>
+        /// Assures that item represented by Uri is cached.
+        /// </summary>
+        /// <param name="uri">Uri of the item</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be cached</param>
+        /// <param name="storeToMemoryCache">Indicates if item should be loaded into the in-memory storage</param>
+        /// <returns>Awaitable Task</returns>
         public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false)
         {
             return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
         }
 
         /// <summary>
-        /// Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it.
+        /// Retrieves item represented by Uri from the cache. If the item is not found in the cache, it will try to downloaded and saved before returning it to the caller.
         /// </summary>
-        /// <param name="uri">Uri of the image.</param>
-        /// <param name="throwOnError">Indicates whether or not exception should be thrown if imagge cannot be loaded</param>
-        /// <returns>a BitmapImage</returns>
+        /// <param name="uri">Uri of the item.</param>
+        /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
+        /// <returns>an instance of Generic type</returns>
         public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
         {
             return GetItemAsync(uri, throwOnError, false);
         }
 
         /// <summary>
-        /// Cache specific hooks to process items from http response
+        /// Gets the StorageFile containing cached item for given Uri
+        /// </summary>
+        /// <param name="uri">Uri of the item.</param>
+        /// <returns>a StorageFile</returns>
+        public async Task<StorageFile> GetFileFromCacheAsync(Uri uri)
+        {
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+
+            string fileName = GetCacheFileName(uri);
+
+            var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+
+            return item as StorageFile;
+        }
+
+        /// <summary>
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
         protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream);
 
         /// <summary>
-        /// Cache specific hooks to process items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>
@@ -298,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 catch (Exception)
                 {
                     await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
-                    throw; // rethrowing the exception changes the stack trace. just throw
+                    throw; // re-throwing the exception changes the stack trace. just throw
                 }
             }
 
@@ -371,7 +431,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Initialises with default values if user has not initialised explicitly
+        /// Initializes with default values if user has not initialized explicitly
         /// </summary>
         /// <returns>awaitable task</returns>
         private async Task ForceInitialiseAsync()

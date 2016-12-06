@@ -10,24 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list
-    /// Based on the Azure portal UI
-    /// </summary>
-    public partial class BladeView
+    public enum MasterDetailsViewState
     {
         /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is opened
+        /// Only the Master view is shown
         /// </summary>
-        public event EventHandler<BladeItem> BladeOpened;
+        Master,
 
         /// <summary>
-        /// Fires whenever a <see cref="BladeItem"/> is closed
+        /// Only the Details view is shown
         /// </summary>
-        public event EventHandler<BladeItem> BladeClosed;
+        Details,
+
+        /// <summary>
+        /// Both the Master and Details views are shown
+        /// </summary>
+        Both
     }
 }

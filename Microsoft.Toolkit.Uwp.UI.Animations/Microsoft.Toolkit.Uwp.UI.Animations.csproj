@@ -56,6 +56,7 @@
     <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
+    <Compile Include="Behaviors\ScrollHeaderBehavior.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />

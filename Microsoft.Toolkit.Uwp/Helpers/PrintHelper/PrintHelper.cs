@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp
         ///  A hidden canvas used to hold pages we wish to print
         /// </summary>
         private Canvas _printCanvas;
-
+        private Panel _canvasContainer;
         private string _printTaskName;
         private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
 
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
 
-            canvasContainer.Children.Add(_printCanvas);
+            _canvasContainer = canvasContainer;
 
             _elementsToPrint = new List<FrameworkElement>();
 
@@ -147,6 +147,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
         public async Task ShowPrintUIAsync(string printTaskName)
         {
+            PrintManager printMan = PrintManager.GetForCurrentView();
+            printMan.PrintTaskRequested += PrintTaskRequested;
+
             // Launch print process
             _printTaskName = printTaskName;
             await PrintManager.ShowPrintUIAsync();
@@ -162,23 +165,11 @@ namespace Microsoft.Toolkit.Uwp
                 return;
             }
 
+            _printCanvas = null;
+
             _printDocument.Paginate -= CreatePrintPreviewPages;
             _printDocument.GetPreviewPage -= GetPrintPreviewPage;
             _printDocument.AddPages -= AddPrintPages;
-
-            // Remove the handler for printing initialization.
-            PrintManager printMan = PrintManager.GetForCurrentView();
-            printMan.PrintTaskRequested -= PrintTaskRequested;
-
-            _printCanvas.Children.Clear();
-            (_printCanvas.Parent as Panel).Children.Remove(_printCanvas);
-
-            _printCanvas = null;
-
-            _stateBags.Clear();
-
-            // Clear the cache of preview pages
-            ClearPageCache();
         }
 
         /// <summary>
@@ -191,9 +182,21 @@ namespace Microsoft.Toolkit.Uwp
             _printDocument.Paginate += CreatePrintPreviewPages;
             _printDocument.GetPreviewPage += GetPrintPreviewPage;
             _printDocument.AddPages += AddPrintPages;
+        }
 
+        private void DetachCanvas()
+        {
+            _canvasContainer.Children.Remove(_printCanvas);
+            _printCanvas.Children.Clear();
+
+            _stateBags.Clear();
+
+            // Clear the cache of preview pages
+            ClearPageCache();
+
+            // Remove the handler for printing initialization.
             PrintManager printMan = PrintManager.GetForCurrentView();
-            printMan.PrintTaskRequested += PrintTaskRequested;
+            printMan.PrintTaskRequested -= PrintTaskRequested;
         }
 
         /// <summary>
@@ -217,6 +220,8 @@ namespace Microsoft.Toolkit.Uwp
                             _stateBags[element].Restore(element);
                         }
                         _stateBags.Clear();
+
+                        DetachCanvas();
 
                         switch (args.Completion)
                         {
@@ -246,6 +251,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="e">Paginate Event Arguments</param>
         private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
+            // Attach the canvas
+            _canvasContainer.Children.Add(_printCanvas);
+
             // Clear the cache of preview pages
             ClearPageCache();
 
@@ -354,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            // Add the (newley created) page to the print canvas which is part of the visual tree and force it to go
+            // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
             // through layout so that the linked containers correctly distribute the content inside them.
             _printCanvas.Children.Add(page);
             _printCanvas.InvalidateMeasure();
