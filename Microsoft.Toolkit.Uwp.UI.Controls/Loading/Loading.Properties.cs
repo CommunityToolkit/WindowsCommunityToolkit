@@ -22,11 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Loading
     {
         /// <summary>
-        /// EventHandler who enables manipulation of the content before control appears.
-        /// </summary>
-        public event EventHandler LoadingRequired;
-
-        /// <summary>
         /// Identifies the <see cref="IsLoading"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(

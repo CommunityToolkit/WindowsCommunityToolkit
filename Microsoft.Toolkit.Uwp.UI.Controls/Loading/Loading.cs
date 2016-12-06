@@ -40,8 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Update()
         {
-            LoadingRequired?.Invoke(this, EventArgs.Empty);
-
             VisualStateManager.GoToState(this, IsLoading ? "LoadingIn" : "LoadingOut", true);
         }
     }

@@ -30,13 +30,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            LoadingControl.LoadingRequired -= LoadingControl_LoadingRequired;
-        }
-
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var propertyDesc = e.Parameter as PropertyDescriptor;
@@ -63,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Loading control with logo and bluring when it requested", async (sender, args) =>
             {
                 LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
-                LoadingControl.LoadingRequired += LoadingControl_LoadingRequired;
+                await LoadingContentControl.Blur(10, 1000, 0).StartAsync();
                 await ShowLoadingDialogAsync();
             });
 
@@ -75,14 +68,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LoadingControl.IsLoading = true;
             await Task.Delay(3000);
             LoadingControl.IsLoading = false;
-        }
-
-        private async void LoadingControl_LoadingRequired(object sender, System.EventArgs e)
-        {
-            if (LoadingControl.IsLoading)
-            {
-                await LoadingContentControl.Blur(10, 1000, 0).StartAsync();
-            }
         }
     }
 }
