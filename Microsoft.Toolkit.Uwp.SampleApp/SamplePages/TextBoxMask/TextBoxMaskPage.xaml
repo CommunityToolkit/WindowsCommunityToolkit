@@ -29,21 +29,21 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
+            <TextBox controls:TextBoxMask.Mask="9a9a-a9a*"
                      Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="1"
-                     controls:TextBoxMasks.Mask="+1999-9999"
-                     controls:TextBoxMasks.PlaceHolder=" "
+                     controls:TextBoxMask.Mask="+1999-9999"
+                     controls:TextBoxMask.PlaceHolder=" "
                      Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="2"
-                     controls:TextBoxMasks.CustomMask="5:[1-5],c:[a-c]"
-                     controls:TextBoxMasks.Mask="a5c-5c*9"
+                     controls:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
+                     controls:TextBoxMask.Mask="a5c-5c*9"
                      Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
