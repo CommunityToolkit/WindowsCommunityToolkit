@@ -22,34 +22,43 @@
             <Grid x:Name="Container"
                   Grid.RowSpan="2"
                   Opacity="0" />
-            <StackPanel x:Name="PrintableContent"
+            <Grid x:Name="DirectPrintContainer">
+                <StackPanel x:Name="PrintableContent"
                         Margin="50,20"
                         Orientation="Vertical">
-                <Image Width="200"
+                    <Image Width="200"
                        Source="/Assets/Photos/BigFourSummerHeat.png"
                        Stretch="Fill" />
-                <TextBlock FontSize="20"
+                    <TextBlock FontSize="20"
                            Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                            TextWrapping="Wrap" />
-                <TextBlock FontSize="18"
+                    <TextBlock FontSize="18"
                            Text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                            TextWrapping="Wrap" />
-                <TextBlock FontSize="18"
+                    <TextBlock FontSize="18"
                            Text="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
                            TextWrapping="Wrap" />
-                <TextBlock FontSize="18"
+                    <TextBlock FontSize="18"
                            Text="It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                            TextWrapping="Wrap" />
-                <TextBlock FontSize="14"
+                    <TextBlock FontSize="14"
                            FontStyle="Italic"
                            Text="From http://www.lipsum.com/"
                            TextWrapping="Wrap" />
-            </StackPanel>
-            <Button Grid.Row="1"
-                    Margin="20"
-                    HorizontalAlignment="Center"
-                    Click="Button_Click"
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="1"
+                        Margin="20"
+                        HorizontalAlignment="Center">
+                <Button
+                    Click="Print_Click"
                     Content="Print Me!" />
+                <Button
+                    Margin="10,0,0,0"
+                    Click="DirectPrint_Click"
+                    Content="Direct Print Me!" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
