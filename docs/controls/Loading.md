@@ -7,20 +7,20 @@ The loading control is for showing an animation with some content when the user 
 An example of how we can build the loading control.
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
-                    LoadingVerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
-                    LoadingBackground="{Binding LoadingBackground.Value}" LoadingOpacity="{Binding OpacityForLoadingControl.Value}">
+<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
+                    VerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
+                    Background="{Binding LoadingBackground.Value}" Opacity="{Binding OpacityForLoadingControl.Value}">
     <ContentControl x:Name="LoadingContentControl"/>
 </controls:Loading>
 ```
-- **LoadingHorizontalAlignment** and **LoadingVerticalAlignment** are responsible to align the custom content of the control. It aligns what we create inside as a ContentPresenter.
-- **LoadingBackground** and **LoadingOpacity** are for the panel who appears and disappears behind our custom control.
+- **HorizontalAlignment** and **VerticalAlignment** are responsible to align the custom content of the control. It aligns what we create inside as a ContentPresenter.
+- **Background** and **Opacity** are for the panel who appears and disappears behind our custom control.
 - **ContentControl** could be everything done with xaml. For example:
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" LoadingHorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
-                    LoadingVerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
-                    LoadingBackground="{Binding LoadingBackground.Value}" LoadingOpacity="{Binding OpacityForLoadingControl.Value}">
+<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding LoadingContentHorizontalAlignment.Value}" 
+                    VerticalAlignment="{Binding LoadingContentVerticalAlignment.Value}"
+                    Background="{Binding LoadingBackground.Value}" Opacity="{Binding OpacityForLoadingControl.Value}">
     <StackPanel Orientation="Horizontal" Padding="12">
         <Grid Margin="0,0,8,0">
             <Image Source="../../Assets/ToolkitLogo.png" Height="50" />
