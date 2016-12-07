@@ -102,6 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             view._detailsPresenter.Content = view.MapDetails == null
                 ? view.SelectedItem
                 : view.MapDetails(view.SelectedItem);
+            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
         /// <summary>
