@@ -54,7 +54,37 @@
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="NoSelectionWide" />
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="NoSelectionWide" To="HasSelection">
+                                        <Storyboard>
+                                            <DrillInThemeAnimation EntranceTargetName="DetailsPresenter"
+                                                                   ExitTargetName="NoSelectionPresenter"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="NoSelectionNarrow" To="HasSelection">
+                                        <Storyboard>
+                                            <DrillInThemeAnimation EntranceTargetName="DetailsPresenter"
+                                                                   ExitTargetName="MasterPanel"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="HasSelection" To="NoSelectionWide">
+                                        <Storyboard>
+                                            <DrillOutThemeAnimation ExitTargetName="DetailsPresenter"
+                                                                    EntranceTargetName="NoSelectionPresenter"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="HasSelection" To="NoSelectionNarrow">
+                                        <Storyboard>
+                                            <DrillOutThemeAnimation ExitTargetName="DetailsPresenter"
+                                                                    EntranceTargetName="MasterPanel"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="NoSelectionWide">
+                                    <VisualState.Setters>
+                                        <Setter Target="DetailsPresenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="HasSelection">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
@@ -63,6 +93,7 @@
                                 <VisualState x:Name="NoSelectionNarrow">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="DetailsPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
