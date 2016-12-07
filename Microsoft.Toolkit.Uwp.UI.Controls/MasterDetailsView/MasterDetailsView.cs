@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
+        private const string HasSelectionState = "HasSelection";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
@@ -94,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = view._stateGroup.CurrentState == view._narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
+            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
@@ -134,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = _stateGroup.CurrentState == _narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : "HasSelection", true);
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
 
             UpdateViewState();
         }
