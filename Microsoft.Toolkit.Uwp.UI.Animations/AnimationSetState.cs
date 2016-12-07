@@ -10,29 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Composition;
-
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Defines an <see cref="EffectDirectPropertyChangeDefinition"/> which is used by
-    /// <see cref="AnimationSet"/> to link effect property Changes to Visuals
+    /// States of AnimationSet.
     /// </summary>
-    internal class EffectDirectPropertyChangeDefinition
+    public enum AnimationSetState
     {
         /// <summary>
-        /// Gets or sets <see cref="CompositionEffectBrush"/> that will be animated
+        /// The animation has not been started
         /// </summary>
-        public CompositionObject EffectBrush { get; set; }
+        NotStarted,
 
         /// <summary>
-        /// Gets or sets the <see cref="float"/> value for the property
+        /// The animation has been started and is in progress
         /// </summary>
-        public float Value { get; set; }
+        Running,
 
         /// <summary>
-        /// Gets or sets the property name that will be animated on the <see cref="CompositionEffectBrush"/>
+        /// The animation has been started and is stopped
         /// </summary>
-        public string PropertyName { get; set; }
+        Stopped,
+
+        /// <summary>
+        /// The animation had completed
+        /// </summary>
+        Completed
     }
 }
