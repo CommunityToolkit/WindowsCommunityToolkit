@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
-            if (ViewState == MasterDetailsViewState.Details)
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
             {
                 SelectedItem = null;
                 args.Cancel = true;
