@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             double duration = (double)view.GetValue(DurationProperty);
-            elementImplicitAnimation["Offset"] = CreateOffsetAnimation(compositor, duration);
+            elementImplicitAnimation[nameof(Visual.Offset)] = CreateOffsetAnimation(compositor, duration);
         }
 
         private static void OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-            offsetAnimation.Target = "Offset";
+            offsetAnimation.Target = nameof(Visual.Offset);
 
             CompositionAnimationGroup animationGroup = compositor.CreateAnimationGroup();
             animationGroup.Add(offsetAnimation);
