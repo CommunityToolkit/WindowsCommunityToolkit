@@ -63,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTemplateNameV3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTextStacking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\Element_ToastHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastBindingGenericChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastInput.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericAppLogoEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericAttributionText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericHeroImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastSelectionBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastSelectionBoxItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastTextBox.cs" />

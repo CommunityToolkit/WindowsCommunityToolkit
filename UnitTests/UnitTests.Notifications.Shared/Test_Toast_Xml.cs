@@ -1193,6 +1193,74 @@ namespace UnitTests.Notifications
             AssertSelectionPayload("<selection id='myId' content='' />", selectionBoxItem);
         }
 
+        [TestMethod]
+        public void Test_Toast_Header_AllValues()
+        {
+            AssertHeaderPayload("<header id='myId' title='My header' arguments='myArgs' activationType='background' />", new ToastHeader("myId", "My header", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background
+            });
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullId()
+        {
+            try
+            {
+                AssertHeaderPayload("", new ToastHeader(null, "Title", "Args"));
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+
+            Assert.Fail("NullReferenceException for Id should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullTitle()
+        {
+            try
+            {
+                AssertHeaderPayload("", new ToastHeader("id", null, "Args"));
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+
+            Assert.Fail("NullReferenceException for Title should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullArguments()
+        {
+            try
+            {
+                AssertHeaderPayload("", new ToastHeader("id", "Title", null));
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+
+            Assert.Fail("NullReferenceException for Arguments should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_EmptyStrings()
+        {
+            AssertHeaderPayload("<header id='' title='' arguments='' />", new ToastHeader("", "", ""));
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_ActivationTypes()
+        {
+            AssertHeaderActivationType("foreground", ToastActivationType.Foreground);
+            AssertHeaderActivationType("background", ToastActivationType.Background);
+            AssertHeaderActivationType("protocol", ToastActivationType.Protocol);
+        }
+
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
         {
             AssertInputPayload("<input id='myId' type='selection'>" + expectedSelectionXml + "</input>", new ToastSelectionBox("myId")
@@ -1246,6 +1314,31 @@ namespace UnitTests.Notifications
             AssertPayload("<toast>" + expectedVisualXml + "</toast>", new ToastContent()
             {
                 Visual = visual
+            });
+        }
+
+        private static void AssertHeaderActivationType(string expectedPropertyValue, ToastActivationType activationType)
+        {
+            ToastHeader header = new ToastHeader("myId", "My title", "myArgs")
+            {
+                ActivationType = activationType
+            };
+
+            if (activationType == ToastActivationType.Foreground)
+            {
+                AssertHeaderPayload("<header id='myId' title='My title' arguments='myArgs' />", header);
+            }
+            else
+            {
+                AssertHeaderPayload($"<header id='myId' title='My title' arguments='myArgs' activationType='{expectedPropertyValue}' />", header);
+            }
+        }
+
+        private static void AssertHeaderPayload(string expectedHeaderXml, ToastHeader header)
+        {
+            AssertPayload("<toast>" + expectedHeaderXml + "</toast>", new ToastContent()
+            {
+                Header = header
             });
         }
 

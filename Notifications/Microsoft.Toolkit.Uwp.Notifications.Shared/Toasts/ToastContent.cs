@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public IToastActions Actions { get; set; }
 
         /// <summary>
+        /// New in Creators Update: Gets or sets an optional header for the toast notification.
+        /// </summary>
+        public ToastHeader Header { get; set; }
+
+        /// <summary>
         /// Specify the scenario, to make the Toast behave like an alarm, reminder, or more.
         /// </summary>
         public ToastScenario Scenario { get; set; }
@@ -106,6 +111,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             if (Actions != null)
             {
                 toast.Actions = ConvertToActionsElement(Actions);
+            }
+
+            if (Header != null)
+            {
+                toast.Header = Header.ConvertToElement();
             }
 
             return toast;

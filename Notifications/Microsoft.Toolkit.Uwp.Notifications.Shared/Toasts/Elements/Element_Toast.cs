@@ -36,6 +36,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public Element_ToastAudio Audio { get; set; }
 
         public Element_ToastActions Actions { get; set; }
+
+        public Element_ToastHeader Header { get; set; }
     }
 
     /// <summary>
