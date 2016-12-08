@@ -11,7 +11,10 @@
 // ******************************************************************
 
 using System;
+<<<<<<< HEAD
 using Microsoft.Toolkit.Uwp.Helpers;
+=======
+>>>>>>> 0c111c24a9c3db1559746f3dc751813939f312eb
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -41,6 +44,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Suspending += OnSuspending;
         }
 
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            await RunAppInitialization(null);
+
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                try
+                {
+                    // Launching via protocol link
+                    var parser = DeepLinkParser.Create(args);
+                    var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
+                    if (targetSample != null)
+                    {
+                        await Shell.Current?.NavigateToSampleAsync(targetSample);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error processing protocol launch: {ex.ToString()}");
+                }
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -53,6 +79,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
+            if (e.PreviousExecutionState != ApplicationExecutionState.Running
+                && e.PreviousExecutionState != ApplicationExecutionState.Suspended)
+            {
+                await RunAppInitialization(e?.Arguments);
+            }
+        }
+
+        private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
+        {
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {
@@ -63,14 +98,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
             {
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                Color blueBrush = default(Color);
-                Color lightGreyBrush = default(Color);
-                Color greyBrush03 = default(Color);
-                Color greyBrush01 = default(Color);
-                blueBrush = (Color)Resources["Blue-01"];
-                lightGreyBrush = (Color)Resources["Grey-04"];
-                greyBrush03 = (Color)Resources["Grey-03"];
-                greyBrush01 = (Color)Resources["Grey-01"];
+                var lightGreyBrush = (Color)Resources["Grey-04"];
+                var greyBrush03 = (Color)Resources["Grey-03"];
+                var greyBrush01 = (Color)Resources["Grey-01"];
 
                 if (titleBar != null)
                 {
@@ -94,38 +124,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (rootFrame.Content == null)
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(Shell), e.Arguments);
-                }
-
-                // Status bar
-                if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
-                    ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
-                {
-                    StatusBar statusBar = StatusBar.GetForCurrentView();
-
-                    // Hide the status bar
-                    await statusBar.HideAsync();
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(Shell), launchParameters);
             }
+
+            // Status bar
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
+                ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+
+                // Hide the status bar
+                await statusBar.HideAsync();
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>

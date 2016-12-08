@@ -18,9 +18,22 @@ If you need to handle local saves of any object (generic), you can use `LocalObj
     {
         string result = helper.Read<string>(keySimpleObject);
     }
+    
+    // Read simple objects in a composite
+    string keyCompositeObject = "composite";
+    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+    {
+        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+    }
 
     // Save simple objects
     helper.Save(keySimpleObject, 47);
+
+    // Save simple objects in a composite
+    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+    simpleObjects.add("simpleObjectValueOne", 47);
+    simpleObjects.add("simpleObjectValueTwo", "hello!");
+    helper.Save(keyCompositeObject, simpleObjects);
 
     // Read complex/large objects 
     string keyLargeObject = "large";
@@ -52,9 +65,22 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
     {
         string result = helper.Read<string>(keySimpleObject);
     }
+    
+    // Read simple objects in a composite
+    string keyCompositeObject = "composite";
+    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+    {
+        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+    }
 
     // Save simple objects
     helper.Save(keySimpleObject, 47);
+    
+    // Save simple objects in a composite
+    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+    simpleObjects.add("simpleObjectValueOne", 47);
+    simpleObjects.add("simpleObjectValueTwo", "hello!");
+    helper.Save(keyCompositeObject, simpleObjects);
 
     // Read complex/large objects 
     string keyLargeObject = "large";

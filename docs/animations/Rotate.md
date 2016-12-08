@@ -10,8 +10,8 @@ The **Rotate animation behavior** allows users to modify and animate the control
 				Value="180"
 				CenterX="0.0" 
 				CenterY="0.0" 
-				Duration="1.5" 
-				Delay="0.5" 
+				Duration="500" 
+				Delay="250" 
 				AutomaticallyStart="True"/>
   </behaviors:Rotate>
 
@@ -29,6 +29,18 @@ or directly from code:
                 delay: Delay);
 
 ```
+
+## Properties
+
+| Property Name | Type | Description |
+| --- | --- | --- |
+| Value | float | The rotation of the element in degrees |
+| CenterX | float | The pivot point on the x axis |
+| CenterY | float | The pivot point on the y axis |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behavior animations can also be chained and awaited.
 

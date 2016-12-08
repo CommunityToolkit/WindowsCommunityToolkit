@@ -48,6 +48,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationSetState.cs" />
+    <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
+    <Compile Include="Behaviors\ScrollHeaderBehavior.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />

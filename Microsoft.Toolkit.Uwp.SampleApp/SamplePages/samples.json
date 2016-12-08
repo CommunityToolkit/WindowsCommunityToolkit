@@ -92,12 +92,20 @@
         "Icon": "/SamplePages/BladeView/BladeView.png"
       },
       {
-        "Name": "GridSplitter",
-        "Type": "GridSplitterPage",
-        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-        "XamlCodeFile": "GridSplitter.bind",
-        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "ScrollHeader",
+        "Type": "ScrollHeaderPage",
+        "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
+        "XamlCodeFile": "ScrollHeaderCode.bind",
+        "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
+      },
+      {
+          "Name": "GridSplitter",
+          "Type": "GridSplitterPage",
+          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+          "XamlCodeFile": "GridSplitter.bind",
+          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -106,6 +114,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "TextBoxMask",
+        "Type": "TextBoxMaskPage",
+        "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
+        "XamlCodeFile": "TextBoxMask.bind",
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
       }
     ]
   },
@@ -245,8 +261,7 @@
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
         "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
-        "ApiCheck": "Windows.System.UserProfile.UserInformation"
+        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png"
       },
       {
         "Name": "LinkedIn Service",

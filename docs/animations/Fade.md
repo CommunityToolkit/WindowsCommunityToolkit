@@ -7,9 +7,9 @@ The **Fade animation behavior** fades objects, in and out, over time.
 ```xaml
 
     <behaviors:Fade x:Name="FadeBehavior>" 
-                Value="10.0" 
-                Duration="1.5" 
-                Delay="0.5" 
+                Value="0.5" 
+                Duration="1500" 
+                Delay="500" 
                 AutomaticallyStart="True">
     </behaviors:Fade>
 
@@ -22,6 +22,16 @@ or directly from code:
     MyRectangle.Fade((float)Value, Duration, Delay);
 
 ```
+
+## Properties
+
+| Property Name | Type | Description |
+| --- | --- | --- |
+| Value | float | The amount to fade an element. The value should be between 0.0 and l.0 |
+| Duration | double | The number of milliseconds the animation should run for |
+| Delay | double | The number of milliseconds before the animation is started |
+
+## Chaining animations
 
 Behavior animations can also be chained and awaited.
 

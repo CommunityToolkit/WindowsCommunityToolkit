@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-            if (!IsPullToRefreshWithMouseEnabled)
+            if (!IsPullToRefreshWithMouseEnabled || _contentTransform == null)
             {
                 return;
             }
@@ -542,7 +542,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the label that will be shown when the user pulls down to refresh.
-        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null
         /// </summary>
         public string PullToRefreshLabel
         {
@@ -552,7 +552,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the label that will be shown when the user needs to release to refresh.
-        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null/>
+        /// Note: This label will only show up if <see cref="RefreshIndicatorContent" /> is null
         /// </summary>
         public string ReleaseToRefreshLabel
         {
@@ -580,7 +580,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         public object ReleaseToRefreshContent
         {
-            get { return (string)GetValue(ReleaseToRefreshContentProperty); }
+            get { return (object)GetValue(ReleaseToRefreshContentProperty); }
             set { SetValue(ReleaseToRefreshContentProperty, value); }
         }
 
