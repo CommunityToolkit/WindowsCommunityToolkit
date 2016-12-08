@@ -122,6 +122,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "MosaicControl",
+        "Type": "MosaicControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MosaicControl",
+        "XamlCodeFile": "MosaicControl.bind",
+        "Icon": "/SamplePages/MosaicControl/MosaicControl.png"
       }
     ]
   },

@@ -251,6 +251,8 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
+    <Content Include="SamplePages\MosaicControl\Animations.png" />
+    <Content Include="SamplePages\MosaicControl\MosaicControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
@@ -328,6 +330,9 @@
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
+    <Content Include="SamplePages\MosaicControl\MosaicControl.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -375,6 +380,9 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MosaicControl\MosaicControlPage.xaml.cs">
+      <DependentUpon>MosaicControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml.cs">
       <DependentUpon>ScrollHeaderPage.xaml</DependentUpon>
@@ -527,6 +535,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MosaicControl\MosaicControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
