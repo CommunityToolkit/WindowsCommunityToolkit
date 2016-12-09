@@ -49,7 +49,11 @@
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
                                 <ContentPresenter x:Name="DetailsPresenter"
                                                   Background="{TemplateBinding Background}"
-                                                  ContentTemplate="{TemplateBinding DetailsTemplate}" />
+                                                  ContentTemplate="{TemplateBinding DetailsTemplate}" >
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform x:Name="DetailsPresenterTransform"/>
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
                             </Grid>
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
@@ -63,8 +67,22 @@
                                     </VisualTransition>
                                     <VisualTransition From="NoSelectionNarrow" To="HasSelection">
                                         <Storyboard>
-                                            <DrillInThemeAnimation EntranceTargetName="DetailsPresenter"
-                                                                   ExitTargetName="MasterPanel"/>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenterTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="200" To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="0" To="1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="HasSelection" To="NoSelectionWide">
@@ -75,8 +93,22 @@
                                     </VisualTransition>
                                     <VisualTransition From="HasSelection" To="NoSelectionNarrow">
                                         <Storyboard>
-                                            <DrillOutThemeAnimation ExitTargetName="DetailsPresenter"
-                                                                    EntranceTargetName="MasterPanel"/>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenterTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="0" To="200">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="1" To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
