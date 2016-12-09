@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             var content = e.NewValue as string;
 
-            if (!string.IsNullOrEmpty(content))
+            if (string.IsNullOrEmpty(content))
             {
                 return;
             }
