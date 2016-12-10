@@ -99,9 +99,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
-            view._detailsPresenter.Content = view.MapDetails == null
-                ? view.SelectedItem
-                : view.MapDetails(view.SelectedItem);
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
+            if (view.SelectedItem != null)
+            {
+                view._detailsPresenter.Content = view.MapDetails == null
+                    ? view.SelectedItem
+                    : view.MapDetails(view.SelectedItem);
+            }
+
             view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
@@ -157,6 +162,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             SetBackButtonVisibility(e.NewState);
+
+            // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
+            string noSelectionState = e.NewState == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
         }
 
         /// <summary>
