@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Bing;
 using Windows.UI.Xaml;
+using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -57,7 +58,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     break;
             }
 
-            Shell.Current.DisplayWaitRing = true;
             var searchConfig = new BingSearchConfig
             {
                 Country = country,
@@ -66,8 +66,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 QueryType = queryType
             };
 
-            ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
-            Shell.Current.DisplayWaitRing = false;
+            // Gets an instance of BingService that is able to load search results incrementally.
+            var service = BingService.GetIncrementalLoadingService(searchConfig);
+            var collection = new IncrementalLoadingCollection<BingService, BingResult>(
+                source: service,
+                itemsPerPage: 50,
+                onStartLoading: async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                },
+                onEndLoading: async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                });
+
+            ListView.ItemsSource = collection;
         }
     }
 }

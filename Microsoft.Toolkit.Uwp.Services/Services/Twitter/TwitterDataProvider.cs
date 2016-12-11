@@ -414,9 +414,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)

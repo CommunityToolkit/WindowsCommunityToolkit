@@ -11,4 +11,11 @@ var searchConfig = new BingSearchConfig
     QueryType = BingQueryType.Search
 };
 
+// To perform a single call to get 50 items:
 ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
+
+// To make an incremental loading of search results:
+var service = BingService.GetIncrementalLoadingService(searchConfig);
+var collection = new IncrementalLoadingCollection<BingService, BingResult>(service, 50);
+ListView.ItemsSource = collection;
+
