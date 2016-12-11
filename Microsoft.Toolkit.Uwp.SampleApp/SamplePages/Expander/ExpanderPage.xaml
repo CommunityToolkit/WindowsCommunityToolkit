@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ExpanderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Margin="20">
+            <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" IsExpanded="False">
+                <controls:Expander.HeaderButtonContent>
+                    <TextBlock Text="This is the header - expander 1" 
+                               VerticalAlignment="Center" 
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                </controls:Expander.HeaderButtonContent>
+
+                <Grid Height="250" Background="{StaticResource Brush-Grey-01}">
+                    <TextBlock HorizontalAlignment="Center" 
+                               TextWrapping="Wrap" 
+                               Text="This is the content"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource HeaderTextBlockStyle}" />
+                </Grid>
+            </controls:Expander>
+
+            <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0" IsExpanded="True">
+                <controls:Expander.HeaderButtonContent>
+                    <TextBlock Text="This is the header - expander 2" 
+                               VerticalAlignment="Center" 
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                </controls:Expander.HeaderButtonContent>
+
+                <Grid Height="250" Background="{StaticResource Brush-Grey-02}">
+                    <TextBlock HorizontalAlignment="Center" 
+                               TextWrapping="Wrap" 
+                               Text="This is the content" 
+                               VerticalAlignment="Center" 
+                               Style="{StaticResource HeaderTextBlockStyle}" />
+                </Grid>
+            </controls:Expander>
+        </StackPanel>
+    </Grid>
+</Page>
