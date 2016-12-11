@@ -100,12 +100,12 @@
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
       },
       {
-          "Name": "GridSplitter",
-          "Type": "GridSplitterPage",
-          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-          "XamlCodeFile": "GridSplitter.bind",
-          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -114,6 +114,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "WrapPanel",
+        "Type": "WrapPanelPage",
+        "About": "",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
+        "XamlCodeFile": "WrapPanel.bind",
+        "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
       }
     ]
   },
