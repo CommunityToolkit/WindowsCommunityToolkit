@@ -13,8 +13,8 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Bing;
-using Windows.UI.Xaml;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -67,18 +67,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             // Gets an instance of BingService that is able to load search results incrementally.
-            var service = BingService.GetIncrementalLoadingService(searchConfig);
-            var collection = new IncrementalLoadingCollection<BingService, BingResult>(
-                source: service,
-                itemsPerPage: 50,
-                onStartLoading: async () =>
-                {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
-                },
-                onEndLoading: async () =>
-                {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
-                });
+            var collection = BingService.GetAsIncrementalLoading(searchConfig, 50);
+            collection.OnStartLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+            collection.OnEndLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
 
             ListView.ItemsSource = collection;
         }

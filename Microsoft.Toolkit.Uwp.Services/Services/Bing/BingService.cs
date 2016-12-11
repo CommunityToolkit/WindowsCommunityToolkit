@@ -54,12 +54,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         public static BingService Instance => instance ?? (instance = new BingService());
 
         /// <summary>
-        /// Gets an instance of <see cref="BingService"/> class that is able to load search data incrementally.
+        /// Gets an instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.
         /// </summary>
         /// <param name="config">BingSearchConfig instance.</param>
-        /// <returns>An instance of <see cref="BingService"/> class that is able to load search data incrementally.</returns>
-        public static BingService GetIncrementalLoadingService(BingSearchConfig config)
-            => new BingService(config);
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>An instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
+        public static IncrementalLoadingCollection<BingService, BingResult> GetAsIncrementalLoading(BingSearchConfig config, int maxRecords = 20)
+        {
+            var service = new BingService(config);
+            return new IncrementalLoadingCollection<BingService, BingResult>(service, maxRecords);
+        }
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
