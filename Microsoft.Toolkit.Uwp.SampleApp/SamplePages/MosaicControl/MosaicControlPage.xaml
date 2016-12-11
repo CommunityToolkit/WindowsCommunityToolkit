@@ -31,8 +31,6 @@
 
         <controls:MosaicControl 
             
-            UIStrategy="PureXaml"
-            
             ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png"
             OffsetX             ="{Binding OffsetX.Value,Mode=OneWay}"
             OffsetY             ="{Binding OffsetY.Value,Mode=OneWay}"

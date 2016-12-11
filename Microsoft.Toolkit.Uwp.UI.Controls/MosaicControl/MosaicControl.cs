@@ -32,19 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml.Media.Imaging;
     using Windows.UI.Xaml.Shapes;
 
-    public enum UIStrategy
-    {
-        /// <summary>
-        /// MosaicControl is created with XAML
-        /// </summary>
-        PureXaml,
-
-        /// <summary>
-        /// MosaicControl is created with Microsoft Composition
-        /// </summary>
-        Composition
-    }
-
     /// <summary>
     /// Orientation of the scroll
     /// </summary>
@@ -100,6 +87,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed class MosaicControl : ContentControl
     {
+        // Using a DependencyProperty as the backing store for ScrollViewer.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollViewerContainerProperty =
+            DependencyProperty.Register("ScrollViewerContainer", typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
+
+        // Using a DependencyProperty as the backing store for ImageAlignment.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageAlignmentProperty =
+            DependencyProperty.Register("ImageAlignment", typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
+
+        // Using a DependencyProperty as the backing store for ImageSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageSourceProperty =
+            DependencyProperty.Register("ImageSource", typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
+
+        // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollOrientationProperty =
+            DependencyProperty.Register("ScrollOrientation", typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
+
+        // Using a DependencyProperty as the backing store for OffsetX.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OffsetXProperty =
+            DependencyProperty.Register("OffsetX", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+
+        // Using a DependencyProperty as the backing store for OffsetY.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OffsetYProperty =
+            DependencyProperty.Register("OffsetY", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+
+        // Using a DependencyProperty as the backing store for ScrollSpeedRatio.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ParallaxSpeedRatioProperty =
+            DependencyProperty.Register("ParallaxSpeedRatio", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
+
+        // Using a DependencyProperty as the backing store for IsAnimated.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsAnimatedProperty =
+            DependencyProperty.Register("IsAnimated", typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
+
+        // Using a DependencyProperty as the backing store for AnimationStepX.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationStepXProperty =
+            DependencyProperty.Register("AnimationStepX", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+
+        // Using a DependencyProperty as the backing store for AnimationStepY.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationStepYProperty =
+            DependencyProperty.Register("AnimationStepY", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+
+        // Using a DependencyProperty as the backing store for AnimationDuration.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationDurationProperty =
+            DependencyProperty.Register("AnimationDuration", typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
+
         private FrameworkElement rootElement = null;
         private Canvas containerElement = null;
         private TranslateTransform containerTranslate = null;
@@ -113,13 +144,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private UriSurface uriSurface = null;
         private Visual rootVisual = null;
 
+        private DispatcherTimer timerAnimation = null;
+
+        /// <summary>
+        /// A Scrollviewer used for synchronized the move of the <see cref="MosaicControl"/>
+        /// </summary>
+        private ScrollViewer scrollviewer = null;
+
+        /// <summary>
+        /// a flag to lock shared method
+        /// </summary>
+        private SemaphoreSlim flag = new SemaphoreSlim(1);
+
+        private List<SpriteVisual> compositionChildren = new List<SpriteVisual>(50);
+        private List<Rectangle> xamlChildren = new List<Rectangle>(50);
+
+        private bool isImageSourceLoaded = false;
+        private bool isRootElementSizeChanged = false;
+
+        private CompositionPropertySet propertyOffsetModulo = null;
+        private object lockerOffset = new object();
+
+        private double animationX = 0;
+        private double animationY = 0;
+
+        private enum UIStrategy
+        {
+            /// <summary>
+            /// MosaicControl is created with XAML
+            /// </summary>
+            PureXaml,
+
+            /// <summary>
+            /// MosaicControl is created with Microsoft Composition
+            /// </summary>
+            Composition
+        }
+
+        public event EventHandler ImageLoaded = null;
+
         /// <summary>
         /// Gets a value indicating whether the platform supports Composition.
         /// </summary>
         /// <remarks>
         /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automaticaly set to PureXaml.
         /// </remarks>
-        public static bool IsSupported =>
+        public static bool IsCompositionSupported =>
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
@@ -141,10 +211,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (FrameworkElement)GetValue(ScrollViewerContainerProperty); }
             set { SetValue(ScrollViewerContainerProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for ScrollViewer.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ScrollViewerContainerProperty =
-            DependencyProperty.Register("ScrollViewerContainer", typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
 
         private static async void OnScrollViewerContainerChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -187,19 +253,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets how the <see cref="MosaicControl"/> is rendered
-        /// This property should be set once.
+        /// Gets how the <see cref="MosaicControl"/> is rendered
         /// The default value is Composition.
         /// </summary>
-        public UIStrategy UIStrategy
+        private UIStrategy Strategy
         {
-            get { return (UIStrategy)GetValue(UIStrategyProperty); }
-            set { SetValue(UIStrategyProperty, value); }
+            get
+            {
+                if (currentStrategy == null)
+                {
+                    if (DesignMode.DesignModeEnabled == true || IsCompositionSupported == false)
+                    {
+                        currentStrategy = UIStrategy.PureXaml;
+                    }
+
+                    currentStrategy = UIStrategy.Composition;
+                }
+
+                return currentStrategy.Value;
+            }
         }
 
-        // Using a DependencyProperty as the backing store for UIStrategy.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UIStrategyProperty =
-            DependencyProperty.Register("UIStrategy", typeof(UIStrategy), typeof(MosaicControl), new PropertyMetadata(UIStrategy.Composition));
+        private UIStrategy? currentStrategy = null;
 
         /// <summary>
         /// Gets or sets the alignment of the mosaic when the <see cref="ScrollOrientation"/> is set to Vertical or Horizontal.
@@ -211,10 +286,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ImageAlignmentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ImageAlignment.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ImageAlignmentProperty =
-            DependencyProperty.Register("ImageAlignment", typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
-
         private static async void OnAlignmentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MosaicControl;
@@ -222,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Attach a scrollviewer to the imageRepeater (parallax effect)
+        /// Attach a scrollviewer to the MosaicControl (parallax effect)
         /// </summary>
         /// <param name="scrollViewerContainer">A ScrollViewer or a container of a ScrollViewer</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -237,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newScrollviewer != scrollviewer)
             {
-                var strategy = this.GetUIStrategy();
+                var strategy = this.Strategy;
 
                 if (strategy == UIStrategy.Composition)
                 {
@@ -267,11 +338,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// A Scrollviewer used for synchronized the move of the <see cref="MosaicControl"/>
-        /// </summary>
-        private ScrollViewer scrollviewer = null;
-
-        /// <summary>
         /// Gets or sets the uri of the image to load
         /// </summary>
         public Uri ImageSource
@@ -280,47 +346,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ImageSourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ImageSource.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ImageSourceProperty =
-            DependencyProperty.Register("ImageSource", typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
-
         private static async void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MosaicControl;
             await control.LoadImageBrush(e.NewValue as Uri);
         }
-
-        /// <summary>
-        /// Get the UI strategy (include the DesignMode property).
-        /// When the control is in Design mode, Composition is not allowed.
-        /// </summary>
-        /// <returns>the UIStrategy choosed</returns>
-        private UIStrategy GetUIStrategy()
-        {
-            var strategy = this.UIStrategy;
-
-            if (oldStrategy == null)
-            {
-                // firstTime
-                oldStrategy = strategy;
-            }
-            else if (strategy != oldStrategy)
-            {
-                // a change of strategy is detected !
-                throw new Exception("A change of strategy has been detected! UIStrategy should be set one time!");
-            }
-
-            if (DesignMode.DesignModeEnabled == true || IsSupported == false)
-            {
-                return UIStrategy.PureXaml;
-            }
-
-            return strategy;
-        }
-
-        private UIStrategy? oldStrategy = null;
-
-        public event EventHandler ImageLoaded = null;
 
         /// <summary>
         /// Load the image and transform it to a composition brush or a XAML brush (depends of the UIStrategy)
@@ -329,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
-            var strategy = GetUIStrategy();
+            var strategy = this.Strategy;
 
             if (strategy == UIStrategy.Composition)
             {
@@ -434,11 +464,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// a flag to lock shared method
-        /// </summary>
-        private SemaphoreSlim flag = new SemaphoreSlim(1);
-
-        /// <summary>
         /// Gets or sets the scroll orientation of the mosaic.
         /// Less images are drawn when you choose the Horizontal or Vertical value.
         /// </summary>
@@ -447,10 +472,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (ScrollOrientation)GetValue(ScrollOrientationProperty); }
             set { SetValue(ScrollOrientationProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ScrollOrientationProperty =
-            DependencyProperty.Register("ScrollOrientation", typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
 
         private static async void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -462,7 +483,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override async void OnApplyTemplate()
         {
-            var strategy = this.GetUIStrategy();
+            var strategy = this.Strategy;
 
             // Gets the XAML root element
             var rootElement = this.GetTemplateChild("RootElement") as FrameworkElement;
@@ -516,12 +537,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await this.RefreshContainerMosaicLocked();
         }
 
-        private List<SpriteVisual> compositionChildren = new List<SpriteVisual>(50);
-        private List<Rectangle> xamlChildren = new List<Rectangle>(50);
-
-        private bool isImageSourceLoaded = false;
-        private bool isRootElementSizeChanged = false;
-
         /// <summary>
         /// Refresh the ContainerVisual or ContainerElement with a lock
         /// </summary>
@@ -573,7 +588,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int offsetHorizontalAlignment = 0;
             int offsetVerticalAlignment = 0;
 
-            var strategy = this.GetUIStrategy();
+            var strategy = this.Strategy;
 
             if (this.containerElement != null)
             {
@@ -647,7 +662,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 count = xamlChildren.Count;
             }
 
-            // instancie les sprites visual manquant
+            // instanciate all elements not created yet
             for (int x = 0; x < numberSpriteToInstanciate - count; x++)
             {
                 if (strategy == UIStrategy.Composition)
@@ -664,7 +679,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // retire les sprites visual en trop
+            // remove elements not used now
             for (int x = 0; x < count - numberSpriteToInstanciate; x++)
             {
                 if (strategy == UIStrategy.Composition)
@@ -681,7 +696,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // Changement des positions+brush pour tous les sprites
+            // Change positions+brush for all actives elements
             for (int y = 0; y < numberImagePerRow; y++)
             {
                 for (int x = 0; x < numberImagePerColumn; x++)
@@ -720,10 +735,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(OffsetXProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OffsetX.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty OffsetXProperty =
-            DependencyProperty.Register("OffsetX", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
-
         private static void OnOffsetChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var c = d as MosaicControl;
@@ -740,10 +751,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(OffsetYProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OffsetY.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty OffsetYProperty =
-            DependencyProperty.Register("OffsetY", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
-
         /// <summary>
         /// Gets or sets the speed ratio of the parallax effect with the <see cref="ScrollViewerContainer"/>
         /// </summary>
@@ -753,10 +760,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ParallaxSpeedRatioProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ScrollSpeedRatio.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ParallaxSpeedRatioProperty =
-            DependencyProperty.Register("ParallaxSpeedRatio", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
-
         private static void OnScrollSpeedRatioChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var c = d as MosaicControl;
@@ -764,7 +767,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Creation de l'expression modulo et application au ContainerVisual
+        /// Create the modulo expression and apply it to the ContainerVisual element
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task CreateModuloExpression(ScrollViewer scrollViewer = null)
@@ -791,7 +794,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Creation d'une expression de gestion de modulo
+        /// Creation of an expression to manage modulo (positive and negative value)
         /// </summary>
         /// <param name="scrollviewer">The ScrollViewer to synchonized. A null value is valid</param>
         /// <param name="imageWidth">Width of the image</param>
@@ -799,7 +802,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="scrollOrientation">The ScrollOrientation</param>
         private void CreateModuloExpression(ScrollViewer scrollviewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
-            if (this.GetUIStrategy() == UIStrategy.PureXaml)
+            if (this.Strategy == UIStrategy.PureXaml)
             {
                 return;
             }
@@ -880,23 +883,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.propertyOffsetModulo = propertyOffsetModulo;
         }
 
-        private CompositionPropertySet propertyOffsetModulo = null;
-
         private void RefreshMove()
         {
             this.RefreshMove(this.OffsetX + this.animationX, this.OffsetY + this.animationY);
         }
 
-        object lockerOffset = new object();
-
         /// <summary>
-        /// Refresh the offset
+        /// Refresh the move
         /// </summary>
         private void RefreshMove(double x, double y)
         {
             lock (lockerOffset)
             {
-                if (this.GetUIStrategy() == UIStrategy.Composition)
+                if (this.Strategy == UIStrategy.Composition)
                 {
                     if (propertyOffsetModulo == null)
                     {
@@ -1001,38 +1000,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsAnimatedProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsAnimated.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsAnimatedProperty =
-            DependencyProperty.Register("IsAnimated", typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
-
         private static void OnIsAnimatedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var c = d as MosaicControl;
 
             if ((bool)e.NewValue == true)
             {
-                c.timer.Start();
+                c.timerAnimation.Start();
             }
             else
             {
-                c.timer.Stop();
+                c.timerAnimation.Stop();
                 c.animationX = 0;
                 c.animationY = 0;
             }
         }
 
-        private DispatcherTimer timer = new DispatcherTimer();
-
         private void InitializeAnimation()
         {
-            timer.Stop();
-            timer.Interval = TimeSpan.FromMilliseconds(this.AnimationDuration);
-            timer.Tick += Timer_Tick;
+            if (timerAnimation == null)
+            {
+                timerAnimation = new DispatcherTimer();
+            }
+            else
+            {
+                timerAnimation.Stop();
+            }
+
+            timerAnimation.Interval = TimeSpan.FromMilliseconds(this.AnimationDuration);
+            timerAnimation.Tick += Timer_Tick;
         }
 
         private void Timer_Tick(object sender, object e)
         {
-            var strategy = this.GetUIStrategy();
+            var strategy = this.Strategy;
 
             if (strategy == UIStrategy.Composition && this.containerVisual == null)
             {
@@ -1060,9 +1061,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private double animationX = 0;
-        private double animationY = 0;
-
         /// <summary>
         /// Gets or sets the animation step of the OffsetX
         /// </summary>
@@ -1071,10 +1069,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (double)GetValue(AnimationStepXProperty); }
             set { SetValue(AnimationStepXProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for AnimationStepX.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AnimationStepXProperty =
-            DependencyProperty.Register("AnimationStepX", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
 
         /// <summary>
         /// Gets or sets the animation step of the OffsetY
@@ -1085,10 +1079,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(AnimationStepYProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnimationStepY.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AnimationStepYProperty =
-            DependencyProperty.Register("AnimationStepY", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
-
         /// <summary>
         /// Gets or sets a duration for the animation of the mosaic
         /// </summary>
@@ -1098,15 +1088,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(AnimationDurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnimationDuration.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.Register("AnimationDuration", typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
-
         private static void OnAnimationDuration(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var c = d as MosaicControl;
 
-            c.timer.Interval = TimeSpan.FromMilliseconds(c.AnimationDuration);
+            c.timerAnimation.Interval = TimeSpan.FromMilliseconds(c.AnimationDuration);
         }
     }
 }
