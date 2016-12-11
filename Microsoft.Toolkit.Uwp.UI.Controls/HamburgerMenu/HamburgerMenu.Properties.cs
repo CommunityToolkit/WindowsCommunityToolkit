@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CompactPaneLengthProperty = DependencyProperty.Register(nameof(CompactPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
 
         /// <summary>
-        /// Identifies the <see cref="PaneBackground"/> dependency property.
+        /// Identifies the <see cref="AccentColor"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AccentColorProperty = DependencyProperty.Register(nameof(AccentColor), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(null));
 
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the Brush to apply to the background of the Pane area of the control.
+        /// Gets or sets the Brush to set the accent color of the control.
         /// </summary>
         public Brush AccentColor
         {
