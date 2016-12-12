@@ -103,6 +103,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="ViewState"/> dependency property
+        /// </summary>
+        /// <returns>The identifier for the <see cref="ViewState"/> dependency property.</returns>
+        public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
+            nameof(ViewState),
+            typeof(MasterDetailsViewState),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(default(MasterDetailsViewState)));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
@@ -188,6 +198,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(NoSelectionContentTemplateProperty); }
             set { SetValue(NoSelectionContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the current visual state of the control
+        /// </summary>
+        public MasterDetailsViewState ViewState
+        {
+            get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
+            private set { SetValue(ViewStateProperty, value); }
         }
 
         /// <summary>

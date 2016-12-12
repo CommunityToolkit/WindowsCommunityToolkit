@@ -5,126 +5,126 @@
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
              RequestedTheme="Light">
 
-  <Application.Resources>
+    <Application.Resources>
 
-    <!--  Colors  -->
-    <Color x:Key="Grey-01">#FF333333</Color>
-    <Color x:Key="Grey-02">#FF444444</Color>
-    <Color x:Key="Grey-03">#FF555555</Color>
-    <Color x:Key="Grey-04">#FFDDDDDD</Color>
-    <Color x:Key="Grey-05">#FFF0F0F0</Color>
-    <Color x:Key="White">#FFFFFFFF</Color>
+        <!--  Colors  -->
+        <Color x:Key="Grey-01">#FF333333</Color>
+        <Color x:Key="Grey-02">#FF444444</Color>
+        <Color x:Key="Grey-03">#FF555555</Color>
+        <Color x:Key="Grey-04">#FFDDDDDD</Color>
+        <Color x:Key="Grey-05">#FFF0F0F0</Color>
+        <Color x:Key="White">#FFFFFFFF</Color>
 
-    <Color x:Key="Blue-01">#FF0078D7</Color>
+        <Color x:Key="Blue-01">#FF0078D7</Color>
 
-    <!--  Brushes  -->
-    <SolidColorBrush x:Key="Brush-Grey-01"
-                     Color="{StaticResource Grey-01}" />
-    <SolidColorBrush x:Key="Brush-Grey-02"
-                     Color="{StaticResource Grey-02}" />
-    <SolidColorBrush x:Key="Brush-Grey-03"
-                     Color="{StaticResource Grey-03}" />
-    <SolidColorBrush x:Key="Brush-Grey-04"
-                     Color="{StaticResource Grey-04}" />
-    <SolidColorBrush x:Key="Brush-Grey-05"
-                     Color="{StaticResource Grey-05}" />
-    <SolidColorBrush x:Key="Brush-White"
-                     Color="{StaticResource White}" />
+        <!--  Brushes  -->
+        <SolidColorBrush x:Key="Brush-Grey-01"
+                         Color="{StaticResource Grey-01}" />
+        <SolidColorBrush x:Key="Brush-Grey-02"
+                         Color="{StaticResource Grey-02}" />
+        <SolidColorBrush x:Key="Brush-Grey-03"
+                         Color="{StaticResource Grey-03}" />
+        <SolidColorBrush x:Key="Brush-Grey-04"
+                         Color="{StaticResource Grey-04}" />
+        <SolidColorBrush x:Key="Brush-Grey-05"
+                         Color="{StaticResource Grey-05}" />
+        <SolidColorBrush x:Key="Brush-White"
+                         Color="{StaticResource White}" />
 
-    <SolidColorBrush x:Key="Brush-Blue-01"
-                     Color="{StaticResource Blue-01}" />
+        <SolidColorBrush x:Key="Brush-Blue-01"
+                         Color="{StaticResource Blue-01}" />
 
-    <!--  Styles  -->
+        <!--  Styles  -->
 
-    <Style TargetType="TextBlock">
-      <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
-    </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
+        </Style>
 
-    <Style TargetType="Button">
-      <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
-    </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
+        </Style>
 
 
-    <Style TargetType="controls:CodeRenderer">
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="controls:CodeRenderer">
+        <Style TargetType="controls:CodeRenderer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:CodeRenderer">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="Container"
+                                  Grid.RowSpan="2"
+                                  Opacity="0" />
+                            <ProgressRing Name="progress"
+                                          Grid.Row="0"
+                                          Width="100"
+                                          Height="100"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          IsActive="True" />
+                            <WebView Name="webView"
+                                     Grid.Row="0"
+                                     Visibility="Collapsed" />
+                            <Button x:Name="PrintButton"
+                                    Grid.Row="1"
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    Content="Print" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TooltipFlyoutPresenterStyle"
+               TargetType="FlyoutPresenter">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
+            <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxHeight}" />
+            <Setter Property="MinHeight" Value="{ThemeResource FlyoutThemeMinHeight}" />
+            <Setter Property="MaxHeight" Value="{ThemeResource FlyoutThemeMaxHeight}" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="FlyoutPresenter">
+                        <Border Margin="5"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="ScrollViewer"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          HorizontalScrollMode="Disabled"
+                                          VerticalScrollBarVisibility="Auto"
+                                          VerticalScrollMode="Auto"
+                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="PivotHeaderTemplate">
             <Grid>
-              <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-              </Grid.RowDefinitions>
-              <Grid x:Name="Container"
-                    Grid.RowSpan="2"
-                    Opacity="0" />
-              <ProgressRing Name="progress"
-                            Grid.Row="0"
-                            Width="100"
-                            Height="100"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{TemplateBinding Foreground}"
-                            IsActive="True" />
-              <WebView Name="webView"
-                       Grid.Row="0"
-                       Visibility="Collapsed" />
-              <Button x:Name="PrintButton"
-                      Grid.Row="1"
-                      Margin="5"
-                      HorizontalAlignment="Center"
-                      Content="Print" />
+                <TextBlock FontSize="14"
+                           Text="{Binding}" />
             </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="TooltipFlyoutPresenterStyle"
-           TargetType="FlyoutPresenter">
-      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-      <Setter Property="VerticalContentAlignment" Value="Stretch" />
-      <Setter Property="IsTabStop" Value="False" />
-      <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-      <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-      <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
-      <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxHeight}" />
-      <Setter Property="MinHeight" Value="{ThemeResource FlyoutThemeMinHeight}" />
-      <Setter Property="MaxHeight" Value="{ThemeResource FlyoutThemeMaxHeight}" />
-      <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="FlyoutPresenter">
-            <Border Margin="5"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <ScrollViewer x:Name="ScrollViewer"
-                            AutomationProperties.AccessibilityView="Raw"
-                            HorizontalScrollBarVisibility="Disabled"
-                            HorizontalScrollMode="Disabled"
-                            VerticalScrollBarVisibility="Auto"
-                            VerticalScrollMode="Auto"
-                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                <ContentPresenter Margin="{TemplateBinding Padding}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
-              </ScrollViewer>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-    <DataTemplate x:Key="PivotHeaderTemplate">
-      <Grid>
-        <TextBlock FontSize="14"
-                   Text="{Binding}" />
-      </Grid>
-    </DataTemplate>
-  </Application.Resources>
+        </DataTemplate>
+    </Application.Resources>
 
 </Application>

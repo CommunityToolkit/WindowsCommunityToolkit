@@ -5,83 +5,83 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{StaticResource Brush-Grey-05}">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <StackPanel Margin="0,36,0,0"
-                  HorizontalAlignment="Center">
-        <TextBlock Margin="12,0"
-                   HorizontalAlignment="Center"
-                   FontSize="36"
-                   FontWeight="Light"
-                   Foreground="{StaticResource Brush-Grey-03}"
-                   Text="UWP Community Toolkit Sample App"
-                   TextAlignment="Center"
-                   TextWrapping="WrapWholeWords" />
-        <TextBlock x:Name="Version"
-                   Margin="0,0,0,24"
-                   TextAlignment="Center" />
-        <TextBlock MaxWidth="500"
-                   Margin="12,0,12,12"
-                   Text="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
-                   TextAlignment="Center"
-                   TextWrapping="WrapWholeWords" />
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,36,0,0"
+                        HorizontalAlignment="Center">
+                <TextBlock Margin="12,0"
+                           HorizontalAlignment="Center"
+                           FontSize="36"
+                           FontWeight="Light"
+                           Foreground="{StaticResource Brush-Grey-03}"
+                           Text="UWP Community Toolkit Sample App"
+                           TextAlignment="Center"
+                           TextWrapping="WrapWholeWords" />
+                <TextBlock x:Name="Version"
+                           Margin="0,0,0,24"
+                           TextAlignment="Center" />
+                <TextBlock MaxWidth="500"
+                           Margin="12,0,12,12"
+                           Text="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
+                           TextAlignment="Center"
+                           TextWrapping="WrapWholeWords" />
 
-        <TextBlock FontSize="16"
-                   FontWeight="SemiBold"
-                   Text="UWP Community Toolkit and Sample App code"
-                   TextAlignment="Center"
-                   TextWrapping="Wrap" />
-        <HyperlinkButton Margin="0,0,0,12"
-                         HorizontalAlignment="Center"
-                         FontSize="14"
-                         FontWeight="Light"
-                         Foreground="{StaticResource Brush-Blue-01}"
-                         NavigateUri="http://aka.ms/uwptoolkit">
-          Github repository
-        </HyperlinkButton>
+                <TextBlock FontSize="16"
+                           FontWeight="SemiBold"
+                           Text="UWP Community Toolkit and Sample App code"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <HyperlinkButton Margin="0,0,0,12"
+                                 HorizontalAlignment="Center"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="{StaticResource Brush-Blue-01}"
+                                 NavigateUri="http://aka.ms/uwptoolkit">
+                    Github repository
+                </HyperlinkButton>
 
-        <TextBlock FontSize="16"
-                   FontWeight="SemiBold"
-                   Text="Documentation"
-                   TextAlignment="Center" />
-        <HyperlinkButton Margin="0,0,0,12"
-                         HorizontalAlignment="Center"
-                         FontSize="14"
-                         FontWeight="Light"
-                         Foreground="{StaticResource Brush-Blue-01}"
-                         NavigateUri="http://aka.ms/uwptoolkitdocs">
-          Documentation homepage
-        </HyperlinkButton>
+                <TextBlock FontSize="16"
+                           FontWeight="SemiBold"
+                           Text="Documentation"
+                           TextAlignment="Center" />
+                <HyperlinkButton Margin="0,0,0,12"
+                                 HorizontalAlignment="Center"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="{StaticResource Brush-Blue-01}"
+                                 NavigateUri="http://aka.ms/uwptoolkitdocs">
+                    Documentation homepage
+                </HyperlinkButton>
 
-        <TextBlock FontSize="16"
-                   FontWeight="SemiBold"
-                   Text="Dependencies"
-                   TextAlignment="Center" />
-        <HyperlinkButton HorizontalAlignment="Center"
-                         FontSize="14"
-                         FontWeight="Light"
-                         Foreground="{StaticResource Brush-Blue-01}"
-                         NavigateUri="http://www.newtonsoft.com/json">
-          Newtonsoft Json
-        </HyperlinkButton>
-        <HyperlinkButton HorizontalAlignment="Center"
-                         FontSize="14"
-                         FontWeight="Light"
-                         Foreground="{StaticResource Brush-Blue-01}"
-                         NavigateUri="https://github.com/google/code-prettify">
-          Code Prettify
-        </HyperlinkButton>
+                <TextBlock FontSize="16"
+                           FontWeight="SemiBold"
+                           Text="Dependencies"
+                           TextAlignment="Center" />
+                <HyperlinkButton HorizontalAlignment="Center"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="{StaticResource Brush-Blue-01}"
+                                 NavigateUri="http://www.newtonsoft.com/json">
+                    Newtonsoft Json
+                </HyperlinkButton>
+                <HyperlinkButton HorizontalAlignment="Center"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="{StaticResource Brush-Blue-01}"
+                                 NavigateUri="https://github.com/google/code-prettify">
+                    Code Prettify
+                </HyperlinkButton>
 
-        <HyperlinkButton Margin="0,30,0,0"
-                         HorizontalAlignment="Center"
-                         FontSize="14"
-                         FontWeight="Light"
-                         Foreground="{StaticResource Brush-Blue-01}"
-                         NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
-          Privacy statement
-        </HyperlinkButton>
-      </StackPanel>
-    </ScrollViewer>
-  </Grid>
+                <HyperlinkButton Margin="0,30,0,0"
+                                 HorizontalAlignment="Center"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="{StaticResource Brush-Blue-01}"
+                                 NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
+                    Privacy statement
+                </HyperlinkButton>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>
 

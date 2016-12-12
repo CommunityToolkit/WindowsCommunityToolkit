@@ -1,4 +1,4 @@
-# HyperlinkExtensions
+# WebViewExtensions
 
 The **WebViewExtensions** allows attaching HTML content to WebView.
 

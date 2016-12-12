@@ -8,39 +8,39 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <TextBlock x:Name="WarningText"
-               Margin="0,20"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}"
-               Text="Blur is only available on Windows 10 Anniversary Update or greater"
-               TextWrapping="Wrap"
-               Visibility="Collapsed" />
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="WarningText"
+                   Margin="0,20"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}"
+                   Text="Blur is only available on Windows 10 Anniversary Update or greater"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
 
-    <Image x:Name="ToolkitLogo"
-           Width="100"
-           Height="100"
-           Source="ms-appx:///Assets/ToolkitLogo.png">
-      <interactivity:Interaction.Behaviors>
-        <behaviors:Blur x:Name="BlurBehavior"
-                        AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                        Delay="{Binding Delay.Value, Mode=OneWay}"
-                        Value="{Binding Value.Value, Mode=OneWay}"
-                        Duration="{Binding Duration.Value, Mode=OneWay}" />
-      </interactivity:Interaction.Behaviors>
-    </Image>
-    <StackPanel HorizontalAlignment="Right"
-                VerticalAlignment="Bottom">
-      <Button Margin="10"
-              Content="Apply">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction MethodName="StartAnimation"
-                                   TargetObject="{Binding ElementName=BlurBehavior}" />
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
-  </Grid>
+        <Image x:Name="ToolkitLogo"
+               Width="100"
+               Height="100"
+               Source="ms-appx:///Assets/ToolkitLogo.png">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior"
+                                AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
+                                Delay="{Binding Delay.Value, Mode=OneWay}"
+                                Value="{Binding Value.Value, Mode=OneWay}"
+                                Duration="{Binding Duration.Value, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+        </Image>
+        <StackPanel HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Margin="10"
+                    Content="Apply">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:CallMethodAction MethodName="StartAnimation"
+                                               TargetObject="{Binding ElementName=BlurBehavior}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </Grid>
 </Page>
