@@ -89,47 +89,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         // Using a DependencyProperty as the backing store for ScrollViewer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ScrollViewerContainerProperty =
-            DependencyProperty.Register("ScrollViewerContainer", typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
+            DependencyProperty.Register(nameof(ScrollViewerContainer), typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
 
         // Using a DependencyProperty as the backing store for ImageAlignment.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageAlignmentProperty =
-            DependencyProperty.Register("ImageAlignment", typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
+            DependencyProperty.Register(nameof(ImageAlignment), typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
 
         // Using a DependencyProperty as the backing store for ImageSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageSourceProperty =
-            DependencyProperty.Register("ImageSource", typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
+            DependencyProperty.Register(nameof(ImageSource), typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
 
         // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ScrollOrientationProperty =
-            DependencyProperty.Register("ScrollOrientation", typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
+            DependencyProperty.Register(nameof(ScrollOrientation), typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
 
         // Using a DependencyProperty as the backing store for OffsetX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OffsetXProperty =
-            DependencyProperty.Register("OffsetX", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+            DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
 
         // Using a DependencyProperty as the backing store for OffsetY.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OffsetYProperty =
-            DependencyProperty.Register("OffsetY", typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+            DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
 
         // Using a DependencyProperty as the backing store for ScrollSpeedRatio.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ParallaxSpeedRatioProperty =
-            DependencyProperty.Register("ParallaxSpeedRatio", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
+            DependencyProperty.Register(nameof(ParallaxSpeedRatio), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
 
         // Using a DependencyProperty as the backing store for IsAnimated.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsAnimatedProperty =
-            DependencyProperty.Register("IsAnimated", typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
+            DependencyProperty.Register(nameof(IsAnimated), typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
 
         // Using a DependencyProperty as the backing store for AnimationStepX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationStepXProperty =
-            DependencyProperty.Register("AnimationStepX", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(AnimationStepX), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
 
         // Using a DependencyProperty as the backing store for AnimationStepY.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationStepYProperty =
-            DependencyProperty.Register("AnimationStepY", typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(AnimationStepY), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
 
         // Using a DependencyProperty as the backing store for AnimationDuration.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.Register("AnimationDuration", typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
+            DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
         private FrameworkElement rootElement = null;
         private Canvas containerElement = null;
