@@ -1,6 +1,6 @@
 # MosaicControl XAML Control
 
-The **Mosaic Control** is a control that repeat an image many times. It enables you to use animation and synchronization with a ScrollViewer to create parallax effect. XAML or Microsoft Composition are used to render the control.
+The **Mosaic Control** is a control that repeat an image many times. It enables you to use animation and synchronization with a ScrollViewer to create parallax effect. XAML or Microsoft Composition are automatically used to render the control.
 
 ## Syntax
 
@@ -18,7 +18,7 @@ The **Mosaic Control** is a control that repeat an image many times. It enables 
 
 ## Example Image
 
-![MosaicControl animation](../resources/images/Controls-MosaicControl.gif "MosaicControl")
+![MosaicControl animation](../resources/images/MosaicControl.gif "MosaicControl")
 
 ## Example Code
 
