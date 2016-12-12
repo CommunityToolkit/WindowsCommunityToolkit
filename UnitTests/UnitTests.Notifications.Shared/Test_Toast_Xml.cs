@@ -1328,6 +1328,22 @@ namespace UnitTests.Notifications
             });
         }
 
+        [TestMethod]
+        public void Test_Toast_ContextMenuItem_AfterActivationBehavior()
+        {
+            ToastContextMenuItem item = new ToastContextMenuItem("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+            };
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' />", item);
+
+            item.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' />", item);
+        }
+
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
         {
             AssertInputPayload("<input id='myId' type='selection'>" + expectedSelectionXml + "</input>", new ToastSelectionBox("myId")

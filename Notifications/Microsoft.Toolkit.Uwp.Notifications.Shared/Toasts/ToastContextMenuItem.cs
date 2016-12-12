@@ -55,6 +55,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
 
+        /// <summary>
+        /// New in Creators Update: Specifies the behavior that the toast should use when the user clicks this context menu item.
+        /// </summary>
+        public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
+
         internal Element_ToastAction ConvertToElement()
         {
             return new Element_ToastAction
@@ -62,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Content = Content,
                 Arguments = Arguments,
                 ActivationType = GetElementActivationType(),
+                AfterActivationBehavior = AfterActivationBehavior,
                 Placement = Element_ToastActionPlacement.ContextMenu
             };
         }
