@@ -131,42 +131,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AnimationDurationProperty =
             DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
-        private FrameworkElement rootElement = null;
-        private Canvas containerElement = null;
-        private TranslateTransform containerTranslate = null;
-        private ImageBrush brushXaml = null;
+        private FrameworkElement _rootElement = null;
+        private Canvas _containerElement = null;
+        private TranslateTransform _containerTranslate = null;
+        private ImageBrush _brushXaml = null;
 
-        private ContainerVisual containerVisual = null;
-        private CompositionSurfaceBrush brushVisual = null;
+        private ContainerVisual _containerVisual = null;
+        private CompositionSurfaceBrush _brushVisual = null;
 
-        private Size imageSize = Size.Empty;
+        private Size _imageSize = Size.Empty;
 
-        private UriSurface uriSurface = null;
-        private Visual rootVisual = null;
+        private UriSurface _uriSurface = null;
+        private Visual _rootVisual = null;
 
-        private DispatcherTimer timerAnimation = null;
+        private DispatcherTimer _timerAnimation = null;
 
         /// <summary>
         /// A Scrollviewer used for synchronized the move of the <see cref="MosaicControl"/>
         /// </summary>
-        private ScrollViewer scrollviewer = null;
+        private ScrollViewer _scrollviewer = null;
 
         /// <summary>
         /// a flag to lock shared method
         /// </summary>
-        private SemaphoreSlim flag = new SemaphoreSlim(1);
+        private SemaphoreSlim _flag = new SemaphoreSlim(1);
 
-        private List<SpriteVisual> compositionChildren = new List<SpriteVisual>(50);
-        private List<Rectangle> xamlChildren = new List<Rectangle>(50);
+        private List<SpriteVisual> _compositionChildren = new List<SpriteVisual>(50);
+        private List<Rectangle> _xamlChildren = new List<Rectangle>(50);
 
-        private bool isImageSourceLoaded = false;
-        private bool isRootElementSizeChanged = false;
+        private bool _isImageSourceLoaded = false;
+        private bool _isRootElementSizeChanged = false;
 
-        private CompositionPropertySet propertyOffsetModulo = null;
-        private object lockerOffset = new object();
+        private CompositionPropertySet _propertyOffsetModulo = null;
+        private object _lockerOffset = new object();
 
-        private double animationX = 0;
-        private double animationY = 0;
+        private double _animationX = 0;
+        private double _animationY = 0;
 
         private enum UIStrategy
         {
@@ -197,9 +197,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public MosaicControl()
         {
-            this.DefaultStyleKey = typeof(MosaicControl);
+            DefaultStyleKey = typeof(MosaicControl);
 
-            this.InitializeAnimation();
+            InitializeAnimation();
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // try to attach a scrollviewer (the null value is valid)
-            return this.AttachScrollViewer(newScrollViewerContainer);
+            return AttachScrollViewer(newScrollViewerContainer);
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">arguments</param>
         private async void ScrollViewerContainer_Loaded(object sender, RoutedEventArgs e)
         {
-            await this.AttachScrollViewer(sender as FrameworkElement);
+            await AttachScrollViewer(sender as FrameworkElement);
         }
 
         /// <summary>
@@ -306,20 +306,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ScrollViewer newScrollviewer = scrollViewerContainer.FindDescendant<ScrollViewer>();
 
-            if (newScrollviewer != scrollviewer)
+            if (newScrollviewer != _scrollviewer)
             {
-                var strategy = this.Strategy;
+                var strategy = Strategy;
 
                 if (strategy == UIStrategy.Composition)
                 {
                     // Update the expression
-                    await this.CreateModuloExpression(newScrollviewer);
+                    await CreateModuloExpression(newScrollviewer);
                 }
                 else
                 {
-                    if (this.scrollviewer != null)
+                    if (_scrollviewer != null)
                     {
-                        this.scrollviewer.ViewChanging -= Scrollviewer_ViewChanging;
+                        _scrollviewer.ViewChanging -= Scrollviewer_ViewChanging;
                     }
 
                     if (newScrollviewer != null)
@@ -328,13 +328,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                scrollviewer = newScrollviewer;
+                _scrollviewer = newScrollviewer;
             }
         }
 
         private void Scrollviewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
-            this.RefreshMove();
+            RefreshMove();
         }
 
         /// <summary>
@@ -359,11 +359,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
-            var strategy = this.Strategy;
+            var strategy = Strategy;
 
             if (strategy == UIStrategy.Composition)
             {
-                if (this.containerVisual == null || uri == null)
+                if (_containerVisual == null || uri == null)
                 {
                     return false;
                 }
@@ -376,52 +376,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            await flag.WaitAsync();
+            await _flag.WaitAsync();
 
             try
             {
-                bool isAnimated = this.IsAnimated;
+                bool isAnimated = IsAnimated;
 
-                this.IsAnimated = false;
+                IsAnimated = false;
 
-                if (this.isImageSourceLoaded == true)
+                if (_isImageSourceLoaded == true)
                 {
-                    for (int i = 0; i < this.compositionChildren.Count; i++)
+                    for (int i = 0; i < _compositionChildren.Count; i++)
                     {
                         if (strategy == UIStrategy.PureXaml)
                         {
-                            this.xamlChildren[i].Fill = null;
+                            _xamlChildren[i].Fill = null;
                         }
                         else
                         {
-                            this.compositionChildren[i].Brush = null;
+                            _compositionChildren[i].Brush = null;
                         }
                     }
 
                     if (strategy == UIStrategy.Composition)
                     {
-                        this.brushVisual.Dispose();
-                        this.brushVisual = null;
+                        _brushVisual.Dispose();
+                        _brushVisual = null;
 
-                        this.uriSurface.Dispose();
-                        this.uriSurface = null;
+                        _uriSurface.Dispose();
+                        _uriSurface = null;
                     }
                 }
 
-                this.isImageSourceLoaded = false;
+                _isImageSourceLoaded = false;
 
                 if (strategy == UIStrategy.Composition)
                 {
-                    var compositor = this.containerVisual.Compositor;
+                    var compositor = _containerVisual.Compositor;
 
                     using (var surfaceFactory = SurfaceFactory.CreateFromCompositor(compositor))
                     {
                         var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
 
-                        this.uriSurface = surfaceUri;
-                        this.brushVisual = compositor.CreateSurfaceBrush(surfaceUri.Surface);
+                        _uriSurface = surfaceUri;
+                        _brushVisual = compositor.CreateSurfaceBrush(surfaceUri.Surface);
 
-                        imageSize = surfaceUri.Size;
+                        _imageSize = surfaceUri.Size;
                     }
                 }
                 else
@@ -435,29 +435,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         image.SetSource(stream);
                     }
 
-                    this.brushXaml = new ImageBrush() { ImageSource = image };
-                    this.imageSize = new Size(image.PixelWidth, image.PixelHeight);
+                    _brushXaml = new ImageBrush() { ImageSource = image };
+                    _imageSize = new Size(image.PixelWidth, image.PixelHeight);
                 }
 
-                this.isImageSourceLoaded = true;
+                _isImageSourceLoaded = true;
 
-                this.RefreshContainerMosaic();
+                RefreshContainerMosaic();
 
-                this.RefreshImageSize(imageSize.Width, imageSize.Height);
+                RefreshImageSize(_imageSize.Width, _imageSize.Height);
 
                 if (isAnimated == true)
                 {
-                    this.IsAnimated = true;
+                    IsAnimated = true;
                 }
             }
             finally
             {
-                flag.Release();
+                _flag.Release();
             }
 
-            if (this.ImageLoaded != null)
+            if (ImageLoaded != null)
             {
-                this.ImageLoaded(this, EventArgs.Empty);
+                ImageLoaded(this, EventArgs.Empty);
             }
 
             return true;
@@ -477,15 +477,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as MosaicControl;
             await control.RefreshContainerMosaicLocked();
-            await control.CreateModuloExpression(control.scrollviewer);
+            await control.CreateModuloExpression(control._scrollviewer);
         }
 
         /// <inheritdoc/>
         protected override async void OnApplyTemplate()
         {
-            var strategy = this.Strategy;
+            var strategy = Strategy;
 
-            var rootElement = this.rootElement;
+            var rootElement = _rootElement;
 
             if (rootElement != null)
             {
@@ -493,11 +493,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Gets the XAML root element
-            rootElement = this.GetTemplateChild("RootElement") as FrameworkElement;
+            rootElement = GetTemplateChild("RootElement") as FrameworkElement;
+
+            _rootElement = rootElement;
 
             if (rootElement != null)
             {
-                this.rootElement = rootElement;
                 rootElement.SizeChanged += RootElement_SizeChanged;
 
                 if (strategy == UIStrategy.Composition)
@@ -513,20 +514,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // the containerVisual is now a child of rootVisual
                         ElementCompositionPreview.SetElementChildVisual(rootElement, container);
 
-                        this.containerVisual = container;
-                        this.rootVisual = rootVisual;
+                        _containerVisual = container;
+                        _rootVisual = rootVisual;
 
-                        await this.CreateModuloExpression();
+                        await CreateModuloExpression();
                     }
                 }
                 else
                 {
-                    this.containerElement = rootElement.FindName("ContainerElement") as Canvas;
-                    this.containerTranslate = new TranslateTransform();
-                    this.containerElement.RenderTransform = this.containerTranslate;
+                    _containerElement = rootElement.FindName("ContainerElement") as Canvas;
+                    _containerTranslate = new TranslateTransform();
+                    _containerElement.RenderTransform = _containerTranslate;
                 }
 
-                await this.LoadImageBrush(this.ImageSource);
+                await LoadImageBrush(ImageSource);
             }
 
             base.OnApplyTemplate();
@@ -540,8 +541,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void RootElement_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine("sizeChanged=" + e.NewSize.Width);
-            this.isRootElementSizeChanged = true;
-            await this.RefreshContainerMosaicLocked();
+            _isRootElementSizeChanged = true;
+            await RefreshContainerMosaicLocked();
         }
 
         /// <summary>
@@ -550,15 +551,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task RefreshContainerMosaicLocked()
         {
-            await flag.WaitAsync();
+            await _flag.WaitAsync();
 
             try
             {
-                this.RefreshContainerMosaic();
+                RefreshContainerMosaic();
             }
             finally
             {
-                flag.Release();
+                _flag.Release();
             }
         }
 
@@ -567,13 +568,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void RefreshContainerMosaic()
         {
-            if (this.imageSize == Size.Empty || this.rootElement == null)
+            if (_imageSize == Size.Empty || _rootElement == null)
             {
                 return;
             }
 
-            Debug.WriteLine("RefreshContainerVisual=" + this.rootElement.ActualWidth);
-                this.RefreshContainerMosaic(this.rootElement.ActualWidth, this.rootElement.ActualHeight, this.imageSize.Width, this.imageSize.Height, this.ScrollOrientation);
+            Debug.WriteLine("RefreshContainerVisual=" + _rootElement.ActualWidth);
+                RefreshContainerMosaic(_rootElement.ActualWidth, _rootElement.ActualHeight, _imageSize.Width, _imageSize.Height, ScrollOrientation);
         }
 
         /// <summary>
@@ -582,7 +583,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return true when the container is refreshed</returns>
         private bool RefreshContainerMosaic(double width, double height, double imageWidth, double imageHeight, ScrollOrientation orientation)
         {
-            if (isImageSourceLoaded == false || this.isRootElementSizeChanged == false)
+            if (_isImageSourceLoaded == false || _isRootElementSizeChanged == false)
             {
                 return false;
             }
@@ -595,18 +596,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int offsetHorizontalAlignment = 0;
             int offsetVerticalAlignment = 0;
 
-            var strategy = this.Strategy;
+            var strategy = Strategy;
 
-            if (this.containerElement != null)
+            if (_containerElement != null)
             {
-                this.containerElement.Width = width;
-                this.containerElement.Height = height;
+                _containerElement.Width = width;
+                _containerElement.Height = height;
             }
 
             var clip = new RectangleGeometry() { Rect = new Rect(0, 0, width, height) };
-            this.rootElement.Clip = clip;
+            _rootElement.Clip = clip;
 
-            var imageAlignment = this.ImageAlignment;
+            var imageAlignment = ImageAlignment;
 
             switch (orientation)
             {
@@ -662,11 +663,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (strategy == UIStrategy.Composition)
             {
-                count = compositionChildren.Count;
+                count = _compositionChildren.Count;
             }
             else
             {
-                count = xamlChildren.Count;
+                count = _xamlChildren.Count;
             }
 
             // instanciate all elements not created yet
@@ -674,15 +675,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (strategy == UIStrategy.Composition)
                 {
-                    var sprite = this.containerVisual.Compositor.CreateSpriteVisual();
-                    this.containerVisual.Children.InsertAtTop(sprite);
-                    compositionChildren.Add(sprite);
+                    var sprite = _containerVisual.Compositor.CreateSpriteVisual();
+                    _containerVisual.Children.InsertAtTop(sprite);
+                    _compositionChildren.Add(sprite);
                 }
                 else
                 {
                     var rectangle = new Rectangle();
-                    this.containerElement.Children.Add(rectangle);
-                    xamlChildren.Add(rectangle);
+                    _containerElement.Children.Add(rectangle);
+                    _xamlChildren.Add(rectangle);
                 }
             }
 
@@ -691,15 +692,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (strategy == UIStrategy.Composition)
                 {
-                    var element = this.containerVisual.Children.FirstOrDefault() as SpriteVisual;
-                    this.containerVisual.Children.Remove(element);
-                    compositionChildren.Remove(element);
+                    var element = _containerVisual.Children.FirstOrDefault() as SpriteVisual;
+                    _containerVisual.Children.Remove(element);
+                    _compositionChildren.Remove(element);
                 }
                 else
                 {
-                    var element = this.containerElement.Children.FirstOrDefault() as Rectangle;
-                    this.containerElement.Children.Remove(element);
-                    xamlChildren.Remove(element);
+                    var element = _containerElement.Children.FirstOrDefault() as Rectangle;
+                    _containerElement.Children.Remove(element);
+                    _xamlChildren.Remove(element);
                 }
             }
 
@@ -712,15 +713,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (strategy == UIStrategy.Composition)
                     {
-                        var sprite = compositionChildren[index];
-                        sprite.Brush = this.brushVisual;
+                        var sprite = _compositionChildren[index];
+                        sprite.Brush = _brushVisual;
                         sprite.Offset = new Vector3((float)((x * imageWidth) + offsetVerticalAlignment), (float)((y * imageHeight) + offsetHorizontalAlignment), 0);
                         sprite.Size = new Vector2((float)imageWidth, (float)imageHeight);
                     }
                     else
                     {
-                        var rectangle = xamlChildren[index];
-                        rectangle.Fill = this.brushXaml;
+                        var rectangle = _xamlChildren[index];
+                        rectangle.Fill = _brushXaml;
 
                         Canvas.SetLeft(rectangle, (x * imageWidth) + offsetVerticalAlignment);
                         Canvas.SetTop(rectangle, (y * imageHeight) + offsetHorizontalAlignment);
@@ -779,24 +780,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task CreateModuloExpression(ScrollViewer scrollViewer = null)
         {
-            await flag.WaitAsync();
+            await _flag.WaitAsync();
 
             try
             {
                 double w = 0;
                 double h = 0;
 
-                if (this.imageSize != Size.Empty)
+                if (_imageSize != Size.Empty)
                 {
-                    w = this.imageSize.Width;
-                    h = this.imageSize.Height;
+                    w = _imageSize.Width;
+                    h = _imageSize.Height;
                 }
 
-                this.CreateModuloExpression(scrollViewer, w, h, this.ScrollOrientation);
+                CreateModuloExpression(scrollViewer, w, h, ScrollOrientation);
             }
             finally
             {
-                flag.Release();
+                _flag.Release();
             }
         }
 
@@ -809,17 +810,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="scrollOrientation">The ScrollOrientation</param>
         private void CreateModuloExpression(ScrollViewer scrollviewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
-            if (this.Strategy == UIStrategy.PureXaml)
+            if (Strategy == UIStrategy.PureXaml)
             {
                 return;
             }
 
-            if (this.containerVisual == null)
+            if (_containerVisual == null)
             {
                 return;
             }
 
-            var compositor = this.containerVisual.Compositor;
+            var compositor = _containerVisual.Compositor;
 
             // Setup the expression
             var expressionX = compositor.CreateExpressionAnimation();
@@ -828,10 +829,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var propertyOffsetModulo = compositor.CreatePropertySet();
 
             propertyOffsetModulo.InsertScalar("imageWidth", (float)imageWidth);
-            propertyOffsetModulo.InsertScalar("offsetX", (float)this.OffsetX);
+            propertyOffsetModulo.InsertScalar("offsetX", (float)OffsetX);
             propertyOffsetModulo.InsertScalar("imageHeight", (float)imageHeight);
-            propertyOffsetModulo.InsertScalar("offsetY", (float)this.OffsetY);
-            propertyOffsetModulo.InsertScalar("speed", (float)this.ParallaxSpeedRatio);
+            propertyOffsetModulo.InsertScalar("offsetY", (float)OffsetY);
+            propertyOffsetModulo.InsertScalar("speed", (float)ParallaxSpeedRatio);
 
             expressionX.SetReferenceParameter("p", propertyOffsetModulo);
             expressionY.SetReferenceParameter("p", propertyOffsetModulo);
@@ -865,7 +866,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // In horizontal mode we never move the offset y
                     expressionY.Expression = "0";
-                    this.containerVisual.Offset = new Vector3((float)this.OffsetY, 0, 0);
+                    _containerVisual.Offset = new Vector3((float)OffsetY, 0, 0);
                 }
             }
 
@@ -877,22 +878,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // In vertical mode we never move the offset x
                     expressionX.Expression = "0";
-                    this.containerVisual.Offset = new Vector3(0, (float)this.OffsetX, 0);
+                    _containerVisual.Offset = new Vector3(0, (float)OffsetX, 0);
                 }
             }
 
-            this.containerVisual.StopAnimation("Offset.X");
-            this.containerVisual.StopAnimation("Offset.Y");
+            _containerVisual.StopAnimation("Offset.X");
+            _containerVisual.StopAnimation("Offset.Y");
 
-            this.containerVisual.StartAnimation("Offset.X", expressionX);
-            this.containerVisual.StartAnimation("Offset.Y", expressionY);
+            _containerVisual.StartAnimation("Offset.X", expressionX);
+            _containerVisual.StartAnimation("Offset.Y", expressionY);
 
-            this.propertyOffsetModulo = propertyOffsetModulo;
+            _propertyOffsetModulo = propertyOffsetModulo;
         }
 
         private void RefreshMove()
         {
-            this.RefreshMove(this.OffsetX + this.animationX, this.OffsetY + this.animationY);
+            RefreshMove(OffsetX + _animationX, OffsetY + _animationY);
         }
 
         /// <summary>
@@ -900,30 +901,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void RefreshMove(double x, double y)
         {
-            lock (lockerOffset)
+            lock (_lockerOffset)
             {
-                if (this.Strategy == UIStrategy.Composition)
+                if (Strategy == UIStrategy.Composition)
                 {
-                    if (propertyOffsetModulo == null)
+                    if (_propertyOffsetModulo == null)
                     {
                         return;
                     }
 
-                    propertyOffsetModulo.InsertScalar("offsetX", (float)x);
-                    propertyOffsetModulo.InsertScalar("offsetY", (float)y);
+                    _propertyOffsetModulo.InsertScalar("offsetX", (float)x);
+                    _propertyOffsetModulo.InsertScalar("offsetY", (float)y);
                 }
                 else
                 {
-                    var orientation = this.ScrollOrientation;
+                    var orientation = ScrollOrientation;
 
-                    var scrollviewer = this.scrollviewer;
+                    var scrollviewer = _scrollviewer;
 
                     double scrollX = 0;
                     double scrollY = 0;
 
                     if (scrollviewer != null)
                     {
-                        var speedRatio = this.ParallaxSpeedRatio;
+                        var speedRatio = ParallaxSpeedRatio;
 
                         scrollX = -((scrollviewer.HorizontalOffset * scrollviewer.ActualWidth) / scrollviewer.ViewportWidth) * speedRatio;
                         scrollY = -((scrollviewer.VerticalOffset * scrollviewer.ActualHeight) / scrollviewer.ViewportHeight) * speedRatio;
@@ -931,21 +932,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (orientation == ScrollOrientation.Both || orientation == ScrollOrientation.Horizontal)
                     {
-                        this.containerTranslate.X = GetOffsetModulo(x + scrollX, this.imageSize.Width);
+                        _containerTranslate.X = GetOffsetModulo(x + scrollX, _imageSize.Width);
 
                         if (orientation == ScrollOrientation.Horizontal)
                         {
-                            this.containerTranslate.Y = 0;
+                            _containerTranslate.Y = 0;
                         }
                     }
 
                     if (orientation == ScrollOrientation.Both || orientation == ScrollOrientation.Vertical)
                     {
-                        this.containerTranslate.Y = GetOffsetModulo(y + scrollY, this.imageSize.Height);
+                        _containerTranslate.Y = GetOffsetModulo(y + scrollY, _imageSize.Height);
 
                         if (orientation == ScrollOrientation.Vertical)
                         {
-                            this.containerTranslate.X = 0;
+                            _containerTranslate.X = 0;
                         }
                     }
                 }
@@ -979,23 +980,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RefreshImageSize(double width, double height)
         {
-            if (propertyOffsetModulo == null)
+            if (_propertyOffsetModulo == null)
             {
                 return;
             }
 
-            propertyOffsetModulo.InsertScalar("imageWidth", (float)width);
-            propertyOffsetModulo.InsertScalar("imageHeight", (float)height);
+            _propertyOffsetModulo.InsertScalar("imageWidth", (float)width);
+            _propertyOffsetModulo.InsertScalar("imageHeight", (float)height);
         }
 
         private void RefreshScrollSpeedRatio(double speedRatio)
         {
-            if (propertyOffsetModulo == null)
+            if (_propertyOffsetModulo == null)
             {
                 return;
             }
 
-            propertyOffsetModulo.InsertScalar("speed", (float)speedRatio);
+            _propertyOffsetModulo.InsertScalar("speed", (float)speedRatio);
         }
 
         /// <summary>
@@ -1013,53 +1014,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if ((bool)e.NewValue == true)
             {
-                c.timerAnimation.Start();
+                c._timerAnimation.Start();
             }
             else
             {
-                c.timerAnimation.Stop();
-                c.animationX = 0;
-                c.animationY = 0;
+                c._timerAnimation.Stop();
+                c._animationX = 0;
+                c._animationY = 0;
             }
         }
 
         private void InitializeAnimation()
         {
-            if (timerAnimation == null)
+            if (_timerAnimation == null)
             {
-                timerAnimation = new DispatcherTimer();
+                _timerAnimation = new DispatcherTimer();
             }
             else
             {
-                timerAnimation.Stop();
+                _timerAnimation.Stop();
             }
 
-            timerAnimation.Interval = TimeSpan.FromMilliseconds(this.AnimationDuration);
-            timerAnimation.Tick += Timer_Tick;
+            _timerAnimation.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
+            _timerAnimation.Tick += Timer_Tick;
         }
 
         private void Timer_Tick(object sender, object e)
         {
-            var strategy = this.Strategy;
+            var strategy = Strategy;
 
-            if (strategy == UIStrategy.Composition && this.containerVisual == null)
+            if (strategy == UIStrategy.Composition && _containerVisual == null)
             {
                 return;
             }
 
-            var stepX = this.AnimationStepX;
-            var stepY = this.AnimationStepY;
+            var stepX = AnimationStepX;
+            var stepY = AnimationStepY;
 
             if (stepX != 0)
             {
-                // this.OffsetX = this.OffsetX + this.AnimationStepX;
-                this.animationX += stepX;
+                // OffsetX = OffsetX + AnimationStepX;
+                _animationX += stepX;
             }
 
             if (stepY != 0)
             {
-                // this.OffsetY = this.OffsetY + this.AnimationStepY;
-                this.animationY += stepY;
+                // OffsetY = OffsetY + AnimationStepY;
+                _animationY += stepY;
             }
 
             if (stepX != 0 || stepY != 0)
@@ -1099,7 +1100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var c = d as MosaicControl;
 
-            c.timerAnimation.Interval = TimeSpan.FromMilliseconds(c.AnimationDuration);
+            c._timerAnimation.Interval = TimeSpan.FromMilliseconds(c.AnimationDuration);
         }
     }
 }

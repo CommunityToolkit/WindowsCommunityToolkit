@@ -8,7 +8,9 @@
                 <ControlTemplate TargetType="controls:MosaicControl">
                     <Grid>
                         <Border                        
-                        x:Name="RootElement"                        
+                        x:Name="RootElement"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
                         >
                             <Canvas x:Name="ContainerElement"/>
