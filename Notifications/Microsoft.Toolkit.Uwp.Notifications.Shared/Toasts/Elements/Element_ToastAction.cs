@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     internal sealed class Element_ToastAction : IElement_ToastActionsChild
     {
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
+        internal const ToastAfterActivationBehavior DEFAULT_AFTER_ACTIVATION_BEHAVIOR = ToastAfterActivationBehavior.Default;
         internal const Element_ToastActionPlacement DEFAULT_PLACEMENT = Element_ToastActionPlacement.Inline;
 
         /// <summary>
@@ -32,6 +33,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
         public Element_ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
+
+        [NotificationXmlAttribute("afterActivationBehavior", DEFAULT_AFTER_ACTIVATION_BEHAVIOR)]
+        public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = DEFAULT_AFTER_ACTIVATION_BEHAVIOR;
 
         /// <summary>
         /// imageUri is optional and is used to provide an image icon for this action to display inside the button alone with the text content.

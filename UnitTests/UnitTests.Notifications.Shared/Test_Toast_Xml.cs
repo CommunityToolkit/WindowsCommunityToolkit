@@ -1312,6 +1312,22 @@ namespace UnitTests.Notifications
             });
         }
 
+        [TestMethod]
+        public void Test_Toast_Button_AfterActivationBehavior()
+        {
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+            });
+
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                AfterActivationBehavior = ToastAfterActivationBehavior.Default
+            });
+        }
+
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
         {
             AssertInputPayload("<input id='myId' type='selection'>" + expectedSelectionXml + "</input>", new ToastSelectionBox("myId")
