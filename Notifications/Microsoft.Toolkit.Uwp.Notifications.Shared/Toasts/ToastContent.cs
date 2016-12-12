@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastActivationType ActivationType { get; set; }
 
         /// <summary>
-        /// An optional custom time to use for the notification's timestamp, visible within Action Center. If provided, this date/time will be used on the notification instead of the date/time that the notification was received.
+        /// New in Creators Update: An optional custom time to use for the notification's timestamp, visible within Action Center. If provided, this date/time will be used on the notification instead of the date/time that the notification was received.
         /// </summary>
         public DateTimeOffset? DisplayTimestamp { get; set; }
 
