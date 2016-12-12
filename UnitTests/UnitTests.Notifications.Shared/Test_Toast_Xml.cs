@@ -1196,9 +1196,9 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Header_AllValues()
         {
-            AssertHeaderPayload("<header id='myId' title='My header' arguments='myArgs' activationType='background' />", new ToastHeader("myId", "My header", "myArgs")
+            AssertHeaderPayload("<header id='myId' title='My header' arguments='myArgs' activationType='protocol' />", new ToastHeader("myId", "My header", "myArgs")
             {
-                ActivationType = ToastActivationType.Background
+                ActivationType = ToastActivationType.Protocol
             });
         }
 
@@ -1207,14 +1207,24 @@ namespace UnitTests.Notifications
         {
             try
             {
-                AssertHeaderPayload("", new ToastHeader(null, "Title", "Args"));
+                new ToastHeader(null, "Title", "Args");
             }
-            catch (NullReferenceException)
+            catch (ArgumentNullException)
             {
-                return;
+                try
+                {
+                    new ToastHeader("Id", "Title", "Args")
+                    {
+                        Id = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
             }
 
-            Assert.Fail("NullReferenceException for Id should have been thrown.");
+            Assert.Fail("ArgumentNullException for Id should have been thrown.");
         }
 
         [TestMethod]
@@ -1222,14 +1232,24 @@ namespace UnitTests.Notifications
         {
             try
             {
-                AssertHeaderPayload("", new ToastHeader("id", null, "Args"));
+                new ToastHeader("id", null, "Args");
             }
-            catch (NullReferenceException)
+            catch (ArgumentNullException)
             {
-                return;
+                try
+                {
+                    new ToastHeader("Id", "Title", "Args")
+                    {
+                        Title = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
             }
 
-            Assert.Fail("NullReferenceException for Title should have been thrown.");
+            Assert.Fail("ArgumentNullException for Title should have been thrown.");
         }
 
         [TestMethod]
@@ -1237,14 +1257,24 @@ namespace UnitTests.Notifications
         {
             try
             {
-                AssertHeaderPayload("", new ToastHeader("id", "Title", null));
+                new ToastHeader("id", "Title", null);
             }
-            catch (NullReferenceException)
+            catch (ArgumentNullException)
             {
-                return;
+                try
+                {
+                    new ToastHeader("id", "Title", "args")
+                    {
+                        Arguments = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
             }
 
-            Assert.Fail("NullReferenceException for Arguments should have been thrown.");
+            Assert.Fail("ArgumentNullException for Arguments should have been thrown.");
         }
 
         [TestMethod]
@@ -1257,7 +1287,14 @@ namespace UnitTests.Notifications
         public void Test_Toast_Header_ActivationTypes()
         {
             AssertHeaderActivationType("foreground", ToastActivationType.Foreground);
-            AssertHeaderActivationType("background", ToastActivationType.Background);
+
+            try
+            {
+                AssertHeaderActivationType("background", ToastActivationType.Background);
+                throw new Exception("ArgumentException should have been thrown, since activation type of background isn't allowed.");
+            }
+            catch (ArgumentException) { }
+
             AssertHeaderActivationType("protocol", ToastActivationType.Protocol);
         }
 

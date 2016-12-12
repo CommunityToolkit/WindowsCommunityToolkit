@@ -32,43 +32,60 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             Arguments = arguments;
         }
 
+        private string _id;
         /// <summary>
-        /// Gets or sets a developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center.
+        /// Gets or sets a developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center. Cannot be null.
         /// </summary>
-        public string Id { get; set; }
+        public string Id
+        {
+            get { return _id; }
+            set { ArgumentValidator.SetProperty(ref _id, value, nameof(Id), ArgumentValidatorOptions.NotNull); }
+        }
 
+        private string _title;
         /// <summary>
-        /// Gets or sets a title for the header.
+        /// Gets or sets a title for the header. Cannot be null.
         /// </summary>
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return _title; }
+            set { ArgumentValidator.SetProperty(ref _title, value, nameof(Title), ArgumentValidatorOptions.NotNull); }
+        }
 
+        private string _arguments;
         /// <summary>
-        /// Gets or sets a developer-defined string of arguments that is returned to the app when the user clicks this header.
+        /// Gets or sets a developer-defined string of arguments that is returned to the app when the user clicks this header. Cannot be null.
         /// </summary>
-        public string Arguments { get; set; }
+        public string Arguments
+        {
+            get { return _arguments; }
+            set { ArgumentValidator.SetProperty(ref _arguments, value, nameof(Arguments), ArgumentValidatorOptions.NotNull); }
+        }
 
+        private ToastActivationType _activationType = ToastActivationType.Foreground;
         /// <summary>
-        /// Gets or sets the type of activation this header will use when clicked. Defaults to Foreground.
+        /// Gets or sets the type of activation this header will use when clicked. Defaults to Foreground. Note that only Foreground and Protocol are supported.
         /// </summary>
-        public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
+        public ToastActivationType ActivationType
+        {
+            get { return _activationType; }
+            set
+            {
+                switch (value)
+                {
+                    case ToastActivationType.Foreground:
+                    case ToastActivationType.Protocol:
+                        _activationType = value;
+                        break;
+
+                    default:
+                        throw new ArgumentException($"ActivationType of {value} is not supported on ToastHeader.");
+                }
+            }
+        }
 
         internal Element_ToastHeader ConvertToElement()
         {
-            if (Id == null)
-            {
-                throw new NullReferenceException("Id on ToastHeader must be provided.");
-            }
-
-            if (Title == null)
-            {
-                throw new NullReferenceException("Title on ToastHeader must be provided.");
-            }
-
-            if (Arguments == null)
-            {
-                throw new NullReferenceException("Arguments on ToastHeader must be provided.");
-            }
-
             return new Element_ToastHeader()
             {
                 Id = Id,

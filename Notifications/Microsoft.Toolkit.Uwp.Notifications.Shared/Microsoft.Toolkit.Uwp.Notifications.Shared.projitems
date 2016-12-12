@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeGlyphContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeGlyphValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeNumericContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ArgumentValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\BaseElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\INotificationContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\EnumStringAttribute.cs" />
