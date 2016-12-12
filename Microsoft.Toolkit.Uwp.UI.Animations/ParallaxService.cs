@@ -100,15 +100,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             Compositor compositor = scrollerViewerManipulation.Compositor;
 
-            ExpressionAnimation expression = compositor.CreateExpressionAnimation(multiplier > 0
-                ? "ScrollManipulation.Translation.Y * ParallaxMultiplier - ScrollManipulation.Translation.Y"
-                : "ScrollManipulation.Translation.Y * ParallaxMultiplier");
-
+            ExpressionAnimation expression = compositor.CreateExpressionAnimation(
+                "Matrix4x4.CreateFromTranslation(Vector3(0.0f, ParallaxMultiplier * scroller.Translation.Y, 0.0f))");
+            expression.SetReferenceParameter("scroller", scrollerViewerManipulation);
             expression.SetScalarParameter("ParallaxMultiplier", (float)multiplier);
-            expression.SetReferenceParameter("ScrollManipulation", scrollerViewerManipulation);
 
             Visual visual = ElementCompositionPreview.GetElementVisual(parallaxElement);
-            visual.StartAnimation("Offset.Y", expression);
+            visual.StartAnimation("TransformMatrix", expression);
         }
     }
 }
