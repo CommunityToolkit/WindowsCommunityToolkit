@@ -485,8 +485,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var strategy = this.Strategy;
 
+            var rootElement = this.rootElement;
+
+            if (rootElement != null)
+            {
+                rootElement.SizeChanged -= RootElement_SizeChanged;
+            }
+
             // Gets the XAML root element
-            var rootElement = this.GetTemplateChild("RootElement") as FrameworkElement;
+            rootElement = this.GetTemplateChild("RootElement") as FrameworkElement;
 
             if (rootElement != null)
             {
