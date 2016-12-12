@@ -24,11 +24,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
 
-            RootGrid.Children.Remove(PrintableContent);
+            DirectPrintContainer.Children.Remove(PrintableContent);
 
             _printHelper = new PrintHelper(Container);
             _printHelper.AddFrameworkElementToPrint(PrintableContent);
@@ -39,10 +39,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
         }
 
+        private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            _printHelper = new PrintHelper(DirectPrintContainer);
+
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
+        }
+
         private void ReleasePrintHelper()
         {
             _printHelper.Dispose();
-            RootGrid.Children.Add(PrintableContent);
+
+            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            {
+                DirectPrintContainer.Children.Add(PrintableContent);
+            }
 
             Shell.Current.DisplayWaitRing = false;
         }

@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+            AssignFadeAnimation();
             AssociatedObject.Loaded += AssociatedObjectOnLoaded;
         }
 
@@ -47,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         protected override void OnDetaching()
         {
             base.OnDetaching();
+            RemoveFadeAnimation();
             AssociatedObject.Loaded -= AssociatedObjectOnLoaded;
         }
 
@@ -157,6 +159,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             // Begin animating
             var targetElement = ElementCompositionPreview.GetElementVisual(HeaderElement);
             targetElement.StartAnimation("Opacity", opacityExpression);
+        }
+
+        /// <summary>
+        /// Remove the opacity animation from the UIElement.
+        /// </summary>
+        private void RemoveFadeAnimation()
+        {
+            if (HeaderElement != null)
+            {
+                var targetElement = ElementCompositionPreview.GetElementVisual(HeaderElement);
+                targetElement.StopAnimation("Opacity");
+                targetElement.Opacity = 1.0f;
+            }
         }
     }
 }
