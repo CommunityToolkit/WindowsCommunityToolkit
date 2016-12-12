@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("toast")]
@@ -30,6 +32,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("scenario", DEFAULT_SCENARIO)]
         public ToastScenario Scenario { get; set; } = DEFAULT_SCENARIO;
+
+        [NotificationXmlAttribute("displayTimestamp")]
+        public DateTimeOffset? DisplayTimestamp { get; set; }
 
         public Element_ToastVisual Visual { get; set; }
 

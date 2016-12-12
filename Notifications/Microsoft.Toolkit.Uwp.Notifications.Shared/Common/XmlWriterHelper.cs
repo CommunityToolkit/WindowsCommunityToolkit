@@ -140,6 +140,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 return "false";
             }
+            else if (propertyValue is DateTimeOffset?)
+            {
+                DateTimeOffset? dateTime = propertyValue as DateTimeOffset?;
+                if (dateTime.HasValue)
+                {
+                    // ISO 8601 format
+                    return dateTime.Value.ToString("o");
+                }
+                else
+                {
+                    return null;
+                }
+            }
 
             return propertyValue.ToString();
         }

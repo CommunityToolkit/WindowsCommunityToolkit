@@ -64,6 +64,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastActivationType ActivationType { get; set; }
 
         /// <summary>
+        /// An optional custom time to use for the notification's timestamp, visible within Action Center. If provided, this date/time will be used on the notification instead of the date/time that the notification was received.
+        /// </summary>
+        public DateTimeOffset? DisplayTimestamp { get; set; }
+
+        /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
         /// </summary>
         /// <returns>The notification XML content as a string.</returns>
@@ -95,7 +100,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 ActivationType = ActivationType,
                 Duration = Duration,
                 Launch = Launch,
-                Scenario = Scenario
+                Scenario = Scenario,
+                DisplayTimestamp = DisplayTimestamp
             };
 
             if (Visual != null)
