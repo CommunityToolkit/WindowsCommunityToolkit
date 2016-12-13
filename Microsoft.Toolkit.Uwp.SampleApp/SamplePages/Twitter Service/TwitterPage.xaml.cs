@@ -97,8 +97,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var status = new TwitterStatus
+            {
+                DisplayCoordinates = DisplayCoordinates.IsChecked == true,
+                Message = TweetText.Text,
+                Latitude = string.IsNullOrEmpty(Latitude.Text) ? (decimal?)null : Convert.ToDecimal(Latitude.Text),
+                Longitude = string.IsNullOrEmpty(Longitude.Text) ? (decimal?)null : Convert.ToDecimal(Longitude.Text)
+            };
+
             Shell.Current.DisplayWaitRing = true;
-            await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
+            await TwitterService.Instance.TweetStatusAsync(status);
             Shell.Current.DisplayWaitRing = false;
         }
 
