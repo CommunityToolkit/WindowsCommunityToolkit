@@ -97,13 +97,10 @@
                                                              Storyboard.TargetProperty="X"
                                                              BeginTime="0:0:0" Duration="0:0:0.25"
                                                              From="0" To="200">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuarticEase EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                             <DoubleAnimation Storyboard.TargetName="DetailsPresenter"
                                                              Storyboard.TargetProperty="Opacity"
-                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             BeginTime="0:0:0.08" Duration="0:0:0.17"
                                                              From="1" To="0">
                                                 <DoubleAnimation.EasingFunction>
                                                     <QuarticEase EasingMode="EaseOut"/>
