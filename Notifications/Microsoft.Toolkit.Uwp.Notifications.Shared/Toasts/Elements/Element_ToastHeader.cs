@@ -10,13 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("header")]
-    internal sealed class Element_ToastHeader
+    internal sealed class Element_ToastHeader : IElement_ToastActivatable
     {
-        internal const ToastActivationType DEFAULT_ACTIVATION_TYPE = ToastActivationType.Foreground;
-
         [NotificationXmlAttribute("id")]
         public string Id { get; set; }
 
@@ -26,7 +26,27 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
-        [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
-        public ToastActivationType ActivationType { get; set; }
+        [NotificationXmlAttribute("activationType", Element_ToastActivationType.Foreground)]
+        public Element_ToastActivationType ActivationType { get; set; } = Element_ToastActivationType.Foreground;
+
+        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
+        public string ProtocolActivationTargetApplicationPfn { get; set; }
+
+        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
+        public ToastAfterActivationBehavior AfterActivationBehavior
+        {
+            get
+            {
+                return ToastAfterActivationBehavior.Default;
+            }
+
+            set
+            {
+                if (value != ToastAfterActivationBehavior.Default)
+                {
+                    throw new InvalidOperationException("AfterActivationBehavior on ToastHeader only supports the Default value.");
+                }
+            }
+        }
     }
 }

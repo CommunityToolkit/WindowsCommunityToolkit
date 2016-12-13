@@ -1315,9 +1315,9 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Button_ActivationOptions()
         {
-            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastButton("My content", "myArgs")
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='protocol' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastButton("My content", "myArgs")
             {
-                ActivationType = ToastActivationType.Background,
+                ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
@@ -1341,6 +1341,23 @@ namespace UnitTests.Notifications
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
                 }
             });
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertButtonPayload("Exception should be thrown", new ToastButton("My content", "myArgs")
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
 
         [TestMethod]
@@ -1348,7 +1365,7 @@ namespace UnitTests.Notifications
         {
             ToastContextMenuItem item = new ToastContextMenuItem("My content", "myArgs")
             {
-                ActivationType = ToastActivationType.Background,
+                ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
@@ -1356,29 +1373,45 @@ namespace UnitTests.Notifications
                 }
             };
 
-            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", item);
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", item);
 
             // Empty class should do nothing
             item.ActivationOptions = new ToastActivationOptions();
 
-            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' />", item);
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
 
             // Default should be ignored
             item.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
 
-            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' />", item);
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertContextMenuItemPayload("Exception should be thrown", new ToastContextMenuItem("My content", "myArgs")
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
 
         [TestMethod]
         public void Test_Toast_ActivationOptions()
         {
-            AssertPayload("<toast launch='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastContent()
+            AssertPayload("<toast launch='settings:about' activationType='protocol' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastContent()
             {
-                Launch = "myArgs",
-                ActivationType = ToastActivationType.Background,
+                Launch = "settings:about",
+                ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
-                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
                     ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
                 }
             });
@@ -1401,6 +1434,92 @@ namespace UnitTests.Notifications
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
                 }
             });
+
+            // Setting anything other than default should throw exception
+            try
+            {
+                AssertPayload("XML shouldn't matter", new ToastContent()
+                {
+                    Launch = "myArgs",
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertPayload("Exception should be thrown", new ToastContent()
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_ActivationOptions()
+        {
+            var header = new ToastHeader("myId", "My title", "settings:about")
+            {
+                ActivationType = ToastActivationType.Protocol,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            };
+
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", header);
+
+            // Empty class should do nothing
+            header.ActivationOptions = new ToastActivationOptions();
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
+
+            // Default should be ignored
+            header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
+
+            // Using anything other than default should throw exception
+            try
+            {
+                header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate;
+                AssertHeaderPayload("Exception should be thrown", header);
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                header.ActivationType = ToastActivationType.Foreground;
+                header.ActivationOptions = new ToastActivationOptions()
+                {
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                };
+                AssertHeaderPayload("Exception should be thrown", header);
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
 
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)

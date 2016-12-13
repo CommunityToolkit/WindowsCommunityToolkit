@@ -18,17 +18,31 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
-        internal const ToastActivationType DEFAULT_ACTIVATION_TYPE = ToastActivationType.Foreground;
+        internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastDuration DEFAULT_DURATION = ToastDuration.Short;
 
         [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
-        public ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
+        public Element_ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
 
         [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
-        public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
+        public ToastAfterActivationBehavior AfterActivationBehavior
+        {
+            get
+            {
+                return ToastAfterActivationBehavior.Default;
+            }
+
+            set
+            {
+                if (value != ToastAfterActivationBehavior.Default)
+                {
+                    throw new InvalidOperationException("AfterActivationBehavior on ToastContent only supports the Default value.");
+                }
+            }
+        }
 
         [NotificationXmlAttribute("duration", DEFAULT_DURATION)]
         public ToastDuration Duration { get; set; } = DEFAULT_DURATION;
@@ -49,6 +63,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public Element_ToastActions Actions { get; set; }
 
         public Element_ToastHeader Header { get; set; }
+
+        public static Element_ToastActivationType ConvertActivationType(ToastActivationType publicType)
+        {
+            switch (publicType)
+            {
+                case ToastActivationType.Foreground:
+                    return Element_ToastActivationType.Foreground;
+
+                case ToastActivationType.Background:
+                    return Element_ToastActivationType.Background;
+
+                case ToastActivationType.Protocol:
+                    return Element_ToastActivationType.Protocol;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 
     /// <summary>

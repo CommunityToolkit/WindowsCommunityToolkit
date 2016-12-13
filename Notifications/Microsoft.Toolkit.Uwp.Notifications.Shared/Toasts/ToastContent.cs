@@ -100,9 +100,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         internal Element_Toast ConvertToElement()
         {
+            if (ActivationOptions != null)
+            {
+                if (ActivationOptions.AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+                {
+                    throw new InvalidOperationException("ToastContent does not support a custom AfterActivationBehavior. Please ensure ActivationOptions.AfterActivationBehavior is set to Default.");
+                }
+            }
+
             var toast = new Element_Toast()
             {
-                ActivationType = ActivationType,
+                ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 Duration = Duration,
                 Launch = Launch,
                 Scenario = Scenario,

@@ -6,6 +6,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal interface IElement_ToastActivatable
     {
+        Element_ToastActivationType ActivationType { get; set; }
+
         string ProtocolActivationTargetApplicationPfn { get; set; }
 
         ToastAfterActivationBehavior AfterActivationBehavior { get; set; }

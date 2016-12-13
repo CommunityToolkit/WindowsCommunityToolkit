@@ -92,15 +92,32 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
+        /// <summary>
+        /// New in Creators Update: Additional options relating to activation of the toast header.
+        /// </summary>
+        public ToastActivationOptions ActivationOptions { get; set; }
+
         internal Element_ToastHeader ConvertToElement()
         {
-            return new Element_ToastHeader()
+            if (ActivationOptions != null)
+            {
+                if (ActivationOptions.AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+                {
+                    throw new InvalidOperationException("ToastHeader does not support a custom AfterActivationBehavior. Please ensure ActivationOptions.AfterActivationBehavior is set to Default.");
+                }
+            }
+
+            var el = new Element_ToastHeader()
             {
                 Id = Id,
                 Title = Title,
                 Arguments = Arguments,
-                ActivationType = ActivationType
+                ActivationType = Element_Toast.ConvertActivationType(ActivationType)
             };
+
+            ActivationOptions?.PopulateElement(el);
+
+            return el;
         }
     }
 }

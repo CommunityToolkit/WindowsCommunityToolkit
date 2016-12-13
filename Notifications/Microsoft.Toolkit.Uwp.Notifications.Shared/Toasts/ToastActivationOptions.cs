@@ -25,12 +25,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         /// <summary>
-        /// Specifies the behavior that the toast should use when the user invokes this action.
+        /// Specifies the behavior that the toast should use when the user invokes this action. Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>.
         /// </summary>
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
 
         internal void PopulateElement(IElement_ToastActivatable el)
         {
+            // If protocol PFN is specified but protocol activation isn't used, throw exception
+            if (ProtocolActivationTargetApplicationPfn != null && el.ActivationType != Element_ToastActivationType.Protocol)
+            {
+                throw new InvalidOperationException($"You cannot specify {nameof(ProtocolActivationTargetApplicationPfn)} without using ActivationType of Protocol.");
+            }
+
             el.ProtocolActivationTargetApplicationPfn = ProtocolActivationTargetApplicationPfn;
             el.AfterActivationBehavior = AfterActivationBehavior;
         }

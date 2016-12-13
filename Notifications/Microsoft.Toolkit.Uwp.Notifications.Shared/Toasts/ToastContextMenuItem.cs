@@ -66,31 +66,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 Content = Content,
                 Arguments = Arguments,
-                ActivationType = GetElementActivationType(),
+                ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 Placement = Element_ToastActionPlacement.ContextMenu
             };
 
             ActivationOptions?.PopulateElement(el);
 
             return el;
-        }
-
-        private Element_ToastActivationType GetElementActivationType()
-        {
-            switch (ActivationType)
-            {
-                case ToastActivationType.Foreground:
-                    return Element_ToastActivationType.Foreground;
-
-                case ToastActivationType.Background:
-                    return Element_ToastActivationType.Background;
-
-                case ToastActivationType.Protocol:
-                    return Element_ToastActivationType.Protocol;
-
-                default:
-                    throw new NotImplementedException();
-            }
         }
     }
 }
