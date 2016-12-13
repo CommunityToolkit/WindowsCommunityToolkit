@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public SurfaceDialTextboxHelperPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
