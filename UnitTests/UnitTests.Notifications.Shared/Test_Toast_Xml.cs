@@ -1301,12 +1301,12 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_DisplayTimestamp()
         {
-            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00.0000000+00:00' />", new ToastContent()
+            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00Z' />", new ToastContent()
             {
                 DisplayTimestamp = new DateTime(2016, 10, 19, 9, 0, 0, DateTimeKind.Utc)
             });
 
-            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00.0000000-08:00' />", new ToastContent()
+            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00-08:00' />", new ToastContent()
             {
                 DisplayTimestamp = new DateTimeOffset(2016, 10, 19, 9, 0, 0, TimeSpan.FromHours(-8))
             });

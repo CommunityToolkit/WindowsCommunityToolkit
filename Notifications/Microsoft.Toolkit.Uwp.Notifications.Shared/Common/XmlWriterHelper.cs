@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 if (dateTime.HasValue)
                 {
                     // ISO 8601 format
-                    return dateTime.Value.ToString("o");
+                    return System.Xml.XmlConvert.ToString(dateTime.Value);
                 }
                 else
                 {
