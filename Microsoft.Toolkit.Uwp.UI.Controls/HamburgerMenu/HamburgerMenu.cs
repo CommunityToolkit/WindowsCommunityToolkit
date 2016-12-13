@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenu is based on a SplitView control. By default it contains a HamburgerButton and a ListView to display menu items.
     /// </summary>
-    [TemplatePart(Name = "HamburgerButton", Type = typeof(Button))]
+    [TemplatePart(Name = "HamburgerButton", Type = typeof(HamburgerButton))]
     [TemplatePart(Name = "ButtonsListView", Type = typeof(ListViewBase))]
     [TemplatePart(Name = "OptionsListView", Type = typeof(ListViewBase))]
     public partial class HamburgerMenu : ContentControl
     {
-        private Button _hamburgerButton;
+        private HamburgerButton _hamburgerButton;
         private ListViewBase _buttonsListView;
         private ListViewBase _optionsListView;
 
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _optionsListView.ItemClick -= OptionsListView_ItemClick;
             }
 
-            _hamburgerButton = (Button)GetTemplateChild("HamburgerButton");
+            _hamburgerButton = (HamburgerButton)GetTemplateChild("HamburgerButton");
             _buttonsListView = (ListViewBase)GetTemplateChild("ButtonsListView");
             _optionsListView = (ListViewBase)GetTemplateChild("OptionsListView");
 

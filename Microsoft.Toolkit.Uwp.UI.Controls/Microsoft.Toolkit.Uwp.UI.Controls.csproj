@@ -61,6 +61,7 @@
     <Compile Include="GridSplitter\GridSplitter.Options.cs" />
     <Compile Include="GridSplitter\GridSplitterGripper.cs" />
     <Compile Include="GridSplitter\GripperHoverWrapper.cs" />
+    <Compile Include="HamburgerMenu\HamburgerButton\HamburgerButton.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
@@ -113,6 +114,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="HamburgerMenu\HamburgerButton\HamburgerButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -184,6 +190,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Controls.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
