@@ -10,31 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// An page that shows how to use the Blade Control
-    /// </summary>
-    public sealed partial class BladePage
+    public enum BladeMode
     {
-        public BladePage()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Default mode : each blade will take the specified Width and Height
+        /// </summary>
+        Normal,
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
+        /// <summary>
+        /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
+        /// </summary>
+        Fullscreen
     }
 }
