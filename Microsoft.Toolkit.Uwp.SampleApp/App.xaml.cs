@@ -11,6 +11,10 @@
 // ******************************************************************
 
 using System;
+<<<<<<< HEAD
+using Microsoft.Toolkit.Uwp.Helpers;
+=======
+>>>>>>> 0c111c24a9c3db1559746f3dc751813939f312eb
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
