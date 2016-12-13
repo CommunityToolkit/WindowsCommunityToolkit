@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("action")]
-    internal sealed class Element_ToastAction : IElement_ToastActionsChild
+    internal sealed class Element_ToastAction : IElement_ToastActionsChild, IElement_ToastActivatable
     {
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastAfterActivationBehavior DEFAULT_AFTER_ACTIVATION_BEHAVIOR = ToastAfterActivationBehavior.Default;
@@ -33,6 +33,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
         public Element_ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
+
+        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
+        public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         [NotificationXmlAttribute("afterActivationBehavior", DEFAULT_AFTER_ACTIVATION_BEHAVIOR)]
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = DEFAULT_AFTER_ACTIVATION_BEHAVIOR;

@@ -65,6 +65,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTextStacking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileVisual.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\Element_ToastHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\IElement_ToastActivatable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastActivationOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastBindingGenericChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastInput.cs" />

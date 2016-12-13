@@ -1313,35 +1313,94 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        public void Test_Toast_Button_AfterActivationBehavior()
+        public void Test_Toast_Button_ActivationOptions()
         {
-            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' />", new ToastButton("My content", "myArgs")
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastButton("My content", "myArgs")
             {
                 ActivationType = ToastActivationType.Background,
-                AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
             });
 
+            // Empty class should do nothing
             AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' />", new ToastButton("My content", "myArgs")
             {
                 ActivationType = ToastActivationType.Background,
-                AfterActivationBehavior = ToastAfterActivationBehavior.Default
+                ActivationOptions = new ToastActivationOptions()
+            });
+
+            // Default should be ignored
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.Default
+                }
             });
         }
 
         [TestMethod]
-        public void Test_Toast_ContextMenuItem_AfterActivationBehavior()
+        public void Test_Toast_ContextMenuItem_ActivationOptions()
         {
             ToastContextMenuItem item = new ToastContextMenuItem("My content", "myArgs")
             {
                 ActivationType = ToastActivationType.Background,
-                AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
             };
 
-            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' />", item);
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", item);
 
-            item.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+            // Empty class should do nothing
+            item.ActivationOptions = new ToastActivationOptions();
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' />", item);
+
+            // Default should be ignored
+            item.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='background' />", item);
+        }
+
+        [TestMethod]
+        public void Test_Toast_ActivationOptions()
+        {
+            AssertPayload("<toast launch='myArgs' activationType='background' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastContent()
+            {
+                Launch = "myArgs",
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            });
+
+            // Empty class should do nothing
+            AssertPayload("<toast launch='myArgs' activationType='background' />", new ToastContent()
+            {
+                Launch = "myArgs",
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+            });
+
+            // Default should be ignored
+            AssertPayload("<toast launch='myArgs' activationType='background' />", new ToastContent()
+            {
+                Launch = "myArgs",
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.Default
+                }
+            });
         }
 
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)

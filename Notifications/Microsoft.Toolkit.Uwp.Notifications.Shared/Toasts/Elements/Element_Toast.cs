@@ -15,7 +15,7 @@ using System;
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("toast")]
-    internal sealed class Element_Toast : BaseElement
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const ToastActivationType DEFAULT_ACTIVATION_TYPE = ToastActivationType.Foreground;
@@ -23,6 +23,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
         public ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
+
+        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
+        public string ProtocolActivationTargetApplicationPfn { get; set; }
+
+        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
+        public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
 
         [NotificationXmlAttribute("duration", DEFAULT_DURATION)]
         public ToastDuration Duration { get; set; } = DEFAULT_DURATION;
