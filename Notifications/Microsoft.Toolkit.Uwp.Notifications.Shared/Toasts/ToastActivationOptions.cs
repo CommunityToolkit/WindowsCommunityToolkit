@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// <summary>
     /// New in Creators Update: Additional options relating to activation.
     /// </summary>
-    public class ToastActivationOptions
+    public sealed class ToastActivationOptions
     {
         /// <summary>
         /// If you are using <see cref="ToastActivationType.Protocol"/>, you can optionally specify the target PFN, so that regardless of whether multiple apps are registered to handle the same protocol uri, your desired app will always be launched.
