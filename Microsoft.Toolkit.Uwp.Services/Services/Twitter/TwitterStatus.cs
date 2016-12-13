@@ -29,6 +29,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public bool DisplayCoordinates { get; set; }
 
         /// <summary>
+        /// Gets or sets the ID of the original tweet.
+        /// </summary>
+        public string InReplyToStatusId { get; set; }
+
+        /// <summary>
         /// Gets or sets the latitude of the "tweet" message.
         /// NOTE: This parameter will be ignored unless it is inside the range -90.0 to +90.0 (North is positive) inclusive.
         /// It will also be ignored if there isn’t a corresponding long parameter.
@@ -44,9 +49,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public decimal? Longitude { get; set; }
 
         /// <summary>
-        /// Gets or sets the text of the "tweet" message.
+        /// Gets or sets the text of the Tweet message.
         /// </summary>
         public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the text of the Tweet message.
+        /// </summary>
+        public string PlaceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Tweet contains sensitive content (suchas nudity, etc.).
+        /// </summary>
+        public bool PossiblySensitive { get; set; }
 
         /// <summary>
         /// Gets a the Request parameters
@@ -62,13 +77,43 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     result = $"{result}&lat={Latitude.Value}&long={Longitude.Value}";
                 }
 
-                if (DisplayCoordinates)
-                {
-                    result = $"{result}&display_coordinates=true";
-                }
+                result = AddRequestParameter(result, "display_coordinates", DisplayCoordinates);
+                result = AddRequestParameter(result, "in_reply_to_status_id", InReplyToStatusId);
+                result = AddRequestParameter(result, "place_id", PlaceId);
+                result = AddRequestParameter(result, "possibly_sensitive", PossiblySensitive);
+                result = AddRequestParameter(result, "trim_user", TrimUser);
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Tweet returned in a timeline will include a user object including only the status authors numerical ID.
+        /// </summary>
+        public bool TrimUser { get; set; }
+
+        private string AddRequestParameter(string request, string parameterName, bool value)
+        {
+            var result = request;
+
+            if (value)
+            {
+                result = $"{result}&{parameterName}=true";
+            }
+
+            return result;
+        }
+
+        private string AddRequestParameter(string request, string parameterName, string value)
+        {
+            var result = request;
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                result = $"{result}&{parameterName}={value}";
+            }
+
+            return result;
         }
     }
 }
