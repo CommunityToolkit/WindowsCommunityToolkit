@@ -12,18 +12,18 @@
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
-      <TextBox Width="106"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"
-               controls:SurfaceDialTextboxHelper.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
-               controls:SurfaceDialTextboxHelper.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
-               Text="0" />
+      <TextBox HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               Text="0" 
+               Width="106"
+               controls:SurfaceDialTextboxHelper.StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
+               controls:SurfaceDialTextboxHelper.ForceMenuItem="@[ForceMenuItem:Bool:true]"
+               controls:SurfaceDialTextboxHelper.EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
+               controls:SurfaceDialTextboxHelper.EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
+               controls:SurfaceDialTextboxHelper.MinValue="@[MinValue:DoubleSlider:0:0-100]"
+               controls:SurfaceDialTextboxHelper.MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
+               controls:SurfaceDialTextboxHelper.Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
+               controls:SurfaceDialTextboxHelper.EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
     </StackPanel>
   </Grid>
 </Page>

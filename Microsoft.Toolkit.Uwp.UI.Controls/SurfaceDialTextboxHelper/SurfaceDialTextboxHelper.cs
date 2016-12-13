@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Diagnostics;
+using Windows.Foundation.Metadata;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -313,7 +314,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The arguments of the changed event.</param>
         private static void StepValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Debug.WriteLine("StepValueChanged");
+            if (!ApiInformation.IsTypePresent("Windows.UI.Input.RadialController"))
+            {
+                return;
+            }
 
             var textBox = d as TextBox;
 
@@ -335,8 +339,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event arguments.</param>
         private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("LostFocus");
-
             if (_textBox == null)
             {
                 return;
@@ -363,7 +365,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event arguments.</param>
         private static void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("GotFocus");
             _textBox = sender as TextBox;
 
             if (_textBox == null)
