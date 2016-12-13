@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         private string _id;
+
         /// <summary>
         /// Gets or sets a developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center. Cannot be null.
         /// </summary>
@@ -43,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         private string _title;
+
         /// <summary>
         /// Gets or sets a title for the header. Cannot be null.
         /// </summary>
@@ -53,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         private string _arguments;
+
         /// <summary>
         /// Gets or sets a developer-defined string of arguments that is returned to the app when the user clicks this header. Cannot be null.
         /// </summary>
@@ -63,12 +66,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         private ToastActivationType _activationType = ToastActivationType.Foreground;
+
         /// <summary>
         /// Gets or sets the type of activation this header will use when clicked. Defaults to Foreground. Note that only Foreground and Protocol are supported.
         /// </summary>
         public ToastActivationType ActivationType
         {
-            get { return _activationType; }
+            get
+            {
+                return _activationType;
+            }
+
             set
             {
                 switch (value)
