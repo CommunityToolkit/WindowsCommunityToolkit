@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string SelectionStates = "SelectionStates";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
+        private const float AnimationOffset = 200;
 
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
@@ -75,9 +76,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _compositor = _root.Compositor;
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            _detailsPresenter.SizeChanged += OnSizeChanged;
             _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
-            SetDetailsOffset();
+            if (SelectedItem == null)
+            {
+                _detailsVisual.Opacity = 0;
+            }
 
             SetMasterHeaderVisibility();
         }
@@ -103,7 +106,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (view.SelectedItem != null)
             {
                 // Move the visual to the side so it can animate back in
-                view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
+                view._detailsVisual.Offset = new Vector3(AnimationOffset, 0, 0);
+                view._detailsVisual.Opacity = 0;
             }
 
             view._detailsPresenter.Content = view.MapDetails == null
@@ -114,9 +118,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // want to animate the content out. If the SelectedItem is not null
             // we want to animate the content in
             Vector3 offset = view.SelectedItem == null
-                ? new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0)
-                : new Vector3(-(float)view._detailsPresenter.ActualWidth, 0, 0);
-            view.AnimateFromCurrentByValue(view._detailsVisual, offset);
+                ? new Vector3(AnimationOffset, 0, 0)
+                : new Vector3(0, 0, 0);
+            float opacity = view.SelectedItem == null
+                ? 0.0f : 1.0f;
+            view.AnimateFromCurrentToValue(view._detailsVisual, offset, opacity);
             view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
@@ -170,19 +176,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Fires when the size of the control changes
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The event args</param>
-        /// <remarks>
-        /// Handles setting the Offset of the DetailsPresenter if there is no SelectedItem
-        /// </remarks>
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetDetailsOffset();
-        }
-
-        /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
@@ -204,14 +197,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 headerPresenter.Visibility = MasterHeader != null
                     ? Visibility.Visible
                     : Visibility.Collapsed;
-            }
-        }
-
-        private void SetDetailsOffset()
-        {
-            if (SelectedItem == null)
-            {
-                _detailsVisual.Offset = new Vector3((float)_detailsPresenter.ActualWidth, 0, 0);
             }
         }
 
@@ -243,19 +228,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
         }
 
-        // Creates and defines the Keyframe animation using a current value of target Visual and animating by a value
-        private void AnimateFromCurrentByValue(Visual targetVisual, Vector3 delta)
+        // Creates and defines the Keyframe animation animating to a value
+        private void AnimateFromCurrentToValue(Visual targetVisual, Vector3 offset, float opacity)
         {
-            var animation = _compositor.CreateVector3KeyFrameAnimation();
+            var animationOffset = _compositor.CreateVector3KeyFrameAnimation();
 
-            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value
-            animation.InsertExpressionKeyFrame(1.00f, "this.StartingValue + delta");
+            animationOffset.InsertKeyFrame(1.00f, offset);
+            animationOffset.Duration = TimeSpan.FromMilliseconds(250);
+            animationOffset.Target = "Offset";
 
-            // Define the value variable
-            animation.SetVector3Parameter("delta", delta);
-            animation.Duration = TimeSpan.FromMilliseconds(250);
+            var animationOpacity = _compositor.CreateScalarKeyFrameAnimation();
 
-            targetVisual.StartAnimation("Offset", animation);
+            animationOpacity.InsertKeyFrame(1.00f, opacity);
+            animationOpacity.Duration = animationOffset.Duration;
+            animationOpacity.Target = "Opacity";
+
+            var animations = _compositor.CreateAnimationGroup();
+            animations.Add(animationOffset);
+            animations.Add(animationOpacity);
+            targetVisual.StartAnimationGroup(animations);
         }
 
         private void UpdateViewState()
