@@ -224,13 +224,6 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
-      },
-      {
-        "Name": "AnimationSet",
-        "Type": "AnimationSetPage",
-        "About": "AnimationSet animations",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
       }
     ]
   },
