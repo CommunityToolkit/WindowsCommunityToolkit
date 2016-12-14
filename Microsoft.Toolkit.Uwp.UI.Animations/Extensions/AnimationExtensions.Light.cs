@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <returns>An animation set.</returns>
-        public static async Task<AnimationSet> LightAsync(
+        public static AnimationSet LightAsync(
             this FrameworkElement associatedObject,
             double distance = 0d,
             double duration = 500d,
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return await animationSet.LightAsync(distance, duration, delay);
+            return animationSet.LightAsync(distance, duration, delay);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>
         /// An Animation Set.
         /// </returns>
-        public static async Task<AnimationSet> LightAsync(
+        public static AnimationSet LightAsync(
             this AnimationSet animationSet,
             double distance = 0d,
             double duration = 500d,
@@ -123,33 +123,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return null;
             }
 
-            const string sceneName = "PointLightScene";
-            PointLight pointLight;
+            var task = new AnimationTask();
+            task.AnimationSet = animationSet;
 
-            if (pointLights.ContainsKey(visual))
+            task.Task = DispatcherHelper.ExecuteOnUIThreadAsync(
+                async () =>
             {
-                pointLight = pointLights[visual];
-            }
-            else
-            {
-                pointLight = compositor.CreatePointLight();
+                const string sceneName = "PointLightScene";
+                PointLight pointLight;
+                CompositionDrawingSurface normalMap = null;
 
-                SurfaceLoader.Initialize(compositor);
-                CompositionDrawingSurface normalMap = await SurfaceLoader.LoadFromUri(new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Animations/Assets/SphericalWithMask.png"));
-
-                var normalBrush = compositor.CreateSurfaceBrush(normalMap);
-                normalBrush.Stretch = CompositionStretch.Fill;
-
-                // check to see if the visual already has a point light applied.
-                var spriteVisual = ElementCompositionPreview.GetElementChildVisual(associatedObject) as SpriteVisual;
-                var normalsBrush = spriteVisual?.Brush as CompositionEffectBrush;
-
-                if (normalsBrush == null || normalsBrush.Comment != sceneName)
+                if (!pointLights.ContainsKey(visual))
                 {
-                    var lightEffect = new CompositeEffect()
+                    SurfaceLoader.Initialize(compositor);
+                    normalMap = await SurfaceLoader.LoadFromUri(new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Animations/Assets/SphericalWithMask.png"));
+                }
+
+                if (pointLights.ContainsKey(visual))
+                {
+                    pointLight = pointLights[visual];
+                }
+                else
+                {
+                    pointLight = compositor.CreatePointLight();
+
+                    var normalBrush = compositor.CreateSurfaceBrush(normalMap);
+                    normalBrush.Stretch = CompositionStretch.Fill;
+
+                    // check to see if the visual already has a point light applied.
+                    var spriteVisual = ElementCompositionPreview.GetElementChildVisual(associatedObject) as SpriteVisual;
+                    var normalsBrush = spriteVisual?.Brush as CompositionEffectBrush;
+
+                    if (normalsBrush == null || normalsBrush.Comment != sceneName)
                     {
-                        Mode = CanvasComposite.Add,
-                        Sources =
+                        var lightEffect = new CompositeEffect()
+                        {
+                            Mode = CanvasComposite.Add,
+                            Sources =
                             {
                                 new CompositionEffectSourceParameter("ImageSource"),
                                 new SceneLightingEffect()
@@ -161,40 +171,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                                     NormalMapSource = new CompositionEffectSourceParameter("NormalMap"),
                                 }
                             }
-                    };
+                        };
 
-                    var effectFactory = compositor.CreateEffectFactory(lightEffect);
-                    var brush = effectFactory.CreateBrush();
-                    brush.SetSourceParameter("NormalMap", normalBrush);
+                        var effectFactory = compositor.CreateEffectFactory(lightEffect);
+                        var brush = effectFactory.CreateBrush();
+                        brush.SetSourceParameter("NormalMap", normalBrush);
 
-                    var sprite = compositor.CreateSpriteVisual();
-                    sprite.Size = visual.Size;
-                    sprite.Brush = brush;
-                    sprite.Comment = sceneName;
+                        var sprite = compositor.CreateSpriteVisual();
+                        sprite.Size = visual.Size;
+                        sprite.Brush = brush;
+                        sprite.Comment = sceneName;
 
-                    ElementCompositionPreview.SetElementChildVisual(animationSet.Element, sprite);
+                        ElementCompositionPreview.SetElementChildVisual(task.AnimationSet.Element, sprite);
 
-                    pointLight.CoordinateSpace = visual;
-                    pointLight.Targets.Add(visual);
+                        pointLight.CoordinateSpace = visual;
+                        pointLight.Targets.Add(visual);
+                    }
                 }
-            }
 
-            if (duration <= 0)
-            {
-                animationSet.AddEffectDirectPropertyChange(pointLight, (float)distance, nameof(pointLight.Offset));
-            }
-            else
-            {
-                var diffuseAnimation = compositor.CreateVector3KeyFrameAnimation();
-                diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance));
-                diffuseAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-                diffuseAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
+                var delayTime = task.Delay != null ? task.Delay.Value : TimeSpan.FromMilliseconds(delay);
+                var durationTime = task.Duration != null ? task.Duration.Value : TimeSpan.FromMilliseconds(duration);
 
-                animationSet.AddCompositionEffectAnimation(pointLight, diffuseAnimation, nameof(pointLight.Offset));
-            }
+                if (durationTime.TotalMilliseconds <= 0)
+                {
+                    task.AnimationSet.AddEffectDirectPropertyChange(pointLight, (float)distance, nameof(pointLight.Offset));
+                }
+                else
+                {
+                    var diffuseAnimation = compositor.CreateVector3KeyFrameAnimation();
+                    diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance));
+                    diffuseAnimation.Duration = durationTime;
+                    diffuseAnimation.DelayTime = delayTime;
 
-            pointLights[visual] = pointLight;
+                    task.AnimationSet.AddCompositionEffectAnimation(pointLight, diffuseAnimation, nameof(pointLight.Offset));
+                }
 
+                pointLights[visual] = pointLight;
+            }, Windows.UI.Core.CoreDispatcherPriority.Normal);
+
+            animationSet.AddAnimationThroughTask(task);
             return animationSet;
         }
     }
