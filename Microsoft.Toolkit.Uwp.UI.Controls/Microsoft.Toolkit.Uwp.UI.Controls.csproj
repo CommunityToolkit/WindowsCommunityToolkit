@@ -49,6 +49,7 @@
     <Compile Include="BladeView\BladeControl.cs" />
     <Compile Include="BladeView\BladeItem.cs" />
     <Compile Include="BladeView\BladeItem.Properties.cs" />
+    <Compile Include="BladeView\BladeMode.cs" />
     <Compile Include="BladeView\BladeView.cs" />
     <Compile Include="BladeView\BladeView.Events.cs" />
     <Compile Include="BladeView\BladeView.Properties.cs" />
