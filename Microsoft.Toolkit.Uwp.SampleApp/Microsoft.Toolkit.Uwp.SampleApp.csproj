@@ -328,12 +328,9 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
-<<<<<<< HEAD
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
     <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
-=======
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
->>>>>>> 0c111c24a9c3db1559746f3dc751813939f312eb
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
