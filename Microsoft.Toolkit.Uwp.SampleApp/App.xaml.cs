@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;

@@ -26,7 +26,7 @@ You can either use the light behavior from your XAML code:
 or directly from code:
 
 ```csharp
-var animation = await ToolkitLogo.LightAsync(value: 10, duration: 500, delay: 0); 
+var animation = ToolkitLogo.Light(value: 10, duration: 500, delay: 0); 
 await animation.StartAsync();
 
 ```
@@ -39,7 +39,7 @@ Behavior animations can also be chained and awaited.
 
     await Element.Rotate(value: 30f, duration: 0.3).StartAsync();
 
-    var anim = await element.Rotate(30f).Fade(0.5).LightAsync(10);
+    var anim = element.Rotate(30f).Fade(0.5).Light(10);
     anim.SetDurationForAll(2);
     anim.Completed += animation_completed;
     anim.StartAsync();
