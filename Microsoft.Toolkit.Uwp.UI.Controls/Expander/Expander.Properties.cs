@@ -10,65 +10,34 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The <see cref="Expander"/> control allows user to show/hide content based on a boolean state
     /// </summary>
-    public partial class Expander : Control
+    public partial class Expander
     {
-        public static readonly DependencyProperty ExpanderToggleButtonStyleProperty =
-            DependencyProperty.Register("ExpanderToggleButtonStyle", typeof(Style), typeof(Expander), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.Register(nameof(Header), typeof(string), typeof(Expander), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty HeaderButtonStyleProperty =
-            DependencyProperty.Register("HeaderButtonStyle", typeof(Style), typeof(Expander), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty HeaderButtonContentProperty =
-            DependencyProperty.Register("HeaderButtonContent", typeof(object), typeof(Expander), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty HeaderButtonCommandProperty =
-            DependencyProperty.Register("HeaderButtonCommand", typeof(ICommand), typeof(Expander), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(object), typeof(Expander), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderTemplateProperty =
+            DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(Expander), new PropertyMetadata(null));
 
         public static readonly DependencyProperty IsExpandedProperty =
-            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
+            DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
 
-        public Style ExpanderToggleButtonStyle
+        public string Header
         {
-            get { return (Style)GetValue(ExpanderToggleButtonStyleProperty); }
-            set { SetValue(ExpanderToggleButtonStyleProperty, value); }
+            get { return (string)GetValue(HeaderProperty); }
+            set { SetValue(HeaderProperty, value); }
         }
 
-        public Style HeaderButtonStyle
+        public DataTemplate HeaderTemplate
         {
-            get { return (Style)GetValue(HeaderButtonStyleProperty); }
-            set { SetValue(HeaderButtonStyleProperty, value); }
-        }
-
-        public object HeaderButtonContent
-        {
-            get { return GetValue(HeaderButtonContentProperty); }
-            set { SetValue(HeaderButtonContentProperty, value); }
-        }
-
-        public ICommand HeaderButtonCommand
-        {
-            get { return (ICommand)GetValue(HeaderButtonCommandProperty); }
-            set { SetValue(HeaderButtonCommandProperty, value); }
-        }
-
-        public object Content
-        {
-            get { return GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
         }
 
         public bool IsExpanded
@@ -80,13 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
-            if (expander == null || expander._expanderButton == null)
-            {
-                return;
-            }
 
-            var isExpanded = (bool)e.NewValue;
-            expander._expanderButton.IsChecked = isExpanded;
+            bool isExpanded = (bool)e.NewValue;
             if (isExpanded)
             {
                 expander.ExpandControl();

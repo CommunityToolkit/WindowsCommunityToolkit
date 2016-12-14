@@ -304,12 +304,11 @@
     <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
-    <Content Include="SamplePages\BladeView\BladeCode.bind">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="SamplePages\BladeView\BladeCode.bind" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeaderCode.bind" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
@@ -540,10 +539,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Content Include="SamplePages\Expander\ExpanderXaml.bind">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
     <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

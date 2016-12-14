@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Windows.Input;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,15 +24,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentExpanded, GroupName = GroupContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
-    [TemplatePart(Name = HeaderButtonPart, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = HeaderPart, Type = typeof(Grid))]
     [ContentProperty(Name = "Content")]
-    public partial class Expander : Control
+    public partial class Expander : ContentControl
     {
-        private ToggleButton _expanderButton;
-        private ButtonBase _headerButton;
-
-        private RowDefinition _mainContentRow;
-
         public Expander()
         {
             DefaultStyleKey = typeof(Expander);
@@ -40,68 +35,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            _expanderButton = GetTemplateChild(ExpanderToggleButtonPart) as ToggleButton;
-            _headerButton = GetTemplateChild(HeaderButtonPart) as ButtonBase;
-            _mainContentRow = GetTemplateChild(MainContentRowPart) as RowDefinition;
+            base.OnApplyTemplate();
 
-            if (_expanderButton != null)
+            if (!IsExpanded)
             {
-                _expanderButton.Checked += OnExpanderButtonChecked;
-                _expanderButton.Unchecked += OnExpanderButtonUnChecked;
-                _expanderButton.IsChecked = IsExpanded;
-                if (IsExpanded)
-                {
-                    ExpandControl();
-                }
-                else
-                {
-                    CollapseControl();
-                }
+                VisualStateManager.GoToState(this, StateContentCollapsed, false);
             }
-
-            if (_headerButton != null)
-            {
-                _headerButton.Click += OnHeaderButtonClick;
-            }
-        }
-
-        private void OnHeaderButtonClick(object sender, RoutedEventArgs e)
-        {
-            HeaderButtonCommand?.Execute(null);
         }
 
         private void ExpandControl()
         {
-            if (_mainContentRow == null || !_mainContentRow.Height.Value.Equals(0d))
-            {
-                return;
-            }
-
             VisualStateManager.GoToState(this, StateContentExpanded, true);
-            _mainContentRow.Height = new GridLength(1, GridUnitType.Auto);
+            Expanded?.Invoke(this, new EventArgs());
         }
 
         private void CollapseControl()
         {
-            if (_mainContentRow == null || _mainContentRow.Height.Value.Equals(0d))
-            {
-                return;
-            }
-
             VisualStateManager.GoToState(this, StateContentCollapsed, true);
-            _mainContentRow.Height = new GridLength(0d);
-        }
-
-        private void OnExpanderButtonUnChecked(object sender, RoutedEventArgs e)
-        {
-            IsExpanded = false;
-            CollapseControl();
-        }
-
-        private void OnExpanderButtonChecked(object sender, RoutedEventArgs e)
-        {
-            IsExpanded = true;
-            ExpandControl();
+            Collapsed?.Invoke(this, new EventArgs());
         }
     }
 }

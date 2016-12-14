@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
@@ -17,12 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Expander
     {
-        public const string GroupContent = "ExpandedStates";
-        public const string StateContentExpanded = "Expanded";
-        public const string StateContentCollapsed = "Collapsed";
+        /// <summary>
+        /// Fires when the expander is opened
+        /// </summary>
+        public event EventHandler Expanded;
 
-        public const string ExpanderToggleButtonPart = "PART_ExpanderToggleButton";
-        public const string HeaderPart = "PART_Header";
-        public const string MainContentRowPart = "PART_MainContentRow";
+        /// <summary>
+        /// Fires when the expander is closed
+        /// </summary>
+        public event EventHandler Collapsed;
     }
 }
