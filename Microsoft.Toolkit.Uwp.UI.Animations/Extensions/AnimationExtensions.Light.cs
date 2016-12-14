@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <returns>An animation set.</returns>
-        public static AnimationSet LightAsync(
+        public static AnimationSet Light(
             this FrameworkElement associatedObject,
             double distance = 0d,
             double duration = 500d,
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.LightAsync(distance, duration, delay);
+            return animationSet.Light(distance, duration, delay);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>
         /// An Animation Set.
         /// </returns>
-        public static AnimationSet LightAsync(
+        public static AnimationSet Light(
             this AnimationSet animationSet,
             double distance = 0d,
             double duration = 500d,

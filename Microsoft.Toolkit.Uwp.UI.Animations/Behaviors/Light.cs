@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (AnimationExtensions.IsLightingSupported)
             {
-               (_frameworkElement?.LightAsync(duration: Duration, delay: Delay, distance: (float)Distance))?.StartAsync();
+               (_frameworkElement?.Light(duration: Duration, delay: Delay, distance: (float)Distance))?.StartAsync();
             }
         }
     }

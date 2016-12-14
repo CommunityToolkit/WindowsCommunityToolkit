@@ -42,12 +42,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _anim = Element.Offset(50, 50)
                    .Rotate(45, 50, 50)
-                   .LightAsync(2)
+                   .Light(2)
                    .SetDuration(2000)
                    .Then()
                    .Rotate(0, 50, 50)
                    .Offset(0, 0)
-                   .LightAsync(10)
+                   .Light(10)
                    .SetDuration(2000);
 
                 //_anim = Element.LightAsync(2)
