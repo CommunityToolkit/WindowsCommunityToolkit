@@ -99,25 +99,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
+            view.UpdateView();
+        }
 
-            if (view.SelectedItem != null)
+        protected virtual void UpdateView()
+        {
+            if (SelectedItem != null)
             {
                 // Move the visual to the side so it can animate back in
-                view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
+                _detailsVisual.Offset = new Vector3((float)_detailsPresenter.ActualWidth, 0, 0);
             }
 
-            view._detailsPresenter.Content = view.MapDetails == null
-                ? view.SelectedItem
-                : view.MapDetails(view.SelectedItem);
+            _detailsPresenter.Content = MapDetails == null
+                ? SelectedItem
+                : MapDetails(SelectedItem);
 
             // determine the animate to create. If the SelectedItem is null we
             // want to animate the content out. If the SelectedItem is not null
             // we want to animate the content in
-            Vector3 offset = view.SelectedItem == null
-                ? new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0)
-                : new Vector3(-(float)view._detailsPresenter.ActualWidth, 0, 0);
-            view.AnimateFromCurrentByValue(view._detailsVisual, offset);
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            Vector3 offset = SelectedItem == null
+                ? new Vector3((float)_detailsPresenter.ActualWidth, 0, 0)
+                : new Vector3(-(float)_detailsPresenter.ActualWidth, 0, 0);
+            AnimateFromCurrentByValue(_detailsVisual, offset);
+            SetBackButtonVisibility(_stateGroup.CurrentState);
         }
 
         /// <summary>
@@ -196,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetMasterHeaderVisibility()
+        protected virtual void SetMasterHeaderVisibility()
         {
             var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
             if (headerPresenter != null)
