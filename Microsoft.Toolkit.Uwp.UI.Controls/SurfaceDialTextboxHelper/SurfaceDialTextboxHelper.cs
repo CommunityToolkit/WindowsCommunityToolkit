@@ -24,39 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public static class SurfaceDialTextboxHelper
     {
-        /// <summary>
-        /// The Surface Dial controller instance itself
-        /// </summary>
-        private static RadialController _controller;
-
-        /// <summary>
-        /// A default menu item that will be used for this to function. It will automatically be cleaned up when you move away from the TextBox, and created on Focus.
-        /// </summary>
-        private static RadialControllerMenuItem _stepTextMenuItem;
-
-        /// <summary>
-        /// The textbox itself needed to refernece the current TextBox that is being modified
-        /// </summary>
-        private static TextBox _textBox;
-
-        /// <summary>
-        /// Gets or sets the controller for the Surface Dial. The RadialController can be set from your app logic in case you use Surface Dial in other custom cases than on a TextBox.
-        /// This helper class will do everything for you, but if you want to control the Menu Items and/or wish to use the same Surface Dial insta
-        /// This is the property for the static controller so you can access it if needed.
-        /// </summary>
-        public static RadialController Controller
-        {
-            get
-            {
-                return _controller;
-            }
-
-            set
-            {
-                _controller = value;
-            }
-        }
-
        /// <summary>
         /// If you provide the Controller yourself, set this to true so you won't add new menu items.
         /// </summary>
@@ -263,6 +230,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static void SetForceMenuItem(DependencyObject obj, bool value)
         {
             obj.SetValue(ForceMenuItemProperty, value);
+        }
+
+        /// <summary>
+        /// The Surface Dial controller instance itself
+        /// </summary>
+        private static RadialController _controller;
+
+        /// <summary>
+        /// A default menu item that will be used for this to function. It will automatically be cleaned up when you move away from the TextBox, and created on Focus.
+        /// </summary>
+        private static RadialControllerMenuItem _stepTextMenuItem;
+
+        /// <summary>
+        /// The textbox itself needed to refernece the current TextBox that is being modified
+        /// </summary>
+        private static TextBox _textBox;
+
+        /// <summary>
+        /// Gets or sets the controller for the Surface Dial. The RadialController can be set from your app logic in case you use Surface Dial in other custom cases than on a TextBox.
+        /// This helper class will do everything for you, but if you want to control the Menu Items and/or wish to use the same Surface Dial insta
+        /// This is the property for the static controller so you can access it if needed.
+        /// </summary>
+        public static RadialController Controller
+        {
+            get
+            {
+                return _controller;
+            }
+
+            set
+            {
+                _controller = value;
+            }
         }
 
         /// <summary>
