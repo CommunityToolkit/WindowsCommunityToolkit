@@ -12,6 +12,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
+using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
@@ -88,6 +89,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
             Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void GetLocation_OnClick(object sender, RoutedEventArgs e)
+        {
+            var geolocator = new Geolocator();
+
+            var position = await geolocator.GetGeopositionAsync();
+
+            Latitude.Text = position.Coordinate.Point.Position.Latitude.ToString();
+            Longitude.Text = position.Coordinate.Point.Position.Longitude.ToString();
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
