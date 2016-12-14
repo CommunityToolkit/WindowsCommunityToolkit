@@ -52,7 +52,7 @@ var status = new TwitterStatus
 				Longitude = validLongitude,
 				PlaceId = "df51dec6f4ee2b2c",			// As defined by Twitter
 				PossiblySensitive = true,				// As defined by Twitter (nudity, violence, or medical procedures)
-				TrimUser = true,
+				TrimUser = true
 			}
 
 await TwitterService.Instance.TweetStatusAsync(status);
