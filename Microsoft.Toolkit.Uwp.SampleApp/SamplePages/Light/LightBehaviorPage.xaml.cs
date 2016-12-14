@@ -11,20 +11,30 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An page that shows how to use the Blade Control
+    /// A page that shows how to use the light behavior.
     /// </summary>
-    public sealed partial class BladePage
+    public sealed partial class LightBehaviorPage : Page
     {
-        public BladePage()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LightBehaviorPage"/> class.
+        /// </summary>
+        public LightBehaviorPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// </summary>
+        /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -34,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (propertyDesc != null)
             {
                 DataContext = propertyDesc.Expando;
+            }
+
+            if (!AnimationExtensions.IsLightingSupported)
+            {
+                WarningText.Visibility = Visibility.Visible;
             }
         }
     }

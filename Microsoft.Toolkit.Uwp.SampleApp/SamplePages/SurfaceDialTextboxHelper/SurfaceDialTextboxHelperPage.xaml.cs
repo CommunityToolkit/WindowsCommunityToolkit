@@ -11,16 +11,17 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An page that shows how to use the Blade Control
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BladePage
+    public sealed partial class SurfaceDialTextboxHelperPage : Page
     {
-        public BladePage()
+        public SurfaceDialTextboxHelperPage()
         {
             InitializeComponent();
         }

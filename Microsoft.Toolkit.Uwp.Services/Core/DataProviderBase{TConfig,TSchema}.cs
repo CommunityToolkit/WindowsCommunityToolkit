@@ -28,10 +28,11 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper record limit.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <returns>List of strong typed objects.</returns>
-        public Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20)
+        public Task<IEnumerable<TSchema>> LoadDataAsync(TConfig config, int maxRecords = 20, int pageIndex = 0)
         {
-            return LoadDataAsync(config, maxRecords, GetDefaultParser(config));
+            return LoadDataAsync(config, maxRecords, pageIndex, GetDefaultParser(config));
         }
 
         /// <summary>

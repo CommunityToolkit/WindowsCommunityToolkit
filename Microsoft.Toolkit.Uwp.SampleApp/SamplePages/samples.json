@@ -122,6 +122,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "SurfaceDialTextboxHelper",
+        "Type": "SurfaceDialTextboxHelperPage",
+        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
+        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
       }
     ]
   },
@@ -206,6 +214,15 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png"
+      },
+      {
+        "Name": "Light",
+        "Type": "LightBehaviorPage",
+        "About": "Light XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "LightBehaviorCode.bind",
+        "XamlCodeFile": "LightBehaviorXaml.bind",
+        "Icon": "/SamplePages/Light/LightBehavior.png"
       },
       {
         "Name": "FadeHeader",

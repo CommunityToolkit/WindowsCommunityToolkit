@@ -10,29 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Composition;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// Defines an <see cref="EffectDirectPropertyChangeDefinition"/> which is used by
-    /// <see cref="AnimationSet"/> to link effect property Changes to Visuals
-    /// </summary>
-    internal class EffectDirectPropertyChangeDefinition
+    public enum BladeMode
     {
         /// <summary>
-        /// Gets or sets <see cref="CompositionObject"/> that will be animated
+        /// Default mode : each blade will take the specified Width and Height
         /// </summary>
-        public CompositionObject EffectBrush { get; set; }
+        Normal,
 
         /// <summary>
-        /// Gets or sets the <see cref="float"/> value for the property
+        /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
         /// </summary>
-        public float Value { get; set; }
-
-        /// <summary>
-        /// Gets or sets the property name that will be animated on the <see cref="CompositionEffectBrush"/>
-        /// </summary>
-        public string PropertyName { get; set; }
+        Fullscreen
     }
 }
