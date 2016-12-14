@@ -210,10 +210,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the item.</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>an instance of Generic type</returns>
-        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
+        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, false, default(CancellationToken));
+            return GetItemAsync(uri, throwOnError, false, cancellationToken);
         }
 
         /// <summary>

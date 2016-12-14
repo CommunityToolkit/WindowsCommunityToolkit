@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="uri">Uri to request.</param>
         /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Response stream</returns>
-        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken)
+        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
         {
             var outputStream = new InMemoryRandomAccessStream();
 
