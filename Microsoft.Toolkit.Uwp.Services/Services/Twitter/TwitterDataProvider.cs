@@ -321,6 +321,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Success or failure.</returns>
         public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
+            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
+        }
+
+        /// <summary>
+        /// Tweets a status update.
+        /// </summary>
+        /// <param name="status">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        {
             try
             {
                 var mediaIds = string.Empty;
@@ -336,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     mediaIds = "&media_ids=" + string.Join(",", ids);
                 }
 
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{mediaIds}");
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 await request.ExecutePostAsync(uri, _tokens);
