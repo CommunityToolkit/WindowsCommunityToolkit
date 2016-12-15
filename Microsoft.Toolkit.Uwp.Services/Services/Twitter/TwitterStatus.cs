@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Globalization;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
@@ -38,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// NOTE: This parameter will be ignored unless it is inside the range -90.0 to +90.0 (North is positive) inclusive.
         /// It will also be ignored if there isn’t a corresponding long parameter.
         /// </summary>
-        public decimal? Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         /// <summary>
         /// Gets or sets the longitude of the "tweet" message.
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled,
         /// or if there not a corresponding lat parameter.
         /// </summary>
-        public decimal? Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         /// <summary>
         /// Gets or sets the text of the Tweet message.
@@ -59,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string PlaceId { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Tweet contains sensitive content (suchas nudity, etc.).
+        /// Gets or sets a value indicating whether the Tweet contains sensitive content (such as nudity, etc.).
         /// </summary>
         public bool PossiblySensitive { get; set; }
 
@@ -74,10 +75,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 if (Latitude.HasValue && Longitude.HasValue)
                 {
-                    result = $"{result}&lat={Latitude.Value}&long={Longitude.Value}";
+                    result = $"{result}&lat={Latitude.Value.ToString(CultureInfo.InvariantCulture)}&long={Longitude.Value.ToString(CultureInfo.InvariantCulture)}";
+                    result = AddRequestParameter(result, "display_coordinates", DisplayCoordinates);
                 }
 
-                result = AddRequestParameter(result, "display_coordinates", DisplayCoordinates);
                 result = AddRequestParameter(result, "in_reply_to_status_id", InReplyToStatusId);
                 result = AddRequestParameter(result, "place_id", PlaceId);
                 result = AddRequestParameter(result, "possibly_sensitive", PossiblySensitive);
@@ -110,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             if (!string.IsNullOrEmpty(value))
             {
-                result = $"{result}&{parameterName}={value}";
+                result = $"{result}&{parameterName}={Uri.EscapeDataString(value)}";
             }
 
             return result;

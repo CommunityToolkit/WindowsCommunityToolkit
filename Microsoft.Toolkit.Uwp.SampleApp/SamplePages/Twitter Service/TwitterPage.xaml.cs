@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Globalization;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
@@ -93,12 +94,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void GetLocation_OnClick(object sender, RoutedEventArgs e)
         {
-            var geolocator = new Geolocator();
+            try
+            {
+                var geolocator = new Geolocator();
 
-            var position = await geolocator.GetGeopositionAsync();
+                var position = await geolocator.GetGeopositionAsync();
 
-            Latitude.Text = position.Coordinate.Point.Position.Latitude.ToString();
-            Longitude.Text = position.Coordinate.Point.Position.Longitude.ToString();
+                var pos = position.Coordinate.Point.Position;
+
+                Latitude.Text = pos.Latitude.ToString(CultureInfo.InvariantCulture);
+                Longitude.Text = pos.Longitude.ToString(CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog($"An error occured finding your location. Message: {ex.Message}").ShowAsync();
+            }
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
@@ -112,8 +122,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DisplayCoordinates = DisplayCoordinates.IsChecked == true,
                 Message = TweetText.Text,
-                Latitude = string.IsNullOrEmpty(Latitude.Text) ? (decimal?)null : Convert.ToDecimal(Latitude.Text),
-                Longitude = string.IsNullOrEmpty(Longitude.Text) ? (decimal?)null : Convert.ToDecimal(Longitude.Text)
+                Latitude = string.IsNullOrEmpty(Latitude.Text) ? (double?)null : Convert.ToDouble(Latitude.Text),
+                Longitude = string.IsNullOrEmpty(Longitude.Text) ? (double?)null : Convert.ToDouble(Longitude.Text)
             };
 
             Shell.Current.DisplayWaitRing = true;
