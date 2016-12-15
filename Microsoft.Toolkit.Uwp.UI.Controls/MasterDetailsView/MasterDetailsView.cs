@@ -47,9 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
-        private Visual _root;
-        private Compositor _compositor;
-        private Visual _detailsVisual;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -71,12 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            var detailsPanel = (FrameworkElement)GetTemplateChild(PartDetailsPanel);
-            _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
-            _compositor = _root.Compositor;
-
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
 
             SetMasterHeaderVisibility();
         }
