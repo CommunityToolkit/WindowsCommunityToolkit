@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,6 +11,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
     /// </summary>
     public partial class WrapPanel : Panel
     {
+        private List<double> _vSize;
+
         /// <summary>
         /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
         /// </summary>
@@ -36,10 +35,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
+            _vSize = new List<double> { 0.0 };
             var totalMeasure = new UvMeasure();
-            var parentMeasure = new UvMeasure();
+            var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var lineMeasure = new UvMeasure();
-            foreach (UIElement child in Children)
+            foreach (var child in Children)
             {
                 child.Measure(availableSize);
 
@@ -56,20 +56,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                     // to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
                     totalMeasure.V += lineMeasure.V;
+                    _vSize.Add(lineMeasure.V);
 
-                    // if the new row still can handle more controls
+                    // if the next new row still can handle more controls
                     if (parentMeasure.U > currentMeasure.U)
                     {
                         // set lineMeasure initial values to the currentMeasure to be calculated later on the new loop
                         lineMeasure = currentMeasure;
                     }
 
-                    //
+                    // the control will take one row alone
                     else
                     {
                         // validate the new control measures
                         totalMeasure.U = Math.Max(currentMeasure.U, totalMeasure.U);
                         totalMeasure.V += currentMeasure.V;
+                        _vSize.Add(currentMeasure.V);
 
                         // add new empty line
                         lineMeasure = new UvMeasure();
@@ -84,14 +86,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             // this way is faster than an if condition in every loop for checking the last item
             totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
             totalMeasure.V += lineMeasure.V;
-            if (Orientation == Orientation.Horizontal)
+            _vSize.Add(lineMeasure.V);
+
+            return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
+        }
+
+        /// <inheritdoc />
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
+            var lineMeasure = new UvMeasure();
+
+            var controlsIndex = 0;
+            var totalVSize = 0.0;
+            foreach (var vSize in _vSize)
             {
-                return new Size(totalMeasure.U, totalMeasure.V);
+                totalVSize += vSize;
+                for (; controlsIndex < Children.Count; controlsIndex++)
+                {
+                    var control = Children[controlsIndex];
+                    var currentMeasure = new UvMeasure(
+                        Orientation,
+                        control.DesiredSize.Width,
+                        control.DesiredSize.Height);
+
+                    if (parentMeasure.U > currentMeasure.U + lineMeasure.U)
+                    {
+                        if (Orientation == Orientation.Horizontal)
+                        {
+                            control.Arrange(new Rect(
+                                lineMeasure.U,
+                                totalVSize,
+                                control.DesiredSize.Width,
+                                control.DesiredSize.Height));
+                            lineMeasure.U += currentMeasure.U;
+                        }
+                        else
+                        {
+                            control.Arrange(new Rect(
+                                totalVSize,
+                                lineMeasure.U,
+                                control.DesiredSize.Width,
+                                control.DesiredSize.Height));
+                            lineMeasure.U += currentMeasure.U;
+                        }
+                    }
+                    else
+                    {
+                        lineMeasure = new UvMeasure();
+                        break;
+                    }
+                }
             }
-            else
-            {
-                return new Size(totalMeasure.V, totalMeasure.U);
-            }
+
+            return finalSize;
         }
     }
 }

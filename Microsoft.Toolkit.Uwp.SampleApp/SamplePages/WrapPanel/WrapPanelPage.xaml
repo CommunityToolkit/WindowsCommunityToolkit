@@ -12,10 +12,39 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <wrapPanel:WrapPanel Margin="20">
-            <Button Content="Control1" />
-            <Button Content="Control1" />
-            <Button Content="Control1" />
-        </wrapPanel:WrapPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Name="HorizontalButton"
+                    Click="HorizontalButton_Click"
+                    Content="Add Horizontal Control" />
+            <wrapPanel:WrapPanel Name="HorizontalWrapPanel"
+                                 Grid.Row="1"
+                                 Margin="20">
+                <Button Content="Button" />
+                <Button Content="Button" />
+                <Button Content="Button" />
+            </wrapPanel:WrapPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Name="VerticalButton"
+                    Click="VerticalButton_Click"
+                    Content="Add Vertical Control" />
+            <wrapPanel:WrapPanel Name="VerticalWrapPanel"
+                                 Grid.Row="1"
+                                 Margin="20"
+                                 Orientation="Vertical">
+                <Button Content="Button" />
+                <Button Content="Button" />
+                <Button Content="Button" />
+            </wrapPanel:WrapPanel>
+        </Grid>
     </Grid>
 </Page>
