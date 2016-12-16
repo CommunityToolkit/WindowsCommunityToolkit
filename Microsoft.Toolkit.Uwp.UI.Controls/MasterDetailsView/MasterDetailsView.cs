@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -118,7 +119,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            }
 
             if (_stateGroup != null)
             {
@@ -140,7 +144,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            }
         }
 
         /// <summary>
@@ -193,6 +200,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void SetBackButtonVisibility(VisualState currentState)
         {
             UpdateViewState();
+            if (DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
 
             if (ViewState == MasterDetailsViewState.Details)
             {
