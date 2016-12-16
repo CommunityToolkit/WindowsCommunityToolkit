@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// On platforms not supporting the animation, this class has no effect.
         /// </remarks>
         public static bool IsSupported =>
+            Windows.ApplicationModel.DesignMode.DesignModeEnabled ? false :
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
