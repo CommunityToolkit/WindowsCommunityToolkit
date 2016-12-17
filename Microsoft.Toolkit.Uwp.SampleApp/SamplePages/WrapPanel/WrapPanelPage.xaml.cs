@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel;
+﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -8,9 +9,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class WrapPanelPage : Page
     {
+        private static readonly Random Rand = new Random();
+
         private static Button GenerateButton()
         {
-            var button = new Button { Content = "Button" };
+            var button = new Button { Content = "Button", Width = (double)Rand.Next(40, 80), Height = (double)Rand.Next(40, 80) };
             button.Click += (sender, args) =>
             {
                 var currentButton = sender as Button;

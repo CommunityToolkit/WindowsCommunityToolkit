@@ -21,12 +21,7 @@
                     Click="HorizontalButton_Click"
                     Content="Add Horizontal Control" />
             <wrapPanel:WrapPanel Name="HorizontalWrapPanel"
-                                 Grid.Row="1"
-                                 Margin="20">
-                <Button Content="Button" />
-                <Button Content="Button" />
-                <Button Content="Button" />
-            </wrapPanel:WrapPanel>
+                                 Grid.Row="1" />
         </Grid>
 
         <Grid Grid.Row="1">
@@ -40,11 +35,7 @@
             <wrapPanel:WrapPanel Name="VerticalWrapPanel"
                                  Grid.Row="1"
                                  Margin="20"
-                                 Orientation="Vertical">
-                <Button Content="Button" />
-                <Button Content="Button" />
-                <Button Content="Button" />
-            </wrapPanel:WrapPanel>
+                                 Orientation="Vertical" />
         </Grid>
     </Grid>
 </Page>
