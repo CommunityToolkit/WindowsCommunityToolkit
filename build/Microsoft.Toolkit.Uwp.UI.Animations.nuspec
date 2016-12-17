@@ -6,7 +6,7 @@
     <title>UWP Community Toolkit Animations</title>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
-    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -18,7 +18,7 @@
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
       <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.1.0" />
-      <dependency id="Win2D.uwp" version="1.18.0" />
+      <dependency id="Win2D.uwp" version="1.19.0" />
     </dependencies>
   </metadata>
   <files>
@@ -26,5 +26,6 @@
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pdb" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pri" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations\Assets\SphericalWithMask.png" target="lib\uap10.0\Microsoft.Toolkit.Uwp.UI.Animations\Assets" />
   </files>
 </package>
