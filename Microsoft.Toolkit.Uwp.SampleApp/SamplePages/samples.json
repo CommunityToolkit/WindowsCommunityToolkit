@@ -116,6 +116,22 @@
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
       },
       {
+        "Name": "TextBoxMask",
+        "Type": "TextBoxMaskPage",
+        "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
+        "XamlCodeFile": "TextBoxMask.bind",
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "SurfaceDialTextboxHelper",
+        "Type": "SurfaceDialTextboxHelperPage",
+        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
+        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
+      },
+      {
         "Name": "WrapPanel",
         "Type": "WrapPanelPage",
         "About": "",
@@ -208,6 +224,15 @@
         "Icon": "/SamplePages/Blur/blurBehavior.png"
       },
       {
+        "Name": "Light",
+        "Type": "LightBehaviorPage",
+        "About": "Light XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "LightBehaviorCode.bind",
+        "XamlCodeFile": "LightBehaviorXaml.bind",
+        "Icon": "/SamplePages/Light/LightBehavior.png"
+      },
+      {
         "Name": "FadeHeader",
         "Type": "FadeHeaderBehaviorPage",
         "About": "Fade ListView and GridView Headers",
@@ -215,6 +240,14 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
+      },
+      {
+        "Name": "ReorderGridAnimation",
+        "Type": "ReorderGridPage",
+        "About": "Animates items of a grid when the size changes",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+        "XamlCodeFile": "ReorderGrid.bind",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png"
       }
     ]
   },
