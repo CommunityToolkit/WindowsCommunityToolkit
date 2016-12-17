@@ -326,6 +326,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
   </ItemGroup>
   <ItemGroup>
