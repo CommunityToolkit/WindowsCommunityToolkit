@@ -223,5 +223,27 @@ namespace UnitTests.Helpers
 
             Assert.IsFalse(result);
         }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithCorrectFilePath()
+        {
+            string filepath = "my_folder/my_file.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithIllegalCharacters()
+        {
+            string filepath = "my_folder/my_file.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsFalse(result);
+        }
     }
 }

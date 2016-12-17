@@ -622,6 +622,17 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Gets a value indicating whether a file path is correct or not using the Storage feature.
+        /// </summary>
+        /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
+        /// <returns>Returns true if the file path is valid.</returns>
+        public static bool IsFilePathValid(string filePath)
+        {
+            var illegalChars = Path.GetInvalidPathChars();
+            return filePath.All(c => !illegalChars.Contains(c));
+        }
+
+        /// <summary>
         /// Gets a value indicating whether a file exists in the current folder.
         /// </summary>
         /// <param name="folder">
