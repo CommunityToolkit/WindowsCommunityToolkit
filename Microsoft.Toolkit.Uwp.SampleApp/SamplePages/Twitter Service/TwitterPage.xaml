@@ -187,6 +187,32 @@
                             <TextBox x:Name="TweetText"
                                      Margin="0,0,0,12"
                                      Header="Tweet" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <AppBarButton x:Name="GetLocation"
+                                              Label="Locate"
+                                              Icon="World"
+                                              Click="GetLocation_OnClick" />
+                                <TextBox x:Name="Latitude"
+                                         Grid.Column="1"
+                                         Margin="0,0,6,12"
+                                         Header="Latitude" />
+                                <TextBox x:Name="Longitude"
+                                         Grid.Column="2"
+                                         Margin="6,0,6,12"
+                                         Header="Longitude" />
+                                <CheckBox x:Name="DisplayCoordinates"
+                                          Grid.Column="3"
+                                          Margin="6,0,6,12"
+                                          VerticalAlignment="Bottom"
+                                          Content="Display Coords" />
+                            </Grid>
+
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
                                         Margin="0,0,12,0"
@@ -247,7 +273,8 @@
                               SelectionMode="None">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Stretch" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListViewItem">

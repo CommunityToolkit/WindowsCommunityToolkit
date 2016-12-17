@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Numerics;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -40,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// On platforms not supporting drop shadows, this control has no effect.
         /// </remarks>
         public static bool IsSupported =>
+            !DesignMode.DesignModeEnabled &&
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
@@ -48,6 +50,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public DropShadowPanel()
         {
             InitializeComponent();
+
+            if (DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
+
             DefaultStyleKey = typeof(CompositionShadow);
 
             SizeChanged += CompositionShadow_SizeChanged;
@@ -60,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _shadowVisual = compositor.CreateSpriteVisual();
 
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
@@ -156,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateShadowMask()
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 if (_contentElement != null)
                 {

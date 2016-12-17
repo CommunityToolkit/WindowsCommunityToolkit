@@ -34,4 +34,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         [EnumString("protocol")]
         Protocol
     }
+
+    /// <summary>
+    /// Specifies the behavior that the toast should use when the user takes action on the toast.
+    /// </summary>
+    public enum ToastAfterActivationBehavior
+    {
+        /// <summary>
+        /// Default behavior. The toast will be dismissed when the user takes action on the toast.
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// After the user clicks a button on your toast, the notification will remain present, in a "pending update" visual state. You should immediately update your toast from a background task so that the user does not see this "pending update" visual state for too long.
+        /// </summary>
+        [EnumString("pendingUpdate")]
+        PendingUpdate
+    }
 }

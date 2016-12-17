@@ -48,9 +48,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationSetState.cs" />
+    <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\Blur.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
+    <Compile Include="Behaviors\Light.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Fade.cs" />
     <Compile Include="Behaviors\Rotate.cs" />
@@ -62,11 +65,14 @@
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Light.cs" />
     <Compile Include="Extensions\AnimationExtensions.Offset.cs" />
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
     <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
     <Compile Include="Extensions\AnimationTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReorderGridAnimation.cs" />
+    <Compile Include="SurfaceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
@@ -82,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Animations.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\SphericalWithMask.png" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

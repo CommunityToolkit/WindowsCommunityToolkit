@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <remarks>
         /// You can use this event to tweak the final rendering by adding/moving controls in the page.
         /// </remarks>
-        public event Action<List<Page>> OnPreviewPagesCreated;
+        public event Action<List<FrameworkElement>> OnPreviewPagesCreated;
 
         /// <summary>
         /// Gets or sets the percent of app's margin width
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp
         /// A list of UIElements used to store the print preview pages.  This gives easy access
         /// to any desired preview page.
         /// </summary>
-        private List<Page> _printPreviewPages;
+        private List<FrameworkElement> _printPreviewPages;
 
         /// <summary>
         ///  A hidden canvas used to hold pages we wish to print
@@ -80,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp
         private Panel _canvasContainer;
         private string _printTaskName;
         private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
+        private bool _directPrint = false;
 
         /// <summary>
         /// Gets the list of Framework element to print
@@ -97,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException();
             }
 
-            _printPreviewPages = new List<Page>();
+            _printPreviewPages = new List<FrameworkElement>();
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
 
@@ -144,9 +145,12 @@ namespace Microsoft.Toolkit.Uwp
         /// Start the print task.
         /// </summary>
         /// <param name="printTaskName">Name of the print task to use</param>
+        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with AddFrameworkElementToPrint method</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
-        public async Task ShowPrintUIAsync(string printTaskName)
+        public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
+            this._directPrint = directPrint;
+
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested += PrintTaskRequested;
 
@@ -186,8 +190,11 @@ namespace Microsoft.Toolkit.Uwp
 
         private void DetachCanvas()
         {
-            _canvasContainer.Children.Remove(_printCanvas);
-            _printCanvas.Children.Clear();
+            if (!_directPrint)
+            {
+                _canvasContainer.Children.Remove(_printCanvas);
+                _printCanvas.Children.Clear();
+            }
 
             _stateBags.Clear();
 
@@ -251,24 +258,34 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="e">Paginate Event Arguments</param>
         private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
-            // Attach the canvas
-            _canvasContainer.Children.Add(_printCanvas);
-
-            // Clear the cache of preview pages
-            ClearPageCache();
-
-            // Clear the print canvas of preview pages
-            _printCanvas.Children.Clear();
-
             // Get the PrintTaskOptions
             PrintTaskOptions printingOptions = e.PrintTaskOptions;
 
             // Get the page description to determine how big the page is
             PrintPageDescription pageDescription = printingOptions.GetPageDescription(0);
 
-            foreach (var element in _elementsToPrint)
+            if (_directPrint)
             {
-                AddOnePrintPreviewPage(element, pageDescription);
+                foreach (FrameworkElement element in this._canvasContainer.Children)
+                {
+                    _printPreviewPages.Add(element);
+                }
+            }
+            else
+            {
+                // Attach the canvas
+                _canvasContainer.Children.Add(_printCanvas);
+
+                // Clear the cache of preview pages
+                ClearPageCache();
+
+                // Clear the print canvas of preview pages
+                _printCanvas.Children.Clear();
+
+                foreach (var element in _elementsToPrint)
+                {
+                    AddOnePrintPreviewPage(element, pageDescription);
+                }
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
@@ -374,9 +391,12 @@ namespace Microsoft.Toolkit.Uwp
 
         private void ClearPageCache()
         {
-            foreach (var page in _printPreviewPages)
+            if (!_directPrint)
             {
-                page.Content = null;
+                foreach (Page page in _printPreviewPages)
+                {
+                    page.Content = null;
+                }
             }
 
             _printPreviewPages.Clear();

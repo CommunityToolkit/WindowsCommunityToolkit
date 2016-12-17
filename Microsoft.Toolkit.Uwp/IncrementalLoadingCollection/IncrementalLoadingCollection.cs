@@ -42,6 +42,21 @@ namespace Microsoft.Toolkit.Uwp
          where TSource : IIncrementalSource<IType>
     {
         /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </summary>
+        public Action OnStartLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </summary>
+        public Action OnEndLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called if an error occours during data retrieval. The actual <see cref="Exception"/> is passed as an argument.
+        /// </summary>
+        public Action<Exception> OnError { get; set; }
+
+        /// <summary>
         /// Gets a value indicating the source of incremental loading.
         /// </summary>
         protected TSource Source { get; }
@@ -55,10 +70,6 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets or sets a value indicating The zero-based index of the current items page.
         /// </summary>
         protected int CurrentPageIndex { get; set; }
-
-        private readonly Action _onStartLoading;
-        private readonly Action _onEndLoading;
-        private readonly Action<Exception> _onError;
 
         private bool _isLoading;
         private bool _hasMoreItems;
@@ -83,11 +94,11 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (_isLoading)
                     {
-                        _onStartLoading?.Invoke();
+                        OnStartLoading?.Invoke();
                     }
                     else
                     {
-                        _onEndLoading?.Invoke();
+                        OnEndLoading?.Invoke();
                     }
                 }
             }
@@ -167,9 +178,9 @@ namespace Microsoft.Toolkit.Uwp
 
             Source = source;
 
-            _onStartLoading = onStartLoading;
-            _onEndLoading = onEndLoading;
-            _onError = onError;
+            OnStartLoading = onStartLoading;
+            OnEndLoading = onEndLoading;
+            OnError = onError;
 
             ItemsPerPage = itemsPerPage;
             _hasMoreItems = true;
@@ -221,9 +232,9 @@ namespace Microsoft.Toolkit.Uwp
                     {
                         // The operation has been canceled using the Cancellation Token.
                     }
-                    catch (Exception ex) when (_onError != null)
+                    catch (Exception ex) when (OnError != null)
                     {
-                        _onError.Invoke(ex);
+                        OnError.Invoke(ex);
                     }
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
