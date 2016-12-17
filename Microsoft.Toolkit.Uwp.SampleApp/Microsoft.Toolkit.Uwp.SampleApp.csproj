@@ -338,7 +338,7 @@
     <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelperCode.bind">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="SamplePages\WrapPanel\WrapPanel.bind" />
+    <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

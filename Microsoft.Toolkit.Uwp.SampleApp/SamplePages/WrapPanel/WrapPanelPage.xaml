@@ -21,7 +21,8 @@
                     Click="HorizontalButton_Click"
                     Content="Add Horizontal Control" />
             <wrapPanel:WrapPanel Name="HorizontalWrapPanel"
-                                 Grid.Row="1" />
+                                 Grid.Row="1"
+                                 Margin="20" />
         </Grid>
 
         <Grid Grid.Row="1">
