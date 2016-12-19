@@ -26,6 +26,5 @@
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pdb" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.pri" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.xml" target="lib\uap10.0" />
-    <file src="$binaries$\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations\Assets\SphericalWithMask.png" target="lib\uap10.0\Microsoft.Toolkit.Uwp.UI.Animations\Assets" />
   </files>
 </package>
