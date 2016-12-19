@@ -8,7 +8,7 @@ public class Person
 
 public class PeopleSource : IIncrementalSource<Person>
 {
-    private readonly List<Person> people;
+    private readonly List<Person> _people;
 
     public PeopleSource()
     {
