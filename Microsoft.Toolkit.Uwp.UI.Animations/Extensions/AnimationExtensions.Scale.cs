@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="duration">The duration in millisecond.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
-        /// <param name="interpolationType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            InterpolationType interpolationType = InterpolationType.Cubic)
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, interpolationType);
+            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, easingType);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="centerY">The center y in pixels.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
-        /// <param name="interpolationType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            InterpolationType interpolationType = InterpolationType.Cubic)
+            EasingType easingType = EasingType.Default)
         {
             if (animationSet == null)
             {
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(interpolationType);
+                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType);
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "ScaleX"), animationX);
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "ScaleY"), animationY);

@@ -52,12 +52,13 @@ Behaviors can also be chained and awaited.
 
 [Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale)
 
-## InterpolationType
+## EasingType
 
-You can change the way how the animation interpolates between keyframes by defining the InterpolationType using an optional parameter. The default is **Cubic**.
+You can change the way how the animation interpolates between keyframes by defining the EasingType using an optional parameter.
 
-| InterpolationType | Explanation|
+| EasingType | Explanation|
 | --- | --- |
+| Default | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic. |
 | Linear | Creates an animation that accelerates or decelerates linear. |
 | Cubic | Creates an animation that accelerates or decelerates using the formula f(t) = t3. |
 | Back | Retracts the motion of an animation slightly before it begins to animate in the path indicated. |
@@ -71,7 +72,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 **Example Usage:**
 ```csharp
-MyRectangle.Offset(value: 10, duration: 10, delay: 0, interpolationType: InterpolationType.Bounce);       
+MyRectangle.Offset(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
 ```
 
 ## Example Image

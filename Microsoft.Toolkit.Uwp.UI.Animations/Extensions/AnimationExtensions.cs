@@ -23,6 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public static partial class AnimationExtensions
     {
+        /// <summary>
+        /// Gets or sets the default EasingType used for storyboard animations
+        /// </summary>
+        public static EasingType DefaultEasingType { get; set; } = EasingType.Cubic;
 
         /// <summary>
         /// Begins a Storyboard animation and returns a task that completes when the
@@ -44,6 +48,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             storyboard.Begin();
 
             return taskSource.Task;
+        }
+
+        /// <summary>
+        /// Gets the EasingFunction from EasingType
+        /// </summary>
+        /// <param name="easingType">The EasingType used to determine the EasingFunction</param>
+        /// <returns>Return the appropriate EasingFuntion or null if the EasingType is Linear</returns>
+        public static EasingFunctionBase GetEasingFunction(EasingType easingType)
+        {
+            if (easingType == EasingType.Default)
+            {
+                easingType = DefaultEasingType;
+            }
+
+            switch (easingType)
+            {
+                case EasingType.Linear:
+                    return null;
+                case EasingType.Cubic:
+                    return new CubicEase();
+                case EasingType.Back:
+                    return new BackEase();
+                case EasingType.Bounce:
+                    return new BounceEase();
+                case EasingType.Elastic:
+                    return new ElasticEase();
+                case EasingType.Circle:
+                    return new CircleEase();
+                case EasingType.Quadratic:
+                    return new QuadraticEase();
+                case EasingType.Quartic:
+                    return new QuarticEase();
+                case EasingType.Quintic:
+                    return new QuinticEase();
+                case EasingType.Sine:
+                    return new SineEase();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(easingType),easingType,null);
+            }
         }
 
         private static string GetAnimationPath(CompositeTransform transform, UIElement element, string property)
@@ -131,35 +174,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return result;
-        }
-
-        private static EasingFunctionBase GetEasingFunction(InterpolationType interpolationType)
-        {
-            switch (interpolationType)
-            {
-                case InterpolationType.Linear:
-                    return null;
-                case InterpolationType.Cubic:
-                    return new CubicEase();
-                case InterpolationType.Back:
-                    return new BackEase();
-                case InterpolationType.Bounce:
-                    return new BounceEase();
-                case InterpolationType.Elastic:
-                    return new ElasticEase();
-                case InterpolationType.Circle:
-                    return new CircleEase();
-                case InterpolationType.Quadratic:
-                    return new QuadraticEase();
-                case InterpolationType.Quartic:
-                    return new QuarticEase();
-                case InterpolationType.Quintic:
-                    return new QuinticEase();
-                case InterpolationType.Sine:
-                    return new SineEase();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(interpolationType), interpolationType, null);
-            }
         }
     }
 }

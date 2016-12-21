@@ -13,10 +13,15 @@
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// InterpolationType is used to describe how the animation interpolates between keyframes.
+    /// EasingType is used to describe how the animation interpolates between keyframes.
     /// </summary>
-    public enum InterpolationType
+    public enum EasingType
     {
+        /// <summary>
+        /// Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic.
+        /// </summary>
+        Default,
+
         /// <summary>
         /// Creates an animation that accelerates or decelerates linear.
         /// </summary>
