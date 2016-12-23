@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentExpanded, GroupName = GroupContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
-    [TemplatePart(Name = HeaderPart, Type = typeof(Grid))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
