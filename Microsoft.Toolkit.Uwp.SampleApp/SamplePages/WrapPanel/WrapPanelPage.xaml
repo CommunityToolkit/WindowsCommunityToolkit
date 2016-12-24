@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="50" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="HorizontalButton"
@@ -22,12 +22,12 @@
                     Content="Add Horizontal Control" />
             <wrapPanel:WrapPanel Name="HorizontalWrapPanel"
                                  Grid.Row="1"
-                                 Margin="20" />
+                                 Margin="2" />
         </Grid>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="50" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="VerticalButton"
@@ -35,7 +35,7 @@
                     Content="Add Vertical Control" />
             <wrapPanel:WrapPanel Name="VerticalWrapPanel"
                                  Grid.Row="1"
-                                 Margin="20"
+                                 Margin="2"
                                  Orientation="Vertical" />
         </Grid>
     </Grid>

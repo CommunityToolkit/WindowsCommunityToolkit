@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private static Button GenerateButton()
         {
-            var button = new Button { Content = "Remove", Width = (double)Rand.Next(40, 80), Height = (double)Rand.Next(40, 80) };
+            var button = new Button { Content = "Remove", Margin = new Windows.UI.Xaml.Thickness(3), Width = (double)Rand.Next(20, 80), Height = (double)Rand.Next(20, 80) };
             button.Click += (sender, args) =>
             {
                 var currentButton = sender as Button;
