@@ -105,11 +105,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 displayText = displayText.Replace(key, placeHolder);
             }
 
-            textbox.Text = displayText;
+            if (string.IsNullOrEmpty(textbox.Text))
+            {
+                textbox.Text = displayText;
+            }
+            else
+            {
+                var textboxInitialValue = textbox.Text;
+                textbox.Text = displayText;
+                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary);
+            }
+
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
-            textbox.SetValue(OldTextProperty, displayText);
+            textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SelectionStart = 0;
         }
 
         private static async void Textbox_Paste(object sender, TextControlPasteEventArgs e)
@@ -138,15 +149,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // to update the textbox text without triggering TextChanging text
             textbox.TextChanging -= Textbox_TextChanging;
+            SetTextBoxValue(pasteText, textbox, mask, representationDictionary);
+            textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.TextChanging += Textbox_TextChanging;
+        }
 
+        private static void SetTextBoxValue(
+            string newValue,
+            TextBox textbox,
+            string mask,
+            Dictionary<char, string> representationDictionary)
+        {
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-            var maxLength = pasteText.Length < mask.Length ? pasteText.Length : mask.Length;
+            var maxLength = newValue.Length < mask.Length ? newValue.Length : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
             for (int i = oldSelectionStart; i < oldSelectionStart + maxLength; i++)
             {
                 var maskChar = mask[i];
-                var selectedChar = pasteText[i - oldSelectionStart];
+                var selectedChar = newValue[i - oldSelectionStart];
 
                 // If dynamic character a,9,* or custom
                 if (representationDictionary.ContainsKey(maskChar))
@@ -160,9 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             textbox.Text = new string(textArray);
-            textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SelectionStart = oldSelectionStart + maxLength;
-            textbox.TextChanging += Textbox_TextChanging;
         }
 
         private static void Textbox_SelectionChanged(object sender, RoutedEventArgs e)
