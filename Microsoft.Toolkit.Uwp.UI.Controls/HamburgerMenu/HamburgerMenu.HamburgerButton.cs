@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -33,6 +34,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="HamburgerMargin"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HamburgerMarginProperty = DependencyProperty.Register(nameof(HamburgerMargin), typeof(Thickness), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="HamburgerBackground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HamburgerBackgroundProperty = DependencyProperty.Register(nameof(HamburgerBackground), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(new SolidColorBrush(Windows.UI.Colors.Transparent)));
 
         /// <summary>
         /// Identifies the <see cref="HamburgerMenuTemplate"/> dependency property.
@@ -73,6 +79,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Thickness)GetValue(HamburgerMarginProperty); }
             set { SetValue(HamburgerMarginProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Brush to apply to the background of the Pane area of the control.
+        /// </summary>
+        public Brush HamburgerBackground
+        {
+            get { return (Brush)GetValue(HamburgerBackgroundProperty); }
+            set { SetValue(HamburgerBackgroundProperty, value); }
         }
     }
 }

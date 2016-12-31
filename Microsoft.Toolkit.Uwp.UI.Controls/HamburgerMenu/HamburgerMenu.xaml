@@ -87,7 +87,7 @@
                                 Padding="0"
                                 VerticalAlignment="Top"
                                 AutomationProperties.Name="Main button"
-                                Background="Transparent"
+                                Background="{TemplateBinding HamburgerBackground}"
                                 BorderThickness="0"
                                 TabIndex="0">
                             <ContentControl Margin="{TemplateBinding HamburgerMargin}"
