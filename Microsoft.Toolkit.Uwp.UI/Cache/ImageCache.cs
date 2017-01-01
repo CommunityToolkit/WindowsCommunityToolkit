@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -40,6 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
         {
+            if (stream.Size == 0)
+            {
+                throw new FileNotFoundException();
+            }
+
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
 

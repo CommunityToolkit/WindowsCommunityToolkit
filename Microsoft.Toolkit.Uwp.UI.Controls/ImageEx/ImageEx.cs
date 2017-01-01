@@ -40,8 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Image _image;
         private ProgressRing _progress;
-        private object _lockObj;
-
         private bool _isInitialized;
 
         /// <summary>
@@ -51,7 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(ImageEx);
             Loaded += OnLoaded;
-            _lockObj = new object();
         }
 
         /// <summary>
