@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.Paste -= Textbox_Paste;
             textbox.Loaded -= Textbox_Loaded;
+            textbox.GotFocus -= Textbox_GotFocus;
             textbox.Loaded += Textbox_Loaded;
         }
 
@@ -119,8 +120,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
+            textbox.GotFocus += Textbox_GotFocus;
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SelectionStart = 0;
+        }
+
+        private static void Textbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as TextBox;
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            if (string.IsNullOrWhiteSpace(mask) ||
+                representationDictionary == null ||
+                string.IsNullOrEmpty(placeHolderValue))
+            {
+                return;
+            }
+
+            var placeHolder = placeHolderValue[0];
+            var displayText = mask;
+            foreach (var key in representationDictionary.Keys)
+            {
+                displayText = displayText.Replace(key, placeHolder);
+            }
+
+            // if the textbox got focus and the textbox is emply (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            if (string.Equals(textbox.Text, displayText))
+            {
+                textbox.SelectionStart = 0;
+            }
         }
 
         private static async void Textbox_Paste(object sender, TextControlPasteEventArgs e)
