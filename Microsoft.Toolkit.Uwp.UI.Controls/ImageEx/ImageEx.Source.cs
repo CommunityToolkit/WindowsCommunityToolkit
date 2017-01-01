@@ -120,6 +120,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                         VisualStateManager.GoToState(this, LoadedState, true);
                     }
+                    catch (OperationCanceledException)
+                    {
+                        // nothing to do as cancellation has been requested.
+                    }
                     catch (Exception e)
                     {
                         ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
