@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var compositor = _containerVisual.Compositor;
 
-                    using (var surfaceFactory = SurfaceFactory.CreateFromCompositor(compositor))
+                    using (var surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(compositor))
                     {
                         var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
 
