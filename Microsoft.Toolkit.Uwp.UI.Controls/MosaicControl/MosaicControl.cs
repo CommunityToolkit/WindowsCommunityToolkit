@@ -540,7 +540,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">arguments</param>
         private async void RootElement_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Debug.WriteLine("sizeChanged=" + e.NewSize.Width);
             _isRootElementSizeChanged = true;
             await RefreshContainerMosaicLocked();
         }
