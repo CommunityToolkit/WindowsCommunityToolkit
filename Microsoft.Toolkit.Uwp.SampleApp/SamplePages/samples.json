@@ -240,6 +240,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ParallaxPage.bind"
       }, 
+      {
         "Name": "ReorderGridAnimation",
         "Type": "ReorderGridPage",
         "About": "Animates items of a grid when the size changes",
