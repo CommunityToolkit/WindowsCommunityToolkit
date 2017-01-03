@@ -1193,6 +1193,335 @@ namespace UnitTests.Notifications
             AssertSelectionPayload("<selection id='myId' content='' />", selectionBoxItem);
         }
 
+        [TestMethod]
+        public void Test_Toast_Header_AllValues()
+        {
+            AssertHeaderPayload("<header id='myId' title='My header' arguments='myArgs' activationType='protocol' />", new ToastHeader("myId", "My header", "myArgs")
+            {
+                ActivationType = ToastActivationType.Protocol
+            });
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullId()
+        {
+            try
+            {
+                new ToastHeader(null, "Title", "Args");
+            }
+            catch (ArgumentNullException)
+            {
+                try
+                {
+                    new ToastHeader("Id", "Title", "Args")
+                    {
+                        Id = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
+            }
+
+            Assert.Fail("ArgumentNullException for Id should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullTitle()
+        {
+            try
+            {
+                new ToastHeader("id", null, "Args");
+            }
+            catch (ArgumentNullException)
+            {
+                try
+                {
+                    new ToastHeader("Id", "Title", "Args")
+                    {
+                        Title = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
+            }
+
+            Assert.Fail("ArgumentNullException for Title should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_NullArguments()
+        {
+            try
+            {
+                new ToastHeader("id", "Title", null);
+            }
+            catch (ArgumentNullException)
+            {
+                try
+                {
+                    new ToastHeader("id", "Title", "args")
+                    {
+                        Arguments = null
+                    };
+                }
+                catch (ArgumentNullException)
+                {
+                    return;
+                }
+            }
+
+            Assert.Fail("ArgumentNullException for Arguments should have been thrown.");
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_EmptyStrings()
+        {
+            AssertHeaderPayload("<header id='' title='' arguments='' />", new ToastHeader("", "", ""));
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_ActivationTypes()
+        {
+            AssertHeaderActivationType("foreground", ToastActivationType.Foreground);
+
+            try
+            {
+                AssertHeaderActivationType("background", ToastActivationType.Background);
+                throw new Exception("ArgumentException should have been thrown, since activation type of background isn't allowed.");
+            }
+            catch (ArgumentException) { }
+
+            AssertHeaderActivationType("protocol", ToastActivationType.Protocol);
+        }
+
+        [TestMethod]
+        public void Test_Toast_DisplayTimestamp()
+        {
+            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00Z' />", new ToastContent()
+            {
+                DisplayTimestamp = new DateTime(2016, 10, 19, 9, 0, 0, DateTimeKind.Utc)
+            });
+
+            AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00-08:00' />", new ToastContent()
+            {
+                DisplayTimestamp = new DateTimeOffset(2016, 10, 19, 9, 0, 0, TimeSpan.FromHours(-8))
+            });
+        }
+
+        [TestMethod]
+        public void Test_Toast_Button_ActivationOptions()
+        {
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='protocol' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Protocol,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            });
+
+            // Empty class should do nothing
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+            });
+
+            // Default should be ignored
+            AssertButtonPayload("<action content='My content' arguments='myArgs' activationType='background' />", new ToastButton("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.Default
+                }
+            });
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertButtonPayload("Exception should be thrown", new ToastButton("My content", "myArgs")
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void Test_Toast_ContextMenuItem_ActivationOptions()
+        {
+            ToastContextMenuItem item = new ToastContextMenuItem("My content", "myArgs")
+            {
+                ActivationType = ToastActivationType.Protocol,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            };
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' afterActivationBehavior='pendingUpdate' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", item);
+
+            // Empty class should do nothing
+            item.ActivationOptions = new ToastActivationOptions();
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
+
+            // Default should be ignored
+            item.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertContextMenuItemPayload("Exception should be thrown", new ToastContextMenuItem("My content", "myArgs")
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void Test_Toast_ActivationOptions()
+        {
+            AssertPayload("<toast launch='settings:about' activationType='protocol' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", new ToastContent()
+            {
+                Launch = "settings:about",
+                ActivationType = ToastActivationType.Protocol,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            });
+
+            // Empty class should do nothing
+            AssertPayload("<toast launch='myArgs' activationType='background' />", new ToastContent()
+            {
+                Launch = "myArgs",
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+            });
+
+            // Default should be ignored
+            AssertPayload("<toast launch='myArgs' activationType='background' />", new ToastContent()
+            {
+                Launch = "myArgs",
+                ActivationType = ToastActivationType.Background,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    AfterActivationBehavior = ToastAfterActivationBehavior.Default
+                }
+            });
+
+            // Setting anything other than default should throw exception
+            try
+            {
+                AssertPayload("XML shouldn't matter", new ToastContent()
+                {
+                    Launch = "myArgs",
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                AssertPayload("Exception should be thrown", new ToastContent()
+                {
+                    ActivationOptions = new ToastActivationOptions()
+                    {
+                        ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                    }
+                });
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void Test_Toast_Header_ActivationOptions()
+        {
+            var header = new ToastHeader("myId", "My title", "settings:about")
+            {
+                ActivationType = ToastActivationType.Protocol,
+                ActivationOptions = new ToastActivationOptions()
+                {
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                }
+            };
+
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' protocolActivationTargetApplicationPfn='Microsoft.Settings' />", header);
+
+            // Empty class should do nothing
+            header.ActivationOptions = new ToastActivationOptions();
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
+
+            // Default should be ignored
+            header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+            AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
+
+            // Using anything other than default should throw exception
+            try
+            {
+                header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate;
+                AssertHeaderPayload("Exception should be thrown", header);
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            // Specifying protocol PFN without using protocol activation should throw exception
+            try
+            {
+                header.ActivationType = ToastActivationType.Foreground;
+                header.ActivationOptions = new ToastActivationOptions()
+                {
+                    ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
+                };
+                AssertHeaderPayload("Exception should be thrown", header);
+                Assert.Fail("InvalidOperationException should have been thrown.");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
         {
             AssertInputPayload("<input id='myId' type='selection'>" + expectedSelectionXml + "</input>", new ToastSelectionBox("myId")
@@ -1246,6 +1575,31 @@ namespace UnitTests.Notifications
             AssertPayload("<toast>" + expectedVisualXml + "</toast>", new ToastContent()
             {
                 Visual = visual
+            });
+        }
+
+        private static void AssertHeaderActivationType(string expectedPropertyValue, ToastActivationType activationType)
+        {
+            ToastHeader header = new ToastHeader("myId", "My title", "myArgs")
+            {
+                ActivationType = activationType
+            };
+
+            if (activationType == ToastActivationType.Foreground)
+            {
+                AssertHeaderPayload("<header id='myId' title='My title' arguments='myArgs' />", header);
+            }
+            else
+            {
+                AssertHeaderPayload($"<header id='myId' title='My title' arguments='myArgs' activationType='{expectedPropertyValue}' />", header);
+            }
+        }
+
+        private static void AssertHeaderPayload(string expectedHeaderXml, ToastHeader header)
+        {
+            AssertPayload("<toast>" + expectedHeaderXml + "</toast>", new ToastContent()
+            {
+                Header = header
             });
         }
 

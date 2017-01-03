@@ -8,9 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:BladeView Margin="12"
+        <controls:BladeView Margin="0"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch">
+                            VerticalAlignment="Stretch"
+                            BladeMode="@[BladeMode:Enum:BladeMode.Normal]">
             <controls:BladeItem Title="Test"
                                 IsOpen="True"
                                 TitleBarVisibility="Collapsed">

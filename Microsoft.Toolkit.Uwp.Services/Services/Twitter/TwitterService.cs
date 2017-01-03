@@ -250,6 +250,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Returns success or failure of post request.</returns>
         public async Task<bool> TweetStatusAsync(string message, params IRandomAccessStream[] pictures)
         {
+            return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
+        }
+
+        /// <summary>
+        /// Post a Tweet with associated pictures.
+        /// </summary>
+        /// <param name="status">The tweet information.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Returns success or failure of post request.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        {
             if (pictures.Length > 4)
             {
                 throw new ArgumentOutOfRangeException(nameof(pictures));
@@ -257,13 +268,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatusAsync(message, pictures);
+                return await Provider.TweetStatusAsync(status, pictures);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(message, pictures);
+                return await TweetStatusAsync(status, pictures);
             }
 
             return false;
