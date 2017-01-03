@@ -15,7 +15,7 @@
                        MaxHeight="500"
                        Stretch="UniformToFill"
                        an:ParallaxService.ScrollingElement="{Binding ElementName=Scroller}"
-                       an:ParallaxService.Multiplier="{Binding Multiplier.Value}"/>
+                       an:ParallaxService.VerticalMultiplier="{Binding VerticalMultiplier.Value}"/>
                 <Border Background="{StaticResource Brush-Grey-05}">
                     <TextBlock TextWrapping="WrapWholeWords" FontSize="20">
                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla ultrices est eu ornare. Suspendisse purus massa, iaculis in finibus dictum, gravida vel purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec vitae dolor imperdiet, vehicula enim quis, mollis tellus. Donec placerat diam sed est porttitor, venenatis semper mauris tempus. Sed placerat ipsum enim, quis porta nibh accumsan sit amet. Etiam tempus dapibus dolor, eget sollicitudin risus cursus eget. Vestibulum non rhoncus velit. Vestibulum volutpat, lacus quis laoreet accumsan, erat diam dignissim ligula, sit amet molestie purus erat eget tortor. Vestibulum posuere consequat libero, at fermentum tellus tempus eget. Curabitur viverra nisl a augue porta luctus. 
