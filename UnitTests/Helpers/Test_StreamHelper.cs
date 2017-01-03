@@ -12,12 +12,12 @@
 
 using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using System.Threading;
 
 namespace UnitTests.Helpers
 {

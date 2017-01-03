@@ -15,11 +15,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
