@@ -339,6 +339,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
+    <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
