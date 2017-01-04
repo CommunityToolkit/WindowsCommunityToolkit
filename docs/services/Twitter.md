@@ -17,6 +17,13 @@ Copy this from the *Keys and Access Tokens* tab on your application page.
 **Callback URI** Enter a unique URI for your application.  This must match the *Callback URL* field on the *Application Details* tab in Twitter.
 *Example*: http://myapp.company.com - (this does not have to be a working URL)
 
+## Overview
+
+In the code section below the GetUserTimeLineAsync method returns some Tweet objects.  The Tweet class returns some basic information along with the tweet text itself.
+
+o CreatedAt	(string) – The date and time of the Tweet formatted by Twitter
+o Text		(string) – The text of the status
+
 ## Syntax
 
 ```csharp
@@ -34,7 +41,7 @@ if (!await TwitterService.Instance.LoginAsync())
 var user = await TwitterService.Instance.GetUserAsync();
 ProfileImage.DataContext = user;
 
-// Get user timeline
+// Get user time line
 ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
 // Post a tweet
