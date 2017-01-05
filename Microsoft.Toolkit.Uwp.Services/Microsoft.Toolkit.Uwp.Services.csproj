@@ -133,6 +133,7 @@
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
+    <Compile Include="Services\Twitter\TwitterStatus.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
