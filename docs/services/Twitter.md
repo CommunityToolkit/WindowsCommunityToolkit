@@ -21,8 +21,11 @@ Copy this from the *Keys and Access Tokens* tab on your application page.
 
 In the code section below the GetUserTimeLineAsync method returns some Tweet objects.  The Tweet class returns some basic information along with the tweet text itself.
 
-o CreatedAt	(string) – The date and time of the Tweet formatted by Twitter
-o Text		(string) – The text of the status
+- **CreatedAt**	(string)         – The date and time of the Tweet formatted by Twitter
+- **Text**		(string)         – The text of the Tweet
+- **Id**		(string)         – The Twitter status identifier
+- **GeoData**   (TwitterGeoData) - A class containing the latitude and longitude of the Tweet
+- **User**      (TwitterUser)    - A class containing the user ID, Name, ScreenName, and ProfileImageUrl
 
 ## Syntax
 
