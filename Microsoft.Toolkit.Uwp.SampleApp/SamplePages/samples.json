@@ -125,6 +125,14 @@
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
       },
       {
+        "Name": "MosaicControl",
+        "Type": "MosaicControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MosaicControl",
+        "XamlCodeFile": "MosaicControl.bind",
+        "Icon": "/SamplePages/MosaicControl/MosaicControl.png"
+      },
+      {
         "Name": "SurfaceDialTextboxHelper",
         "Type": "SurfaceDialTextboxHelperPage",
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
