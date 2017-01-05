@@ -18,6 +18,7 @@
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
 	    <dependency id="Microsoft.Toolkit.Uwp.UI.Animations" version="$version$" />
+	    <dependency id="Robmikh.CompositionSurfaceFactory" version="0.7.0-alpha" />
     </dependencies>
   </metadata>
   <files>
