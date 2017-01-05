@@ -87,6 +87,9 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ITranslatorServiceClient.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorServiceClient.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterGeoData.cs" />
