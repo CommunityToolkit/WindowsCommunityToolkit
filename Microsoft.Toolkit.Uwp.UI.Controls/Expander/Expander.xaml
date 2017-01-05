@@ -330,7 +330,9 @@
                                           ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                           IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             
-                            <ContentControl Content="{TemplateBinding Content}" Grid.Row="1" HorizontalContentAlignment="Stretch" />
+                            <ContentPresenter Grid.Row="1" 
+                                              HorizontalAlignment="{Binding HorizontalContentAlignment}"
+                                              HorizontalContentAlignment="Stretch" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
