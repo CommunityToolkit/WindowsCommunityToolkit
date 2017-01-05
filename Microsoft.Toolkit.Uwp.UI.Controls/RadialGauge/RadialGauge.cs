@@ -696,7 +696,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 divider = 360;
             }
 
-            var value = Minimum + ((Maximum - Minimum) * (Mod(angle - NormalizedMinAngle, 360)) / divider);
+            var value = Minimum + ((Maximum - Minimum) * Mod(angle - NormalizedMinAngle, 360) / divider);
             if (value < Minimum || value > Maximum)
             {
                 // Ignore positions outside the scale angle.

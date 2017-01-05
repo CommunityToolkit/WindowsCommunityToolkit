@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
 using Windows.UI.Xaml;
@@ -127,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             task.AnimationSet = animationSet;
 
             task.Task = DispatcherHelper.ExecuteOnUIThreadAsync(
-                async () =>
+                () =>
             {
                 const string sceneName = "PointLightScene";
                 PointLight pointLight;
@@ -136,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 if (!pointLights.ContainsKey(visual))
                 {
                     SurfaceLoader.Initialize(compositor);
-                    normalMap = await SurfaceLoader.LoadFromUri(new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Animations/Assets/SphericalWithMask.png"));
+                    normalMap = SurfaceLoader.LoadText(string.Empty, new Windows.Foundation.Size(512, 512), new Graphics.Canvas.Text.CanvasTextFormat(), Colors.Transparent, Colors.Transparent);
                 }
 
                 if (pointLights.ContainsKey(visual))

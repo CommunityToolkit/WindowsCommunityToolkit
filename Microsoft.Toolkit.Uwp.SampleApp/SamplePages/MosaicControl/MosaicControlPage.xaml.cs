@@ -11,14 +11,13 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ReorderGridPage : Page
+    public sealed partial class MosaicControlPage
     {
-        public ReorderGridPage()
+        public MosaicControlPage()
         {
             InitializeComponent();
         }
@@ -33,8 +32,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-
-            ImagesView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }
