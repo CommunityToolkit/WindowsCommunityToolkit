@@ -198,10 +198,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the item</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be cached</param>
         /// <param name="storeToMemoryCache">Indicates if item should be loaded into the in-memory storage</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Awaitable Task</returns>
-        public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false)
+        public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
+            return GetItemAsync(uri, throwOnError, !storeToMemoryCache, cancellationToken);
         }
 
         /// <summary>
@@ -209,10 +210,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the item.</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>an instance of Generic type</returns>
-        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
+        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, false);
+            return GetItemAsync(uri, throwOnError, false, cancellationToken);
         }
 
         /// <summary>
@@ -263,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return value;
         }
 
-        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly)
+        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly, CancellationToken cancellationToken)
         {
             T instance = default(T);
 
@@ -290,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 request = new ConcurrentRequest()
                 {
-                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly),
+                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly, cancellationToken),
                     EnsureCachedCopy = preCacheOnly
                 };
 
@@ -309,7 +311,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 if (throwOnError)
                 {
-                    throw ex;
+                    throw;
                 }
             }
             finally
@@ -326,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly)
+        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly, CancellationToken cancellationToken)
         {
             StorageFile baseFile = null;
             T instance = default(T);
@@ -353,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
                 try
                 {
-                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly).ConfigureAwait(false);
+                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
@@ -378,11 +380,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly)
+        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly, CancellationToken cancellationToken)
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri).ConfigureAwait(MaintainContext))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, cancellationToken).ConfigureAwait(MaintainContext))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)

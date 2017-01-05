@@ -46,6 +46,20 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="BladeModeStates">
+                                <VisualState x:Name="Normal" />
+
+                                <VisualState x:Name="FullScreen">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="HorizontalSnapPointsType" Storyboard.TargetName="ScrollViewer">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Mandatory"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <ScrollViewer x:Name="ScrollViewer"
                                       AutomationProperties.AccessibilityView="Raw"
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
@@ -79,7 +93,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="0,0,4,4" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
         <Setter Property="BorderBrush" Value="Black" />

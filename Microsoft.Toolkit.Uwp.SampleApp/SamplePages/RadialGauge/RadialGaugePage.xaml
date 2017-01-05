@@ -19,7 +19,7 @@
                                   IsInteractive="{Binding IsInteractive.Value, Mode=OneWay}"
                                   MaxAngle="{Binding MaxAngle.Value, Mode=OneWay}"
                                   Maximum="180"
-                                  MinAngle="-150"
+                                  MinAngle="{Binding MinAngle.Value, Mode=OneWay}"
                                   Minimum="0"
                                   NeedleWidth="{Binding NeedleWidth.Value, Mode=OneWay}"
                                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
