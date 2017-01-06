@@ -40,16 +40,16 @@
             <RowDefinition Height="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button Name="AddButton"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Click="AddButton_Click"
-                Content="Add Control" />
-        <Button Name="SwitchButton"
-                Grid.Row="0"
-                Click="SwitchButton_Click"
-                Content="Switch Orientation" />
-
+        <StackPanel Orientation="Horizontal">
+            <Button Name="AddButton"
+                    Margin="10"
+                    Click="AddButton_Click"
+                    Content="Add Control" />
+            <Button Name="SwitchButton"
+                    Margin="10"
+                    Click="SwitchButton_Click"
+                    Content="Switch Orientation" />
+        </StackPanel>
         <ItemsControl Name="WrapPanelContainer"
                       Grid.Row="1"
                       Margin="2"
