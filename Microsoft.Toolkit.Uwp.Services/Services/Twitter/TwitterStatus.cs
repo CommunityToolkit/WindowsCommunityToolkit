@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public bool PossiblySensitive { get; set; }
 
         /// <summary>
-        /// Gets a the Request parameters
+        /// Gets the request parameters
         /// </summary>
         public string RequestParameters
         {
