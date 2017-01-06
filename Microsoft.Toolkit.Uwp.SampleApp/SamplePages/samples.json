@@ -135,7 +135,7 @@
       {
         "Name": "WrapPanel",
         "Type": "WrapPanelPage",
-        "About": "",
+        "About": "The WrapPanel Control Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box. Subsequent ordering happens sequentially from top to bottom or from right to left, depending on the value of the Orientation property.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
