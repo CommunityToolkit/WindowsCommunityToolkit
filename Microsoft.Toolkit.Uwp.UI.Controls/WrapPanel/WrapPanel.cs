@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var wrapPanel = d as WrapPanel;
+            wrapPanel?.InvalidateMeasure();
             wrapPanel?.InvalidateArrange();
         }
 

@@ -42,11 +42,10 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Name="AddButton"
-                    Margin="10"
+                    Margin="0,0,10,0"
                     Click="AddButton_Click"
                     Content="Add Control" />
             <Button Name="SwitchButton"
-                    Margin="10"
                     Click="SwitchButton_Click"
                     Content="Switch Orientation" />
         </StackPanel>
