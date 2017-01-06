@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,7 +39,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 "Orientation",
                 typeof(Orientation),
                 typeof(WrapPanel),
-                new PropertyMetadata(Orientation.Horizontal));
+                new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
+
+        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var wrapPanel = d as WrapPanel;
+            wrapPanel?.InvalidateArrange();
+        }
 
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)

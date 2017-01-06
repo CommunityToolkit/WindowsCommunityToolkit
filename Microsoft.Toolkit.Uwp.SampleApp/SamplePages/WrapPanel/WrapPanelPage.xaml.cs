@@ -11,6 +11,9 @@
 // ******************************************************************
 
 using System;
+using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel;
 using Windows.UI.Xaml.Controls;
 
@@ -22,32 +25,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class WrapPanelPage : Page
     {
         private static readonly Random Rand = new Random();
-
-        private static Button GenerateButton()
-        {
-            var button = new Button { Content = "Remove", Margin = new Windows.UI.Xaml.Thickness(3), Width = (double)Rand.Next(200, 300), Height = (double)Rand.Next(80, 110) };
-            button.Click += (sender, args) =>
-            {
-                var currentButton = sender as Button;
-                var parent = currentButton?.Parent as WrapPanel;
-                parent?.Children.Remove(button);
-            };
-            return button;
-        }
+        private ObservableCollection<PhotoDataItemWithDimension> _wrapPanelCollection;
+        private WrapPanel _sampleWrapPanel;
 
         public WrapPanelPage()
         {
             InitializeComponent();
+            Loaded += WrapPanelPage_Loaded;
         }
 
-        private void HorizontalButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void WrapPanelPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            HorizontalWrapPanel.Children.Add(GenerateButton());
+            _wrapPanelCollection = new ObservableCollection<PhotoDataItemWithDimension>();
+            WrapPanelContainer.ItemsSource = _wrapPanelCollection;
+            _sampleWrapPanel = WrapPanelContainer.FindDescendant<WrapPanel>();
         }
 
-        private void VerticalButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Grid_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            VerticalWrapPanel.Children.Add(GenerateButton());
+            var item = (sender as Grid)?.DataContext as PhotoDataItemWithDimension;
+            if (item == null)
+            {
+                return;
+            }
+
+            _wrapPanelCollection.Remove(item);
+        }
+
+        private void AddButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _wrapPanelCollection.Add(new PhotoDataItemWithDimension
+            {
+                Category = "Remove",
+                Thumbnail = "ms-appx:///Assets/Photos/BigFourSummerHeat.png",
+                Width = Rand.Next(120, 180),
+                Height = Rand.Next(80, 130)
+            });
+        }
+
+        private void SwitchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _sampleWrapPanel.Orientation = _sampleWrapPanel.Orientation == Orientation.Horizontal
+                ? Orientation.Vertical
+                : Orientation.Horizontal;
         }
     }
 }
