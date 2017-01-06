@@ -58,10 +58,16 @@
                                Text="{x:Bind Text}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="WrapWholeWords" />
-                    <TextBlock Grid.Row="2"
-                               HorizontalAlignment="Right"
-                               FontWeight="ExtraLight"
-                               Text="{x:Bind CreationDate}" />
+                    <StackPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <TextBlock FontWeight="ExtraLight"
+                                   Text="{x:Bind CreationDate}" />
+                        <TextBlock FontWeight="ExtraLight"
+                                   Margin="4,0,0,0"
+                                   Text="{x:Bind GeoData.DisplayCoordinates}">
+                        </TextBlock>
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>

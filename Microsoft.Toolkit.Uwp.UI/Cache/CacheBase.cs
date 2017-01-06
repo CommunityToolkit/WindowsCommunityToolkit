@@ -311,7 +311,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 if (throwOnError)
                 {
-                    throw ex;
+                    throw;
                 }
             }
             finally

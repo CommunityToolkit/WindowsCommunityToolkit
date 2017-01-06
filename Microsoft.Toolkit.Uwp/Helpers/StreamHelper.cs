@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp
 
             using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
                 {
                     if (response.Success)
                     {

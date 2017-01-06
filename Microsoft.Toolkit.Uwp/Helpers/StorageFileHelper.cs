@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -607,6 +609,28 @@ namespace Microsoft.Toolkit.Uwp
             => isRecursive
                 ? FileExistsInSubtreeAsync(folder, fileName)
                 : FileExistsInFolderAsync(folder, fileName);
+
+        /// <summary>
+        /// Gets a value indicating whether a filename is correct or not using the Storage feature.
+        /// </summary>
+        /// <param name="fileName">The filename to test. Must include the file extension and is not case-sensitive.</param>
+        /// <returns>Returns true if the filename is valid.</returns>
+        public static bool IsFileNameValid(string fileName)
+        {
+            var illegalChars = Path.GetInvalidFileNameChars();
+            return fileName.All(c => !illegalChars.Contains(c));
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether a file path is correct or not using the Storage feature.
+        /// </summary>
+        /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
+        /// <returns>Returns true if the file path is valid.</returns>
+        public static bool IsFilePathValid(string filePath)
+        {
+            var illegalChars = Path.GetInvalidPathChars();
+            return filePath.All(c => !illegalChars.Contains(c));
+        }
 
         /// <summary>
         /// Gets a value indicating whether a file exists in the current folder.

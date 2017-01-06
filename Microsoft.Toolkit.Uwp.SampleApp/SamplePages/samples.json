@@ -49,6 +49,7 @@
         "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
         "XamlCodeFile": "MasterDetailsView.bind",
+        "CodeFile": "MasterDetailsViewCode.bind",
         "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
       },
       {
@@ -122,6 +123,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "MosaicControl",
+        "Type": "MosaicControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MosaicControl",
+        "XamlCodeFile": "MosaicControl.bind",
+        "Icon": "/SamplePages/MosaicControl/MosaicControl.png"
       },
       {
         "Name": "SurfaceDialTextboxHelper",
@@ -286,6 +295,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+      },
+      {
+        "Name": "Microsoft Translator Service",
+        "Type": "MicrosoftTranslatorPage",
+        "About": "The Microsoft Translator Service allows you to translate text into many languages.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
+        "CodeFile": "MicrosoftTranslatorCode.bind",
+        "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png"
       }
     ]
   },
