@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 displayText = displayText.Replace(key, placeHolder);
             }
 
-            // if the textbox got focus and the textbox is emply (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
             if (string.Equals(textbox.Text, displayText))
             {
                 textbox.SelectionStart = 0;
