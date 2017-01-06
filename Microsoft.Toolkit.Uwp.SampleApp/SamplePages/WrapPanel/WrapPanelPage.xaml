@@ -7,7 +7,8 @@
       xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid Padding="48"
+          Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -18,6 +19,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="HorizontalButton"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Click="HorizontalButton_Click"
                     Content="Add Horizontal Control" />
             <wrapPanel:WrapPanel Name="HorizontalWrapPanel"
@@ -31,6 +34,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="VerticalButton"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Click="VerticalButton_Click"
                     Content="Add Vertical Control" />
             <wrapPanel:WrapPanel Name="VerticalWrapPanel"
