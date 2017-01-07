@@ -44,6 +44,15 @@
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
       },
       {
+        "Name": "MasterDetailsView",
+        "Type": "MasterDetailsViewPage",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
+        "XamlCodeFile": "MasterDetailsView.bind",
+        "CodeFile": "MasterDetailsViewCode.bind",
+        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
@@ -76,20 +85,28 @@
         "Icon": "/SamplePages/RotatorTile/RotatorTile.png"
       },
       {
-        "Name": "BladeControl",
+        "Name": "BladeView",
         "Type": "BladePage",
-        "About": "BladeControl leverages the GridView to provide a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeControl",
+        "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
-        "Icon": "/SamplePages/BladeControl/BladeControl.png"
+        "Icon": "/SamplePages/BladeView/BladeView.png"
       },
       {
-        "Name": "GridSplitter",
-        "Type": "GridSplitterPage",
-        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-        "XamlCodeFile": "GridSplitter.bind",
-        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "ScrollHeader",
+        "Type": "ScrollHeaderPage",
+        "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
+        "XamlCodeFile": "ScrollHeaderCode.bind",
+        "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
+      },
+      {
+          "Name": "GridSplitter",
+          "Type": "GridSplitterPage",
+          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+          "XamlCodeFile": "GridSplitter.bind",
+          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -98,6 +115,30 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+      },
+      {
+        "Name": "TextBoxMask",
+        "Type": "TextBoxMaskPage",
+        "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
+        "XamlCodeFile": "TextBoxMask.bind",
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "MosaicControl",
+        "Type": "MosaicControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MosaicControl",
+        "XamlCodeFile": "MosaicControl.bind",
+        "Icon": "/SamplePages/MosaicControl/MosaicControl.png"
+      },
+      {
+        "Name": "SurfaceDialTextboxHelper",
+        "Type": "SurfaceDialTextboxHelperPage",
+        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
+        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
       }
     ]
   },
@@ -184,6 +225,15 @@
         "Icon": "/SamplePages/Blur/blurBehavior.png"
       },
       {
+        "Name": "Light",
+        "Type": "LightBehaviorPage",
+        "About": "Light XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "LightBehaviorCode.bind",
+        "XamlCodeFile": "LightBehaviorXaml.bind",
+        "Icon": "/SamplePages/Light/LightBehavior.png"
+      },
+      {
         "Name": "FadeHeader",
         "Type": "FadeHeaderBehaviorPage",
         "About": "Fade ListView and GridView Headers",
@@ -191,6 +241,14 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
+      },
+      {
+        "Name": "ReorderGridAnimation",
+        "Type": "ReorderGridPage",
+        "About": "Animates items of a grid when the size changes",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+        "XamlCodeFile": "ReorderGrid.bind",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png"
       }
     ]
   },
@@ -228,16 +286,23 @@
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
         "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
-        "ApiCheck": "Windows.System.UserProfile.UserInformation"
+        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png"
       },
-            {
+      {
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+      },
+      {
+        "Name": "Microsoft Translator Service",
+        "Type": "MicrosoftTranslatorPage",
+        "About": "The Microsoft Translator Service allows you to translate text into many languages.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
+        "CodeFile": "MicrosoftTranslatorCode.bind",
+        "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png"
       }
     ]
   },
@@ -276,14 +341,39 @@
         "About": "Allows easy registration and maintainance of background task",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Icon": "/Assets/Helpers.png"
       },
       {
-        "Name": "More",
-        "Type": "HelpersPage",
-        "About": "Find more information about all helpers available in the UWP Community toolkit.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp",
-        "Icon": "/SamplePages/Helpers/Helpers.png"
+        "Name": "ConnectionHelper",
+        "Type": "ConnectionHelperPage",
+        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
+        "CodeFile": "ConnectionHelperCode.bind",
+        "Icon": "/Assets/Helpers.png"
+      },
+      {
+          "Name": "SystemInformation",
+          "Type": "SystemInformationPage",
+          "About": "The SystemInformation class provides easy access to some of system/app/device information",
+          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+          "CodeFile": "SystemInformationCode.bind",
+          "Icon": "/Assets/Helpers.png"
+      },      
+      {
+        "Name": "PrintHelper",
+        "Type": "PrintHelperPage",
+        "About": "Allows to easily print XAML controls",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
+        "CodeFile": "PrintHelperCode.bind",
+        "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
+      },
+      {
+        "Name": "DispatcherHelper",
+        "Type": "DispatcherHelperPage",
+        "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
+        "CodeFile": "DispatcherHelperCode.bind",
+        "Icon": "/Assets/Helpers.png"
       }
     ]
   }

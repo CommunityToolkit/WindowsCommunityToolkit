@@ -50,18 +50,25 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\ConnectionType.cs" />
+    <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
-    <Compile Include="Helpers\HttpHelper.cs" />
-    <Compile Include="Helpers\HttpHelperRequest.cs" />
-    <Compile Include="Helpers\HttpHelperResponse.cs" />
+    <Compile Include="Helpers\DeepLinkParser\DeepLinkParser.cs" />
+    <Compile Include="Helpers\DeepLinkParser\QueryParameterCollection.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
+    <Compile Include="Helpers\SystemInformation.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
     <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
     <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
@@ -69,6 +76,7 @@
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />
     <Compile Include="Structures\HsvColor.cs" />
+    <Compile Include="Structures\OSVersion.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
