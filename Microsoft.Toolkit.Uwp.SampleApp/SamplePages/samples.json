@@ -352,13 +352,13 @@
         "Icon": "/Assets/Helpers.png"
       },
       {
-          "Name": "SystemInformation",
-          "Type": "SystemInformationPage",
-          "About": "The SystemInformation class provides easy access to some of system/app/device information",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
-          "CodeFile": "SystemInformationCode.bind",
-          "Icon": "/Assets/Helpers.png"
-      },      
+        "Name": "SystemInformation",
+        "Type": "SystemInformationPage",
+        "About": "The SystemInformation class provides easy access to some of system/app/device information",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+        "CodeFile": "SystemInformationCode.bind",
+        "Icon": "/Assets/Helpers.png"
+      },
       {
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
@@ -374,6 +374,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
         "CodeFile": "DispatcherHelperCode.bind",
         "Icon": "/Assets/Helpers.png"
+      },
+      {
+        "Name": "AdvancedCollectionView",
+        "Type": "AdvancedCollectionViewPage",
+        "About": "Allows you to easily sort and filter your collections before displaying them.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
+        "CodeFile": "AdvancedCollectionView.bind",
+        "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png"
       }
     ]
   }
