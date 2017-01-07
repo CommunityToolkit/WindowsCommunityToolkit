@@ -61,6 +61,7 @@
     <Compile Include="Services\Bing\BingService.cs" />
     <Compile Include="Services\Facebook\FacebookAlbum.cs" />
     <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
+    <Compile Include="Services\Facebook\FacebookRequestSource.cs" />
     <Compile Include="Services\LinkedIn\LinkedInConstants.cs" />
     <Compile Include="Services\LinkedIn\LinkedInContent.cs" />
     <Compile Include="Services\LinkedIn\LinkedInDataConfig.cs" />
@@ -86,8 +87,12 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ITranslatorServiceClient.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorServiceClient.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
+    <Compile Include="Services\Twitter\TwitterGeoData.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
@@ -132,6 +137,7 @@
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
+    <Compile Include="Services\Twitter\TwitterStatus.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>

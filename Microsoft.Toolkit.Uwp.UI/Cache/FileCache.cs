@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static FileCache Instance => _instance ?? (_instance = new FileCache() { MaintainContext = false });
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>

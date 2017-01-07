@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -49,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (finalSamples.Count > 0)
                     {
                         supportedCategories.Add(category);
-                        category.Samples = finalSamples.ToArray();
+                        category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
                     }
                 }
 

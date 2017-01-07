@@ -20,6 +20,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     public class FacebookPost
     {
         /// <summary>
+        /// Gets a string description of the strongly typed properties in this model.
+        /// </summary>
+        public static string Fields => "id, message, created_time, link, full_picture";
+
+        /// <summary>
         /// Gets or sets id property.
         /// </summary>
         public string Id { get; set; }

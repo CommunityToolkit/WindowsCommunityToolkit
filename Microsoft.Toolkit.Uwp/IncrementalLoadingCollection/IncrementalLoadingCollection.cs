@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,20 +39,41 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : IIncrementalSource<IType>, new()
+         where TSource : IIncrementalSource<IType>
     {
-        private readonly TSource _source;
-        private readonly Action _onStartLoading;
-        private readonly Action _onEndLoading;
-        private readonly Action<Exception> _onError;
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </summary>
+        public Action OnStartLoading { get; set; }
 
-        private readonly int _itemsPerPage;
-        private int _currentPageIndex;
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </summary>
+        public Action OnEndLoading { get; set; }
 
-        private CancellationToken _cancellationToken;
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called if an error occours during data retrieval. The actual <see cref="Exception"/> is passed as an argument.
+        /// </summary>
+        public Action<Exception> OnError { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating the source of incremental loading.
+        /// </summary>
+        protected TSource Source { get; }
+
+        /// <summary>
+        /// Gets a value indicating how many items that must be retrieved for each incremental call.
+        /// </summary>
+        protected int ItemsPerPage { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating The zero-based index of the current items page.
+        /// </summary>
+        protected int CurrentPageIndex { get; set; }
 
         private bool _isLoading;
         private bool _hasMoreItems;
+        private CancellationToken _cancellationToken;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -72,11 +94,11 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (_isLoading)
                     {
-                        _onStartLoading?.Invoke();
+                        OnStartLoading?.Invoke();
                     }
                     else
                     {
-                        _onEndLoading?.Invoke();
+                        OnEndLoading?.Invoke();
                     }
                 }
             }
@@ -108,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class, optionally specifying how many items to load for each data page.
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class optionally specifying how many items to load for each data page.
         /// </summary>
         /// <param name="itemsPerPage">
         /// The number of items to retrieve for each call. Default is 20.
@@ -122,15 +144,45 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="onError">
         /// An <see cref="Action"/> that is called if an error occours during data retrieval.
         /// </param>
+        /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
+            : this(Activator.CreateInstance<TSource>(), itemsPerPage, onStartLoading, onEndLoading, onError)
         {
-            _source = new TSource();
+        }
 
-            _onStartLoading = onStartLoading;
-            _onEndLoading = onEndLoading;
-            _onError = onError;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalLoadingCollection{TSource, IType}"/> class using the specified <see cref="IIncrementalSource{TSource}"/> implementation and, optionally, how many items to load for each data page.
+        /// </summary>
+        /// <param name="source">
+        /// An implementation of the <see cref="IIncrementalSource{TSource}"/> interface that contains the logic to actually load data incrementally.
+        /// </param>
+        /// <param name="itemsPerPage">
+        /// The number of items to retrieve for each call. Default is 20.
+        /// </param>
+        /// <param name="onStartLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </param>
+        /// <param name="onEndLoading">
+        /// An <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </param>
+        /// <param name="onError">
+        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// </param>
+        /// <seealso cref="IIncrementalSource{TSource}"/>
+        public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
-            _itemsPerPage = itemsPerPage;
+            Source = source;
+
+            OnStartLoading = onStartLoading;
+            OnEndLoading = onEndLoading;
+            OnError = onError;
+
+            ItemsPerPage = itemsPerPage;
             _hasMoreItems = true;
         }
 
@@ -146,6 +198,21 @@ namespace Microsoft.Toolkit.Uwp
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
             => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
 
+        /// <summary>
+        /// Actually performs the incremental loading.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// Used to propagate notification that operation should be canceled.
+        /// </param>
+        /// <returns>
+        /// Returns a collection of <typeparamref name="IType"/>.
+        /// </returns>
+        protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
+        {
+            var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
+            return result;
+        }
+
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
         {
             uint resultCount = 0;
@@ -159,15 +226,15 @@ namespace Microsoft.Toolkit.Uwp
                     try
                     {
                         IsLoading = true;
-                        data = await LoadDataAsync(count, _cancellationToken);
+                        data = await LoadDataAsync(_cancellationToken);
                     }
                     catch (OperationCanceledException)
                     {
                         // The operation has been canceled using the Cancellation Token.
                     }
-                    catch (Exception ex) when (_onError != null)
+                    catch (Exception ex) when (OnError != null)
                     {
-                        _onError.Invoke(ex);
+                        OnError.Invoke(ex);
                     }
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
@@ -197,12 +264,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return new LoadMoreItemsResult { Count = resultCount };
-        }
-
-        private async Task<IEnumerable<IType>> LoadDataAsync(uint count, CancellationToken cancellationToken)
-        {
-            var result = await _source.GetPagedItemsAsync(_currentPageIndex++, _itemsPerPage, cancellationToken);
-            return result;
         }
     }
 }
