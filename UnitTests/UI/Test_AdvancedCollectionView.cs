@@ -21,11 +21,11 @@ using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
 namespace UnitTests.UI
 {
     [TestClass]
-    public class Test_AdvancedCollectionViewSource
+    public class Test_AdvancedCollectionView
     {
-        [TestCategory("AdvancedCollectionViewSource")]
+        [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionViewSource_Filter()
+        public void Test_AdvancedCollectionView_Filter()
         {
             var l = new List<string>
             {
@@ -36,7 +36,7 @@ namespace UnitTests.UI
                 "amet"
             };
 
-            var a = new AdvancedCollectionViewSource(l)
+            var a = new AdvancedCollectionView(l)
             {
                 Filter = (x) => x.ToString().Length < 5
             };
@@ -44,9 +44,9 @@ namespace UnitTests.UI
             Assert.AreEqual(a.Count, 2);
         }
 
-        [TestCategory("AdvancedCollectionViewSource")]
+        [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionViewSource_Updating()
+        public void Test_AdvancedCollectionView_Updating()
         {
             var l = new ObservableCollection<string>
             {
@@ -57,7 +57,7 @@ namespace UnitTests.UI
                 "amet"
             };
 
-            var a = new AdvancedCollectionViewSource(l);
+            var a = new AdvancedCollectionView(l);
 
             Assert.AreEqual(a.Count, 5);
 
@@ -66,9 +66,9 @@ namespace UnitTests.UI
             Assert.AreEqual(a.Count, 6);
         }
 
-        [TestCategory("AdvancedCollectionViewSource")]
+        [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionViewSource_Sorting()
+        public void Test_AdvancedCollectionView_Sorting()
         {
             var l = new ObservableCollection<Person>
             {
@@ -104,7 +104,7 @@ namespace UnitTests.UI
                 },
             };
 
-            var a = new AdvancedCollectionViewSource(l)
+            var a = new AdvancedCollectionView(l)
             {
                 SortDescriptions =
                 {
@@ -115,9 +115,9 @@ namespace UnitTests.UI
             Assert.AreEqual(((Person)a.First()).Age, 42);
         }
 
-        [TestCategory("AdvancedCollectionViewSource")]
+        [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionViewSource_Combined()
+        public void Test_AdvancedCollectionView_Combined()
         {
             var l = new ObservableCollection<Person>
             {
@@ -153,7 +153,7 @@ namespace UnitTests.UI
                 },
             };
 
-            var a = new AdvancedCollectionViewSource(l)
+            var a = new AdvancedCollectionView(l)
             {
                 SortDescriptions =
                 {

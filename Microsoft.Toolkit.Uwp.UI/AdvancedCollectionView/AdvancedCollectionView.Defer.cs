@@ -15,9 +15,9 @@ using System;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// A collection view source implementation that supports filtering, grouping, sorting and incremental loading
+    /// A collection view implementation that supports filtering, grouping, sorting and incremental loading
     /// </summary>
-    public partial class AdvancedCollectionViewSource
+    public partial class AdvancedCollectionView
     {
         /// <summary>
         /// Stops refreshing until it is disposed
@@ -33,14 +33,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public class NotificationDeferrer : IDisposable
         {
-            private readonly AdvancedCollectionViewSource _acvs;
+            private readonly AdvancedCollectionView _acvs;
             private readonly object _currentItem;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="NotificationDeferrer"/> class.
             /// </summary>
             /// <param name="acvs">Source ACVS</param>
-            public NotificationDeferrer(AdvancedCollectionViewSource acvs)
+            public NotificationDeferrer(AdvancedCollectionView acvs)
             {
                 _acvs = acvs;
                 _currentItem = _acvs.CurrentItem;

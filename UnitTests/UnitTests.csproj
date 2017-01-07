@@ -127,7 +127,7 @@
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
     <Compile Include="Services\Test_BingService.cs" />
     <Compile Include="UI\Person.cs" />
-    <Compile Include="UI\Test_AdvancedCollectionViewSource.cs" />
+    <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\TestParsers.cs">
       <DependentUpon>Test_DeepLinkParser.cs</DependentUpon>
     </Compile>

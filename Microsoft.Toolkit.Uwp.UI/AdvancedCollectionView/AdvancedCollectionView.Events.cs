@@ -21,9 +21,9 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// A collection view source implementation that supports filtering, grouping, sorting and incremental loading
+    /// A collection view implementation that supports filtering, grouping, sorting and incremental loading
     /// </summary>
-    public partial class AdvancedCollectionViewSource
+    public partial class AdvancedCollectionView
     {
         /// <summary>
         /// Currently selected item changing event

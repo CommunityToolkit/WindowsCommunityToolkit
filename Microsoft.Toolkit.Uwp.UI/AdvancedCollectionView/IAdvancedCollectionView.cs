@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <summary>
     /// Extended ICollectionView with filtering and sorting
     /// </summary>
-    public interface ICollectionViewEx : ICollectionView
+    public interface IAdvancedCollectionView : ICollectionView
     {
         /// <summary>
         /// Gets a value indicating whether this CollectionView can filter its items
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         bool CanFilter { get; }
 
         /// <summary>
-        /// Gets or sets the predicate used to filter the visisble items
+        /// Gets or sets the predicate used to filter the visible items
         /// </summary>
         Predicate<object> Filter { get; set; }
 

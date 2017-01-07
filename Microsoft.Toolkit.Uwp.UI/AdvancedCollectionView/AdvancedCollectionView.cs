@@ -26,9 +26,9 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// A collection view source implementation that supports filtering, sorting and incremental loading
+    /// A collection view implementation that supports filtering, sorting and incremental loading
     /// </summary>
-    public partial class AdvancedCollectionViewSource : ICollectionViewEx, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
+    public partial class AdvancedCollectionView : IAdvancedCollectionView, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     {
         private readonly List<object> _view;
 
@@ -46,13 +46,13 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private int _deferCounter;
 
-        private WeakEventListener<AdvancedCollectionViewSource, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
+        private WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AdvancedCollectionViewSource"/> class.
+        /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
         /// </summary>
         /// <param name="source">source IEnumerable</param>
-        public AdvancedCollectionViewSource(IEnumerable source)
+        public AdvancedCollectionView(IEnumerable source)
         {
             _view = new List<object>();
             _sortDescriptions = new ObservableCollection<SortDescription>();
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 if (sourceNcc != null)
                 {
                     _sourceWeakEventListener =
-                        new WeakEventListener<AdvancedCollectionViewSource, object, NotifyCollectionChangedEventArgs>(this)
+                        new WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs>(this)
                         {
                             // Call the actual collection changed event
                             OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(source, arg3),
