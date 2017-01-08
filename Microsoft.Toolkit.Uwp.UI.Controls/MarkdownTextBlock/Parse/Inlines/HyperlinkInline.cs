@@ -56,37 +56,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class HyperlinkInline : MarkdownInline, IInlineLeaf, ILinkElement
     {
         /// <summary>
-        /// Initializes a new markdown URL.
+        /// Initializes a new instance of the <see cref="HyperlinkInline"/> class.
         /// </summary>
-        public HyperlinkInline() : base(MarkdownInlineType.RawHyperlink)
+        public HyperlinkInline()
+            : base(MarkdownInlineType.RawHyperlink)
         {
         }
 
         /// <summary>
-        /// The text to display.
+        /// Gets or sets the text to display.
         /// </summary>
         public string Text { get; set; }
 
         /// <summary>
-        /// The URL to link to.
+        /// Gets or sets the URL to link to.
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// This type of hyperlink does not have a tooltip.
+        /// Gets this type of hyperlink does not have a tooltip.
         /// </summary>
         string ILinkElement.Tooltip => null;
 
         /// <summary>
-        /// The type of hyperlink.
+        /// Gets or sets the type of hyperlink.
         /// </summary>
         public HyperlinkType LinkType { get; set; }
-
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '<', Method = Common.InlineParseMethod.AngleBracketLink });
@@ -99,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         /// <summary>
         /// A list of URL schemes.
         /// </summary>
-        internal readonly static string[] KnownSchemes = new string[]
+        internal static readonly string[] KnownSchemes = new string[]
         {
             "http://",
             "https://",
@@ -112,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         };
 
         /// <summary>
-        /// Attempts to parse a URL within angle brackets e.g. "<http://www.reddit.com>".
+        /// Attempts to parse a URL within angle brackets e.g. "http://www.reddit.com".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>
@@ -133,17 +132,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     break;
                 }
             }
+
             if (pos == -1)
+            {
                 return null;
+            }
 
             // Angle bracket links should not have any whitespace.
             int innerEnd = markdown.IndexOfAny(new char[] { ' ', '\t', '\r', '\n', '>' }, pos, maxEnd - pos);
             if (innerEnd == -1 || markdown[innerEnd] != '>')
+            {
                 return null;
+            }
 
             // There should be at least one character after the http://.
             if (innerEnd == pos)
+            {
                 return null;
+            }
 
             var url = markdown.Substring(innerStart, innerEnd - innerStart);
             return new Common.InlineParseResult(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.BracketedUrl }, start, innerEnd + 1);
@@ -171,18 +177,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     break;
                 }
             }
+
             if (start == -1)
+            {
                 return null;
+            }
 
             // The previous character must be non-alphanumeric i.e. "ahttp://t.co" is not a valid URL.
             if (start > 0 && char.IsLetter(markdown[start - 1]))
+            {
                 return null;
+            }
 
             // The URL must have at least one character after the http:// and at least one dot.
             int pos = tripPos + 3;
             int dotIndex = markdown.IndexOf('.', pos, maxEnd - pos);
             if (dotIndex == -1 || dotIndex == pos)
+            {
                 return null;
+            }
 
             // Find the end of the URL.
             int end = FindUrlEnd(markdown, dotIndex + 1, maxEnd);
@@ -202,7 +215,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             var result = ParseDoubleSlashLink(markdown, start, maxEnd);
             if (result != null)
+            {
                 return result;
+            }
+
             return ParseSingleSlashLink(markdown, start, maxEnd);
         }
 
@@ -217,27 +233,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // The minimum length is 4 characters ("/u/u").
             if (start > maxEnd - 4)
+            {
                 return null;
+            }
 
             // Determine the type of link (subreddit or user).
             HyperlinkType linkType;
             if (markdown[start + 1] == 'r')
+            {
                 linkType = HyperlinkType.Subreddit;
+            }
             else if (markdown[start + 1] == 'u')
+            {
                 linkType = HyperlinkType.User;
+            }
             else
+            {
                 return null;
+            }
 
             // Check that there is another slash.
             if (markdown[start + 2] != '/')
+            {
                 return null;
+            }
 
             // Find the end of the link.
             int end = FindEndOfRedditLink(markdown, start + 3, maxEnd);
 
             // Subreddit names must be at least two characters long, users at least one.
             if (end - start < (linkType == HyperlinkType.User ? 4 : 5))
+            {
                 return null;
+            }
 
             // We found something!
             var text = markdown.Substring(start, end - start);
@@ -256,28 +284,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             // The minimum length is 3 characters ("u/u").
             start--;
             if (start < 0 || start > maxEnd - 3)
+            {
                 return null;
+            }
 
             // Determine the type of link (subreddit or user).
             HyperlinkType linkType;
             if (markdown[start] == 'r')
+            {
                 linkType = HyperlinkType.Subreddit;
+            }
             else if (markdown[start] == 'u')
+            {
                 linkType = HyperlinkType.User;
+            }
             else
+            {
                 return null;
+            }
 
             // If the link doesn't start with '/', then the previous character must be
             // non-alphanumeric i.e. "bear/trap" is not a valid subreddit link.
             if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '/'))
+            {
                 return null;
+            }
 
             // Find the end of the link.
             int end = FindEndOfRedditLink(markdown, start + 2, maxEnd);
 
             // Subreddit names must be at least two characters long, users at least one.
             if (end - start < (linkType == HyperlinkType.User ? 3 : 4))
+            {
                 return null;
+            }
 
             // We found something!
             var text = markdown.Substring(start, end - start);
@@ -295,15 +335,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             int start = tripPos - 3;
             if (start < 0 || markdown[start] != 'w' || markdown[start + 1] != 'w' || markdown[start + 2] != 'w')
+            {
                 return null;
+            }
 
             // The character before the "www" must be non-alphanumeric i.e. "bwww.reddit.com" is not a valid URL.
             if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '<'))
+            {
                 return null;
+            }
 
             // The URL must have at least one character after the www.
             if (start >= maxEnd - 4)
+            {
                 return null;
+            }
 
             // Find the end of the URL.
             int end = FindUrlEnd(markdown, start + 4, maxEnd);
@@ -335,13 +381,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
                     c != '+' && c != '-' && c != '_' && c != '.')
+                {
                     break;
+                }
+
                 start--;
             }
 
             // There must be at least one character before the '@'.
             if (start == tripPos)
+            {
                 return null;
+            }
 
             // Search forwards until we find a character which is not a letter, digit, or one of
             // these characters: '-', '_'.
@@ -355,13 +406,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
                     c != '-' && c != '_')
+                {
                     break;
+                }
+
                 dotIndex++;
             }
 
             // We are expecting a dot.
             if (dotIndex == maxEnd || markdown[dotIndex] != '.')
+            {
                 return null;
+            }
 
             // Search forwards until we find a character which is not a letter, digit, or one of
             // these characters: '.', '-', '_'.
@@ -375,13 +431,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
                     c != '.' && c != '-' && c != '_')
+                {
                     break;
+                }
+
                 end++;
             }
 
             // There must be at least one character after the dot.
             if (end == dotIndex + 1)
+            {
                 return null;
+            }
 
             // We found an email address!
             var emailAddress = markdown.Substring(start, end - start);
@@ -395,11 +456,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Text == null)
+            {
                 return base.ToString();
+            }
+
             return Text;
         }
-
-
 
         /// <summary>
         /// Finds the next character that is not a letter, digit or underscore in a range.
@@ -421,8 +483,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 {
                     return pos;
                 }
+
                 pos++;
             }
+
             return end;
         }
 
@@ -431,22 +495,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start searching. </param>
-        /// <param name="end"> The location to stop searching. </param>
+        /// <param name="maxEnd"> The location to stop searching. </param>
         /// <returns> The location of the end of the URL. </returns>
         private static int FindUrlEnd(string markdown, int start, int maxEnd)
         {
             // For some reason a less than character ends a URL...
             int end = markdown.IndexOfAny(new char[] { ' ', '\t', '\r', '\n', '<' }, start, maxEnd - start);
             if (end == -1)
+            {
                 end = maxEnd;
+            }
 
             // URLs can't end on a punctuation character.
             while (end - 1 > start)
             {
                 if (Array.IndexOf(new char[] { ')', '}', ']', '!', ';', '.', '?', ',' }, markdown[end - 1]) < 0)
+                {
                     break;
+                }
+
                 end--;
             }
+
             return end;
         }
     }

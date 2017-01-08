@@ -21,14 +21,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class QuoteBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new quote block.
+        /// Initializes a new instance of the <see cref="QuoteBlock"/> class.
         /// </summary>
-        public QuoteBlock() : base(MarkdownBlockType.Quote)
+        public QuoteBlock()
+            : base(MarkdownBlockType.Quote)
         {
         }
 
         /// <summary>
-        /// The contents of the block.
+        /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 

@@ -21,21 +21,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class BoldTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
-        /// Initializes a new bold text span.
+        /// Initializes a new instance of the <see cref="BoldTextInline"/> class.
         /// </summary>
-        public BoldTextInline() : base(MarkdownInlineType.Bold)
+        public BoldTextInline()
+            : base(MarkdownInlineType.Bold)
         {
         }
 
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets the contents of the inline.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '*', Method = Common.InlineParseMethod.Bold });
@@ -52,31 +52,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             if (start >= maxEnd - 1)
+            {
                 return null;
+            }
 
             // Check the start sequence.
             string startSequence = markdown.Substring(start, 2);
             if (startSequence != "**" && startSequence != "__")
+            {
                 return null;
+            }
 
             // Find the end of the span.  The end sequence (either '**' or '__') must be the same
             // as the start sequence.
             var innerStart = start + 2;
             int innerEnd = Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
             if (innerEnd == -1)
+            {
                 return null;
+            }
 
             // The span must contain at least one character.
             if (innerStart == innerEnd)
+            {
                 return null;
+            }
 
             // The first character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerStart]))
+            {
                 return null;
+            }
 
             // The last character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerEnd - 1]))
+            {
                 return null;
+            }
 
             // We found something!
             var result = new BoldTextInline();
@@ -91,7 +103,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return "*" + string.Join(string.Empty, Inlines) + "*";
         }
     }

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void LoadData()
         {
-            // Load the inital demo data from the file.
+            // Load the initial demo data from the file.
             try
             {
                 string initalMarkdownText = await FileIO.ReadTextAsync(await Package.Current.InstalledLocation.GetFileAsync("SamplePages\\MarkdownTextBlock\\InitialContent.md"));
@@ -33,10 +33,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void SetInitalText(string text)
         {
             ui_unformattedText.Text = text;
-            ui_markdownText.Markdown = text;
+            ui_markdownText.Text = text;
         }
 
-        private async void MarkdownText_OnMarkdownLinkTapped(object sender, UI.Controls.OnMarkdownLinkTappedArgs e)
+        private async void MarkdownText_OnLinkClicked(object sender, UI.Controls.OnMarkdownLinkTappedArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }

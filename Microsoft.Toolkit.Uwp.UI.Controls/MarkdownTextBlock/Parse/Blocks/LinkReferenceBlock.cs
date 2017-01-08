@@ -20,24 +20,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class LinkReferenceBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new link reference block.
+        /// Initializes a new instance of the <see cref="LinkReferenceBlock"/> class.
         /// </summary>
-        public LinkReferenceBlock() : base(MarkdownBlockType.LinkReference)
+        public LinkReferenceBlock()
+            : base(MarkdownBlockType.LinkReference)
         {
         }
 
         /// <summary>
-        /// The reference ID.
+        /// Gets or sets the reference ID.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// The link URL.
+        /// Gets or sets the link URL.
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// A tooltip to display on hover.
+        /// Gets or sets a tooltip to display on hover.
         /// </summary>
         public string Tooltip { get; set; }
 
@@ -52,18 +53,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // Expect a '[' character.
             if (start >= end || markdown[start] != '[')
+            {
                 return null;
+            }
 
             // Find the ']' character
             int pos = start + 1;
             while (pos < end)
             {
                 if (markdown[pos] == ']')
+                {
                     break;
+                }
+
                 pos++;
             }
+
             if (pos == end)
+            {
                 return null;
+            }
 
             // Extract the ID.
             string id = markdown.Substring(start + 1, pos - (start + 1));
@@ -71,19 +80,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             // Expect the ':' character.
             pos++;
             if (pos == end || markdown[pos] != ':')
+            {
                 return null;
+            }
 
             // Skip whitespace
             pos++;
             while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+            {
                 pos++;
+            }
+
             if (pos == end)
+            {
                 return null;
+            }
 
             // Extract the URL.
             int urlStart = pos;
             while (pos < end && !Common.IsWhiteSpace(markdown[pos]))
+            {
                 pos++;
+            }
+
             string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
 
             // Ignore leading '<' and trailing '>'.
@@ -92,7 +111,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             // Skip whitespace.
             pos++;
             while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+            {
                 pos++;
+            }
 
             string tooltip = null;
             if (pos < end)
@@ -111,20 +132,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     default:
                         return null;
                 }
+
                 pos++;
                 int tooltipStart = pos;
                 while (pos < end && markdown[pos] != tooltipEndChar)
+                {
                     pos++;
+                }
+
                 if (pos == end)
+                {
                     return null;    // No end character.
+                }
+
                 tooltip = markdown.Substring(tooltipStart, pos - tooltipStart);
 
                 // Check there isn't any trailing text.
                 pos++;
                 while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+                {
                     pos++;
+                }
+
                 if (pos < end)
+                {
                     return null;
+                }
             }
 
             // We found something!

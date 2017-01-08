@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class HorizontalRuleBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new horizontal rule block.
+        /// Initializes a new instance of the <see cref="HorizontalRuleBlock"/> class.
         /// </summary>
         public HorizontalRuleBlock()
             : base(MarkdownBlockType.HorizontalRule)
@@ -49,14 +49,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 {
                     // All of the non-whitespace characters on the line must match.
                     if (hrCharCount > 0 && c != hrChar)
+                    {
                         return null;
+                    }
+
                     hrChar = c;
                     hrCharCount++;
                 }
                 else if (c == '\n')
+                {
                     break;
+                }
                 else if (!Common.IsWhiteSpace(c))
+                {
                     return null;
+                }
             }
 
             // Hopefully there were at least 3 stars/dashes/underscores.

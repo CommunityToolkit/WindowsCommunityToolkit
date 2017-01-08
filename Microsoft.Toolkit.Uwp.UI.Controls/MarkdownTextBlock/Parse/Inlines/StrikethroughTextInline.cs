@@ -21,21 +21,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class StrikethroughTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
-        /// Initializes a new strikethrough text span.
+        /// Initializes a new instance of the <see cref="StrikethroughTextInline"/> class.
         /// </summary>
-        public StrikethroughTextInline() : base(MarkdownInlineType.Strikethrough)
+        public StrikethroughTextInline()
+            : base(MarkdownInlineType.Strikethrough)
         {
         }
 
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets The contents of the inline.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '~', Method = Common.InlineParseMethod.Strikethrough });
@@ -52,25 +52,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // Check the start sequence.
             if (start >= maxEnd - 1 || markdown.Substring(start, 2) != "~~")
+            {
                 return null;
+            }
 
             // Find the end of the span.
             var innerStart = start + 2;
             int innerEnd = Common.IndexOf(markdown, "~~", innerStart, maxEnd);
             if (innerEnd == -1)
+            {
                 return null;
+            }
 
             // The span must contain at least one character.
             if (innerStart == innerEnd)
+            {
                 return null;
+            }
 
             // The first character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerStart]))
+            {
                 return null;
+            }
 
             // The last character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerEnd - 1]))
+            {
                 return null;
+            }
 
             // We found something!
             var result = new StrikethroughTextInline();
@@ -85,7 +95,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return "~~" + string.Join(string.Empty, Inlines) + "~~";
         }
     }

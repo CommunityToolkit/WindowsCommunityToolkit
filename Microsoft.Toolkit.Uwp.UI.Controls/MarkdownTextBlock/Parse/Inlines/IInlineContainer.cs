@@ -15,12 +15,12 @@ using System.Collections.Generic;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 {
     /// <summary>
-    /// Implemented by inlines that can contain other inlines.
+    /// Initializes a new instance of the <see cref="IInlineContainer"/> class.
     /// </summary>
     public interface IInlineContainer
     {
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets the contents of the inline.
         /// </summary>
         IList<MarkdownInline> Inlines { get; set; }
     }

@@ -31,7 +31,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister
     {
         /// <summary>
-        /// Fired when the text is done parsing and formatting.
+        /// The default color used for backgrounds of sub elements.
+        /// </summary>
+        private static Color _defaultSubElementBgColor = Color.FromArgb(255, 224, 224, 224);
+
+        /// <summary>
+        /// The default color used for border of sub elements.
+        /// </summary>
+        private static Color _defaultSubElementBorderColor = Color.FromArgb(255, 190, 190, 190);
+
+        /// <summary>
+        /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
         public event EventHandler<OnMarkdownReadyArgs> OnMarkdownReady
         {
@@ -44,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
-        public event EventHandler<OnMarkdownLinkTappedArgs> OnMarkdownLinkTapped
+        public event EventHandler<OnMarkdownLinkTappedArgs> OnLinkClicked
         {
             add { _onMarkdownLinkTapped.Add(value); }
             remove { _onMarkdownLinkTapped.Remove(value); }
@@ -67,7 +77,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public MarkdownTextBlock()
         {
+            // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
+
+            // Register for property callbacks that are owned by our parent class.
             RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
@@ -94,14 +107,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the markdown text to display.
         /// </summary>
-        public string Markdown
+        public string Text
         {
-            get { return (string)GetValue(MarkdownProperty); }
-            set { SetValue(MarkdownProperty, value); }
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty MarkdownProperty = DependencyProperty.Register(
-            nameof(Markdown),
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text),
             typeof(string),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnPropertyChangedStatic)));
@@ -140,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBackground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 30, 30, 30)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBgColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render the border fill of a code block.
@@ -158,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 40, 40, 40)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of the border around code blocks.
@@ -172,12 +185,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="CodeBorderThickness"/>.
         /// </summary>
-        public static readonly DependencyProperty CodeBorderThicknessProperty = DependencyProperty.Register(nameof(CodeBorderThickness), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(2), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty CodeBorderThicknessProperty = DependencyProperty.Register(
+            nameof(CodeBorderThickness),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(2), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render the text inside a code block.  If this is
-        /// <c>null</c>, then <see cref="Foreground"/> is used.
+        /// <c>null</c>, then Foreground is used.
         /// </summary>
         public Brush CodeForeground
         {
@@ -188,8 +204,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="CodeForeground"/>.
         /// </summary>
-        public static readonly DependencyProperty CodeForegroundProperty = DependencyProperty.Register(nameof(CodeForeground), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty CodeForegroundProperty = DependencyProperty.Register(
+            nameof(CodeForeground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font used to display code.  If this is <c>null</c>, then
@@ -204,11 +223,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="CodeFontFamily"/>.
         /// </summary>
-        public static readonly DependencyProperty CodeFontFamilyProperty = DependencyProperty.Register(nameof(CodeFontFamily), typeof(FontFamily),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new FontFamily("Consolas"), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty CodeFontFamilyProperty = DependencyProperty.Register(
+            nameof(CodeFontFamily),
+            typeof(FontFamily),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new FontFamily("Consolas"), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
-        /// The space between the code border and the text.
+        /// Gets or sets the space between the code border and the text.
         /// </summary>
         public Thickness CodeMargin
         {
@@ -219,11 +241,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="CodeMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty CodeMarginProperty = DependencyProperty.Register(nameof(CodeMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty CodeMarginProperty = DependencyProperty.Register(
+            nameof(CodeMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
-        /// The space between the code border and the text.
+        /// Gets or sets space between the code border and the text.
         /// </summary>
         public Thickness CodePadding
         {
@@ -234,8 +259,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="CodePadding"/>.
         /// </summary>
-        public static readonly DependencyProperty CodePaddingProperty = DependencyProperty.Register(nameof(CodePadding), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(10, 6, 10, 6), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty CodePaddingProperty = DependencyProperty.Register(
+            nameof(CodePadding),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(10, 6, 10, 6), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
@@ -249,8 +277,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header1FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header1FontWeightProperty = DependencyProperty.Register(nameof(Header1FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header1FontWeightProperty = DependencyProperty.Register(
+            nameof(Header1FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 1 headers.
@@ -264,8 +295,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header1FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header1FontSizeProperty = DependencyProperty.Register(nameof(Header1FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header1FontSizeProperty = DependencyProperty.Register(
+            nameof(Header1FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 1 headers.
@@ -279,8 +313,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header1Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header1MarginProperty = DependencyProperty.Register(nameof(Header1Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header1MarginProperty = DependencyProperty.Register(
+            nameof(Header1Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 2 headers.
@@ -294,8 +331,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header2FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header2FontWeightProperty = DependencyProperty.Register(nameof(Header2FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header2FontWeightProperty = DependencyProperty.Register(
+            nameof(Header2FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 2 headers.
@@ -309,8 +349,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header2FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header2FontSizeProperty = DependencyProperty.Register(nameof(Header2FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header2FontSizeProperty = DependencyProperty.Register(
+            nameof(Header2FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 2 headers.
@@ -324,8 +367,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header2Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header2MarginProperty = DependencyProperty.Register(nameof(Header2Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header2MarginProperty = DependencyProperty.Register(
+            nameof(Header2Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 3 headers.
@@ -339,8 +385,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header3FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header3FontWeightProperty = DependencyProperty.Register(nameof(Header3FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header3FontWeightProperty = DependencyProperty.Register(
+            nameof(Header3FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 3 headers.
@@ -354,8 +403,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header3FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header3FontSizeProperty = DependencyProperty.Register(nameof(Header3FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header3FontSizeProperty = DependencyProperty.Register(
+            nameof(Header3FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 3 headers.
@@ -369,8 +421,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header3Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header3MarginProperty = DependencyProperty.Register(nameof(Header3Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header3MarginProperty = DependencyProperty.Register(
+            nameof(Header3Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 4 headers.
@@ -384,8 +439,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header4FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header4FontWeightProperty = DependencyProperty.Register(nameof(Header4FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header4FontWeightProperty = DependencyProperty.Register(
+            nameof(Header4FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 4 headers.
@@ -399,8 +457,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header4FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header4FontSizeProperty = DependencyProperty.Register(nameof(Header4FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header4FontSizeProperty = DependencyProperty.Register(
+            nameof(Header4FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 4 headers.
@@ -414,8 +475,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header4Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header4MarginProperty = DependencyProperty.Register(nameof(Header4Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header4MarginProperty = DependencyProperty.Register(
+            nameof(Header4Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 5 headers.
@@ -429,8 +493,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header5FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header5FontWeightProperty = DependencyProperty.Register(nameof(Header5FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header5FontWeightProperty = DependencyProperty.Register(
+            nameof(Header5FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 5 headers.
@@ -444,8 +511,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header5FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header5FontSizeProperty = DependencyProperty.Register(nameof(Header5FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header5FontSizeProperty = DependencyProperty.Register(
+            nameof(Header5FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 5 headers.
@@ -459,8 +529,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header5Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header5MarginProperty = DependencyProperty.Register(nameof(Header5Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 10, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header5MarginProperty = DependencyProperty.Register(
+            nameof(Header5Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 10, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 6 headers.
@@ -474,8 +547,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header6FontWeight"/>.
         /// </summary>
-        public static readonly DependencyProperty Header6FontWeightProperty = DependencyProperty.Register(nameof(Header6FontWeight), typeof(FontWeight),
-                typeof(MarkdownTextBlock), new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header6FontWeightProperty = DependencyProperty.Register(
+            nameof(Header6FontWeight),
+            typeof(FontWeight),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the font size for level 6 headers.
@@ -489,8 +565,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header6FontSize"/>.
         /// </summary>
-        public static readonly DependencyProperty Header6FontSizeProperty = DependencyProperty.Register(nameof(Header6FontSize), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header6FontSizeProperty = DependencyProperty.Register(
+            nameof(Header6FontSize),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin for level 6 headers.
@@ -504,12 +583,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="Header6Margin"/>.
         /// </summary>
-        public static readonly DependencyProperty Header6MarginProperty = DependencyProperty.Register(nameof(Header6Margin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 10, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty Header6MarginProperty = DependencyProperty.Register(
+            nameof(Header6Margin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 10, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render a horizontal rule.  If this is <c>null</c>, then
-        /// <see cref="Foreground"/> is used.
+        /// <see cref="HorizontalRuleBrush"/> is used.
         /// </summary>
         public Brush HorizontalRuleBrush
         {
@@ -520,11 +602,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="HorizontalRuleBrush"/>.
         /// </summary>
-        public static readonly DependencyProperty HorizontalRuleBrushProperty = DependencyProperty.Register(nameof(HorizontalRuleBrush), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 64, 64, 64)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty HorizontalRuleBrushProperty = DependencyProperty.Register(
+            nameof(HorizontalRuleBrush),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
-        /// The margin used for horizontal rules.
+        /// Gets or sets the margin used for horizontal rules.
         /// </summary>
         public Thickness HorizontalRuleMargin
         {
@@ -535,8 +620,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="HorizontalRuleMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty HorizontalRuleMarginProperty = DependencyProperty.Register(nameof(HorizontalRuleMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty HorizontalRuleMarginProperty = DependencyProperty.Register(
+            nameof(HorizontalRuleMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the vertical thickness of the horizontal rule.
@@ -550,8 +638,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="HorizontalRuleThickness"/>.
         /// </summary>
-        public static readonly DependencyProperty HorizontalRuleThicknessProperty = DependencyProperty.Register(nameof(HorizontalRuleThickness), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(2.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty HorizontalRuleThicknessProperty = DependencyProperty.Register(
+            nameof(HorizontalRuleThickness),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(2.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin used by lists.
@@ -565,9 +656,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="ListMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty ListMarginProperty = DependencyProperty.Register(nameof(ListMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
-
+        public static readonly DependencyProperty ListMarginProperty = DependencyProperty.Register(
+            nameof(ListMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the width of the space used by list item bullets/numbers.
@@ -581,8 +674,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="ListGutterWidth"/>.
         /// </summary>
-        public static readonly DependencyProperty ListGutterWidthProperty = DependencyProperty.Register(nameof(ListGutterWidth), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(32.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty ListGutterWidthProperty = DependencyProperty.Register(
+            nameof(ListGutterWidth),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(32.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the space between the list item bullets/numbers and the list item content.
@@ -596,8 +692,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="ListBulletSpacing"/>.
         /// </summary>
-        public static readonly DependencyProperty ListBulletSpacingProperty = DependencyProperty.Register(nameof(ListBulletSpacing), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(8.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty ListBulletSpacingProperty = DependencyProperty.Register(
+            nameof(ListBulletSpacing),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(8.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin used for paragraphs.
@@ -611,8 +710,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="ParagraphMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty ParagraphMarginProperty = DependencyProperty.Register(nameof(ParagraphMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty ParagraphMarginProperty = DependencyProperty.Register(
+            nameof(ParagraphMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to fill the background of a quote block.
@@ -626,12 +728,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuoteBackground"/>.
         /// </summary>
-        public static readonly DependencyProperty QuoteBackgroundProperty = DependencyProperty.Register(nameof(QuoteBackground), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 30, 30, 30)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty QuoteBackgroundProperty = DependencyProperty.Register(
+            nameof(QuoteBackground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBgColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render a quote border.  If this is <c>null</c>, then
-        /// <see cref="Foreground"/> is used.
+        /// <see cref="QuoteBorderBrush"/> is used.
         /// </summary>
         public Brush QuoteBorderBrush
         {
@@ -642,8 +747,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuoteBorderBrush"/>.
         /// </summary>
-        public static readonly DependencyProperty QuoteBorderBrushProperty = DependencyProperty.Register(nameof(QuoteBorderBrush), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 80, 80, 80)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty QuoteBorderBrushProperty = DependencyProperty.Register(
+            nameof(QuoteBorderBrush),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of quote borders.
@@ -657,12 +765,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuoteBorderThickness"/>.
         /// </summary>
-        public static readonly DependencyProperty QuoteBorderThicknessProperty = DependencyProperty.Register(nameof(QuoteBorderThickness), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(2, 0, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty QuoteBorderThicknessProperty = DependencyProperty.Register(
+            nameof(QuoteBorderThickness),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(2, 0, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render the text inside a quote block.  If this is
-        /// <c>null</c>, then <see cref="Foreground"/> is used.
+        /// <c>null</c>, then Foreground is used.
         /// </summary>
         public Brush QuoteForeground
         {
@@ -673,8 +784,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuoteForeground"/>.
         /// </summary>
-        public static readonly DependencyProperty QuoteForegroundProperty = DependencyProperty.Register(nameof(QuoteForeground), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 180, 180, 180)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty QuoteForegroundProperty = DependencyProperty.Register(
+            nameof(QuoteForeground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the space outside of quote borders.
@@ -688,8 +802,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuoteMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty QuoteMarginProperty = DependencyProperty.Register(nameof(QuoteMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(7, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty QuoteMarginProperty = DependencyProperty.Register(
+            nameof(QuoteMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(7, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the space between the quote border and the text.
@@ -703,13 +820,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="QuotePadding"/>.
         /// </summary>
-        public static readonly DependencyProperty QuotePaddingProperty = DependencyProperty.Register(nameof(QuotePadding), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(7, 2, 0, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
-
+        public static readonly DependencyProperty QuotePaddingProperty = DependencyProperty.Register(
+            nameof(QuotePadding),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(7, 2, 0, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render table borders.  If this is <c>null</c>, then
-        /// <see cref="Foreground"/> is used.
+        /// <see cref="TableBorderBrush"/> is used.
         /// </summary>
         public Brush TableBorderBrush
         {
@@ -720,8 +839,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="TableBorderBrush"/>.
         /// </summary>
-        public static readonly DependencyProperty TableBorderBrushProperty = DependencyProperty.Register(nameof(TableBorderBrush), typeof(Brush),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 48, 48, 48)), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty TableBorderBrushProperty = DependencyProperty.Register(
+            nameof(TableBorderBrush),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of any table borders.
@@ -735,11 +857,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="TableBorderThickness"/>.
         /// </summary>
-        public static readonly DependencyProperty TableBorderThicknessProperty = DependencyProperty.Register(nameof(TableBorderThickness), typeof(double),
-                typeof(MarkdownTextBlock), new PropertyMetadata(1.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty TableBorderThicknessProperty = DependencyProperty.Register(
+            nameof(TableBorderThickness),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(1.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
-        /// The padding inside each cell.
+        /// Gets or sets the padding inside each cell.
         /// </summary>
         public Thickness TableCellPadding
         {
@@ -750,8 +875,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="TableCellPadding"/>.
         /// </summary>
-        public static readonly DependencyProperty TableCellPaddingProperty = DependencyProperty.Register(nameof(TableCellPadding), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(9, 4, 9, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty TableCellPaddingProperty = DependencyProperty.Register(
+            nameof(TableCellPadding),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(9, 4, 9, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin used by tables.
@@ -765,8 +893,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="TableMargin"/>.
         /// </summary>
-        public static readonly DependencyProperty TableMarginProperty = DependencyProperty.Register(nameof(TableMargin), typeof(Thickness),
-                typeof(MarkdownTextBlock), new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty TableMarginProperty = DependencyProperty.Register(
+            nameof(TableMargin),
+            typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the word wrapping behavior.
@@ -780,8 +911,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the dependency property for <see cref="TextWrapping"/>.
         /// </summary>
-        public static readonly DependencyProperty TextWrappingProperty = DependencyProperty.Register(nameof(TextWrapping), typeof(TextWrapping),
-                typeof(MarkdownTextBlock), new PropertyMetadata(TextWrapping.Wrap, new PropertyChangedCallback(OnPropertyChangedStatic)));
+        public static readonly DependencyProperty TextWrappingProperty = DependencyProperty.Register(
+            nameof(TextWrapping),
+            typeof(TextWrapping),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(TextWrapping.Wrap, new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Calls OnPropertyChanged.
@@ -810,7 +944,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RenderMarkdown()
         {
             // Make sure we have something to parse.
-            if (Markdown == null)
+            if (Text == null)
             {
                 return;
             }
@@ -829,7 +963,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Try to parse the markdown.
                 MarkdownDocument markdown = new MarkdownDocument();
-                markdown.Parse(Markdown);
+                markdown.Parse(Text);
 
                 // Now try to display it
                 var renderer = new XamlRenderer(markdown, this);

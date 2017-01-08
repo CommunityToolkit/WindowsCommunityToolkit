@@ -21,7 +21,7 @@
 
         <TextBlock Grid.Row="2" Text="Markdown Text" Margin="12,12,12,0" FontSize="18"/>
         <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Margin="12" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" BorderThickness="2">
-            <controls:MarkdownTextBlock x:Name="ui_markdownText" Margin="6" Foreground="Black" OnMarkdownLinkTapped="MarkdownText_OnMarkdownLinkTapped"/>
+            <controls:MarkdownTextBlock x:Name="ui_markdownText" Margin="6" Foreground="Black" OnLinkClicked="MarkdownText_OnLinkClicked"/>
         </ScrollViewer>        
     </Grid>
 </Page>

@@ -14,27 +14,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     internal enum MarkdownBlockType
     {
+        /// <summary>
+        /// The root element
+        /// </summary>
         Root,
+
+        /// <summary>
+        /// A paragraph element.
+        /// </summary>
         Paragraph,
+
+        /// <summary>
+        /// A quote block
+        /// </summary>
         Quote,
+
+        /// <summary>
+        /// A code block
+        /// </summary>
         Code,
+
+        /// <summary>
+        /// A header block
+        /// </summary>
         Header,
+
+        /// <summary>
+        /// A list block
+        /// </summary>
         List,
+
+        /// <summary>
+        /// A list item block
+        /// </summary>
         ListItemBuilder,
+
+        /// <summary>
+        /// a horizontal rule block
+        /// </summary>
         HorizontalRule,
+
+        /// <summary>
+        /// A table block
+        /// </summary>
         Table,
-        LinkReference,
-    };
+
+        /// <summary>
+        /// A link block
+        /// </summary>
+        LinkReference
+    }
 
     public abstract class MarkdownBlock : MarkdownElement
     {
         /// <summary>
-        /// Tells us what type this element is.
+        /// Gets or sets tells us what type this element is.
         /// </summary>
         internal MarkdownBlockType Type { get; set; }
 
         /// <summary>
-        /// Default constructor for this class.
+        /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
         /// </summary>
         internal MarkdownBlock(MarkdownBlockType type)
         {
@@ -49,7 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         public override bool Equals(object obj)
         {
             if (!base.Equals(obj) || !(obj is MarkdownBlock))
+            {
                 return false;
+            }
+
             return Type == ((MarkdownBlock)obj).Type;
         }
 
@@ -60,6 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Type.GetHashCode();
-        }        
+        }
     }
 }

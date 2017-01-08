@@ -26,14 +26,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         private Dictionary<string, LinkReferenceBlock> references;
 
         /// <summary>
-        /// Initializes a new markdown document.
+        /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
         /// </summary>
-        public MarkdownDocument() : base(MarkdownBlockType.Root)
+        public MarkdownDocument()
+            : base(MarkdownBlockType.Root)
         {
         }
 
         /// <summary>
-        /// Holds the list of block elements.
+        /// Gets or sets the list of block elements.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 
@@ -47,15 +48,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out actualEnd);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
-            for (int i = Blocks.Count - 1; i >= 0; i --)
+            for (int i = Blocks.Count - 1; i >= 0; i--)
             {
                 if (Blocks[i].Type == MarkdownBlockType.LinkReference)
                 {
                     var reference = (LinkReferenceBlock)Blocks[i];
                     if (references == null)
+                    {
                         references = new Dictionary<string, LinkReferenceBlock>(StringComparer.OrdinalIgnoreCase);
+                    }
+
                     if (!references.ContainsKey(reference.Id))
+                    {
                         references.Add(reference.Id, reference);
+                    }
+
                     Blocks.RemoveAt(i);
                 }
             }
@@ -78,7 +85,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             // Some blocks need to start on a new paragraph (code, lists and tables) while other
             // blocks can start on any line (headers, horizontal rules and quotes).
             // Text that is outside of any other block becomes a paragraph.
-
             var blocks = new List<MarkdownBlock>();
             int startOfLine = start;
             bool lineStartsNewParagraph = true;
@@ -106,12 +112,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                             // The line is either entirely whitespace, or is empty.
                             break;
                         }
+
                         if (c != ' ' && c != '\t')
                         {
                             // The line has content.
                             nonSpaceChar = c;
                             break;
                         }
+
                         nonSpacePos++;
                     }
 
@@ -119,7 +127,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                     // quote characters ('>').  If there are less than expected AND this is the
                     // start of a new paragraph, then stop parsing.
                     if (expectedQuotesRemaining == 0)
+                    {
                         break;
+                    }
+
                     if (nonSpaceChar == '>')
                     {
                         // Expected block quote characters should be ignored.
@@ -140,12 +151,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                         // There were less block quote characters than expected.
                         // But it doesn't matter if this is not the start of a new paragraph.
                         if (!lineStartsNewParagraph || nonSpaceChar == '\0')
+                        {
                             break;
+                        }
 
                         // This must be the end of the blockquote.  End the current paragraph, if any.
                         actualEnd = previousEndOfLine;
                         if (paragraphText.Length > 0)
+                        {
                             blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
+                        }
+
                         return blocks;
                     }
                 }
@@ -168,7 +184,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 }
                 else
                 {
-
                     // This is a header if the line starts with a hash character,
                     // or if the line starts with '-' or a '=' character and has no other characters.
                     // Or a quote if the line starts with a greater than character (optionally preceded by whitespace).
@@ -184,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                         // Underline style header. These are weird because you don't know you've
                         // got one until you've gone past it.
                         // Note: we intentionally deviate from reddit here in that we only
-                        // recognise this type of header if the previous line is part of a
+                        // recognize this type of header if the previous line is part of a
                         // paragraph.  For example if you have this, the header at the bottom is
                         // ignored:
                         //   a|b
@@ -213,13 +228,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                         // Some block elements must start on a new paragraph (tables, lists and code).
                         int endOfBlock = startOfNextLine;
                         if (nonSpaceChar == '*' || nonSpaceChar == '+' || nonSpaceChar == '-' || (nonSpaceChar >= '0' && nonSpaceChar <= '9'))
+                        {
                             newBlockElement = ListBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
+                        }
+
                         if (newBlockElement == null && nonSpacePos > startOfLine)
+                        {
                             newBlockElement = CodeBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
+                        }
+
                         if (newBlockElement == null)
+                        {
                             newBlockElement = TableBlock.Parse(markdown, realStartOfLine, endOfLine, end, quoteDepth, out endOfBlock);
+                        }
+
                         if (newBlockElement != null)
+                        {
                             startOfNextLine = endOfBlock;
+                        }
                     }
 
                     // This check needs to go after the code block check.
@@ -250,7 +276,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                                 paragraphText[paragraphText.Length - 1] = '\n';
                             }
                             else
+                            {
                                 paragraphText.Append(" ");
+                            }
                         }
 
                         // Add the last paragraph if we are at the end of the input text.
@@ -281,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                             blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
                             paragraphText.Clear();
                         }
+
                         blocks.Add(newBlockElement);
                     }
                 }
@@ -305,12 +334,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         public LinkReferenceBlock LookUpReference(string id)
         {
             if (id == null)
+            {
                 throw new ArgumentNullException("id");
+            }
+
             if (references == null)
+            {
                 return null;
+            }
+
             LinkReferenceBlock result;
             if (references.TryGetValue(id, out result))
+            {
                 return result;
+            }
+
             return null;
         }
 
@@ -321,7 +359,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         public override string ToString()
         {
             if (Blocks == null)
+            {
                 return base.ToString();
+            }
+
             return string.Join("\r\n", Blocks);
         }
     }

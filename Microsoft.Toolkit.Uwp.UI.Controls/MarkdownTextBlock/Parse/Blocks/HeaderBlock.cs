@@ -22,30 +22,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class HeaderBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new header block.
+        /// Initializes a new instance of the <see cref="HeaderBlock"/> class.
         /// </summary>
-        public HeaderBlock() : base(MarkdownBlockType.Header)
+        public HeaderBlock()
+            : base(MarkdownBlockType.Header)
         {
         }
 
         private int headerLevel;
 
         /// <summary>
-        /// The header level (1-6).  1 is the most important header, 6 is the least important.
+        /// Gets or sets the header level (1-6).  1 is the most important header, 6 is the least important.
         /// </summary>
         public int HeaderLevel
         {
-            get { return this.headerLevel; }
+            get
+            {
+                return this.headerLevel;
+            }
+
             set
             {
                 if (value < 1 || value > 6)
+                {
                     throw new ArgumentOutOfRangeException("HeaderLevel", "The header level must be between 1 and 6 (inclusive).");
+                }
+
                 this.headerLevel = value;
             }
         }
 
         /// <summary>
-        /// The contents of the block.
+        /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
@@ -60,24 +68,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // This type of header starts with one or more '#' characters, followed by the header
             // text, optionally followed by any number of hash characters.
-
             var result = new HeaderBlock();
 
             // Figure out how many consecutive hash characters there are.
             int pos = start;
             while (pos < end && markdown[pos] == '#' && pos - start < 6)
+            {
                 pos++;
+            }
+
             result.HeaderLevel = pos - start;
             if (result.HeaderLevel == 0)
+            {
                 return null;
+            }
 
             // Ignore any hashes at the end of the line.
             while (pos < end && markdown[end - 1] == '#')
+            {
                 end--;
+            }
 
             // Parse the inline content.
             result.Inlines = Common.ParseInlineChildren(markdown, pos, end);
-
             return result;
         }
 
@@ -99,12 +112,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
             // Check the second line is valid.
             if (secondLineEnd <= secondLineStart)
+            {
                 return null;
+            }
 
             // Figure out what the underline character is ('=' or '-').
             char underlineChar = markdown[secondLineStart];
             if (underlineChar != '=' && underlineChar != '-')
+            {
                 return null;
+            }
 
             // Read past consecutive underline characters.
             int pos = secondLineStart + 1;
@@ -112,7 +129,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             {
                 char c = markdown[pos];
                 if (c != underlineChar)
+                {
                     break;
+                }
+
                 pos++;
             }
 
@@ -121,7 +141,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             {
                 char c = markdown[pos];
                 if (c != ' ' && c != '\t')
+                {
                     return null;
+                }
+
                 pos++;
             }
 
@@ -130,7 +153,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
             // Parse the inline content.
             result.Inlines = Common.ParseInlineChildren(markdown, firstLineStart, firstLineEnd);
-
             return result;
         }
 
@@ -141,7 +163,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return string.Join(string.Empty, Inlines);
         }
     }

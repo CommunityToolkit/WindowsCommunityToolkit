@@ -22,14 +22,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class CodeBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new code block.
+        /// Initializes a new instance of the <see cref="CodeBlock"/> class.
         /// </summary>
-        public CodeBlock() : base(MarkdownBlockType.Code)
+        public CodeBlock()
+            : base(MarkdownBlockType.Code)
         {
         }
 
         /// <summary>
-        /// The source code to display.
+        /// Gets or sets the source code to display.
         /// </summary>
         public string Text { get; set; }
 
@@ -52,35 +53,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Add every line that starts with a tab character or at least 4 spaces.
                 int pos = lineInfo.StartOfLine;
                 if (pos < maxEnd && markdown[pos] == '\t')
+                {
                     pos++;
+                }
                 else
                 {
                     int spaceCount = 0;
                     while (pos < maxEnd && spaceCount < 4)
                     {
                         if (markdown[pos] == ' ')
+                        {
                             spaceCount++;
+                        }
                         else if (markdown[pos] == '\t')
+                        {
                             spaceCount += 4;
+                        }
                         else
+                        {
                             break;
+                        }
+
                         pos++;
                     }
+
                     if (spaceCount < 4)
                     {
                         // We found a line that doesn't start with a tab or 4 spaces.
                         // But don't end the code block until we find a non-blank line.
                         if (lineInfo.IsLineBlank == false)
+                        {
                             break;
+                        }
                     }
                 }
 
-
                 // Separate each line of the code text.
                 if (code == null)
+                {
                     code = new StringBuilder();
+                }
                 else
+                {
                     code.AppendLine();
+                }
 
                 if (lineInfo.IsLineBlank == false)
                 {
@@ -91,9 +107,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     {
                         char c = lineText[i];
                         if (c == '\t')
+                        {
                             code.Append(' ', 4 - ((code.Length - startOfLinePos) % 4));
+                        }
                         else
+                        {
                             code.Append(c);
+                        }
                     }
                 }
 

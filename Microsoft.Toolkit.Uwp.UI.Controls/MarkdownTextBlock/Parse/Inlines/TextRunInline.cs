@@ -22,27 +22,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class TextRunInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>
-        /// Initializes a new text span.
+        /// Initializes a new instance of the <see cref="TextRunInline"/> class.
         /// </summary>
-        public TextRunInline() : base(MarkdownInlineType.TextRun)
+        public TextRunInline()
+            : base(MarkdownInlineType.TextRun)
         {
         }
 
         /// <summary>
-        /// The text for this run.
+        /// Gets or sets the text for this run.
         /// </summary>
         public string Text { get; set; }
 
         // A list of supported HTML entity names, along with their corresponding code points.
-        private static readonly Dictionary<string, int> entities = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> Entities = new Dictionary<string, int>
         {
             { "quot", 0x0022 }, // "
             { "amp", 0x0026 }, // &
             { "apos", 0x0027 }, // '
             { "lt", 0x003C }, // <
             { "gt", 0x003E }, // >
-            { "nbsp", 0x00A0 }, //  
-            { "#160", 0x00A0 }, //  
+            { "nbsp", 0x00A0 }, // <space>
+            { "#160", 0x00A0 }, // ?
             { "iexcl", 0x00A1 }, // ¡
             { "cent", 0x00A2 }, // ¢
             { "pound", 0x00A3 }, // £
@@ -55,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             { "ordf", 0x00AA }, // ª
             { "laquo", 0x00AB }, // «
             { "not", 0x00AC }, // ¬
-            { "shy", 0x00AD }, //  
+            { "shy", 0x00AD }, // ?
             { "reg", 0x00AE }, // ®
             { "macr", 0x00AF }, // ¯
             { "deg", 0x00B0 }, // °
@@ -198,13 +199,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             { "thetasym", 0x03D1 }, // ϑ
             { "upsih", 0x03D2 }, // ϒ
             { "piv", 0x03D6 }, // ϖ
-            { "ensp", 0x2002 }, //  
-            { "emsp", 0x2003 }, //  
-            { "thinsp", 0x2009 }, //  
-            { "zwnj", 0x200C }, //  
-            { "zwj", 0x200D }, //  
-            { "lrm", 0x200E }, //  
-            { "rlm", 0x200F }, //  
+            { "ensp", 0x2002 }, //  ?
+            { "emsp", 0x2003 }, //  ?
+            { "thinsp", 0x2009 }, //  ?
+            { "zwnj", 0x200C }, //  ?
+            { "zwj", 0x200D }, //  ?
+            { "lrm", 0x200E }, //  ?
+            { "rlm", 0x200F }, //  ?
             { "ndash", 0x2013 }, // –
             { "mdash", 0x2014 }, // —
             { "lsquo", 0x2018 }, // ‘
@@ -293,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         };
 
         // A list of characters that can be escaped.
-        private readonly static char[] escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
+        private static readonly char[] EscapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
         /// <summary>
         /// Parses unformatted text.
@@ -315,7 +316,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Look for the next backslash.
                 int sequenceStartIndex = markdown.IndexOfAny(new char[] { '\\', '&' }, searchPos, end - searchPos);
                 if (sequenceStartIndex == -1)
+                {
                     break;
+                }
+
                 searchPos = sequenceStartIndex + 1;
 
                 char decodedChar;
@@ -323,19 +327,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 {
                     // This is an escape sequence, with one more character expected.
                     if (sequenceStartIndex >= end - 1)
+                    {
                         break;
+                    }
 
                     // Check if the character after the backslash can be escaped.
                     decodedChar = markdown[sequenceStartIndex + 1];
-                    if (Array.IndexOf(escapeCharacters, decodedChar) < 0)
+                    if (Array.IndexOf(EscapeCharacters, decodedChar) < 0)
                     {
                         // This character cannot be escaped.
                         continue;
                     }
-                    
+
                     // This here's an escape sequence!
                     if (result == null)
+                    {
                         result = new StringBuilder(end - start);
+                    }
+
                     result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
                     result.Append(decodedChar);
                     searchPos = textPos = sequenceStartIndex + 2;
@@ -346,19 +355,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                     // Look for the semicolon.
                     int semicolonIndex = markdown.IndexOf(';', sequenceStartIndex + 1, end - (sequenceStartIndex + 1));
-                    if (semicolonIndex == -1)   // Unterminated entity.
+
+                    // Unterminated entity.
+                    if (semicolonIndex == -1)
+                    {
                         continue;
+                    }
 
                     // Okay, we have an entity, but is it one we recognise?
                     string entityName = markdown.Substring(sequenceStartIndex + 1, semicolonIndex - (sequenceStartIndex + 1));
-                    if (entities.ContainsKey(entityName) == false)  // Unrecognised entity.
+
+                    // Unrecognised entity.
+                    if (Entities.ContainsKey(entityName) == false)
+                    {
                         continue;
+                    }
 
                     // This here's an escape sequence!
                     if (result == null)
+                    {
                         result = new StringBuilder(end - start);
+                    }
+
                     result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
-                    result.Append((char)entities[entityName]);
+                    result.Append((char)Entities[entityName]);
                     searchPos = textPos = semicolonIndex + 1;
                 }
             }
@@ -368,6 +388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 result.Append(markdown.Substring(textPos, end - textPos));
                 return new TextRunInline { Text = result.ToString() };
             }
+
             return new TextRunInline { Text = markdown.Substring(start, end - start) };
         }
 
@@ -391,16 +412,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Look for the next backslash.
                 int sequenceStartIndex = markdown.IndexOf('\\', searchPos, end - searchPos);
                 if (sequenceStartIndex == -1)
+                {
                     break;
+                }
+
                 searchPos = sequenceStartIndex + 1;
 
                 // This is an escape sequence, with one more character expected.
                 if (sequenceStartIndex >= end - 1)
+                {
                     break;
+                }
 
                 // Check if the character after the backslash can be escaped.
                 char decodedChar = markdown[sequenceStartIndex + 1];
-                if (Array.IndexOf(escapeCharacters, decodedChar) < 0)
+                if (Array.IndexOf(EscapeCharacters, decodedChar) < 0)
                 {
                     // This character cannot be escaped.
                     continue;
@@ -408,7 +434,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                 // This here's an escape sequence!
                 if (result == null)
+                {
                     result = new StringBuilder(end - start);
+                }
+
                 result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
                 result.Append(decodedChar);
                 searchPos = textPos = sequenceStartIndex + 2;
@@ -419,6 +448,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 result.Append(markdown.Substring(textPos, end - textPos));
                 return result.ToString();
             }
+
             return markdown.Substring(start, end - start);
         }
 
@@ -429,7 +459,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Text == null)
+            {
                 return base.ToString();
+            }
+
             return Text;
         }
     }

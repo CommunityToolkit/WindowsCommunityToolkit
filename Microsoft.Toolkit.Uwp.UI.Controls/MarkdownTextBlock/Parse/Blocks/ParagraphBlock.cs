@@ -21,14 +21,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class ParagraphBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new paragraph block.
+        /// Initializes a new instance of the <see cref="ParagraphBlock"/> class.
         /// </summary>
-        public ParagraphBlock() : base(MarkdownBlockType.Paragraph)
+        public ParagraphBlock()
+            : base(MarkdownBlockType.Paragraph)
         {
         }
 
         /// <summary>
-        /// The contents of the block.
+        /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
@@ -51,7 +52,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return string.Join(string.Empty, Inlines);
         }
     }

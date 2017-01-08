@@ -14,26 +14,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     internal enum MarkdownInlineType
     {
+        /// <summary>
+        /// A text run
+        /// </summary>
         TextRun,
+
+        /// <summary>
+        /// A bold run
+        /// </summary>
         Bold,
+
+        /// <summary>
+        /// An italic run
+        /// </summary>
         Italic,
+
+        /// <summary>
+        /// A link in markdown syntax
+        /// </summary>
         MarkdownLink,
+
+        /// <summary>
+        /// A raw hyper link
+        /// </summary>
         RawHyperlink,
+
+        /// <summary>
+        /// A raw subreddit link
+        /// </summary>
         RawSubreddit,
+
+        /// <summary>
+        /// A strike through run
+        /// </summary>
         Strikethrough,
+
+        /// <summary>
+        /// A superscript run
+        /// </summary>
         Superscript,
+
+        /// <summary>
+        /// A code run
+        /// </summary>
         Code,
-    };
+    }
 
     public abstract class MarkdownInline : MarkdownElement
     {
         /// <summary>
-        /// Tells us what type this element is.
+        /// Gets or sets this element is.
         /// </summary>
         internal MarkdownInlineType Type { get; set; }
 
         /// <summary>
-        /// Default constructor for this class.
+        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
         /// </summary>
         internal MarkdownInline(MarkdownInlineType type)
         {

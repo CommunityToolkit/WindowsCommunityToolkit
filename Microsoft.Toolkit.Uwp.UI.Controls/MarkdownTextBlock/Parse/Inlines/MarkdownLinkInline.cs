@@ -22,36 +22,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class MarkdownLinkInline : MarkdownInline, IInlineContainer, ILinkElement
     {
         /// <summary>
-        /// Initializes a new markdown link.
+        /// Initializes a new instance of the <see cref="MarkdownLinkInline"/> class.
         /// </summary>
-        public MarkdownLinkInline() : base(MarkdownInlineType.MarkdownLink)
+        public MarkdownLinkInline()
+            : base(MarkdownInlineType.MarkdownLink)
         {
         }
 
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets the contents of the inline.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
-        /// The link URL.
+        /// Gets or sets the link URL.
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// A tooltip to display on hover.
+        /// Gets or sets a tooltip to display on hover.
         /// </summary>
         public string Tooltip { get; set; }
 
         /// <summary>
-        /// The ID of a reference, if this is a reference-style link.
+        /// Gets or sets the ID of a reference, if this is a reference-style link.
         /// </summary>
         public string ReferenceId { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '[', Method = Common.InlineParseMethod.MarkdownLink });
@@ -68,7 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // Expect a '[' character.
             if (start == maxEnd || markdown[start] != '[')
+            {
                 return null;
+            }
 
             // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
             int linkTextOpen = start + 1;
@@ -79,22 +81,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             {
                 linkTextClose = markdown.IndexOfAny(new char[] { '[', ']' }, pos, maxEnd - pos);
                 if (linkTextClose == -1)
+                {
                     return null;
+                }
+
                 if (markdown[linkTextClose] == '[')
+                {
                     openSquareBracketCount++;
+                }
                 else if (openSquareBracketCount > 0)
+                {
                     openSquareBracketCount--;
+                }
                 else
+                {
                     break;
+                }
+
                 pos = linkTextClose + 1;
             }
 
             // Skip whitespace.
             pos = linkTextClose + 1;
             while (pos < maxEnd && Common.IsWhiteSpace(markdown[pos]))
+            {
                 pos++;
+            }
+
             if (pos == maxEnd)
+            {
                 return null;
+            }
 
             // Expect the '(' character or the '[' character.
             int linkOpen = pos;
@@ -103,7 +120,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Skip whitespace.
                 linkOpen++;
                 while (linkOpen < maxEnd && Common.IsWhiteSpace(markdown[linkOpen]))
+                {
                     linkOpen++;
+                }
 
                 // Find the ')' character.
                 pos = linkOpen;
@@ -112,22 +131,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 {
                     linkClose = Common.IndexOf(markdown, ')', pos, maxEnd);
                     if (linkClose == -1)
+                    {
                         return null;
+                    }
+
                     if (markdown[linkClose - 1] != '\\')
+                    {
                         break;
+                    }
+
                     pos = linkClose + 1;
                 }
+
                 if (pos >= maxEnd)
+                {
                     return null;
+                }
+
                 int end = linkClose + 1;
 
                 // Skip whitespace backwards.
                 while (linkClose > linkOpen && Common.IsWhiteSpace(markdown[linkClose - 1]))
+                {
                     linkClose--;
+                }
 
                 // If there is no text whatsoever, then this is not a valid link.
                 if (linkOpen == linkClose)
+                {
                     return null;
+                }
 
                 // Check if there is tooltip text.
                 string url;
@@ -135,7 +168,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
                 int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
                 if (tooltipStart == linkOpen)
+                {
                     return null;
+                }
+
                 if (lastUrlCharIsDoubleQuote && tooltipStart != -1)
                 {
                     // Extract the URL (resolving any escape sequences).
@@ -150,7 +186,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                 // Check the URL is okay.
                 if (!IsUrlValid(url))
+                {
                     return null;
+                }
 
                 // We found a regular stand-alone link.
                 var result = new MarkdownLinkInline();
@@ -164,16 +202,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Find the ']' character.
                 int linkClose = Common.IndexOf(markdown, ']', pos + 1, maxEnd);
                 if (linkClose == -1)
+                {
                     return null;
+                }
 
                 // We found a reference-style link.
                 var result = new MarkdownLinkInline();
                 result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
                 result.ReferenceId = markdown.Substring(linkOpen + 1, linkClose - (linkOpen + 1));
                 if (result.ReferenceId == string.Empty)
+                {
                     result.ReferenceId = markdown.Substring(linkTextOpen, linkTextClose - linkTextOpen);
+                }
+
                 return new Common.InlineParseResult(result, start, linkClose + 1);
             }
+
             return null;
         }
 
@@ -184,18 +228,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public void ResolveReference(MarkdownDocument document)
         {
             if (document == null)
+            {
                 throw new ArgumentNullException("document");
+            }
+
             if (ReferenceId == null)
+            {
                 return;
+            }
 
             // Look up the reference ID.
             var reference = document.LookUpReference(ReferenceId);
             if (reference == null)
+            {
                 return;
+            }
 
             // The reference was found. Check the URL is valid.
             if (!IsUrlValid(reference.Url))
+            {
                 return;
+            }
 
             // Everything is cool when you're part of a team.
             Url = reference.Url;
@@ -212,7 +265,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // URLs can be relative.
             if (url.StartsWith("/") || url.StartsWith("#"))
+            {
                 return true;
+            }
 
             // Check the scheme is allowed.
             bool schemeIsAllowed = false;
@@ -224,6 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     break;
                 }
             }
+
             return schemeIsAllowed;
         }
 
@@ -234,9 +290,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null || Url == null)
+            {
                 return base.ToString();
+            }
+
             if (ReferenceId != null)
+            {
                 return string.Format("[{0}][{1}]", string.Join(string.Empty, Inlines), ReferenceId);
+            }
+
             return string.Format("[{0}]({1})", string.Join(string.Empty, Inlines), Url);
         }
     }

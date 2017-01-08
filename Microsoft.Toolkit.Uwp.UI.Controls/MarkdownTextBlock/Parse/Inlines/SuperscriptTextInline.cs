@@ -21,21 +21,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class SuperscriptTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
-        /// Initializes a new superscript text span.
+        /// Initializes a new instance of the <see cref="SuperscriptTextInline"/> class.
         /// </summary>
-        public SuperscriptTextInline() : base(MarkdownInlineType.Superscript)
+        public SuperscriptTextInline()
+            : base(MarkdownInlineType.Superscript)
         {
         }
 
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets the contents of the inline.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '^', Method = Common.InlineParseMethod.Superscript });
@@ -52,7 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // Check the first character.
             if (start == maxEnd || markdown[start] != '^')
+            {
                 return null;
+            }
 
             // The content might be enclosed in parentheses.
             int innerStart = start + 1;
@@ -63,7 +65,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 innerStart++;
                 innerEnd = Common.IndexOf(markdown, ')', innerStart, maxEnd);
                 if (innerEnd == -1)
+                {
                     return null;
+                }
+
                 end = innerEnd + 1;
             }
             else
@@ -71,7 +76,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Search for the next whitespace character.
                 innerEnd = Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
                 if (innerEnd == innerStart)
-                    return null;   // No match if the character after the caret is a space.
+                {
+                    // No match if the character after the caret is a space.
+                    return null;
+                }
+
                 end = innerEnd;
             }
 
@@ -88,7 +97,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return "^(" + string.Join(string.Empty, Inlines) + ")";
         }
     }

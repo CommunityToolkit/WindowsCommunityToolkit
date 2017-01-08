@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2008 Daniel Grunwald
-// 
+// *
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -8,10 +8,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+// *
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+// *
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,11 +29,16 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
 {
     /// <summary>
-    /// A class for managing a weak event.
+    /// The idea of this class is to allow consumers of the class to
+    /// subscribe to events without needing to worry about unsubscibing.
+    /// The class is heald by a weak pointer, so us holding it won't prevent
+    /// it from being deleted.
     /// </summary>
-    internal sealed class SmartWeakEvent<T> where T : class
+    /// <typeparam name="T">The event class</typeparam>
+    internal sealed class SmartWeakEvent<T>
+        where T : class
     {
-        struct EventEntry
+        private struct EventEntry
         {
             public readonly MethodInfo TargetMethod;
             public readonly WeakReference TargetReference;
@@ -45,23 +50,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             }
         }
 
-        readonly List<EventEntry> eventEntries = new List<EventEntry>();
+        private readonly List<EventEntry> eventEntries = new List<EventEntry>();
 
         static SmartWeakEvent()
         {
             if (!typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+            {
                 throw new ArgumentException("T must be a delegate type");
+            }
+
             MethodInfo invoke = typeof(T).GetTypeInfo().GetDeclaredMethod("Invoke");
             if (invoke == null || invoke.GetParameters().Length != 2)
+            {
                 throw new ArgumentException("T must be a delegate type taking 2 parameters");
+            }
+
             ParameterInfo senderParameter = invoke.GetParameters()[0];
             if (senderParameter.ParameterType != typeof(object))
+            {
                 throw new ArgumentException("The first delegate parameter must be of type 'object'");
+            }
+
             ParameterInfo argsParameter = invoke.GetParameters()[1];
-            if (!(typeof(EventArgs).GetTypeInfo().IsAssignableFrom(argsParameter.ParameterType.GetTypeInfo())))
+            if (!typeof(EventArgs).GetTypeInfo().IsAssignableFrom(argsParameter.ParameterType.GetTypeInfo()))
+            {
                 throw new ArgumentException("The second delegate parameter must be derived from type 'EventArgs'");
+            }
+
             if (invoke.ReturnType != typeof(void))
+            {
                 throw new ArgumentException("The delegate return type must be void.");
+            }
         }
 
         public void Add(T eh)
@@ -81,16 +100,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                 }
 
                 if (count != 0)
+                {
                     throw new ArgumentException("Cannot create weak event to anonymous method with closure.");
+                }
 
                 if (eventEntries.Count == eventEntries.Capacity)
+                {
                     RemoveDeadEntries();
+                }
+
                 WeakReference target = d.Target != null ? new WeakReference(d.Target) : null;
                 eventEntries.Add(new EventEntry(d.GetMethodInfo(), target));
             }
         }
 
-        void RemoveDeadEntries()
+        private void RemoveDeadEntries()
         {
             eventEntries.RemoveAll(ee => ee.TargetReference != null && !ee.TargetReference.IsAlive);
         }
@@ -151,8 +175,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                     ee.TargetMethod.Invoke(null, parameters);
                 }
             }
+
             if (needsCleanup)
+            {
                 RemoveDeadEntries();
+            }
         }
     }
 }

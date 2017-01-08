@@ -21,21 +21,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class ItalicTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
-        /// Initializes a new italic text span.
+        /// Initializes a new instance of the <see cref="ItalicTextInline"/> class.
         /// </summary>
-        public ItalicTextInline() : base(MarkdownInlineType.Italic)
+        public ItalicTextInline()
+            : base(MarkdownInlineType.Italic)
         {
         }
 
         /// <summary>
-        /// The contents of the inline.
+        /// Gets or sets the contents of the inline.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '*', Method = Common.InlineParseMethod.Italic });
@@ -54,26 +54,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
             // Check the first char.
             char startChar = markdown[start];
             if (start == maxEnd || (startChar != '*' && startChar != '_'))
+            {
                 return null;
+            }
 
             // Find the end of the span.  The end character (either '*' or '_') must be the same as
             // the start character.
             var innerStart = start + 1;
             int innerEnd = Common.IndexOf(markdown, startChar, start + 1, maxEnd);
             if (innerEnd == -1)
+            {
                 return null;
+            }
 
             // The span must contain at least one character.
             if (innerStart == innerEnd)
+            {
                 return null;
+            }
 
             // The first character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerStart]))
+            {
                 return null;
+            }
 
             // The last character inside the span must NOT be a space.
             if (Common.IsWhiteSpace(markdown[innerEnd - 1]))
+            {
                 return null;
+            }
 
             // We found something!
             var result = new ItalicTextInline();
@@ -88,7 +98,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Inlines == null)
+            {
                 return base.ToString();
+            }
+
             return "*" + string.Join(string.Empty, Inlines) + "*";
         }
     }

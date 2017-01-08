@@ -18,14 +18,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public interface ILinkElement
     {
         /// <summary>
-        /// The link URL.  This can be a relative URL, but note that subreddit links will always
+        /// Gets the link URL.  This can be a relative URL, but note that subreddit links will always
         /// have the leading slash (i.e. the Url will be "/r/baconit" even if the text is
         /// "r/baconit").
         /// </summary>
         string Url { get; }
 
         /// <summary>
-        /// A tooltip to display on hover.  Can be <c>null</c>.
+        /// Gets a tooltip to display on hover.  Can be <c>null</c>.
         /// </summary>
         string Tooltip { get; }
     }

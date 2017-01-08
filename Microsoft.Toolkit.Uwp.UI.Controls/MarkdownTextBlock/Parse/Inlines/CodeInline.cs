@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
-{ 
+{
     /// <summary>
     /// Represents a span containing code, or other text that is to be displayed using a
     /// fixed-width font.
@@ -22,21 +22,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class CodeInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>
-        /// Initializes a new inline code span.
+        /// Initializes a new instance of the <see cref="CodeInline"/> class.
         /// </summary>
-        public CodeInline() : base(MarkdownInlineType.Code)
+        public CodeInline()
+            : base(MarkdownInlineType.Code)
         {
         }
 
         /// <summary>
-        /// The text to display as code.
+        /// Gets or sets the text to display as code.
         /// </summary>
         public string Text { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        /// <returns></returns>
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '`', Method = Common.InlineParseMethod.Code });
@@ -53,7 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             // Check the first char.
             if (start == maxEnd || markdown[start] != '`')
+            {
                 return null;
+            }
 
             // There is an alternate syntax that starts and ends with two backticks.
             // e.g. ``sdf`sdf`` would be "sdf`sdf".
@@ -67,7 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Find the end of the span.
                 innerEnd = Common.IndexOf(markdown, "``", innerStart, maxEnd);
                 if (innerEnd == -1)
+                {
                     return null;
+                }
+
                 end = innerEnd + 2;
             }
             else
@@ -77,13 +82,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Find the end of the span.
                 innerEnd = Common.IndexOf(markdown, '`', innerStart, maxEnd);
                 if (innerEnd == -1)
+                {
                     return null;
+                }
+
                 end = innerEnd + 1;
             }
 
             // The span must contain at least one character.
             if (innerStart == innerEnd)
+            {
                 return null;
+            }
 
             // We found something!
             var result = new CodeInline();
@@ -98,7 +108,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Text == null)
+            {
                 return base.ToString();
+            }
+
             return "`" + Text + "`";
         }
     }

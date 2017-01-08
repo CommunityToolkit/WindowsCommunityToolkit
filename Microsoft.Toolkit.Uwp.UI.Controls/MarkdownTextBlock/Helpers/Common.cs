@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2016 Quinn Damerell
-// 
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -24,16 +22,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
     {
         internal enum InlineParseMethod
         {
+            /// <summary>
+            /// A bold element
+            /// </summary>
             Bold,
+
+            /// <summary>
+            /// A code element
+            /// </summary>
             Code,
+
+            /// <summary>
+            /// An italic block
+            /// </summary>
             Italic,
+
+            /// <summary>
+            /// A link block
+            /// </summary>
             MarkdownLink,
+
+            /// <summary>
+            /// An angle bracket link.
+            /// </summary>
             AngleBracketLink,
+
+            /// <summary>
+            /// A url block
+            /// </summary>
             Url,
+
+            /// <summary>
+            /// A reddit style link
+            /// </summary>
             RedditLink,
+
+            /// <summary>
+            /// An in line text link
+            /// </summary>
             PartialLink,
+
+            /// <summary>
+            /// An email element
+            /// </summary>
             Email,
+
+            /// <summary>
+            /// strike through element
+            /// </summary>
             Strikethrough,
+
+            /// <summary>
+            /// Super script element.
+            /// </summary>
             Superscript,
         }
 
@@ -47,36 +88,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         internal class InlineTripCharHelper
         {
             // Note! Everything in first char and suffix should be lower case!
-            public char FirstChar;
-            public InlineParseMethod Method;
+            public char FirstChar { get; set; }
+
+            public InlineParseMethod Method { get; set; }
         }
 
-        private static List<InlineTripCharHelper> s_triggerList = new List<InlineTripCharHelper>();
-        private static char[] s_tripCharacters;
+        private static List<InlineTripCharHelper> _triggerList = new List<InlineTripCharHelper>();
+        private static char[] _tripCharacters;
 
         static Common()
         {
-            BoldTextInline.AddTripChars(s_triggerList);
-            ItalicTextInline.AddTripChars(s_triggerList);
-            MarkdownLinkInline.AddTripChars(s_triggerList);
-            HyperlinkInline.AddTripChars(s_triggerList);
-            StrikethroughTextInline.AddTripChars(s_triggerList);
-            SuperscriptTextInline.AddTripChars(s_triggerList);
-            CodeInline.AddTripChars(s_triggerList);
-            // Text run doesn't have one.
+            BoldTextInline.AddTripChars(_triggerList);
+            ItalicTextInline.AddTripChars(_triggerList);
+            MarkdownLinkInline.AddTripChars(_triggerList);
+            HyperlinkInline.AddTripChars(_triggerList);
+            StrikethroughTextInline.AddTripChars(_triggerList);
+            SuperscriptTextInline.AddTripChars(_triggerList);
+            CodeInline.AddTripChars(_triggerList);
 
             // Create an array of characters to search against using IndexOfAny.
-            s_tripCharacters = s_triggerList.Select(trigger => trigger.FirstChar).Distinct().ToArray();
+            _tripCharacters = _triggerList.Select(trigger => trigger.FirstChar).Distinct().ToArray();
         }
 
         /// <summary>
         /// This function can be called by any element parsing. Given a start and stopping point this will
         /// parse all found elements out of the range.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="startingPos"></param>
-        /// <param name="maxEndingPos"></param>
-        /// <param name="ignoreLinks"> Indicates whether to parse links. </param>
         /// <returns> A list of parsed inlines. </returns>
         public static List<MarkdownInline> ParseInlineChildren(string markdown, int startingPos, int maxEndingPos, bool ignoreLinks = false)
         {
@@ -103,6 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                 // Update the current position.
                 currentParsePosition = parseResult.End;
             }
+
             return inlines;
         }
 
@@ -119,17 +157,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             }
 
             /// <summary>
-            /// The element that was parsed (can be <c>null</c>).
+            /// Gets the element that was parsed (can be <c>null</c>).
             /// </summary>
             public MarkdownInline ParsedElement { get; private set; }
 
             /// <summary>
-            /// The position of the first character in the parsed element.
+            /// Gets the position of the first character in the parsed element.
             /// </summary>
             public int Start { get; private set; }
 
             /// <summary>
-            /// The position of the character after the last character in the parsed element.
+            /// Gets the position of the character after the last character in the parsed element.
             /// </summary>
             public int End { get; private set; }
         }
@@ -141,27 +179,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <param name="start"> The position to start parsing. </param>
         /// <param name="end"> The position to stop parsing. </param>
         /// <param name="ignoreLinks"> Indicates whether to parse links. </param>
-        /// <returns></returns>
+        /// <returns>Returns the next element</returns>
         private static InlineParseResult FindNextInlineElement(string markdown, int start, int end, bool ignoreLinks)
         {
             // Search for the next inline sequence.
             for (int pos = start; pos < end; pos++)
             {
                 // IndexOfAny should be the fastest way to skip characters we don't care about.
-                pos = markdown.IndexOfAny(s_tripCharacters, pos, end - pos);
+                pos = markdown.IndexOfAny(_tripCharacters, pos, end - pos);
                 if (pos < 0)
+                {
                     break;
+                }
 
                 // Find the trigger(s) that matched.
                 char currentChar = markdown[pos];
-                foreach (InlineTripCharHelper currentTripChar in s_triggerList)
+                foreach (InlineTripCharHelper currentTripChar in _triggerList)
                 {
                     // Check if our current char matches the suffix char.
                     if (currentChar == currentTripChar.FirstChar)
                     {
                         // Don't match if the previous character was a backslash.
                         if (pos > start && markdown[pos - 1] == '\\')
+                        {
                             continue;
+                        }
 
                         // If we are here we have a possible match. Call into the inline class to verify.
                         InlineParseResult parseResult = null;
@@ -175,27 +217,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                                 break;
                             case InlineParseMethod.MarkdownLink:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = MarkdownLinkInline.Parse(markdown, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.AngleBracketLink:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = HyperlinkInline.ParseAngleBracketLink(markdown, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.Url:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = HyperlinkInline.ParseUrl(markdown, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.RedditLink:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = HyperlinkInline.ParseRedditLink(markdown, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.PartialLink:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = HyperlinkInline.ParsePartialLink(markdown, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.Email:
                                 if (!ignoreLinks)
+                                {
                                     parseResult = HyperlinkInline.ParseEmailAddress(markdown, start, pos, end);
+                                }
+
                                 break;
                             case InlineParseMethod.Strikethrough:
                                 parseResult = StrikethroughTextInline.Parse(markdown, pos, end);
@@ -209,7 +269,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                         }
 
                         if (parseResult != null)
+                        {
                             return parseResult;
+                        }
                     }
                 }
             }
@@ -219,15 +281,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             return new InlineParseResult(TextRunInline.Parse(markdown, start, end), start, end);
         }
 
-
         /// <summary>
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="startingPos"></param>
-        /// <param name="endingPos"></param>
-        /// <param name="startOfNextLine"></param>
-        /// <returns></returns>
+        /// <returns>the next single line</returns>
         public static int FindNextSingleNewLine(string markdown, int startingPos, int endingPos, out int startOfNextLine)
         {
             // A line can end with CRLF (\r\n) or just LF (\n).
@@ -237,22 +294,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                 startOfNextLine = endingPos;
                 return endingPos;
             }
+
             startOfNextLine = lineFeedPos + 1;
 
             // Check if it was a CRLF.
             if (lineFeedPos > startingPos && markdown[lineFeedPos - 1] == '\r')
+            {
                 return lineFeedPos - 1;
+            }
+
             return lineFeedPos;
         }
 
         /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="search"></param>
-        /// <param name="startingPos"></param>
-        /// <param name="endingPos"></param>
-        /// <returns></returns>
+        /// <returns>Pos of the searched for item</returns>
         public static int IndexOf(string markdown, string search, int startingPos, int endingPos, bool reverseSearch = false)
         {
             // Check the ending isn't out of bounds.
@@ -290,11 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="search"></param>
-        /// <param name="startingPos"></param>
-        /// <param name="endingPos"></param>
-        /// <returns></returns>
+        /// <returns>Pos of the searched for item</returns>
         public static int IndexOf(string markdown, char search, int startingPos, int endingPos, bool reverseSearch = false)
         {
             // Check the ending isn't out of bounds.
@@ -332,40 +385,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <summary>
         /// Finds the next whitespace in a range.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="startingPos"></param>
-        /// <param name="endingPos"></param>
-        /// <returns></returns>
+        /// <returns>pos of the white space</returns>
         public static int FindNextWhiteSpace(string markdown, int startingPos, int endingPos, bool ifNotFoundReturnLength)
         {
             int currentPos = startingPos;
             while (currentPos < markdown.Length && currentPos < endingPos)
             {
-                if (Char.IsWhiteSpace(markdown[currentPos]))
+                if (char.IsWhiteSpace(markdown[currentPos]))
                 {
                     return currentPos;
                 }
+
                 currentPos++;
             }
+
             return ifNotFoundReturnLength ? endingPos : -1;
         }
 
         internal class LineInfo
         {
             public int StartOfLine { get; set; }
+
             public int FirstNonWhitespaceChar { get; set; }
+
             public int EndOfLine { get; set; }
-            public bool IsLineBlank { get { return FirstNonWhitespaceChar == EndOfLine; } }
+
+            public bool IsLineBlank
+            {
+                get
+                {
+                    return FirstNonWhitespaceChar == EndOfLine;
+                }
+            }
+
             public int StartOfNextLine { get; set; }
         }
 
         /// <summary>
         /// Parses lines.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
+        /// <returns>LineInfo</returns>
         public static IEnumerable<LineInfo> ParseLines(string markdown, int start, int end, int quoteDepth)
         {
             int pos = start;
@@ -379,7 +438,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                 char nonSpaceChar = '\0';
                 while (true)
                 {
-
                     // Find the next non-space char.
                     while (nonSpacePos < end)
                     {
@@ -389,12 +447,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                             // The line is either entirely whitespace, or is empty.
                             break;
                         }
+
                         if (c != ' ' && c != '\t')
                         {
                             // The line has content.
                             nonSpaceChar = c;
                             break;
                         }
+
                         nonSpacePos++;
                     }
 
@@ -402,7 +462,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                     // quote characters ('>').  If there are less than expected AND this is the
                     // start of a new paragraph, then stop parsing.
                     if (expectedQuotesRemaining == 0)
+                    {
                         break;
+                    }
+
                     if (nonSpaceChar == '>')
                     {
                         // Expected block quote characters should be ignored.
@@ -423,7 +486,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                         // There were less block quote characters than expected.
                         // But it doesn't matter if this is not the start of a new paragraph.
                         if (!lineStartsNewParagraph || nonSpaceChar == '\0')
+                        {
                             break;
+                        }
 
                         // This must be the end of the blockquote.  End the current paragraph, if any.
                         yield break;
@@ -457,15 +522,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <summary>
         /// Skips a certain number of quote characters (>).
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="quoteDepth"> The number of quote characters to skip. </param>
-        /// <returns></returns>
+        /// <returns>Skip Quote Chars</returns>
         public static int SkipQuoteCharacters(string markdown, int start, int end, int quoteDepth)
         {
             if (quoteDepth == 0)
+            {
                 return start;
+            }
 
             int startOfLine = start;
             int nonSpacePos = start;
@@ -482,12 +545,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                         // The line is either entirely whitespace, or is empty.
                         break;
                     }
+
                     if (c != ' ' && c != '\t')
                     {
                         // The line has content.
                         nonSpaceChar = c;
                         break;
                     }
+
                     nonSpacePos++;
                 }
 
@@ -495,7 +560,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                 // quote characters ('>').  If there are less than expected AND this is the
                 // start of a new paragraph, then stop parsing.
                 if (quoteDepth == 0)
+                {
                     break;
+                }
+
                 if (nonSpaceChar == '>')
                 {
                     // Expected block quote characters should be ignored.
@@ -524,8 +592,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <summary>
         /// Determines if a character is a whitespace character.
         /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
+        /// <returns>true if is white space</returns>
         public static bool IsWhiteSpace(char c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
@@ -534,13 +601,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         /// <summary>
         /// Determines if a string is blank or comprised entirely of whitespace characters.
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        /// <returns>true if blank or white space</returns>
         public static bool IsBlankOrWhiteSpace(string str)
         {
             for (int i = 0; i < str.Length; i++)
+            {
                 if (!IsWhiteSpace(str[i]))
+                {
                     return false;
+                }
+            }
+
             return true;
         }
     }

@@ -20,7 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 {
     public enum ListStyle
     {
+        /// <summary>
+        /// A list with bullets
+        /// </summary>
         Bulleted,
+
+        /// <summary>
+        /// A numbered list
+        /// </summary>
         Numbered,
     }
 
@@ -30,33 +37,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     public class ListBlock : MarkdownBlock
     {
         /// <summary>
-        /// Initializes a new list block.
+        /// Initializes a new instance of the <see cref="ListBlock"/> class.
         /// </summary>
-        public ListBlock() : base(MarkdownBlockType.List)
+        public ListBlock()
+            : base(MarkdownBlockType.List)
         {
         }
 
         /// <summary>
-        /// The list items.
+        /// Gets or sets the list items.
         /// </summary>
         public IList<ListItemBlock> Items { get; set; }
 
         /// <summary>
-        /// The style of the list, either numbered or bulleted.
+        /// Gets or sets the style of the list, either numbered or bulleted.
         /// </summary>
         public ListStyle Style { get; set; }
 
         private class NestedListInfo
         {
-            public ListBlock List;
-            public int SpaceCount;  // The number of spaces at the start of the line the list first appeared.
+            public ListBlock List { get; set; }
+
+            // The number of spaces at the start of the line the list first appeared.
+            public int SpaceCount { get; set; }
         }
 
         private class ListItemBuilder : MarkdownBlock
         {
-            public StringBuilder Builder = new StringBuilder();
+            public StringBuilder Builder { get; } = new StringBuilder();
 
-            public ListItemBuilder() : base(MarkdownBlockType.ListItemBuilder)
+            public ListItemBuilder()
+                : base(MarkdownBlockType.ListItemBuilder)
             {
             }
         }
@@ -91,7 +102,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     // Does the line contain a list item?
                     ListItemPreamble listItemPreamble = null;
                     if (lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine < (russianDollIndex + 2) * 4)
+                    {
                         listItemPreamble = ParseItemPreamble(markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine);
+                    }
+
                     if (listItemPreamble != null)
                     {
                         // Yes, this line contains a list item.
@@ -119,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                         }
                         else
                         {
-                            russianDollIndex = Math.Max(1, 1 + (spaceCount - 1) / 4);
+                            russianDollIndex = Math.Max(1, 1 + ((spaceCount - 1) / 4));
                             if (russianDollIndex < russianDolls.Count)
                             {
                                 // Add the new list item to an existing list.
@@ -133,7 +147,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                                 // Create a new list.
                                 listToAddTo = new ListBlock { Style = listItemPreamble.Style, Items = new List<ListItemBlock>() };
                                 if (russianDolls.Count > 0)
+                                {
                                     currentListItem.Blocks.Add(listToAddTo);
+                                }
+
                                 russianDollIndex = russianDolls.Count;
                                 russianDolls.Add(new NestedListInfo { List = listToAddTo, SpaceCount = spaceCount });
                             }
@@ -165,12 +182,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                             // This is the start of a new paragraph.
                             int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
                             if (spaceCount == 0)
+                            {
                                 break;
+                            }
+
                             russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
                             ListBlock listToAddTo = russianDolls[russianDollIndex].List;
                             currentListItem = listToAddTo.Items[listToAddTo.Items.Count - 1];
                             currentListItem.Blocks.Add(new ListItemBuilder());
-                            AppendTextToListItem(currentListItem, markdown, Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + (russianDollIndex + 1) * 4), lineInfo.EndOfLine);
+                            AppendTextToListItem(currentListItem, markdown, Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4)), lineInfo.EndOfLine);
                         }
                         else
                         {
@@ -186,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 // Go to the next line.
                 actualEnd = lineInfo.EndOfLine;
             }
-            
+
             var result = russianDolls[0].List;
             ReplaceStringBuilders(result);
             return result;
@@ -194,17 +214,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
         private class ListItemPreamble
         {
-            public ListStyle Style;
-            public int ContentStartPos;
+            public ListStyle Style { get; set; }
+
+            public int ContentStartPos { get; set; }
         }
 
         /// <summary>
         /// Parsing helper method.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="start"></param>
-        /// <param name="maxEnd"></param>
-        /// <returns></returns>
+        /// <returns>Returns a ListItemPreamble</returns>
         private static ListItemPreamble ParseItemPreamble(string markdown, int start, int maxEnd)
         {
             // There are two types of lists.
@@ -226,21 +244,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 {
                     char c = markdown[start];
                     if (c < '0' || c > '9')
+                    {
                         break;
+                    }
+
                     start++;
                 }
 
                 // Next should be a period ('.').
                 if (start == maxEnd || markdown[start] != '.')
+                {
                     return null;
+                }
+
                 start++;
             }
             else
+            {
                 return null;
+            }
 
             // Next should be a space.
             if (start == maxEnd || (markdown[start] != ' ' && markdown[start] != '\t'))
+            {
                 return null;
+            }
+
             start++;
 
             // This is a valid list item.
@@ -250,21 +279,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         /// <summary>
         /// Parsing helper method.
         /// </summary>
-        /// <param name="listItem"></param>
-        /// <param name="markdown"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
         private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end)
         {
             ListItemBuilder listItemBuilder = null;
             if (listItem.Blocks.Count > 0)
+            {
                 listItemBuilder = listItem.Blocks[listItem.Blocks.Count - 1] as ListItemBuilder;
+            }
+
             if (listItemBuilder == null)
             {
                 // Add a new block.
                 listItemBuilder = new ListItemBuilder();
                 listItem.Blocks.Add(listItemBuilder);
             }
+
             var builder = listItemBuilder.Builder;
             if (builder.Length >= 2 &&
                 Common.IsWhiteSpace(builder[builder.Length - 2]) &&
@@ -274,14 +303,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                 builder.AppendLine();
             }
             else if (builder.Length > 0)
+            {
                 builder.Append(' ');
+            }
+
             builder.Append(markdown.Substring(start, end - start));
         }
 
         /// <summary>
         /// Parsing helper.
         /// </summary>
-        /// <param name="list"></param>
         /// <returns> <c>true</c> if any of the list items were parsed using the block parser. </returns>
         private static bool ReplaceStringBuilders(ListBlock list)
         {
@@ -293,8 +324,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                 // Recursively replace any child lists.
                 foreach (var block in listItem.Blocks)
+                {
                     if (block is ListBlock && ReplaceStringBuilders((ListBlock)block))
+                    {
                         useBlockParser = true;
+                    }
+                }
 
                 // Parse the text content of the list items.
                 var newBlockList = new List<MarkdownBlock>();
@@ -319,10 +354,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                         }
                     }
                     else
+                    {
                         newBlockList.Add(block);
+                    }
                 }
+
                 listItem.Blocks = newBlockList;
             }
+
             return usedBlockParser;
         }
 
@@ -333,12 +372,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public override string ToString()
         {
             if (Items == null)
+            {
                 return base.ToString();
+            }
+
             var result = new StringBuilder();
-            for (int i = 0; i < Items.Count; i ++)
+            for (int i = 0; i < Items.Count; i++)
             {
                 if (result.Length > 0)
+                {
                     result.AppendLine();
+                }
+
                 switch (Style)
                 {
                     case ListStyle.Bulleted:
@@ -349,25 +394,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                         result.Append(".");
                         break;
                 }
+
                 result.Append(" ");
                 result.Append(string.Join("\r\n", Items[i].Blocks));
             }
+
             return result.ToString();
         }
-    }
 
-    public class ListItemBlock
-    {
-        /// <summary>
-        /// The contents of the list item.
-        /// </summary>
-        public IList<MarkdownBlock> Blocks { get; set; }
-
-        /// <summary>
-        /// Initializes a new list item.
-        /// </summary>
-        public ListItemBlock()
+        public class ListItemBlock
         {
+            /// <summary>
+            /// Gets or sets the contents of the list item.
+            /// </summary>
+            public IList<MarkdownBlock> Blocks { get; set; }
+
+            public ListItemBlock()
+            {
+            }
         }
     }
 }
