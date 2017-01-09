@@ -345,6 +345,9 @@
     </Content>
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -392,6 +395,9 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
+      <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
@@ -561,6 +567,10 @@
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
