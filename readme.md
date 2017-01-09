@@ -63,6 +63,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxMask/)
+* [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Code Helpers
 
