@@ -59,7 +59,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock",
         "XamlCodeFile": "MarkdownTextBlock.bind",
         "CodeFile": "MarkdownTextBlockCode.bind",
-        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+        "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png"
       },
       {
         "Name": "RadialGauge",
