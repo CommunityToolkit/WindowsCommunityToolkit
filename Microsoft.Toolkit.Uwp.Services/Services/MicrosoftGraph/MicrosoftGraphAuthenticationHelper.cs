@@ -186,14 +186,20 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             if (currentUser == null)
             {
                 authResult = await identityClientApp.AcquireTokenAsync(scopes);
-                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
+                _tokenForUser = StoreCredential(authResult);
             }
             else
             {
-                _expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
+                var savedExpiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
+                if (_expiration < savedExpiration)
+                {
+                    _expiration = savedExpiration;
+                }
+
+                //_expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
             }
 
-            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(50))
             {
                 _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
             }

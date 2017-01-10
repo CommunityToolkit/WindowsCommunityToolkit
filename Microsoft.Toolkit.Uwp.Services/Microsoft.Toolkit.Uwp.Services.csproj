@@ -101,6 +101,10 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\OneDrive\OneDriveEnums.cs" />
+    <Compile Include="Services\OneDrive\OneDriveService.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageFolder.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageItem.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />

@@ -327,7 +327,6 @@
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
-    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

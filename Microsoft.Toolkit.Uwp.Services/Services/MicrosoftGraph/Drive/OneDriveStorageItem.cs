@@ -124,6 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             _oneDriveItem = driveItem;
             _graphProvider = graphProvider;
             _name = driveItem.Name;
+
             // ParentReference null means is root
             if (driveItem.ParentReference != null)
             {
