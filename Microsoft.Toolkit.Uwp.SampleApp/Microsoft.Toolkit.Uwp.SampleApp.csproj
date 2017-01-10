@@ -278,6 +278,7 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
+    <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
@@ -344,6 +345,7 @@
     <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelperCode.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
@@ -360,6 +362,7 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
@@ -508,6 +511,9 @@
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
+      <DependentUpon>WrapPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -716,6 +722,10 @@
     <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\WrapPanel\WrapPanelPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>

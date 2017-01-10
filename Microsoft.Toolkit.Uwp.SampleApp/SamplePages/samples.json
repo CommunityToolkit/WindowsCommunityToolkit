@@ -110,12 +110,12 @@
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
       },
       {
-          "Name": "GridSplitter",
-          "Type": "GridSplitterPage",
-          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-          "XamlCodeFile": "GridSplitter.bind",
-          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -148,6 +148,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
         "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
+      },
+      {
+        "Name": "WrapPanel",
+        "Type": "WrapPanelPage",
+        "About": "The WrapPanel Control Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box. Subsequent ordering happens sequentially from top to bottom or from right to left, depending on the value of the Orientation property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
+        "XamlCodeFile": "WrapPanel.bind",
+        "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
       }
     ]
   },
