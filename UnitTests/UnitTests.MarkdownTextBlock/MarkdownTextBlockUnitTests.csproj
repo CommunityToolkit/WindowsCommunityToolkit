@@ -143,10 +143,6 @@
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UniversalMarkdown\UniversalMarkdown.csproj">
-      <Project>{9ffc3b68-696a-4342-a2b8-2eadddef7ff9}</Project>
-      <Name>UniversalMarkdown</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
