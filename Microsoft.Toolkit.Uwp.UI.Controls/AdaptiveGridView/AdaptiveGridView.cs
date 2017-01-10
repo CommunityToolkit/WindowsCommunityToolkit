@@ -30,6 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// new column.</remarks>
     public partial class AdaptiveGridView : GridView
     {
+        private bool _isLoaded;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
         /// </summary>
@@ -39,6 +41,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged += OnSizeChanged;
             ItemClick += OnItemClick;
             Items.VectorChanged += ItemsOnVectorChanged;
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
+
+            // Define ItemContainerStyle in code rather than using the DefaultStyle
+            // to avoid having to define the entire style of a GridView. This can still
+            // be set by the enduser to values of their chosing
+            var style = new Style(typeof(GridViewItem));
+            style.Setters.Add(new Setter(GridViewItem.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+            style.Setters.Add(new Setter(GridViewItem.VerticalContentAlignmentProperty, VerticalAlignment.Stretch));
+            ItemContainerStyle = style;
         }
 
         /// <summary>
@@ -134,11 +146,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _isLoaded = true;
+            DetermineOneRowMode();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            _isLoaded = false;
+        }
+
+        private void DetermineOneRowMode()
+        {
+            if (_isLoaded)
+            {
+                var itemsWrapGridPanel = ItemsPanelRoot as ItemsWrapGrid;
+
+                if (OneRowModeEnabled)
+                {
+                    var b = new Binding()
+                    {
+                        Source = this,
+                        Path = new PropertyPath("ItemHeight")
+                    };
+
+                    if (itemsWrapGridPanel != null)
+                    {
+                        itemsWrapGridPanel.Orientation = Orientation.Vertical;
+                    }
+
+                    this.SetBinding(GridView.MaxHeightProperty, b);
+
+                    ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Visible);
+                    ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Enabled);
+                }
+                else
+                {
+                    this.ClearValue(GridView.MaxHeightProperty);
+                    if (itemsWrapGridPanel != null)
+                    {
+                        itemsWrapGridPanel.Orientation = Orientation.Horizontal;
+                    }
+
+                    ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Enabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Visible);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Disabled);
+                }
+            }
+        }
+
         private void RecalculateLayout(double containerWidth)
         {
             if (containerWidth > 0)
             {
-                ItemWidth = CalculateItemWidth(containerWidth);
+                var newWidth = CalculateItemWidth(containerWidth);
+
+                if (double.IsNaN(ItemWidth) || Math.Abs(newWidth - ItemWidth) > 1)
+                {
+                    ItemWidth = newWidth;
+                }
             }
         }
     }

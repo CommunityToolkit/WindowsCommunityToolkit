@@ -22,9 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class DropShadowPanel
     {
-        public static bool IsShadowSupported =>
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
-
         /// <summary>
         /// Identifies the <see cref="BlurRadius"/> dependency property.
         /// </summary>
@@ -159,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnBlurRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnBlurRadiusChanged((double)e.NewValue);
             }
@@ -167,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnColorChanged((Color)e.NewValue);
             }
@@ -175,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOffsetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnOffsetXChanged((double)e.NewValue);
             }
@@ -183,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOffsetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnOffsetYChanged((double)e.NewValue);
             }
@@ -191,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOffsetZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnOffsetZChanged((double)e.NewValue);
             }
@@ -199,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
                 ((DropShadowPanel)d).OnShadowOpacityChanged((double)e.NewValue);
             }

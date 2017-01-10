@@ -56,6 +56,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
 
         /// <summary>
+        /// New in Creators Update: Additional options relating to activation of the toast button.
+        /// </summary>
+        public ToastActivationOptions ActivationOptions { get; set; }
+
+        /// <summary>
         /// An optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).
         /// </summary>
         public string ImageUri { get; set; }
@@ -67,32 +72,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         internal Element_ToastAction ConvertToElement()
         {
-            return new Element_ToastAction()
+            var el = new Element_ToastAction()
             {
                 Content = Content,
                 Arguments = Arguments,
-                ActivationType = GetElementActivationType(),
+                ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 ImageUri = ImageUri,
                 InputId = TextBoxId
             };
-        }
 
-        private Element_ToastActivationType GetElementActivationType()
-        {
-            switch (ActivationType)
-            {
-                case ToastActivationType.Foreground:
-                    return Element_ToastActivationType.Foreground;
+            ActivationOptions?.PopulateElement(el);
 
-                case ToastActivationType.Background:
-                    return Element_ToastActivationType.Background;
-
-                case ToastActivationType.Protocol:
-                    return Element_ToastActivationType.Protocol;
-
-                default:
-                    throw new NotImplementedException();
-            }
+            return el;
         }
     }
 }

@@ -113,8 +113,12 @@
     <Compile Include="Services\OneDrive\OneDriveStorageItem.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItemsCollection.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItemsEnumerator.cs" />
+    <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ITranslatorServiceClient.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorServiceClient.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
+    <Compile Include="Services\Twitter\TwitterGeoData.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
+    <Compile Include="Services\Twitter\TwitterStatus.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>

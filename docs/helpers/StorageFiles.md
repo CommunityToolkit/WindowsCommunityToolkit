@@ -29,6 +29,12 @@ The StorageFileHelper is a static utility class that provides functions to help 
 	// Check if a file exists in a specific folder or in one of its subfolders
 	bool exists = await localFolder.FileExistsAsync("appFilename.txt", true);
 
+	// Check if a file name is valid or not
+	bool isFileNameValid = StorageFileHelper.IsFileNameValid("appFilename.txt");
+
+	// Check if a file path is valid or not
+	bool isFilePathValid = StorageFileHelper.IsFilePathValid("folder/appFilename.txt");
+
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_StorageFileHelper.cs)
