@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 //_expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
             }
 
-            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(50))
+            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
                 _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
             }
