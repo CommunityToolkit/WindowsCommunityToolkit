@@ -10,11 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -192,26 +194,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Initialize a OneDriveStorageFolder
+        /// Deletes the current item.
         /// </summary>
-        /// <param name="driveItem">A OneDrive item</param>
-        /// <returns>New instance of OneDriveStorageFolder</returns>
-        protected OneDriveStorageFolder InitializeOneDriveFolder(Item driveItem)
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns> No object or value is returned by this method when it completes.</returns>
+        public async Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var requestBuilder = Provider.Drive.Items[driveItem.Id];
-            return new OneDriveStorageFolder(Provider, requestBuilder, driveItem);
-        }
+            if (_name == "root")
+            {
+                throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not delete the root folder" });
+            }
 
-        public IAsyncAction DeleteAsync()
-        {
-            throw new NotImplementedException();
+            await RequestBuilder.Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
         }
-
-        public IAsyncAction DeleteAsync(StorageDeleteOption option)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
         {
@@ -227,7 +222,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         ///  Determines whether the current IStorageItem matches the specified StorageItemTypes value.
@@ -252,6 +246,57 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Renames the current folder.
+        /// </summary>
+        /// <param name="desiredName">The desired, new name for the current folder.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes successfully, it returns an OneDriveStorageItem that represents the specified folder.</returns>
+        public async Task<OneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            Item newOneDriveItem = new Item();
+            newOneDriveItem.Name = desiredName;
+            newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
+
+            var itemRenamed = await RequestBuilder.Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
+            return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, newOneDriveItem);
+        }
+
+        /// <summary>
+        /// Moves the current item to the specified folder and renames the item according to the desired name.
+        /// </summary>
+        /// <param name="destinationFolder">The destination folder where the item is moved.</param>
+        /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>return success or failure</returns>
+        public async Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (OneDriveItem.Name == "root")
+            {
+                throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not move the root folder" });
+            }
+
+            var requestUri = RequestBuilder.RequestUrl;
+            HttpMethod patchMethod = new HttpMethod("PATCH");
+            HttpRequestMessage request = new HttpRequestMessage(patchMethod, requestUri);
+            return await Provider.MoveOrCopyAuthenticatedRequestAsync(request, destinationFolder, desiredNewName, cancellationToken);
+        }
+
+        public async Task<bool> CopyAsync(OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (OneDriveItem.Name == "root")
+            {
+                throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not move the root folder" });
+            }
+
+            var requestUri = $"{RequestBuilder.RequestUrl}/action.copy";
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            request.Headers.Add("Prefer", "respond-async");
+
+            return await Provider.MoveOrCopyAuthenticatedRequestAsync(request, destinationFolder, desiredNewName, cancellationToken);
         }
 
         /// <summary>
@@ -281,14 +326,37 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return !IsFile() && !IsFolder() ? true : false;
         }
 
-        public IAsyncAction RenameAsync(string desiredName)
+        /// <summary>
+        /// Initialize a OneDriveStorageFolder
+        /// </summary>
+        /// <param name="oneDriveItem">A OneDrive item</param>
+        /// <returns>New instance of OneDriveStorageFolder</returns>
+        protected OneDriveStorageFolder InitializeOneDriveStorageFolder(Item oneDriveItem)
         {
-            throw new NotImplementedException();
+            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            return new OneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
 
-        public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
+        /// <summary>
+        /// Initialize a OneDriveStorageItem
+        /// </summary>
+        /// <param name="oneDriveItem">A OneDrive item</param>
+        /// <returns>New instance of OneDriveStorageItem</returns>
+        protected OneDriveStorageItem InitializeOneDriveStorageItem(Item oneDriveItem)
         {
-            throw new NotImplementedException();
+            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            return new OneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
+        }
+
+        /// <summary>
+        /// Initialize a OneDriveStorageItem
+        /// </summary>
+        /// <param name="oneDriveItem">A OneDrive item</param>
+        /// <returns>New instance of OneDriveStorageItem</returns>
+        protected OneDriveStorageFile InitializeOneDriveStorageFile(Item oneDriveItem)
+        {
+            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            return new OneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
         }
     }
 }

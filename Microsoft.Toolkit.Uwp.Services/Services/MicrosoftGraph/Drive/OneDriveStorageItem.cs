@@ -186,13 +186,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             return GetThumbnailAsync(CancellationToken.None, optionSize);
         }
 
-        ///// <summary>
-        ///// Creates a copy of the item in the specified folder and renames the item according to the desired name.
-        ///// </summary>
-        ///// <param name="destinationFolder">The destination folder where the copy of the item is created.</param>
-        ///// <param name="desiredNewName">The new name for the copy of the item created in the destinationFolder.</param>
-        ///// <remarks>Because the copy is asynchronous the item could not be available yet.</remarks>
-        ///// <returns>return success or failure</returns>
+        /// <summary>
+        /// Creates a copy of the item in the specified folder and renames the item according to the desired name.
+        /// </summary>
+        /// <param name="destinationFolder">The destination folder where the copy of the item is created.</param>
+        /// <param name="desiredNewName">The new name for the copy of the item created in the destinationFolder.</param>
+        /// <remarks>Because the copy is asynchronous the item could not be available yet.</remarks>
+        /// <returns>return success or failure</returns>
         public Task<bool> CopyAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null)
         {
             if (OneDriveItem.Name == "root")

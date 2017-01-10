@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
         /// <summary>
         /// Initialize OneDrive
-        /// </summary>        
+        /// </summary>
         /// <param name="appClientId">An App Id Client get from https://apps.dev.microsoft.com/</param>
         /// <param name="scopes">Scopes represent the various permission levels that an app can request from a user</param>
         /// <param name="accountProviderType">Account Provider</param>
@@ -148,7 +148,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 await ((MsaAuthenticationProvider)_accountProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
 
                 //await ((MsaAuthenticationProvider)_accountProvider).AuthenticateUserAsync();
-
             }
 
             _isConnected = true;
@@ -161,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public async Task<OneDriveStorageFolder> RootFolderAsync()
         {
-           
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
             return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, oneDriveRootItem);
         }

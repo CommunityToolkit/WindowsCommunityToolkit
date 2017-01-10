@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             IDriveItemChildrenCollectionRequest oneDriveitemsRequest = CreateChildrenRequest(top, orderBy, filter);
 
-            return await RequestOneDriveItemstAsync(oneDriveitemsRequest, cancellationToken);
+            return await RequestOneDriveItemsAsync(oneDriveitemsRequest, cancellationToken);
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             if (_nextPageItemsRequest != null)
             {
-                return await RequestOneDriveItemstAsync(_nextPageItemsRequest, cancellationToken);
+                return await RequestOneDriveItemsAsync(_nextPageItemsRequest, cancellationToken);
             }
 
             // no more items
@@ -523,7 +523,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="request">Http request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns MicrosoftGraphOneDriveItemCollection that represents the specified files or folders</returns>
-        private async Task<OneDriveStorageItemsCollection> RequestOneDriveItemstAsync(IDriveItemChildrenCollectionRequest request, CancellationToken cancellationToken)
+        private async Task<OneDriveStorageItemsCollection> RequestOneDriveItemsAsync(IDriveItemChildrenCollectionRequest request, CancellationToken cancellationToken)
         {
             var oneDriveItems = await request.GetAsync(cancellationToken);
 
