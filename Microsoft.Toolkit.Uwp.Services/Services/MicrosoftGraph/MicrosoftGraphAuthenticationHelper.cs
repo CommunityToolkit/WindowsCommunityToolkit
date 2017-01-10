@@ -179,24 +179,15 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 scopes = new string[] { "Files.ReadWrite", "Mail.ReadWrite", "User.ReadWrite" };
             }
 
-            Identity.Client.AuthenticationResult authResult = null;
-
             string currentUser = ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] as string;
 
             if (currentUser == null)
             {
-                authResult = await identityClientApp.AcquireTokenAsync(scopes);
-                _tokenForUser = StoreCredential(authResult);
+                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenAsync(scopes));
             }
             else
             {
-                var savedExpiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
-                if (_expiration < savedExpiration)
-                {
-                    _expiration = savedExpiration;
-                }
-
-                //_expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
+                _expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
             }
 
             if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
