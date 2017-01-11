@@ -43,8 +43,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void SetInitalText(string text)
         {
-            ui_unformattedText.Text = text;
-            ui_markdownText.Text = text;
+            UiUnformattedText.Text = text;
         }
 
         private async void MarkdownText_OnLinkClicked(object sender, UI.Controls.OnLinkClickedArgs e)

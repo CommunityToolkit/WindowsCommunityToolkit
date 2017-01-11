@@ -291,8 +291,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             int lineFeedPos = markdown.IndexOf('\n', startingPos);
             if (lineFeedPos == -1)
             {
-                startOfNextLine = endingPos;
-                return endingPos;
+                // Trying with /r now
+                lineFeedPos = markdown.IndexOf('\r', startingPos);
+                if (lineFeedPos == -1)
+                {
+                    startOfNextLine = endingPos;
+                    return endingPos;
+                }
             }
 
             startOfNextLine = lineFeedPos + 1;

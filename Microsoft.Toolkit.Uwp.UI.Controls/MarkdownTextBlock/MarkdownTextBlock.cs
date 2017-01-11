@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             remove { _onLinkClicked.Remove(value); }
         }
 
-        private SmartWeakEvent<EventHandler<OnLinkClickedArgs>> _onLinkClicked = new SmartWeakEvent<EventHandler<OnLinkClickedArgs>>();       
+        private SmartWeakEvent<EventHandler<OnLinkClickedArgs>> _onLinkClicked = new SmartWeakEvent<EventHandler<OnLinkClickedArgs>>();
 
         /// <summary>
         /// Gets or sets the markdown text to display.
