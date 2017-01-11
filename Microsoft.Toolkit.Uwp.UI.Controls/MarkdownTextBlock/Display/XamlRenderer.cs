@@ -30,17 +30,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// The markdown document that will be rendered.
         /// </summary>
-        private MarkdownDocument document;
+        private MarkdownDocument _document;
 
         /// <summary>
         /// An interface that is used to register hyperlinks.
         /// </summary>
-        private ILinkRegister linkRegister;
+        private ILinkRegister _linkRegister;
 
         public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister)
         {
-            this.document = document;
-            this.linkRegister = linkRegister;
+            this._document = document;
+            this._linkRegister = linkRegister;
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public UIElement Render()
         {
             var stackPanel = new StackPanel();
-            RenderBlocks(this.document.Blocks, stackPanel.Children, new RenderContext { Foreground = Foreground });
+            RenderBlocks(this._document.Blocks, stackPanel.Children, new RenderContext { Foreground = Foreground });
 
             // Set background and border properties.
             stackPanel.Background = Background;
@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             }
 
             // Attempt to resolve references.
-            element.ResolveReference(this.document);
+            element.ResolveReference(this._document);
             if (element.Url == null)
             {
                 // The element couldn't be resolved, just render it as text.
@@ -789,7 +789,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 var link = new Hyperlink();
 
                 // Register the link
-                this.linkRegister.RegisterNewHyperLink(link, element.Url);
+                this._linkRegister.RegisterNewHyperLink(link, element.Url);
 
                 // Remove superscripts.
                 RemoveSuperscriptRuns(element, insertCaret: true);
@@ -831,7 +831,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var link = new Hyperlink();
 
             // Register the link
-            this.linkRegister.RegisterNewHyperLink(link, element.Url);
+            this._linkRegister.RegisterNewHyperLink(link, element.Url);
 
             // Make a text block for the link
             Run linkText = new Run();

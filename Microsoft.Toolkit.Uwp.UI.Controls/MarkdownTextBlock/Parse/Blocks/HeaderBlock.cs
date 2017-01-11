@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
         }
 
-        private int headerLevel;
+        private int _headerLevel;
 
         /// <summary>
         /// Gets or sets the header level (1-6).  1 is the most important header, 6 is the least important.
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             get
             {
-                return this.headerLevel;
+                return this._headerLevel;
             }
 
             set
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     throw new ArgumentOutOfRangeException("HeaderLevel", "The header level must be between 1 and 6 (inclusive).");
                 }
 
-                this.headerLevel = value;
+                this._headerLevel = value;
             }
         }
 

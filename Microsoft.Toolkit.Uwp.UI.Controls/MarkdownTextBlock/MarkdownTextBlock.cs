@@ -41,6 +41,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static Color _defaultSubElementBorderColor = Color.FromArgb(255, 190, 190, 190);
 
         /// <summary>
+        /// Holds a list of hyperlinks we are listening to.
+        /// </summary>
+        private List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
+
+        /// <summary>
+        /// The root element for our rendering.
+        /// </summary>
+        private Border _rootElement = null;
+
+        /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
         public event EventHandler<OnMarkdownReadyArgs> OnMarkdownReady
@@ -54,55 +64,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
-        public event EventHandler<OnMarkdownLinkTappedArgs> OnLinkClicked
+        public event EventHandler<OnLinkClickedArgs> OnLinkClicked
         {
-            add { _onMarkdownLinkTapped.Add(value); }
-            remove { _onMarkdownLinkTapped.Remove(value); }
+            add { _onLinkClicked.Add(value); }
+            remove { _onLinkClicked.Remove(value); }
         }
 
-        private SmartWeakEvent<EventHandler<OnMarkdownLinkTappedArgs>> _onMarkdownLinkTapped = new SmartWeakEvent<EventHandler<OnMarkdownLinkTappedArgs>>();
-
-        /// <summary>
-        /// Holds a list of hyperlinks we are listening to.
-        /// </summary>
-        private List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
-
-        /// <summary>
-        /// The root element for our rendering.
-        /// </summary>
-        private Border _rootElement = null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.
-        /// </summary>
-        public MarkdownTextBlock()
-        {
-            // Set our style.
-            DefaultStyleKey = typeof(MarkdownTextBlock);
-
-            // Register for property callbacks that are owned by our parent class.
-            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
-        }
-
-        protected override void OnApplyTemplate()
-        {
-            // Grab our root
-            _rootElement = GetTemplateChild("RootElement") as Border;
-
-            // And make sure to render any markdown we have.
-            RenderMarkdown();
-        }
+        private SmartWeakEvent<EventHandler<OnLinkClickedArgs>> _onLinkClicked = new SmartWeakEvent<EventHandler<OnLinkClickedArgs>>();       
 
         /// <summary>
         /// Gets or sets the markdown text to display.
@@ -931,6 +899,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.
+        /// </summary>
+        public MarkdownTextBlock()
+        {
+            // Set our style.
+            DefaultStyleKey = typeof(MarkdownTextBlock);
+
+            // Register for property callbacks that are owned by our parent class.
+            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
+        }
+
+        protected override void OnApplyTemplate()
+        {
+            // Grab our root
+            _rootElement = GetTemplateChild("RootElement") as Border;
+
+            // And make sure to render any markdown we have.
+            RenderMarkdown();
+        }
+
+        /// <summary>
         /// Fired when the value of a DependencyProperty is changed.
         /// </summary>
         private void OnPropertyChanged(DependencyObject d, DependencyProperty prop)
@@ -1091,8 +1091,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Fire off the event.
-            var eventArgs = new OnMarkdownLinkTappedArgs(url);
-            _onMarkdownLinkTapped.Raise(this, eventArgs);
+            var eventArgs = new OnLinkClickedArgs(url);
+            _onLinkClicked.Raise(this, eventArgs);
         }
     }
 }

@@ -73,7 +73,7 @@
     <Compile Include="MarkdownTextBlock\Display\XamlRenderer.cs" />
     <Compile Include="MarkdownTextBlock\Helpers\Common.cs" />
     <Compile Include="MarkdownTextBlock\Helpers\DebuggingReporter.cs" />
-    <Compile Include="MarkdownTextBlock\OnMarkdownLinkTappedArgs.cs" />
+    <Compile Include="MarkdownTextBlock\OnLinkClickedArgs.cs" />
     <Compile Include="MarkdownTextBlock\OnMarkdownReadyArgs.cs" />
     <Compile Include="MarkdownTextBlock\Helpers\SmartWeakEvent.cs" />
     <Compile Include="MarkdownTextBlock\MarkdownTextBlock.cs" />

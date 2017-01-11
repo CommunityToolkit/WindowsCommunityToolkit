@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
     /// </summary>
     public class MarkdownDocument : MarkdownBlock
     {
-        private Dictionary<string, LinkReferenceBlock> references;
+        private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
@@ -53,14 +53,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 if (Blocks[i].Type == MarkdownBlockType.LinkReference)
                 {
                     var reference = (LinkReferenceBlock)Blocks[i];
-                    if (references == null)
+                    if (_references == null)
                     {
-                        references = new Dictionary<string, LinkReferenceBlock>(StringComparer.OrdinalIgnoreCase);
+                        _references = new Dictionary<string, LinkReferenceBlock>(StringComparer.OrdinalIgnoreCase);
                     }
 
-                    if (!references.ContainsKey(reference.Id))
+                    if (!_references.ContainsKey(reference.Id))
                     {
-                        references.Add(reference.Id, reference);
+                        _references.Add(reference.Id, reference);
                     }
 
                     Blocks.RemoveAt(i);
@@ -338,13 +338,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 throw new ArgumentNullException("id");
             }
 
-            if (references == null)
+            if (_references == null)
             {
                 return null;
             }
 
             LinkReferenceBlock result;
-            if (references.TryGetValue(id, out result))
+            if (_references.TryGetValue(id, out result))
             {
                 return result;
             }

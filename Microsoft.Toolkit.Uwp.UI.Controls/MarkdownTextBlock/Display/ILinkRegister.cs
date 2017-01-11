@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
+    /// <summary>
+    /// An internal interface used to handle links in the markdown.
+    /// </summary>
     internal interface ILinkRegister
     {
         void RegisterNewHyperLink(Hyperlink newHyperlink, string linkUrl);

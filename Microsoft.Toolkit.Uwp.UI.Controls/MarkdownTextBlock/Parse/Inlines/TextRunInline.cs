@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         public string Text { get; set; }
 
         // A list of supported HTML entity names, along with their corresponding code points.
-        private static readonly Dictionary<string, int> Entities = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> _entities = new Dictionary<string, int>
         {
             { "quot", 0x0022 }, // "
             { "amp", 0x0026 }, // &
@@ -294,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         };
 
         // A list of characters that can be escaped.
-        private static readonly char[] EscapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
+        private static readonly char[] _escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
         /// <summary>
         /// Parses unformatted text.
@@ -333,7 +333,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                     // Check if the character after the backslash can be escaped.
                     decodedChar = markdown[sequenceStartIndex + 1];
-                    if (Array.IndexOf(EscapeCharacters, decodedChar) < 0)
+                    if (Array.IndexOf(_escapeCharacters, decodedChar) < 0)
                     {
                         // This character cannot be escaped.
                         continue;
@@ -366,7 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     string entityName = markdown.Substring(sequenceStartIndex + 1, semicolonIndex - (sequenceStartIndex + 1));
 
                     // Unrecognised entity.
-                    if (Entities.ContainsKey(entityName) == false)
+                    if (_entities.ContainsKey(entityName) == false)
                     {
                         continue;
                     }
@@ -378,7 +378,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     }
 
                     result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
-                    result.Append((char)Entities[entityName]);
+                    result.Append((char)_entities[entityName]);
                     searchPos = textPos = semicolonIndex + 1;
                 }
             }
@@ -426,7 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 
                 // Check if the character after the backslash can be escaped.
                 char decodedChar = markdown[sequenceStartIndex + 1];
-                if (Array.IndexOf(EscapeCharacters, decodedChar) < 0)
+                if (Array.IndexOf(_escapeCharacters, decodedChar) < 0)
                 {
                     // This character cannot be escaped.
                     continue;

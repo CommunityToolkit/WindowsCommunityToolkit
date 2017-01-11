@@ -14,6 +14,10 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Arguments for the OnMarkdownReady event which indicates when the markdown has been
+    /// rendered.
+    /// </summary>
     public class OnMarkdownReadyArgs : EventArgs
     {
         internal OnMarkdownReadyArgs(bool hadError, Exception ex)

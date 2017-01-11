@@ -349,7 +349,6 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
-    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
   </ItemGroup>
   <ItemGroup>

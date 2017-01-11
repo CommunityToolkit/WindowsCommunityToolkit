@@ -14,9 +14,12 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class OnMarkdownLinkTappedArgs : EventArgs
+    /// <summary>
+    /// Arguments for the OnLinkClicked event which is fired then the user presses a link.
+    /// </summary>
+    public class OnLinkClickedArgs : EventArgs
     {
-        internal OnMarkdownLinkTappedArgs(string link)
+        internal OnLinkClickedArgs(string link)
         {
             Link = link;
         }

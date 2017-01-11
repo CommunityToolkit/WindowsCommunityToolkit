@@ -60,6 +60,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         Code,
     }
 
+    /// <summary>
+    /// An internal class that is the base class for all inline elements.
+    /// </summary>
     public abstract class MarkdownInline : MarkdownElement
     {
         /// <summary>

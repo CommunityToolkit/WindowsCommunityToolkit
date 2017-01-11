@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
+    /// <summary>
+    /// This is an internal class used as the base class of all markdown elements.
+    /// </summary>
     public abstract class MarkdownElement
     {
     }
