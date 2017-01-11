@@ -14,6 +14,11 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// A delegate for <see cref="ImageEx"/> failed.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The event arguments.</param>
     public delegate void ImageExFailedEventHandler(object sender, ImageExFailedEventArgs e);
 
     /// <summary>

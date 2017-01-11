@@ -53,6 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         Both
     }
 
+    /// <summary>
+    /// Image alignment
+    /// </summary>
     public enum ImageAlignment
     {
         /// <summary>
@@ -87,47 +90,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed class MosaicControl : ContentControl
     {
-        // Using a DependencyProperty as the backing store for ScrollViewer.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ScrollViewerContainer"/> property.
+        /// </summary>
         public static readonly DependencyProperty ScrollViewerContainerProperty =
             DependencyProperty.Register(nameof(ScrollViewerContainer), typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
 
-        // Using a DependencyProperty as the backing store for ImageAlignment.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ImageAlignment"/> property.
+        /// </summary>
         public static readonly DependencyProperty ImageAlignmentProperty =
             DependencyProperty.Register(nameof(ImageAlignment), typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
 
-        // Using a DependencyProperty as the backing store for ImageSource.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ImageSource"/> property.
+        /// </summary>
         public static readonly DependencyProperty ImageSourceProperty =
             DependencyProperty.Register(nameof(ImageSource), typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
 
-        // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ScrollOrientation"/> property.
+        /// </summary>
         public static readonly DependencyProperty ScrollOrientationProperty =
             DependencyProperty.Register(nameof(ScrollOrientation), typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
 
-        // Using a DependencyProperty as the backing store for OffsetX.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OffsetX"/> property.
+        /// </summary>
         public static readonly DependencyProperty OffsetXProperty =
             DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
 
-        // Using a DependencyProperty as the backing store for OffsetY.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OffsetY"/> property.
+        /// </summary>
         public static readonly DependencyProperty OffsetYProperty =
             DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
 
-        // Using a DependencyProperty as the backing store for ScrollSpeedRatio.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ParallaxSpeedRatio"/> property.
+        /// </summary>
         public static readonly DependencyProperty ParallaxSpeedRatioProperty =
             DependencyProperty.Register(nameof(ParallaxSpeedRatio), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
 
-        // Using a DependencyProperty as the backing store for IsAnimated.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="IsAnimated"/> property.
+        /// </summary>
         public static readonly DependencyProperty IsAnimatedProperty =
             DependencyProperty.Register(nameof(IsAnimated), typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
 
-        // Using a DependencyProperty as the backing store for AnimationStepX.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnimationStepX"/> property.
+        /// </summary>
         public static readonly DependencyProperty AnimationStepXProperty =
             DependencyProperty.Register(nameof(AnimationStepX), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
 
-        // Using a DependencyProperty as the backing store for AnimationStepY.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnimationStepY"/> property.
+        /// </summary>
         public static readonly DependencyProperty AnimationStepYProperty =
             DependencyProperty.Register(nameof(AnimationStepY), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
 
-        // Using a DependencyProperty as the backing store for AnimationDuration.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnimationDuration"/> property.
+        /// </summary>
         public static readonly DependencyProperty AnimationDurationProperty =
             DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
@@ -181,6 +206,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Composition
         }
 
+        /// <summary>
+        /// The image loaded event.
+        /// </summary>
         public event EventHandler ImageLoaded = null;
 
         /// <summary>

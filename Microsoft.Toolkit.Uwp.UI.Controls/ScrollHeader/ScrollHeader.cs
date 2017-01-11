@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ScrollHeader : ContentControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScrollHeader"/> class.
+        /// </summary>
         public ScrollHeader()
         {
             DefaultStyleKey = typeof(ScrollHeader);
@@ -111,6 +114,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call <see cref="Control.ApplyTemplate"/>.
+        /// </summary>
         protected override void OnApplyTemplate()
         {
             if (TargetListViewBase != null)
