@@ -10,21 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace UnitTests.UI
 {
     /// <summary>
-    /// The blade mode.
+    /// Sample class to test AdvancedCollectionViewSource functionality
     /// </summary>
-    public enum BladeMode
+    internal class Person
     {
-        /// <summary>
-        /// Default mode : each blade will take the specified Width and Height
-        /// </summary>
-        Normal,
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
-        /// </summary>
-        Fullscreen
+        public int Age { get; set; }
     }
 }

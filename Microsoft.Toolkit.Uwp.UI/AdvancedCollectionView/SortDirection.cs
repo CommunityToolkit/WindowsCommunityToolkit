@@ -10,21 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// The blade mode.
+    /// Sort direction enum
     /// </summary>
-    public enum BladeMode
+    public enum SortDirection
     {
         /// <summary>
-        /// Default mode : each blade will take the specified Width and Height
+        /// Ascending order (eg. abc...)
         /// </summary>
-        Normal,
+        Ascending = 0,
 
         /// <summary>
-        /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
+        /// Descending order (eg. zyx...)
         /// </summary>
-        Fullscreen
+        Descending = 1
     }
 }

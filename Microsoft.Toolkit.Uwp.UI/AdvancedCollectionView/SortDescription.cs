@@ -10,21 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// The blade mode.
+    /// Sort description
     /// </summary>
-    public enum BladeMode
+    public class SortDescription
     {
         /// <summary>
-        /// Default mode : each blade will take the specified Width and Height
+        /// Gets the name of property to sort on
         /// </summary>
-        Normal,
+        public string PropertyName { get; private set; }
 
         /// <summary>
-        /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
+        /// Gets the direction of sort
         /// </summary>
-        Fullscreen
+        public SortDirection Direction { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortDescription"/> class.
+        /// </summary>
+        /// <param name="propertyName">name of property to sort on</param>
+        /// <param name="direction">direction of sort</param>
+        public SortDescription(string propertyName, SortDirection direction)
+        {
+            PropertyName = propertyName;
+            Direction = direction;
+        }
     }
 }
