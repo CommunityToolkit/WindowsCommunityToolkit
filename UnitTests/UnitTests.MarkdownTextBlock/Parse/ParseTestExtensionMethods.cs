@@ -42,19 +42,19 @@ namespace UnitTests.Markdown.Parse
             else if (parent is HeaderBlock)
                 AddChild(() => ((HeaderBlock)(object)parent).Inlines, (value) => ((HeaderBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is ListBlock)
-                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListItemBlock)child);
-            else if (parent is ListItemBlock)
-                AddChild(() => ((ListItemBlock)(object)parent).Blocks, (value) => ((ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
+                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListBlock.ListItemBlock)child);
+            else if (parent is ListBlock.ListItemBlock)
+                AddChild(() => ((ListBlock.ListItemBlock)(object)parent).Blocks, (value) => ((ListBlock.ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
             else if (parent is ParagraphBlock)
                 AddChild(() => ((ParagraphBlock)(object)parent).Inlines, (value) => ((ParagraphBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is QuoteBlock)
                 AddChild(() => ((QuoteBlock)(object)parent).Blocks, (value) => ((QuoteBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
             else if (parent is TableBlock)
-                AddChild(() => ((TableBlock)(object)parent).Rows, (value) => ((TableBlock)(object)parent).Rows = value, (TableRow)child);
-            else if (parent is TableRow)
-                AddChild(() => ((TableRow)(object)parent).Cells, (value) => ((TableRow)(object)parent).Cells = value, (TableCell)child);
-            else if (parent is TableCell)
-                AddChild(() => ((TableCell)(object)parent).Inlines, (value) => ((TableCell)(object)parent).Inlines = value, (MarkdownInline)child);
+                AddChild(() => ((TableBlock)(object)parent).Rows, (value) => ((TableBlock)(object)parent).Rows = value, (TableBlock.TableRow)child);
+            else if (parent is TableBlock.TableRow)
+                AddChild(() => ((TableBlock.TableRow)(object)parent).Cells, (value) => ((TableBlock.TableRow)(object)parent).Cells = value, (TableBlock.TableCell)child);
+            else if (parent is TableBlock.TableCell)
+                AddChild(() => ((TableBlock.TableCell)(object)parent).Inlines, (value) => ((TableBlock.TableCell)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is BoldTextInline)
                 AddChild(() => ((BoldTextInline)(object)parent).Inlines, (value) => ((BoldTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is ItalicTextInline)

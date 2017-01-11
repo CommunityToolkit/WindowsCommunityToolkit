@@ -14,7 +14,6 @@ using System;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages

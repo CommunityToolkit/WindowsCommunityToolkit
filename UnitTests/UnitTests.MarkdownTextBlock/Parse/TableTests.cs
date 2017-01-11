@@ -30,23 +30,23 @@ namespace UnitTests.Markdown.Parse
                 | A **cat**| Bob      | Chow     |"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 1" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 2" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 3" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 1" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 2" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 3" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(
                             new TextRunInline { Text = "A " },
                             new BoldTextInline().AddChildren(new TextRunInline { Text = "cat" })),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Bob" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Chow" }))));
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Bob" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Chow" }))));
         }
 
         [UITestMethod]
@@ -61,29 +61,29 @@ namespace UnitTests.Markdown.Parse
                 | left       |        right|   center     "),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Left },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Right },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Center },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Left },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Right },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Center },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 1" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 2" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "Column 3" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "You" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "You" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "You" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "can align" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "can align" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "can align" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "left" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "right" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "center" }))));
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 1" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 2" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column 3" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "You" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "You" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "You" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "can align" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "can align" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "can align" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "left" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "right" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "center" }))));
         }
 
         [UITestMethod]
@@ -97,21 +97,21 @@ namespace UnitTests.Markdown.Parse
                         A1 | B1 | C1"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                        new TableRow().AddChildren(
-                            new TableCell().AddChildren(new TextRunInline { Text = "Column A" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "Column B" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "Column C" })),
-                        new TableRow().AddChildren(
-                            new TableCell().AddChildren(new TextRunInline { Text = "A1" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "B1" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "C1" }))));
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column A" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column B" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column C" })),
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "A1" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "B1" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "C1" }))));
         }
 
         [UITestMethod]
@@ -123,13 +123,13 @@ namespace UnitTests.Markdown.Parse
                 -"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "c" }))));
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "c" }))));
         }
 
         [UITestMethod]
@@ -141,13 +141,13 @@ namespace UnitTests.Markdown.Parse
                 -"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "c" }))));
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "c" }))));
         }
 
         [UITestMethod]
@@ -159,15 +159,15 @@ namespace UnitTests.Markdown.Parse
                 -|-"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "a" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "b" }))));
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "a" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" }))));
         }
 
         [UITestMethod]
@@ -179,15 +179,15 @@ namespace UnitTests.Markdown.Parse
                 :|:"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Left },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Left },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Left },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Left },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "a" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "b" }))));
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "a" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" }))));
         }
 
         [UITestMethod]
@@ -201,18 +201,18 @@ namespace UnitTests.Markdown.Parse
                 test"),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "a" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "b" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "A" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "B" }))),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "a" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "A" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "B" }))),
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "test" }));
         }
 

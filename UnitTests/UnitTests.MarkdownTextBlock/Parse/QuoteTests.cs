@@ -136,35 +136,35 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "This doesn't work:" }),
                 new TableBlock
                 {
-                    ColumnDefinitions = new List<TableColumnDefinition>
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                     {
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                        new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                     }
                 }.AddChildren(
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "> a" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "b" })),
-                    new TableRow().AddChildren(
-                        new TableCell().AddChildren(new TextRunInline { Text = "1" }),
-                        new TableCell().AddChildren(new TextRunInline { Text = "2" }))),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "> a" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" })),
+                    new TableBlock.TableRow().AddChildren(
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "1" }),
+                        new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "2" }))),
 
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "But this does:" }),
                 new QuoteBlock().AddChildren(
                     new TableBlock
                     {
-                        ColumnDefinitions = new List<TableColumnDefinition>
+                        ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
                         {
-                            new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
-                            new TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                            new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                            new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
                         }
                     }.AddChildren(
-                        new TableRow().AddChildren(
-                            new TableCell().AddChildren(new TextRunInline { Text = "a" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "b" })),
-                        new TableRow().AddChildren(
-                            new TableCell().AddChildren(new TextRunInline { Text = "1" }),
-                            new TableCell().AddChildren(new TextRunInline { Text = "2" })))));
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "a" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" })),
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "1" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "2" })))));
         }
 
         [UITestMethod]
@@ -211,9 +211,9 @@ namespace UnitTests.Markdown.Parse
                 > + List item 3"),
             new QuoteBlock().AddChildren(
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
-                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
+                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
+                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
         }
     }
 }
