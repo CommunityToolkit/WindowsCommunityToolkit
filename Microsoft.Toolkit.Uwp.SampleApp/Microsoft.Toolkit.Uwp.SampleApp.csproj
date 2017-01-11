@@ -231,6 +231,7 @@
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
@@ -347,6 +348,7 @@
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
+    <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -360,6 +362,9 @@
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
+      <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
@@ -541,6 +546,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
