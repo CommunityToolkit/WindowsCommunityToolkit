@@ -77,6 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ElementCompositionPreview.SetElementChildVisual(ShadowElement, _shadowVisual);
         }
 
+        /// <summary>
+        /// Gets or sets the casting element.
+        /// </summary>
         public FrameworkElement CastingElement
         {
             get
