@@ -75,7 +75,6 @@
     <Compile Include="MarkdownTextBlock\Helpers\DebuggingReporter.cs" />
     <Compile Include="MarkdownTextBlock\OnLinkClickedArgs.cs" />
     <Compile Include="MarkdownTextBlock\OnMarkdownReadyArgs.cs" />
-    <Compile Include="MarkdownTextBlock\Helpers\SmartWeakEvent.cs" />
     <Compile Include="MarkdownTextBlock\MarkdownTextBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\CodeBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HeaderBlock.cs" />

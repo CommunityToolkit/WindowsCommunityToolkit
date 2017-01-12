@@ -43,24 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
-        public event EventHandler<OnMarkdownReadyArgs> OnMarkdownReady
-        {
-            add { _onMarkdownReady.Add(value); }
-            remove { _onMarkdownReady.Remove(value); }
-        }
-
-        private SmartWeakEvent<EventHandler<OnMarkdownReadyArgs>> _onMarkdownReady = new SmartWeakEvent<EventHandler<OnMarkdownReadyArgs>>();
+        public event EventHandler<OnMarkdownReadyArgs> OnMarkdownReady;
 
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
-        public event EventHandler<OnLinkClickedArgs> OnLinkClicked
-        {
-            add { _onLinkClicked.Add(value); }
-            remove { _onLinkClicked.Remove(value); }
-        }
-
-        private SmartWeakEvent<EventHandler<OnLinkClickedArgs>> _onLinkClicked = new SmartWeakEvent<EventHandler<OnLinkClickedArgs>>();
+        public event EventHandler<OnLinkClickedArgs> OnLinkClicked;
 
         /// <summary>
         /// Gets or sets the markdown text to display.
@@ -1021,7 +1009,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Indicate that the parse is done.
-            _onMarkdownReady.Raise(this, onMarkdownReadyArgs);
+            OnMarkdownReady?.Invoke(this, onMarkdownReadyArgs);
         }
 
         private void UnhookListeners()
@@ -1082,7 +1070,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Fire off the event.
             var eventArgs = new OnLinkClickedArgs(url);
-            _onLinkClicked.Raise(this, eventArgs);
+            OnLinkClicked?.Invoke(this, eventArgs);
         }
     }
 }

@@ -6,6 +6,10 @@
 
 &nbsp;
 
+**Try it live!** Type in the *unformatted text box* above!
+
+&nbsp;
+
 # PARAGRAPHS
 
 Paragraphs are delimited by a blank line.  Simply starting text on a new line won't create a new paragraph; It will remain on the same line in the final, rendered version as the previous line.  You need an extra, blank line to start a new paragraph.  This is especially important when dealing with quotes and, to a lesser degree, lists.
