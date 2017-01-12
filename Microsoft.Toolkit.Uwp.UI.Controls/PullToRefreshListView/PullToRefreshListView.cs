@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// IsPullToRefreshWithMouseEnabled Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
-            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -104,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
+        private ScrollBar _scrollerVerticalScrollBar;
         private double _lastOffset = 0.0;
         private double _pullDistance = 0.0;
         private DateTime _lastRefreshActivation = default(DateTime);
@@ -151,6 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_scroller != null)
             {
+                _scroller.Loaded -= Scroller_Loaded;
                 _scroller.DirectManipulationCompleted -= Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted -= Scroller_DirectManipulationStarted;
             }
@@ -158,6 +161,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_refreshIndicatorBorder != null)
             {
                 _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
+            }
+
+            if (_root != null)
+            {
+                _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
             }
 
             _root = GetTemplateChild(PartRoot) as Border;
@@ -175,10 +184,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshIndicatorTransform != null &&
                 (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null))
             {
-                _root.ManipulationMode = ManipulationModes.TranslateY;
-                _root.ManipulationDelta += Scroller_ManipulationDelta;
-                _root.ManipulationStarted += Scroller_ManipulationStarted;
-                _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                _scroller.Loaded += Scroller_Loaded;
+
+                if (IsPullToRefreshWithMouseEnabled)
+                {
+                    _root.ManipulationMode = ManipulationModes.TranslateY;
+                    _root.ManipulationStarted += Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                }
 
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
@@ -201,27 +214,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            // Other input are already managed by the scroll viewer
+            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
+                && IsPullToRefreshWithMouseEnabled
+                && _scroller.VerticalOffset < 1)
+            {
+                _root.ManipulationDelta += Scroller_ManipulationDelta;
+                DisplayPullToRefreshContent();
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                CompositionTarget.Rendering += CompositionTarget_Rendering;
+                _isManipulatingWithMouse = true;
+            }
+        }
+
         private void Scroller_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
+            _root.ManipulationDelta -= Scroller_ManipulationDelta;
+
             if (!IsPullToRefreshWithMouseEnabled)
             {
                 return;
             }
 
             OnManipulationCompleted();
-        }
-
-        private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            // Other input are already managed by the scroll viewer
-            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
-                && IsPullToRefreshWithMouseEnabled)
-            {
-                DisplayPullToRefreshContent();
-                CompositionTarget.Rendering -= CompositionTarget_Rendering;
-                CompositionTarget.Rendering += CompositionTarget_Rendering;
-                _isManipulatingWithMouse = true;
-            }
         }
 
         private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
@@ -458,6 +475,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = pullProgress });
         }
 
+        private void Scroller_Loaded(object sender, RoutedEventArgs e)
+        {
+            _scrollerVerticalScrollBar = _scroller.FindDescendantByName("VerticalScrollBar") as ScrollBar;
+            _scrollerVerticalScrollBar.PointerEntered += ScrollerVerticalScrollBar_PointerEntered;
+            _scrollerVerticalScrollBar.PointerExited += ScrollerVerticalScrollBar_PointerExited;
+        }
+
+        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled)
+            {
+                _root.ManipulationMode = ManipulationModes.TranslateY;
+            }
+        }
+
+        private void ScrollerVerticalScrollBar_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            _root.ManipulationMode = ManipulationModes.System;
+        }
+
         /// <summary>
         /// Gets or sets the Overscroll Limit. Value between 0 and 1 where 1 is the height of the control. Default is 0.3
         /// </summary>
@@ -589,8 +626,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool IsPullToRefreshWithMouseEnabled
         {
-            get { return (bool)GetValue(IsPullToRefreshWithMouseEnabledProperty); }
-            set { SetValue(IsPullToRefreshWithMouseEnabledProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsPullToRefreshWithMouseEnabledProperty);
+            }
+
+            set
+            {
+                if (_root != null)
+                {
+                    if (value)
+                    {
+                        _root.ManipulationMode = ManipulationModes.TranslateY;
+                        _root.ManipulationStarted += Scroller_ManipulationStarted;
+                        _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                    }
+                    else
+                    {
+                        _root.ManipulationMode = ManipulationModes.System;
+                        _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                        _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    }
+                }
+
+                SetValue(IsPullToRefreshWithMouseEnabledProperty, value);
+            }
         }
     }
 }
