@@ -70,6 +70,8 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic | Create an animation that accelerates or decelerates using the formula f(t) = t5. |
 | Sine | Creates an animation that accelerates or decelerates using a sine formula. |
 
+*Please note that EasingType is used only when AnimationSet.UseComposition == false*
+
 **Example Usage:**
 ```csharp
 MyRectangle.Fade(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
