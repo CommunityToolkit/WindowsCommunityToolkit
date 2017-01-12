@@ -3,6 +3,12 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
     <Style TargetType="controls:MarkdownTextBlock">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="CodeBackground" Value="#FFE0E0E0" />
+        <Setter Property="QuoteBackground" Value="#FFE0E0E0" />
+        <Setter Property="CodeBorderBrush" Value="#FFBEBEBE" />
+        <Setter Property="HorizontalRuleBrush" Value="#FFBEBEBE" />
+        <Setter Property="QuoteBorderBrush" Value="#FFBEBEBE" />
+        <Setter Property="TableBorderBrush" Value="#FFBEBEBE" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MarkdownTextBlock">

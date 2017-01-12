@@ -31,16 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister
     {
         /// <summary>
-        /// The default color used for backgrounds of sub elements.
-        /// </summary>
-        private static Color _defaultSubElementBgColor = Color.FromArgb(255, 224, 224, 224);
-
-        /// <summary>
-        /// The default color used for border of sub elements.
-        /// </summary>
-        private static Color _defaultSubElementBorderColor = Color.FromArgb(255, 190, 190, 190);
-
-        /// <summary>
         /// Holds a list of hyperlinks we are listening to.
         /// </summary>
         private List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
@@ -121,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBackground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBgColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render the border fill of a code block.
@@ -139,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of the border around code blocks.
@@ -574,7 +564,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(HorizontalRuleBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the margin used for horizontal rules.
@@ -700,7 +690,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteBackground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBgColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the brush used to render a quote border.  If this is <c>null</c>, then
@@ -719,7 +709,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of quote borders.
@@ -811,7 +801,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TableBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(_defaultSubElementBorderColor), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
 
         /// <summary>
         /// Gets or sets the thickness of any table borders.
