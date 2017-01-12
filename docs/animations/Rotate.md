@@ -61,6 +61,29 @@ Behavior animations can also be chained and awaited.
 
 [Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate)
 
+## EasingType
+
+You can change the way how the animation interpolates between keyframes by defining the EasingType using an optional parameter.
+
+| EasingType | Explanation|
+| --- | --- |
+| Default | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic. |
+| Linear | Creates an animation that accelerates or decelerates linear. |
+| Cubic | Creates an animation that accelerates or decelerates using the formula f(t) = t3. |
+| Back | Retracts the motion of an animation slightly before it begins to animate in the path indicated. |
+| Bounce | Creates a bouncing effect. |
+| Elastic | Creates an animation that resembles a spring oscillating back and forth until it comes to rest.|
+| Circle | Creates an animation that accelerates or decelerates using a circular function. |
+| Quadratic | Creates an animation that accelerates or decelerates using the formula f(t) = t2. |
+| Quartic | Creates an animation that accelerates or decelerates using the formula f(t) = t4. |
+| Quintic | Create an animation that accelerates or decelerates using the formula f(t) = t5. |
+| Sine | Creates an animation that accelerates or decelerates using a sine formula. |
+
+**Example Usage:**
+```csharp
+MyRectangle.Offset(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
+```
+
 ## Example Image
 
 ![Rotate Behavior animation](../resources/images/Animations-Rotate.gif "Rotate Behavior")
