@@ -1,8 +1,14 @@
-﻿
-// This file is used by Code Analysis to maintain SuppressMessage 
-// attributes that are applied to this project.
-// Project-level suppressions either have no target or are given 
-// a specific target and scoped to a namespace, type, member, etc.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1208:Using directive for 'System.Collections.Generic' must appear before directive for 'Microsoft.VisualStudio.TestPlatform.UnitTestFramework'", Justification = "<Pending>")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1200:Using directive must appear within a namespace declaration", Justification = "<Pending>")]
