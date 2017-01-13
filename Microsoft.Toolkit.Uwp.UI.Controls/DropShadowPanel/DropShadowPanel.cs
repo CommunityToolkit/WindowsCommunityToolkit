@@ -81,11 +81,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _contentPresenter.SetBinding(ContentPresenter.ContentProperty, contentBinding);
 
+            SizeChanged -= CompositionShadow_SizeChanged;
             SizeChanged += CompositionShadow_SizeChanged;
-            Loaded += (object sender, RoutedEventArgs e) =>
-            {
-                ConfigureShadowVisualForCastingElement();
-            };
+
+            Loaded -= CompositionShadow_Loaded;
+            Loaded += CompositionShadow_Loaded;
 
             ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
 

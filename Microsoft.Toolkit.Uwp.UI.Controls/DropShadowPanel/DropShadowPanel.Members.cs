@@ -83,6 +83,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void CompositionShadow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ConfigureShadowVisualForCastingElement();
+        }
+
         private void CompositionShadow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateShadowSize();
