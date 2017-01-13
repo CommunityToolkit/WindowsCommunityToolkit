@@ -287,9 +287,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
-                DisplayPullToRefreshContent();
-
                 OnManipulationCompleted();
+                DisplayPullToRefreshContent();
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
@@ -345,6 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _lastRefreshActivation = default(DateTime);
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = 0 });
+            _pullAndReleaseIndicatorContent.Content = null;
         }
 
         private void CompositionTarget_Rendering(object sender, object e)
