@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
-        public event EventHandler<OnMarkdownReadyArgs> OnMarkdownReady;
+        public event EventHandler<OnMarkdownRenderedArgs> OnMarkdownRendered;
 
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
@@ -936,7 +936,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Disconnect from OnClick handlers.
             UnhookListeners();
 
-            OnMarkdownReadyArgs onMarkdownReadyArgs = new OnMarkdownReadyArgs(false, null);
+            OnMarkdownRenderedArgs onMarkdownRenderedArgs = new OnMarkdownRenderedArgs(false, null);
             try
             {
                 // Try to parse the markdown.
@@ -1005,11 +1005,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch (Exception ex)
             {
                 DebuggingReporter.ReportCriticalError("Error while parsing and rendering: " + ex.Message);
-                onMarkdownReadyArgs = new OnMarkdownReadyArgs(true, ex);
+                onMarkdownRenderedArgs = new OnMarkdownRenderedArgs(true, ex);
             }
 
             // Indicate that the parse is done.
-            OnMarkdownReady?.Invoke(this, onMarkdownReadyArgs);
+            OnMarkdownRendered?.Invoke(this, onMarkdownRenderedArgs);
         }
 
         private void UnhookListeners()
