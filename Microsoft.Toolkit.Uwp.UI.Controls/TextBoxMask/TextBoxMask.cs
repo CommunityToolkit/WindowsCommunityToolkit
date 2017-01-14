@@ -139,16 +139,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var placeHolder = placeHolderValue[0];
-            var displayText = mask;
-            foreach (var key in representationDictionary.Keys)
-            {
-                displayText = displayText.Replace(key, placeHolder);
-            }
 
             // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
-            if (string.Equals(textbox.Text, displayText))
+            // if the textbox has value set the cursor to the first empty mask character
+            var textboxText = textbox.Text;
+            for (int i = 0; i < textboxText.Length; i++)
             {
-                textbox.SelectionStart = 0;
+                if (placeHolder == textboxText[i])
+                {
+                    textbox.SelectionStart = i;
+                    break;
+                }
             }
         }
 
