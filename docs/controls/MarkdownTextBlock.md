@@ -17,9 +17,10 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 ```
 
-## Example Image
+## Control Example
+Note: scrolling is smooth, the gif below is not.
 
-![MarkdownTextBlock animation](../resources/images/Controls-AdaptiveGridView.gif "AdaptiveGridView")
+![MarkdownTextBlock animation](../resources/images/Controls-MarkdownTextBlock.gif "MarkdownTextBlock")
 
 ## Properties
 
@@ -71,11 +72,11 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ## Example Code
 
-[MarkdownTextBlock Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
+[MarkdownTextBlock Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
 
 ## Default Template 
 
-[MarkdownTextBlock XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
+[MarkdownTextBlock XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -85,5 +86,5 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ## API
 
-* [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
+* [MarkdownTextBlock source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
 
