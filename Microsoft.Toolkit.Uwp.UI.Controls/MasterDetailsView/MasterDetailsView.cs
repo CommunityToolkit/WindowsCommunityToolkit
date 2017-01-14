@@ -10,11 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Numerics;
 using Windows.ApplicationModel;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,8 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string HasSelectionState = "HasSelection";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
+        private const string MasterPanel = "MasterPanel";
 
         private ContentPresenter _detailsPresenter;
+        private UIElement _masterPanel;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
@@ -71,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
+            _masterPanel = (UIElement)GetTemplateChild(MasterPanel);
 
             SetMasterHeaderVisibility();
         }
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            view.UpdateView(true);
+
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
@@ -97,7 +97,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     : view.MapDetails(view.SelectedItem);
             }
 
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            // If IsItemClickEnabled=true, we don't want the view updating automatically when it is in the Master state
+            if (!view.IsItemClickEnabled || view.ViewState != MasterDetailsViewState.Master)
+            {
+                view.UpdateView(true);
+            }
         }
 
         /// <summary>
@@ -137,7 +141,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
             UpdateView(true);
-            UpdateViewState();
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -163,8 +166,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility(e.NewState);
-
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
             UpdateView(false);
         }
@@ -197,12 +198,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void UpdateView(bool useTransitions)
+        protected void UpdateView(bool useTransitions)
         {
             string noSelectionState = _stateGroup.CurrentState == _narrowState
                ? NoSelectionNarrowState
                : NoSelectionWideState;
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, useTransitions);
+
+            UpdateViewState();
+
+            // Sets the ability for the Master list to handle focus on interaction. If the details view is the only
+            // view showing, we don't want it to be able to be focused
+            _masterPanel.Visibility = ViewState != MasterDetailsViewState.Details ? Visibility.Visible : Visibility.Collapsed;
+
+            SetBackButtonVisibility(_stateGroup.CurrentState);
         }
 
         private void SetMasterHeaderVisibility()
@@ -219,9 +228,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
+        /// <remarks>This should only be called after UpdateViewState has been called</remarks>
         private void SetBackButtonVisibility(VisualState currentState)
         {
-            UpdateViewState();
             if (DesignMode.DesignModeEnabled)
             {
                 return;
