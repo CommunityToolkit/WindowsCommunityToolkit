@@ -38,30 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
-        /// Gets or sets the casting element.
-        /// </summary>
-        public FrameworkElement CastingElement
-        {
-            get
-            {
-                return _contentElement;
-            }
-
-            set
-            {
-                if (_contentElement != null)
-                {
-                    _contentElement.SizeChanged -= CompositionShadow_SizeChanged;
-                }
-
-                _contentElement = value;
-                _contentElement.SizeChanged += CompositionShadow_SizeChanged;
-
-                ConfigureShadowVisualForCastingElement();
-            }
-        }
-
-        /// <summary>
         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
         /// </summary>
         public DropShadow DropShadow => _dropShadow;
@@ -134,20 +110,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                if (_contentElement != null)
+                if (Content != null)
                 {
                     CompositionBrush mask = null;
-                    if (_contentElement is Image)
+                    if (Content is Image)
                     {
-                        mask = ((Image)_contentElement).GetAlphaMask();
+                        mask = ((Image)Content).GetAlphaMask();
                     }
-                    else if (_contentElement is Shape)
+                    else if (Content is Shape)
                     {
-                        mask = ((Shape)_contentElement).GetAlphaMask();
+                        mask = ((Shape)Content).GetAlphaMask();
                     }
-                    else if (_contentElement is TextBlock)
+                    else if (Content is TextBlock)
                     {
-                        mask = ((TextBlock)_contentElement).GetAlphaMask();
+                        mask = ((TextBlock)Content).GetAlphaMask();
                     }
 
                     _dropShadow.Mask = mask;
@@ -167,9 +143,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateShadowSize()
         {
             Vector2 newSize = new Vector2(0, 0);
-            if (_contentElement != null)
+            FrameworkElement contentFE = Content as FrameworkElement;
+            if (contentFE != null)
             {
-                newSize = new Vector2((float)_contentElement.ActualWidth, (float)_contentElement.ActualHeight);
+                newSize = new Vector2((float)contentFE.ActualWidth, (float)contentFE.ActualHeight);
             }
 
             _shadowVisual.Size = newSize;

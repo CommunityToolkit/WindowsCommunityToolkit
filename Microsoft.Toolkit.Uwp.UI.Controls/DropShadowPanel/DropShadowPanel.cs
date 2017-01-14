@@ -10,21 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -34,8 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = PartShadow, Type = typeof(Border))]
     [TemplatePart(Name = PartContent, Type = typeof(ContentPresenter))]
-    [ContentProperty(Name = PartContent)]
-    public partial class DropShadowPanel : Control
+    public partial class DropShadowPanel : ContentControl
     {
         private const string PartShadow = "ShadowElement";
         private const string PartContent = "CastingElement";
@@ -43,8 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private readonly DropShadow _dropShadow;
         private readonly SpriteVisual _shadowVisual;
         private Border _border;
-        private ContentPresenter _contentPresenter;
-        private FrameworkElement _contentElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DropShadowPanel"/> class.
@@ -62,6 +48,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
             }
+
+            SizeChanged += CompositionShadow_SizeChanged;
+
+            Loaded += CompositionShadow_Loaded;
         }
 
         /// <summary>
@@ -70,24 +60,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             _border = GetTemplateChild(PartShadow) as Border;
-            _contentPresenter = GetTemplateChild(PartContent) as ContentPresenter;
 
-            var contentBinding = new Binding()
+            if (_border != null)
             {
-                Source = this,
-                Path = new PropertyPath("CastingElement"),
-                Mode = BindingMode.OneWay
-            };
-
-            _contentPresenter.SetBinding(ContentPresenter.ContentProperty, contentBinding);
-
-            SizeChanged -= CompositionShadow_SizeChanged;
-            SizeChanged += CompositionShadow_SizeChanged;
-
-            Loaded -= CompositionShadow_Loaded;
-            Loaded += CompositionShadow_Loaded;
-
-            ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
+                ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
+            }
 
             base.OnApplyTemplate();
         }
