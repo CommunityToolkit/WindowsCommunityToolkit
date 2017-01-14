@@ -86,11 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
-
+            view.UpdateView(true);
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
@@ -140,11 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
-            string noSelectionState = _stateGroup.CurrentState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
-
+            UpdateView(true);
             UpdateViewState();
         }
 
@@ -174,10 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetBackButtonVisibility(e.NewState);
 
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            string noSelectionState = e.NewState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
+            UpdateView(false);
         }
 
         /// <summary>
@@ -206,6 +195,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SelectedItem = null;
                 args.Handled = true;
             }
+        }
+
+        private void UpdateView(bool useTransitions)
+        {
+            string noSelectionState = _stateGroup.CurrentState == _narrowState
+               ? NoSelectionNarrowState
+               : NoSelectionWideState;
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, useTransitions);
         }
 
         private void SetMasterHeaderVisibility()
