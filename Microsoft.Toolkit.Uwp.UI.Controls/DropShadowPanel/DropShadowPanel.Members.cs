@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         public static bool IsSupported =>
             !DesignMode.DesignModeEnabled &&
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+            ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
 
         /// <summary>
         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
