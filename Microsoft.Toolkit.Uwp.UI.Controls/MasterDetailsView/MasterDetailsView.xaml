@@ -6,6 +6,7 @@
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MasterDetailsView">
@@ -36,6 +37,7 @@
                                                   Visibility="Collapsed" />
                                 <ListView x:Name="MasterList"
                                           Grid.Row="1"
+                                          IsTabStop="False"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
