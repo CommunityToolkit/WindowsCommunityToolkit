@@ -10,8 +10,7 @@
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
                         <Border x:Name="ShadowElement" />
-                        <ContentPresenter x:Name="CastingElement"
-                                          Content="{TemplateBinding Content}" />
+                        <ContentPresenter />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
