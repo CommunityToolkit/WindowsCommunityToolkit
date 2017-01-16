@@ -1,0 +1,61 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexExPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <common:BoolStringConverter x:Key="StringFormatConverter" />
+
+        <Style x:Key="TextBoxRegexExStyle"
+               TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <DataTemplate x:Key="HeaderTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding}"
+                           TextWrapping="WrapWholeWords" />
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="10,0,10,0">
+                <TextBox Name="PhoneNumberValidator"
+                         controls:TextBoxRegexEx.Regex="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}"
+                         Header="Text box with Regex extension for phone number, validation occurs on textbox lose focus"
+                         HeaderTemplate="{StaticResource HeaderTemplate}"
+                         Style="{StaticResource TextBoxRegexExStyle}"
+                         Text="" />
+                <TextBlock>Validation Result:</TextBlock>
+                <TextBlock Text="{Binding (controls:TextBoxRegexEx.IsValid), ElementName=PhoneNumberValidator, Converter={StaticResource StringFormatConverter}}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                        Margin="10,0,10,0">
+                <TextBox Name="PhoneNumberValidatorForce"
+                         controls:TextBoxRegexEx.Regex="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}"
+                         controls:TextBoxRegexEx.ValidationMode="Forced"
+                         Header="Text box with Regex extension for phone number, validation occurs on textbox lose focus with ValidationMode=Force"
+                         HeaderTemplate="{StaticResource HeaderTemplate}"
+                         Style="{StaticResource TextBoxRegexExStyle}"
+                         Text="" />
+                <TextBlock>Validation Result:</TextBlock>
+                <TextBlock Text="{Binding (controls:TextBoxRegexEx.IsValid), ElementName=PhoneNumberValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Page>

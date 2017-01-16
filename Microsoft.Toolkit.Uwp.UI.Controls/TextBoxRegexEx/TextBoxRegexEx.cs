@@ -42,14 +42,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-
             if (Regex.IsMatch(textbox.Text, regex))
             {
                 textbox.SetValue(IsValidProperty, true);
             }
             else
             {
+                var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
                 if (validationModel == ValidationMode.Forced)
                 {
                     textbox.Text = string.Empty;

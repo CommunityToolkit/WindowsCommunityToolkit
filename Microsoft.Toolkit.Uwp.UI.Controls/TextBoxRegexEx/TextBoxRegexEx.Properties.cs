@@ -65,11 +65,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Set ValidationMode property
+        /// Set IsValid property
         /// </summary>
         /// <param name="obj">TextBox control</param>
-        /// <param name="value">ValidationMode value</param>
-        public static void SetValidationMode(DependencyObject obj, string value)
+        /// <param name="value">IsValid value</param>
+        public static void SetIsValid(DependencyObject obj, bool value)
         {
             obj.SetValue(ValidationModeProperty, value);
         }
@@ -82,6 +82,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static ValidationMode GetValidationMode(DependencyObject obj)
         {
             return (ValidationMode)obj.GetValue(ValidationModeProperty);
+        }
+
+        /// <summary>
+        /// Set ValidationMode property
+        /// </summary>
+        /// <param name="obj">TextBox control</param>
+        /// <param name="value">ValidationMode value</param>
+        public static void SetValidationMode(DependencyObject obj, ValidationMode value)
+        {
+            obj.SetValue(ValidationModeProperty, value);
         }
     }
 }

@@ -147,6 +147,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
+      },
+      {
+        "Name": "TextBoxRegexEx",
+        "Type": "TextBoxRegexExPage",
+        "About": "Textbox regex extension helps developer to validate a textbox with a regex using the Regex property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegexEx",
+        "XamlCodeFile": "TextBoxRegexEx.bind",
+        "Icon": "/SamplePages/TextBoxRegexEx/TextBoxRegexEx.png"
       }
     ]
   },
