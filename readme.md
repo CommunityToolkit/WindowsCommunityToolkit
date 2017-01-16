@@ -62,6 +62,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
+* [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxMask/)
+* [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Code Helpers
 
@@ -98,9 +100,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ## Feedback and Requests
 
-Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions or comments.
-
-If you have specific feature requests or would like to vote on what others are recommending visit our [UWP Community Toolkit User Voice](https://aka.ms/uwpcommunitytoolkituservoice).
+Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions, comments, feature requests, or if would like to vote on what others are recommending.
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).

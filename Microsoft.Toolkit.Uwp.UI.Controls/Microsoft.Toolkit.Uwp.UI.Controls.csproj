@@ -49,6 +49,7 @@
     <Compile Include="BladeView\BladeControl.cs" />
     <Compile Include="BladeView\BladeItem.cs" />
     <Compile Include="BladeView\BladeItem.Properties.cs" />
+    <Compile Include="BladeView\BladeMode.cs" />
     <Compile Include="BladeView\BladeView.cs" />
     <Compile Include="BladeView\BladeView.Events.cs" />
     <Compile Include="BladeView\BladeView.Properties.cs" />
@@ -72,8 +73,14 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="MosaicControl\MosaicControl.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
+    <Compile Include="WrapPanel\WrapPanel.cs" />
+    <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -130,6 +137,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="ImageEx\ImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MosaicControl\MosaicControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
