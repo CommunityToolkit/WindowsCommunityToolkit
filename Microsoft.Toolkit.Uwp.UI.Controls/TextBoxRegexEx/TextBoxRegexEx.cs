@@ -24,11 +24,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void RegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var textbox = sender as TextBox;
-            if (textbox == null)
+
+            var regex = textbox?.GetValue(RegexProperty) as string;
+            if (string.IsNullOrWhiteSpace(regex))
             {
                 return;
             }
 
+            ValidateTextBox(textbox, regex);
             textbox.LostFocus -= Textbox_LostFocus;
             textbox.LostFocus += Textbox_LostFocus;
         }
@@ -42,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            ValidateTextBox(textbox, regex);
+        }
+
+        private static void ValidateTextBox(TextBox textbox, string regex)
+        {
             if (Regex.IsMatch(textbox.Text, regex))
             {
                 textbox.SetValue(IsValidProperty, true);
