@@ -32,8 +32,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ValidateTextBox(textbox, regex);
+
+            textbox.Loaded -= Textbox_Loaded;
+            textbox.Loaded += Textbox_Loaded;
             textbox.LostFocus -= Textbox_LostFocus;
             textbox.LostFocus += Textbox_LostFocus;
+        }
+
+        private static void Textbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            var regex = textbox.GetValue(RegexProperty) as string;
+            if (string.IsNullOrWhiteSpace(regex))
+            {
+                return;
+            }
+
+            ValidateTextBox(textbox, regex);
         }
 
         private static void Textbox_LostFocus(object sender, RoutedEventArgs e)
