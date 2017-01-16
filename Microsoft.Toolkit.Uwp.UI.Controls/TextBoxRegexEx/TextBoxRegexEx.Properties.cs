@@ -20,40 +20,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TextBoxRegexEx
     {
         /// <summary>
-        /// 
+        /// The regex expression that will be validated on the textbox
         /// </summary>
         public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached("Regex", typeof(string), typeof(TextBoxRegexEx), new PropertyMetadata(null, RegexPropertyOnChange));
 
         /// <summary>
-        /// 
+        /// Gets the result of the textbox validation agains the Regex property
         /// </summary>
         public static readonly DependencyProperty IsValidProperty = DependencyProperty.RegisterAttached("IsValid", typeof(bool), typeof(TextBoxRegexEx), new PropertyMetadata(false));
 
         /// <summary>
-        /// 
+        /// The validation mode of the validation extension (Normal, Forced)
         /// </summary>
         public static readonly DependencyProperty ValidationModeProperty = DependencyProperty.RegisterAttached("ValidationMode", typeof(ValidationMode), typeof(TextBoxRegexEx), new PropertyMetadata(ValidationMode.Normal));
 
+        /// <summary>
+        /// Gets the Regex property
+        /// </summary>
+        /// <param name="obj">TextBox Control</param>
+        /// <returns>Regex Value</returns>
         public static string GetRegex(DependencyObject obj)
         {
             return (string)obj.GetValue(RegexProperty);
         }
 
+        /// <summary>
+        /// Set Regex property
+        /// </summary>
+        /// <param name="obj">TextBox control</param>
+        /// <param name="value">Regex value</param>
         public static void SetRegex(DependencyObject obj, string value)
         {
             obj.SetValue(RegexProperty, value);
         }
 
+        /// <summary>
+        /// Gets the Regex property
+        /// </summary>
+        /// <param name="obj">TextBox Control</param>
+        /// <returns>Regex Value</returns>
         public static bool GetIsValid(DependencyObject obj)
         {
             return (bool)obj.GetValue(IsValidProperty);
         }
 
+        /// <summary>
+        /// Set ValidationMode property
+        /// </summary>
+        /// <param name="obj">TextBox control</param>
+        /// <param name="value">ValidationMode value</param>
         public static void SetValidationMode(DependencyObject obj, string value)
         {
             obj.SetValue(ValidationModeProperty, value);
         }
 
+        /// <summary>
+        /// Gets the validation mode property
+        /// </summary>
+        /// <param name="obj">TextBox Control</param>
+        /// <returns>ValidationMode Value</returns>
         public static ValidationMode GetValidationMode(DependencyObject obj)
         {
             return (ValidationMode)obj.GetValue(ValidationModeProperty);
