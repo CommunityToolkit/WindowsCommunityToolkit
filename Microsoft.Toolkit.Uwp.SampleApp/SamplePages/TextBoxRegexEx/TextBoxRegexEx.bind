@@ -78,9 +78,9 @@
       <StackPanel Grid.Row="3"
                   Margin="10,0,10,0">
         <TextBox Name="DecimalValidatorForce"
-                 controls:TextBoxRegexEx.Regex="[\d]{1,5}([.,][\d]{1,5})?"
+                 controls:TextBoxRegexEx.Regex="^[0-9]{1,8}([.,][0-9]{1,8})?$"
                  controls:TextBoxRegexEx.ValidationMode="Forced"
-                 Header="Text box with Regex extension for decimal number, validation occurs on textbox lose focus with ValidationMode=Force"
+                 Header="Text box with Regex extension for decimal number, validation occurs on textbox lose focus with ValidationMode=Force (333,111 or 333.111)"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexExStyle}"
                  Text="" />
