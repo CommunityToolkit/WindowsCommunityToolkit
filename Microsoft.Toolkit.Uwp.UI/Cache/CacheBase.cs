@@ -38,7 +38,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             public bool EnsureCachedCopy { get; set; }
         }
 
-        private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);        private StorageFolder _baseFolder = null;
+        private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
+        private StorageFolder _baseFolder = null;
         private string _cacheFolderName = null;
 
         private StorageFolder _cacheFolder = null;
