@@ -21,14 +21,19 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{StaticResource Brush-Grey-01}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="6"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
+        <TextBlock Margin="10,20" 
+                   FontSize="20"
+                   HorizontalAlignment="Center"
+                   Text="MosaicControl can be used to highlight computer activity:"></TextBlock>
         <controls:MosaicControl 
             
             ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png"
@@ -43,21 +48,26 @@
             ScrollOrientation   ="{Binding ScrollOrientation.Value, Mode=TwoWay}" 
             ImageAlignment      ="{Binding ImageAlignment.Value,Mode=TwoWay}"                  
             
-            Grid.Row="0" 
+            Grid.Row="1" 
             Background="{StaticResource Brush-Grey-04}" 
             >
             <Border Style="{StaticResource BorderStyle}">
-                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"></TextBlock>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Processing, please wait..."></TextBlock>
             </Border>
         </controls:MosaicControl>
-
+                
+        <TextBlock Grid.Row="2" 
+                   FontSize="20"
+                   HorizontalAlignment="Center"
+                   Margin="10,20" 
+                   Text="It can also be used for background painting:"></TextBlock>
         <controls:MosaicControl 
             
             ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png" 
             ScrollViewerContainer   ="{x:Bind FlipView, Mode=OneTime}"
             ParallaxSpeedRatio        ="{Binding ParallaxSpeedRatio.Value, Mode=OneWay}"
             
-            Grid.Row="2" 
+            Grid.Row="3" 
             Background="{StaticResource Brush-Grey-04}" 
             >
             <FlipView x:Name="FlipView">
