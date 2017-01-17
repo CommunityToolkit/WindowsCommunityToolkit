@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             // Get extended properties.
             IDictionary<string, object> extraProperties =
-                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames);
+                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames).AsTask().ConfigureAwait(false);
 
             // Get date-accessed property.
             var propValue = extraProperties[DateAccessedProperty];
