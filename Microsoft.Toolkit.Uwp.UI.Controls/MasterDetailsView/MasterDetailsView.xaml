@@ -61,13 +61,13 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition From="NoSelectionWide" To="HasSelection">
+                                    <VisualTransition From="NoSelectionWide" To="HasSelectionWide">
                                         <Storyboard>
                                             <DrillInThemeAnimation EntranceTargetName="DetailsPresenter"
                                                                    ExitTargetName="NoSelectionPresenter"/>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition From="NoSelectionNarrow" To="HasSelection">
+                                    <VisualTransition From="NoSelectionNarrow" To="HasSelectionWide">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="DetailsPresenterTransform"
                                                              Storyboard.TargetProperty="X"
@@ -87,13 +87,33 @@
                                             </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition From="HasSelection" To="NoSelectionWide">
+                                    <VisualTransition From="NoSelectionNarrow" To="HasSelectionNarrow">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenterTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="200" To="0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="DetailsPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             BeginTime="0:0:0" Duration="0:0:0.25"
+                                                             From="0" To="1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="HasSelectionWide" To="NoSelectionWide">
                                         <Storyboard>
                                             <DrillOutThemeAnimation ExitTargetName="DetailsPresenter"
                                                                     EntranceTargetName="NoSelectionPresenter"/>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition From="HasSelection" To="NoSelectionNarrow">
+                                    <VisualTransition From="HasSelectionNarrow" To="NoSelectionNarrow">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="DetailsPresenterTransform"
                                                              Storyboard.TargetProperty="X"
@@ -114,17 +134,26 @@
                                 <VisualState x:Name="NoSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="DetailsPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="HasSelection">
+                                <VisualState x:Name="HasSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="NoSelectionNarrow">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                         <Setter Target="DetailsPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

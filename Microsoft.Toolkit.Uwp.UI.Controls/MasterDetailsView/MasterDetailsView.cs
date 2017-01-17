@@ -15,7 +15,6 @@ using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -27,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
     [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
     public partial class MasterDetailsView : ItemsControl
@@ -38,13 +39,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
-        private const string HasSelectionState = "HasSelection";
+        private const string HasSelectionNarrowState = "HasSelectionNarrow";
+        private const string HasSelectionWideState = "HasSelectionWide";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
-        private const string MasterPanel = "MasterPanel";
 
         private ContentPresenter _detailsPresenter;
-        private UIElement _masterPanel;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
@@ -70,7 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            _masterPanel = (UIElement)GetTemplateChild(MasterPanel);
 
             SetMasterHeaderVisibility();
         }
@@ -200,18 +199,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected void UpdateView(bool useTransitions)
         {
-            string noSelectionState = _stateGroup.CurrentState == _narrowState
-               ? NoSelectionNarrowState
-               : NoSelectionWideState;
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, useTransitions);
+            VisualStateManager.GoToState(this, GetSelectionStateName(), useTransitions);
 
             UpdateViewState();
 
-            // Sets the ability for the Master list to handle focus on interaction. If the details view is the only
-            // view showing, we don't want it to be able to be focused
-            _masterPanel.Visibility = ViewState != MasterDetailsViewState.Details ? Visibility.Visible : Visibility.Collapsed;
-
             SetBackButtonVisibility(_stateGroup.CurrentState);
+        }
+
+        private string GetSelectionStateName()
+        {
+            var isNarrow = _stateGroup.CurrentState == _narrowState;
+
+            if (SelectedItem == null)
+            {
+                return isNarrow ? NoSelectionNarrowState : NoSelectionWideState;
+            }
+            else
+            {
+                return isNarrow ? HasSelectionNarrowState : HasSelectionWideState;
+            }
         }
 
         private void SetMasterHeaderVisibility()
