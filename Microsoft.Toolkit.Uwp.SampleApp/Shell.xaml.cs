@@ -259,17 +259,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 backRequestedEventArgs.Handled = true;
 
-                var previousPage = NavigationFrame.BackStack.Last();
-
-                if (previousPage.SourcePageType == typeof(SamplePicker))
-                {
-                    HideInfoArea();
-                }
-                else
-                {
-                    ShowInfoArea();
-                }
-
                 NavigationFrame.GoBack();
             }
         }
@@ -284,6 +273,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+
+            if (navigationEventArgs.SourcePageType == typeof(SamplePicker))
+            {
+                HideInfoArea();
+            }
+            else
+            {
+                ShowInfoArea();
+            }
+
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
