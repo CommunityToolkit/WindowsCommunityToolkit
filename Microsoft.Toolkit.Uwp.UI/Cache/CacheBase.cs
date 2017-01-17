@@ -38,9 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             public bool EnsureCachedCopy { get; set; }
         }
 
-        private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-
-        private StorageFolder _baseFolder = null;
+        private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);        private StorageFolder _baseFolder = null;
         private string _cacheFolderName = null;
 
         private StorageFolder _cacheFolder = null;
@@ -247,6 +245,25 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
 
+        /// <summary>
+        /// Override-able method that checks whether file is valid or not.
+        /// </summary>
+        /// <param name="file">storage file</param>
+        /// <param name="duration">cache duration</param>
+        /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
+        /// <returns>bool indicate whether file has expired or not</returns>
+        protected virtual async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+        {
+            if (file == null)
+            {
+                return treatNullFileAsOutOfDate;
+            }
+
+            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+
+            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+        }
+
         private static string GetCacheFileName(Uri uri)
         {
             return CreateHash64(uri.ToString()).ToString();
@@ -404,17 +421,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return instance;
-        }
-
-        private async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
-        {
-            if (file == null)
-            {
-                return treatNullFileAsOutOfDate;
-            }
-
-            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
-            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
 
         private async Task InternalClearAsync(IEnumerable<StorageFile> files)
