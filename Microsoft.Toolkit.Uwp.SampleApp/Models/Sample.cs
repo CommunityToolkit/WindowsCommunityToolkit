@@ -56,6 +56,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string Icon { get; set; }
 
+        public string BadgeUpdateVersionRequired { get; set; }
+
         public string ApiCheck { get; set; }
 
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
