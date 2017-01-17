@@ -98,6 +98,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="ExpandButton"
                             VerticalAlignment="Stretch"
@@ -110,6 +111,11 @@
                                VerticalAlignment="Center"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="" />
+                    <HyperlinkButton x:Name="GitHub" 
+                                     Grid.Column="2"
+                                     Margin="0,0,10,0"
+                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
+                                     Content="Github"></HyperlinkButton>
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
                        Grid.Row="1"

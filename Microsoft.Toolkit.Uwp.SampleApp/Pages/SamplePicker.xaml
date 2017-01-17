@@ -30,28 +30,18 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="24"
                                FontWeight="Light"
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="{x:Bind Name}" />
                     <TextBlock Grid.Row="1"
-                               Grid.ColumnSpan="2"
                                Margin="0,4,0,0"
                                VerticalAlignment="Top"
                                FontSize="14"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <HyperlinkButton Grid.Row="0"
-                                     Grid.Column="1"
-                                     Content="Github"
-                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
-                                     NavigateUri="{x:Bind CodeUrl}" />
                 </Grid>
             </Grid>
         </DataTemplate>
