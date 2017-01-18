@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// The regex expression that will be validated on the textbox
         /// </summary>
-        public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached("Regex", typeof(string), typeof(TextBoxRegexEx), new PropertyMetadata(null, RegexPropertyOnChange));
+        public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached("Regex", typeof(string), typeof(TextBoxRegexEx), new PropertyMetadata(null, TextBoxRegexExPropertyOnChange));
 
         /// <summary>
         /// Gets the result of the textbox validation agains the Regex property
@@ -32,7 +32,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// The validation mode of the validation extension (Normal, Forced)
         /// </summary>
-        public static readonly DependencyProperty ValidationModeProperty = DependencyProperty.RegisterAttached("ValidationMode", typeof(ValidationMode), typeof(TextBoxRegexEx), new PropertyMetadata(ValidationMode.Normal));
+        public static readonly DependencyProperty ValidationModeProperty = DependencyProperty.RegisterAttached("ValidationMode", typeof(ValidationMode), typeof(TextBoxRegexEx), new PropertyMetadata(ValidationMode.Normal, TextBoxRegexExPropertyOnChange));
+
+        /// <summary>
+        /// The validation types are predefined validation that can be used directly
+        /// </summary>
+        public static readonly DependencyProperty ValidationTypeProperty = DependencyProperty.RegisterAttached("ValidationType", typeof(ValidationType), typeof(TextBoxRegexEx), new PropertyMetadata(ValidationType.Custom, TextBoxRegexExPropertyOnChange));
 
         /// <summary>
         /// Gets the Regex property
@@ -75,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the validation mode property
+        /// Gets ValidationMode property
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <returns>ValidationMode Value</returns>
@@ -92,6 +97,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static void SetValidationMode(DependencyObject obj, ValidationMode value)
         {
             obj.SetValue(ValidationModeProperty, value);
+        }
+
+        /// <summary>
+        /// Gets ValidationType property
+        /// </summary>
+        /// <param name="obj">TextBox Control</param>
+        /// <returns>ValidationType Value</returns>
+        public static ValidationType GetValidationType(DependencyObject obj)
+        {
+            return (ValidationType)obj.GetValue(ValidationTypeProperty);
+        }
+
+        /// <summary>
+        /// Set ValidationType property
+        /// </summary>
+        /// <param name="obj">TextBox control</param>
+        /// <param name="value">ValidationType value</param>
+        public static void SetValidationType(DependencyObject obj, ValidationType value)
+        {
+            obj.SetValue(ValidationTypeProperty, value);
         }
     }
 }

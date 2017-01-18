@@ -32,5 +32,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// </summary>
             Forced
         }
+
+        /// <summary>
+        /// Specify the type of validation required
+        /// </summary>
+        public enum ValidationType
+        {
+            /// <summary>
+            /// The default validation that required property Regex to be setted
+            /// </summary>
+            Custom,
+
+            /// <summary>
+            /// Email validation
+            /// </summary>
+            Email,
+
+            /// <summary>
+            /// Integer validation
+            /// </summary>
+            Integer,
+
+            /// <summary>
+            /// Decimal validation
+            /// </summary>
+            Decimal,
+
+            /// <summary>
+            /// Text only validation
+            /// </summary>
+            CharOnly,
+
+            /// <summary>
+            /// Phone number validation
+            /// </summary>
+            PhoneNumber
+        }
     }
 }
