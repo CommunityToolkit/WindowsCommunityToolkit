@@ -242,7 +242,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png"
+        "Icon": "/SamplePages/Light/LightBehavior.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "FadeHeader",
