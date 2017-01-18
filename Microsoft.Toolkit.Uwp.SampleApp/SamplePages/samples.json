@@ -154,7 +154,7 @@
         "About": "N/A",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "CarouselCode.bind",
-        "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
+        "Icon": "/SamplePages/Carousel/Carousel.png"
       }
     ]
   },
