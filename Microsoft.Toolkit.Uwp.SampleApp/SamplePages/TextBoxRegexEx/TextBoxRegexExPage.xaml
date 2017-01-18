@@ -34,7 +34,7 @@
             <StackPanel Margin="10,0,10,0">
                 <TextBox Name="PhoneNumberValidator"
                          controls:TextBoxRegexEx.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$"
-                         Header="Text box with Regex extension for phone number, validation occurs on textbox lose focus"
+                         Header="Text box with Regex extension for phone number, validation occurs on textbox changed"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource TextBoxRegexExStyle}"
                          Text="" />
@@ -50,7 +50,7 @@
                 <TextBox Name="PhoneNumberValidatorForce"
                          controls:TextBoxRegexEx.ValidationMode="Forced"
                          controls:TextBoxRegexEx.ValidationType="PhoneNumber"
-                         Header="Text box with ValidationType= PhoneNumber , validation occurs on textbox lose focus with ValidationMode=Force"
+                         Header="Text box with ValidationType= PhoneNumber , validation occurs on textbox changed and force occurs on lose focus with ValidationMode=Force"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource TextBoxRegexExStyle}"
                          Text="+61616161611" />
@@ -64,7 +64,7 @@
                         Margin="10,0,10,0">
                 <TextBox Name="EmailValidatorForce"
                          controls:TextBoxRegexEx.ValidationType="Email"
-                         Header="Text box with ValidationType=Email, validation occurs on textbox lose focus"
+                         Header="Text box with ValidationType=Email, validation occurs on textbox changed"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource TextBoxRegexExStyle}"
                          Text="" />
@@ -79,7 +79,7 @@
                 <TextBox Name="DecimalValidatorForce"
                          controls:TextBoxRegexEx.ValidationMode="Forced"
                          controls:TextBoxRegexEx.ValidationType="Decimal"
-                         Header="Text box with ValidationType=Decimal, validation occurs on textbox lose focus with ValidationMode=Force (333,111 or 333.111)"
+                         Header="Text box with ValidationType=Decimal, validation occurs on textbox changed and force occurs on lose focus with ValidationMode=Force (333,111 or 333.111)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource TextBoxRegexExStyle}"
                          Text="" />

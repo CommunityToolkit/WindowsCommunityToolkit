@@ -49,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Email,
 
             /// <summary>
-            /// Integer validation
+            /// Number validation
             /// </summary>
-            Integer,
+            Number,
 
             /// <summary>
             /// Decimal validation
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// <summary>
             /// Text only validation
             /// </summary>
-            CharOnly,
+            Characters,
 
             /// <summary>
             /// Phone number validation

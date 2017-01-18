@@ -24,9 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string DecimalRegex = "^[0-9]{1,28}([.,][0-9]{1,28})?$";
         private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
-        private const string IntegerRegex = "^[0-9]{1,9}";
+        private const string NumberRegex = "^[0-9]{1,9}$";
         private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
-        private const string CharOnlyRegex = "/^([A-Za-z]+)/";
+        private const string CharactersRegex = "^[A-Za-z]+$";
 
         private static void TextBoxRegexExPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -83,14 +83,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ValidationType.Email:
                     regex = EmailRegex;
                     break;
-                case ValidationType.Integer:
-                    regex = IntegerRegex;
+                case ValidationType.Number:
+                    regex = NumberRegex;
                     break;
                 case ValidationType.PhoneNumber:
                     regex = PhoneNumberRegex;
                     break;
-                case ValidationType.CharOnly:
-                    regex = CharOnlyRegex;
+                case ValidationType.Characters:
+                    regex = CharactersRegex;
                     break;
             }
 
