@@ -147,6 +147,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
+      },
+      {
+        "Name": "Carousel",
+        "Type": "CarouselPage",
+        "About": "N/A",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
+        "XamlCodeFile": "CarouselCode.bind",
+        "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
       }
     ]
   },

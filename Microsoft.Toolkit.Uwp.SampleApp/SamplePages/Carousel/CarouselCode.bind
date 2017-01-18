@@ -1,0 +1,22 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.CarouselPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+  <Grid>
+    <controls:Carousel x:Name="TimelineControl"
+                       ItemsSource="{x:Bind Items, Mode=OneWay}"
+                       Orientation="@[Orientation:Enum:Orientation.Horizontal]">
+      <controls:Carousel.ItemTemplate>
+        <DataTemplate>
+          <Image Source="{Binding}" Width="400"></Image>
+        </DataTemplate>
+      </controls:Carousel.ItemTemplate>
+    </controls:Carousel>
+  </Grid>
+</Page>
