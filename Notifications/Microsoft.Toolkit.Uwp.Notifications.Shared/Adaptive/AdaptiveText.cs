@@ -21,13 +21,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         : IAdaptiveChild,
         IAdaptiveSubgroupChild,
         ITileBindingContentAdaptiveChild,
-        IToastBindingGenericChild,
-        IBaseText
+        IToastBindingGenericChild
     {
         /// <summary>
-        /// The text to display.
+        /// The text to display. Data binding support added in Creators Update, only works for toast top-level text elements.
         /// </summary>
-        public string Text { get; set; }
+        public BindableString Text { get; set; }
 
         /// <summary>
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
@@ -99,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             return new Element_AdaptiveText()
             {
-                Text = Text,
+                Text = Text?.ToXmlString(),
                 Lang = Language,
                 Style = HintStyle,
                 Wrap = HintWrap,

@@ -36,6 +36,12 @@ namespace UnitTests.Notifications
             {
                 Text = "Hello & Goodbye"
             });
+
+            // Data binding should work
+            AssertAdaptiveChild("<text>{title}</text>", new AdaptiveText()
+            {
+                Text = new BindableString("title")
+            });
         }
         
         [TestMethod]

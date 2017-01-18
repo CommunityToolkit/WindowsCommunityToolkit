@@ -1522,6 +1522,98 @@ namespace UnitTests.Notifications
             }
         }
 
+        [TestMethod]
+        public void Test_Toast_ProgressBar_Value()
+        {
+            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar());
+            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            {
+                Value = 0.3
+            });
+            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            {
+                Value = AdaptiveProgressBarValue.FromValue(0.3)
+            });
+            AssertProgressBar("<progressBar value='indeterminate'/>", new AdaptiveProgressBar()
+            {
+                Value = AdaptiveProgressBarValue.Indeterminate
+            });
+            AssertProgressBar("<progressBar value='{progressValue}'/>", new AdaptiveProgressBar()
+            {
+                Value = new BindableProgressBarValue("progressValue")
+            });
+
+            try
+            {
+                new AdaptiveProgressBar()
+                {
+                    Value = -4
+                };
+                Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
+            }
+            catch (ArgumentOutOfRangeException) { }
+
+            try
+            {
+                new AdaptiveProgressBar()
+                {
+                    Value = 1.3
+                };
+                Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
+            }
+            catch (ArgumentOutOfRangeException) { }
+        }
+
+        [TestMethod]
+        public void Test_Toast_ProgressBar_NonEscapingString()
+        {
+            // There is NOT an escape string. Guidance to developers is if you're using data binding,
+            // use data binding for ALL your user-generated strings.
+            AssertProgressBar("<progressBar value='0' title='{I like tacos}'/>", new AdaptiveProgressBar()
+            {
+                Title = "{I like tacos}"
+            });
+        }
+
+        [TestMethod]
+        public void Test_Toast_ProgressBar()
+        {
+            AssertProgressBar("<progressBar value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Downloading...'/>", new AdaptiveProgressBar()
+            {
+                Value = 0.3,
+                Title = "Katy Perry",
+                ValueStringOverride = "3/10 songs",
+                Status = "Downloading..."
+            });
+
+            AssertProgressBar("<progressBar value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
+            {
+                Value = new BindableProgressBarValue("progressValue"),
+                Title = new BindableString("progressTitle"),
+                ValueStringOverride = new BindableString("progressValueOverride"),
+                Status = new BindableString("progressStatus")
+            });
+
+            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar()
+            {
+                Value = null,
+                Title = null,
+                ValueStringOverride = null,
+                Status = null
+            });
+        }
+
+        private static void AssertProgressBar(string expectedProgressBarXml, AdaptiveProgressBar progressBar)
+        {
+            AssertBindingGenericPayload("<binding template='ToastGeneric'>" + expectedProgressBarXml + "</binding>", new ToastBindingGeneric()
+            {
+                Children =
+                {
+                    progressBar
+                }
+            });
+        }
+
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
         {
             AssertInputPayload("<input id='myId' type='selection'>" + expectedSelectionXml + "</input>", new ToastSelectionBox("myId")
