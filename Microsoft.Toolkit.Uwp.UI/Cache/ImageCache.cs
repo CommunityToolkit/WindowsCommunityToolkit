@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="duration">cache duration</param>
         /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
         /// <returns>bool indicate whether file has expired or not</returns>
-        protected override async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+        protected override async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
         {
             if (file == null)
             {

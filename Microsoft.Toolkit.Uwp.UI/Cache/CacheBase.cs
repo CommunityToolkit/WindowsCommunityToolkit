@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     continue;
                 }
 
-                if (await IsFileOutOfDate(file, expiryDuration, false).ConfigureAwait(false))
+                if (await IsFileOutOfDateAsync(file, expiryDuration, false).ConfigureAwait(false))
                 {
                     filesToDelete.Add(file);
                 }
@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="duration">cache duration</param>
         /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
         /// <returns>bool indicate whether file has expired or not</returns>
-        protected virtual async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+        protected virtual async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
         {
             if (file == null)
             {
@@ -368,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
             baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
 
-            if (baseFile == null || await IsFileOutOfDate(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
+            if (baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
                 try
