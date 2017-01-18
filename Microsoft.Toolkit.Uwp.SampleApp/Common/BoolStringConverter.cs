@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return bool.Parse(value.ToString());
         }
     }
 }
