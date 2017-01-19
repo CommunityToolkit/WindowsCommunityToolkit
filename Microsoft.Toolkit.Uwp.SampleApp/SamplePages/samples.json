@@ -114,7 +114,8 @@
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
-        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "TextBoxMask",
@@ -138,7 +139,8 @@
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
         "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
-        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "WrapPanel",
@@ -230,7 +232,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.png"
+        "Icon": "/SamplePages/Blur/blurBehavior.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "Light",
@@ -239,7 +242,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png"
+        "Icon": "/SamplePages/Light/LightBehavior.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "FadeHeader",
@@ -256,7 +260,8 @@
         "About": "Animates items of a grid when the size changes",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ReorderGrid.bind",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png"
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       }
     ]
   },

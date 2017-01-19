@@ -28,7 +28,8 @@
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -52,6 +53,10 @@
                                      Content="Github"
                                      Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
                                      NavigateUri="{x:Bind CodeUrl}" />
+                    <Image Grid.Row="2" Grid.Column="0" Margin="0 5 0 0"
+                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                           Source="{Binding BadgeUpdateVersionRequired}"
+                           Width="100" Stretch="Uniform" />
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -76,7 +81,8 @@
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="16"
@@ -91,6 +97,10 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
+                    <Image Grid.Row="2" Margin="0 5 0 0"
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Source="{Binding BadgeUpdateVersionRequired}"
+                           Width="80" Stretch="Uniform" />
                 </Grid>
             </Grid>
         </DataTemplate>
