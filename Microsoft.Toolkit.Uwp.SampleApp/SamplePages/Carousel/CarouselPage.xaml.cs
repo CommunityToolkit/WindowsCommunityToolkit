@@ -33,5 +33,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
         }
+
+        private void CarouselItem_ItemGotCarouselFocus(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void CarouselItem_ItemLostCarouselFocus(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

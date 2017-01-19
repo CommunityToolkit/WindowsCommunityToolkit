@@ -14,11 +14,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartCarouselPanel, Type = typeof(CarouselPanel))]
     public sealed class Carousel : ContentControl
     {
-        public CarouselPanel CarouselPanel { get; private set; }
-
         private const string PartCarouselPanel = "TPanel";
         private const double _scrollRate = 100;
         private int _originalIndex;
+        private CarouselPanel _carouselPanel;
 
         public Carousel()
         {
@@ -58,10 +57,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                if (CarouselPanel != null)
+                if (_carouselPanel != null)
                 {
-                    var newValue = Clamp(value, 0, CarouselPanel.Children.Count - 1);
-                    CarouselPanel.ItemIndex = newValue;
+                    var newValue = Clamp(value, 0, _carouselPanel.Children.Count - 1);
+                    _carouselPanel.ItemIndex = newValue;
                     SetValue(CurrentItemIndexProperty, newValue);
                 }
             }
@@ -74,25 +73,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            if (CarouselPanel != null)
+            if (_carouselPanel != null)
             {
                 // clean up
-                CarouselPanel.Children.Clear();
+                _carouselPanel.Children.Clear();
             }
 
-            CarouselPanel = this.GetTemplateChild(PartCarouselPanel) as CarouselPanel;
+            _carouselPanel = this.GetTemplateChild(PartCarouselPanel) as CarouselPanel;
 
-            if (CarouselPanel != null)
+            if (_carouselPanel != null)
             {
-                CarouselPanel.Orientation = Orientation;
+                _carouselPanel.Orientation = Orientation;
                 UpdateItems();
-                CarouselPanel.ItemIndex = CurrentItemIndex;
+                _carouselPanel.ItemIndex = CurrentItemIndex;
 
-                CarouselPanel.PointerWheelChanged += CarouselPanel_PointerWheelChanged;
-                CarouselPanel.ManipulationStarted += CarouselPanel_ManipulationStarted;
-                CarouselPanel.ManipulationCompleted += CarouselPanel_ManipulationCompleted;
-                CarouselPanel.ManipulationDelta += CarouselPanel_ManipulationDelta;
-                CarouselPanel.Tapped += CarouselPanel_Tapped;
+                _carouselPanel.PointerWheelChanged += CarouselPanel_PointerWheelChanged;
+                _carouselPanel.ManipulationStarted += CarouselPanel_ManipulationStarted;
+                _carouselPanel.ManipulationCompleted += CarouselPanel_ManipulationCompleted;
+                _carouselPanel.ManipulationDelta += CarouselPanel_ManipulationDelta;
+                _carouselPanel.Tapped += CarouselPanel_Tapped;
             }
 
             KeyDown += Carousel_KeyDown;
@@ -103,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Carousel_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if (CarouselPanel == null)
+            if (_carouselPanel == null)
             {
                 return;
             }
@@ -153,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Space:
                 case Windows.System.VirtualKey.Enter:
                 case Windows.System.VirtualKey.GamepadA:
-                    var item = CarouselPanel.GetTopItem();
+                    var item = _carouselPanel.GetTopItem();
                     if (item == null || !item.IsActionable)
                     {
                         break;
@@ -173,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Space:
                 case Windows.System.VirtualKey.Enter:
                 case Windows.System.VirtualKey.GamepadA:
-                    var item = CarouselPanel.GetTopItem();
+                    var item = _carouselPanel.GetTopItem();
                     if (item == null || !item.IsActionable)
                     {
                         break;
@@ -194,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (item != null)
             {
-                CurrentItemIndex = CarouselPanel.Children.IndexOf(item);
+                CurrentItemIndex = _carouselPanel.Children.IndexOf(item);
             }
 
             Focus(FocusState.Pointer);
@@ -214,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CarouselPanel_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            CarouselPanel.InvalidateArrange();
+            _carouselPanel.InvalidateArrange();
         }
 
         private void CarouselPanel_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
@@ -229,12 +228,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Carousel carousel = d as Carousel;
 
-            if (carousel.CarouselPanel == null)
+            if (carousel._carouselPanel == null)
             {
                 return;
             }
 
-            carousel.CarouselPanel.Orientation = (Orientation)e.NewValue;
+            carousel._carouselPanel.Orientation = (Orientation)e.NewValue;
         }
 
         private static void OnCarouselItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -298,16 +297,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (CarouselPanel == null)
+            if (_carouselPanel == null)
             {
                 return;
             }
 
-            CarouselPanel.Children.Clear();
+            _carouselPanel.Children.Clear();
 
             foreach (var item in items)
             {
-                CarouselPanel.AddElementToPanel(CreateItem(item));
+                _carouselPanel.AddElementToPanel(CreateItem(item));
             }
         }
 

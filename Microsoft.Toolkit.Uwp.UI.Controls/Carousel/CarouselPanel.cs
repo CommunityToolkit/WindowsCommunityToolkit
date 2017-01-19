@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class CarouselPanel : Panel
+    internal class CarouselPanel : Panel
     {
         public CarouselPanel()
         {

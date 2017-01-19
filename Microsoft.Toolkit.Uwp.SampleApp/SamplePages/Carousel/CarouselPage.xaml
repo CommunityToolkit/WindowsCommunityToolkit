@@ -8,13 +8,18 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Name="Root">
+    <Grid Name="Root" Background="White">
         <controls:Carousel x:Name="TimelineControl" 
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
                            Orientation="{Binding DataContext.Orientation.Value, ElementName=Root, Mode=OneWay}">
             <controls:Carousel.ItemTemplate>
                 <DataTemplate>
-                        <Image Source="{Binding}" Width="400"></Image>
+                    <controls:CarouselItem ItemGotCarouselFocus="CarouselItem_ItemGotCarouselFocus"
+                                           ItemLostCarouselFocus="CarouselItem_ItemLostCarouselFocus"
+                                           IsActionable="True"
+                                           AnimateFocus="False">
+                        <Image Source="{Binding}" Width="200"></Image>
+                    </controls:CarouselItem>
                 </DataTemplate>
             </controls:Carousel.ItemTemplate>
         </controls:Carousel>
