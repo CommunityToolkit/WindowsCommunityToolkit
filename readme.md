@@ -67,6 +67,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ### Code Helpers
 
+* [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
 * [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
 * [ConnectionHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ConnectionHelper/)
