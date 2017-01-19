@@ -51,8 +51,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             SizeChanged += OnSizeChanged;
-
-            Loaded += OnLoaded;
         }
 
         /// <summary>
@@ -72,12 +70,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
             }
 
-            base.OnApplyTemplate();
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
             ConfigureShadowVisualForCastingElement();
+
+            base.OnApplyTemplate();
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)

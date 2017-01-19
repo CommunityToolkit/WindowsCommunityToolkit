@@ -84,8 +84,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 this.Content = value;
-
-                ConfigureShadowVisualForCastingElement();
             }
         }
 
