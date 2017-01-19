@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a span containing plain text.
     /// </summary>
-    public class TextRunInline : MarkdownInline, IInlineLeaf
+    internal class TextRunInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextRunInline"/> class.

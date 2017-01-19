@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents the target of a reference ([ref][]).
     /// </summary>
-    public class LinkReferenceBlock : MarkdownBlock
+    internal class LinkReferenceBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkReferenceBlock"/> class.

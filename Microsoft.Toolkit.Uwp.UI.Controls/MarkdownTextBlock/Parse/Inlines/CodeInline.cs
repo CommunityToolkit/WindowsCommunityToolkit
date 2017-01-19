@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// Represents a span containing code, or other text that is to be displayed using a
     /// fixed-width font.
     /// </summary>
-    public class CodeInline : MarkdownInline, IInlineLeaf
+    internal class CodeInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeInline"/> class.

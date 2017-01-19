@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
     /// <summary>
     /// A class used to represent abstract markdown.
     /// </summary>
-    public class MarkdownDocument : MarkdownBlock
+    internal class MarkdownDocument : MarkdownBlock
     {
         private Dictionary<string, LinkReferenceBlock> _references;
 

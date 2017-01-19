@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a block which contains tabular data.
     /// </summary>
-    public class TableBlock : MarkdownBlock
+    internal class TableBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TableBlock"/> class.

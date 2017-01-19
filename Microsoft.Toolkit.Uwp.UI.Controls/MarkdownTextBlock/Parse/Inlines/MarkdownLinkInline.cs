@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a type of hyperlink where the text can be different from the target URL.
     /// </summary>
-    public class MarkdownLinkInline : MarkdownInline, IInlineContainer, ILinkElement
+    internal class MarkdownLinkInline : MarkdownInline, IInlineContainer, ILinkElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownLinkInline"/> class.

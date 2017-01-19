@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         LinkReference
     }
 
-    public abstract class MarkdownBlock : MarkdownElement
+    internal abstract class MarkdownBlock : MarkdownElement
     {
         /// <summary>
         /// Gets or sets tells us what type this element is.

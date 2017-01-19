@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a span containing superscript text.
     /// </summary>
-    public class SuperscriptTextInline : MarkdownInline, IInlineContainer
+    internal class SuperscriptTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SuperscriptTextInline"/> class.

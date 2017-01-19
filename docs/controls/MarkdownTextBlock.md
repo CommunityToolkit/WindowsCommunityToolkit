@@ -10,8 +10,8 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
  <controls:MarkdownTextBlock
     Text="**This is *Markdown*!"
-    OnMarkdownRendered="MarkdownText_OnMarkdownRendered"
-    OnLinkClicked="MarkdownText_OnLinkClicked"
+    MarkdownRendered="MarkdownText_MarkdownRendered"
+    LinkClicked="MarkdownText_LinkClicked"
     Margin="6">
 </controls:MarkdownTextBlock>
 

@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a heading.
     /// </summary>
-    public class HeaderBlock : MarkdownBlock
+    internal class HeaderBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderBlock"/> class.

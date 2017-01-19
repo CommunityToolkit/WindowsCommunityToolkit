@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a span containing italic text.
     /// </summary>
-    public class ItalicTextInline : MarkdownInline, IInlineContainer
+    internal class ItalicTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ItalicTextInline"/> class.

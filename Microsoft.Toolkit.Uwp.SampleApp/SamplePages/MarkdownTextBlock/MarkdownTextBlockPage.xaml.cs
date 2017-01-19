@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UiUnformattedText.Text = text;
         }
 
-        private async void MarkdownText_OnLinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
+        private async void MarkdownText_LinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }

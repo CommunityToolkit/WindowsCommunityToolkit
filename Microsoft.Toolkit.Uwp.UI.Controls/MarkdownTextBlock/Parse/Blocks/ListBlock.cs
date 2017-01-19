@@ -18,7 +18,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 {
-    public enum ListStyle
+    internal enum ListStyle
     {
         /// <summary>
         /// A list with bullets
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a list, with each list item proceeded by either a number or a bullet.
     /// </summary>
-    public class ListBlock : MarkdownBlock
+    internal class ListBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBlock"/> class.

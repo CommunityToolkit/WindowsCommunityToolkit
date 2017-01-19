@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a span containing strikethrough text.
     /// </summary>
-    public class StrikethroughTextInline : MarkdownInline, IInlineContainer
+    internal class StrikethroughTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StrikethroughTextInline"/> class.

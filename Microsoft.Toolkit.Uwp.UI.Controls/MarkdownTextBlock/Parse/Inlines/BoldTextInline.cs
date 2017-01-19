@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a span that contains bold text.
     /// </summary>
-    public class BoldTextInline : MarkdownInline, IInlineContainer
+    internal class BoldTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoldTextInline"/> class.

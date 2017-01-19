@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Initializes a new instance of the <see cref="IInlineContainer"/> class.
     /// </summary>
-    public interface IInlineContainer
+    internal interface IInlineContainer
     {
         /// <summary>
         /// Gets or sets the contents of the inline.

@@ -21,7 +21,7 @@ namespace UnitTests.Markdown.Parse
     /// </summary>
     public abstract class ParseTestBase : TestBase
     {
-        protected void AssertEqual(string markdown, params MarkdownBlock[] expectedAst)
+        internal void AssertEqual(string markdown, params MarkdownBlock[] expectedAst)
         {
             var expected = new StringBuilder();
             foreach (var block in expectedAst)

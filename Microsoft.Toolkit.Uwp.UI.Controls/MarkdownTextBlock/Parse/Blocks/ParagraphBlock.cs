@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a block of text that is displayed as a single paragraph.
     /// </summary>
-    public class ParagraphBlock : MarkdownBlock
+    internal class ParagraphBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParagraphBlock"/> class.

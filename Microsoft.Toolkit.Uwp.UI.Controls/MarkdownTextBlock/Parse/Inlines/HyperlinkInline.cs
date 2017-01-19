@@ -16,7 +16,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
 {
-    public enum HyperlinkType
+    internal enum HyperlinkType
     {
         /// <summary>
         /// A hyperlink surrounded by angle brackets (e.g. "http://www.reddit.com").
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// Represents a type of hyperlink where the text and the target URL cannot be controlled
     /// independently.
     /// </summary>
-    public class HyperlinkInline : MarkdownInline, IInlineLeaf, ILinkElement
+    internal class HyperlinkInline : MarkdownInline, IInlineLeaf, ILinkElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HyperlinkInline"/> class.

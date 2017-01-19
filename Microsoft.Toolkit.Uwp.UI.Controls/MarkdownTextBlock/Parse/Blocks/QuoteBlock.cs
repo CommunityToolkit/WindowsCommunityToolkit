@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// Represents a block that is displayed using a quote style.  Quotes are used to indicate
     /// that the text originated elsewhere (e.g. a previous comment).
     /// </summary>
-    public class QuoteBlock : MarkdownBlock
+    internal class QuoteBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QuoteBlock"/> class.

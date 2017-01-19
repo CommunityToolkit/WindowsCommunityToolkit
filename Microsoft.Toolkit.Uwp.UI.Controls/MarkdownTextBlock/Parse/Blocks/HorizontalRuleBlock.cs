@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Represents a horizontal line.
     /// </summary>
-    public class HorizontalRuleBlock : MarkdownBlock
+    internal class HorizontalRuleBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HorizontalRuleBlock"/> class.

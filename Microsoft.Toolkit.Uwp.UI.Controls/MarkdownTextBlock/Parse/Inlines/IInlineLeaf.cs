@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Initializes a new instance of the <see cref="IInlineLeaf"/> class.
     /// </summary>
-    public interface IInlineLeaf
+    internal interface IInlineLeaf
     {
         /// <summary>
         /// Gets or sets the text for this run.

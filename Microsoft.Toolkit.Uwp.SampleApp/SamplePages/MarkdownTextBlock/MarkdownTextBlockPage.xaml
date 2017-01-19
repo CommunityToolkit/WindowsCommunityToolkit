@@ -39,7 +39,7 @@
             <controls:MarkdownTextBlock x:Name="UiMarkdownText"
                                         Margin="6"
                                         Foreground="Black"
-                                        OnLinkClicked="MarkdownText_OnLinkClicked"
+                                        LinkClicked="MarkdownText_LinkClicked"
                                         Text="{Binding ElementName=UiUnformattedText, Path=Text}" />
         </ScrollViewer>
     </Grid>

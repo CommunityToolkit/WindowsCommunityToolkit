@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// Represents a block of text that is displayed in a fixed-width font.  Inline elements and
     /// escape sequences are ignored inside the code block.
     /// </summary>
-    public class CodeBlock : MarkdownBlock
+    internal class CodeBlock : MarkdownBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeBlock"/> class.

@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
     /// <summary>
     /// Implemented by all inline link elements.
     /// </summary>
-    public interface ILinkElement
+    internal interface ILinkElement
     {
         /// <summary>
         /// Gets the link URL.  This can be a relative URL, but note that subreddit links will always
