@@ -34,9 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
         public MarkdownTable(int columnCount, int rowCount, double borderThickness, Brush borderBrush)
         {
-            this._columnCount = columnCount;
-            this._rowCount = rowCount;
-            this._borderThickness = borderThickness;
+            _columnCount = columnCount;
+            _rowCount = rowCount;
+            _borderThickness = borderThickness;
             for (int col = 0; col < columnCount + 1; col++)
             {
                 Children.Add(new Rectangle { Fill = borderBrush });
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         protected override Size MeasureOverride(Size availableSize)
         {
             // Measure the width of each column, with no horizontal width restrictions.
-            var naturalColumnWidths = new double[this._columnCount];
+            var naturalColumnWidths = new double[_columnCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
@@ -96,8 +96,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             }
 
             // Now figure out the actual column widths.
-            var remainingContentWidth = availableSize.Width - ((this._columnCount + 1) * _borderThickness);
-            _columnWidths = new double[this._columnCount];
+            var remainingContentWidth = availableSize.Width - ((_columnCount + 1) * _borderThickness);
+            _columnWidths = new double[_columnCount];
             int remainingColumnCount = _columnCount;
             while (remainingColumnCount > 0)
             {
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // the row heights we obtained earlier.
 
             // Now measure row heights.
-            _rowHeights = new double[this._rowCount];
+            _rowHeights = new double[_rowCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);

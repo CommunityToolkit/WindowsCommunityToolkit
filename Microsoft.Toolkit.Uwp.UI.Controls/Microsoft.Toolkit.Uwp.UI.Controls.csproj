@@ -73,8 +73,8 @@
     <Compile Include="MarkdownTextBlock\Display\XamlRenderer.cs" />
     <Compile Include="MarkdownTextBlock\Helpers\Common.cs" />
     <Compile Include="MarkdownTextBlock\Helpers\DebuggingReporter.cs" />
-    <Compile Include="MarkdownTextBlock\OnLinkClickedArgs.cs" />
-    <Compile Include="MarkdownTextBlock\OnMarkdownRenderedArgs.cs" />
+    <Compile Include="MarkdownTextBlock\LinkClickedEventArgs.cs" />
+    <Compile Include="MarkdownTextBlock\MarkdownRenderedEventArgs.cs" />
     <Compile Include="MarkdownTextBlock\MarkdownTextBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\CodeBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HeaderBlock.cs" />

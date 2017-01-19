@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public MarkdownTextBlockPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             SetInitalText("Loading text...");
             LoadData();
         }
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UiUnformattedText.Text = text;
         }
 
-        private async void MarkdownText_OnLinkClicked(object sender, UI.Controls.OnLinkClickedArgs e)
+        private async void MarkdownText_OnLinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }

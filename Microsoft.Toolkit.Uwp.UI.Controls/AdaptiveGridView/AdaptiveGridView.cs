@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         itemsWrapGridPanel.Orientation = Orientation.Vertical;
                     }
 
-                    this.SetBinding(GridView.MaxHeightProperty, b);
+                    SetBinding(GridView.MaxHeightProperty, b);
 
                     ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Disabled);
                     ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    this.ClearValue(GridView.MaxHeightProperty);
+                    ClearValue(GridView.MaxHeightProperty);
                     if (itemsWrapGridPanel != null)
                     {
                         itemsWrapGridPanel.Orientation = Orientation.Horizontal;

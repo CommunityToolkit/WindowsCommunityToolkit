@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
         {
             get
             {
-                return this._headerLevel;
+                return _headerLevel;
             }
 
             set
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
                     throw new ArgumentOutOfRangeException("HeaderLevel", "The header level must be between 1 and 6 (inclusive).");
                 }
 
-                this._headerLevel = value;
+                _headerLevel = value;
             }
         }
 

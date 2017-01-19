@@ -15,18 +15,19 @@ using System;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Arguments for the OnLinkClicked event which is fired then the user presses a link.
+    /// Arguments for the OnMarkdownRendered event which indicates when the markdown has been
+    /// rendered.
     /// </summary>
-    public class OnLinkClickedArgs : EventArgs
+    public class MarkdownRenderedEventArgs : EventArgs
     {
-        internal OnLinkClickedArgs(string link)
+        internal MarkdownRenderedEventArgs(Exception ex)
         {
-            Link = link;
+            Exception = ex;
         }
 
         /// <summary>
-        /// Gets the link that was tapped.
+        /// Gets the exception if there was one. If the exception is null there was no error.
         /// </summary>
-        public string Link { get; }
+        public Exception Exception { get; }
     }
 }

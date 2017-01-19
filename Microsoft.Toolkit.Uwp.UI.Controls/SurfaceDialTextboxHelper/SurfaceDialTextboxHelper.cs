@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(false));
 
         /// <summary>
-        /// Set the default icon of the menu item that gets added. A user will most likely not see this. Defaults to the Ruler icon.
+        /// Set the default icon of the menu item that gets added. A user will most likely not see  Defaults to the Ruler icon.
         /// </summary>
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));

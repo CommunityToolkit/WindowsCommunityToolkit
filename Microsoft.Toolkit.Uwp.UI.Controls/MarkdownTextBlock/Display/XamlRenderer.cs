@@ -39,8 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
         public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister)
         {
-            this._document = document;
-            this._linkRegister = linkRegister;
+            _document = document;
+            _linkRegister = linkRegister;
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public UIElement Render()
         {
             var stackPanel = new StackPanel();
-            RenderBlocks(this._document.Blocks, stackPanel.Children, new RenderContext { Foreground = Foreground });
+            RenderBlocks(_document.Blocks, stackPanel.Children, new RenderContext { Foreground = Foreground });
 
             // Set background and border properties.
             stackPanel.Background = Background;
@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             }
 
             // Attempt to resolve references.
-            element.ResolveReference(this._document);
+            element.ResolveReference(_document);
             if (element.Url == null)
             {
                 // The element couldn't be resolved, just render it as text.
@@ -789,7 +789,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 var link = new Hyperlink();
 
                 // Register the link
-                this._linkRegister.RegisterNewHyperLink(link, element.Url);
+                _linkRegister.RegisterNewHyperLink(link, element.Url);
 
                 // Remove superscripts.
                 RemoveSuperscriptRuns(element, insertCaret: true);
@@ -831,7 +831,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var link = new Hyperlink();
 
             // Register the link
-            this._linkRegister.RegisterNewHyperLink(link, element.Url);
+            _linkRegister.RegisterNewHyperLink(link, element.Url);
 
             // Make a text block for the link
             Run linkText = new Run();

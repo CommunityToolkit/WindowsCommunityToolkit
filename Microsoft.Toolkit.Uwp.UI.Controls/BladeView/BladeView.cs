@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private ScrollViewer GetScrollViewer()
         {
-            return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
+            return _scrollViewer ?? (_scrollViewer = FindDescendant<ScrollViewer>());
         }
 
         private void AdjustBladeItemSize()

@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -43,12 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
-        public event EventHandler<OnMarkdownRenderedArgs> OnMarkdownRendered;
+        public event EventHandler<MarkdownRenderedEventArgs> MarkdownRendered;
 
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
-        public event EventHandler<OnLinkClickedArgs> OnLinkClicked;
+        public event EventHandler<LinkClickedEventArgs> LinkClicked;
 
         /// <summary>
         /// Gets or sets the markdown text to display.
@@ -936,7 +935,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Disconnect from OnClick handlers.
             UnhookListeners();
 
-            OnMarkdownRenderedArgs onMarkdownRenderedArgs = new OnMarkdownRenderedArgs(false, null);
+            MarkdownRenderedEventArgs markdownRenderedArgs = new MarkdownRenderedEventArgs(null);
             try
             {
                 // Try to parse the markdown.
@@ -1005,11 +1004,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch (Exception ex)
             {
                 DebuggingReporter.ReportCriticalError("Error while parsing and rendering: " + ex.Message);
-                onMarkdownRenderedArgs = new OnMarkdownRenderedArgs(true, ex);
+                markdownRenderedArgs = new MarkdownRenderedEventArgs(ex);
             }
 
             // Indicate that the parse is done.
-            OnMarkdownRendered?.Invoke(this, onMarkdownRenderedArgs);
+            MarkdownRendered?.Invoke(this, markdownRenderedArgs);
         }
 
         private void UnhookListeners()
@@ -1069,8 +1068,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Fire off the event.
-            var eventArgs = new OnLinkClickedArgs(url);
-            OnLinkClicked?.Invoke(this, eventArgs);
+            var eventArgs = new LinkClickedEventArgs(url);
+            LinkClicked?.Invoke(this, eventArgs);
         }
     }
 }
