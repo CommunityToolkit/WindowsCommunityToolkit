@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
 
     <Grid Name="Root" Background="White">
@@ -13,12 +14,16 @@
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
                            Orientation="{Binding DataContext.Orientation.Value, ElementName=Root, Mode=OneWay}">
             <controls:Carousel.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="data:PhotoDataItem">
                     <controls:CarouselItem ItemGotCarouselFocus="CarouselItem_ItemGotCarouselFocus"
                                            ItemLostCarouselFocus="CarouselItem_ItemLostCarouselFocus"
+                                           Loaded="CarouselItem_Loaded"
                                            IsActionable="True"
                                            AnimateFocus="False">
-                        <Image Source="{Binding}" Width="200"></Image>
+                        <StackPanel>
+                            <Image Source="{x:Bind Thumbnail}" Width="200"></Image>
+                            <TextBlock Text="{x:Bind Title}" Margin="10" HorizontalAlignment="Center" Foreground="Pink" FontSize="18"></TextBlock>
+                        </StackPanel>
                     </controls:CarouselItem>
                 </DataTemplate>
             </controls:Carousel.ItemTemplate>

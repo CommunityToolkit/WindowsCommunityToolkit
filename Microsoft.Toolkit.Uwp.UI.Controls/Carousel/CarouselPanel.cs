@@ -123,8 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 offsetAnimation.InsertKeyFrame(1, new System.Numerics.Vector3((float)childLeft, (float)childTop, 0));
                 visual.StartAnimation("Offset", offsetAnimation);
 
-                (child as CarouselItem).IsInFocus = i == ItemIndex;
                 (child as CarouselItem).DistanceFromFocusedCarouselItem = i - ItemIndex;
+                (child as CarouselItem).IsInFocus = i == ItemIndex;
             }
 
             return finalSize;

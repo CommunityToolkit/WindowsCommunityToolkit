@@ -1,8 +1,8 @@
 # Carousel Item XAML Control
 
-The **CarouselItem** is used by the [Carousel]() control and provides events and properties for each item that allow custom behaviours.
+The **CarouselItem** control is used by the [Carousel](http://docs.uwpcommunitytoolkit.com/en/master/controls/Carousel/) control and provides events and properties for each item that allow custom behaviours.
 
-**CarouselItem** is automaticaly generated for each item when not specified as the top level of the DataTemplate of the Carousel control. When specified, the developer can override the default animation and provide custom animations on the *ItemGotCarouselFocus* and *ItemLostCarouselFocus* events.
+**CarouselItem** is automaticaly generated for each item template when not specified as the top level of the DataTemplate of the Carousel control items. When specified (as in the example below), the developer can disable default animation and provide custom animations on the *ItemGotCarouselFocus* and *ItemLostCarouselFocus* events.
 
 ## Syntax
 
@@ -23,15 +23,15 @@ The **CarouselItem** is used by the [Carousel]() control and provides events and
 
 ## Example Image
 
-![Carousel animation](../resources/images/Controls-Carousel.gif "Carousel")
+![CarouselItem animation](../resources/images/Controls-CarouselItem.gif "Carousel")
 
 ## Example Code
 
-[Carousel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Carousel)
+[CarouselItem Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Carousel)
 
 ## Default Template 
 
-[Carousel XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel/Carousel.xaml) is the XAML template used in the toolkit for the default styling.
+[CarouselItem XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel/Carousel.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -41,4 +41,4 @@ The **CarouselItem** is used by the [Carousel]() control and provides events and
 
 ## API
 
-* [Carousel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel)
+* [CarouselItem source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel)
