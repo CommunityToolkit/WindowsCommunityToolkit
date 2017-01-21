@@ -40,6 +40,17 @@
                            TextWrapping="Wrap" />
                 <TextBlock x:Name="ConnectionTypeText"
                            Margin="20,0"
+                           FontSize="22" />                
+            </StackPanel>
+            <StackPanel x:Name="Stack3"
+                        Margin="10"
+                        Orientation="Horizontal">
+                <TextBlock FontSize="22"
+                           FontWeight="Bold"
+                           Text="Connection Name:"
+                           TextWrapping="Wrap" />
+                <TextBlock x:Name="ConnectionNameText"
+                           Margin="20,0"
                            FontSize="22" />
             </StackPanel>
         </StackPanel>

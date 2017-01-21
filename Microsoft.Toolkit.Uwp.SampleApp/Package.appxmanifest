@@ -38,5 +38,6 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <DeviceCapability Name="location" />
+    <DeviceCapability Name="WifiControl" />
   </Capabilities>
 </Package>
