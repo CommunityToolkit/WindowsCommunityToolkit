@@ -15,11 +15,11 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// TextBox Regex Extension sample page
+    /// TextBoxRegex sample page
     /// </summary>
-    public sealed partial class TextBoxRegexExPage : Page
+    public sealed partial class TextBoxRegexPage : Page
     {
-        public TextBoxRegexExPage()
+        public TextBoxRegexPage()
         {
             InitializeComponent();
         }

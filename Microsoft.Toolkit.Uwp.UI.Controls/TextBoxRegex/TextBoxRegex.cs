@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,9 +19,13 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Textbox regex extension helps developer to validate a textbox with a regex using the Regex property, IsValid property is updated with the regex validation result, if ValidationMode is Normal only IsValid property is setted if ValidationMode is Forced and the input is not valid the textbox text will be cleared
+    /// TextBoxRegex allows text validation using a regular expression.
     /// </summary>
-    public partial class TextBoxRegexEx
+    /// <remarks>
+    /// If<see cref="ValidationMode"> is set to Normal then IsValid will be set according to either the regex is valid.</see>
+    /// If<see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
+    /// </remarks>
+    public partial class TextBoxRegex
     {
         private const string DecimalRegex = "^[0-9]{1,28}([.,][0-9]{1,28})?$";
         private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
@@ -28,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
         private const string CharactersRegex = "^[A-Za-z]+$";
 
-        private static void TextBoxRegexExPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void TextBoxRegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var textbox = sender as TextBox;
 
@@ -36,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return;
             }
+
+            ValidateTextBox(textbox, false);
 
             textbox.Loaded -= Textbox_Loaded;
             textbox.LostFocus -= Textbox_LostFocus;
@@ -73,7 +80,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     regex = textbox.GetValue(RegexProperty) as string;
                     if (string.IsNullOrWhiteSpace(regex))
                     {
-                        throw new ArgumentException("Regex property can't be null or empty when custom mode is selected");
+                        Debug.WriteLine("Regex property can't be null or empty when custom mode is selected");
+                        return;
                     }
 
                     break;

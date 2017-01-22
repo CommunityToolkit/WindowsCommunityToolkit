@@ -13,12 +13,16 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Textbox regex extension helps developer to validate a textbox with a regex using the Regex property, IsValid property is updated with the regex validation result, if ValidationMode is Normal only IsValid property is setted if ValidationMode is Forced and the input is not valid the textbox text will be cleared
+    /// TextBoxRegex allows text validation using a regular expression.
     /// </summary>
-    public partial class TextBoxRegexEx
+    /// <remarks>
+    /// If<see cref="ValidationMode"> is set to Normal then IsValid will be set according to either the regex is valid.</see>
+    /// If<see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
+    /// </remarks>
+    public partial class TextBoxRegex
     {
         /// <summary>
-        /// Regex extension validation mode
+        /// Regex validation mode
         /// </summary>
         public enum ValidationMode
         {
@@ -28,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Normal,
 
             /// <summary>
-            /// Update IsValid proeprty with validation result and in case the textbox is not valid clear its value
+            /// Update IsValid property with validation result and in case the textbox is not valid clear its value
             /// </summary>
             Forced
         }
