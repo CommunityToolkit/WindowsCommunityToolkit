@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             IsInternetAvailableText.Text = ConnectionHelper.IsInternetAvailable ? "Yes" : "No";
             IsInternetOnMeteredConnectionText.Text = ConnectionHelper.IsInternetOnMeteredConnection ? "Yes" : "No";
             ConnectionTypeText.Text = ConnectionHelper.ConnectionType.ToString();
-            ConnectionNameText.Text = await ConnectionHelper.GetNetworkSsid();
+            ConnectionNameText.Text = await ConnectionHelper.GetNetworkSsidAsync();
         }
     }
 }

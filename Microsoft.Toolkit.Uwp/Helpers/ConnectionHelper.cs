@@ -115,9 +115,9 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     /// <returns> string value of current ssid/></returns>
     ///
-    public static async Task<string> GetNetworkSsid()
+    public static async Task<string> GetNetworkSsidAsync()
         {
-            ConnectionProfileFilter pProfileFilter = new ConnectionProfileFilter();
+            var pProfileFilter = new ConnectionProfileFilter();
             System.Collections.Generic.IReadOnlyList<ConnectionProfile> x = await NetworkInformation.FindConnectionProfilesAsync(pProfileFilter);
 
             try
