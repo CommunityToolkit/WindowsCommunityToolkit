@@ -16,7 +16,6 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -208,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             PhotoScroller.Visibility = Visibility.Collapsed;
         }
 
-        private async void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void PhotoGridView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
 

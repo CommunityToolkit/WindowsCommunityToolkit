@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -65,22 +64,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _photoItems = await new PhotosDataSource().GetItemsAsync(true);
         }
 
-        private async void PreCache_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void PreCache_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             await PreCacheImages(false);
         }
 
-        private async void PreCacheInMemory_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void PreCacheInMemory_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             await PreCacheImages(true);
         }
 
-        private void LoadImages_Tapped(object sender, TappedRoutedEventArgs e)
+        private void LoadImages_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             PhotoList.ItemsSource = _photoItems;
         }
 
-        private async void ClearCache_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void ClearCache_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             DisableButtons();
 

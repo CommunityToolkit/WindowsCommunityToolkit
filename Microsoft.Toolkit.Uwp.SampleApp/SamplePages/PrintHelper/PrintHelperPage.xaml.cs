@@ -12,7 +12,6 @@
 
 using System;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
