@@ -49,6 +49,7 @@
         "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
         "XamlCodeFile": "MasterDetailsView.bind",
+        "CodeFile": "MasterDetailsViewCode.bind",
         "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
       },
       {
@@ -100,12 +101,12 @@
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
       },
       {
-          "Name": "GridSplitter",
-          "Type": "GridSplitterPage",
-          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-          "XamlCodeFile": "GridSplitter.bind",
-          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
       },
       {
         "Name": "DropShadowPanel",
@@ -113,7 +114,8 @@
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
-        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "Loading",
@@ -130,6 +132,31 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+      },
+      {
+        "Name": "MosaicControl",
+        "Type": "MosaicControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MosaicControl",
+        "XamlCodeFile": "MosaicControl.bind",
+        "Icon": "/SamplePages/MosaicControl/MosaicControl.png"
+      },
+      {
+        "Name": "SurfaceDialTextboxHelper",
+        "Type": "SurfaceDialTextboxHelperPage",
+        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
+        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+      },
+      {
+        "Name": "WrapPanel",
+        "Type": "WrapPanelPage",
+        "About": "The WrapPanel Control Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box. Subsequent ordering happens sequentially from top to bottom or from right to left, depending on the value of the Orientation property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
+        "XamlCodeFile": "WrapPanel.bind",
+        "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
       }
     ]
   },
@@ -213,7 +240,18 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.png"
+        "Icon": "/SamplePages/Blur/blurBehavior.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+      },
+      {
+        "Name": "Light",
+        "Type": "LightBehaviorPage",
+        "About": "Light XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "LightBehaviorCode.bind",
+        "XamlCodeFile": "LightBehaviorXaml.bind",
+        "Icon": "/SamplePages/Light/LightBehavior.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
         "Name": "FadeHeader",
@@ -223,6 +261,15 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
+      },
+      {
+        "Name": "ReorderGridAnimation",
+        "Type": "ReorderGridPage",
+        "About": "Animates items of a grid when the size changes",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+        "XamlCodeFile": "ReorderGrid.bind",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       }
     ]
   },
@@ -269,6 +316,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+      },
+      {
+        "Name": "Microsoft Translator Service",
+        "Type": "MicrosoftTranslatorPage",
+        "About": "The Microsoft Translator Service allows you to translate text into many languages.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
+        "CodeFile": "MicrosoftTranslatorCode.bind",
+        "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png"
       }
     ]
   },
@@ -318,13 +373,13 @@
         "Icon": "/Assets/Helpers.png"
       },
       {
-          "Name": "SystemInformation",
-          "Type": "SystemInformationPage",
-          "About": "The SystemInformation class provides easy access to some of system/app/device information",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
-          "CodeFile": "SystemInformationCode.bind",
-          "Icon": "/Assets/Helpers.png"
-      },      
+        "Name": "SystemInformation",
+        "Type": "SystemInformationPage",
+        "About": "The SystemInformation class provides easy access to some of system/app/device information",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+        "CodeFile": "SystemInformationCode.bind",
+        "Icon": "/Assets/Helpers.png"
+      },
       {
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
@@ -340,6 +395,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
         "CodeFile": "DispatcherHelperCode.bind",
         "Icon": "/Assets/Helpers.png"
+      },
+      {
+        "Name": "AdvancedCollectionView",
+        "Type": "AdvancedCollectionViewPage",
+        "About": "Allows you to easily sort and filter your collections before displaying them.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
+        "CodeFile": "AdvancedCollectionView.bind",
+        "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png"
       }
     ]
   }

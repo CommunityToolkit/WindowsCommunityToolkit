@@ -13,11 +13,13 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Windows.ApplicationModel;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -39,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
+        private const string HasSelectionState = "HasSelection";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
@@ -46,9 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
-        private Visual _root;
-        private Compositor _compositor;
-        private Visual _detailsVisual;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -70,14 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            var detailsPanel = (FrameworkElement)GetTemplateChild(PartDetailsPanel);
-            _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
-            _compositor = _root.Compositor;
-
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            _detailsPresenter.SizeChanged += OnSizeChanged;
-            _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
-            SetDetailsOffset();
 
             SetMasterHeaderVisibility();
         }
@@ -96,27 +89,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = view._stateGroup.CurrentState == view._narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
+            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
-                // Move the visual to the side so it can animate back in
-                view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
+                view._detailsPresenter.Content = view.MapDetails == null
+                    ? view.SelectedItem
+                    : view.MapDetails(view.SelectedItem);
             }
 
-            view._detailsPresenter.Content = view.MapDetails == null
-                ? view.SelectedItem
-                : view.MapDetails(view.SelectedItem);
-
-            // determine the animate to create. If the SelectedItem is null we
-            // want to animate the content out. If the SelectedItem is not null
-            // we want to animate the content in
-            Vector3 offset = view.SelectedItem == null
-                ? new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0)
-                : new Vector3(-(float)view._detailsPresenter.ActualWidth, 0, 0);
-            view.AnimateFromCurrentByValue(view._detailsVisual, offset);
             view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
@@ -136,7 +120,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating += OnFrameNavigating;
+                }
+            }
 
             if (_stateGroup != null)
             {
@@ -148,12 +140,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
+            string noSelectionState = _stateGroup.CurrentState == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
+
             UpdateViewState();
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
+            }
         }
 
         /// <summary>
@@ -167,19 +172,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             SetBackButtonVisibility(e.NewState);
+
+            // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
+            string noSelectionState = e.NewState == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
         }
 
         /// <summary>
-        /// Fires when the size of the control changes
+        /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e">The event args</param>
-        /// <remarks>
-        /// Handles setting the Offset of the DetailsPresenter if there is no SelectedItem
-        /// </remarks>
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        /// <param name="args">The event args</param>
+        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
-            SetDetailsOffset();
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            {
+                SelectedItem = null;
+                args.Cancel = true;
+            }
         }
 
         /// <summary>
@@ -207,20 +219,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetDetailsOffset()
-        {
-            if (SelectedItem == null)
-            {
-                _detailsVisual.Offset = new Vector3((float)_detailsPresenter.ActualWidth, 0, 0);
-            }
-        }
-
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
         private void SetBackButtonVisibility(VisualState currentState)
         {
             UpdateViewState();
+            if (DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
 
             if (ViewState == MasterDetailsViewState.Details)
             {
@@ -241,21 +249,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Frame GetFrame()
         {
             return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
-        }
-
-        // Creates and defines the Keyframe animation using a current value of target Visual and animating by a value
-        private void AnimateFromCurrentByValue(Visual targetVisual, Vector3 delta)
-        {
-            var animation = _compositor.CreateVector3KeyFrameAnimation();
-
-            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value
-            animation.InsertExpressionKeyFrame(1.00f, "this.StartingValue + delta");
-
-            // Define the value variable
-            animation.SetVector3Parameter("delta", delta);
-            animation.Duration = TimeSpan.FromMilliseconds(250);
-
-            targetVisual.StartAnimation("Offset", animation);
         }
 
         private void UpdateViewState()

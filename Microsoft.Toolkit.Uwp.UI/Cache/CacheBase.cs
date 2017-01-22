@@ -39,7 +39,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-
         private StorageFolder _baseFolder = null;
         private string _cacheFolderName = null;
 
@@ -138,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     continue;
                 }
 
-                if (await IsFileOutOfDate(file, expiryDuration, false).ConfigureAwait(false))
+                if (await IsFileOutOfDateAsync(file, expiryDuration, false).ConfigureAwait(false))
                 {
                     filesToDelete.Add(file);
                 }
@@ -198,10 +197,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the item</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be cached</param>
         /// <param name="storeToMemoryCache">Indicates if item should be loaded into the in-memory storage</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Awaitable Task</returns>
-        public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false)
+        public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, !storeToMemoryCache);
+            return GetItemAsync(uri, throwOnError, !storeToMemoryCache, cancellationToken);
         }
 
         /// <summary>
@@ -209,10 +209,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="uri">Uri of the item.</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>an instance of Generic type</returns>
-        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false)
+        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, false);
+            return GetItemAsync(uri, throwOnError, false, cancellationToken);
         }
 
         /// <summary>
@@ -245,6 +246,25 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
 
+        /// <summary>
+        /// Override-able method that checks whether file is valid or not.
+        /// </summary>
+        /// <param name="file">storage file</param>
+        /// <param name="duration">cache duration</param>
+        /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
+        /// <returns>bool indicate whether file has expired or not</returns>
+        protected virtual async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+        {
+            if (file == null)
+            {
+                return treatNullFileAsOutOfDate;
+            }
+
+            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+
+            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+        }
+
         private static string GetCacheFileName(Uri uri)
         {
             return CreateHash64(uri.ToString()).ToString();
@@ -263,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return value;
         }
 
-        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly)
+        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly, CancellationToken cancellationToken)
         {
             T instance = default(T);
 
@@ -290,7 +310,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 request = new ConcurrentRequest()
                 {
-                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly),
+                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly, cancellationToken),
                     EnsureCachedCopy = preCacheOnly
                 };
 
@@ -309,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 if (throwOnError)
                 {
-                    throw ex;
+                    throw;
                 }
             }
             finally
@@ -326,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly)
+        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly, CancellationToken cancellationToken)
         {
             StorageFile baseFile = null;
             T instance = default(T);
@@ -348,12 +368,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
             baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
 
-            if (baseFile == null || await IsFileOutOfDate(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
+            if (baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
                 try
                 {
-                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly).ConfigureAwait(false);
+                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
@@ -378,11 +398,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly)
+        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly, CancellationToken cancellationToken)
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri).ConfigureAwait(MaintainContext))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, cancellationToken).ConfigureAwait(MaintainContext))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
@@ -402,17 +422,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return instance;
-        }
-
-        private async Task<bool> IsFileOutOfDate(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
-        {
-            if (file == null)
-            {
-                return treatNullFileAsOutOfDate;
-            }
-
-            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
-            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
 
         private async Task InternalClearAsync(IEnumerable<StorageFile> files)

@@ -43,15 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.Paste -= Textbox_Paste;
             textbox.Loaded -= Textbox_Loaded;
+            textbox.GotFocus -= Textbox_GotFocus;
             textbox.Loaded += Textbox_Loaded;
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
         {
-            var textbox = sender as TextBox;
+            var textbox = (TextBox)sender;
 
             // incase no value is provided us it as normal textbox
-            var mask = textbox?.GetValue(MaskProperty) as string;
+            var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
@@ -105,11 +106,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 displayText = displayText.Replace(key, placeHolder);
             }
 
-            textbox.Text = displayText;
+            if (string.IsNullOrEmpty(textbox.Text))
+            {
+                textbox.Text = displayText;
+            }
+            else
+            {
+                var textboxInitialValue = textbox.Text;
+                textbox.Text = displayText;
+                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary);
+            }
+
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
-            textbox.SetValue(OldTextProperty, displayText);
+            textbox.GotFocus += Textbox_GotFocus;
+            textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SelectionStart = 0;
+        }
+
+        private static void Textbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            if (string.IsNullOrWhiteSpace(mask) ||
+                representationDictionary == null ||
+                string.IsNullOrEmpty(placeHolderValue))
+            {
+                return;
+            }
+
+            var placeHolder = placeHolderValue[0];
+
+            // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            // if the textbox has value set the cursor to the first empty mask character
+            var textboxText = textbox.Text;
+            for (int i = 0; i < textboxText.Length; i++)
+            {
+                if (placeHolder == textboxText[i])
+                {
+                    textbox.SelectionStart = i;
+                    break;
+                }
+            }
         }
 
         private static async void Textbox_Paste(object sender, TextControlPasteEventArgs e)
@@ -127,8 +168,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var textbox = sender as TextBox;
-            var mask = textbox?.GetValue(MaskProperty) as string;
+            var textbox = (TextBox)sender;
+            var mask = textbox.GetValue(MaskProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             if (string.IsNullOrWhiteSpace(mask) ||
                 representationDictionary == null)
@@ -138,15 +179,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // to update the textbox text without triggering TextChanging text
             textbox.TextChanging -= Textbox_TextChanging;
+            SetTextBoxValue(pasteText, textbox, mask, representationDictionary);
+            textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.TextChanging += Textbox_TextChanging;
+        }
 
+        private static void SetTextBoxValue(
+            string newValue,
+            TextBox textbox,
+            string mask,
+            Dictionary<char, string> representationDictionary)
+        {
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-            var maxLength = pasteText.Length < mask.Length ? pasteText.Length : mask.Length;
+            var maxLength = newValue.Length < mask.Length ? newValue.Length : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
             for (int i = oldSelectionStart; i < oldSelectionStart + maxLength; i++)
             {
                 var maskChar = mask[i];
-                var selectedChar = pasteText[i - oldSelectionStart];
+                var selectedChar = newValue[i - oldSelectionStart];
 
                 // If dynamic character a,9,* or custom
                 if (representationDictionary.ContainsKey(maskChar))
@@ -160,16 +211,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             textbox.Text = new string(textArray);
-            textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SelectionStart = oldSelectionStart + maxLength;
-            textbox.TextChanging += Textbox_TextChanging;
         }
 
         private static void Textbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var textbox = sender as TextBox;
-            textbox?.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
-            textbox?.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
+            var textbox = (TextBox)sender;
+            textbox.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
+            textbox.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
         }
 
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)

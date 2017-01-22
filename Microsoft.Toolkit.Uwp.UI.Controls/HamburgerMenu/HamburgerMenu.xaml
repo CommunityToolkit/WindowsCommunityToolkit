@@ -11,6 +11,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
@@ -18,6 +19,7 @@
                         <SplitView x:Name="MainSplitView"
                                    CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                    DisplayMode="{TemplateBinding DisplayMode}"
+                                   IsTabStop="False"
                                    IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                    OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                    PaneBackground="{TemplateBinding PaneBackground}"
@@ -36,6 +38,7 @@
                                               Width="{TemplateBinding OpenPaneLength}"
                                               AutomationProperties.Name="Menu items"
                                               IsItemClickEnabled="True"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
@@ -62,6 +65,7 @@
                                                   VerticalAlignment="Bottom"
                                                   AutomationProperties.Name="Option items"
                                                   IsItemClickEnabled="True"
+                                                  ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                                   ItemsSource="{TemplateBinding OptionsItemsSource}"
                                                   SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"

@@ -15,6 +15,9 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The Blade is used as a child in the BladeView
+    /// </summary>
     [Deprecated("The Blade class has been replaced with the BladeItem class. Please use that going forward", DeprecationType.Deprecate, 1)]
     public class Blade : BladeItem
     {
