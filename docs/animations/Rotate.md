@@ -84,6 +84,8 @@ You can change the way how the animation interpolates between keyframes by defin
 MyRectangle.Offset(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
 ```
 
+*Please note that EasingType is used only when AnimationSet.UseComposition == false*
+
 ## Example Image
 
 ![Rotate Behavior animation](../resources/images/Animations-Rotate.gif "Rotate Behavior")
