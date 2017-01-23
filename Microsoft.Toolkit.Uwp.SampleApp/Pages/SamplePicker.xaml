@@ -43,10 +43,13 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <Image Grid.Row="2" Margin="0 2 0 2"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                    <Image Grid.Row="2"
+                           Width="100"
+                           Margin="0,2,0,2"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
                            Source="{Binding BadgeUpdateVersionRequired}"
-                           Width="100" Stretch="Uniform" />
+                           Stretch="Uniform" />
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -71,11 +74,15 @@
                     <Image Width="80"
                            Source="{Binding Icon}" />
                 </Border>
-                <Image Grid.Row="1" Margin="0 5 0 0"
-                           VerticalAlignment="Center" HorizontalAlignment="Left"
-                           Source="{Binding BadgeUpdateVersionRequired}"
-                           Width="80" Stretch="Uniform" />
-                <Grid Grid.Column="1" Grid.RowSpan="2">
+                <Image Grid.Row="1"
+                       Width="80"
+                       Margin="0,5,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Source="{Binding BadgeUpdateVersionRequired}"
+                       Stretch="Uniform" />
+                <Grid Grid.RowSpan="2"
+                      Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />

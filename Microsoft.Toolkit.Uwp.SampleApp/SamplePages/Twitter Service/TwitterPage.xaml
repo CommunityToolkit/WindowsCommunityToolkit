@@ -63,10 +63,9 @@
                                 Orientation="Horizontal">
                         <TextBlock FontWeight="ExtraLight"
                                    Text="{x:Bind CreationDate}" />
-                        <TextBlock FontWeight="ExtraLight"
-                                   Margin="4,0,0,0"
-                                   Text="{x:Bind GeoData.DisplayCoordinates}">
-                        </TextBlock>
+                        <TextBlock Margin="4,0,0,0"
+                                   FontWeight="ExtraLight"
+                                   Text="{x:Bind GeoData.DisplayCoordinates}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -201,9 +200,9 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <AppBarButton x:Name="GetLocation"
-                                              Label="Locate"
+                                              Click="GetLocation_OnClick"
                                               Icon="World"
-                                              Click="GetLocation_OnClick" />
+                                              Label="Locate" />
                                 <TextBox x:Name="Latitude"
                                          Grid.Column="1"
                                          Margin="0,0,6,12"
@@ -279,8 +278,7 @@
                               SelectionMode="None">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment"
-                                        Value="Stretch" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListViewItem">

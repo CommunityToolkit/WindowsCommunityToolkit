@@ -8,38 +8,34 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,12,0,0"
                         HorizontalAlignment="Center">
-                <TextBlock 
-                    TextAlignment="Center"
-                    Margin="0,0,0,20"
-                    FontSize="22"
-                    Text="Frameworks and toolkits"></TextBlock>
-                <StackPanel 
-                    Margin="0,0,0,36"
-                    HorizontalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock Text="Popular high-performance JSON framework"
-                               FontSize="18"
+                <TextBlock Margin="0,0,0,20"
+                           FontSize="22"
+                           Text="Frameworks and toolkits"
+                           TextAlignment="Center" />
+                <StackPanel Margin="0,0,0,36"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                    <TextBlock Margin="0"
                                HorizontalAlignment="Center"
-                               Margin="0"/>
-                    <HyperlinkButton                                  
-                                 FontSize="18"
-                                 HorizontalAlignment="Center"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://www.newtonsoft.com/json">
+                               FontSize="18"
+                               Text="Popular high-performance JSON framework" />
+                    <HyperlinkButton HorizontalAlignment="Center"
+                                     FontSize="18"
+                                     Foreground="{StaticResource Brush-Blue-01}"
+                                     NavigateUri="http://www.newtonsoft.com/json">
                         Json.Net
                     </HyperlinkButton>
                 </StackPanel>
-                <StackPanel 
-                    Margin="0,0,0,35"
-                    HorizontalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock Text="Visual Studio project templates to help you create an UWP application"
-                               FontSize="18"
+                <StackPanel Margin="0,0,0,35"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                    <TextBlock Margin="0"
                                HorizontalAlignment="Center"
-                               Margin="0"/>
+                               FontSize="18"
+                               Text="Visual Studio project templates to help you create an UWP application" />
                     <HyperlinkButton Margin="0,0,0,12"
-                                     FontSize="18"
                                      HorizontalAlignment="Center"
+                                     FontSize="18"
                                      Foreground="{StaticResource Brush-Blue-01}"
                                      NavigateUri="https://github.com/Windows-XAML/Template10">
                         Template 10
