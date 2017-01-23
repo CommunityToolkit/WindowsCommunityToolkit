@@ -102,6 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _refreshIndicatorTransform;
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
+        private CompositeTransform _headerTransform;
         private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
@@ -275,6 +276,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var maxTranslation = 150;
             _contentTransform.TranslateY = easing * maxTranslation;
+
+            if (_headerTransform != null)
+            {
+                _headerTransform.TranslateY = _contentTransform.TranslateY;
+            }
         }
 
         private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -287,9 +293,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
-                DisplayPullToRefreshContent();
-
                 OnManipulationCompleted();
+                DisplayPullToRefreshContent();
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
@@ -328,6 +333,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_contentTransform != null)
             {
                 _contentTransform.TranslateY = 0;
+
+                if (_headerTransform != null)
+                {
+                    _headerTransform.TranslateY = 0;
+                }
             }
 
             if (_refreshActivated)
@@ -343,8 +353,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _pullDistance = 0;
             _refreshActivated = false;
             _lastRefreshActivation = default(DateTime);
+            _isManipulatingWithMouse = false;
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = 0 });
+            _pullAndReleaseIndicatorContent.Content = null;
         }
 
         private void CompositionTarget_Rendering(object sender, object e)
@@ -357,6 +369,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_contentTransform != null)
                 {
                     _contentTransform.TranslateY = 0;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = 0;
+                    }
                 }
 
                 _refreshActivated = false;
@@ -370,7 +387,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentTransform == null)
             {
-                var itemScrollPanel = _scrollerContent.FindDescendant<Panel>();
+                if (_headerTransform == null && Header != null)
+                {
+                    var headerContent = _scrollerContent.FindDescendant<ContentControl>();
+                    if (headerContent != null)
+                    {
+                        _headerTransform = new CompositeTransform();
+                        headerContent.RenderTransform = _headerTransform;
+                    }
+                }
+
+                var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
                 if (itemScrollPanel == null)
                 {
                     return;
@@ -405,6 +432,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_isManipulatingWithMouse)
                 {
                     _contentTransform.TranslateY = _pullDistance - offset;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = _pullDistance - offset
@@ -415,6 +447,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_isManipulatingWithMouse)
                 {
                     _contentTransform.TranslateY = 0;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
