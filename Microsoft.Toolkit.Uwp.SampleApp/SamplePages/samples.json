@@ -46,7 +46,7 @@
       {
         "Name": "MasterDetailsView",
         "Type": "MasterDetailsViewPage",
-        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
         "XamlCodeFile": "MasterDetailsView.bind",
         "CodeFile": "MasterDetailsViewCode.bind",
@@ -145,7 +145,7 @@
       {
         "Name": "WrapPanel",
         "Type": "WrapPanelPage",
-        "About": "The WrapPanel Control Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box. Subsequent ordering happens sequentially from top to bottom or from right to left, depending on the value of the Orientation property.",
+        "About": "The WrapPanel Control positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png"
