@@ -282,7 +282,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 ShowInfoArea();
             }
-
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
