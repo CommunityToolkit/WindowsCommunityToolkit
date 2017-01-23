@@ -29,6 +29,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="24"
@@ -42,31 +43,42 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
+                    <Image Grid.Row="2" Margin="0 2 0 2"
+                           VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                           Source="{Binding BadgeUpdateVersionRequired}"
+                           Width="100" Stretch="Uniform" />
                 </Grid>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="SmallSampleTemplate"
                       x:DataType="sampleApp:Sample">
-            <Grid MinHeight="80"
+            <Grid Height="80"
                   MaxHeight="110"
                   Margin="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Border Grid.Column="0"
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
                         BorderBrush="{StaticResource Brush-Grey-04}"
                         BorderThickness="1">
                     <Image Width="80"
-                           Height="80"
                            Source="{Binding Icon}" />
                 </Border>
-                <Grid Grid.Column="1">
+                <Image Grid.Row="1" Margin="0 5 0 0"
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Source="{Binding BadgeUpdateVersionRequired}"
+                           Width="80" Stretch="Uniform" />
+                <Grid Grid.Column="1" Grid.RowSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="16"
