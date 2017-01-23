@@ -397,5 +397,23 @@
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png"
       }
     ]
+  },
+  {
+    "Name": "More resources",
+    "Icon": "Icons/More.png",
+    "Samples": [
+      {
+        "Name": "Frameworks and Toolkits",
+        "Type": "FrameworksAndToolkitsPage",
+        "About": "List of recommended toolkits and frameworks for UWP developers.",
+        "Icon": "/SamplePages/Frameworks and Toolkits/FrameworksAndToolkits.png"
+      },
+      {
+        "Name": "Useful links",
+        "Type": "UsefulLinksPage",
+        "About": "List of useful links for UWP developers.",
+        "Icon": "/SamplePages/Useful links/UsefulLinks.png"
+      }
+    ]
   }
 ]
