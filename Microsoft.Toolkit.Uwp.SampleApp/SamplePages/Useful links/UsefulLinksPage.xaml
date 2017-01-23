@@ -60,6 +60,12 @@
                                FontSize="18"
                                HorizontalAlignment="Center"
                                Margin="0"/>
+                    <HyperlinkButton FontSize="18"
+                                     HorizontalAlignment="Center"
+                                     Foreground="{StaticResource Brush-Blue-01}"
+                                     NavigateUri="https://developer.microsoft.com/en-us/windows/samples">
+                        Dev Center Code Samples
+                    </HyperlinkButton>
                     <HyperlinkButton Margin="0,0,0,12"
                                      FontSize="18"
                                      HorizontalAlignment="Center"
