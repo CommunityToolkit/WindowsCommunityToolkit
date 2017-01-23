@@ -28,33 +28,23 @@
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="24"
                                FontWeight="Light"
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="{x:Bind Name}" />
                     <TextBlock Grid.Row="1"
-                               Grid.ColumnSpan="2"
                                Margin="0,4,0,0"
                                VerticalAlignment="Top"
                                FontSize="14"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <HyperlinkButton Grid.Row="0"
-                                     Grid.Column="1"
-                                     Content="Github"
-                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
-                                     NavigateUri="{x:Bind CodeUrl}" />
-                    <Image Grid.Row="2" Grid.Column="0" Margin="0 5 0 0"
-                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                    <Image Grid.Row="2" Margin="0 2 0 2"
+                           VerticalAlignment="Bottom" HorizontalAlignment="Left"
                            Source="{Binding BadgeUpdateVersionRequired}"
                            Width="100" Stretch="Uniform" />
                 </Grid>
