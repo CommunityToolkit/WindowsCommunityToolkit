@@ -10,15 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Numerics;
 using Windows.ApplicationModel;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -30,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
     [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
     public partial class MasterDetailsView : ItemsControl
@@ -41,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
-        private const string HasSelectionState = "HasSelection";
+        private const string HasSelectionNarrowState = "HasSelectionNarrow";
+        private const string HasSelectionWideState = "HasSelectionWide";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
@@ -86,10 +85,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
@@ -101,7 +96,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     : view.MapDetails(view.SelectedItem);
             }
 
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            // If IsItemClickEnabled=true, we don't want the view updating automatically when it is in the Master state
+            if (!view.IsItemClickEnabled || view.ViewState != MasterDetailsViewState.Master)
+            {
+                view.UpdateView(true);
+            }
         }
 
         /// <summary>
@@ -140,12 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
-            string noSelectionState = _stateGroup.CurrentState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
-
-            UpdateViewState();
+            UpdateView(true);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -171,13 +165,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility(e.NewState);
-
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            string noSelectionState = e.NewState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
+            UpdateView(false);
         }
 
         /// <summary>
@@ -208,6 +197,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        protected void UpdateView(bool useTransitions)
+        {
+            VisualStateManager.GoToState(this, GetSelectionStateName(), useTransitions);
+
+            UpdateViewState();
+
+            SetBackButtonVisibility(_stateGroup.CurrentState);
+        }
+
+        private string GetSelectionStateName()
+        {
+            var isNarrow = _stateGroup.CurrentState == _narrowState;
+
+            if (SelectedItem == null)
+            {
+                return isNarrow ? NoSelectionNarrowState : NoSelectionWideState;
+            }
+            else
+            {
+                return isNarrow ? HasSelectionNarrowState : HasSelectionWideState;
+            }
+        }
+
         private void SetMasterHeaderVisibility()
         {
             var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
@@ -222,9 +234,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
+        /// <remarks>This should only be called after UpdateViewState has been called</remarks>
         private void SetBackButtonVisibility(VisualState currentState)
         {
-            UpdateViewState();
             if (DesignMode.DesignModeEnabled)
             {
                 return;

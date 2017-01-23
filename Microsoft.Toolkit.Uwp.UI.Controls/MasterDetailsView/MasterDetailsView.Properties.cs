@@ -43,6 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="IsItemClickEnabled"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="IsItemClickEnabled"/> dependency property.</returns>
+        public static readonly DependencyProperty IsItemClickEnabledProperty = DependencyProperty.Register(
+            nameof(IsItemClickEnabled),
+            typeof(bool),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(false));
+
+        /// <summary>
         /// Identifies the <see cref="MasterPaneBackground"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterPaneBackground"/> dependency property.</returns>
@@ -129,6 +139,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(DetailsTemplateProperty); }
             set { SetValue(DetailsTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether clicks are processed or not. If this is enabled, then <see cref="UpdateView(bool)"/>
+        /// must be called in a click handler for the master list, otherwise the details will not show in the narrow state
+        /// </summary>
+        public bool IsItemClickEnabled
+        {
+            get { return (bool)GetValue(IsItemClickEnabledProperty); }
+            set { SetValue(IsItemClickEnabledProperty, value); }
         }
 
         /// <summary>
