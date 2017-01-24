@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the Thickness dependency property
         /// </summary>
-        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register("Thickness", typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0));
+        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register("Thickness", typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialProgressBar"/> class.
@@ -124,6 +124,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Background = Application.Current.Resources[DefaultBackgroundColorBrushName] as SolidColorBrush;
 
             SizeChanged += SizeChangedHandler;
+        }
+
+        // Render outline and progress segment when thickness is changed
+        private static void ThicknessChangedHandler(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as RadialProgressBar;
+            sender.RenderAll();
         }
 
         // Render outline and progress segment when control is resized.
