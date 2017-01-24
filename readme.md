@@ -124,4 +124,4 @@ By adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/
 
 ## .NET Foundation
 
-This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org)
