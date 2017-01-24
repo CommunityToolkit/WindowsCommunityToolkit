@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class SuperscriptTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Simple()
         {
@@ -31,7 +31,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " create exponentials" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Nested()
         {
@@ -44,7 +44,7 @@ namespace UnitTests.Markdown.Parse
                             new TextRunInline { Text = "C" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_WithParentheses()
         {
@@ -57,7 +57,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "." }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_StartOfLine()
         {
@@ -68,7 +68,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "Test" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_TwoInARow()
         {
@@ -81,7 +81,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "b" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Escape()
         {
@@ -91,7 +91,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "^Test" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Negative()
         {
@@ -100,7 +100,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Using the carot sign ^ incorrectly" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Negative_WithParentheses()
         {
@@ -109,7 +109,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Using the carot sign ^ (incorrectly)" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Negative_WithParentheses_2()
         {
@@ -118,7 +118,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Using the carot sign ^(incorrectly" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Negative_WithParentheses_3()
         {

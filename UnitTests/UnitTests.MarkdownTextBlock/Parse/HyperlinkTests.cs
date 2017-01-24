@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HyperlinkTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Http()
         {
@@ -28,7 +28,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://reddit.com", Text = "http://reddit.com", LinkType = HyperlinkType.FullUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_WithSurroundingText()
         {
@@ -39,7 +39,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " fail whale" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Http_Uppercase()
         {
@@ -48,7 +48,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "HTTP://reddit.com", Text = "HTTP://reddit.com", LinkType = HyperlinkType.FullUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Http_Inline()
         {
@@ -61,7 +61,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = ", don't you think?" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Https()
         {
@@ -71,7 +71,7 @@ namespace UnitTests.Markdown.Parse
         }
 
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_DomainOnly()
         {
@@ -80,7 +80,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://www.reddit.com", Text = "www.reddit.com", LinkType = HyperlinkType.PartialUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Mailto()
         {
@@ -89,7 +89,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "mailto:bob@bob.com", Text = "bob@bob.com", LinkType = HyperlinkType.Email }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_MailtoLocalPart()
         {
@@ -173,7 +173,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:.ab@test.com", Text = ".ab@test.com", LinkType = HyperlinkType.Email }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_MailtoHostPart()
         {
@@ -257,7 +257,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@.ab.com", Text = "abc@.ab.com", LinkType = HyperlinkType.Email }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_MailtoWithBold()
         {
@@ -269,7 +269,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "m" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_AngleBrackets()
         {
@@ -278,7 +278,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://reddit.com", Text = "http://reddit.com", LinkType = HyperlinkType.BracketedUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_AngleBracketsNoNeedForDot()
         {
@@ -287,7 +287,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://reddit", Text = "http://reddit", LinkType = HyperlinkType.BracketedUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_AngleBracketsCanEndWithPunctuation()
         {
@@ -296,7 +296,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://reddit.com.", Text = "http://reddit.com.", LinkType = HyperlinkType.BracketedUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_AngleBracketsCantHaveSpaces()
         {
@@ -307,7 +307,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " >" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_StartCharacters()
         {
@@ -317,7 +317,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Url = "http://reddit.com", Text = "http://reddit.com", LinkType = HyperlinkType.FullUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_EndCharacters()
         {
@@ -428,7 +428,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "http://reddit.com,a", Text = "http://reddit.com,a", LinkType = HyperlinkType.FullUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_OtherSchemes()
         {
@@ -458,7 +458,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "ssh://test.com", Text = "ssh://test.com", LinkType = HyperlinkType.FullUrl }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_SurroundingText()
         {
@@ -467,7 +467,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "thttp://reddit.com" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_SchemeOnly()
         {
@@ -476,7 +476,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "http:" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_PrefixOnly()
         {
@@ -485,7 +485,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "http://" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_NoDot()
         {
@@ -494,7 +494,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "http://localhost" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_DotTooSoon()
         {
@@ -503,7 +503,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "http://.com" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_AngleBracketsPrefixOnly()
         {
@@ -512,7 +512,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "<http://>" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_MailtoNeedsADot()
         {
@@ -521,7 +521,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "bob@bob" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_AngleBracketDomainOnly()
         {
@@ -530,7 +530,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "<www.reddit.com>" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_WwwMustBeLowercase()
         {
@@ -539,7 +539,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "WWW.reddit.com" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_WithSlash()
         {
@@ -548,7 +548,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/r/subreddit", Url = "/r/subreddit", LinkType = HyperlinkType.Subreddit }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_WithoutSlash()
         {
@@ -557,7 +557,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "r/subreddit", Url = "/r/subreddit", LinkType = HyperlinkType.Subreddit }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Short()
         {
@@ -567,7 +567,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/r/ab", Url = "/r/ab", LinkType = HyperlinkType.Subreddit }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_WithBeginningEscape()
         {
@@ -576,7 +576,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "/r/subreddit" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_WithMiddleEscape()
         {
@@ -585,7 +585,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "r/subreddit" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_EndCharacters()
         {
@@ -696,7 +696,10 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new HyperlinkInline { Text = "/r/news0", Url = "/r/news0", LinkType = HyperlinkType.Subreddit }));
         }
 
-        [UITestMethod]
+        // This test is ignored because it test the true markdown standard, while currently this parser
+        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        [Ignore]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_PlusCharacter()
         {
@@ -730,7 +733,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "/r/ab+" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_WithPath()
         {
@@ -741,7 +744,7 @@ namespace UnitTests.Markdown.Parse
 
         
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Negative_SurroundingText()
         {
@@ -750,7 +753,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "bear/subreddit" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Negative_PrefixOnly()
         {
@@ -759,7 +762,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "r/" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Negative_UppercaseWithoutSlash()
         {
@@ -768,7 +771,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "R/baconit" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Negative_UppercaseWithSlash()
         {
@@ -777,7 +780,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "/R/baconit" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void SubredditLink_Negative_TooShort()
         {
@@ -787,7 +790,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "r/a" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_WithSlash()
         {
@@ -796,7 +799,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/u/quinbd", Url = "/u/quinbd", LinkType = HyperlinkType.User }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_WithoutSlash()
         {
@@ -805,7 +808,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "u/quinbd", Url = "/u/quinbd", LinkType = HyperlinkType.User }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_Short()
         {
@@ -815,7 +818,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/u/u", Url = "/u/u", LinkType = HyperlinkType.User }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_WithPath()
         {
@@ -824,7 +827,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/u/quinbd/blah", Url = "/u/quinbd/blah", LinkType = HyperlinkType.User }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_Negative_PrefixOnly()
         {
@@ -833,7 +836,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "u/" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_Negative_UppercaseWithoutSlash()
         {
@@ -842,7 +845,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "U/quinbd" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void UserLink_Negative_UppercaseWithSlash()
         {

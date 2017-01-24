@@ -20,7 +20,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class TableTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Simple()
         {
@@ -49,7 +49,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Chow" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_WithAlignment()
         {
@@ -86,7 +86,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "center" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Dividers()
         {
@@ -114,7 +114,7 @@ namespace UnitTests.Markdown.Parse
                             new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "C1" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Minimal_1()
         {
@@ -132,7 +132,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "c" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Minimal_2()
         {
@@ -150,7 +150,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "c" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Minimal_3()
         {
@@ -170,7 +170,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Minimal_4()
         {
@@ -190,7 +190,7 @@ namespace UnitTests.Markdown.Parse
                         new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "b" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_PrematureEnding()
         {
@@ -216,7 +216,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "test" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Negative_NewParagraph()
         {
@@ -231,7 +231,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before | Column 1 | Column 2 | Column 3 | |----------|----------|----------| | A        | B        | C        | after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Negative_TooFewDividers()
         {
@@ -244,7 +244,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Column A | Column B | Column C -|- A1 | B1 | C1" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Negative_MissingDashes()
         {

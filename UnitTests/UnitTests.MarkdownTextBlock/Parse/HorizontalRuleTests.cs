@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HorizontalRuleTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Simple()
         {
@@ -27,7 +27,7 @@ namespace UnitTests.Markdown.Parse
                 new HorizontalRuleBlock());
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_StarsAndSpaces()
         {
@@ -35,7 +35,7 @@ namespace UnitTests.Markdown.Parse
                 new HorizontalRuleBlock());
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Alt()
         {
@@ -43,7 +43,7 @@ namespace UnitTests.Markdown.Parse
                 new HorizontalRuleBlock());
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Alt_BeforeAfter()
         {
@@ -59,7 +59,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Alt2()
         {
@@ -74,7 +74,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_BeforeAfter()
         {
@@ -90,7 +90,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Negative()
         {
@@ -103,7 +103,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before ****d after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Negative_FourStars()
         {

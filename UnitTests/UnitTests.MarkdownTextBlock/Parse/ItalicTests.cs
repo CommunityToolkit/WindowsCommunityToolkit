@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class ItalicTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Simple()
         {
@@ -29,7 +29,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "italic" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Simple_Alt()
         {
@@ -39,7 +39,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "italic" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Inline()
         {
@@ -51,7 +51,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Inline_Alt()
         {
@@ -63,7 +63,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Inside_Word()
         {
@@ -75,7 +75,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_MultiLine()
         {
@@ -89,7 +89,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " across line breaks" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Escape()
         {
@@ -98,7 +98,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "*escape the formatting syntax*" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Negative_1()
         {
@@ -107,7 +107,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before* middle *end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Negative_2()
         {
@@ -116,7 +116,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before* middle*end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Negative_3()
         {
@@ -126,7 +126,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "This is *not italics * text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Negative_MultiParagraph()
         {
@@ -141,7 +141,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "apply* across paragraphs" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Italic_Negative_CannotBeEmpty()
         {

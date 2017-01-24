@@ -21,7 +21,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class ListTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_SingleLine()
         {
@@ -30,7 +30,7 @@ namespace UnitTests.Markdown.Parse
                     new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Simple()
         {
@@ -52,7 +52,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_BlankLineIsOkay()
         {
@@ -65,7 +65,7 @@ namespace UnitTests.Markdown.Parse
                     new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_WithBlocks()
         {
@@ -85,7 +85,7 @@ namespace UnitTests.Markdown.Parse
                         new HorizontalRuleBlock())));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_Simple()
         {
@@ -101,7 +101,7 @@ namespace UnitTests.Markdown.Parse
                     new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_Complex()
         {
@@ -131,7 +131,7 @@ namespace UnitTests.Markdown.Parse
                                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "text" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_MinSpace()
         {
@@ -146,7 +146,7 @@ namespace UnitTests.Markdown.Parse
                             new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_MaxSpace()
         {
@@ -175,7 +175,7 @@ namespace UnitTests.Markdown.Parse
                                 new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_SpaceDifference()
         {
@@ -190,7 +190,7 @@ namespace UnitTests.Markdown.Parse
                             new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_Combo()
         {
@@ -284,7 +284,7 @@ namespace UnitTests.Markdown.Parse
                             new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "4" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Nested_Paragraph()
         {
@@ -316,7 +316,10 @@ namespace UnitTests.Markdown.Parse
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = " 4" }))));
         }
 
-        [UITestMethod]
+        // This test is ignored because it test the true markdown standard, while currently this parser
+        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        [Ignore]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_NestedLists()
         {
@@ -359,7 +362,7 @@ namespace UnitTests.Markdown.Parse
                                     new TextRunInline { Text = "Bullet 2 in list item 2" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Negative_SpaceRequired()
         {
@@ -369,7 +372,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "-List" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Negative_NewParagraph()
         {
@@ -382,7 +385,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before * List after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_Negative_TooMuchSpaceToBeNested()
         {
@@ -410,7 +413,7 @@ namespace UnitTests.Markdown.Parse
                                     new TextRunInline { Text = "b * c" }))))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void NumberedList_SingleLine()
         {
@@ -419,7 +422,7 @@ namespace UnitTests.Markdown.Parse
                     new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }) } }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void NumberedList_Numbering()
         {
@@ -434,7 +437,7 @@ namespace UnitTests.Markdown.Parse
                     new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }) } }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void NumberedList_Negative_SpaceRequired()
         {
@@ -443,7 +446,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = "1.List" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void NumberedList_Negative_NoLetters()
         {

@@ -21,7 +21,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HeaderTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1()
         {
@@ -30,7 +30,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 1" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1_Alt()
         {
@@ -41,7 +41,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 1" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1_Alt_WithHashes()
         {
@@ -52,7 +52,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 1##" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_2()
         {
@@ -61,7 +61,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_2_Alt()
         {
@@ -73,7 +73,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_3()
         {
@@ -82,7 +82,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 3" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_4()
         {
@@ -91,7 +91,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 4" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_5()
         {
@@ -100,7 +100,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 5" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_6()
         {
@@ -109,7 +109,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 6" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_6_WithTrailingHashSymbols()
         {
@@ -118,7 +118,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " Header 6 " }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_7()
         {
@@ -127,7 +127,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "#Header 6" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1_Empty()
         {
@@ -135,7 +135,7 @@ namespace UnitTests.Markdown.Parse
                 new HeaderBlock { HeaderLevel = 1, Inlines = new List<MarkdownInline>() });
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_Hashes()
         {
@@ -144,7 +144,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " # # " }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_6_Empty()
         {
@@ -152,7 +152,7 @@ namespace UnitTests.Markdown.Parse
                 new HeaderBlock { HeaderLevel = 6, Inlines = new List<MarkdownInline>() });
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1_Inline()
         {
@@ -168,7 +168,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_Negative_RogueCharacter()
         {
@@ -180,7 +180,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Header 1 =f" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_Negative_ExtraSpace()
         {

@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class CodeTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline()
         {
@@ -30,7 +30,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " lol" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_Boundary()
         {
@@ -41,7 +41,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_Formatting()
         {
@@ -52,7 +52,7 @@ namespace UnitTests.Markdown.Parse
                     new CodeInline { Text = "ignored **formatting** inside code" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_EscapedStartChar()
         {
@@ -61,7 +61,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "Here is some `escaped code`" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_WhiteSpace()
         {
@@ -72,7 +72,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "    with spaces" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_InnerEscapeSequence()
         {
@@ -81,7 +81,7 @@ namespace UnitTests.Markdown.Parse
                     new CodeInline { Text = @"one\\two" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_AlternateSyntax()
         {
@@ -90,7 +90,7 @@ namespace UnitTests.Markdown.Parse
                     new CodeInline { Text = @"There is a literal backtick (`) here." }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline_Negative_CannotBeEmpty()
         {
@@ -99,7 +99,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "before ``` after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block()
         {
@@ -119,7 +119,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_LeadingSpace()
         {
@@ -128,7 +128,7 @@ namespace UnitTests.Markdown.Parse
                 new CodeBlock { Text = "  2 leading spaces" });
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WinsOverQuote()
         {
@@ -137,7 +137,7 @@ namespace UnitTests.Markdown.Parse
                 new CodeBlock { Text = ">not quoted" });
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_With_Indent()
         {
@@ -157,7 +157,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WithTabs()
         {
@@ -179,7 +179,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WithLeadingBlankLine()
         {
@@ -198,7 +198,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WithTrailingBlankLine()
         {
@@ -217,7 +217,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "after" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_Negative()
         {

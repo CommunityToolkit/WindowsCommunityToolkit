@@ -20,14 +20,14 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class ParagraphTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_Empty()
         {
             AssertEqual("", new MarkdownBlock[0]);
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_NoLineBreak()
         {
@@ -39,7 +39,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "line 1 line 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_NoLineBreak_OneSpace()
         {
@@ -51,7 +51,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "line 1  line 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_LineBreak()
         {
@@ -66,7 +66,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "italic\r\nformatting" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_LineBreak_ThreeSpaces()
         {
@@ -78,7 +78,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "line 1 \r\nline 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_NewParagraph()
         {
@@ -93,7 +93,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "line 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_NewParagraph_Whitespace()
         {
@@ -108,7 +108,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "line 2" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_NoSpaceCompression()
         {
@@ -118,7 +118,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "one      two" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_TextEscaping()
         {
@@ -127,7 +127,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = @"~`!\@#\$\%^&*()_+-\={}|[]\:\""\;\'<>\?\,./\a\A\1" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Paragraph_Entities()
         {

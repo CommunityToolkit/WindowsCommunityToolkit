@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class StrikethroughTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Simple()
         {
@@ -29,7 +29,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "strike" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Inline()
         {
@@ -41,7 +41,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = " text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Negative_1()
         {
@@ -50,7 +50,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "~~ strike~~" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Negative_2()
         {
@@ -59,7 +59,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "~~strike ~~" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Negative_CannotBeEmpty()
         {
@@ -68,7 +68,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "~~~~" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Escape_1()
         {
@@ -77,7 +77,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "~~strike~~" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Strikethrough_Escape_2()
         {

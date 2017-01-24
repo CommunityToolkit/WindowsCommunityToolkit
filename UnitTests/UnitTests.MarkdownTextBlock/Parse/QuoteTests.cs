@@ -20,7 +20,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class QuoteTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_SingleLine()
         {
@@ -30,7 +30,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "Quoted text" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_MultiLine_1()
         {
@@ -56,7 +56,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "normal text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_MultiLine_Simple()
         {
@@ -72,7 +72,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "Quoted Quoted, line 2 after" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_WithHeader()
         {
@@ -96,7 +96,7 @@ namespace UnitTests.Markdown.Parse
                     new CodeBlock { Text = "code" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_Nested()
         {
@@ -116,7 +116,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "Not nested" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_WithTable()
         {
@@ -167,7 +167,7 @@ namespace UnitTests.Markdown.Parse
                             new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "2" })))));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_Invalid_Table()
         {
@@ -178,7 +178,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "a|b" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_WithCode()
         {
@@ -192,7 +192,7 @@ namespace UnitTests.Markdown.Parse
                     new CodeBlock {  Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_WithList()
         {

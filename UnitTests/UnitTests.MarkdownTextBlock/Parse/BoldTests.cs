@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class BoldTests : ParseTestBase
     {
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Simple()
         {
@@ -28,7 +28,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "bold" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Simple_Alt()
         {
@@ -37,7 +37,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "bold" })));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Inline()
         {
@@ -48,7 +48,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = " text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Inline_Alt()
         {
@@ -59,7 +59,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = " text" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Inside_Word()
         {
@@ -70,7 +70,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = "end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Negative_1()
         {
@@ -78,7 +78,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = "before** middle **end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Negative_2()
         {
@@ -86,7 +86,7 @@ namespace UnitTests.Markdown.Parse
                 new TextRunInline { Text = "before** middle**end" }));
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Negative_CannotBeEmpty()
         {
