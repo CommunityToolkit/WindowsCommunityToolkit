@@ -23,78 +23,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class ParallaxService
     {
         /// <summary>
-        /// Identifies the ScrollingElement attached dependency property.
+        /// Identifies the ParallaxService.ScrollingElement XAML attached property.
         /// </summary>
         public static readonly DependencyProperty ScrollingElementProperty = DependencyProperty.RegisterAttached("ScrollingElement", typeof(FrameworkElement), typeof(ParallaxService), new PropertyMetadata(null, OnScrollingElementChanged));
 
         /// <summary>
-        /// Identifies the VerticalMultiplier attached dependency property.
+        /// Identifies the ParallaxService.VerticalMultiplier XAML attached property.
         /// </summary>
         public static readonly DependencyProperty VerticalMultiplierProperty = DependencyProperty.RegisterAttached("VerticalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
 
         /// <summary>
-        /// Identifies the HorizontalMultiplier attached dependency property.
+        /// Identifies the ParallaxService.HorizontalMultiplier attached property.
         /// </summary>
         public static readonly DependencyProperty HorizontalMultiplierProperty = DependencyProperty.RegisterAttached("HorizontalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
 
         /// <summary>
-        /// Gets an object that is, or contains, a ScrollViewer
+        /// Gets the ParallaxService.ScrollingElementattached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to get the ScrollViewer from.</param>
+        /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A <see cref="FrameworkElement"/> that is, or contains a ScrollViewer.</returns>
-        public static FrameworkElement GetScrollingElement(DependencyObject obj)
+        public static FrameworkElement GetScrollingElement(DependencyObject element)
         {
-            return (FrameworkElement)obj.GetValue(ScrollingElementProperty);
+            return (FrameworkElement)element.GetValue(ScrollingElementProperty);
         }
 
         /// <summary>
-        /// Sets the element that is, or contains, a ScrollerViewer.
+        /// Sets the ParallaxService.ScrollingElementattached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to set the value on.</param>
+        /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The element that is, or contains a ScrollViewer.</param>
-        public static void SetScrollingElement(DependencyObject obj, FrameworkElement value)
+        public static void SetScrollingElement(DependencyObject element, FrameworkElement value)
         {
-            obj.SetValue(ScrollingElementProperty, value);
+            element.SetValue(ScrollingElementProperty, value);
         }
 
         /// <summary>
-        /// Gets a value for how fast the parallax effect should scroll vertically.
+        /// Gets the ParallaxService.VerticalMultiplier attached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to get the value from.</param>
+        /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        public static double GetVerticalMultiplier(DependencyObject obj)
+        public static double GetVerticalMultiplier(DependencyObject element)
         {
-            return (double)obj.GetValue(VerticalMultiplierProperty);
+            return (double)element.GetValue(VerticalMultiplierProperty);
         }
 
         /// <summary>
-        /// Sets the value for how fast the parallax effect should scroll vertically.
+        /// Sets the ParallaxService.VerticalMultiplier attached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to set the value on.</param>
+        /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll vertically.</param>
-        public static void SetVerticalMultiplier(DependencyObject obj, double value)
+        public static void SetVerticalMultiplier(DependencyObject element, double value)
         {
-            obj.SetValue(VerticalMultiplierProperty, value);
+            element.SetValue(VerticalMultiplierProperty, value);
         }
 
         /// <summary>
-        /// Gets a value for how fast the parallax effect should scroll vertically.
+        /// Gets the ParallaxService.HorizontalMultiplier attached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to get the value from.</param>
+        /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        public static double GetHorizontalMultiplier(DependencyObject obj)
+        public static double GetHorizontalMultiplier(DependencyObject element)
         {
-            return (double)obj.GetValue(HorizontalMultiplierProperty);
+            return (double)element.GetValue(HorizontalMultiplierProperty);
         }
 
         /// <summary>
-        /// Sets the value for how fast the parallax effect should scroll horizontally.
+        /// Sets the ParallaxService.HorizontalMultiplier attached property value for the specified target element.
         /// </summary>
-        /// <param name="obj">The object to set the value on.</param>
+        /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll horizontally.</param>
-        public static void SetHorizontalMultiplier(DependencyObject obj, double value)
+        public static void SetHorizontalMultiplier(DependencyObject element, double value)
         {
-            obj.SetValue(HorizontalMultiplierProperty, value);
+            element.SetValue(HorizontalMultiplierProperty, value);
         }
 
         private static void OnScrollingElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
