@@ -119,10 +119,8 @@
                                               OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
                                               ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
                                               Color="Black">
-                        <controls:DropShadowPanel.CastingElement>
                             <Image Source="Trex.png"
                                    Stretch="Uniform" />
-                        </controls:DropShadowPanel.CastingElement>
                     </controls:DropShadowPanel>
                 </StackPanel>
             </StackPanel>
