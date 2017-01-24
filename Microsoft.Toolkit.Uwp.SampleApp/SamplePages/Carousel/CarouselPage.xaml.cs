@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml.Media;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -36,62 +37,87 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void CarouselItem_ItemGotCarouselFocus(object sender, System.EventArgs e)
+        //private void CarouselItem_ItemGotCarouselFocus(object sender, System.EventArgs e)
+        //{
+        //    var item = sender as CarouselItem;
+        //    var centerX = item.ActualWidth / 2;
+        //    var centerY = item.ActualHeight / 2;
+
+        //    item.Projection = new PlaneProjection()
+        //    {
+        //        CenterOfRotationY = 0.5
+        //    };
+
+        //    var projection = item.Projection as PlaneProjection;
+
+        //    projection.RotationY = 0;
+
+        //}
+
+        //private void CarouselItem_ItemLostCarouselFocus(object sender, System.EventArgs e)
+        //{
+        //    var item = sender as CarouselItem;
+        //    var centerX = item.ActualWidth / 2;
+        //    var centerY = item.ActualHeight / 2;
+
+        //    if (item.Projection == null)
+        //    {
+        //        item.Projection = new PlaneProjection()
+        //        {
+        //            CenterOfRotationY = 0.5
+        //        };
+        //    }
+
+        //    var projection = item.Projection as PlaneProjection;
+
+        //    projection.RotationY = item.CarouselItemLocation > 0 ? -40 : 40;
+        //}
+
+        //private void CarouselItem_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        //{
+        //    var item = sender as CarouselItem;
+        //    var centerX = item.ActualWidth / 2;
+        //    var centerY = item.ActualHeight / 2;
+
+        //    if (item.Projection == null)
+        //    {
+        //        item.Projection = new PlaneProjection()
+        //        {
+        //            CenterOfRotationY = 0.5
+        //        };
+        //    }
+
+        //    var projection = item.Projection as PlaneProjection;
+        //    var rotation = item.CarouselItemLocation * -1 * 10;
+        //    if (rotation > 70) rotation = 70;
+        //    if (rotation < -70) rotation = -70;
+
+        //    projection.RotationY = rotation;
+        //}
+
+        private void CarouselItem_CarouselItemLocationChanged(object sender, CarouselItemLocationChangedEventArgs e)
         {
             var item = sender as CarouselItem;
-            var centerX = item.ActualWidth / 2;
-            var centerY = item.ActualHeight / 2;
+            float centerX = (float)item.ActualWidth / 2;
+            float centerY = (float)item.ActualHeight / 2;
 
-            item.Projection = new PlaneProjection()
-            {
-                CenterOfRotationY = 0.5
-            };
+            //item.Projection = new PlaneProjection()
+            //{
+            //    CenterOfRotationY = 0.5
+            //};
 
-            var projection = item.Projection as PlaneProjection;
+            //var projection = item.Projection as PlaneProjection;
+            //var rotation = item.CarouselItemLocation * -1 * 20;
+            //if (rotation > 70) rotation = 70;
+            //if (rotation < -70) rotation = -70;
 
-            projection.RotationY = 0;
+            //projection.RotationY = rotation;
 
-        }
+            //float scale = 1 - Math.Abs(item.CarouselItemLocation) * 0.1f;
 
-        private void CarouselItem_ItemLostCarouselFocus(object sender, System.EventArgs e)
-        {
-            var item = sender as CarouselItem;
-            var centerX = item.ActualWidth / 2;
-            var centerY = item.ActualHeight / 2;
+            //item.Scale(scale, scale, centerX, centerY, 200).Start();
 
-            if (item.Projection == null)
-            {
-                item.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationY = 0.5
-                };
-            }
-
-            var projection = item.Projection as PlaneProjection;
-
-            projection.RotationY = item.DistanceFromFocusedCarouselItem > 0 ? -40 : 40;
-        }
-
-        private void CarouselItem_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            var item = sender as CarouselItem;
-            var centerX = item.ActualWidth / 2;
-            var centerY = item.ActualHeight / 2;
-
-            if (item.Projection == null)
-            {
-                item.Projection = new PlaneProjection()
-                {
-                    CenterOfRotationY = 0.5
-                };
-            }
-
-            var projection = item.Projection as PlaneProjection;
-            var rotation = item.DistanceFromFocusedCarouselItem * -1 * 10;
-            if (rotation > 70) rotation = 70;
-            if (rotation < -70) rotation = -70;
-
-            projection.RotationY = rotation;
+            item.Rotate(item.CarouselItemLocation * 10f, centerX, centerY, 200).Start();
         }
     }
 }

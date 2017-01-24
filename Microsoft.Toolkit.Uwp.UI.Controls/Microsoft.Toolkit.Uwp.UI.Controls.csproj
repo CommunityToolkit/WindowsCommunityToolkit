@@ -56,6 +56,7 @@
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselItem.cs" />
     <Compile Include="Carousel\CarouselItemInvokedEventArgs.cs" />
+    <Compile Include="Carousel\CarouselItemLocationChangedEventArgs.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />

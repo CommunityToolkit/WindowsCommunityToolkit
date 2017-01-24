@@ -15,14 +15,15 @@
                            Orientation="{Binding DataContext.Orientation.Value, ElementName=Root, Mode=OneWay}">
             <controls:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="data:PhotoDataItem">
-                    <controls:CarouselItem ItemGotCarouselFocus="CarouselItem_ItemGotCarouselFocus"
-                                           ItemLostCarouselFocus="CarouselItem_ItemLostCarouselFocus"
-                                           Loaded="CarouselItem_Loaded"
+                    <controls:CarouselItem CarouselItemLocationChanged="CarouselItem_CarouselItemLocationChanged"
                                            IsActionable="True"
-                                           AnimateFocus="False">
+                                           AnimateFocus="False"
+                                           Height="200" Width="200" Background="Gray">
                         <StackPanel>
-                            <Image Source="{x:Bind Thumbnail}" Width="200"></Image>
-                            <TextBlock Text="{x:Bind Title}" Margin="10" HorizontalAlignment="Center" Foreground="Pink" FontSize="18"></TextBlock>
+                            <Image Source="{x:Bind Thumbnail}" Width="200" Height="180" Stretch="UniformToFill"></Image>
+                            <Border Background="DarkGray">
+                                <TextBlock Text="{x:Bind Title}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="18"></TextBlock>
+                            </Border>
                         </StackPanel>
                     </controls:CarouselItem>
                 </DataTemplate>

@@ -7,14 +7,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public sealed class CarouselItem : ContentControl
     {
-        public int DistanceFromFocusedCarouselItem { get; internal set; }
+        public event EventHandler CarouselItemCentered;
 
-        public static readonly DependencyProperty IsInCarouselFocusProperty =
-            DependencyProperty.Register("IsInFocus", typeof(bool), typeof(CarouselItem), new PropertyMetadata(false));
+        public event EventHandler CarouselItemNotCentered;
 
-        public event EventHandler ItemGotCarouselFocus;
-
-        public event EventHandler ItemLostCarouselFocus;
+        public event EventHandler<CarouselItemLocationChangedEventArgs> CarouselItemLocationChanged;
 
         public CarouselItem()
         {
@@ -40,16 +37,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AnimateFocusProperty =
             DependencyProperty.Register("AnimateFocus", typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
 
-        public bool IsInFocus
+        private bool _isCentered = false;
+
+        public bool IsCentered
         {
             get
             {
-                return (bool)GetValue(IsInCarouselFocusProperty);
+                return _isCentered;
             }
 
             internal set
             {
-                if (value == IsInFocus)
+                if (value == IsCentered)
                 {
                     return;
                 }
@@ -62,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     ElementSoundPlayer.Play(ElementSoundKind.Focus);
-                    ItemGotCarouselFocus?.Invoke(this, null);
+                    CarouselItemCentered?.Invoke(this, null);
                 }
                 else
                 {
@@ -71,10 +70,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         this.Scale(1, 1, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
                     }
 
-                    ItemLostCarouselFocus?.Invoke(this, null);
+                    CarouselItemNotCentered?.Invoke(this, null);
                 }
 
-                SetValue(IsInCarouselFocusProperty, value);
+                _isCentered = value;
+            }
+        }
+
+        private int _carouselItemLocation;
+
+        public int CarouselItemLocation
+        {
+            get
+            {
+                return _carouselItemLocation;
+            }
+
+            internal set
+            {
+                if (_carouselItemLocation == value)
+                {
+                    return;
+                }
+
+                var eventArgs = new CarouselItemLocationChangedEventArgs()
+                {
+                    OldValue = _carouselItemLocation,
+                    NewValue = value
+                };
+
+                _carouselItemLocation = value;
+                CarouselItemLocationChanged?.Invoke(this, eventArgs);
             }
         }
     }
