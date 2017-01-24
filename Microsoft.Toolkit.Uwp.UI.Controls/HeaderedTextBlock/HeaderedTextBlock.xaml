@@ -1,9 +1,9 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style x:Key="HeaderedTextBlockTextStyle" TargetType="TextBlock">
+    <Style x:Key="HeaderedTextBlockTextStyle"
+           TargetType="TextBlock">
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}" />
@@ -24,11 +24,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedTextBlock">
-                    <StackPanel x:Name="Panel" Orientation="{TemplateBinding Orientation}">
+                    <StackPanel x:Name="Panel"
+                                Orientation="{TemplateBinding Orientation}">
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                                          Grid.ColumnSpan="4"
+                                          x:DeferLoadStrategy="Lazy"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          AutomationProperties.Name="Header content"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                          IsHitTestVisible="False"
+                                          Visibility="Collapsed" />
+
+                        <TextBlock x:Name="TextContent"
+                                   AutomationProperties.Name="Text content"
+                                   Style="{TemplateBinding TextStyle}"
+                                   Text="{TemplateBinding Text}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="Vertical">
-                                </VisualState>
+                                <VisualState x:Name="Vertical" />
                                 <VisualState x:Name="Horizontal">
                                     <VisualState.Setters>
                                         <Setter Target="TextContent.Margin" Value="10,0,0,0" />
@@ -36,22 +51,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <ContentPresenter x:Name="HeaderContentPresenter"
-                            AutomationProperties.Name="Header content"
-                            x:DeferLoadStrategy="Lazy"
-                            Visibility="Collapsed"
-                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                            Grid.ColumnSpan="4"
-                            Content="{TemplateBinding Header}"
-                            ContentTemplate="{TemplateBinding HeaderTemplate}"
-                            IsHitTestVisible="False"
-                            AutomationProperties.AccessibilityView="Raw" />
-
-                        <TextBlock x:Name="TextContent" 
-                                   AutomationProperties.Name="Text content"
-                                   Text="{TemplateBinding Text}" 
-                                   Style="{TemplateBinding TextStyle}" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

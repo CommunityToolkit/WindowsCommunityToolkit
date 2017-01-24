@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -34,12 +35,17 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static ImageCache Instance => _instance ?? (_instance = new ImageCache() { MaintainContext = true });
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
-        /// <param name="stream">inpupt stream</param>
+        /// <param name="stream">input stream</param>
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
         {
+            if (stream.Size == 0)
+            {
+                throw new FileNotFoundException();
+            }
+
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
 
@@ -47,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
         /// <returns>awaitable task</returns>

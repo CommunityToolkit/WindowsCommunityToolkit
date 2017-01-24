@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="38743DXFrance.DemoOneDriveService" Publisher="CN=2E6EA18B-98A3-4E2A-A252-0E9A8E19C49D" Version="1.1.0.0" />
+  <Identity Name="52b9212c-97a9-4639-9426-3e1ea9c1569e" Publisher="CN=davca" Version="1.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="52b9212c-97a9-4639-9426-3e1ea9c1569e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>DemoOneDriveService</DisplayName>
-    <PublisherDisplayName>DX France</PublisherDisplayName>
+    <DisplayName>Microsoft.Toolkit.Uwp.SampleApp</DisplayName>
+    <PublisherDisplayName>davca</PublisherDisplayName>
     <Logo>Assets\UWPCommunityToolkitSampleAppStoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -26,9 +26,17 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\UWPCommunityToolkitSampleAppSplashScreen.png" BackgroundColor="#242424" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="uwpct">
+            <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="location" />
   </Capabilities>
 </Package>

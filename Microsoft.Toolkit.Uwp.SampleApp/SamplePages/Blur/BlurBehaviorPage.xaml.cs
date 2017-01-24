@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the offset behavior.
+    /// A page that shows how to use the blur behavior.
     /// </summary>
     public sealed partial class BlurBehaviorPage
     {
