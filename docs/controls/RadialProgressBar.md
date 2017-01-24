@@ -1,11 +1,10 @@
 # RadialProgressBar XAML Control
 
-The **Radial Gauge Control** displays a value in a certain range using a needle on a circular face. This control will make data visualizations and dashboards more engaging with rich style and interactivity. 
-The round gauges are powerful, easy to use, and highly configurable to present dashboards capable of displaying clocks, industrial panels, automotive dashboards, and even aircraft cockpits.
+The **Radial Progress Bar Control** displays a value in a certain range using a cicular sector that grows clockwise until it becomes a full ring.
 
 ## How it works
 
-The Radial Gauge supports animated transitions between configuration states. The control gradually animates as it redraws changes to the needle, needle position, scale range, color range, and more. 
+The control uses the same dependency properties as the standard Progress Bar, with the addition of a configurable Thickness parameter, which sets the hickness of the circular sector and the outline it's drawn on.
 
 ## Syntax
 
@@ -22,7 +21,7 @@ The Radial Gauge supports animated transitions between configuration states. The
 
 ## Example Image
 
-![RadialProgressBar animation](../resources/images/Controls-RadialProgressBar.gif "RadialProgressBar")
+![RadialProgressBar image](../resources/images/Controls-RadialProgressBar.gif "RadialProgressBar")
 
 ## Example Code
 
