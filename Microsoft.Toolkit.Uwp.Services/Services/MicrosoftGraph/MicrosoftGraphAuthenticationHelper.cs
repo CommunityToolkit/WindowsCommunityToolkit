@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private const string Authority = "https://login.microsoftonline.com/common/";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
-        private const string DefaultRedirectUri = "http://localhost:8000";
+        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
         private const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
         private const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";

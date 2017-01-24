@@ -48,19 +48,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             get { return _message; }
         }
 
-        ///// <summary>
-        ///// MicrosoftGraphServiceDrive instance
-        ///// </summary>
-        private MicrosoftGraphOneDriveService _oneDrive;
-
-        /// <summary>
-        /// Gets MicrosoftGraphServiceMessage instance
-        /// </summary>
-        public MicrosoftGraphOneDriveService OneDrive
-        {
-            get { return _oneDrive; }
-        }
-
         /// <summary>
         /// Retrieve current connected user's data.
         /// <para>Permission Scopes:
@@ -140,14 +127,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         internal void InitializeMessage()
         {
             _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
-        }
-
-        /// <summary>
-        /// Create an instance of MicrosoftGraphServiceMessage
-        /// </summary>
-        internal void InitializeDrive()
-        {
-            _oneDrive = new MicrosoftGraphOneDriveService(_graphProvider);
         }
     }
 }

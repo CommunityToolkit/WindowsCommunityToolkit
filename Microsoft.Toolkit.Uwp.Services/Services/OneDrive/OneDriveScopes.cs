@@ -10,45 +10,43 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    ///  RootParentReference class
+    /// Specifies what type of access the app is granted
     /// </summary>
-    public class OneDriveParentReference
+    [Flags]
+    public enum OneDriveScopes
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneDriveParentReference"/> class.
+        /// Authentication Provider does not use scopes (.ie ADAL)
         /// </summary>
-        public OneDriveParentReference()
-        {
-            Parent = new Parent();
-        }
+        None = 0x00,
 
         /// <summary>
-        /// Gets or sets the reference to the parent's item
+        /// Allow to get a refresh token
         /// </summary>
-        [JsonProperty("parentReference")]
-        public Parent Parent { get; set; }
+        OfflineAccess = 0x01,
 
         /// <summary>
-        /// Gets or sets the item's name
+        /// Grants read-only permission
         /// </summary>
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
+        ReadOnly = 0x02,
 
-    /// <summary>
-    /// Parente class
-    /// </summary>
-    public class Parent
-    {
         /// <summary>
-        /// Gets or sets parent path
+        /// Grants read/write permission
         /// </summary>
-        [JsonProperty("path")]
-        public string Path { get; set; }
+        ReadWrite = 0x03,
+
+        /// <summary>
+        /// Grants read/write permission to a specific folder for your application
+        /// </summary>
+        AppFolder = 0x04
     }
 }

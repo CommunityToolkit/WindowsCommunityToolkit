@@ -10,26 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
+using Newtonsoft.Json;
+
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    ///  Class ofr the OneDrive Constants
+    ///  Class OneDriveItemConflictBehavior which define
     /// </summary>
-    public class OneDriveConstants
+    public class OneDriveItemConflictBehavior
     {
         /// <summary>
-        /// Maximum file size for a simple upload
+        /// Gets or sets the item's name
         /// </summary>
-        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
+        [JsonProperty("item")]
+        public OneDriveConflictItem Item { get; set; }
+    }
 
+    /// <summary>
+    /// Class Item
+    /// </summary>
+    public class OneDriveConflictItem
+    {
         /// <summary>
-        /// Default chunk when uploading a karge file
+        /// Gets or sets the conflict resolution behavior for actions that create a new item
         /// </summary>
-        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
-
-        /// <summary>
-        /// Chunk size increment
-        /// </summary>
-        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
+        [JsonProperty("@name.conflictBehavior")]
+        public string ConflictBehavior { get; set; }
     }
 }

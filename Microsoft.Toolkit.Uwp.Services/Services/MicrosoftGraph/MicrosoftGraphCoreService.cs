@@ -202,11 +202,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 await GetUserAsyncProfile();
             }
 
-            if ((_servicesToInitialize & ServicesToInitialize.OneDrive) == ServicesToInitialize.OneDrive)
-            {
-                _user.InitializeDrive();
-            }
-
+            // if ((_servicesToInitialize & ServicesToInitialize.OneDrive) == ServicesToInitialize.OneDrive)
+            // {
+            //    _user.InitializeDrive();
+            // }
             if ((_servicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
             {
                 _user.InitializeMessage();

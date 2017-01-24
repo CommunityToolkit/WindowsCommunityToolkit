@@ -1,34 +1,42 @@
-// In order to use this service, you need to register an application using the V2 Model
-// 1) Go to: https://apps.dev.microsoft.com
-// 2) Signin with your Microsoft Account
-// 3) Add a new Application
-// 4) Copy the Application ID
-// 5) Add a platform and select mobile application
 
-// 
-// Initialize the service
-// The AuthenticationModel.V2 parameter, allows you to use, either a Microsoft Account or an Office 365 account
-// The third parameter allow to initialize the desired service (OneDrive, Message)
-// You can combine both (ServicesToInitialize.OneDrive | ServicesToInitialize.Message), in order to have access to both service 
-// The last parameters represent the various permission levels that an app can request from a user
+// OneDriveService works for OneDrive Consumer as well as OneDrive For Business (Office 365)
+//
+// Authentication 
+// In order to use the OneDriveService you need to authenticate the user and get an access token
 
-string[] scopes = new string[] { "Files.ReadWrite" };
-if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text, AuthenticationModel.V2, ServicesToInitialize.OneDrive, scopes))
-{
-    return;
-}
-// Sign in 
-if (!await MicrosoftGraphService.Instance.LoginAsync())
-{
-    return;
-}
+// OneDrive consumer you have two options:
+// 1) If the user is connected to a windows session with a Microsoft Account, the service is able to silently get an access token.
+//    For that you need to associate your application to the Store (Project->Store->Associate App With Store...)
+// 2) Or you have to register your app
+//  - go to https://dev.onedrive.com/app-registration.htm
+//  - When prompted, sign in with your Microsoft account credentials.
+//  - Scroll to the bottom of the page (Live (SDK)), and click Add App
+//  - Enter your app's name and click Create application.
+//  - Copy the Application ID
+//  - Add a platform and select mobile application
+//  - Save
 
+// OneDrive For business you need to register your app from the Azure Management Portal
+// For more information to manualy register your app see go to the following article
+// https://docs.microsoft.com/fr-fr/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
+ 
 
 // First get the root of your OneDrive
-var rootFolder=await MicrosoftGraphService.Instance.User.OneDrive.RootFolderAsync();
+// By default the service silently connect the current windows user if windows is associate with an MS Account
+var rootFolder= await OneDriveService.Instance.RootFolderAsync();
 
-//List the Items from the current folder
- var OneDriveItems = await folder.GetItemsAsync();
+// if windows is not associate with a MS Account, you need
+// 1) Initialized the service using a authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+// 2) Sign in
+if (!await OneDriveService.Instance.LoginAsync())
+{
+    throw new Exception("Unable to sign in");
+}
+
+// Once you have a reference to the Root Folder you can get a list of all items
+// List the Items from the current folder
+var OneDriveItems = await folder.GetItemsAsync();
 do
 {
 	//Get the next page of items
@@ -51,17 +59,19 @@ Var result=level3Folder.CopyAsync(destFolder)
 
 // Rename Folder
 await level3Folder.RenameAsync("NewLevel3");
+
 // Create new files
-// 1)
-var fileCreated = await subFolder.CreateFileAsync("Newfile.docx");
-// Push the content from the local file to the remote file
-await fileCreated.WriteAsync(localStream);
+var selectedFile = await OpenLocalFileAsync();
+if (selectedFile != null)
+{
+   using (var localStream = await selectedFile.OpenReadAsync())
+   {
+     var fileCreated = await level3Folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
+   }
+}
 
-// Or passing the stream directly to the method
-var fileCreated = await level3Folder.CreateFileAsync(selectedFile.Name, localStream);
-
-/For big file (>4MB) use the UploadFileAsync method instead
-var largeFileCreated = await level3Folder.UploadFileAsync(selectedFile.Name, localStream, _cancellationTokenSource.Token, 320 * 1024);
+// If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead
+var largeFileCreated = await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
 
 // You can also Move, Copy or Rename a file
 await fileCreated.MoveAsync(destFolder);
@@ -83,3 +93,4 @@ using (var remoteStream = await remoteFile.OpenAsync())
      }
  }
 
+ // At last you can get 

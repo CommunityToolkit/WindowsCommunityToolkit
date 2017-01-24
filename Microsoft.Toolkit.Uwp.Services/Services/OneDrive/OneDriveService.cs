@@ -11,10 +11,10 @@
 // ******************************************************************
 using System;
 using System.Threading.Tasks;
+using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
 using Microsoft.OneDrive.Sdk.Authentication;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -27,6 +27,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Private singleton field.
         /// </summary>
         private static OneDriveService _instance;
+
+        /// <summary>
+        /// Field to store Azure AD Application clientid
+        /// </summary>
+        private string _appClientId;
 
         /// <summary>
         /// Field for tracking initialization status.
@@ -53,11 +58,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         private AccountProviderType _accountProviderType;
 
-        // TODO : change to private after debug
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        public IOneDriveClient _oneDriveProvider;
+        private IOneDriveClient _oneDriveProvider;
 
         /// <summary>
         /// Gets public singleton property.
@@ -65,38 +69,56 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public static OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
 
         /// <summary>
-        /// Initialize OneDrive
+        /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        /// <param name="appClientId">An App Id Client get from https://apps.dev.microsoft.com/</param>
-        /// <param name="scopes">Scopes represent the various permission levels that an app can request from a user</param>
-        /// <param name="accountProviderType">Account Provider</param>
-        /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, string[] scopes, AccountProviderType accountProviderType = AccountProviderType.Msa)
+        public IOneDriveClient Provider
         {
+            get
+            {
+                if (_oneDriveProvider == null)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
 
+                return _oneDriveProvider;
+            }
+        }
+
+        /// <summary>
+        /// Initialize OneDrive Service only for OnlineId Provider
+        /// </summary>
+        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
+        /// <returns>Success or failure</returns>
+        public bool Initialize(OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess)
+        {
+            return Initialize(null, AccountProviderType.OnlineId, scopes);
+        }
+
+        /// <summary>
+        /// Initialize OneDrive service
+        /// </summary>
+        /// <param name="appClientId">Application Id Client. Could be null if AccountProviderType.OnlineId is used</param>
+        /// <param name="accountProviderType">Account Provider type.
+        /// <para>AccountProviderType.OnlineId: If the user is signed into a Windows system with a MS Account, this user will be used for authentication request. Need to associate the App to the store</para>
+        /// <para>AccountProviderType.Msa: Authenticate the user with a MS Account. You need to register your app https://apps.dev.microsoft.com in the SDK Live section</para>
+        /// <para>AccountProviderType.Adal: Authenticate the user with a Office 365 Account. You need to register your in Azure Active Directory</para></param>
+        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user. Could be null if AccountProviderType.Adal is used </param>
+        /// <remarks>If AccountProvider</remarks>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string appClientId, AccountProviderType accountProviderType = AccountProviderType.OnlineId, OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess)
+        {
             if (accountProviderType != AccountProviderType.OnlineId && string.IsNullOrEmpty(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
             }
 
-            if (accountProviderType != AccountProviderType.Adal && (scopes == null || scopes.Length == 0))
+            _appClientId = appClientId;
+
+            if (accountProviderType != AccountProviderType.Adal)
             {
-                scopes = new string[] { "onedrive.readwrite" };
+                _scopes = OneDriveHelper.TransformScopes(scopes);
             }
 
-            if (accountProviderType == AccountProviderType.OnlineId)
-            {
-                _accountProvider = new OnlineIdAuthenticationProvider(scopes);
-            }
-
-            if (accountProviderType == AccountProviderType.Msa)
-            {
-                _accountProvider = new MsaAuthenticationProvider(appClientId, "urn:ietf:wg:oauth:2.0:oob", scopes, new CredentialVault(appClientId));
-            }
-
-            _oneDriveProvider = new OneDriveClient("https://api.onedrive.com/v1.0", _accountProvider);
-
-            _scopes = scopes;
             _isInitialized = true;
             _accountProviderType = accountProviderType;
             return true;
@@ -117,8 +139,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 if (_accountProviderType == AccountProviderType.OnlineId || _accountProviderType == AccountProviderType.Msa)
                 {
-
                     await ((MsaAuthenticationProvider)_accountProvider).SignOutAsync();
+                }
+                else if (_accountProviderType == AccountProviderType.Adal)
+                {
+                    OneDriveAuthenticationHelper.AzureAdContext.TokenCache.Clear();
+                    DiscoverySettings.Clear();
+                    UserInfoSettings.Clear();
                 }
             }
         }
@@ -126,7 +153,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Signs in the user
         /// </summary>
-        /// <remarks></remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
         public async Task<bool> LoginAsync()
         {
@@ -137,18 +163,44 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 throw new InvalidOperationException("Microsoft OneDrive not initialized.");
             }
 
+            string resourceEndpointUri = null;
+
             if (_accountProviderType == AccountProviderType.Adal)
             {
+                DiscoveryService discoveryService = null;
+                DiscoverySettings discoverySettings = DiscoverySettings.Load();
 
-                throw new NotImplementedException();
+                if (discoverySettings == null)
+                {
+                    // For OneDrive for business only
+                    var authDiscoveryResult = await OneDriveAuthenticationHelper.AuthenticateAdalUserForDiscoveryAsync(_appClientId);
+                    discoveryService = await OneDriveAuthenticationHelper.GetUserServiceResource(authDiscoveryResult);
+                    discoverySettings = new DiscoverySettings { ServiceEndpointUri = discoveryService.ServiceEndpointUri, ServiceResourceId = discoveryService.ServiceResourceId };
+                    discoverySettings.Save();
+                }
+
+                OneDriveAuthenticationHelper.ResourceUri = discoverySettings.ServiceResourceId;
+                _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
+                await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);
+                resourceEndpointUri = discoverySettings.ServiceEndpointUri;
             }
-
-            if (_accountProviderType == AccountProviderType.OnlineId || _accountProviderType == AccountProviderType.Msa)
+            else if (_accountProviderType == AccountProviderType.Msa)
             {
-                await ((MsaAuthenticationProvider)_accountProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
+                OneDriveAuthenticationHelper.ResourceUri = "https://api.onedrive.com/v1.0";
+                _accountProvider = OneDriveAuthenticationHelper.CreateMSAAuthenticationProvider(_appClientId, _scopes);
 
-                //await ((MsaAuthenticationProvider)_accountProvider).AuthenticateUserAsync();
+                await ((MsaAuthenticationProvider)OneDriveAuthenticationHelper.AuthenticationProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
+                resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
             }
+            else if (_accountProviderType == AccountProviderType.OnlineId)
+            {
+                OneDriveAuthenticationHelper.ResourceUri = "https://api.onedrive.com/v1.0";
+                _accountProvider = new OnlineIdAuthenticationProvider(_scopes);
+                await ((MsaAuthenticationProvider)_accountProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
+                resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
+            }
+
+            _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
 
             _isConnected = true;
             return _isConnected;
@@ -160,6 +212,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public async Task<OneDriveStorageFolder> RootFolderAsync()
         {
+            // log the user silently with an MS account
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
             return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, oneDriveRootItem);

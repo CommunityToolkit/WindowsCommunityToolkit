@@ -48,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public Microsoft.OneDrive.Sdk.File File { get; set; }
 
         private string _conflictBehavior;
+
         /// <summary>
         /// Gets or sets ConflictBehavior
         /// </summary>

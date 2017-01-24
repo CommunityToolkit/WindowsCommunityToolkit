@@ -9,20 +9,22 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
     {
-        private OneDriveViewModel _viewModel;
+        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _rootFolder = null;
+        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _currentFolder = null;
 
         public OneDrivePage()
         {
@@ -31,39 +33,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
             FilesBox.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
-            backButton.Visibility = Visibility.Collapsed;
-
-            _viewModel = new OneDriveViewModel();
-            _viewModel.Dispatcher = this.Dispatcher;
-            this.DataContext = _viewModel;
+            BackButton.Visibility = Visibility.Collapsed;
         }
 
-        private void UserBoxExpandButton_Click(object sender, RoutedEventArgs e)
-        {
-            SetVisibilityStatusPanel(UserPanel, (Button)sender);
-        }
-
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async Task SigninAsync(int indexProvider, string appClientId)
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
                 return;
             }
 
-            if (string.IsNullOrEmpty(ClientId.Text))
-            {
-                return;
-            }
-
             Shell.Current.DisplayWaitRing = true;
+          
             try
             {
-                await _viewModel.SigninAsync(ClientId.Text);
-                UserPanel.DataContext = _viewModel.User;
+                // OnlineId
+                if (indexProvider == 0)
+                {
+                    OneDriveService.Instance.Initialize();
+                }
+                else if (indexProvider == 1)
+                {
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+                }
+                else if (indexProvider == 2)
+                {
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
+                }
+
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+
+                _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
+                OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
             }
-            catch (ServiceException ex)
+            catch (ServiceException serviceEx)
             {
-                await DisplayAuthorizationErrorMessageAsync(ex);
+                await Helper.DisplayOneDriveServiceExceptionAsync(serviceEx);
+            }
+            catch (Exception ex)
+            {
+                await Helper.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -75,33 +87,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+            menuButton.Visibility = Visibility.Visible;
+            BackButton.Visibility = Visibility.Visible;
         }
 
-        private Task DisplayAuthorizationErrorMessageAsync(ServiceException ex)
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageDialog error = null;
-            if (ex.Error.Code.Equals("ErrorAccessDenied"))
+            ClientId.Text = "00000000481C7C69";
+            if (string.IsNullOrEmpty(ClientId.Text))
             {
-                error = new MessageDialog($"{ex.Error.Code}\nCheck the scope");
-            }
-            else
-            {
-                error = new MessageDialog(ex.Error.Message);
+                return;
             }
 
-            return error.ShowAsync().AsTask();
+            await SigninAsync(_indexProvider, ClientId.Text);
         }
 
         private async void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            await MicrosoftGraphService.Instance.Logout();
+            await OneDriveService.Instance.LogoutAsync();
             OneDriveItemsList.Visibility = Visibility.Collapsed;
             FilesBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
-            backButton.Visibility = Visibility.Collapsed;
+            BackButton.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
         }
 
@@ -145,17 +155,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                await _viewModel.GetItemsAsync(top);
+                OneDriveItemsList.ItemsSource = await _currentFolder.GetItemsAsync(top);
             }
             catch (ServiceException ex)
             {
-                await DisplayAuthorizationErrorMessageAsync(ex);
+                await Helper.DisplayOneDriveServiceExceptionAsync(ex);
             }
             finally
             {
                 Shell.Current.DisplayWaitRing = false;
                 menuButton.Visibility = Visibility.Visible;
-                backButton.Visibility = Visibility.Visible;
+                BackButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -164,12 +174,158 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SetVisibilityStatusPanel(FilesPanel, (Button)sender);
             SetVisibilityStatusPanel(OneDriveItemsList, (Button)sender);
             menuButton.Visibility = FilesPanel.Visibility;
-            backButton.Visibility = FilesPanel.Visibility;
+            BackButton.Visibility = FilesPanel.Visibility;
         }
 
         private async void OneDriveItemsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await _viewModel.NavigateToFolder(e.ClickedItem as OneDriveStorageItem);
+            await NavigateToFolderAsync(e.ClickedItem as OneDriveStorageItem);
+        }
+
+        private async Task NavigateToFolderAsync(OneDriveStorageItem item)
+        {
+            if (item.IsFolder())
+            {
+                Shell.Current.DisplayWaitRing = true;
+                try
+                {
+                    var currentFolder = await _currentFolder.GetFolderAsync(item.Name);
+                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync();
+                    _currentFolder = currentFolder;
+                }
+                catch (ServiceException ex)
+                {
+                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    Shell.Current.DisplayWaitRing = false;
+                }
+            }
+        }
+
+        private async Task NavigateBackAsync()
+        {
+            if (_currentFolder != null)
+            {
+                OneDriveStorageFolder currentFolder = null;
+                Shell.Current.DisplayWaitRing = true;
+                try
+                {
+                    if (!string.IsNullOrEmpty(_currentFolder.Path))
+                    {
+                        currentFolder = await _rootFolder.GetFolderAsync(_currentFolder.Path);
+                    }
+                    else
+                    {
+                        currentFolder = _rootFolder;
+                    }
+
+                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync();
+                    _currentFolder = currentFolder;
+                }
+                catch (ServiceException ex)
+                {
+                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    Shell.Current.DisplayWaitRing = false;
+                }
+            }
+        }
+
+        private async void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            await NavigateBackAsync();
+        }
+
+        private async void NewFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.NewFolderAsync(_currentFolder);
+            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+        }
+
+        private async void UploadSimpleFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.UploadSimpleFileAsync(_currentFolder);
+            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+        }
+
+        private async void UploadLargeFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.UploadLargeFileAsync(_currentFolder);
+            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+        }
+
+        private async void RenameButton_Click(object sender, RoutedEventArgs e)
+        {
+           await Helper.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+           OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            await DeleteAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+        }
+
+        private async Task DeleteAsync(OneDriveStorageItem itemToDelete)
+        {
+            MessageDialog messageDialog = new MessageDialog($"Are you sur you want to delete '{itemToDelete.Name}'", "Delete");
+            messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                try
+                {
+                    await itemToDelete.DeleteAsync();
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();  });
+                }
+                catch (ServiceException ex)
+                {
+                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                }
+            })));
+
+            messageDialog.Commands.Add(new UICommand("No", new UICommandInvokedHandler((cmd) => { return; })));
+
+            messageDialog.DefaultCommandIndex = 0;
+            messageDialog.CancelCommandIndex = 1;
+            var command = await messageDialog.ShowAsync();
+        }
+
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+        }
+
+        private int _indexProvider = 0;
+
+        private async void CboProvider_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _indexProvider = CboProvider.SelectedIndex;
+            var visibility = Visibility.Visible;
+
+            if (_indexProvider == 0)
+            {
+                await SigninAsync(_indexProvider, null);
+                visibility = Visibility.Collapsed;
+            }
+
+            ConnectButton.Visibility = ClientId.Visibility = visibility;
+        }
+
+        private async void CopyToButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+        }
+
+        private async void MoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Helper.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
         }
     }
 }

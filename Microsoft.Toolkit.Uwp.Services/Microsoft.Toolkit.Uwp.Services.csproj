@@ -76,18 +76,6 @@
     <Compile Include="Services\LinkedIn\LinkedInShareVisibility.cs" />
     <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\MicrosoftGraphOneDriveService.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveConstants.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveItemConflictBehavior.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveItemExtension.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveParentReference.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveStorageFile.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveStorageFolder.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveStorageItem.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveStorageItemsCollection.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveStorageItemsEnumerator.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveUploadSession.cs" />
-    <Compile Include="Services\MicrosoftGraph\Drive\OneDriveUploadSessionEventArgs.cs" />
     <Compile Include="Services\MicrosoftGraph\JWToken.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphEnums.cs" />
@@ -101,18 +89,25 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\OneDrive\DiscoverySettings.cs" />
+    <Compile Include="Services\OneDrive\OneDriveAuthenticationHelper.cs" />
     <Compile Include="Services\OneDrive\OneDriveConstants.cs" />
+    <Compile Include="Services\OneDrive\OneDriveRequestSource.cs" />
+    <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
     <Compile Include="Services\OneDrive\OneDriveHelper.cs" />
     <Compile Include="Services\OneDrive\OneDriveItem.cs" />
     <Compile Include="Services\OneDrive\OneDriveEnums.cs" />
+    <Compile Include="Services\OneDrive\OneDriveItemConflictBehavior.cs" />
     <Compile Include="Services\OneDrive\OneDriveItemExtension.cs" />
     <Compile Include="Services\OneDrive\OneDriveParentReference.cs" />
+    <Compile Include="Services\OneDrive\OneDriveScopes.cs" />
     <Compile Include="Services\OneDrive\OneDriveService.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageFile.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageFolder.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItem.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItemsCollection.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItemsEnumerator.cs" />
+    <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
@@ -162,7 +157,9 @@
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />

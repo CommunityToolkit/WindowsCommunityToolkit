@@ -16,10 +16,11 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>8A64839D7BCA352783BE3AD95EB0A3723CB53569</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -231,6 +232,8 @@
     <Content Include="Icons\Layouts.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <None Include="Microsoft.Toolkit.Uwp.SampleApp_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
@@ -404,10 +407,13 @@
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OneDrive Service\FileFolderDataTemplateSelector.cs" />
+    <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
+      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\Helper.cs" />
     <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
       <DependentUpon>OneDrivePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDriveViewModel.cs" />
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
@@ -563,6 +569,10 @@
     <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
       <Generator>MSBuild:Compile</Generator>

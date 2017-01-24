@@ -10,17 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graph;
-using Microsoft.OneDrive.Sdk;
-using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
+using Microsoft.Graph;
+using Microsoft.OneDrive.Sdk;
+using Newtonsoft.Json;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -83,6 +82,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         private string _folderId;
+
+        /// <summary>
+        /// Gets the id of the current OneDrive Item.
+        /// </summary>
         public string FolderRelativeId
         {
             get
@@ -141,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Gets or sets gets GraphServiceClient instance
         /// </summary>
-        public IOneDriveClient Provider
+        internal IOneDriveClient Provider
         {
             get { return _oneDriveProvider; }
             set { _oneDriveProvider = value; }
@@ -188,8 +191,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // ParentReference null means is root
             if (oneDriveItem.ParentReference != null)
             {
-                //_path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
-                _path = oneDriveItem.ParentReference.Path;
+                _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
             }
         }
 
@@ -208,19 +210,22 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             await RequestBuilder.Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
+        /// <summary>
+        /// Retrieves a thumbnail image for the file
+        /// </summary>
+        /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
+        public async Task<IRandomAccessStream> GetThumbnailAsync(OneDriveEnums.ThumbnailSize optionSize = OneDriveEnums.ThumbnailSize.Small, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
-        }
+            var thumbnailStream = await RequestBuilder.GetThumbnailAsync(Provider, cancellationToken, optionSize);
+            if (thumbnailStream == null)
+            {
+                return null;
+            }
 
-        public IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
-        {
-            throw new NotImplementedException();
+            _thumbNail = thumbnailStream.AsRandomAccessStream();
+            return _thumbNail;
         }
 
         /// <summary>
@@ -271,8 +276,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
             if (OneDriveItem.Name == "root")
             {
                 throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not move the root folder" });
@@ -281,29 +291,67 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var requestUri = RequestBuilder.RequestUrl;
             HttpMethod patchMethod = new HttpMethod("PATCH");
             HttpRequestMessage request = new HttpRequestMessage(patchMethod, requestUri);
-            return await Provider.MoveOrCopyAuthenticatedRequestAsync(request, destinationFolder, desiredNewName, cancellationToken);
-        }
 
-        public async Task<bool> CopyAsync(OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (OneDriveItem.Name == "root")
+            if (string.IsNullOrEmpty(desiredNewName))
             {
-                throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not move the root folder" });
+                desiredNewName = OneDriveItem.Name;
             }
 
-            var requestUri = $"{RequestBuilder.RequestUrl}/action.copy";
+            return await Provider.MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
+        }
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+        /// <summary>
+        /// Copy the current item to the specified folder and renames the item according to the desired name.
+        /// </summary>
+        /// <param name="destinationFolder">The destination folder where the item is moved.</param>
+        /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>return success or failure</returns>
+        public async Task<bool> CopyAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
+            if (OneDriveItem.Name == "root")
+            {
+                throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not copy the root folder" });
+            }
+
+            if (string.IsNullOrEmpty(desiredNewName))
+            {
+                desiredNewName = this.OneDriveItem.Name;
+            }
+
+            OneDriveParentReference parentReference = new OneDriveParentReference();
+            if (destinationFolder.OneDriveItem.Name == "root")
+            {
+                parentReference.Parent.Path = "/drive/root:/";
+            }
+            else
+            {
+                parentReference.Parent.Path = destinationFolder.OneDriveItem.ParentReference.Path + $"/{destinationFolder.OneDriveItem.Name}";
+            }
+
+            parentReference.Name = desiredNewName;
+
+            var copyRequest = Provider.Drive.Items[OneDriveItem.Id].Copy(desiredNewName);
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, copyRequest.Request().RequestUrl);
             request.Headers.Add("Prefer", "respond-async");
-
-            return await Provider.MoveOrCopyAuthenticatedRequestAsync(request, destinationFolder, desiredNewName, cancellationToken);
+            var content = JsonConvert.SerializeObject(parentReference);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+            await Provider.AuthenticationProvider.AuthenticateRequestAsync(request).ConfigureAwait(false);
+            var response = await Provider.HttpProvider.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+            return response.IsSuccessStatusCode;
         }
 
         /// <summary>
         /// Check if the item is a folder
         /// </summary>
         /// <returns>Return true if it's a folder</returns>
-        internal bool IsFolder()
+        public bool IsFolder()
         {
             return OneDriveItem.Folder != null ? true : false;
         }
@@ -312,7 +360,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Check if the item is a file
         /// </summary>
         /// <returns>Return true if it's a file</returns>
-        internal bool IsFile()
+        public bool IsFile()
         {
             return OneDriveItem.File != null ? true : false;
         }
@@ -321,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Check if the item is a OneNote focument
         /// </summary>
         /// <returns>Return true if it's a OneNote document</returns>
-        internal bool IsOneNote()
+        public bool IsOneNote()
         {
             return !IsFile() && !IsFolder() ? true : false;
         }

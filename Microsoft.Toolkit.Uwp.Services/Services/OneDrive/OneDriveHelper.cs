@@ -1,6 +1,4 @@
-﻿using System;
-using Windows.Storage;
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -12,18 +10,20 @@ using Windows.Storage;
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Text;
+
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     /// OneDriveHelper Type
     /// </summary>
-    static class OneDriveHelper
+    public static class OneDriveHelper
     {
         /// <summary>
         /// Transform the Windows Storage collision Option into OneDriveConflict Behavior
         /// </summary>
-        /// <param name="collisionOption"></param>
-        /// <returns></returns>
+        /// <param name="collisionOption">Windows storage string collision option</param>
+        /// <returns>The transformed option</returns>
         public static string TransformCollisionOptionToConflictBehavior(string collisionOption)
         {
             if (collisionOption.Equals("GenerateUniqueName"))
@@ -37,6 +37,37 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             return "fail";
+        }
+
+        /// <summary>
+        /// Transform enum into string array
+        /// </summary>
+        /// <param name="scopes">onedrive scopes</param>
+        /// <returns>a string array containing the OneDrive permissions</returns>
+        public static string[] TransformScopes(OneDriveScopes scopes)
+        {
+            StringBuilder sb = new StringBuilder();
+            if ((scopes & OneDriveScopes.AppFolder) == OneDriveScopes.AppFolder)
+            {
+                sb.Append("onedrive.appfolder,");
+            }
+
+            if ((scopes & OneDriveScopes.OfflineAccess) == OneDriveScopes.OfflineAccess)
+            {
+                sb.Append("offline_access,");
+            }
+
+            if ((scopes & OneDriveScopes.ReadOnly) == OneDriveScopes.ReadOnly)
+            {
+                sb.Append("onedrive.readonly,");
+            }
+
+            if ((scopes & OneDriveScopes.ReadWrite) == OneDriveScopes.ReadWrite)
+            {
+                sb.Append("onedrive.readwrite");
+            }
+
+            return sb.ToString().Split(',');
         }
     }
 }

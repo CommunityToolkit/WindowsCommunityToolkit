@@ -58,5 +58,26 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             /// </summary>
             Size,
         }
+
+        /// <summary>
+        /// Specifies the items's thumbnail size
+        /// </summary>
+        public enum ThumbnailSize
+        {
+            /// <summary>
+            /// Large
+            /// </summary>
+            Large,
+
+            /// <summary>
+            /// Medium
+            /// </summary>
+            Medium,
+
+            /// <summary>
+            /// Small
+            /// </summary>
+            Small
+        }
     }
 }
