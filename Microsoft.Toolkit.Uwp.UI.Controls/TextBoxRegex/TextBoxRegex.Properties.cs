@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// TextBoxRegex allows text validation using a regular expression.
     /// </summary>
     /// <remarks>
-    /// If<see cref="ValidationMode"> is set to Normal then IsValid will be set according to either the regex is valid.</see>
+    /// If<see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
     /// If<see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
     /// </remarks>
     public partial class TextBoxRegex
