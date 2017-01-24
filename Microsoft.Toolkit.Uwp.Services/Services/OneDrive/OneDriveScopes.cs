@@ -47,6 +47,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Grants read/write permission to a specific folder for your application
         /// </summary>
-        AppFolder = 0x04
+        AppFolder = 0x04,
+
+        /// <summary>
+        /// Single sign-in behavior .
+        /// </summary>
+        WlSignin = 0x05
+
     }
 }

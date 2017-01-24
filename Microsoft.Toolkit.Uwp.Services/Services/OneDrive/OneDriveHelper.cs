@@ -67,6 +67,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 sb.Append("onedrive.readwrite");
             }
 
+            if ((scopes & OneDriveScopes.WlSignin) == OneDriveScopes.WlSignin)
+            {
+                sb.Append("wl.signin");
+            }
+
             return sb.ToString().Split(',');
         }
     }
