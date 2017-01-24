@@ -108,6 +108,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the safe thickness, guaranteed to never be negative
+        /// </summary>
+        private double SafeThickness
+        {
+            get { return Math.Max(Thickness, 0.0); }
+        }
+
+        /// <summary>
         /// Identifies the Thickness dependency property
         /// </summary>
         public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register("Thickness", typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
@@ -152,9 +160,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Compute size of ellipse so that the outer edge touches the bounding rectangle
         private Size ComputeEllipseSize()
         {
-            var thickness = Math.Max(Thickness, 0.0);
-            var width = Math.Max((ActualWidth - thickness) / 2.0, 0.0);
-            var height = Math.Max((ActualHeight - thickness) / 2.0, 0.0);
+            var width = Math.Max((ActualWidth - SafeThickness) / 2.0, 0.0);
+            var height = Math.Max((ActualHeight - SafeThickness) / 2.0, 0.0);
             return new Size(width, height);
         }
 
