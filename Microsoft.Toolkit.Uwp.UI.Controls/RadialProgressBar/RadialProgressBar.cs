@@ -45,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private ArcSegment BarArc { get; set; }
 
+        private bool AllTemplatePartsDefined
+        {
+            get { return OutlineFigure != null && OutlineArc != null && BarFigure != null && BarArc != null; }
+        }
+
         /// <summary>
         /// Called when the Minimum property changes.
         /// </summary>
@@ -148,6 +153,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Render the segment representing progress ratio.
         private void RenderSegment()
         {
+            if (!AllTemplatePartsDefined)
+            {
+                return;
+            }
+
             var normalizedRange = ComputeNormalizedRange();
 
             var angle = 2 * Math.PI * normalizedRange;
@@ -163,6 +173,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Render the progress segment and the loop outline. Needs to run when control is resized or retemplated
         private void RenderAll()
         {
+            if (!AllTemplatePartsDefined)
+            {
+                return;
+            }
+
             var size = ComputeEllipseSize();
             var segmentWidth = size.Width;
 
