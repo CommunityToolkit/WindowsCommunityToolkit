@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp
                     }
                     else
                     {
-                        throw new NullReferenceException("No WiFi Adapters detected on this machine");
+                        return "No WiFi Adapters detected on this machine";
                     }
 
                     var connectedProfile = await firstAdapter.NetworkAdapter.GetConnectedProfileAsync();
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp
                     }
                     else if (connectedProfile == null)
                     {
-                        throw new NullReferenceException("WiFi adapter disconnected");
+                        return null;
                     }
                 }
             }
