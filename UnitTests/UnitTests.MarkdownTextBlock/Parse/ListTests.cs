@@ -316,8 +316,9 @@ namespace UnitTests.Markdown.Parse
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = " 4" }))));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
+
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - block")]

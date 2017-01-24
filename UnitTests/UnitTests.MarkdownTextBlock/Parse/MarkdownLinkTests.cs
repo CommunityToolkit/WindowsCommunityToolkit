@@ -248,8 +248,8 @@ namespace UnitTests.Markdown.Parse
                     new MarkdownLinkInline { Url = "https://www.reddit.com", Inlines = new List<MarkdownInline>() }));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -279,8 +279,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "http://example5override.com/", Tooltip = "Optional Title 5 Override" }.AddChildren(new TextRunInline { Text = "example 5" })));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -292,8 +292,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "http://example.com/" }.AddChildren(new TextRunInline { Text = "example" })));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -334,8 +334,8 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = ")" }));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -347,8 +347,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "[example][]" }));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -359,8 +359,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "[test]: http://example.com/ 'test" }));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -371,8 +371,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "[test]: http://example.com/ 'test' abc" }));
         }
 
-        // This test is ignored because it test the true markdown standard, while currently this parser
-        // only supports the "reddit" flavor of markdown currently. (this difference is quite small)
+        // This test is ignored because it is written to pass the "reddit" quirks of markdown.
+        // This parser doesn't conform to the reddit quirks, thus they shall not pass.
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
