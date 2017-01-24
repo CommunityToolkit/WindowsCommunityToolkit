@@ -152,8 +152,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Compute size of ellipse so that the outer edge touches the bounding rectangle
         private Size ComputeEllipseSize()
         {
-            var width = Math.Max((ActualWidth - Thickness) / 2.0, 0.0);
-            var height = Math.Max((ActualHeight - Thickness) / 2.0, 0.0);
+            var thickness = Math.Max(Thickness, 0.0);
+            var width = Math.Max((ActualWidth - thickness) / 2.0, 0.0);
+            var height = Math.Max((ActualHeight - thickness) / 2.0, 0.0);
             return new Size(width, height);
         }
 
