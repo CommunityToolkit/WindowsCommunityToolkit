@@ -4,7 +4,7 @@ The **Radial Progress Bar Control** displays a value in a certain range using a 
 
 ## How it works
 
-The control uses the same dependency properties as the standard Progress Bar, with the addition of a configurable Thickness parameter, which sets the hickness of the circular sector and the outline it's drawn on.
+The control uses the same dependency properties as the standard Progress Bar, with the addition of a configurable Thickness parameter, which sets the thickness of the circular sector and the outline it's drawn on.
 
 ## Syntax
 
