@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = _stateGroup.CurrentState == _narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, true);
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
 
             UpdateViewState();
         }
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = e.NewState == _narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, false);
+            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Frame GetFrame()
         {
-            return _frame ?? (_frame = FindVisualAscendant<Frame>());
+            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
         }
 
         private void UpdateViewState()

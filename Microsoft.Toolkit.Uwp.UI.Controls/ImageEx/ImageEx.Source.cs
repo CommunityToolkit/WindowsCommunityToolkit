@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _tokenSource?.Cancel();
+            this._tokenSource?.Cancel();
 
-            _tokenSource = new CancellationTokenSource();
+            this._tokenSource = new CancellationTokenSource();
 
             _image.Source = null;
 
