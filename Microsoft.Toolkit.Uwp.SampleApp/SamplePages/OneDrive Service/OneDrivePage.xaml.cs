@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-          
+
             try
             {
                 // OnlineId
@@ -93,7 +93,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            ClientId.Text = "00000000481C7C69";
             if (string.IsNullOrEmpty(ClientId.Text))
             {
                 return;
