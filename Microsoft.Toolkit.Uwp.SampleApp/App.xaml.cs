@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
                     if (targetSample != null)
                     {
-                        await Shell.Current?.NavigateToSampleAsync(targetSample);
+                        Shell.Current?.NavigateToSample(targetSample);
                     }
                 }
                 catch (Exception ex)

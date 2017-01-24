@@ -12,33 +12,8 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
 
-            <TextBox Width="106"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     controls:SurfaceDialTextboxHelper.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
-                     Text="0" />
-
-            <TextBox Width="106"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     controls:SurfaceDialTextboxHelper.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextboxHelper.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
-                     Text="0" />
-
-            <TextBox Width="106"
+            <TextBox Width="250"
+                     Margin="0,0,0,10"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      controls:SurfaceDialTextboxHelper.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
