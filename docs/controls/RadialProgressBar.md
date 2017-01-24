@@ -21,7 +21,7 @@ The control uses the same dependency properties as the standard Progress Bar, wi
 
 ## Example Image
 
-![RadialProgressBar image](../resources/images/Controls-RadialProgressBar.gif "RadialProgressBar")
+![RadialProgressBar image](../resources/images/Controls-RadialProgressBar.png "RadialProgressBar")
 
 ## Example Code
 
