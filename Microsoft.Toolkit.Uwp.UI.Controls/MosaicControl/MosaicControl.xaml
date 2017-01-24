@@ -7,15 +7,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MosaicControl">
                     <Grid>
-                        <Border                        
-                        x:Name="RootElement"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Background="{TemplateBinding Background}"
-                        >
-                            <Canvas x:Name="ContainerElement"/>
+                        <Border x:Name="RootElement"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Canvas x:Name="ContainerElement" />
                         </Border>
-                        <ContentPresenter/>
+                        <ContentPresenter />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
