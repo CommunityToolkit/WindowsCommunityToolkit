@@ -108,14 +108,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the safe thickness, guaranteed to never be negative
-        /// </summary>
-        private double SafeThickness
-        {
-            get { return Math.Max(Thickness, 0.0); }
-        }
-
-        /// <summary>
         /// Identifies the Thickness dependency property
         /// </summary>
         public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register("Thickness", typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
@@ -160,8 +152,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Compute size of ellipse so that the outer edge touches the bounding rectangle
         private Size ComputeEllipseSize()
         {
-            var width = Math.Max((ActualWidth - SafeThickness) / 2.0, 0.0);
-            var height = Math.Max((ActualHeight - SafeThickness) / 2.0, 0.0);
+            var safeThickness = Math.Max(Thickness, 0.0);
+            var width = Math.Max((ActualWidth - safeThickness) / 2.0, 0.0);
+            var height = Math.Max((ActualHeight - safeThickness) / 2.0, 0.0);
             return new Size(width, height);
         }
 
@@ -177,9 +170,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var angle = 2 * Math.PI * normalizedRange;
             var size = ComputeEllipseSize();
+            var translationFactor = Math.Max(Thickness / 2.0, 0.0);
 
-            double x = (Math.Sin(angle) * size.Width) + size.Width;
-            double y = ((Math.Cos(angle) * size.Height) - size.Height) * -1;
+            double x = (Math.Sin(angle) * size.Width) + size.Width + translationFactor;
+            double y = (((Math.Cos(angle) * size.Height) - size.Height) * -1) + translationFactor;
 
             BarArc.IsLargeArc = angle >= Math.PI;
             BarArc.Point = new Point(x, y);
@@ -195,10 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var size = ComputeEllipseSize();
             var segmentWidth = size.Width;
+            var translationFactor = Math.Max(Thickness / 2.0, 0.0);
 
-            OutlineFigure.StartPoint = BarFigure.StartPoint = new Point(segmentWidth, 0);
+            OutlineFigure.StartPoint = BarFigure.StartPoint = new Point(segmentWidth + translationFactor, translationFactor);
             OutlineArc.Size = BarArc.Size = new Size(segmentWidth, size.Height);
-            OutlineArc.Point = new Point(segmentWidth - 0.05, 0);
+            OutlineArc.Point = new Point(segmentWidth + translationFactor - 0.05, translationFactor);
 
             RenderSegment();
         }
