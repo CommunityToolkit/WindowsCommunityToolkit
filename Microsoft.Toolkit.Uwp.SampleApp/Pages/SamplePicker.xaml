@@ -29,54 +29,63 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="24"
                                FontWeight="Light"
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="{x:Bind Name}" />
                     <TextBlock Grid.Row="1"
-                               Grid.ColumnSpan="2"
                                Margin="0,4,0,0"
                                VerticalAlignment="Top"
                                FontSize="14"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <HyperlinkButton Grid.Row="0"
-                                     Grid.Column="1"
-                                     Content="Github"
-                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
-                                     NavigateUri="{x:Bind CodeUrl}" />
+                    <Image Grid.Row="2"
+                           Width="100"
+                           Margin="0,2,0,2"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Source="{Binding BadgeUpdateVersionRequired}"
+                           Stretch="Uniform" />
                 </Grid>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="SmallSampleTemplate"
                       x:DataType="sampleApp:Sample">
-            <Grid MinHeight="80"
+            <Grid Height="80"
                   MaxHeight="110"
                   Margin="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Border Grid.Column="0"
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
                         BorderBrush="{StaticResource Brush-Grey-04}"
                         BorderThickness="1">
                     <Image Width="80"
-                           Height="80"
                            Source="{Binding Icon}" />
                 </Border>
-                <Grid Grid.Column="1">
+                <Image Grid.Row="1"
+                       Width="80"
+                       Margin="0,5,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Source="{Binding BadgeUpdateVersionRequired}"
+                       Stretch="Uniform" />
+                <Grid Grid.RowSpan="2"
+                      Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="16"

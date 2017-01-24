@@ -10,28 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class MosaicControlPage
+    /// <summary>
+    /// A page that shows how to use the FadeHeaderBehavior
+    /// </summary>
+    public sealed partial class FrameworksAndToolkitsPage : Page
     {
-        public MosaicControlPage()
+        public FrameworksAndToolkitsPage()
         {
             InitializeComponent();
-        }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
+            // If you wanted to use C# instead of XAML to attach the behavior, you can do it like this
+            // Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
         }
     }
 }

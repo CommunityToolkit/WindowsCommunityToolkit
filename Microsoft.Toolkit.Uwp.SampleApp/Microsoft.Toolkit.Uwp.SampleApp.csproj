@@ -112,6 +112,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="..\githubresources\badges\windows10_anniversary.png">
+      <Link>Assets\Badges\windows10_anniversary.png</Link>
+    </Content>
+    <Content Include="..\githubresources\badges\windows10_creators.png">
+      <Link>Assets\Badges\windows10_creators.png</Link>
+    </Content>
     <Content Include="Assets\Helpers.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -229,6 +235,7 @@
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
+    <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
@@ -241,6 +248,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkits.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
@@ -279,6 +287,7 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
+    <Content Include="SamplePages\Useful links\UsefulLinks.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
@@ -408,6 +417,9 @@
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkitsPage.xaml.cs">
+      <DependentUpon>FrameworksAndToolkitsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
     </Compile>
@@ -495,6 +507,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Useful links\UsefulLinksPage.xaml.cs">
+      <DependentUpon>UsefulLinksPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
@@ -585,6 +600,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkitsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -701,6 +720,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Useful links\UsefulLinksPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

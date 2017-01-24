@@ -125,8 +125,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">
@@ -147,6 +147,7 @@
     <Page Include="ImageEx\ImageEx.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="MosaicControl\MosaicControl.xaml">
       <Generator>MSBuild:Compile</Generator>
