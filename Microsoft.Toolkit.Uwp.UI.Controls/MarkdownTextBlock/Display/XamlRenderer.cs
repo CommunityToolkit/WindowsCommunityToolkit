@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,12 +29,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// The markdown document that will be rendered.
         /// </summary>
-        private MarkdownDocument _document;
+        private readonly MarkdownDocument _document;
 
         /// <summary>
         /// An interface that is used to register hyperlinks.
         /// </summary>
-        private ILinkRegister _linkRegister;
+        private readonly ILinkRegister _linkRegister;
 
         public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister)
         {
@@ -427,7 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     RenderListElement((ListBlock)element, blockUIElementCollection, context);
                     break;
                 case MarkdownBlockType.HorizontalRule:
-                    RenderHorizontalRule((HorizontalRuleBlock)element, blockUIElementCollection, context);
+                    RenderHorizontalRule(blockUIElementCollection, context);
                     break;
                 case MarkdownBlockType.Table:
                     RenderTable((TableBlock)element, blockUIElementCollection, context);
@@ -440,8 +439,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private void RenderParagraph(ParagraphBlock element, UIElementCollection blockUIElementCollection, RenderContext context)
         {
-            var paragraph = new Paragraph();
-            paragraph.Margin = ParagraphMargin;
+            var paragraph = new Paragraph
+            {
+                Margin = ParagraphMargin
+            };
             context.TrimLeadingWhitespace = true;
             RenderInlineChildren(paragraph.Inlines, element.Inlines, paragraph, context);
 
@@ -510,8 +511,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         private void RenderListElement(ListBlock element, UIElementCollection blockUIElementCollection, RenderContext context)
         {
             // Create a grid with two columns.
-            Grid grid = new Grid();
-            grid.Margin = ListMargin;
+            Grid grid = new Grid
+            {
+                Margin = ListMargin
+            };
 
             // The first column for the bullet (or number) and the second for the text.
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(ListGutterWidth) });
@@ -556,13 +559,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a horizontal rule element.
         /// </summary>
-        private void RenderHorizontalRule(HorizontalRuleBlock element, UIElementCollection blockUIElementCollection, RenderContext context)
+        private void RenderHorizontalRule(UIElementCollection blockUIElementCollection, RenderContext context)
         {
-            var rectangle = new Rectangle();
-            rectangle.HorizontalAlignment = HorizontalAlignment.Stretch;
-            rectangle.Height = HorizontalRuleThickness;
-            rectangle.Fill = HorizontalRuleBrush ?? context.Foreground;
-            rectangle.Margin = HorizontalRuleMargin;
+            var rectangle = new Rectangle
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Height = HorizontalRuleThickness,
+                Fill = HorizontalRuleBrush ?? context.Foreground,
+                Margin = HorizontalRuleMargin
+            };
 
             blockUIElementCollection.Add(rectangle);
         }
@@ -581,13 +586,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var stackPanel = new StackPanel();
             RenderBlocks(element.Blocks, stackPanel.Children, context);
 
-            var border = new Border();
-            border.Margin = QuoteMargin;
-            border.Background = QuoteBackground;
-            border.BorderBrush = QuoteBorderBrush ?? context.Foreground;
-            border.BorderThickness = QuoteBorderThickness;
-            border.Padding = QuotePadding;
-            border.Child = stackPanel;
+            var border = new Border
+            {
+                Margin = QuoteMargin,
+                Background = QuoteBackground,
+                BorderBrush = QuoteBorderBrush ?? context.Foreground,
+                BorderThickness = QuoteBorderThickness,
+                Padding = QuotePadding,
+                Child = stackPanel
+            };
 
             blockUIElementCollection.Add(border);
         }
@@ -603,14 +610,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             textBlock.LineHeight = FontSize * 1.4;
             textBlock.Text = element.Text;
 
-            var border = new Border();
-            border.Background = CodeBackground;
-            border.BorderBrush = CodeBorderBrush;
-            border.BorderThickness = CodeBorderThickness;
-            border.Padding = CodePadding;
-            border.Margin = CodeMargin;
-            border.HorizontalAlignment = HorizontalAlignment.Left;
-            border.Child = textBlock;
+            var border = new Border
+            {
+                Background = CodeBackground,
+                BorderBrush = CodeBorderBrush,
+                BorderThickness = CodeBorderThickness,
+                Padding = CodePadding,
+                Margin = CodeMargin,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Child = textBlock
+            };
 
             // Add it to the blocks
             blockUIElementCollection.Add(border);
@@ -621,9 +630,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private void RenderTable(TableBlock element, UIElementCollection blockUIElementCollection, RenderContext context)
         {
-            var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness, TableBorderBrush);
-            table.HorizontalAlignment = HorizontalAlignment.Left;
-            table.Margin = TableMargin;
+            var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness,
+                TableBorderBrush)
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = TableMargin
+            };
 
             // Add each row.
             for (int rowIndex = 0; rowIndex < element.Rows.Count; rowIndex++)
@@ -693,28 +705,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             switch (element.Type)
             {
                 case MarkdownInlineType.TextRun:
-                    RenderTextRun(inlineCollection, (TextRunInline)element, parent, context);
+                    RenderTextRun(inlineCollection, (TextRunInline)element, context);
                     break;
                 case MarkdownInlineType.Italic:
-                    RenderItalicRun(inlineCollection, (ItalicTextInline)element, parent, context);
+                    RenderItalicRun(inlineCollection, (ItalicTextInline)element, context);
                     break;
                 case MarkdownInlineType.Bold:
-                    RenderBoldRun(inlineCollection, (BoldTextInline)element, parent, context);
+                    RenderBoldRun(inlineCollection, (BoldTextInline)element, context);
                     break;
                 case MarkdownInlineType.MarkdownLink:
                     RenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, parent, context);
                     break;
                 case MarkdownInlineType.RawHyperlink:
-                    RenderHyperlink(inlineCollection, (HyperlinkInline)element, parent, context);
+                    RenderHyperlink(inlineCollection, (HyperlinkInline)element, context);
                     break;
                 case MarkdownInlineType.Strikethrough:
-                    RenderStrikethroughRun(inlineCollection, (StrikethroughTextInline)element, parent, context);
+                    RenderStrikethroughRun(inlineCollection, (StrikethroughTextInline)element, context);
                     break;
                 case MarkdownInlineType.Superscript:
                     RenderSuperscriptRun(inlineCollection, (SuperscriptTextInline)element, parent, context);
                     break;
                 case MarkdownInlineType.Code:
-                    RenderCodeRun(inlineCollection, (CodeInline)element, parent, context);
+                    RenderCodeRun(inlineCollection, (CodeInline)element, context);
                     break;
             }
         }
@@ -724,13 +736,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderTextRun(InlineCollection inlineCollection, TextRunInline element, TextElement parent, RenderContext context)
+        private void RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
         {
             // Create the text run
-            Run textRun = new Run();
-            textRun.Text = CollapseWhitespace(context, element.Text);
+            Run textRun = new Run
+            {
+                Text = CollapseWhitespace(context, element.Text)
+            };
 
             // Add it
             inlineCollection.Add(textRun);
@@ -741,13 +754,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderBoldRun(InlineCollection inlineCollection, BoldTextInline element, TextElement parent, RenderContext context)
+        private void RenderBoldRun(InlineCollection inlineCollection, BoldTextInline element, RenderContext context)
         {
             // Create the text run
-            Span boldSpan = new Span();
-            boldSpan.FontWeight = FontWeights.Bold;
+            Span boldSpan = new Span
+            {
+                FontWeight = FontWeights.Bold
+            };
 
             // Render the children into the bold inline.
             RenderInlineChildren(boldSpan.Inlines, element.Inlines, boldSpan, context);
@@ -808,8 +822,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 // THE HACK IS ON!
 
                 // Create a fake superscript element.
-                var fakeSuperscript = new SuperscriptTextInline();
-                fakeSuperscript.Inlines = new List<MarkdownInline> { element };
+                var fakeSuperscript = new SuperscriptTextInline
+                {
+                    Inlines = new List<MarkdownInline>
+                    {
+                        element
+                    }
+                };
 
                 // Remove superscripts.
                 RemoveSuperscriptRuns(element, insertCaret: false);
@@ -824,9 +843,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderHyperlink(InlineCollection inlineCollection, HyperlinkInline element, TextElement parent, RenderContext context)
+        private void RenderHyperlink(InlineCollection inlineCollection, HyperlinkInline element, RenderContext context)
         {
             var link = new Hyperlink();
 
@@ -834,8 +852,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             _linkRegister.RegisterNewHyperLink(link, element.Url);
 
             // Make a text block for the link
-            Run linkText = new Run();
-            linkText.Text = CollapseWhitespace(context, element.Text);
+            Run linkText = new Run
+            {
+                Text = CollapseWhitespace(context, element.Text)
+            };
             link.Inlines.Add(linkText);
 
             // Add it to the current inlines
@@ -847,13 +867,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderItalicRun(InlineCollection inlineCollection, ItalicTextInline element, TextElement parent, RenderContext context)
+        private void RenderItalicRun(InlineCollection inlineCollection, ItalicTextInline element, RenderContext context)
         {
             // Create the text run
-            Span italicSpan = new Span();
-            italicSpan.FontStyle = FontStyle.Italic;
+            Span italicSpan = new Span
+            {
+                FontStyle = FontStyle.Italic
+            };
 
             // Render the children into the italic inline.
             RenderInlineChildren(italicSpan.Inlines, element.Inlines, italicSpan, context);
@@ -867,12 +888,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderStrikethroughRun(InlineCollection inlineCollection, StrikethroughTextInline element, TextElement parent, RenderContext context)
+        private void RenderStrikethroughRun(InlineCollection inlineCollection, StrikethroughTextInline element, RenderContext context)
         {
-            Span span = new Span();
-            span.FontFamily = new FontFamily("Consolas");
+            Span span = new Span
+            {
+                FontFamily = new FontFamily("Consolas")
+            };
 
             // Render the children into the inline.
             RenderInlineChildren(span.Inlines, element.Inlines, span, context);
@@ -909,22 +931,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 return;
             }
 
-            var paragraph = new Paragraph();
-            paragraph.FontSize = parent.FontSize * 0.8;
-            paragraph.FontFamily = parent.FontFamily;
-            paragraph.FontStyle = parent.FontStyle;
-            paragraph.FontWeight = parent.FontWeight;
+            var paragraph = new Paragraph
+            {
+                FontSize = parent.FontSize * 0.8,
+                FontFamily = parent.FontFamily,
+                FontStyle = parent.FontStyle,
+                FontWeight = parent.FontWeight
+            };
             RenderInlineChildren(paragraph.Inlines, element.Inlines, paragraph, context);
 
             var richTextBlock = CreateOrReuseRichTextBlock(null, context);
             richTextBlock.Blocks.Add(paragraph);
 
-            var border = new Border();
-            border.Padding = new Thickness(0, 0, 0, paragraph.FontSize * 0.2);
-            border.Child = richTextBlock;
+            var border = new Border
+            {
+                Padding = new Thickness(0, 0, 0, paragraph.FontSize * 0.2),
+                Child = richTextBlock
+            };
 
-            var inlineUIContainer = new InlineUIContainer();
-            inlineUIContainer.Child = border;
+            var inlineUIContainer = new InlineUIContainer
+            {
+                Child = border
+            };
 
             // Add it to the current inlines
             inlineCollection.Add(inlineUIContainer);
@@ -935,13 +963,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderCodeRun(InlineCollection inlineCollection, CodeInline element, TextElement parent, RenderContext context)
+        private void RenderCodeRun(InlineCollection inlineCollection, CodeInline element, RenderContext context)
         {
-            var run = new Run();
-            run.FontFamily = CodeFontFamily ?? FontFamily;
-            run.Text = CollapseWhitespace(context, element.Text);
+            var run = new Run
+            {
+                FontFamily = CodeFontFamily ?? FontFamily,
+                Text = CollapseWhitespace(context, element.Text)
+            };
 
             // Add it to the current inlines
             inlineCollection.Add(run);
@@ -954,9 +983,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (var inlineElement in parentSpan.Inlines)
             {
-                if (inlineElement is Span)
+                var span = inlineElement as Span;
+                if (span != null)
                 {
-                    AlterChildRuns((Span)inlineElement, action);
+                    AlterChildRuns(span, action);
                 }
                 else if (inlineElement is Run)
                 {
@@ -978,7 +1008,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 char c = text[i];
                 if (c == ' ' || c == '\t')
                 {
-                    if (dontOutputWhitespace == true)
+                    if (dontOutputWhitespace)
                     {
                         if (result == null)
                         {
@@ -987,20 +1017,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     }
                     else
                     {
-                        if (result != null)
-                        {
-                            result.Append(c);
-                        }
+                        result?.Append(c);
 
                         dontOutputWhitespace = true;
                     }
                 }
                 else
                 {
-                    if (result != null)
-                    {
-                        result.Append(c);
-                    }
+                    result?.Append(c);
 
                     dontOutputWhitespace = false;
                 }
@@ -1022,20 +1046,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 return (RichTextBlock)blockUIElementCollection[blockUIElementCollection.Count - 1];
             }
 
-            var result = new RichTextBlock();
-            result.CharacterSpacing = CharacterSpacing;
-            result.FontFamily = FontFamily;
-            result.FontSize = FontSize;
-            result.FontStretch = FontStretch;
-            result.FontStyle = FontStyle;
-            result.FontWeight = FontWeight;
-            result.Foreground = context.Foreground;
-            result.IsTextSelectionEnabled = IsTextSelectionEnabled;
-            result.TextWrapping = TextWrapping;
-            if (blockUIElementCollection != null)
+            var result = new RichTextBlock
             {
-                blockUIElementCollection.Add(result);
-            }
+                CharacterSpacing = CharacterSpacing,
+                FontFamily = FontFamily,
+                FontSize = FontSize,
+                FontStretch = FontStretch,
+                FontStyle = FontStyle,
+                FontWeight = FontWeight,
+                Foreground = context.Foreground,
+                IsTextSelectionEnabled = IsTextSelectionEnabled,
+                TextWrapping = TextWrapping
+            };
+            blockUIElementCollection?.Add(result);
 
             return result;
         }
@@ -1046,16 +1069,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <returns>The created TextBlock</returns>
         private TextBlock CreateTextBlock(RenderContext context)
         {
-            var result = new TextBlock();
-            result.CharacterSpacing = CharacterSpacing;
-            result.FontFamily = FontFamily;
-            result.FontSize = FontSize;
-            result.FontStretch = FontStretch;
-            result.FontStyle = FontStyle;
-            result.FontWeight = FontWeight;
-            result.Foreground = context.Foreground;
-            result.IsTextSelectionEnabled = IsTextSelectionEnabled;
-            result.TextWrapping = TextWrapping;
+            var result = new TextBlock
+            {
+                CharacterSpacing = CharacterSpacing,
+                FontFamily = FontFamily,
+                FontSize = FontSize,
+                FontStretch = FontStretch,
+                FontStyle = FontStyle,
+                FontWeight = FontWeight,
+                Foreground = context.Foreground,
+                IsTextSelectionEnabled = IsTextSelectionEnabled,
+                TextWrapping = TextWrapping
+            };
             return result;
         }
 
@@ -1067,10 +1092,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (var inline in container.Inlines)
             {
-                if (inline is SuperscriptTextInline)
+                var textInline = inline as SuperscriptTextInline;
+                if (textInline != null)
                 {
                     // Remove any nested superscripts.
-                    if (AllTextIsSuperscript((IInlineContainer)inline, superscriptLevel + 1) == false)
+                    if (AllTextIsSuperscript(textInline, superscriptLevel + 1) == false)
                     {
                         return false;
                     }
@@ -1103,10 +1129,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             for (int i = 0; i < container.Inlines.Count; i++)
             {
                 var inline = container.Inlines[i];
-                if (inline is SuperscriptTextInline)
+                var textInline = inline as SuperscriptTextInline;
+                if (textInline != null)
                 {
                     // Remove any nested superscripts.
-                    RemoveSuperscriptRuns((IInlineContainer)inline, insertCaret);
+                    RemoveSuperscriptRuns(textInline, insertCaret);
 
                     // Remove the superscript element, insert all the children.
                     container.Inlines.RemoveAt(i);
@@ -1115,7 +1142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                         container.Inlines.Insert(i++, new TextRunInline { Text = "^" });
                     }
 
-                    foreach (var superscriptInline in ((SuperscriptTextInline)inline).Inlines)
+                    foreach (var superscriptInline in textInline.Inlines)
                     {
                         container.Inlines.Insert(i++, superscriptInline);
                     }

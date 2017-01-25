@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     /// <summary>
     /// Represents a block that is displayed using a quote style.  Quotes are used to indicate

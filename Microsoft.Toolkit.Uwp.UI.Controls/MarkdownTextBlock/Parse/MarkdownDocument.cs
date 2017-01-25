@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {

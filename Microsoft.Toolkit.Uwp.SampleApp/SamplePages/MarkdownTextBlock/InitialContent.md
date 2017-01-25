@@ -331,30 +331,4 @@ results in
 
 >*****
 
-
-&nbsp;
-
-
->[**Ice Cream - Oney Cartoons [0:12]**](http://youtu.be/MFT4OgFxfes)
-
-> [*^OneyNG*](https://www.youtube.com/channel/UCV5wuGZmg_FGQp25uzKKDaw) ^in ^Shows
-
->*^6,790,904 ^views ^since ^Aug ^2012*
-
-[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)
-
-
-&nbsp;
-
-
-[**Bola Azul**](http://www.windowsphone.com/s?appid=b21e5b6a-8ee2-4662-a5ad-58faecf707c6) by Porta dos Fundos ★★★★☆ (Free)
-
-------
-
-[^Report ^bug/give ^feedback](http://www.reddit.com/message/compose?to=%2Fr%2FWPBot) ^| ^Bot ^by ^/[u/noggin182](/user/noggin182) 
-
-
-&nbsp;
-
-
 Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_primer_or_how_do_you_do_all_that/c03nik6

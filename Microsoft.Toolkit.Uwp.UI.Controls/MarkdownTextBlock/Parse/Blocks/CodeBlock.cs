@@ -13,7 +13,7 @@
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     /// <summary>
     /// Represents a block of text that is displayed in a fixed-width font.  Inline elements and

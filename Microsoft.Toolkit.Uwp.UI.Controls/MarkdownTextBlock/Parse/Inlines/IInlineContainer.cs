@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="IInlineContainer"/> class.

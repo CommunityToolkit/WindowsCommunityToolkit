@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     /// <summary>
     /// Represents a heading.
