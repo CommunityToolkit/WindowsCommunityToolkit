@@ -168,7 +168,7 @@
         "Name": "LiveTile",
         "Type": "LiveTilePage",
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
         "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
         "Icon": "/SamplePages/LiveTile/icon.jpg"
@@ -177,7 +177,7 @@
         "Name": "Toast",
         "Type": "ToastPage",
         "About": "This shows how to send a Toast notification.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "ToastCode.bind",
         "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
         "Icon": "/SamplePages/Toast/icon.jpg"
@@ -186,7 +186,7 @@
         "Name": "WeatherLiveTileAndToast",
         "Type": "WeatherLiveTileAndToastPage",
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications.Shared",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
         "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png"
@@ -281,7 +281,7 @@
         "Name": "Bing Service",
         "Type": "BingPage",
         "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing",
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png"
       },
@@ -313,7 +313,7 @@
         "Name": "LinkedIn Service",
         "Type": "LinkedInPage",
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
       },
@@ -335,7 +335,7 @@
         "Name": "ImageCache",
         "Type": "ImageCachePage",
         "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Cache",
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
         "Icon": "/SamplePages/ImageCache/ImageEx.png"
@@ -360,7 +360,7 @@
         "Name": "BackgroundTaskHelper",
         "Type": "BackgroundTaskHelperPage",
         "About": "Allows easy registration and maintainance of background task",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png"
       },
@@ -368,7 +368,7 @@
         "Name": "ConnectionHelper",
         "Type": "ConnectionHelperPage",
         "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ConnectionHelper.cs",
         "CodeFile": "ConnectionHelperCode.bind",
         "Icon": "/Assets/Helpers.png"
       },
@@ -384,7 +384,7 @@
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
         "About": "Allows to easily print XAML controls",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper",
         "CodeFile": "PrintHelperCode.bind",
         "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
       },
@@ -392,7 +392,7 @@
         "Name": "DispatcherHelper",
         "Type": "DispatcherHelperPage",
         "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs",
         "CodeFile": "DispatcherHelperCode.bind",
         "Icon": "/Assets/Helpers.png"
       },
