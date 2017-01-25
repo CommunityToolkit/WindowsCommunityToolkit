@@ -112,12 +112,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="..\githubresources\badges\windows10_anniversary.png">
-      <Link>Assets\Badges\windows10_anniversary.png</Link>
-    </Content>
-    <Content Include="..\githubresources\badges\windows10_creators.png">
-      <Link>Assets\Badges\windows10_creators.png</Link>
-    </Content>
     <Content Include="Assets\Helpers.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />

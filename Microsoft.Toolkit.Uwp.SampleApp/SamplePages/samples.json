@@ -115,7 +115,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "Loading",
@@ -148,7 +148,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
         "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "WrapPanel",
@@ -249,7 +249,7 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "Light",
@@ -259,7 +259,7 @@
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
         "Icon": "/SamplePages/Light/LightBehavior.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "FadeHeader",
@@ -277,7 +277,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ReorderGrid.bind",
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       }
     ]
   },
