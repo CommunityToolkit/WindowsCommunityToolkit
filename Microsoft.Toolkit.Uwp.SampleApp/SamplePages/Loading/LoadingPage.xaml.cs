@@ -32,13 +32,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
             AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
 
             Shell.Current.RegisterNewCommand("Loading control with wait ring", async (sender, args) =>
@@ -53,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await ShowLoadingDialogAsync();
             });
 
-            Shell.Current.RegisterNewCommand("Loading control with logo and bluring when it requested", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Loading control with logo and bluring when requested", async (sender, args) =>
             {
                 LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
-                await LoadingContentControl.Blur(10, 1000, 0).StartAsync();
+                await LoadingContentControl.Blur(10, 100).StartAsync();
                 await ShowLoadingDialogAsync();
             });
 
