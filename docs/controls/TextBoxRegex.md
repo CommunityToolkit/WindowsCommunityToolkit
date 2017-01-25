@@ -4,13 +4,13 @@ The **TextBox Regex Property** allows text validation using a regular expression
 
 ### How it works
 
-The developer adds a regular expression to validate the TextBox Text against the regualr expression throw Regex property or from selecting ValidationType property on the TextBox.
-The validation has 2 modes setted by ValidationMode property:-
-1) Normal (Default) : This type will set TextBox IsValid attached propety to false or true whether the TextBox text is a valid or not against the Regex property.
+The developer adds a regular expression to validate the TextBox Text against the regular expression throw Regex property or from selecting ValidationType property on the TextBox.
+The validation has 2 modes (ValidationMode):-
+1) Normal (Default) : This type will set TextBox IsValid attached property to false or true whether the TextBox text is a valid or not against the Regex property.
 2) Forced : This type sets the IsValid property and remove the TextBox text if not valid when the TextBox lose focus.   
 
-Main Attached Properites:
-1) Regex : this property used to set the regualr expression that will be used to validate the TextBox.
+Main Attached Properties:
+1) Regex : this property used to set the regular expression that will be used to validate the TextBox.
 2) ValidationMode: Normal or Forced.
 3) ValidationType: use a built in predefined validation types Email, Decimal, Phone Number, Character or Number.
 
