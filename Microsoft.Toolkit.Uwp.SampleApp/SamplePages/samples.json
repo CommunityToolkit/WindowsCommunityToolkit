@@ -238,7 +238,8 @@
         "Type": "ParallaxPage",
         "About": "Parallax items contained within a ScrollViewer or List",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "XamlCodeFile": "ParallaxPage.bind"
+        "XamlCodeFile": "ParallaxPage.bind",
+        "Icon": "/SamplePages/ParallaxService/Parallax.png"
       }, 
       {
         "Name": "ReorderGridAnimation",

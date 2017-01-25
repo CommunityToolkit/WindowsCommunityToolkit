@@ -253,6 +253,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
