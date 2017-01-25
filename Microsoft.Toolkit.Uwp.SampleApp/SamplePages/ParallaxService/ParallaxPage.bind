@@ -89,10 +89,10 @@ Morbi sed mauris nibh. Nulla id ligula luctus, auctor arcu sit amet, maximus met
                        an:ParallaxService.ScrollingElement="{Binding ElementName=HorizontalScroller}"
                        an:HorizontalMultiplier="@[HorizontalMultiplier:Slider:-.7:-1-1-.1]"/>
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="Red" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Blue" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Yellow" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Green" Opacity=".6" Width="200" Margin="12,24"/>
+                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
+                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
+                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
+                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
                 </StackPanel>
             </Grid>
         </ScrollViewer>      
