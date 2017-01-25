@@ -30,9 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister
     {
         /// <summary>
-        /// Holds a list of hyperlinks we are listening to.
+        /// Holds a list of weak hyperlink events we are listening to.
         /// </summary>
-        private List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
+        private List<WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>> _weakUrlListeners = new List<WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>>();
 
         /// <summary>
         /// The root element for our rendering.
@@ -1014,13 +1014,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookListeners()
         {
             // Clear any hyper link events if we have any
-            foreach (Hyperlink link in _listeningHyperlinks)
+            foreach (var listener in _weakUrlListeners)
             {
-                link.Click -= Hyperlink_Click;
+                listener.Detach();
             }
 
             // Clear everything that exists.
-            _listeningHyperlinks.Clear();
+            _weakUrlListeners.Clear();
         }
 
         // Used to attach the URL to hyperlinks.
@@ -1032,14 +1032,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void RegisterNewHyperLink(Hyperlink newHyperlink, string linkUrl)
         {
-            // Setup a listener for clicks.
-            newHyperlink.Click += Hyperlink_Click;
-
-            // Associate the URL with the hyperlink.
+            var weakEventListener = new WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>(this)
+            {
+                OnEventAction = (instance, source, eventArgs) => instance.Hyperlink_Click(source, eventArgs),
+                OnDetachAction = (listener) => newHyperlink.Click -= listener.OnEvent
+            };
+            newHyperlink.Click += weakEventListener.OnEvent;
             newHyperlink.SetValue(HyperlinkUrlProperty, linkUrl);
-
-            // Add it to our list
-            _listeningHyperlinks.Add(newHyperlink);
+            _weakUrlListeners.Add(weakEventListener);
         }
 
         private bool multiClickDetectionTriggered;
