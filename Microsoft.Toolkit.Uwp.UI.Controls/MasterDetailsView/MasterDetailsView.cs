@@ -19,6 +19,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -122,6 +123,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating += OnFrameNavigating;
+                }
             }
 
             if (_stateGroup != null)
@@ -147,6 +153,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
             }
         }
 
@@ -167,6 +178,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
             VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
+        }
+
+        /// <summary>
+        /// Closes the details pane if we are in narrow state
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="args">The event args</param>
+        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
+        {
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            {
+                SelectedItem = null;
+                args.Cancel = true;
+            }
         }
 
         /// <summary>
