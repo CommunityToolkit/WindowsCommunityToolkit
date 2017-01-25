@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A <see cref="FrameworkElement"/> that is, or contains a ScrollViewer.</returns>
-        public static FrameworkElement GetScrollingElement(DependencyObject element)
+        public static FrameworkElement GetScrollingElement(UIElement element)
         {
             return (FrameworkElement)element.GetValue(ScrollingElementProperty);
         }
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The element that is, or contains a ScrollViewer.</param>
-        public static void SetScrollingElement(DependencyObject element, FrameworkElement value)
+        public static void SetScrollingElement(UIElement element, FrameworkElement value)
         {
             element.SetValue(ScrollingElementProperty, value);
         }
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        public static double GetVerticalMultiplier(DependencyObject element)
+        public static double GetVerticalMultiplier(UIElement element)
         {
             return (double)element.GetValue(VerticalMultiplierProperty);
         }
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll vertically.</param>
-        public static void SetVerticalMultiplier(DependencyObject element, double value)
+        public static void SetVerticalMultiplier(UIElement element, double value)
         {
             element.SetValue(VerticalMultiplierProperty, value);
         }
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        public static double GetHorizontalMultiplier(DependencyObject element)
+        public static double GetHorizontalMultiplier(UIElement element)
         {
             return (double)element.GetValue(HorizontalMultiplierProperty);
         }
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll horizontally.</param>
-        public static void SetHorizontalMultiplier(DependencyObject element, double value)
+        public static void SetHorizontalMultiplier(UIElement element, double value)
         {
             element.SetValue(HorizontalMultiplierProperty, value);
         }
