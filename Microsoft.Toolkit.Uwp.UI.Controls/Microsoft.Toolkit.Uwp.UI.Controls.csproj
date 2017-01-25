@@ -73,7 +73,6 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
-    <Compile Include="MosaicControl\MosaicControl.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
+    <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
@@ -146,7 +146,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="MosaicControl\MosaicControl.xaml">
+    <Page Include="TileControl\TileControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

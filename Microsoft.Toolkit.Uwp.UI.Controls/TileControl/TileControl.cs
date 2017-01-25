@@ -88,73 +88,73 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A ContentControl that show an image repeated many times.
     /// The control can be synchronized with a Scrollviewer and animated easily.
     /// </summary>
-    public sealed class MosaicControl : ContentControl
+    public sealed class TileControl : ContentControl
     {
         /// <summary>
         /// Identifies the <see cref="ScrollViewerContainer"/> property.
         /// </summary>
         public static readonly DependencyProperty ScrollViewerContainerProperty =
-            DependencyProperty.Register(nameof(ScrollViewerContainer), typeof(FrameworkElement), typeof(MosaicControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
+            DependencyProperty.Register(nameof(ScrollViewerContainer), typeof(FrameworkElement), typeof(TileControl), new PropertyMetadata(null, OnScrollViewerContainerChange));
 
         /// <summary>
         /// Identifies the <see cref="ImageAlignment"/> property.
         /// </summary>
         public static readonly DependencyProperty ImageAlignmentProperty =
-            DependencyProperty.Register(nameof(ImageAlignment), typeof(ImageAlignment), typeof(MosaicControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
+            DependencyProperty.Register(nameof(ImageAlignment), typeof(ImageAlignment), typeof(TileControl), new PropertyMetadata(ImageAlignment.None, OnAlignmentChange));
 
         /// <summary>
         /// Identifies the <see cref="ImageSource"/> property.
         /// </summary>
         public static readonly DependencyProperty ImageSourceProperty =
-            DependencyProperty.Register(nameof(ImageSource), typeof(Uri), typeof(MosaicControl), new PropertyMetadata(null, OnImageSourceChanged));
+            DependencyProperty.Register(nameof(ImageSource), typeof(Uri), typeof(TileControl), new PropertyMetadata(null, OnImageSourceChanged));
 
         /// <summary>
         /// Identifies the <see cref="ScrollOrientation"/> property.
         /// </summary>
         public static readonly DependencyProperty ScrollOrientationProperty =
-            DependencyProperty.Register(nameof(ScrollOrientation), typeof(ScrollOrientation), typeof(MosaicControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
+            DependencyProperty.Register(nameof(ScrollOrientation), typeof(ScrollOrientation), typeof(TileControl), new PropertyMetadata(ScrollOrientation.Both, OnOrientationChanged));
 
         /// <summary>
         /// Identifies the <see cref="OffsetX"/> property.
         /// </summary>
         public static readonly DependencyProperty OffsetXProperty =
-            DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+            DependencyProperty.Register(nameof(OffsetX), typeof(double), typeof(TileControl), new PropertyMetadata(0.0, OnOffsetChange));
 
         /// <summary>
         /// Identifies the <see cref="OffsetY"/> property.
         /// </summary>
         public static readonly DependencyProperty OffsetYProperty =
-            DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(MosaicControl), new PropertyMetadata(0.0, OnOffsetChange));
+            DependencyProperty.Register(nameof(OffsetY), typeof(double), typeof(TileControl), new PropertyMetadata(0.0, OnOffsetChange));
 
         /// <summary>
         /// Identifies the <see cref="ParallaxSpeedRatio"/> property.
         /// </summary>
         public static readonly DependencyProperty ParallaxSpeedRatioProperty =
-            DependencyProperty.Register(nameof(ParallaxSpeedRatio), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
+            DependencyProperty.Register(nameof(ParallaxSpeedRatio), typeof(double), typeof(TileControl), new PropertyMetadata(1.0, OnScrollSpeedRatioChange));
 
         /// <summary>
         /// Identifies the <see cref="IsAnimated"/> property.
         /// </summary>
         public static readonly DependencyProperty IsAnimatedProperty =
-            DependencyProperty.Register(nameof(IsAnimated), typeof(bool), typeof(MosaicControl), new PropertyMetadata(false, OnIsAnimatedChange));
+            DependencyProperty.Register(nameof(IsAnimated), typeof(bool), typeof(TileControl), new PropertyMetadata(false, OnIsAnimatedChange));
 
         /// <summary>
         /// Identifies the <see cref="AnimationStepX"/> property.
         /// </summary>
         public static readonly DependencyProperty AnimationStepXProperty =
-            DependencyProperty.Register(nameof(AnimationStepX), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(AnimationStepX), typeof(double), typeof(TileControl), new PropertyMetadata(1.0));
 
         /// <summary>
         /// Identifies the <see cref="AnimationStepY"/> property.
         /// </summary>
         public static readonly DependencyProperty AnimationStepYProperty =
-            DependencyProperty.Register(nameof(AnimationStepY), typeof(double), typeof(MosaicControl), new PropertyMetadata(1.0));
+            DependencyProperty.Register(nameof(AnimationStepY), typeof(double), typeof(TileControl), new PropertyMetadata(1.0));
 
         /// <summary>
         /// Identifies the <see cref="AnimationDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(MosaicControl), new PropertyMetadata(30.0, OnAnimationDuration));
+            DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(TileControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
         private FrameworkElement _rootElement = null;
         private Canvas _containerElement = null;
@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private DispatcherTimer _timerAnimation = null;
 
         /// <summary>
-        /// A Scrollviewer used for synchronized the move of the <see cref="MosaicControl"/>
+        /// A Scrollviewer used for synchronized the move of the <see cref="TileControl"/>
         /// </summary>
         private ScrollViewer _scrollviewer = null;
 
@@ -221,11 +221,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MosaicControl"/> class.
+        /// Initializes a new instance of the <see cref="TileControl"/> class.
         /// </summary>
-        public MosaicControl()
+        public TileControl()
         {
-            DefaultStyleKey = typeof(MosaicControl);
+            DefaultStyleKey = typeof(TileControl);
 
             InitializeAnimation();
         }
@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async void OnScrollViewerContainerChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as MosaicControl;
+            var control = d as TileControl;
             await control.InitializeScrollViewerContainer(e.OldValue as FrameworkElement, e.NewValue as FrameworkElement);
         }
 
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets how the <see cref="MosaicControl"/> is rendered
+        /// Gets how the <see cref="TileControl"/> is rendered
         /// The default value is Composition.
         /// </summary>
         private UIStrategy Strategy
@@ -316,7 +316,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async void OnAlignmentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as MosaicControl;
+            var control = d as TileControl;
             await control.RefreshContainerMosaicLocked();
         }
 
@@ -376,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as MosaicControl;
+            var control = d as TileControl;
             await control.LoadImageBrush(e.NewValue as Uri);
         }
 
@@ -503,7 +503,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as MosaicControl;
+            var control = d as TileControl;
             await control.RefreshContainerMosaicLocked();
             await control.CreateModuloExpression(control._scrollviewer);
         }
@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOffsetChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var c = d as MosaicControl;
+            var c = d as TileControl;
 
             c.RefreshMove();
         }
@@ -797,7 +797,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnScrollSpeedRatioChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var c = d as MosaicControl;
+            var c = d as TileControl;
             c.RefreshScrollSpeedRatio((double)e.NewValue);
         }
 
@@ -1037,7 +1037,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnIsAnimatedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var c = d as MosaicControl;
+            var c = d as TileControl;
 
             if ((bool)e.NewValue == true)
             {
@@ -1125,7 +1125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAnimationDuration(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var c = d as MosaicControl;
+            var c = d as TileControl;
 
             c._timerAnimation.Interval = TimeSpan.FromMilliseconds(c.AnimationDuration);
         }
