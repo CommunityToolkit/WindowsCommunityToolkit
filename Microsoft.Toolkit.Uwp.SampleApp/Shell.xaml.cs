@@ -102,6 +102,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var propertyDesc = await sample.GetPropertyDescriptorAsync();
                 DataContext = sample;
                 Title.Text = sample.Name;
+                if (!string.IsNullOrEmpty(sample.CodeUrl))
+                {
+                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
+                    GitHub.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    GitHub.Visibility = Visibility.Collapsed;
+                }
 
                 NavigationFrame.Navigate(pageType, propertyDesc);
 

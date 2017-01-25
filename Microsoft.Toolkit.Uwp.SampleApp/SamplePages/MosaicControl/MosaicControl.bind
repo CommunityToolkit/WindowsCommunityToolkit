@@ -35,7 +35,7 @@
       OffsetX             ="@[OffsetX:Slider:0:0-150]"
       OffsetY             ="@[OffsetY:Slider:0:0-150]"
       
-      IsAnimated          ="@[IsAnimated:Bool:False]"
+      IsAnimated          ="@[IsAnimated:Bool:True]"
       AnimationStepX      ="@[AnimationStepX:Slider:1:0-3]"
       AnimationStepY      ="@[AnimationStepY:Slider:1:0-3]"
       AnimationDuration   ="@[AnimationDuration:Slider:30:0-100]"
