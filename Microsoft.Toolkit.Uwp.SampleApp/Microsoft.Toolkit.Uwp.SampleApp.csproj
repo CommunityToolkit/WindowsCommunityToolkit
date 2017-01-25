@@ -280,6 +280,7 @@
     <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
     <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -358,11 +359,13 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\EnumConverter.cs" />
@@ -476,6 +479,9 @@
     </Compile>
     <Compile Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml.cs">
       <DependentUpon>TextBoxMaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml.cs">
+      <DependentUpon>TextBoxRegexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
@@ -687,6 +693,10 @@
     <Page Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Toast\ToastPage.xaml">
       <Generator>MSBuild:Compile</Generator>
