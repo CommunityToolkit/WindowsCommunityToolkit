@@ -118,6 +118,14 @@
         "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
       },
       {
+        "Name": "Loading",
+        "Type": "LoadingPage",
+        "About": "LoadingControl helps to show content with animation to the user while the app is doing some calculation.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
+        "XamlCodeFile": "LoadingCode.bind",
+        "Icon": "/SamplePages/Loading/Loading.png"
+      },
+      {
         "Name": "TextBoxMask",
         "Type": "TextBoxMaskPage",
         "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
