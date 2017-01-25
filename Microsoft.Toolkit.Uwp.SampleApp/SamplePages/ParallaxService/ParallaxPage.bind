@@ -12,10 +12,9 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="Scroller">
+        <ScrollViewer>
             <StackPanel>
                 <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
-                       an:ParallaxService.ScrollingElement="{Binding ElementName=Scroller}"
                        an:ParallaxService.VerticalMultiplier="@[VerticalMultiplier:Slider:-.3:-1-1-.1]"/>
                 <Border Background="{StaticResource Brush-Grey-05}">
                     <TextBlock TextWrapping="WrapWholeWords" FontSize="20">
@@ -30,8 +29,7 @@ Nam eu lobortis velit, ac lobortis nibh. Mauris facilisis urna mi, id iaculis le
                 </Border>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer x:Name="HorizontalScroller" 
-                      Grid.Column="1"
+        <ScrollViewer Grid.Column="1"
                       HorizontalScrollBarVisibility="Auto"
                       HorizontalScrollMode="Enabled" 
                       VerticalScrollBarVisibility="Hidden"
@@ -39,7 +37,6 @@ Nam eu lobortis velit, ac lobortis nibh. Mauris facilisis urna mi, id iaculis le
             <Grid>
                 <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
                        Stretch="UniformToFill"
-                       an:ParallaxService.ScrollingElement="{Binding ElementName=HorizontalScroller}"
                        an:HorizontalMultiplier="@[HorizontalMultiplier:Slider:-.7:-1-1-.1]"/>
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>

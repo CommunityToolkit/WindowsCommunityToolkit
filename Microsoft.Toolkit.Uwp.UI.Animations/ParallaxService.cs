@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,11 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class ParallaxService
     {
         /// <summary>
-        /// Identifies the ParallaxService.ScrollingElement XAML attached property.
-        /// </summary>
-        public static readonly DependencyProperty ScrollingElementProperty = DependencyProperty.RegisterAttached("ScrollingElement", typeof(FrameworkElement), typeof(ParallaxService), new PropertyMetadata(null, OnScrollingElementChanged));
-
-        /// <summary>
         /// Identifies the ParallaxService.VerticalMultiplier XAML attached property.
         /// </summary>
         public static readonly DependencyProperty VerticalMultiplierProperty = DependencyProperty.RegisterAttached("VerticalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
@@ -36,26 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the ParallaxService.HorizontalMultiplier attached property.
         /// </summary>
         public static readonly DependencyProperty HorizontalMultiplierProperty = DependencyProperty.RegisterAttached("HorizontalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
-
-        /// <summary>
-        /// Gets the ParallaxService.ScrollingElementattached property value for the specified target element.
-        /// </summary>
-        /// <param name="element">The target element for the attached property value..</param>
-        /// <returns>A <see cref="FrameworkElement"/> that is, or contains a ScrollViewer.</returns>
-        public static FrameworkElement GetScrollingElement(UIElement element)
-        {
-            return (FrameworkElement)element.GetValue(ScrollingElementProperty);
-        }
-
-        /// <summary>
-        /// Sets the ParallaxService.ScrollingElementattached property value for the specified target element.
-        /// </summary>
-        /// <param name="element">The target element for the attached property value.</param>
-        /// <param name="value">The element that is, or contains a ScrollViewer.</param>
-        public static void SetScrollingElement(UIElement element, FrameworkElement value)
-        {
-            element.SetValue(ScrollingElementProperty, value);
-        }
 
         /// <summary>
         /// Gets the ParallaxService.VerticalMultiplier attached property value for the specified target element.
@@ -97,21 +73,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             element.SetValue(HorizontalMultiplierProperty, value);
         }
 
-        private static void OnScrollingElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Identifies the ParallaxService.ScrollingElement XAML attached property.
+        /// </summary>
+        private static readonly DependencyProperty ScrollingElementProperty = DependencyProperty.RegisterAttached("ScrollingElement", typeof(ScrollViewer), typeof(ParallaxService), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets the ParallaxService.ScrollingElementattached property value for the specified target element.
+        /// </summary>
+        /// <param name="element">The target element for the attached property value..</param>
+        /// <returns>A <see cref="FrameworkElement"/> that is, or contains a ScrollViewer.</returns>
+        private static ScrollViewer GetScrollingElement(UIElement element)
         {
-            CreateParallax(d as UIElement, GetScrollViewer(d), (double)d.GetValue(HorizontalMultiplierProperty), (double)d.GetValue(VerticalMultiplierProperty));
+            return (ScrollViewer)element.GetValue(ScrollingElementProperty);
+        }
+
+        /// <summary>
+        /// Sets the ParallaxService.ScrollingElementattached property value for the specified target element.
+        /// </summary>
+        /// <param name="element">The target element for the attached property value.</param>
+        /// <param name="value">The element that is, or contains a ScrollViewer.</param>
+        private static void SetScrollingElement(UIElement element, ScrollViewer value)
+        {
+            element.SetValue(ScrollingElementProperty, value);
         }
 
         private static void OnMultiplierChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            CreateParallax(d as UIElement, GetScrollViewer(d), (double)d.GetValue(HorizontalMultiplierProperty), (double)d.GetValue(VerticalMultiplierProperty));
+            var uiElement = (UIElement)d;
+            var scrollViewer = GetScrollingElement(uiElement);
+            if (scrollViewer == null)
+            {
+                var element = d as FrameworkElement;
+                if (element != null)
+                {
+                    scrollViewer = element.FindVisualAscendant<ScrollViewer>();
+                    if (scrollViewer == null)
+                    {
+                        element.Loaded += OnElementLoaded;
+                        return;
+                    }
+
+                    SetScrollingElement(uiElement, scrollViewer);
+                }
+            }
+
+            CreateParallax(uiElement, scrollViewer, (double)d.GetValue(HorizontalMultiplierProperty), (double)d.GetValue(VerticalMultiplierProperty));
         }
 
-        private static ScrollViewer GetScrollViewer(DependencyObject obj)
+        private static void OnElementLoaded(object sender, RoutedEventArgs e)
         {
-            var element = obj.GetValue(ScrollingElementProperty) as DependencyObject;
-            var scroller = element as ScrollViewer;
-            return scroller ?? element?.FindDescendant<ScrollViewer>();
+            var element = (FrameworkElement)sender;
+            element.Loaded -= OnElementLoaded;
+
+            var scrollViewer = element.FindVisualAscendant<ScrollViewer>();
+            SetScrollingElement(element, scrollViewer);
+
+            CreateParallax(element, scrollViewer, (double)element.GetValue(HorizontalMultiplierProperty), (double)element.GetValue(VerticalMultiplierProperty));
         }
 
         private static void CreateParallax(UIElement parallaxElement, ScrollViewer scroller, double horizontalMultiplier, double verticalMultiplier)
