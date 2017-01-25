@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -18,8 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// TextBoxRegex allows text validation using a regular expression.
     /// </summary>
     /// <remarks>
-    /// If<see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If<see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
+    /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
+    /// If <see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to get Regex property from.</param>
         /// <returns>The regular expression assigned to the TextBox</returns>
-        public static string GetRegex(DependencyObject textBox)
+        public static string GetRegex(TextBox textBox)
         {
             return (string)textBox.GetValue(RegexProperty);
         }
@@ -58,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">The TextBox to set the regular expression on</param>
         /// <param name="value">Regex value</param>
-        public static void SetRegex(DependencyObject textBox, string value)
+        public static void SetRegex(TextBox textBox, string value)
         {
             textBox.SetValue(RegexProperty, value);
         }
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to be validated.</param>
         /// <returns>TextBox regular expression validation result</returns>
-        public static bool GetIsValid(DependencyObject textBox)
+        public static bool GetIsValid(TextBox textBox)
         {
             return (bool)textBox.GetValue(IsValidProperty);
         }
@@ -78,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to be assigned the property</param>
         /// <param name="value">A value indicating if the Text is valid according to the Regex property.</param>
-        public static void SetIsValid(DependencyObject textBox, bool value)
+        public static void SetIsValid(TextBox textBox, bool value)
         {
             textBox.SetValue(ValidationModeProperty, value);
         }
@@ -88,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to get the <see cref="ValidationMode"/> from</param>
         /// <returns>TextBox <see cref="ValidationMode"/> value</returns>
-        public static ValidationMode GetValidationMode(DependencyObject textBox)
+        public static ValidationMode GetValidationMode(TextBox textBox)
         {
             return (ValidationMode)textBox.GetValue(ValidationModeProperty);
         }
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to set the <see cref="ValidationMode"/> on.</param>
         /// <param name="value">TextBox <see cref="ValidationMode"/> value</param>
-        public static void SetValidationMode(DependencyObject textBox, ValidationMode value)
+        public static void SetValidationMode(TextBox textBox, ValidationMode value)
         {
             textBox.SetValue(ValidationModeProperty, value);
         }
@@ -108,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to get <see cref="ValidationType"/> from.</param>
         /// <returns>TextBox <see cref="ValidationType"/> Value</returns>
-        public static ValidationType GetValidationType(DependencyObject textBox)
+        public static ValidationType GetValidationType(TextBox textBox)
         {
             return (ValidationType)textBox.GetValue(ValidationTypeProperty);
         }
@@ -118,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="textBox">TextBox to set the <see cref="ValidationType"/> on.</param>
         /// <param name="value">TextBox <see cref="ValidationType"/> value</param>
-        public static void SetValidationType(DependencyObject textBox, ValidationType value)
+        public static void SetValidationType(TextBox textBox, ValidationType value)
         {
             textBox.SetValue(ValidationTypeProperty, value);
         }
