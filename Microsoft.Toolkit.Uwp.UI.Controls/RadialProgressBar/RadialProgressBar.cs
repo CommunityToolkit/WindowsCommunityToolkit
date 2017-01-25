@@ -106,6 +106,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
 
         /// <summary>
+        /// Gets or sets the color of the circular ouline on which the segment is drawn
+        /// </summary>
+        public Brush Outline
+        {
+            get { return (Brush)GetValue(OutlineProperty); }
+            set { SetValue(OutlineProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the Outline dependency property
+        /// </summary>
+        public static readonly DependencyProperty OutlineProperty = DependencyProperty.Register(nameof(Outline), typeof(Brush), typeof(RadialProgressBar), new PropertyMetadata(new SolidColorBrush(Windows.UI.Colors.Transparent)));
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RadialProgressBar"/> class.
         /// Create a default circular progress bar
         /// </summary>

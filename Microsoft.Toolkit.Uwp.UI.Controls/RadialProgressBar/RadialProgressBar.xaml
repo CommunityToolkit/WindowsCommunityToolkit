@@ -5,13 +5,14 @@
     
     <Style TargetType="local:RadialProgressBar" >
         <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+        <Setter Property="Outline" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialProgressBar">
-                    <Grid>
+                    <Grid Background="{TemplateBinding Background}">
                         <!-- Gray outline of progress bar -->
-                        <Path Fill="Transparent" Stroke="{TemplateBinding Background}" StrokeThickness="{TemplateBinding Thickness}" StrokeDashCap="Flat">
+                        <Path Fill="Transparent" Stroke="{TemplateBinding Outline}" StrokeThickness="{TemplateBinding Thickness}" StrokeDashCap="Flat">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>
