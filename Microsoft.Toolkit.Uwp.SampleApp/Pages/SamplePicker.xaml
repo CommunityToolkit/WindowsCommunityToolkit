@@ -4,9 +4,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sampleApp="using:Microsoft.Toolkit.Uwp.SampleApp"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       SizeChanged="SamplePicker_OnSizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="sampleApp:Sample">
             <Grid Width="500"
@@ -43,13 +45,15 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <Image Grid.Row="2"
-                           Width="100"
+                    <Grid Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
+                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                        <TextBlock
                            Margin="0,2,0,2"
-                           HorizontalAlignment="Left"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
-                           Source="{Binding BadgeUpdateVersionRequired}"
-                           Stretch="Uniform" />
+                           Text="{Binding BadgeUpdateVersionRequired}"
+                           Foreground="White" />
+                    </Grid>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -62,10 +66,6 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <Border Grid.Column="0"
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
@@ -74,17 +74,10 @@
                     <Image Width="80"
                            Source="{Binding Icon}" />
                 </Border>
-                <Image Grid.Row="1"
-                       Width="80"
-                       Margin="0,5,0,0"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Source="{Binding BadgeUpdateVersionRequired}"
-                       Stretch="Uniform" />
-                <Grid Grid.RowSpan="2"
-                      Grid.Column="1">
+                <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
@@ -100,6 +93,17 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
+                    <Grid Margin="0,0,5,0"
+                          Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
+                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                        <TextBlock 
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="{Binding BadgeUpdateVersionRequired}"
+                               Foreground="White" />
+                    </Grid>
                 </Grid>
             </Grid>
         </DataTemplate>
