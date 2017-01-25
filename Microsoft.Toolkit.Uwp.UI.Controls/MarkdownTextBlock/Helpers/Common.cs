@@ -13,7 +13,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
 {
@@ -92,8 +91,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             public InlineParseMethod Method { get; set; }
         }
 
-        private static List<InlineTripCharHelper> _triggerList = new List<InlineTripCharHelper>();
-        private static char[] _tripCharacters;
+        private static readonly List<InlineTripCharHelper> _triggerList = new List<InlineTripCharHelper>();
+        private static readonly char[] _tripCharacters;
 
         static Common()
         {
@@ -122,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             while (currentParsePosition < maxEndingPos)
             {
                 // Find the next inline element.
-                var parseResult = Common.FindNextInlineElement(markdown, currentParsePosition, maxEndingPos, ignoreLinks);
+                var parseResult = FindNextInlineElement(markdown, currentParsePosition, maxEndingPos, ignoreLinks);
 
                 // If the element we found doesn't start at the position we are looking for there
                 // is text between the element and the start of the parsed element. We need to wrap
@@ -158,17 +157,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             /// <summary>
             /// Gets the element that was parsed (can be <c>null</c>).
             /// </summary>
-            public MarkdownInline ParsedElement { get; private set; }
+            public MarkdownInline ParsedElement { get; }
 
             /// <summary>
             /// Gets the position of the first character in the parsed element.
             /// </summary>
-            public int Start { get; private set; }
+            public int Start { get; }
 
             /// <summary>
             /// Gets the position of the character after the last character in the parsed element.
             /// </summary>
-            public int End { get; private set; }
+            public int End { get; }
         }
 
         /// <summary>

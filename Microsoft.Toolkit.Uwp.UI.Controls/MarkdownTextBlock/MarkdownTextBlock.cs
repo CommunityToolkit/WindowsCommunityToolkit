@@ -27,17 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed partial class MarkdownTextBlock : Control, ILinkRegister
+    public sealed class MarkdownTextBlock : Control, ILinkRegister
     {
         /// <summary>
-        /// Holds a list of weak hyperlink events we are listening to.
+        /// Holds a list of hyperlinks we are listening to.
         /// </summary>
-        private List<WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>> _weakUrlListeners = new List<WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>>();
+        private readonly List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
 
         /// <summary>
         /// The root element for our rendering.
         /// </summary>
-        private Border _rootElement = null;
+        private Border _rootElement;
 
         /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
@@ -58,11 +58,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(TextProperty, value); }
         }
 
+        /// <summary>
+        /// Gets the dependency property for <see cref="Text"/>.
+        /// </summary>
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets a value indicating whether text selection is enabled.
@@ -80,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(IsTextSelectionEnabled),
             typeof(bool),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(true, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(true, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to fill the background of a code block.
@@ -98,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBackground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render the border fill of a code block.
@@ -116,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the thickness of the border around code blocks.
@@ -134,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeBorderThickness),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(2), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render the text inside a code block.  If this is
@@ -153,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeForeground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font used to display code.  If this is <c>null</c>, then
@@ -172,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeFontFamily),
             typeof(FontFamily),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new FontFamily("Consolas"), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the space between the code border and the text.
@@ -190,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodeMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets space between the code border and the text.
@@ -208,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CodePadding),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(10, 6, 10, 6), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
@@ -226,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header1FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 1 headers.
@@ -244,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header1FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 1 headers.
@@ -262,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header1Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 2 headers.
@@ -280,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header2FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 2 headers.
@@ -298,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header2FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(20.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 2 headers.
@@ -316,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header2Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 15, 0, 15), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 3 headers.
@@ -334,7 +337,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header3FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 3 headers.
@@ -352,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header3FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 3 headers.
@@ -370,7 +373,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header3Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 4 headers.
@@ -388,7 +391,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header4FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 4 headers.
@@ -406,7 +409,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header4FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(17.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 4 headers.
@@ -424,7 +427,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header4Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 10, 0, 10), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 5 headers.
@@ -442,7 +445,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header5FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Bold, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 5 headers.
@@ -460,7 +463,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header5FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 5 headers.
@@ -478,7 +481,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header5Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 10, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font weight to use for level 6 headers.
@@ -496,7 +499,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header6FontWeight),
             typeof(FontWeight),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(FontWeights.Normal, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the font size for level 6 headers.
@@ -514,7 +517,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header6FontSize),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(15.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin for level 6 headers.
@@ -532,7 +535,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header6Margin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 10, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render a horizontal rule.  If this is <c>null</c>, then
@@ -551,7 +554,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(HorizontalRuleBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin used for horizontal rules.
@@ -569,7 +572,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(HorizontalRuleMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 7, 0, 7), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the vertical thickness of the horizontal rule.
@@ -587,7 +590,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(HorizontalRuleThickness),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(2.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin used by lists.
@@ -605,7 +608,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ListMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the width of the space used by list item bullets/numbers.
@@ -623,7 +626,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ListGutterWidth),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(32.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the space between the list item bullets/numbers and the list item content.
@@ -641,7 +644,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ListBulletSpacing),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(8.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin used for paragraphs.
@@ -659,7 +662,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ParagraphMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to fill the background of a quote block.
@@ -677,7 +680,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteBackground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render a quote border.  If this is <c>null</c>, then
@@ -696,7 +699,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the thickness of quote borders.
@@ -714,7 +717,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteBorderThickness),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(2, 0, 0, 0), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render the text inside a quote block.  If this is
@@ -733,7 +736,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteForeground),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the space outside of quote borders.
@@ -751,7 +754,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuoteMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(7, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the space between the quote border and the text.
@@ -769,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(QuotePadding),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(7, 2, 0, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to render table borders.  If this is <c>null</c>, then
@@ -788,7 +791,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TableBorderBrush),
             typeof(Brush),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new SolidColorBrush(), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the thickness of any table borders.
@@ -806,7 +809,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TableBorderThickness),
             typeof(double),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(1.0, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the padding inside each cell.
@@ -824,7 +827,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TableCellPadding),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(9, 4, 9, 4), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the margin used by tables.
@@ -842,7 +845,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TableMargin),
             typeof(Thickness),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(new Thickness(0, 5, 0, 5), new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the word wrapping behavior.
@@ -860,7 +863,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TextWrapping),
             typeof(TextWrapping),
             typeof(MarkdownTextBlock),
-            new PropertyMetadata(TextWrapping.Wrap, new PropertyChangedCallback(OnPropertyChangedStatic)));
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Calls OnPropertyChanged.
@@ -868,11 +871,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnPropertyChangedStatic(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var instance = d as MarkdownTextBlock;
-            if (instance != null)
-            {
-                // Defer to the instance method.
-                instance.OnPropertyChanged(d, e.Property);
-            }
+
+            // Defer to the instance method.
+            instance?.OnPropertyChanged(d, e.Property);
         }
 
         /// <summary>
@@ -898,6 +899,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
         }
 
+        /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
             // Grab our root
@@ -943,62 +945,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new XamlRenderer(markdown, this);
-                renderer.Background = Background;
-                renderer.BorderBrush = BorderBrush;
-                renderer.BorderThickness = BorderThickness;
-                renderer.CharacterSpacing = CharacterSpacing;
-                renderer.FontFamily = FontFamily;
-                renderer.FontSize = FontSize;
-                renderer.FontStretch = FontStretch;
-                renderer.FontStyle = FontStyle;
-                renderer.FontWeight = FontWeight;
-                renderer.Foreground = Foreground;
-                renderer.IsTextSelectionEnabled = IsTextSelectionEnabled;
-                renderer.Padding = Padding;
-                renderer.CodeBackground = CodeBackground;
-                renderer.CodeBorderBrush = CodeBorderBrush;
-                renderer.CodeBorderThickness = CodeBorderThickness;
-                renderer.CodeForeground = CodeForeground;
-                renderer.CodeFontFamily = CodeFontFamily;
-                renderer.CodePadding = CodePadding;
-                renderer.CodeMargin = CodeMargin;
-                renderer.Header1FontSize = Header1FontSize;
-                renderer.Header1FontWeight = Header1FontWeight;
-                renderer.Header1Margin = Header1Margin;
-                renderer.Header2FontSize = Header2FontSize;
-                renderer.Header2FontWeight = Header2FontWeight;
-                renderer.Header2Margin = Header2Margin;
-                renderer.Header3FontSize = Header3FontSize;
-                renderer.Header3FontWeight = Header3FontWeight;
-                renderer.Header3Margin = Header3Margin;
-                renderer.Header4FontSize = Header4FontSize;
-                renderer.Header4FontWeight = Header4FontWeight;
-                renderer.Header4Margin = Header4Margin;
-                renderer.Header5FontSize = Header5FontSize;
-                renderer.Header5FontWeight = Header5FontWeight;
-                renderer.Header5Margin = Header5Margin;
-                renderer.Header6FontSize = Header6FontSize;
-                renderer.Header6FontWeight = Header6FontWeight;
-                renderer.Header6Margin = Header6Margin;
-                renderer.HorizontalRuleBrush = HorizontalRuleBrush;
-                renderer.HorizontalRuleMargin = HorizontalRuleMargin;
-                renderer.HorizontalRuleThickness = HorizontalRuleThickness;
-                renderer.ListMargin = ListMargin;
-                renderer.ListGutterWidth = ListGutterWidth;
-                renderer.ListBulletSpacing = ListBulletSpacing;
-                renderer.ParagraphMargin = ParagraphMargin;
-                renderer.QuoteBackground = QuoteBackground;
-                renderer.QuoteBorderBrush = QuoteBorderBrush;
-                renderer.QuoteBorderThickness = QuoteBorderThickness;
-                renderer.QuoteForeground = QuoteForeground;
-                renderer.QuoteMargin = QuoteMargin;
-                renderer.QuotePadding = QuotePadding;
-                renderer.TableBorderBrush = TableBorderBrush;
-                renderer.TableBorderThickness = TableBorderThickness;
-                renderer.TableCellPadding = TableCellPadding;
-                renderer.TableMargin = TableMargin;
-                renderer.TextWrapping = TextWrapping;
+                var renderer = new XamlRenderer(markdown, this)
+                {
+                    Background = Background,
+                    BorderBrush = BorderBrush,
+                    BorderThickness = BorderThickness,
+                    CharacterSpacing = CharacterSpacing,
+                    FontFamily = FontFamily,
+                    FontSize = FontSize,
+                    FontStretch = FontStretch,
+                    FontStyle = FontStyle,
+                    FontWeight = FontWeight,
+                    Foreground = Foreground,
+                    IsTextSelectionEnabled = IsTextSelectionEnabled,
+                    Padding = Padding,
+                    CodeBackground = CodeBackground,
+                    CodeBorderBrush = CodeBorderBrush,
+                    CodeBorderThickness = CodeBorderThickness,
+                    CodeForeground = CodeForeground,
+                    CodeFontFamily = CodeFontFamily,
+                    CodePadding = CodePadding,
+                    CodeMargin = CodeMargin,
+                    Header1FontSize = Header1FontSize,
+                    Header1FontWeight = Header1FontWeight,
+                    Header1Margin = Header1Margin,
+                    Header2FontSize = Header2FontSize,
+                    Header2FontWeight = Header2FontWeight,
+                    Header2Margin = Header2Margin,
+                    Header3FontSize = Header3FontSize,
+                    Header3FontWeight = Header3FontWeight,
+                    Header3Margin = Header3Margin,
+                    Header4FontSize = Header4FontSize,
+                    Header4FontWeight = Header4FontWeight,
+                    Header4Margin = Header4Margin,
+                    Header5FontSize = Header5FontSize,
+                    Header5FontWeight = Header5FontWeight,
+                    Header5Margin = Header5Margin,
+                    Header6FontSize = Header6FontSize,
+                    Header6FontWeight = Header6FontWeight,
+                    Header6Margin = Header6Margin,
+                    HorizontalRuleBrush = HorizontalRuleBrush,
+                    HorizontalRuleMargin = HorizontalRuleMargin,
+                    HorizontalRuleThickness = HorizontalRuleThickness,
+                    ListMargin = ListMargin,
+                    ListGutterWidth = ListGutterWidth,
+                    ListBulletSpacing = ListBulletSpacing,
+                    ParagraphMargin = ParagraphMargin,
+                    QuoteBackground = QuoteBackground,
+                    QuoteBorderBrush = QuoteBorderBrush,
+                    QuoteBorderThickness = QuoteBorderThickness,
+                    QuoteForeground = QuoteForeground,
+                    QuoteMargin = QuoteMargin,
+                    QuotePadding = QuotePadding,
+                    TableBorderBrush = TableBorderBrush,
+                    TableBorderThickness = TableBorderThickness,
+                    TableCellPadding = TableCellPadding,
+                    TableMargin = TableMargin,
+                    TextWrapping = TextWrapping
+                };
                 _rootElement.Child = renderer.Render();
             }
             catch (Exception ex)
@@ -1014,13 +1018,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookListeners()
         {
             // Clear any hyper link events if we have any
-            foreach (var listener in _weakUrlListeners)
+            foreach (Hyperlink link in _listeningHyperlinks)
             {
-                listener.Detach();
+                link.Click -= Hyperlink_Click;
             }
 
             // Clear everything that exists.
-            _weakUrlListeners.Clear();
+            _listeningHyperlinks.Clear();
         }
 
         // Used to attach the URL to hyperlinks.
@@ -1032,14 +1036,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void RegisterNewHyperLink(Hyperlink newHyperlink, string linkUrl)
         {
-            var weakEventListener = new WeakEventListener<MarkdownTextBlock, Hyperlink, HyperlinkClickEventArgs>(this)
-            {
-                OnEventAction = (instance, source, eventArgs) => instance.Hyperlink_Click(source, eventArgs),
-                OnDetachAction = (listener) => newHyperlink.Click -= listener.OnEvent
-            };
-            newHyperlink.Click += weakEventListener.OnEvent;
+            // Setup a listener for clicks.
+            newHyperlink.Click += Hyperlink_Click;
+
+            // Associate the URL with the hyperlink.
             newHyperlink.SetValue(HyperlinkUrlProperty, linkUrl);
-            _weakUrlListeners.Add(weakEventListener);
+
+            // Add it to our list
+            _listeningHyperlinks.Add(newHyperlink);
         }
 
         private bool multiClickDetectionTriggered;
@@ -1047,7 +1051,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when a user taps one of the link elements
         /// </summary>
-        private void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        private async void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             // Links that are nested within superscript elements cause the Click event to fire multiple times.
             // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
@@ -1058,7 +1062,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             multiClickDetectionTriggered = true;
-            var task = Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
 
             // Get the hyperlink URL.
             var url = (string)sender.GetValue(HyperlinkUrlProperty);

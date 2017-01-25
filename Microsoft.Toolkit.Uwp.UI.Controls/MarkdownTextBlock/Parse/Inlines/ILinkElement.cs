@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     /// <summary>
     /// Implemented by all inline link elements.

@@ -26,9 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// </summary>
     internal class MarkdownTable : Panel
     {
-        private int _columnCount;
-        private int _rowCount;
-        private double _borderThickness;
+        private readonly int _columnCount;
+        private readonly int _rowCount;
+        private readonly double _borderThickness;
         private double[] _columnWidths;
         private double[] _rowHeights;
 
@@ -163,8 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 var columnIndex = Grid.GetColumn(child);
                 var rowIndex = Grid.GetRow(child);
 
-                var rect = new Rect(0, 0, 0, 0);
-                rect.X = _borderThickness;
+                var rect = new Rect(0, 0, 0, 0)
+                {
+                    X = _borderThickness
+                };
+
                 for (int col = 0; col < columnIndex; col++)
                 {
                     rect.X += _borderThickness + _columnWidths[col];
