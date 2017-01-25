@@ -7,6 +7,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
         <Setter Property="Outline" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Thickness" Value="4"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialProgressBar">
