@@ -4,6 +4,8 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
     
     <Style TargetType="local:RadialProgressBar" >
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialProgressBar">

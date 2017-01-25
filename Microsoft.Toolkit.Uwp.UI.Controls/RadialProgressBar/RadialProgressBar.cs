@@ -34,21 +34,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string BarFigurePartName = "BarFigurePart";
         private const string BarArcPartName = "BarArcPart";
 
-        private const string DefaultForegroundColorBrushName = "SystemControlHighlightAccentBrush";
-        private const string DefaultBackgroundColorBrushName = "SystemControlBackgroundBaseLowBrush";
+        private PathFigure outlineFigure;
+        private PathFigure barFigure;
+        private ArcSegment outlineArc;
+        private ArcSegment barArc;
 
-        private PathFigure OutlineFigure { get; set; }
-
-        private PathFigure BarFigure { get; set; }
-
-        private ArcSegment OutlineArc { get; set; }
-
-        private ArcSegment BarArc { get; set; }
-
-        private bool AllTemplatePartsDefined
-        {
-            get { return OutlineFigure != null && OutlineArc != null && BarFigure != null && BarArc != null; }
-        }
+        private bool allTemplatePartsDefined = false;
 
         /// <summary>
         /// Called when the Minimum property changes.
@@ -90,10 +81,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            OutlineFigure = GetTemplateChild(OutlineFigurePartName) as PathFigure;
-            OutlineArc = GetTemplateChild(OutlineArcPartName) as ArcSegment;
-            BarFigure = GetTemplateChild(BarFigurePartName) as PathFigure;
-            BarArc = GetTemplateChild(BarArcPartName) as ArcSegment;
+            outlineFigure = GetTemplateChild(OutlineFigurePartName) as PathFigure;
+            outlineArc = GetTemplateChild(OutlineArcPartName) as ArcSegment;
+            barFigure = GetTemplateChild(BarFigurePartName) as PathFigure;
+            barArc = GetTemplateChild(BarArcPartName) as ArcSegment;
+
+            allTemplatePartsDefined = outlineFigure != null && outlineArc != null && barFigure != null && barArc != null;
 
             RenderAll();
         }
@@ -110,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the Thickness dependency property
         /// </summary>
-        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register("Thickness", typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
+        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(4.0, ThicknessChangedHandler));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialProgressBar"/> class.
@@ -118,11 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RadialProgressBar()
         {
-            this.DefaultStyleKey = typeof(RadialProgressBar);
-
-            Foreground = Application.Current.Resources[DefaultForegroundColorBrushName] as SolidColorBrush;
-            Background = Application.Current.Resources[DefaultBackgroundColorBrushName] as SolidColorBrush;
-
+            DefaultStyleKey = typeof(RadialProgressBar);
             SizeChanged += SizeChangedHandler;
         }
 
@@ -161,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Render the segment representing progress ratio.
         private void RenderSegment()
         {
-            if (!AllTemplatePartsDefined)
+            if (!allTemplatePartsDefined)
             {
                 return;
             }
@@ -175,14 +164,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double x = (Math.Sin(angle) * size.Width) + size.Width + translationFactor;
             double y = (((Math.Cos(angle) * size.Height) - size.Height) * -1) + translationFactor;
 
-            BarArc.IsLargeArc = angle >= Math.PI;
-            BarArc.Point = new Point(x, y);
+            barArc.IsLargeArc = angle >= Math.PI;
+            barArc.Point = new Point(x, y);
         }
 
         // Render the progress segment and the loop outline. Needs to run when control is resized or retemplated
         private void RenderAll()
         {
-            if (!AllTemplatePartsDefined)
+            if (!allTemplatePartsDefined)
             {
                 return;
             }
@@ -191,9 +180,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var segmentWidth = size.Width;
             var translationFactor = Math.Max(Thickness / 2.0, 0.0);
 
-            OutlineFigure.StartPoint = BarFigure.StartPoint = new Point(segmentWidth + translationFactor, translationFactor);
-            OutlineArc.Size = BarArc.Size = new Size(segmentWidth, size.Height);
-            OutlineArc.Point = new Point(segmentWidth + translationFactor - 0.05, translationFactor);
+            outlineFigure.StartPoint = barFigure.StartPoint = new Point(segmentWidth + translationFactor, translationFactor);
+            outlineArc.Size = barArc.Size = new Size(segmentWidth, size.Height);
+            outlineArc.Point = new Point(segmentWidth + translationFactor - 0.05, translationFactor);
 
             RenderSegment();
         }
