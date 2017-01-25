@@ -120,7 +120,7 @@
       {
         "Name": "Loading",
         "Type": "LoadingPage",
-        "About": "Loading control helps to show any xaml content with animation to the user while the app is doing some calculation.",
+        "About": "LoadingControl helps to show content with animation to the user while the app is doing some calculation.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
         "XamlCodeFile": "LoadingCode.bind",
         "Icon": "/SamplePages/Loading/Loading.png"

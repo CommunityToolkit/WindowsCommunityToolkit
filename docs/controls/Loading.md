@@ -7,20 +7,16 @@ The loading control is for showing an animation with some content when the user 
 An example of how we can build the loading control.
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding HorizontalAlignment.Value}" 
-                    VerticalAlignment="{Binding VerticalAlignment.Value}"
-                    Background="{Binding Background.Value}" Opacity="{Binding Opacity.Value}">
+<controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}">
     <ContentControl x:Name="LoadingContentControl"/>
 </controls:Loading>
 ```
-- **HorizontalAlignment** and **VerticalAlignment** are responsible to align the custom content of the control. It aligns what we create inside as a ContentPresenter.
 - **Background** and **Opacity** are for the panel who appears and disappears behind our custom control.
-- **ContentControl** could be everything done with xaml. For example:
+- Use the **LoadingControl** to show specialized content.
+- You can also use **BorderBrush** and **BorderThickness** to change the **LoadingControl**.
 
 ``` xaml
-<controls:Loading x:Name="LoadingControl" HorizontalAlignment="{Binding HorizontalAlignment.Value}" 
-                    VerticalAlignment="{Binding VerticalAlignment.Value}"
-                    Background="{Binding Background.Value}" Opacity="{Binding Opacity.Value}">
+<controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}"  >
     <StackPanel Orientation="Horizontal" Padding="12">
         <Grid Margin="0,0,8,0">
             <Image Source="../../Assets/ToolkitLogo.png" Height="50" />

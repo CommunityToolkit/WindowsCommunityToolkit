@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
         /// <summary>
-        /// Gets or sets a value indicating whether isLoading.
+        /// Gets or sets a value indicating whether the control is in the loading state.
         /// </summary>
         public bool IsLoading
         {
