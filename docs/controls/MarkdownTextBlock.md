@@ -17,7 +17,7 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 ```
 
-## Control Example
+## Example Image
 Note: scrolling is smooth, the gif below is not.
 
 ![MarkdownTextBlock animation](../resources/images/Controls-MarkdownTextBlock.gif "MarkdownTextBlock")
@@ -25,6 +25,7 @@ Note: scrolling is smooth, the gif below is not.
 ## Properties
 
 The MarkdownTextBlock control is highly customizable to blend with any theme. Customizable properties include:
+
 * IsTextSelectionEnabled
 * CodeBackground
 * CodeBorderBrush
