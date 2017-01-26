@@ -12,7 +12,6 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse.Elements;
 using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
 
 namespace UnitTests.Markdown.Parse

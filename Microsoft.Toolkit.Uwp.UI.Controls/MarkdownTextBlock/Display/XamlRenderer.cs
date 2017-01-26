@@ -630,8 +630,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private void RenderTable(TableBlock element, UIElementCollection blockUIElementCollection, RenderContext context)
         {
-            var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness,
-                TableBorderBrush)
+            var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness, TableBorderBrush)
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = TableMargin
