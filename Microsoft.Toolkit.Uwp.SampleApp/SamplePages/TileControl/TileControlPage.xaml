@@ -35,14 +35,14 @@
         <TextBlock Margin="10,20"
                    HorizontalAlignment="Center"
                    FontSize="20"
-                   Text="MosaicControl can be used to highlight computer activity:" />
+                   Text="TileControl can be used to highlight computer activity:" />
         <controls:TileControl Grid.Row="1"
                                 AnimationDuration="{Binding AnimationDuration.Value, Mode=OneWay}"
                                 AnimationStepX="{Binding AnimationStepX.Value, Mode=OneWay}"
                                 AnimationStepY="{Binding AnimationStepY.Value, Mode=OneWay}"
                                 Background="{StaticResource Brush-Grey-04}"
                                 ImageAlignment="{Binding ImageAlignment.Value, Mode=TwoWay}"
-                                ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png"
+                                ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                                 IsAnimated="{Binding IsAnimated.Value, Mode=TwoWay}"
                                 OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
                                 OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
@@ -60,7 +60,7 @@
                    Text="It can also be used for background painting:" />
         <controls:TileControl Grid.Row="3"
                                 Background="{StaticResource Brush-Grey-04}"
-                                ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png"
+                                ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                                 ParallaxSpeedRatio="{Binding ParallaxSpeedRatio.Value, Mode=OneWay}"
                                 ScrollViewerContainer="{x:Bind FlipView, Mode=OneTime}">
             <FlipView x:Name="FlipView">

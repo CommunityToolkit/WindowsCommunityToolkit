@@ -196,12 +196,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private enum UIStrategy
         {
             /// <summary>
-            /// MosaicControl is created with XAML
+            /// TileControl is created with XAML
             /// </summary>
             PureXaml,
 
             /// <summary>
-            /// MosaicControl is created with Microsoft Composition
+            /// TileControl is created with Microsoft Composition
             /// </summary>
             Composition
         }
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets a ScrollViewer or a frameworkElement containing a ScrollViewer.
-        /// The mosaic control is synchronized with the offset of the scrollviewer
+        /// The tile control is synchronized with the offset of the scrollviewer
         /// </summary>
         public FrameworkElement ScrollViewerContainer
         {
@@ -305,7 +305,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private UIStrategy? currentStrategy = null;
 
         /// <summary>
-        /// Gets or sets the alignment of the mosaic when the <see cref="ScrollOrientation"/> is set to Vertical or Horizontal.
+        /// Gets or sets the alignment of the tile when the <see cref="ScrollOrientation"/> is set to Vertical or Horizontal.
         /// Valid values are Left or Right for <see cref="ScrollOrientation"/> set to Horizontal and Top or Bottom for <see cref="ScrollOrientation"/> set to Vertical.
         /// </summary>
         public ImageAlignment ImageAlignment
@@ -317,11 +317,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static async void OnAlignmentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as TileControl;
-            await control.RefreshContainerMosaicLocked();
+            await control.RefreshContainerTileLocked();
         }
 
         /// <summary>
-        /// Attach a scrollviewer to the MosaicControl (parallax effect)
+        /// Attach a scrollviewer to the TileControl (parallax effect)
         /// </summary>
         /// <param name="scrollViewerContainer">A ScrollViewer or a container of a ScrollViewer</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -469,7 +469,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _isImageSourceLoaded = true;
 
-                RefreshContainerMosaic();
+                RefreshContainerTile();
 
                 RefreshImageSize(_imageSize.Width, _imageSize.Height);
 
@@ -483,16 +483,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _flag.Release();
             }
 
-            if (ImageLoaded != null)
-            {
-                ImageLoaded(this, EventArgs.Empty);
-            }
+            ImageLoaded?.Invoke(this, EventArgs.Empty);
 
             return true;
         }
 
         /// <summary>
-        /// Gets or sets the scroll orientation of the mosaic.
+        /// Gets or sets the scroll orientation of the tile.
         /// Less images are drawn when you choose the Horizontal or Vertical value.
         /// </summary>
         public ScrollOrientation ScrollOrientation
@@ -504,7 +501,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static async void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as TileControl;
-            await control.RefreshContainerMosaicLocked();
+            await control.RefreshContainerTileLocked();
             await control.CreateModuloExpression(control._scrollviewer);
         }
 
@@ -569,20 +566,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void RootElement_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _isRootElementSizeChanged = true;
-            await RefreshContainerMosaicLocked();
+            await RefreshContainerTileLocked();
         }
 
         /// <summary>
         /// Refresh the ContainerVisual or ContainerElement with a lock
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task RefreshContainerMosaicLocked()
+        private async Task RefreshContainerTileLocked()
         {
             await _flag.WaitAsync();
 
             try
             {
-                RefreshContainerMosaic();
+                RefreshContainerTile();
             }
             finally
             {
@@ -593,7 +590,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Refresh the ContainerVisual or ContainerElement
         /// </summary>
-        private void RefreshContainerMosaic()
+        private void RefreshContainerTile()
         {
             if (_imageSize == Size.Empty || _rootElement == null)
             {
@@ -601,14 +598,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Debug.WriteLine("RefreshContainerVisual=" + _rootElement.ActualWidth);
-                RefreshContainerMosaic(_rootElement.ActualWidth, _rootElement.ActualHeight, _imageSize.Width, _imageSize.Height, ScrollOrientation);
+                RefreshContainerTile(_rootElement.ActualWidth, _rootElement.ActualHeight, _imageSize.Width, _imageSize.Height, ScrollOrientation);
         }
 
         /// <summary>
         /// Refresh the ContainerVisual or ContainerElement
         /// </summary>
         /// <returns>Return true when the container is refreshed</returns>
-        private bool RefreshContainerMosaic(double width, double height, double imageWidth, double imageHeight, ScrollOrientation orientation)
+        private bool RefreshContainerTile(double width, double height, double imageWidth, double imageHeight, ScrollOrientation orientation)
         {
             if (_isImageSourceLoaded == false || _isRootElementSizeChanged == false)
             {
@@ -983,7 +980,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Get the offset after a modulo with the image size
         /// </summary>
-        /// <param name="offset">the offset of the mosaic</param>
+        /// <param name="offset">the offset of the tile</param>
         /// <param name="size">the size of the image</param>
         /// <returns>the offset between 0 and the size of the image</returns>
         private double GetOffsetModulo(double offset, double size)
@@ -1027,7 +1024,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the mosaic is animated or not
+        /// Gets or sets a value indicating whether the tile is animated or not
         /// </summary>
         public bool IsAnimated
         {
@@ -1115,7 +1112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a duration for the animation of the mosaic
+        /// Gets or sets a duration for the animation of the tile
         /// </summary>
         public double AnimationDuration
         {
