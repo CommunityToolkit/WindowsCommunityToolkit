@@ -46,18 +46,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-
         private static TileBinding GenerateTileBindingMedium(string username, string avatarLogoSource)
         {
             return new TileBinding()

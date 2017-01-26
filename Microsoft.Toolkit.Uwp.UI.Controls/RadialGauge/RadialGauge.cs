@@ -53,7 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty StepSizeProperty =
             DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
 
-        // Identifies the IsInteractive dependency property.
+        /// <summary>
+        /// Identifies the <see cref="IsInteractive"/> property.
+        /// </summary>
         public static readonly DependencyProperty IsInteractiveProperty =
             DependencyProperty.Register(nameof(IsInteractive), typeof(bool), typeof(RadialGauge), new PropertyMetadata(false, OnInteractivityChanged));
 

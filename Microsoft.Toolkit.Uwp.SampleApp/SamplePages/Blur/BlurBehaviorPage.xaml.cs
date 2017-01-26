@@ -38,13 +38,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
             if (!AnimationExtensions.IsBlurSupported)
             {
                 WarningText.Visibility = Visibility.Visible;

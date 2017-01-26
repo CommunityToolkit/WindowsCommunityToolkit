@@ -4,9 +4,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sampleApp="using:Microsoft.Toolkit.Uwp.SampleApp"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       SizeChanged="SamplePicker_OnSizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="sampleApp:Sample">
             <Grid Width="500"
@@ -29,35 +31,35 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="24"
                                FontWeight="Light"
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="{x:Bind Name}" />
                     <TextBlock Grid.Row="1"
-                               Grid.ColumnSpan="2"
                                Margin="0,4,0,0"
                                VerticalAlignment="Top"
                                FontSize="14"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
-                    <HyperlinkButton Grid.Row="0"
-                                     Grid.Column="1"
-                                     Content="Github"
-                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}"
-                                     NavigateUri="{x:Bind CodeUrl}" />
+                    <Grid Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
+                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                        <TextBlock
+                           Margin="0,2,0,2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Text="{Binding BadgeUpdateVersionRequired}"
+                           Foreground="White" />
+                    </Grid>
                 </Grid>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="SmallSampleTemplate"
                       x:DataType="sampleApp:Sample">
-            <Grid MinHeight="80"
+            <Grid Height="80"
                   MaxHeight="110"
                   Margin="6">
                 <Grid.ColumnDefinitions>
@@ -70,13 +72,13 @@
                         BorderBrush="{StaticResource Brush-Grey-04}"
                         BorderThickness="1">
                     <Image Width="80"
-                           Height="80"
                            Source="{Binding Icon}" />
                 </Border>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Top"
                                FontSize="16"
@@ -91,6 +93,17 @@
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="{x:Bind About}"
                                TextWrapping="Wrap" />
+                    <Grid Margin="0,0,5,0"
+                          Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
+                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                        <TextBlock 
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="{Binding BadgeUpdateVersionRequired}"
+                               Foreground="White" />
+                    </Grid>
                 </Grid>
             </Grid>
         </DataTemplate>
