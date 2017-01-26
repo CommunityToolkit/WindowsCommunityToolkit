@@ -53,6 +53,14 @@
         "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
       },
       {
+        "Name": "MarkdownTextBlock",
+        "Type": "MarkdownTextBlockPage",
+        "About": "An efficient and extensible control that can parse and render markdown.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock",
+        "XamlCodeFile": "MarkdownTextBlock.bind",
+        "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png"
+      },
+      {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
@@ -115,7 +123,15 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
+      },
+      {
+        "Name": "Loading",
+        "Type": "LoadingPage",
+        "About": "LoadingControl helps to show content with animation to the user while the app is doing some calculation.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
+        "XamlCodeFile": "LoadingCode.bind",
+        "Icon": "/SamplePages/Loading/Loading.png"
       },
       {
         "Name": "TextBoxMask",
@@ -140,7 +156,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
         "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "WrapPanel",
@@ -157,6 +173,14 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
         "XamlCodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/Carousel.png"
+      },
+      }
+        "Name": "TextBoxRegex",
+        "Type": "TextBoxRegexPage",
+        "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
+        "XamlCodeFile": "TextBoxRegex.bind",
+        "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png"
       }
     ]
   },
@@ -241,7 +265,7 @@
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "Light",
@@ -251,7 +275,7 @@
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
         "Icon": "/SamplePages/Light/LightBehavior.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       },
       {
         "Name": "FadeHeader",
@@ -269,7 +293,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ReorderGrid.bind",
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
-        "BadgeUpdateVersionRequired": "/Assets/Badges/windows10_anniversary.png"
+        "BadgeUpdateVersionRequired": "Anniversary Update required"
       }
     ]
   },

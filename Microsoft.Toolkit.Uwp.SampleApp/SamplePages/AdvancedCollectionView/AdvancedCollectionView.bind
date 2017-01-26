@@ -1,4 +1,4 @@
-﻿// Creates a CollectionView that can sort and filter items.
+// Creates a CollectionView that can sort and filter items.
 using Microsoft.Toolkit.Uwp.UI;
 
 // Grab a sample type

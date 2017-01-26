@@ -79,70 +79,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public async Task NavigateToSampleAsync(string deepLink)
         {
             var parser = DeepLinkParser.Create(deepLink);
-            var targetCategory = (await Samples.GetCategoriesAsync()).FirstOrDefault(c => c.Name.Equals(parser.Root, StringComparison.OrdinalIgnoreCase));
-            if (targetCategory != null)
+            var targetSample = await Samples.GetSampleByName(parser["sample"]);
+            if (targetSample != null)
             {
-                var targetSample = targetCategory.Samples.FirstOrDefault(s => s.Name.Equals(parser["sample"], StringComparison.OrdinalIgnoreCase));
-                if (targetSample != null)
-                {
-                    await NavigateToSampleAsync(targetSample);
-                }
+                NavigateToSample(targetSample);
             }
         }
 
-        public async Task NavigateToSampleAsync(Sample sample)
+        public void NavigateToSample(Sample sample)
         {
             var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
 
             if (pageType != null)
             {
                 InfoAreaPivot.Items.Clear();
-                ShowInfoArea();
 
-                var propertyDesc = await sample.GetPropertyDescriptorAsync();
-                DataContext = sample;
-                Title.Text = sample.Name;
-                if (!string.IsNullOrEmpty(sample.CodeUrl))
-                {
-                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
-                    GitHub.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    GitHub.Visibility = Visibility.Collapsed;
-                }
-
-                NavigationFrame.Navigate(pageType, propertyDesc);
-
-                _currentSample = sample;
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
-
-                if (sample.HasXAMLCode)
-                {
-                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
-
-                    InfoAreaPivot.Items.Add(XamlPivotItem);
-
-                    InfoAreaPivot.SelectedIndex = 0;
-                }
-
-                if (sample.HasCSharpCode)
-                {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
-                    InfoAreaPivot.Items.Add(CSharpPivotItem);
-                }
-
-                if (sample.HasJavaScriptCode)
-                {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
-                UpdateRootGridMinWidth();
+                NavigationFrame.Navigate(pageType, sample.Name);
             }
         }
 
@@ -167,10 +119,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // Get list of samples
             var sampleCategories = await Samples.GetCategoriesAsync();
+            var moreResources = sampleCategories.Last(); // Remove the last one because it is a specific case
+            sampleCategories.Remove(moreResources);
+
             HamburgerMenu.ItemsSource = sampleCategories;
 
             // Options
-            HamburgerMenu.OptionsItemsSource = new[] { new Option { Glyph = "", Name = "About", PageType = typeof(About) } };
+            HamburgerMenu.OptionsItemsSource = new[]
+            {
+                new Option { Glyph = "", Name = "More resources", PageType = typeof(About), Tag = moreResources },
+                new Option { Glyph = "", Name = "About", PageType = typeof(About) }
+            };
 
             HideInfoArea();
 
@@ -183,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
                 if (targetSample != null)
                 {
-                    await this.NavigateToSampleAsync(targetSample);
+                    NavigateToSample(targetSample);
                 }
             }
         }
@@ -277,19 +236,80 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
-        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        private async void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
 
-            if (navigationEventArgs.SourcePageType == typeof(SamplePicker))
+            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 HideInfoArea();
             }
             else
             {
+                var sampleName = navigationEventArgs.Parameter.ToString();
+                var sample = await Samples.GetSampleByName(sampleName);
+
+                if (sample == null)
+                {
+                    HideInfoArea();
+                    return;
+                }
+
+                var propertyDesc = await sample.GetPropertyDescriptorAsync();
+
+                DataContext = sample;
+
                 ShowInfoArea();
+                InfoAreaPivot.Items.Clear();
+
+                if (propertyDesc != null)
+                {
+                    (NavigationFrame.Content as Page).DataContext = propertyDesc.Expando;
+                }
+
+                Title.Text = sample.Name;
+
+                _currentSample = sample;
+
+                if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                {
+                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                }
+
+                if (sample.HasXAMLCode)
+                {
+                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+
+                    InfoAreaPivot.Items.Add(XamlPivotItem);
+
+                    InfoAreaPivot.SelectedIndex = 0;
+                }
+
+                if (sample.HasCSharpCode)
+                {
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+                    InfoAreaPivot.Items.Add(CSharpPivotItem);
+                }
+
+                if (sample.HasJavaScriptCode)
+                {
+                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
+                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
+                }
+
+                UpdateRootGridMinWidth();
+
+                if (!string.IsNullOrEmpty(sample.CodeUrl))
+                {
+                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
+                    GitHub.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    GitHub.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
@@ -307,7 +327,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
         {
             var option = e.ClickedItem as Option;
-            if (option != null && NavigationFrame.CurrentSourcePageType != option.PageType)
+            if (option == null)
+            {
+                return;
+            }
+
+            if (option.Tag != null)
+            {
+                NavigationFrame.Navigate(typeof(SamplePicker), option.Tag);
+                return;
+            }
+
+            if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }

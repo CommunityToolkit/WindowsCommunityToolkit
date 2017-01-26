@@ -69,13 +69,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
-        private async void SamplesList_OnItemClick(object sender, ItemClickEventArgs e)
+        private void SamplesList_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var sample = e.ClickedItem as Sample;
 
             if (sample != null)
             {
-                await Shell.Current.NavigateToSampleAsync(sample);
+                Shell.Current.NavigateToSample(sample);
             }
         }
 
