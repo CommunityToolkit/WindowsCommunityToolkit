@@ -358,6 +358,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

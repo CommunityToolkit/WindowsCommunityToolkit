@@ -58,6 +58,7 @@
         "About": "An efficient and extensible control that can parse and render markdown.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock",
         "XamlCodeFile": "MarkdownTextBlock.bind",
+        "CodeFile": "MarkdownTextBlockCode.bind",
         "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png"
       },
       {
