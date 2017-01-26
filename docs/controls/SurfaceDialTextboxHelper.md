@@ -23,7 +23,7 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
 
 ## Syntax
 
-```xml
+```xaml
 
 <TextBox Width="106"
           HorizontalAlignment="Left"
