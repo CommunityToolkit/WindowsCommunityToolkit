@@ -80,6 +80,9 @@
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
+    <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
+    <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
+    <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
@@ -100,6 +103,8 @@
     <Compile Include="ScrollHeader\ScrollHeader.cs" />
     <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
     <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
+    <Compile Include="Loading\Loading.cs" />
+    <Compile Include="Loading\Loading.Properties.cs" />
     <Compile Include="RotatorTile\RotatorTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PullToRefreshListView\PullToRefreshListView.cs" />
@@ -159,6 +164,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Loading\Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RotatorTile\RotatorTile.xaml">
       <Generator>MSBuild:Compile</Generator>
