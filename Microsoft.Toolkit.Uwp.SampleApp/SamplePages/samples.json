@@ -174,7 +174,7 @@
         "XamlCodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/Carousel.png"
       },
-      }
+      {
         "Name": "TextBoxRegex",
         "Type": "TextBoxRegexPage",
         "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
