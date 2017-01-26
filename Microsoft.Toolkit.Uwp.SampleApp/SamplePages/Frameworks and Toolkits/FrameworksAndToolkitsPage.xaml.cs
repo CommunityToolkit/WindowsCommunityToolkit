@@ -10,24 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// A page that shows how to use the FadeHeaderBehavior
-    /// </summary>
     public sealed partial class FrameworksAndToolkitsPage : Page
     {
         public FrameworksAndToolkitsPage()
         {
             InitializeComponent();
-
-            // If you wanted to use C# instead of XAML to attach the behavior, you can do it like this
-            // Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
         }
     }
 }

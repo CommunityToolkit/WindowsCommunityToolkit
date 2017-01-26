@@ -112,12 +112,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="..\githubresources\badges\windows10_anniversary.png">
-      <Link>Assets\Badges\windows10_anniversary.png</Link>
-    </Content>
-    <Content Include="..\githubresources\badges\windows10_creators.png">
-      <Link>Assets\Badges\windows10_creators.png</Link>
-    </Content>
     <Content Include="Assets\Helpers.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -259,6 +253,7 @@
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
+    <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
@@ -281,6 +276,7 @@
     <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
     <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
@@ -345,6 +341,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
     <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
@@ -361,11 +358,13 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\EnumConverter.cs" />
@@ -445,6 +444,9 @@
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
+      <DependentUpon>LoadingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml.cs">
       <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
     </Compile>
@@ -482,6 +484,9 @@
     </Compile>
     <Compile Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml.cs">
       <DependentUpon>TextBoxMaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml.cs">
+      <DependentUpon>TextBoxRegexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
@@ -642,6 +647,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\Loading\LoadingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -697,6 +706,10 @@
     <Page Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Toast\ToastPage.xaml">
       <Generator>MSBuild:Compile</Generator>
