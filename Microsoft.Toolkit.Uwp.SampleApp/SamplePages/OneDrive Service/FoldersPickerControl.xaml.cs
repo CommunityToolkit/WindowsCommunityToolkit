@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {

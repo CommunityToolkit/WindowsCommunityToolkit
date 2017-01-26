@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Create an MSA authentication provider
+        /// Create an Microsoft Account authentication provider
         /// </summary>
         /// <param name="appClientId">client application id</param>
         /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 discoveryService = query.FirstOrDefault();
                 if (discoveryService == null)
                 {
-                    throw new ServiceException(new Error { Message = "This user don't have access to OneDrive For Business" });
+                    throw new ServiceException(new Error { Message = "This user don't have access to OneDrive For Business", Code = "DiscoveryError", ThrowSite = "UWP Community Toolkit" });
                 }
             }
             else

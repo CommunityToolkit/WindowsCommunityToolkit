@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public enum ServicesToInitialize
         {
             /// <summary>
-            /// OneDrive
+            /// OneDrive (Reserved for future use)
             /// </summary>
             OneDrive = 0x01,
 
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             /// <summary>
             /// user Profile
             /// </summary>
-            UserProfile = 0x03
+            UserProfile = 0x04
         }
 
         /// <summary>

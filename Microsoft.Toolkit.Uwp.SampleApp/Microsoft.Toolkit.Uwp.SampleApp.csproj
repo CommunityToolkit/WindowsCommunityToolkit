@@ -260,7 +260,6 @@
     <Content Include="SamplePages\MosaicControl\MosaicControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
-    <Content Include="SamplePages\OneDrive Service\OneNote.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
@@ -446,7 +445,7 @@
     <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
       <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OneDrive Service\Helper.cs" />
+    <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
       <DependentUpon>OneDrivePage.xaml</DependentUpon>
     </Compile>

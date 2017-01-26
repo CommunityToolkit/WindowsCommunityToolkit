@@ -27,32 +27,31 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Authentication Provider does not use scopes (.ie ADAL)
         /// </summary>
-        None = 0x00,
+        None = 0,
 
         /// <summary>
         /// Allow to get a refresh token
         /// </summary>
-        OfflineAccess = 0x01,
+        OfflineAccess = 1,
 
         /// <summary>
         /// Grants read-only permission
         /// </summary>
-        ReadOnly = 0x02,
+        ReadOnly = 2,
 
         /// <summary>
         /// Grants read/write permission
         /// </summary>
-        ReadWrite = 0x03,
+        ReadWrite = 4,
 
         /// <summary>
         /// Grants read/write permission to a specific folder for your application
         /// </summary>
-        AppFolder = 0x04,
+        AppFolder = 8,
 
         /// <summary>
-        /// Single sign-in behavior .
+        /// Single sign-in behavior.
         /// </summary>
-        WlSignin = 0x05
-
+        WlSignin = 16
     }
 }

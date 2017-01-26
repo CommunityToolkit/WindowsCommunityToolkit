@@ -99,10 +99,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Initialize Microsoft Graph.
         /// </summary>
         /// <param name='appClientId'>Azure AD's App client id</param>
-        /// <param name="authenticationModel">One of the enumeration values that determines the authorization EndPoint to use </param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, AuthenticationModel authenticationModel = AuthenticationModel.V1, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile)
+        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
@@ -110,39 +109,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             _appClientId = appClientId;
-            _authenticationModel = authenticationModel;
-            if (_authenticationModel == AuthenticationModel.V1)
-            {
-                _graphProvider = CreateGraphClientProvider(appClientId);
-            }
-            else
-            {
-                _graphProvider = CreateGraphClientProviderForV2Model(appClientId, null);
-            }
-
-            _servicesToInitialize = servicesToInitialize;
-            _isInitialized = true;
-            return true;
-        }
-
-        /// <summary>
-        /// Initialize Microsoft Graph.
-        /// </summary>
-        /// <param name="appClientId">Azure AD's App client id V2 Model</param>
-        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
-        /// <param name="scopes">Scopes represent the various permission levels that an app can request from a user</param>
-        /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId,  ServicesToInitialize servicesToInitialize, string[] scopes)
-        {
-            if (string.IsNullOrEmpty(appClientId))
-            {
-                throw new ArgumentNullException(nameof(appClientId));
-            }
-
-            _scopes = scopes;
-            _appClientId = appClientId;
-            _authenticationModel = AuthenticationModel.V2;
-            _graphProvider = CreateGraphClientProviderForV2Model(appClientId, scopes);
+            _graphProvider = CreateGraphClientProvider(appClientId);
             _servicesToInitialize = servicesToInitialize;
             _isInitialized = true;
             return true;
@@ -185,7 +152,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             else
             {
                 // accessToken = await _authentication.GetUserTokenV2Async(_appClientId);
-                accessToken = await _authentication.GetUserTokenV2PreviewAsync(_appClientId, _scopes);
             }
 
             if (string.IsNullOrEmpty(accessToken))
@@ -230,21 +196,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                                             new AuthenticationHeaderValue(
                                                      "bearer",
                                                      await _authentication.GetUserTokenAsync(appClientId).ConfigureAwait(false));
-                         return;
-                     }));
-        }
-
-        private GraphServiceClient CreateGraphClientProviderForV2Model(string appClientId, string[] scopes)
-        {
-            return new GraphServiceClient(
-                  new DelegateAuthenticationProvider(
-                     async (requestMessage) =>
-                     {
-                         // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
-                         requestMessage.Headers.Authorization =
-                                            new AuthenticationHeaderValue(
-                                                     "bearer",
-                                                     await _authentication.GetUserTokenV2PreviewAsync(appClientId, scopes).ConfigureAwait(false));
                          return;
                      }));
         }

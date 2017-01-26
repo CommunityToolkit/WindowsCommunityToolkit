@@ -71,11 +71,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (ServiceException serviceEx)
             {
-                await Helper.DisplayOneDriveServiceExceptionAsync(serviceEx);
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(serviceEx);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (ServiceException ex)
             {
-                await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
             }
             finally
             {
@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {
@@ -241,25 +241,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void NewFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.NewFolderAsync(_currentFolder);
+            await OneDriveSampleHelpers.NewFolderAsync(_currentFolder);
             OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
         }
 
         private async void UploadSimpleFileButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.UploadSimpleFileAsync(_currentFolder);
+            await OneDriveSampleHelpers.UploadSimpleFileAsync(_currentFolder);
             OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
         }
 
         private async void UploadLargeFileButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.UploadLargeFileAsync(_currentFolder);
+            await OneDriveSampleHelpers.UploadLargeFileAsync(_currentFolder);
             OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
         }
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-           await Helper.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+           await OneDriveSampleHelpers.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
         }
 
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {
@@ -298,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await OneDriveSampleHelpers.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
         private int _indexProvider = 0;
@@ -319,12 +319,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
         }
 
         private async void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            await Helper.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+        }
+
+        private async void ThumbnailButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Shell.Current.DisplayWaitRing = true;
+                var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
+                using (var stream = await file.GetThumbnailAsync(ThumbnailSize.Large))
+                {
+                    await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
+                }
+            }
+            catch (ServiceException ex)
+            {
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
         }
     }
 }

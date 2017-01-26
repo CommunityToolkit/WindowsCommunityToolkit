@@ -164,48 +164,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             return true;
         }
 
-        /// <summary>
-        /// Get a Microsoft Graph access token using the v2.0 Endpoint.
-        /// </summary>
-        /// <param name="appClientId">Application client ID</param>
-        /// <param name="scopes">Permission levels than an app can request from a user</param>
-        /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2PreviewAsync(string appClientId, string[] scopes)
-        {
-            PublicClientApplication identityClientApp = new PublicClientApplication(appClientId);
-
-            if (scopes == null || scopes.Length == 0)
-            {
-                scopes = new string[] { "Files.ReadWrite", "Mail.ReadWrite", "User.ReadWrite" };
-            }
-
-            string currentUser = ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] as string;
-
-            if (currentUser == null)
-            {
-                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenAsync(scopes));
-            }
-            else
-            {
-                _expiration = (DateTimeOffset)ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION];
-            }
-
-            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                _tokenForUser = StoreCredential(await identityClientApp.AcquireTokenSilentAsync(scopes));
-            }
-            else
-            {
-                if (_tokenForUser == null)
-                {
-                   var passwordCredential = _vault.Retrieve(STORAGEKEYACCESSTOKEN, currentUser);
-                    _tokenForUser = passwordCredential.Password;
-                }
-            }
-
-            return _tokenForUser;
-        }
-
         private string StoreCredential(Identity.Client.AuthenticationResult authResult)
         {
             _user = authResult.User;

@@ -1,32 +1,31 @@
-
 // OneDriveService works for OneDrive Consumer as well as OneDrive For Business (Office 365)
 //
 // Authentication 
 // In order to use the OneDriveService you need to authenticate the user and get an access token
 
 // OneDrive consumer you have two options:
-// 1) If the user is connected to a windows session with a Microsoft Account, the service is able to silently get an access token.
+// 1) If the user is connected to a Windows session with a Microsoft Account, the service is able to silently get an access token.
 //    For that you need to associate your application to the Store (Project->Store->Associate App With Store...)
 // 2) Or you have to register your app
 //  - go to https://dev.onedrive.com/app-registration.htm
-//  - When prompted, sign in with your Microsoft account credentials.
+//  - When prompted, sign in with your Microsoft Account credentials.
 //  - Scroll to the bottom of the page (Live (SDK)), and click Add App
 //  - Enter your app's name and click Create application.
 //  - Copy the Application ID
 //  - Add a platform and select mobile application
 //  - Save
 
-// OneDrive For business you need to register your app from the Azure Management Portal
+// OneDrive For Business you need to register your app from the Azure Management Portal
 // For more information to manualy register your app see go to the following article
 // https://docs.microsoft.com/fr-fr/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
- 
+// When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions
 
 // First get the root of your OneDrive
-// By default the service silently connect the current windows user if windows is associate with an MS Account
+// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
 var rootFolder= await OneDriveService.Instance.RootFolderAsync();
 
-// if windows is not associate with a MS Account, you need
-// 1) Initialized the service using a authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+// if Windows is not associate with a Microsoft Account, you need
+// 1) Initialize the service using a authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
 // 2) Sign in
 if (!await OneDriveService.Instance.LoginAsync())
@@ -93,4 +92,11 @@ using (var remoteStream = await remoteFile.OpenAsync())
      }
  }
 
- // At last you can get 
+ // At last you can get the thumbnail of a file
+ var stream = await file.GetThumbnailAsync(ThumbnailSize.Large)
+ Windows.UI.Xaml.Controls.Image thumbnail = new Windows.UI.Xaml.Controls.Image();
+ BitmapImage bmp = new BitmapImage();
+ await bmp.SetSourceAsync(streamTodDisplay);
+ thumbnail.Source = bmp;
+
+

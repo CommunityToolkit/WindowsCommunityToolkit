@@ -100,8 +100,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="appClientId">Application Id Client. Could be null if AccountProviderType.OnlineId is used</param>
         /// <param name="accountProviderType">Account Provider type.
-        /// <para>AccountProviderType.OnlineId: If the user is signed into a Windows system with a MS Account, this user will be used for authentication request. Need to associate the App to the store</para>
-        /// <para>AccountProviderType.Msa: Authenticate the user with a MS Account. You need to register your app https://apps.dev.microsoft.com in the SDK Live section</para>
+        /// <para>AccountProviderType.OnlineId: If the user is signed into a Windows system with a Microsoft Account, this user will be used for authentication request. Need to associate the App to the store</para>
+        /// <para>AccountProviderType.Msa: Authenticate the user with a Microsoft Account. You need to register your app https://apps.dev.microsoft.com in the SDK Live section</para>
         /// <para>AccountProviderType.Adal: Authenticate the user with a Office 365 Account. You need to register your in Azure Active Directory</para></param>
         /// <param name="scopes">Scopes represent various permission levels that an app can request from a user. Could be null if AccountProviderType.Adal is used </param>
         /// <remarks>If AccountProvider</remarks>
@@ -181,9 +181,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
 
                 OneDriveAuthenticationHelper.ResourceUri = discoverySettings.ServiceResourceId;
+                // OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
+
                 _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
                 await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);
                 resourceEndpointUri = discoverySettings.ServiceEndpointUri;
+
+                // await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(false);
+                // resourceEndpointUri = "https://graph.microsoft.com/v1.0/me/";
             }
             else if (_accountProviderType == AccountProviderType.Msa)
             {
@@ -213,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public async Task<OneDriveStorageFolder> RootFolderAsync()
         {
-            // log the user silently with an MS account
+            // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
             {
                 OneDriveService.Instance.Initialize();

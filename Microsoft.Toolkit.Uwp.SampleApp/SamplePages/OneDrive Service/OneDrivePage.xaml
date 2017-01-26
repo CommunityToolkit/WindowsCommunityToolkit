@@ -5,7 +5,7 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converter="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converter="using:Microsoft.Toolkit.Uwp.UI.Converters"    
     xmlns:selector="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     
     mc:Ignorable="d">
@@ -280,6 +280,25 @@
                                          Width="48" 
                                          Height="48"
                                          Click="MoveButton_Click">
+                                    </AppBarButton>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="48"/>
+                                    </Grid.ColumnDefinitions>
+                                   
+                                    <TextBlock Grid.Column="0"
+                                                   Text="Thumbnail"
+                                                   VerticalAlignment="Center"/>
+                                    <AppBarButton Grid.Column="1"                                           
+                                         Icon="Pictures"
+                                         Content="Get thumbnail" 
+                                         x:Name="ThumbnailButton"                                         
+                                         VerticalAlignment="Bottom" 
+                                         Width="48" 
+                                         Height="48"
+                                         Click="ThumbnailButton_Click">
                                     </AppBarButton>
                                 </Grid>
                             </StackPanel>

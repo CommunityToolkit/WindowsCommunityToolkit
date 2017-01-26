@@ -20,10 +20,11 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public static class Helper
+    public static class OneDriveSampleHelpers
     {
         public static async Task<string> InputTextDialogAsync(string title)
         {
@@ -44,6 +45,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 return null;
             }
+        }
+
+        public static async Task DisplayThumbnail(IRandomAccessStream streamTodDisplay, string title)
+        {
+            ContentDialog dialog = new ContentDialog();
+            if (streamTodDisplay != null)
+            {
+                Windows.UI.Xaml.Controls.Image thumbnail = new Windows.UI.Xaml.Controls.Image();
+                BitmapImage bmp = new BitmapImage();
+                await bmp.SetSourceAsync(streamTodDisplay);
+                thumbnail.Source = bmp;
+                dialog.Content = thumbnail;
+            }
+            else
+            {
+                TextBlock text = new TextBlock { Text = "No thumbnail for this file" };
+                dialog.Content = text;
+            }
+
+            dialog.Title = title;
+            dialog.IsSecondaryButtonEnabled = true;
+            dialog.PrimaryButtonText = "Ok";
+            await dialog.ShowAsync();
         }
 
         public static Task DisplayMessageAsync(string message)
@@ -80,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {
-                    string newFolderName = await Helper.InputTextDialogAsync("New Folder Name");
+                    string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
                     if (!string.IsNullOrEmpty(newFolderName))
                     {
                         await folder.CreateFolderAsync(newFolderName);
@@ -88,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 catch (ServiceException ex)
                 {
-                    await Helper.DisplayOneDriveServiceExceptionAsync(ex);
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
                 }
                 finally
                 {
@@ -106,24 +130,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                var oneDriveFile = (OneDriveStorageFile)item;
-                var localFolder = ApplicationData.Current.LocalFolder;
                 Shell.Current.DisplayWaitRing = true;
+                var oneDriveFile = (OneDriveStorageFile)item;
                 using (var remoteStream = await oneDriveFile.OpenAsync())
                 {
-                    byte[] buffer = new byte[remoteStream.Size];
-                    var localBuffer = await remoteStream.ReadAsync(buffer.AsBuffer(), (uint)remoteStream.Size, InputStreamOptions.ReadAhead);
-                    var myLocalFile = await localFolder.CreateFileAsync($"{oneDriveFile.Name}", CreationCollisionOption.GenerateUniqueName);
-                    using (var localStream = await myLocalFile.OpenAsync(FileAccessMode.ReadWrite))
-                    {
-                        await localStream.WriteAsync(localBuffer);
-                        await localStream.FlushAsync();
-                    }
+                    await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
                 }
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -131,6 +147,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        /// <summary>
+        /// Save the stream to a file in the local folder
+        /// </summary>
+        /// <param name="remoteStream">Stream to save</param>
+        /// <param name="fileName">File's name</param>
+        /// <returns>Task to support await of async call.</returns>
+        public static async Task SaveToLocalFolder(IRandomAccessStream remoteStream, string fileName)
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            byte[] buffer = new byte[remoteStream.Size];
+            var localBuffer = await remoteStream.ReadAsync(buffer.AsBuffer(), (uint)remoteStream.Size, InputStreamOptions.ReadAhead);
+            var myLocalFile = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+            using (var localStream = await myLocalFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                await localStream.WriteAsync(localBuffer);
+                await localStream.FlushAsync();
+            }
+        }
+
+        /// <summary>
+        /// Upload simple file.
+        /// </summary>
+        /// <param name="folder">The destination folder</param>
+        /// <returns>Task to support await of async call.</returns>
         public static async Task UploadSimpleFileAsync(OneDriveStorageFolder folder)
         {
             Shell.Current.DisplayWaitRing = true;
@@ -151,15 +191,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (OperationCanceledException ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             catch (ServiceException graphEx)
             {
-                await Helper.DisplayMessageAsync(graphEx.Error.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(graphEx.Error.Message);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -193,15 +233,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (OperationCanceledException ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             catch (ServiceException graphEx)
             {
-                await Helper.DisplayMessageAsync(graphEx.Error.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(graphEx.Error.Message);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -214,7 +254,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 Shell.Current.DisplayWaitRing = true;
-                string newName = await Helper.InputTextDialogAsync("New Name");
+                string newName = await OneDriveSampleHelpers.InputTextDialogAsync("New Name");
                 if (!string.IsNullOrEmpty(newName))
                 {
                     await itemToRename.RenameAsync(newName);
@@ -222,11 +262,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (ServiceException graphEx)
             {
-                await Helper.DisplayOneDriveServiceExceptionAsync(graphEx);
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(graphEx);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -239,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                var folder = await Helper.OpenFolderPicker("Copy to", rootFolder);
+                var folder = await OneDriveSampleHelpers.OpenFolderPicker("Copy to", rootFolder);
                 if (folder != null)
                 {
                     await item.CopyAsync(folder);
@@ -247,11 +287,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (ServiceException exService)
             {
-                await Helper.DisplayOneDriveServiceExceptionAsync(exService);
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(exService);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
@@ -264,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                var folder = await Helper.OpenFolderPicker("Move to", rootFolder);
+                var folder = await OneDriveSampleHelpers.OpenFolderPicker("Move to", rootFolder);
                 if (folder != null)
                 {
                     await item.MoveAsync(folder);
@@ -272,11 +312,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (ServiceException exService)
             {
-                await Helper.DisplayOneDriveServiceExceptionAsync(exService);
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(exService);
             }
             catch (Exception ex)
             {
-                await Helper.DisplayMessageAsync(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
             finally
             {
