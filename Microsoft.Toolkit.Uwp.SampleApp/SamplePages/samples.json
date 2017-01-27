@@ -9,7 +9,8 @@
         "About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png"
+        "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AdaptiveGridView.md"
       },
       {
         "Name": "HamburgerMenu",
@@ -17,7 +18,8 @@
         "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
         "XamlCodeFile": "HamburgerMenuCode.bind",
-        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png"
+        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/HamburgerMenu.md"
       },
       {
         "Name": "RangeSelector",
@@ -25,7 +27,8 @@
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
-        "Icon": "/SamplePages/RangeSelector/RangeSelector.png"
+        "Icon": "/SamplePages/RangeSelector/RangeSelector.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RangeSelector.md"
       },
       {
         "Name": "ImageEx",
@@ -33,7 +36,8 @@
         "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx",
         "XamlCodeFile": "ImageExCode.bind",
-        "Icon": "/SamplePages/ImageEx/ImageEx.png"
+        "Icon": "/SamplePages/ImageEx/ImageEx.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/ImageEx.md"
       },
       {
         "Name": "HeaderedTextBlock",
@@ -41,15 +45,28 @@
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
-        "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png"
+        "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/HeaderedTextBlock.md"
       },
       {
         "Name": "MasterDetailsView",
         "Type": "MasterDetailsViewPage",
-        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern defined by https://msdn.microsoft.com/en-gb/windows/uwp/controls-and-patterns/master-details",
+        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
         "XamlCodeFile": "MasterDetailsView.bind",
-        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png"
+        "CodeFile": "MasterDetailsViewCode.bind",
+        "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/MasterDetailsView.md"
+      },
+      {
+        "Name": "MarkdownTextBlock",
+        "Type": "MarkdownTextBlockPage",
+        "About": "An efficient and extensible control that can parse and render markdown.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock",
+        "XamlCodeFile": "MarkdownTextBlock.bind",
+        "CodeFile": "MarkdownTextBlockCode.bind",
+        "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/MarkdownTextBlock.md"
       },
       {
         "Name": "RadialGauge",
@@ -57,7 +74,8 @@
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
-        "Icon": "/SamplePages/RadialGauge/RadialGauge.png"
+        "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialGauge.md"
       },
       {
         "Name": "SlidableListItem",
@@ -65,7 +83,8 @@
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem",
         "XamlCodeFile": "SlidableListItemCode.bind",
-        "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png"
+        "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SlidableListItem.md"
       },
       {
         "Name": "PullToRefreshListView",
@@ -73,7 +92,8 @@
         "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
         "XamlCodeFile": "PullToRefreshListViewCode.bind",
-        "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png"
+        "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/PullToRefreshListview.md"
       },
       {
         "Name": "RotatorTile",
@@ -81,7 +101,8 @@
         "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
         "XamlCodeFile": "RotatorTileCode.bind",
-        "Icon": "/SamplePages/RotatorTile/RotatorTile.png"
+        "Icon": "/SamplePages/RotatorTile/RotatorTile.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RotatorTile.md"
       },
       {
         "Name": "BladeView",
@@ -89,7 +110,8 @@
         "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
-        "Icon": "/SamplePages/BladeView/BladeView.png"
+        "Icon": "/SamplePages/BladeView/BladeView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/BladeView.md"
       },
       {
         "Name": "ScrollHeader",
@@ -97,15 +119,17 @@
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
         "XamlCodeFile": "ScrollHeaderCode.bind",
-        "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png"
+        "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/ScrollHeader.md"
       },
       {
-          "Name": "GridSplitter",
-          "Type": "GridSplitterPage",
-          "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
-          "XamlCodeFile": "GridSplitter.bind",
-          "Icon": "/SamplePages/GridSplitter/GridSplitter.png"
+        "Name": "GridSplitter",
+        "Type": "GridSplitterPage",
+        "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
+        "XamlCodeFile": "GridSplitter.bind",
+        "Icon": "/SamplePages/GridSplitter/GridSplitter.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/GridSplitter.md"
       },
       {
         "Name": "DropShadowPanel",
@@ -113,7 +137,18 @@
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
-        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png"
+        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/DropShadowPanel.md"
+      },
+      {
+        "Name": "Loading",
+        "Type": "LoadingPage",
+        "About": "LoadingControl helps to show content with animation to the user while the app is doing some calculation.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
+        "XamlCodeFile": "LoadingCode.bind",
+        "Icon": "/SamplePages/Loading/Loading.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Loading.md"
       },
       {
         "Name": "TextBoxMask",
@@ -121,7 +156,17 @@
         "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
-        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png"
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxMask.md"
+      },
+      {
+        "Name": "TileControl",
+        "Type": "TileControlPage",
+        "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TileControl",
+        "XamlCodeFile": "TileControl.bind",
+        "Icon": "/SamplePages/TileControl/TileControl.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TileControl.md"
       },
       {
         "Name": "SurfaceDialTextboxHelper",
@@ -129,7 +174,27 @@
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
         "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
-        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png"
+        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SurfaceDialTextboxHelper.md"
+      },
+      {
+        "Name": "WrapPanel",
+        "Type": "WrapPanelPage",
+        "About": "The WrapPanel Control positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
+        "XamlCodeFile": "WrapPanel.bind",
+        "Icon": "/SamplePages/WrapPanel/WrapPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/WrapPanel.md"
+      },
+      {
+        "Name": "TextBoxRegex",
+        "Type": "TextBoxRegexPage",
+        "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
+        "XamlCodeFile": "TextBoxRegex.bind",
+        "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
       }
     ]
   },
@@ -177,7 +242,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "FadeBehaviorCode.bind",
         "XamlCodeFile": "FadeBehaviorXaml.bind",
-        "Icon": "/SamplePages/Fade/FadeBehavior.png"
+        "Icon": "/SamplePages/Fade/FadeBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Fade.md"
       },
       {
         "Name": "Scale",
@@ -186,7 +252,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "ScaleBehaviorCode.bind",
         "XamlCodeFile": "ScaleBehaviorXaml.bind",
-        "Icon": "/SamplePages/Scale/scaleBehavior.png"
+        "Icon": "/SamplePages/Scale/scaleBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Scale.md"
       },
       {
         "Name": "Offset",
@@ -195,7 +262,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "OffsetBehaviorCode.bind",
         "XamlCodeFile": "OffsetBehaviorXaml.bind",
-        "Icon": "/SamplePages/Offset/offsetBehavior.png"
+        "Icon": "/SamplePages/Offset/offsetBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Offset.md"
       },
       {
         "Name": "Rotate",
@@ -204,7 +272,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "RotateBehaviorCode.bind",
         "XamlCodeFile": "RotateBehaviorXaml.bind",
-        "Icon": "/SamplePages/Rotate/rotateBehavior.png"
+        "Icon": "/SamplePages/Rotate/rotateBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Rotate.md"
       },
       {
         "Name": "Blur",
@@ -213,7 +282,9 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
         "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.png"
+        "Icon": "/SamplePages/Blur/blurBehavior.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Blur.md"
       },
       {
         "Name": "Light",
@@ -222,7 +293,9 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png"
+        "Icon": "/SamplePages/Light/LightBehavior.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Light.md"
       },
       {
         "Name": "FadeHeader",
@@ -231,7 +304,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
-        "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png"
+        "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/FadeHeader.md"
       },
       {
         "Name": "ParallaxService",
@@ -247,7 +321,9 @@
         "About": "Animates items of a grid when the size changes",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ReorderGrid.bind",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png"
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/ReorderGrid.md"
       }
     ]
   },
@@ -261,7 +337,8 @@
         "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BingCode.bind",
-        "Icon": "/SamplePages/Bing Service/icon.png"
+        "Icon": "/SamplePages/Bing Service/icon.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/Bing.md"
       },
       {
         "Name": "Facebook Service",
@@ -269,7 +346,8 @@
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png"
+        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/Facebook.md"
       },
       {
         "Name": "Twitter Service",
@@ -277,7 +355,8 @@
         "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
-        "Icon": "/SamplePages/Twitter Service/TwitterLogo.png"
+        "Icon": "/SamplePages/Twitter Service/TwitterLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/Twitter.md"
       },
       {
         "Name": "Microsoft Graph Service",
@@ -285,7 +364,8 @@
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
         "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png"
+        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/MicrosoftGraph.md"
       },
       {
         "Name": "LinkedIn Service",
@@ -293,7 +373,17 @@
         "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
-        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png"
+        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/Linkedin.md"
+      },
+      {
+        "Name": "Microsoft Translator Service",
+        "Type": "MicrosoftTranslatorPage",
+        "About": "The Microsoft Translator Service allows you to translate text into many languages.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
+        "CodeFile": "MicrosoftTranslatorCode.bind",
+        "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/MicrosoftTranslator.md"
       }
     ]
   },
@@ -308,7 +398,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/ImageCache",
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
-        "Icon": "/SamplePages/ImageCache/ImageEx.png"
+        "Icon": "/SamplePages/ImageCache/ImageEx.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ImageCache.md"
       },
       {
         "Name": "Object Storage",
@@ -316,7 +407,8 @@
         "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
         "CodeFile": "ObjectStorageCode.bind",
-        "Icon": "/SamplePages/Object Storage/ObjectStorage.png"
+        "Icon": "/SamplePages/Object Storage/ObjectStorage.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ObjectStorage.md"
       },
       {
         "Name": "Incremental Loading Collection",
@@ -324,7 +416,8 @@
         "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
         "CodeFile": "IncrementalLoadingCollectionCode.bind",
-        "Icon": "/SamplePages/Incremental Loading Collection/icon.png"
+        "Icon": "/SamplePages/Incremental Loading Collection/icon.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/IncrementalLoadingCollection.md"
       },
       {
         "Name": "BackgroundTaskHelper",
@@ -332,7 +425,8 @@
         "About": "Allows easy registration and maintainance of background task",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
-        "Icon": "/Assets/Helpers.png"
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BackgroundTaskHelper.md"
       },
       {
         "Name": "ConnectionHelper",
@@ -340,23 +434,26 @@
         "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
         "CodeFile": "ConnectionHelperCode.bind",
-        "Icon": "/Assets/Helpers.png"
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ConnectionHelper.md"
       },
       {
-          "Name": "SystemInformation",
-          "Type": "SystemInformationPage",
-          "About": "The SystemInformation class provides easy access to some of system/app/device information",
-          "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
-          "CodeFile": "SystemInformationCode.bind",
-          "Icon": "/Assets/Helpers.png"
-      },      
+        "Name": "SystemInformation",
+        "Type": "SystemInformationPage",
+        "About": "The SystemInformation class provides easy access to some of system/app/device information",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+        "CodeFile": "SystemInformationCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/SystemInformation.md"
+      },
       {
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
         "About": "Allows to easily print XAML controls",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper.cs",
         "CodeFile": "PrintHelperCode.bind",
-        "Icon": "/SamplePages/PrintHelper/PrintHelper.png"
+        "Icon": "/SamplePages/PrintHelper/PrintHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/PrintHelper.md"
       },
       {
         "Name": "DispatcherHelper",
@@ -364,7 +461,29 @@
         "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper",
         "CodeFile": "DispatcherHelperCode.bind",
-        "Icon": "/Assets/Helpers.png"
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/DispatcherHelper.md"
+      },
+      {
+        "Name": "AdvancedCollectionView",
+        "Type": "AdvancedCollectionViewPage",
+        "About": "Allows you to easily sort and filter your collections before displaying them.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
+        "CodeFile": "AdvancedCollectionView.bind",
+        "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
+      }
+    ]
+  },
+  {
+    "Name": "More resources",
+    "Icon": "Icons/More.png",
+    "Samples": [
+      {
+        "Name": "Useful links",
+        "Type": "UsefulLinksPage",
+        "About": "List of useful links for UWP developers.",
+        "Icon": "/SamplePages/Useful links/UsefulLinks.png"
       }
     ]
   }

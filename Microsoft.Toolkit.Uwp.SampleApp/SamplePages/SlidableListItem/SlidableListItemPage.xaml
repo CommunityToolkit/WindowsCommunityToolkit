@@ -16,11 +16,11 @@
                                           TrueValue="Visible" />
         <DataTemplate x:Key="EmailsItemTemplate"
                       x:DataType="data:Item">
-            <controls:SlidableListItem MinWidth="300" 
+            <controls:SlidableListItem MinWidth="300"
                                        MaxWidth="800"
-                                       AutomationProperties.Name="{x:Bind Title}"
                                        HorizontalAlignment="Stretch"
                                        ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}"
+                                       AutomationProperties.Name="{x:Bind Title}"
                                        IsLeftCommandEnabled="{Binding DataContext.IsLeftCommandEnabled.Value, ElementName=Root, Mode=OneWay}"
                                        IsOffsetLimited="{Binding DataContext.IsOffsetLimited.Value, ElementName=Root, Mode=OneWay}"
                                        IsPointerReleasedOnSwipingHandled="{Binding DataContext.IsPointerReleasedOnSwipingHandled.Value, ElementName=Root, Mode=OneWay}"

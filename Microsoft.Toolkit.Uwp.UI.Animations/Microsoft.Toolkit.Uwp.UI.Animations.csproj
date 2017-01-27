@@ -62,6 +62,7 @@
     <Compile Include="Behaviors\ScrollHeaderBehavior.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
+    <Compile Include="EasingType.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />

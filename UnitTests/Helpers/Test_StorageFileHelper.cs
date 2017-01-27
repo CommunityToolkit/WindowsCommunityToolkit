@@ -239,7 +239,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public void Test_StorageFileHelper_IsFilePathValid_WithIllegalCharacters()
         {
-            string filepath = "my_folder/my_file.txt";
+            string filepath = "my>folder|my<file\t.txt";
 
             bool result = StorageFileHelper.IsFilePathValid(filepath);
 

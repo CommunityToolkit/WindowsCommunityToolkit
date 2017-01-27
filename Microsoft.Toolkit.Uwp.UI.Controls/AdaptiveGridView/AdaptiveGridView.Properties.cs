@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the command to execute when an item is clicked.
+        /// Gets or sets the command to execute when an item is clicked and the IsItemClickEnabled property is true.
         /// </summary>
         /// <value>The item click command.</value>
         public ICommand ItemClickCommand

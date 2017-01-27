@@ -28,18 +28,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AddItems();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-
         private void AddItems()
         {
             for (int i = 0; i < 10; i++)

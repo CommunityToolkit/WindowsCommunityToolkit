@@ -46,7 +46,7 @@ namespace UnitTests.Services
 
             var results = await BingService.Instance.RequestAsync(config, 50);
 
-            Assert.AreEqual(results.Count, 10);
+            Assert.IsTrue(results.Count > 5);
         }
     }
 }
