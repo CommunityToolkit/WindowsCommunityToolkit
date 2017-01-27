@@ -67,6 +67,7 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ### Code Helpers
 
+* [AdvancedCollectionView](docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
 * [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
@@ -78,6 +79,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HyperlinkExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HyperlinkExtensions/)
 * [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
 * [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
+* [ListViewBaseExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ListViewBaseExtensions/)
 * [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
 * [PrinterHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrinterHelper/)
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)

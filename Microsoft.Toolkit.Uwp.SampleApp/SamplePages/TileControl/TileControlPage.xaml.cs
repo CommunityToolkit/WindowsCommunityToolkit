@@ -15,9 +15,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class MosaicControlPage
+    public sealed partial class TileControlPage
     {
-        public MosaicControlPage()
+        public TileControlPage()
         {
             InitializeComponent();
         }
