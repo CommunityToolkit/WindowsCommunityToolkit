@@ -1,5 +1,4 @@
-﻿#if !WINRT
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -15,6 +14,7 @@
 // WinRT uses a different binding system since it doesn't support implicit type converters.
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
+#if !WINRT
     /// <summary>
     /// A binding value for doubles.
     /// </summary>
@@ -45,7 +45,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Private constructor used by the implicit converter to assign the raw value.
         /// </summary>
-        private BindableProgressBarValue() { }
+        private BindableProgressBarValue()
+        {
+        }
 
         internal string ToXmlString()
         {
@@ -92,5 +94,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return AdaptiveProgressBarValue.FromValue(d);
         }
     }
-}
 #endif
+}

@@ -1,5 +1,4 @@
-﻿#if WINRT
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -14,6 +13,7 @@
 // Note that this code is only compiled for WinRT. It is not compiled in any of the other projects.
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
+#if WINRT
     /// <summary>
     /// An enumeration of the properties that support data binding on <see cref="AdaptiveText"/> .
     /// </summary>
@@ -24,5 +24,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         Text
     }
-}
 #endif
+}
