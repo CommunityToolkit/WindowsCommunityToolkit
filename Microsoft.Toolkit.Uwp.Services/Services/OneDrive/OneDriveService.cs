@@ -226,5 +226,105 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
             return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, oneDriveRootItem);
         }
+
+        /// <summary>
+        /// Gets the OneDrive app root folder
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public async Task<OneDriveStorageFolder> AppRootFolderAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Special.AppRoot.Request().GetAsync();
+            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.AppRoot, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Gets the OneDrive camera roll folder
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public async Task<OneDriveStorageFolder> CameraRollFolderAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Special.CameraRoll.Request().GetAsync();
+            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Gets the OneDrive documents folder
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public async Task<OneDriveStorageFolder> DocumentsFolderAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Documents.Request().GetAsync();
+            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Documents, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Gets the OneDrive music folder
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public async Task<OneDriveStorageFolder> MusicFolderAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Music.Request().GetAsync();
+            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Music, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Gets the OneDrive photos folder
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public async Task<OneDriveStorageFolder> PhotosFolderAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Photos.Request().GetAsync();
+            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
+        }
     }
 }

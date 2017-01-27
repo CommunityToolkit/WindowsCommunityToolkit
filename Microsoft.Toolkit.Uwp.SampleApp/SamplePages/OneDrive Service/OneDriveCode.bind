@@ -22,10 +22,10 @@
 
 // First get the root of your OneDrive
 // By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
-var rootFolder= await OneDriveService.Instance.RootFolderAsync();
+var folder = await OneDriveService.Instance.RootFolderAsync();
 
-// if Windows is not associate with a Microsoft Account, you need
-// 1) Initialize the service using a authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+// if Windows is not associated with a Microsoft Account, you need
+// 1) Initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
 // 2) Sign in
 if (!await OneDriveService.Instance.LoginAsync())
