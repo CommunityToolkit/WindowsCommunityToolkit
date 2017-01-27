@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-// Note that this code is NOT compiled for WinRT.
-// WinRT uses a different binding system since it doesn't support implicit type converters.
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
+    // Note that this code is NOT compiled for WinRT.
+    // WinRT uses a different binding system since it doesn't support implicit type converters.
 #if !WINRT
     /// <summary>
     /// A binding value for doubles.

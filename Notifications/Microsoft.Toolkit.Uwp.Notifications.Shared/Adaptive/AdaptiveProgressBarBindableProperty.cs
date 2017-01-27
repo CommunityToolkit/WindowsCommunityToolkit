@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-// Note that this code is only compiled for WinRT. It is not compiled in any of the other projects.
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
+    // Note that this code is only compiled for WinRT. It is not compiled in any of the other projects.
 #if WINRT
     /// <summary>
     /// An enumeration of the properties that support data binding on <see cref="AdaptiveProgressBar"/> .
