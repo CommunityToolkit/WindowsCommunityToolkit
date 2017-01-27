@@ -17,11 +17,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Expander
     {
+        /// <summary>
+        /// Key of the VisualStateGroup that open/close content
+        /// </summary>
         public const string GroupContent = "ExpandedStates";
+
+        /// <summary>
+        /// Key of the VisualState when content is expanded
+        /// </summary>
         public const string StateContentExpanded = "Expanded";
+
+        /// <summary>
+        /// Key of the VisualState when content is collapsed
+        /// </summary>
         public const string StateContentCollapsed = "Collapsed";
 
+        /// <summary>
+        /// Key of the UI Element that toggle IsExpanded property
+        /// </summary>
         public const string ExpanderToggleButtonPart = "PART_ExpanderToggleButton";
+
+        /// <summary>
+        /// Key of the UI Element that contains the content of the control that is expanded/collapsed
+        /// </summary>
         public const string MainContentPart = "PART_MainContent";
     }
 }
