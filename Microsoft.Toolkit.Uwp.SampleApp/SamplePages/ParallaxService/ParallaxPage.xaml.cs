@@ -10,14 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public class SliderPropertyOptions : PropertyOptions
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class ParallaxPage : Page
     {
-        public double MinValue { get; set; }
+        public ParallaxPage()
+        {
+            InitializeComponent();
+        }
 
-        public double MaxValue { get; set; }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
 
-        public double Step { get; set; } = 1;
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
+        }
     }
 }
