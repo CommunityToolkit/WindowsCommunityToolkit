@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -11,6 +23,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Control the user to cycle through a collection of items
+    /// </summary>
     [TemplatePart(Name = PartCarouselPanel, Type = typeof(CarouselPanel))]
     public sealed class Carousel : ContentControl
     {
@@ -18,36 +33,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double _scrollRate = 100;
         private int _originalIndex;
         private CarouselPanel _carouselPanel;
+        private DataTemplate _itemTemplate;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Carousel"/> class.
+        /// </summary>
         public Carousel()
         {
             this.DefaultStyleKey = typeof(Carousel);
         }
 
-        public object ItemsSource
-        {
-            get { return (object)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselItemSourceChanged));
-
-        public Orientation Orientation
-        {
-            get { return (Orientation)GetValue(OrientationProperty); }
-            set { SetValue(OrientationProperty, value); }
-        }
-
-        public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
-
+        /// <summary>
+        /// Gets or sets the DataTemplate to be applied on each <see cref="CarouselItem"/>
+        /// </summary>
         public DataTemplate ItemTemplate
         {
             get { return _itemTemplate; }
             set { _itemTemplate = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the collection of items
+        /// </summary>
+        public object ItemsSource
+        {
+            get { return (object)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the orientation of the control
+        /// </summary>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the current centered item
+        /// </summary>
         public int CurrentItemIndex
         {
             get
@@ -66,9 +91,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="ItemsSource"/> property
+        /// </summary>
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselItemSourceChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> property
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="CurrentItemIndex"/> property
+        /// </summary>
         public static readonly DependencyProperty CurrentItemIndexProperty =
             DependencyProperty.Register("CurrentItemIndex", typeof(int), typeof(Carousel), new PropertyMetadata(0));
 
+        /// <summary>
+        /// Occurs when item has been invoked
+        /// </summary>
         public event EventHandler<CarouselItemInvokedEventArgs> ItemInvoked;
 
         protected override void OnApplyTemplate()
@@ -98,6 +141,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             KeyUp += Carousel_KeyUp;
 
             base.OnApplyTemplate();
+        }
+
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Carousel carousel = d as Carousel;
+
+            if (carousel._carouselPanel == null)
+            {
+                return;
+            }
+
+            carousel._carouselPanel.Orientation = (Orientation)e.NewValue;
+        }
+
+        private static void OnCarouselItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Carousel carousel = d as Carousel;
+            carousel.HandleNewItemsSource(e.NewValue, e.OldValue);
         }
 
         private void Carousel_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -220,26 +281,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             CurrentItemIndex += e.GetCurrentPoint(null).Properties.MouseWheelDelta > 0 ? -1 : 1;
             e.Handled = true;
-        }
-
-        private DataTemplate _itemTemplate;
-
-        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Carousel carousel = d as Carousel;
-
-            if (carousel._carouselPanel == null)
-            {
-                return;
-            }
-
-            carousel._carouselPanel.Orientation = (Orientation)e.NewValue;
-        }
-
-        private static void OnCarouselItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Carousel carousel = d as Carousel;
-            carousel.HandleNewItemsSource(e.NewValue, e.OldValue);
         }
 
         private void HandleNewItemsSource(object newValue, object oldValue)
