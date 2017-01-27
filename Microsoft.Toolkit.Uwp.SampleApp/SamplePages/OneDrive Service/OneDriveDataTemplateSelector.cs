@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// FileFolderDataTemplateSelector class
     /// </summary>
-    public class FileFolderDataTemplateSelector : DataTemplateSelector
+    public class OneDriveDataTemplateSelector : DataTemplateSelector
     {
         /// <summary>
         /// Gets or sets the File DataTemplate

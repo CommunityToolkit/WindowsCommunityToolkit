@@ -29,10 +29,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
         /// </summary>
-        /// <param name="graphtProvider">Instance of GraphClientService class</param>
-        public MicrosoftGraphUserService(GraphServiceClient graphtProvider)
+        /// <param name="graphProvider">Instance of GraphClientService class</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphProvider)
         {
-            _graphProvider = graphtProvider;
+            _graphProvider = graphProvider;
         }
 
         ///// <summary>

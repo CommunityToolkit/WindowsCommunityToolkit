@@ -10,7 +10,7 @@
     
     mc:Ignorable="d">
     <Page.Resources>
-        <selector:FileFolderDataTemplateSelector
+        <selector:OneDriveDataTemplateSelector
                         x:Key="FileFolderDataTemplateSelector" 
                         FolderTemplate="{StaticResource FolderTemplate}"
                         FileTemplate="{StaticResource FileTemplate}"
