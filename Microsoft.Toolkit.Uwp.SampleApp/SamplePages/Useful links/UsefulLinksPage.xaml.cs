@@ -11,9 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Net.Http;
-using Windows.System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.System;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
