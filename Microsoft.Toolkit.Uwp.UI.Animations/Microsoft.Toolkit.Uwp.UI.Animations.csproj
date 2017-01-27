@@ -71,6 +71,7 @@
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
     <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
     <Compile Include="Extensions\AnimationTools.cs" />
+    <Compile Include="ParallaxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReorderGridAnimation.cs" />
     <Compile Include="SurfaceLoader.cs" />

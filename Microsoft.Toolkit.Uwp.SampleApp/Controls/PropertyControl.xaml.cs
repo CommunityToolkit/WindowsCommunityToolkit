@@ -78,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             {
                                 slider.Minimum = sliderOption.MinValue;
                                 slider.Maximum = sliderOption.MaxValue;
+                                slider.StepFrequency = sliderOption.Step;
                             }
 
                             if (option.Kind == PropertyKind.DoubleSlider)

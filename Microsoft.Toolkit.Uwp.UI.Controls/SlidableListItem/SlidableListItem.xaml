@@ -48,7 +48,7 @@
                                 </StackPanel.RenderTransform>
                             </StackPanel>
                         </Grid>
-                        <Grid x:Name="ContentGrid" 
+                        <Grid x:Name="ContentGrid"
                               Background="{TemplateBinding Background}"
                               ManipulationMode="TranslateX,System">
                             <ContentPresenter />

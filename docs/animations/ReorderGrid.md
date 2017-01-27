@@ -1,4 +1,4 @@
-# Scale
+# ReorderGridAnimation
 
 The **ReorderGridAnimation** class allows your GridView controls to animate items into position when the size of the GridView changes.
 
