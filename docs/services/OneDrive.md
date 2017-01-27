@@ -39,73 +39,93 @@ When registering your application don't forget to add the Office 365 Sharepoint 
 
 ### Retrieve the root of your OneDrive
 
-_// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account_
+```csharp
 
+// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
 var folder = await OneDriveService.Instance.RootFolderAsync();
+
+```
 
 ### Initialization
 
-_// if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal_
+```csharp
 
+// if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+
+```
 
 ### Login
 
+```csharp
+
+// Login
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
 
+```
+
 ### Retrieving files
 
-_// Once you have a reference to the Root Folder you can get a list of all items_
+```csharp
 
-_// List the Items from the current folder_
-
+// Once you have a reference to the Root Folder you can get a list of all items
+// List the Items from the current folder
 var OneDriveItems = await folder.GetItemsAsync();
 do
 {
-	_//Get the next page of items_
+	//Get the next page of items
     OneDriveItems = await folder.NextItemsAsync();   
 }
 while (OneDriveItems != null);
 
+```
+
 ### Creating folders
 
-_// Then from there you can play with folders and files
-// Create Folder_
+```csharp
 
+// Then from there you can play with folders and files
+// Create Folder
 var level1Folder = await rootFolder.CreateFolderAsync("Level1");
 
 var level2Folder = await level1Folder.CreateFolderAsync("Level2");
 
 var level3Folder = await level2Folder.CreateFolderAsync("Level3");
 
+```
 
 ### Retrieving subfolders
 
-_// You can get a sub folder by path_
+```csharp
 
+// You can get a sub folder by path
 var level3Folder = await rootFolder.GetFolderAsync("Level1/Level2/Level3");
+
+```
 
 ### Moving, copying and renaming folders
 
-_//Move Folder_
+```csharp
 
+// Move Folder
 var result=await level3Folder.MoveAsync(rootFolder);
 
-_// Copy Folder_
-
+// Copy Folder
 Var result=level3Folder.CopyAsync(destFolder)
 
-_// Rename Folder_
-
+// Rename Folder
 await level3Folder.RenameAsync("NewLevel3");
+
+```
 
 ### Creating files
 
-_// Create new files_
+```csharp
 
+// Create new files
 var selectedFile = await OpenLocalFileAsync(); // e.g. using file picker
 if (selectedFile != null)
 {
@@ -115,24 +135,33 @@ if (selectedFile != null)
    }
 }
 
+```
+
 ### Creating files - that exceed 4MB
 
-_// If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead_
+```csharp
 
+// If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead
 var largeFileCreated = await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
+
+```
 
 ### Moving, copying and renaming files
 
-_// You can also Move, Copy or Rename a file_
+```csharp
 
+// You can also Move, Copy or Rename a file
 await fileCreated.MoveAsync(destFolder);
 await fileCreated.CopyAsync(destFolder);
 await fileCreated.RenameAsync("newName");
 
+```
+
 ### Downloading files
 
-_// Download a file and save the content in a local file_
+```csharp
 
+// Download a file and save the content in a local file
 var remoteFile=await level3Folder.GetFile("NewFile.docx"); 
 
 using (var remoteStream = await remoteFile.OpenAsync())
@@ -148,16 +177,20 @@ using (var remoteStream = await remoteFile.OpenAsync())
      }
  }
 
+```
+
  ### Retrieving file thumbnails
 
-_// At last you can get the thumbnail of a file_
+```csharp
 
+// At last you can get the thumbnail of a file
 var stream = await file.GetThumbnailAsync(ThumbnailSize.Large)
 Windows.UI.Xaml.Controls.Image thumbnail = new Windows.UI.Xaml.Controls.Image();
 BitmapImage bmp = new BitmapImage();
 await bmp.SetSourceAsync(streamTodDisplay);
 thumbnail.Source = bmp;
 
+```
   
 ## Example
 
