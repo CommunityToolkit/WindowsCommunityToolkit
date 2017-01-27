@@ -10,24 +10,29 @@
     mc:Ignorable="d">
 
     <Grid Name="Root" Background="White">
-        <controls:Carousel x:Name="TimelineControl" 
+        <controls:Carousel x:Name="CarouselControl" 
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
                            Orientation="{Binding DataContext.Orientation.Value, ElementName=Root, Mode=OneWay}">
+            
             <controls:Carousel.ItemTemplate>
+                
                 <DataTemplate x:DataType="data:PhotoDataItem">
+                    <!-- CarouselItem is automaticaly generated if not specified (not required if properties or events are not needed -->
                     <controls:CarouselItem CarouselItemLocationChanged="CarouselItem_CarouselItemLocationChanged"
-                                           IsActionable="True"
-                                           AnimateFocus="False"
-                                           Height="200" Width="200" Background="Gray">
-                        <StackPanel>
+                                           DefaultAnimationEnabled="{Binding DataContext.DefaultAnimationEnabled.Value, ElementName=Root, Mode=TwoWay}">
+                        <StackPanel Width="200">
                             <Image Source="{x:Bind Thumbnail}" Width="200" Height="180" Stretch="UniformToFill"></Image>
-                            <Border Background="DarkGray">
-                                <TextBlock Text="{x:Bind Title}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="18"></TextBlock>
-                            </Border>
+                            <controls:DropShadowPanel ShadowOpacity="0.4" Color="Black" BlurRadius="10" Margin="5,0">
+                                <Border Background="LightGray">
+                                    <TextBlock x:Name="Text" Text="{x:Bind Title}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" Foreground="DarkGray" FontSize="18" FontFamily="Segoe UI Light" TextTrimming="CharacterEllipsis"></TextBlock>
+                                </Border>
+                            </controls:DropShadowPanel>
                         </StackPanel>
                     </controls:CarouselItem>
                 </DataTemplate>
+                
             </controls:Carousel.ItemTemplate>
+            
         </controls:Carousel>
     </Grid>
 </Page>

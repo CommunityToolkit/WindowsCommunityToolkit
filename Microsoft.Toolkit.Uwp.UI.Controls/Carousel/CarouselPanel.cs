@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// *********
+
+using System;
 using System.Linq;
 using Windows.Foundation;
 using Windows.UI;
@@ -11,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class CarouselPanel : Panel
     {
-        public CarouselPanel()
+        internal CarouselPanel()
         {
             Background = new SolidColorBrush(Colors.Transparent);
 
@@ -19,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Windows.UI.Xaml.Input.ManipulationModes.TranslateY : Windows.UI.Xaml.Input.ManipulationModes.TranslateX;
         }
 
-        public int ItemIndex
+        internal int ItemIndex
         {
             get
             {
@@ -40,17 +52,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public static readonly DependencyProperty ItemIndexProperty =
-            DependencyProperty.Register("ItemIndex", typeof(int), typeof(CarouselPanel), new PropertyMetadata(0, OnPropertyChanged));
+        internal double ItemSpacing
+        {
+            get { return (double)GetValue(ItemSpacingProperty); }
+            set { SetValue(ItemSpacingProperty, value); }
+        }
 
-        public Orientation Orientation
+        internal Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
         }
 
-        public static readonly DependencyProperty OrientationProperty =
+        internal static readonly DependencyProperty ItemIndexProperty =
+            DependencyProperty.Register("ItemIndex", typeof(int), typeof(CarouselPanel), new PropertyMetadata(0, OnPropertyChanged));
+
+        internal static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register("Orientation", typeof(Orientation), typeof(CarouselPanel), new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
+
+        internal static readonly DependencyProperty ItemSpacingProperty =
+            DependencyProperty.Register("ItemSpacing", typeof(double), typeof(CarouselPanel), new PropertyMetadata(80d, OnPropertyChanged));
+
+        internal UIElement AddElementToPanel(UIElement element)
+        {
+            if (!(element is CarouselItem))
+            {
+                var item = new CarouselItem();
+                item.IsActionable = false;
+                item.Content = element;
+                element = item;
+            }
+
+            Children.Add(element);
+
+            return element;
+        }
+
+        internal CarouselItem GetTopItem()
+        {
+            if (Children.Count == 0)
+            {
+                return null;
+            }
+
+            return Children.ElementAt(ItemIndex) as CarouselItem;
+        }
+
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as CarouselPanel).InvalidateArrange();
+        }
 
         private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -58,20 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var carousel = d as CarouselPanel;
             carousel.ManipulationMode = (Orientation)e.NewValue == Orientation.Vertical ?
                 Windows.UI.Xaml.Input.ManipulationModes.TranslateY : Windows.UI.Xaml.Input.ManipulationModes.TranslateX;
-        }
-
-        public double ItemSpacing
-        {
-            get { return (double)GetValue(ItemSpacingProperty); }
-            set { SetValue(ItemSpacingProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemSpacingProperty =
-            DependencyProperty.Register("ItemSpacing", typeof(double), typeof(CarouselPanel), new PropertyMetadata(80d, OnPropertyChanged));
-
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as CarouselPanel).InvalidateArrange();
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -140,31 +177,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return availableSize;
-        }
-
-        public UIElement AddElementToPanel(UIElement element)
-        {
-            if (!(element is CarouselItem))
-            {
-                var item = new CarouselItem();
-                item.IsActionable = false;
-                item.Content = element;
-                element = item;
-            }
-
-            Children.Add(element);
-
-            return element;
-        }
-
-        public CarouselItem GetTopItem()
-        {
-            if (Children.Count == 0)
-            {
-                return null;
-            }
-
-            return Children.ElementAt(ItemIndex) as CarouselItem;
         }
     }
 }

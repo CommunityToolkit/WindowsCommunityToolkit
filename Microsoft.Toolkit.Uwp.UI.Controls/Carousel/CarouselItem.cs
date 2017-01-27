@@ -1,44 +1,62 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Control used by <see cref="Carousel"/> to represent each item
+    /// </summary>
     public sealed class CarouselItem : ContentControl
     {
-        public event EventHandler CarouselItemCentered;
+        private bool _isCentered = false;
+        private int _carouselItemLocation;
 
-        public event EventHandler CarouselItemNotCentered;
-
-        public event EventHandler<CarouselItemLocationChangedEventArgs> CarouselItemLocationChanged;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CarouselItem"/> class.
+        /// </summary>
         public CarouselItem()
         {
             this.DefaultStyleKey = typeof(CarouselItem);
             IsTabStop = false;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="Carousel" />
+        /// ItemInvoked event is raised for this item
+        /// </summary>
         public bool IsActionable
         {
             get { return (bool)GetValue(IsActionableProperty); }
             set { SetValue(IsActionableProperty, value); }
         }
 
-        public static readonly DependencyProperty IsActionableProperty =
-            DependencyProperty.Register("IsActionable", typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
-
-        public bool AnimateFocus
+        /// <summary>
+        /// Gets or sets a value indicating whether the default animation should
+        /// be used when item is centered or not
+        /// </summary>
+        public bool DefaultAnimationEnabled
         {
-            get { return (bool)GetValue(AnimateFocusProperty); }
-            set { SetValue(AnimateFocusProperty, value); }
+            get { return (bool)GetValue(DefaultAnimationEnabledProperty); }
+            set { SetValue(DefaultAnimationEnabledProperty, value); }
         }
 
-        public static readonly DependencyProperty AnimateFocusProperty =
-            DependencyProperty.Register("AnimateFocus", typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
-
-        private bool _isCentered = false;
-
+        /// <summary>
+        /// Gets a value indicating whether the item is centered in the <see cref="Carousel"/>.
+        /// </summary>
         public bool IsCentered
         {
             get
@@ -55,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (value)
                 {
-                    if (AnimateFocus)
+                    if (DefaultAnimationEnabled)
                     {
                         this.Scale(1.2f, 1.2f, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
                     }
@@ -65,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    if (AnimateFocus)
+                    if (DefaultAnimationEnabled)
                     {
                         this.Scale(1, 1, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
                     }
@@ -77,8 +95,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private int _carouselItemLocation;
-
+        /// <summary>
+        /// Gets a value indicating how far this item is from the center
+        /// </summary>
         public int CarouselItemLocation
         {
             get
@@ -103,5 +122,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 CarouselItemLocationChanged?.Invoke(this, eventArgs);
             }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="IsActionable"/> property
+        /// </summary>
+        public static readonly DependencyProperty IsActionableProperty =
+            DependencyProperty.Register(nameof(IsActionable), typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
+
+        /// <summary>
+        /// Identifies the <see cref="DefaultAnimationEnabled"/> property
+        /// </summary>
+        public static readonly DependencyProperty DefaultAnimationEnabledProperty =
+            DependencyProperty.Register(nameof(DefaultAnimationEnabled), typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
+
+        /// <summary>
+        /// Occurs when item has been centered
+        /// </summary>
+        public event EventHandler CarouselItemCentered;
+
+        /// <summary>
+        /// Occurs when item is no longer centered
+        /// </summary>
+        public event EventHandler CarouselItemNotCentered;
+
+        /// <summary>
+        /// Occurs when item location changes
+        /// </summary>
+        public event EventHandler<CarouselItemLocationChangedEventArgs> CarouselItemLocationChanged;
     }
 }
