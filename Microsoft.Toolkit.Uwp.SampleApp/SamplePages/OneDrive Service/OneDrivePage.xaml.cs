@@ -271,7 +271,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task DeleteAsync(OneDriveStorageItem itemToDelete)
         {
-            MessageDialog messageDialog = new MessageDialog($"Are you sur you want to delete '{itemToDelete.Name}'", "Delete");
+            MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
             messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
