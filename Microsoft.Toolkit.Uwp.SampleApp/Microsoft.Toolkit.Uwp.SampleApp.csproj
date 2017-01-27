@@ -800,13 +800,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
-      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
+      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
