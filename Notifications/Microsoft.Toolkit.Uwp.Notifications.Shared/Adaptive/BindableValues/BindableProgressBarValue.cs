@@ -10,6 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+// Note that this code is NOT compiled for WinRT.
+// WinRT uses a different binding system since it doesn't support implicit type converters.
+#if !WINRT
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
@@ -90,3 +93,4 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+#endif

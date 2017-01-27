@@ -10,6 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+#if WINRT
+using System.Collections.Generic;
+#endif
 using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
@@ -19,25 +22,56 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public sealed class AdaptiveProgressBar : IToastBindingGenericChild
     {
+#if WINRT
+        /// <summary>
+        /// Gets a dictionary of the current data bindings, where you can assign new bindings.
+        /// </summary>
+        public IDictionary<AdaptiveProgressBarBindableProperty, string> Bindings { get; private set; } = new Dictionary<AdaptiveProgressBarBindableProperty, string>();
+#endif
+
         /// <summary>
         /// Gets or sets an optional title string. Supports data binding.
         /// </summary>
-        public BindableString Title { get; set; }
+        public
+#if WINRT
+            string
+#else
+            BindableString
+#endif
+            Title { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the progress bar. Supports data binding. Defaults to 0.
         /// </summary>
-        public BindableProgressBarValue Value { get; set; } = AdaptiveProgressBarValue.FromValue(0);
+        public
+#if WINRT
+            AdaptiveProgressBarValue
+#else
+            BindableProgressBarValue
+#endif
+            Value { get; set; } = AdaptiveProgressBarValue.FromValue(0);
 
         /// <summary>
         /// Gets or sets an optional string to be displayed instead of the default percentage string. If this isn't provided, something like "70%" will be displayed.
         /// </summary>
-        public BindableString ValueStringOverride { get; set; }
+        public
+#if WINRT
+            string
+#else
+            BindableString
+#endif
+            ValueStringOverride { get; set; }
 
         /// <summary>
         /// Gets or sets an optional status string, which is displayed underneath the progress bar. If provided, this string should reflect the status of the download, like "Downloading..." or "Installing..."
         /// </summary>
-        public BindableString Status { get; set; }
+        public
+#if WINRT
+            string
+#else
+            BindableString
+#endif
+            Status { get; set; }
 
         internal Element_AdaptiveProgressBar ConvertToElement()
         {
@@ -48,13 +82,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 val = AdaptiveProgressBarValue.FromValue(0);
             }
 
-            return new Element_AdaptiveProgressBar()
-            {
-                Title = Title?.ToXmlString(),
-                Value = val.ToXmlString(),
-                ValueStringOverride = ValueStringOverride?.ToXmlString(),
-                Status = Status?.ToXmlString()
-            };
+            var answer = new Element_AdaptiveProgressBar();
+
+#if WINRT
+            answer.Title = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Title, Title);
+            answer.Value = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Value, val.ToXmlString());
+            answer.ValueStringOverride = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.ValueStringOverride, ValueStringOverride);
+            answer.Status = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Status, Status);
+#else
+            answer.Title = Title?.ToXmlString();
+            answer.Value = val.ToXmlString();
+            answer.ValueStringOverride = ValueStringOverride?.ToXmlString();
+            answer.Status = Status?.ToXmlString();
+#endif
+
+            return answer;
         }
     }
 }

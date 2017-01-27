@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.Por
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.UWP", "UnitTests\UnitTests.Notifications.UWP\UnitTests.Notifications.UWP.csproj", "{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.WinRT", "UnitTests\UnitTests.Notifications.WinRT\UnitTests.Notifications.WinRT.csproj", "{EFA96B3C-857E-4659-B942-6BEF7719F4CA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Notifications\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{52f9acf2-55e7-4415-92bd-902cf85ce3da}*SharedItemsImports = 4
@@ -48,7 +50,6 @@ Global
 		Notifications\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{8bacd7a9-b205-4adf-bda9-763b30a66576}*SharedItemsImports = 13
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		Notifications\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{b63c8a9a-e8f5-4759-8526-9b0d65c4bdb5}*SharedItemsImports = 4
-		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		Notifications\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems*{fb381278-f4ad-4703-a12a-c43ee0b231bd}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -387,6 +388,38 @@ Global
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.ActiveCfg = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Build.0 = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|x86.Deploy.0 = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|ARM.Build.0 = Debug|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x64.ActiveCfg = Debug|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x64.Build.0 = Debug|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x64.Deploy.0 = Debug|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x86.ActiveCfg = Debug|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x86.Build.0 = Debug|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Debug|x86.Deploy.0 = Debug|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|Any CPU.ActiveCfg = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|Any CPU.Build.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|Any CPU.Deploy.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|ARM.ActiveCfg = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|ARM.Build.0 = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|ARM.Deploy.0 = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x64.ActiveCfg = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x64.Build.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x64.Deploy.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x86.ActiveCfg = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x86.Build.0 = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Publish|x86.Deploy.0 = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|Any CPU.ActiveCfg = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|ARM.ActiveCfg = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|ARM.Build.0 = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|ARM.Deploy.0 = Release|ARM
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x64.ActiveCfg = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x64.Build.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x64.Deploy.0 = Release|x64
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.ActiveCfg = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.Build.0 = Release|x86
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -405,5 +438,6 @@ Global
 		{982CC826-AACD-4855-9075-430BB6CE40A9} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{4DE12890-5423-43F0-91EE-83ACE11C1F8C} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD} = {9333C63A-F64F-4797-82B3-017422668A5D}
+		{EFA96B3C-857E-4659-B942-6BEF7719F4CA} = {9333C63A-F64F-4797-82B3-017422668A5D}
 	EndGlobalSection
 EndGlobal

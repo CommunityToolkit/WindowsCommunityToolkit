@@ -40,7 +40,14 @@ namespace UnitTests.Notifications
             // Data binding should work
             AssertAdaptiveChild("<text>{title}</text>", new AdaptiveText()
             {
+#if WINRT
+                Bindings =
+                {
+                    { AdaptiveTextBindableProperty.Text, "title" }
+                }
+#else
                 Text = new BindableString("title")
+#endif
             });
         }
         

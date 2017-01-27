@@ -1526,10 +1526,15 @@ namespace UnitTests.Notifications
         public void Test_Toast_ProgressBar_Value()
         {
             AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar());
+
+            // Only non-WinRT supports implicit converters
+#if !WINRT
             AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
             {
                 Value = 0.3
             });
+#endif
+
             AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
             {
                 Value = AdaptiveProgressBarValue.FromValue(0.3)
@@ -1540,14 +1545,21 @@ namespace UnitTests.Notifications
             });
             AssertProgressBar("<progressBar value='{progressValue}'/>", new AdaptiveProgressBar()
             {
+#if WINRT
+                Bindings =
+                {
+                    { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
+                }
+#else
                 Value = new BindableProgressBarValue("progressValue")
+#endif
             });
 
             try
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = -4
+                    Value = AdaptiveProgressBarValue.FromValue(-4)
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1557,7 +1569,7 @@ namespace UnitTests.Notifications
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = 1.3
+                    Value = AdaptiveProgressBarValue.FromValue(1.3)
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1580,7 +1592,7 @@ namespace UnitTests.Notifications
         {
             AssertProgressBar("<progressBar value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = 0.3,
+                Value = AdaptiveProgressBarValue.FromValue(0.3),
                 Title = "Katy Perry",
                 ValueStringOverride = "3/10 songs",
                 Status = "Downloading..."
@@ -1588,10 +1600,20 @@ namespace UnitTests.Notifications
 
             AssertProgressBar("<progressBar value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
             {
+#if WINRT
+                Bindings =
+                {
+                    { AdaptiveProgressBarBindableProperty.Value, "progressValue" },
+                    { AdaptiveProgressBarBindableProperty.Title, "progressTitle" },
+                    { AdaptiveProgressBarBindableProperty.ValueStringOverride, "progressValueOverride" },
+                    { AdaptiveProgressBarBindableProperty.Status, "progressStatus" }
+                }
+#else
                 Value = new BindableProgressBarValue("progressValue"),
                 Title = new BindableString("progressTitle"),
                 ValueStringOverride = new BindableString("progressValueOverride"),
                 Status = new BindableString("progressStatus")
+#endif
             });
 
             AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar()

@@ -216,5 +216,26 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return propertyInfo.GetCustomAttributes(true).OfType<Attribute>();
 #endif
         }
+
+        /// <summary>
+        /// Gets the provided binding value, if it exists. Otherwise, falls back to the absolute value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="bindings"></param>
+        /// <param name="bindableProperty"></param>
+        /// <param name="absoluteValue"></param>
+        /// <returns></returns>
+        internal static string GetBindingOrAbsoluteXmlValue<T>(IDictionary<T, string> bindings, T bindableProperty, string absoluteValue)
+        {
+            // If a binding is provided, use the binding value
+            string bindingValue;
+            if (bindings.TryGetValue(bindableProperty, out bindingValue))
+            {
+                return "{" + bindingValue + "}";
+            }
+
+            // Otherwise fallback to the absolute value
+            return absoluteValue;
+        }
     }
 }
