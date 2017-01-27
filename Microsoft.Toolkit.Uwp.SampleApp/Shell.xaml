@@ -140,20 +140,26 @@
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
                                Header="JAVASCRIPT">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
+
+                    <PivotItem x:Name="DocumentationPivotItem"
+                               Header="DOCUMENTATION">
+                        <ScrollViewer Background="{StaticResource Brush-White}" Padding="10,5" x:Name="DocumentationScrollViewer">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock" 
+                                                        Foreground="{StaticResource Brush-Grey-01}" 
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked"/>
+                        </ScrollViewer>
                     </PivotItem>
                 </Pivot>
 

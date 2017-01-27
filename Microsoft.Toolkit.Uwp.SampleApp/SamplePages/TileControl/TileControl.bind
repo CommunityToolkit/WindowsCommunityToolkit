@@ -30,8 +30,8 @@
       <RowDefinition></RowDefinition>
     </Grid.RowDefinitions>
 
-    <controls:MosaicControl
-      ImageSource         ="ms-appx:///SamplePages/MosaicControl/Animations.png"
+    <controls:TileControl
+      ImageSource         ="ms-appx:///SamplePages/TileControl/Animations.png"
       OffsetX             ="@[OffsetX:Slider:0:0-150]"
       OffsetY             ="@[OffsetY:Slider:0:0-150]"
       
@@ -51,9 +51,9 @@
       <Border Style="{StaticResource BorderStyle}">
         <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"></TextBlock>
       </Border>
-    </controls:MosaicControl>
+    </controls:TileControl>
 
-    <controls:MosaicControl Grid.Row="2" Background="{StaticResource Brush-Grey-04}" ImageSource="ms-appx:///SamplePages/MosaicControl/Animations.png" ScrollViewerContainer="{x:Bind FlipView, Mode=OneTime}">
+    <controls:TileControl Grid.Row="2" Background="{StaticResource Brush-Grey-04}" ImageSource="ms-appx:///SamplePages/TileControl/Animations.png" ScrollViewerContainer="{x:Bind FlipView, Mode=OneTime}">
       <FlipView x:Name="FlipView">
 
         <Border Style="{StaticResource BorderStyle}">
@@ -65,7 +65,7 @@
         </Border>
 
       </FlipView>
-    </controls:MosaicControl>
+    </controls:TileControl>
 
   </Grid>
 </Page>
