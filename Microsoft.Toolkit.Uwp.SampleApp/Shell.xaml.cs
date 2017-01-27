@@ -13,11 +13,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.System;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -310,6 +312,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GitHub.Visibility = Visibility.Collapsed;
                 }
+
+                if (sample.HasDocumentation)
+                {
+                    InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
+                }
             }
         }
 
@@ -370,6 +378,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
             }
+        }
+
+        private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }
 }
