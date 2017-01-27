@@ -25,16 +25,4 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         [JsonProperty("item")]
         public OneDriveConflictItem Item { get; set; }
     }
-
-    /// <summary>
-    /// Class Item
-    /// </summary>
-    public class OneDriveConflictItem
-    {
-        /// <summary>
-        /// Gets or sets the conflict resolution behavior for actions that create a new item
-        /// </summary>
-        [JsonProperty("@name.conflictBehavior")]
-        public string ConflictBehavior { get; set; }
-    }
 }

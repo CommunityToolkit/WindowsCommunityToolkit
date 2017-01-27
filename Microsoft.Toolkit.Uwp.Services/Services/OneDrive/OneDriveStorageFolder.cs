@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if a large file upload is completed
+        /// Gets or sets a value indicating whether if a large file upload is completed
         /// </summary>
         public bool IsUploadCompleted { get; set; }
 

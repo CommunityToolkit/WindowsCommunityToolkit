@@ -10,28 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
-    public sealed partial class MosaicControlPage
+    /// <summary>
+    /// Class Item
+    /// </summary>
+    public class OneDriveConflictItem
     {
-        public MosaicControlPage()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the conflict resolution behavior for actions that create a new item
+        /// </summary>
+        [JsonProperty("@name.conflictBehavior")]
+        public string ConflictBehavior { get; set; }
     }
 }

@@ -75,17 +75,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// V1 Only for Work or Scholar account
         /// V2 for MSA and Work or Scholar account
         /// </summary>
-        private AuthenticationModel _authenticationModel;
+        private AuthenticationModel _authenticationModel = AuthenticationModel.V1;
 
         /// <summary>
         /// Fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
         private MicrosoftGraphUserService _user;
-
-        /// <summary>
-        /// Fields to store the permission levels than an app can request from a user
-        /// </summary>
-        private string[] _scopes;
 
         /// <summary>
         /// Gets a reference to an instance of the MicrosoftGraphUserService class

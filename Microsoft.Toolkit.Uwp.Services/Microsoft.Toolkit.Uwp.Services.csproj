@@ -91,12 +91,14 @@
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
     <Compile Include="Services\OneDrive\DiscoverySettings.cs" />
     <Compile Include="Services\OneDrive\OneDriveAuthenticationHelper.cs" />
+    <Compile Include="Services\OneDrive\OneDriveConflictItem.cs" />
     <Compile Include="Services\OneDrive\OneDriveConstants.cs" />
     <Compile Include="Services\OneDrive\OneDriveHelper.cs" />
     <Compile Include="Services\OneDrive\OneDriveItem.cs" />
     <Compile Include="Services\OneDrive\OneDriveEnums.cs" />
     <Compile Include="Services\OneDrive\OneDriveItemConflictBehavior.cs" />
     <Compile Include="Services\OneDrive\OneDriveItemExtension.cs" />
+    <Compile Include="Services\OneDrive\OneDriveParent.cs" />
     <Compile Include="Services\OneDrive\OneDriveParentReference.cs" />
     <Compile Include="Services\OneDrive\OneDriveRequestSource.cs" />
     <Compile Include="Services\OneDrive\OneDriveScopes.cs" />

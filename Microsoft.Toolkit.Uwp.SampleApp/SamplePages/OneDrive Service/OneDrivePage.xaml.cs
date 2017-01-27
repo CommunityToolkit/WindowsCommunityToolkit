@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
+#pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page

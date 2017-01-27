@@ -181,14 +181,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
 
                 OneDriveAuthenticationHelper.ResourceUri = discoverySettings.ServiceResourceId;
-                // OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
-
                 _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
                 await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);
                 resourceEndpointUri = discoverySettings.ServiceEndpointUri;
-
-                // await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(false);
-                // resourceEndpointUri = "https://graph.microsoft.com/v1.0/me/";
             }
             else if (_accountProviderType == AccountProviderType.Msa)
             {

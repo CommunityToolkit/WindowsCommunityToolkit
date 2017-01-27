@@ -24,31 +24,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         public OneDriveParentReference()
         {
-            Parent = new Parent();
+            Parent = new OneDriveParent();
         }
 
         /// <summary>
         /// Gets or sets the reference to the parent's item
         /// </summary>
         [JsonProperty("parentReference")]
-        public Parent Parent { get; set; }
+        public OneDriveParent Parent { get; set; }
 
         /// <summary>
         /// Gets or sets the item's name
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
-    }
-
-    /// <summary>
-    /// Parente class
-    /// </summary>
-    public class Parent
-    {
-        /// <summary>
-        /// Gets or sets parent path
-        /// </summary>
-        [JsonProperty("path")]
-        public string Path { get; set; }
     }
 }
