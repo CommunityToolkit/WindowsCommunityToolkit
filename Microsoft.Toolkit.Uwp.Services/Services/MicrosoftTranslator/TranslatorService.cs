@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
     /// <para>To use this library, you must register Microsoft Translator on https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation to obtain the Subscription key.
     /// </para>
     /// </remarks>
-    public class TranslatorServiceClient : ITranslatorServiceClient
+    public class TranslatorService : ITranslatorService
     {
         private const string BaseUrl = "http://api.microsofttranslator.com/v2/Http.svc/";
         private const string LanguagesUri = "GetLanguagesForTranslate";
@@ -40,8 +40,31 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         private const int _maxTextLenght = 1000;
         private const int _MaxTextLengthForAutoDetection = 100;
 
-        private readonly AzureAuthToken _authToken;
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static TranslatorService instance;
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static TranslatorService Instance => instance ?? (instance = new TranslatorService());
+
+        private AzureAuthToken _authToken;
         private string _authorizationHeaderValue = string.Empty;
+
+        /// <summary>
+        /// Gets a reference to an instance of the underlying data provider.
+        /// </summary>
+        public object Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        private TranslatorService()
+        {
+            _authToken = new AzureAuthToken(string.Empty);
+        }
 
         /// <summary>
         /// Gets or sets the Subscription key that is necessary to use <strong>Microsoft Translator Service</strong>.
@@ -62,40 +85,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// <value>The string representing the supported language code to speak the text in. The code must be present in the list of codes returned from the method <see cref="GetLanguagesAsync"/>.</value>
         /// <seealso cref="GetLanguagesAsync"/>
         public string Language { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TranslatorServiceClient"/> class, using the specified Client ID and Client Secret and the current system language.
-        /// </summary>
-        /// <param name="subscriptionKey">The subscription key for the Microsoft Translator Service on Azure
-        /// </param>
-        /// <remarks>
-        /// <para>You must register Microsoft Translator on https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation to obtain the Subscription key needed to use the service.</para>
-        /// </remarks>
-        /// <seealso cref="SubscriptionKey"/>
-        /// <seealso cref="Language"/>
-        public TranslatorServiceClient(string subscriptionKey = null)
-            : this(subscriptionKey, CultureInfo.CurrentCulture.Name.ToLower())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TranslatorServiceClient"/> class, using the specified Client ID and Client Secret and the desired language.
-        /// </summary>
-        /// <param name="subscriptionKey">The subscription key for the Microsoft Translator Service on Azure
-        /// </param>
-        /// <param name="language">A string representing the supported language code to speak the text in. The code must be present in the list of codes returned from the method <see cref="GetLanguagesAsync"/>.</param>
-        /// <remarks>
-        /// <para>You must register Microsoft Translator on https://portal.azure.com to obtain the Subscription key needed to use the service.</para>
-        /// </remarks>
-        /// <seealso cref="SubscriptionKey"/>
-        /// <seealso cref="Language"/>
-        public TranslatorServiceClient(string subscriptionKey, string language)
-        {
-            _authToken = new AzureAuthToken(subscriptionKey);
-
-            SubscriptionKey = subscriptionKey;
-            Language = language;
-        }
 
         /// <summary>
         /// Retrieves the languages available for speech synthesis.
@@ -249,11 +238,43 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         }
 
         /// <summary>
-        /// Initializes the <see cref="TranslatorServiceClient"/> class by getting an access token for the service.
+        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
         /// </summary>
         /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
         /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</remarks>
         public Task InitializeAsync() => CheckUpdateTokenAsync();
+
+        /// <summary>
+        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
+        /// </summary>
+        /// <param name="subscriptionKey">The subscription key for the Microsoft Translator Service on Azure.</param>
+        /// <param name="language">A string representing the supported language code to speak the text in. The code must be present in the list of codes returned from the method <see cref="GetLanguagesAsync"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
+        /// <remarks>
+        /// <para>You must register Microsoft Translator on https://portal.azure.com to obtain the Subscription key needed to use the service.</para>
+        /// </remarks>
+        public Task InitializeAsync(string subscriptionKey, string language)
+        {
+            _authToken = new AzureAuthToken(subscriptionKey);
+
+            SubscriptionKey = subscriptionKey;
+            Language = language;
+
+            return InitializeAsync();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TranslatorService"/> class, using the specified Client ID and Client Secret and the current system language.
+        /// </summary>
+        /// <param name="subscriptionKey">The subscription key for the Microsoft Translator Service on Azure.</param>
+        /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
+        /// <remarks>
+        /// <para>You must register Microsoft Translator on https://portal.azure.com to obtain the Subscription key needed to use the service.</para>
+        /// </remarks>
+        public Task InitializeAsync(string subscriptionKey = null)
+        {
+            return InitializeAsync(subscriptionKey, CultureInfo.CurrentCulture.Name.ToLower());
+        }
 
         private async Task CheckUpdateTokenAsync()
         {

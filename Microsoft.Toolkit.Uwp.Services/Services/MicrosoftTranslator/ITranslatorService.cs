@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
     /// <summary>
     /// The <strong>ITranslatorServiceClient</strong> interface specifies properties and methods to translate text in various supported languages.
     /// </summary>
-    public interface ITranslatorServiceClient
+    public interface ITranslatorService
     {
         /// <summary>
         /// Gets or sets the Subscription key that is necessary to use <strong>Microsoft Translator Service</strong>.
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         Task<IEnumerable<string>> GetLanguagesAsync();
 
         /// <summary>
-        /// Initializes the <see cref="TranslatorServiceClient"/> class by getting an access token for the service.
+        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
         /// </summary>
         /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
         /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</remarks>
