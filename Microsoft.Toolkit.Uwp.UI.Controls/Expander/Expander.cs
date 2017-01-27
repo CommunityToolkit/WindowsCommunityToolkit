@@ -36,9 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (!IsExpanded)
+            if (IsExpanded)
             {
-                VisualStateManager.GoToState(this, StateContentCollapsed, false);
+                VisualStateManager.GoToState(this, StateContentExpanded, false);
             }
         }
 

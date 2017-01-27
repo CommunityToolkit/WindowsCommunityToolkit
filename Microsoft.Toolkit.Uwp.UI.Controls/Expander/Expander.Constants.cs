@@ -22,6 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public const string StateContentCollapsed = "Collapsed";
 
         public const string ExpanderToggleButtonPart = "PART_ExpanderToggleButton";
-        public const string MainContentRowPart = "PART_MainContentRow";
+        public const string MainContentPart = "PART_MainContent";
     }
 }
