@@ -219,9 +219,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         break;
                     }
 
-                    item.Scale(duration: 200, centerX: 0.5f, centerY: 0.5f, scaleX: 1f, scaleY: 1f).StartAsync();
+                    if (!item.RunAnimation())
+                    {
+                        item.Scale(1, 1, (float)item.DesiredSize.Width / 2, (float)item.DesiredSize.Height / 2).Start();
+                    }
+
                     ElementSoundPlayer.Play(ElementSoundKind.Invoke);
-                    ItemInvoked?.Invoke(this, new Controls.CarouselItemInvokedEventArgs() { Container = item });
+                    ItemInvoked?.Invoke(this, new Controls.CarouselItemInvokedEventArgs() { Container = item, Item = item.DataContext });
                     break;
             }
         }
@@ -239,7 +243,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         break;
                     }
 
-                    item.Scale(duration: 200, centerX: 0.5f, centerY: 0.5f, scaleX: 0.9f, scaleY: 0.9f).StartAsync();
+                    item.Scale(duration: 200, centerX: (float)item.DesiredSize.Width / 2, centerY: (float)item.DesiredSize.Height / 2, scaleX: 0.9f, scaleY: 0.9f).StartAsync();
                     break;
             }
         }
@@ -254,7 +258,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (item != null)
             {
-                CurrentItemIndex = _carouselPanel.Children.IndexOf(item);
+                if (item.IsCentered)
+                {
+                    if (item.IsActionable)
+                    {
+                        ItemInvoked?.Invoke(this, new Controls.CarouselItemInvokedEventArgs() { Container = item, Item = item.DataContext });
+                    }
+                }
+                else
+                {
+                    CurrentItemIndex = _carouselPanel.Children.IndexOf(item);
+                }
             }
 
             Focus(FocusState.Pointer);

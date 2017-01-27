@@ -20,8 +20,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class CarouselItemInvokedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the invoked item.
+        /// Gets the CarouselItem element for the invoked item.
         /// </summary>
         public CarouselItem Container { get; internal set; }
+
+        /// <summary>
+        /// Gets the invoked item
+        /// </summary>
+        public object Item { get; internal set; }
     }
 }

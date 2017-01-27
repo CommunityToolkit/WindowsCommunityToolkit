@@ -9,17 +9,17 @@
     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
 
-    <Grid Name="Root" Background="White">
+    <Grid Name="RootElement" Background="White">
         <controls:Carousel x:Name="CarouselControl" 
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
-                           Orientation="{Binding DataContext.Orientation.Value, ElementName=Root, Mode=OneWay}">
+                           Orientation="{Binding Orientation.Value, Mode=OneWay}">
             
             <controls:Carousel.ItemTemplate>
                 
                 <DataTemplate x:DataType="data:PhotoDataItem">
                     <!-- CarouselItem is automaticaly generated if not specified (not required if properties or events are not needed -->
                     <controls:CarouselItem CarouselItemLocationChanged="CarouselItem_CarouselItemLocationChanged"
-                                           DefaultAnimationEnabled="{Binding DataContext.DefaultAnimationEnabled.Value, ElementName=Root, Mode=TwoWay}">
+                                           DefaultAnimationEnabled="{Binding DataContext.DefaultAnimationEnabled.Value, ElementName=RootElement, Mode=TwoWay}">
                         <StackPanel Width="200">
                             <Image Source="{x:Bind Thumbnail}" Width="200" Height="180" Stretch="UniformToFill"></Image>
                             <controls:DropShadowPanel ShadowOpacity="0.4" Color="Black" BlurRadius="10" Margin="5,0">

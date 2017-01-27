@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -23,13 +19,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
 
             foreach (var photo in await new Data.PhotosDataSource().GetItemsAsync())
             {

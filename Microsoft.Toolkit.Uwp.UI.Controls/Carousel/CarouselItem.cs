@@ -73,25 +73,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (value)
                 {
-                    if (DefaultAnimationEnabled)
-                    {
-                        this.Scale(1.2f, 1.2f, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
-                    }
-
                     ElementSoundPlayer.Play(ElementSoundKind.Focus);
                     CarouselItemCentered?.Invoke(this, null);
                 }
                 else
                 {
-                    if (DefaultAnimationEnabled)
-                    {
-                        this.Scale(1, 1, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
-                    }
-
                     CarouselItemNotCentered?.Invoke(this, null);
                 }
 
                 _isCentered = value;
+                RunAnimation();
             }
         }
 
@@ -121,6 +112,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _carouselItemLocation = value;
                 CarouselItemLocationChanged?.Invoke(this, eventArgs);
             }
+        }
+
+        internal bool RunAnimation()
+        {
+            if (DefaultAnimationEnabled)
+            {
+                var scale = IsCentered ? 1.2f : 1f;
+                this.Scale(scale, scale, (float)this.DesiredSize.Width / 2, (float)this.DesiredSize.Height / 2).Start();
+            }
+
+            return DefaultAnimationEnabled;
         }
 
         /// <summary>

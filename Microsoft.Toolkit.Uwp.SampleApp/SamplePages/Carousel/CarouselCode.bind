@@ -13,7 +13,6 @@
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
                            Orientation="@[Orientation:Enum:Orientation.Horizontal]">
                <controls:Carousel.ItemTemplate>
-                
                 <DataTemplate x:DataType="data:PhotoDataItem">
                     <!-- CarouselItem is automaticaly generated if not specified (not required if properties or events are not needed -->
                     <controls:CarouselItem CarouselItemLocationChanged="CarouselItem_CarouselItemLocationChanged"
