@@ -66,6 +66,7 @@
         "XamlCodeFile": "MarkdownTextBlock.bind",
         "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/MarkdownTextBlock.md"
+        "CodeFile": "MarkdownTextBlockCode.bind",
       },
       {
         "Name": "RadialGauge",
@@ -461,7 +462,8 @@
         "About": "Allows you to easily sort and filter your collections before displaying them.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
         "CodeFile": "AdvancedCollectionView.bind",
-        "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png"
+        "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
       }
     ]
   },
@@ -469,12 +471,6 @@
     "Name": "More resources",
     "Icon": "Icons/More.png",
     "Samples": [
-      {
-        "Name": "Frameworks and Toolkits",
-        "Type": "FrameworksAndToolkitsPage",
-        "About": "List of recommended toolkits and frameworks for UWP developers.",
-        "Icon": "/SamplePages/Frameworks and Toolkits/FrameworksAndToolkits.png"
-      },
       {
         "Name": "Useful links",
         "Type": "UsefulLinksPage",

@@ -241,7 +241,6 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
-    <Content Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkits.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
@@ -359,6 +358,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -414,9 +414,6 @@
     </Compile>
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkitsPage.xaml.cs">
-      <DependentUpon>FrameworksAndToolkitsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
@@ -606,10 +603,6 @@
     <Page Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Frameworks and Toolkits\FrameworksAndToolkitsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
