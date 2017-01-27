@@ -11,6 +11,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
@@ -19,6 +20,7 @@
                                    CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                    DisplayMode="{TemplateBinding DisplayMode}"
                                    IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   IsTabStop="False"
                                    OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                    PaneBackground="{TemplateBinding PaneBackground}"
                                    PanePlacement="{TemplateBinding PanePlacement}">
@@ -36,8 +38,8 @@
                                               Width="{TemplateBinding OpenPaneLength}"
                                               AutomationProperties.Name="Menu items"
                                               IsItemClickEnabled="True"
-                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                               SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
@@ -63,8 +65,8 @@
                                                   VerticalAlignment="Bottom"
                                                   AutomationProperties.Name="Option items"
                                                   IsItemClickEnabled="True"
-                                                  ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                                                  ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                                   ItemsSource="{TemplateBinding OptionsItemsSource}"
                                                   SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                                   SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"

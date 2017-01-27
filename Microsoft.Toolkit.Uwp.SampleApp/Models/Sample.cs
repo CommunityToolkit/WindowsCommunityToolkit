@@ -16,12 +16,14 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -54,7 +56,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCode { get; private set; }
 
+        public string DocumentationUrl { get; set; }
+
         public string Icon { get; set; }
+
+        public string BadgeUpdateVersionRequired { get; set; }
 
         public string ApiCheck { get; set; }
 
@@ -63,6 +69,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
         public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
+
+        public bool HasDocumentation => !string.IsNullOrEmpty(DocumentationUrl);
 
         public bool IsSupported
         {
@@ -91,6 +99,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 return await codeStream.ReadTextAsync();
             }
+        }
+
+        public async Task<string> GetDocumentationAsync()
+        {
+            using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
+            {
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    if (response.Success)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+
+                        // Need to do some cleaning
+                        // Rework code tags
+                        var regex = new Regex("```(xaml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
+
+                        foreach (Match match in regex.Matches(result))
+                        {
+                            var code = match.Groups["code"].Value;
+                            var lines = code.Split('\n');
+                            var newCode = new StringBuilder();
+                            foreach (var line in lines)
+                            {
+                                newCode.AppendLine("    " + line);
+                            }
+
+                            result = result.Replace(match.Value, newCode.ToString());
+                        }
+
+                        // Images
+                        regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+                        result = regex.Replace(result, "##");
+
+                        return result;
+                    }
+                }
+            }
+
+            return string.Empty;
         }
 
         public string UpdatedXamlCode
