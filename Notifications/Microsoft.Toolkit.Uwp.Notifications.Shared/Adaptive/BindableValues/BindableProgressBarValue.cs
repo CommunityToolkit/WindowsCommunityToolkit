@@ -1,4 +1,5 @@
-﻿// ******************************************************************
+﻿#if !WINRT
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -12,7 +13,6 @@
 
 // Note that this code is NOT compiled for WinRT.
 // WinRT uses a different binding system since it doesn't support implicit type converters.
-#if !WINRT
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
