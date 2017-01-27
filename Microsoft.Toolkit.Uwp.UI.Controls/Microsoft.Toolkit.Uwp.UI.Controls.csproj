@@ -55,6 +55,10 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
+    <Compile Include="Expander\Expander.Constants.cs" />
+    <Compile Include="Expander\Expander.cs" />
+    <Compile Include="Expander\Expander.Events.cs" />
+    <Compile Include="Expander\Expander.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
     <Compile Include="GridSplitter\GridSplitter.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
@@ -155,6 +159,11 @@
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Expander\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">

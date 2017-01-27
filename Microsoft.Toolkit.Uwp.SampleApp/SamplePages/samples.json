@@ -160,6 +160,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxMask.md"
       },
       {
+        "Name": "Expander",
+        "Type": "ExpanderPage",
+        "About": "Expander control allows user to show/hide content based on a boolean state.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander",
+        "XamlCodeFile": "ExpanderXaml.bind",
+        "Icon": "/SamplePages/Expander/Expander.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Expander.md"
+      }, 
+      {
         "Name": "TileControl",
         "Type": "TileControlPage",
         "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
