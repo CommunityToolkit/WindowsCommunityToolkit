@@ -9,6 +9,8 @@
 * [Windows 10 development for absolute beginners](https://channel9.msdn.com/Series/Windows-10-development-for-absolute-beginners)
 &nbsp;  
 &nbsp;  
+
+
 ## Samples
 *****
 
@@ -16,6 +18,8 @@
 * [Windows 10 Samples](https://github.com/Microsoft/Windows-universal-samples)
 &nbsp;  
 &nbsp;  
+
+
 ## Frameworks and toolkits
 *****
 

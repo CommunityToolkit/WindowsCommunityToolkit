@@ -238,6 +238,7 @@
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\Expander\Expander.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
@@ -261,6 +262,7 @@
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
@@ -317,6 +319,7 @@
     <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
@@ -341,6 +344,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
@@ -389,6 +393,9 @@
     </Compile>
     <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
       <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
+      <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
     <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
@@ -467,6 +474,9 @@
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ParallaxService\ParallaxPage.xaml.cs">
+      <DependentUpon>ParallaxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
@@ -614,6 +624,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\Expander\ExpanderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -677,6 +691,10 @@
     <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ParallaxService\ParallaxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -800,13 +818,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
-      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
+      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
