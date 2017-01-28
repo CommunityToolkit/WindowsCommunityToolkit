@@ -179,7 +179,7 @@ using (var remoteStream = await remoteFile.OpenAsync())
 
 ```
 
- ### Retrieving file thumbnails
+### Retrieving file thumbnails
 
 ```csharp
 
