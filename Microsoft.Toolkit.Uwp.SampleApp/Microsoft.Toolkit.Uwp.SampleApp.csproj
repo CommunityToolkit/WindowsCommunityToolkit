@@ -359,8 +359,9 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
-    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
+    <Content Include="SamplePages\Carousel\CarouselXaml.bind" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
+    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

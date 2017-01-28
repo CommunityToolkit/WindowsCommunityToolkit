@@ -171,7 +171,8 @@
         "Type": "CarouselPage",
         "About": "A control that allows a user to cycle through a collection of items.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
-        "XamlCodeFile": "CarouselCode.bind",
+        "XamlCodeFile": "CarouselXaml.bind",
+        "CodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/Carousel.png"
       },
       {

@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="DefaultAnimationEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty DefaultAnimationEnabledProperty =
-            DependencyProperty.Register(nameof(DefaultAnimationEnabled), typeof(bool), typeof(CarouselItem), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(DefaultAnimationEnabled), typeof(bool), typeof(CarouselItem), new PropertyMetadata(true, OnDefaultAnimationEnabledChanged));
 
         /// <summary>
         /// Occurs when item has been centered
@@ -151,5 +151,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when item location changes
         /// </summary>
         public event EventHandler<CarouselItemLocationChangedEventArgs> CarouselItemLocationChanged;
+
+        private static void OnDefaultAnimationEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var item = d as CarouselItem;
+            if (item.IsCentered && !(bool)e.NewValue && (bool)e.OldValue)
+            {
+                item.Scale(1, 1, (float)item.DesiredSize.Width / 2, (float)item.DesiredSize.Height / 2).Start();
+            }
+        }
     }
 }

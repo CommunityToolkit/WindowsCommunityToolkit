@@ -1,5 +1,4 @@
-﻿<Page
-    x:Name="Page"
+<Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.CarouselPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,20 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
 
-    <Grid Name="RootElement" Background="White">
+    <Grid Name="Root" Background="White">
         <controls:Carousel x:Name="CarouselControl" 
                            ItemsSource="{x:Bind items, Mode=OneWay}" 
-                           Orientation="{Binding Orientation.Value, Mode=OneWay}">
-                            
-            <controls:Carousel.ItemTemplate>
-                
+                           Orientation="@[Orientation:Enum:Orientation.Horizontal]">
+               <controls:Carousel.ItemTemplate>
                 <DataTemplate x:DataType="data:PhotoDataItem">
-                    <!-- CarouselItem is automaticaly generated if not specified (not required if properties or events are not needed -->
+                    <!-- CarouselItem is automaticaly generated if not specified (not required if properties or events are not needed) -->
                     <controls:CarouselItem CarouselItemLocationChanged="CarouselItem_CarouselItemLocationChanged"
-                                           DefaultAnimationEnabled="True">
+                                           DefaultAnimationEnabled="@[DefaultAnimationEnabled:Bool:true]">
                         <StackPanel Width="200">
                             <Image Source="{x:Bind Thumbnail}" Width="200" Height="180" Stretch="UniformToFill"></Image>
                             <controls:DropShadowPanel ShadowOpacity="0.4" Color="Black" BlurRadius="10" Margin="5,0">

@@ -4,12 +4,18 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Data;
+using System.Dynamic;
+using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class CarouselPage : Page
     {
         private ObservableCollection<PhotoDataItem> items = new ObservableCollection<PhotoDataItem>();
+
+        private bool test { get; set; } = false;
 
         public CarouselPage()
         {
@@ -29,18 +35,38 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void CarouselItem_CarouselItemLocationChanged(object sender, CarouselItemLocationChangedEventArgs e)
         {
             var item = sender as CarouselItem;
+            float centerX = (float)item.ActualWidth / 2;
+            float centerY = (float)item.ActualHeight / 2;
+            TextBlock text = null;
 
-            if (item.DefaultAnimationEnabled)
+            IDictionary<string, object> expando = DataContext as ExpandoObject;
+            var animationsEnabled = (bool)(expando["DefaultAnimationEnabled"] as ValueHolder).Value;
+
+            if (item.DefaultAnimationEnabled && animationsEnabled)
             {
                 return;
             }
+            else if (item.DefaultAnimationEnabled && !animationsEnabled)
+            {
+                item.DefaultAnimationEnabled = false;
+            }
+            else if (!item.DefaultAnimationEnabled && animationsEnabled)
+            {
+                item.DefaultAnimationEnabled = true;
+                item.Rotate(0, centerX, centerY, 200).Start();
+                text = item.FindName("Text") as TextBlock;
+                if (text != null)
+                {
+                    text.Scale(scaleX: 1, scaleY: 1, centerX: centerX).Start();
+                    text.Offset(offsetY: 0, offsetX: 0).Start();
+                }
 
-            float centerX = (float)item.ActualWidth / 2;
-            float centerY = (float)item.ActualHeight / 2;
+                 return;
+            }
 
             item.Rotate(item.CarouselItemLocation * 10f, centerX, centerY, 200).Start();
 
-            var text = item.FindName("Text") as TextBlock;
+            text = item.FindName("Text") as TextBlock;
             if (text != null)
             {
                 centerX = (float)text.ActualWidth / 2;
