@@ -109,8 +109,8 @@
     <Compile Include="Services\OneDrive\OneDriveStorageItemsCollection.cs" />
     <Compile Include="Services\OneDrive\OneDriveStorageItemsEnumerator.cs" />
     <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
-    <Compile Include="Services\MicrosoftTranslator\ITranslatorServiceClient.cs" />
-    <Compile Include="Services\MicrosoftTranslator\TranslatorServiceClient.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ITranslatorService.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorService.cs" />
     <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
     <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
