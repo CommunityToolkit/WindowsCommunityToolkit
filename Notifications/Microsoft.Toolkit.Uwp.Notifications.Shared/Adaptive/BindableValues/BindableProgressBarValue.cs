@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Creates a <see cref="BindableProgressBarValue"/> that has a raw value assigned.
         /// </summary>
-        /// <param name="d">The raw value</param>
+        /// <param name="v">The raw value</param>
         public static implicit operator BindableProgressBarValue(AdaptiveProgressBarValue v)
         {
             return new BindableProgressBarValue()

@@ -32,7 +32,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Private constructor
         /// </summary>
-        private AdaptiveProgressBarValue() { }
+        private AdaptiveProgressBarValue()
+        {
+        }
 
         internal string ToXmlString()
         {
@@ -40,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 return "indeterminate";
             }
+
             return Value.ToString();
         }
 
