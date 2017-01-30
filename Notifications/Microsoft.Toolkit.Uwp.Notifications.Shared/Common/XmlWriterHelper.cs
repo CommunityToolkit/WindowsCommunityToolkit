@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Gets the provided binding value, if it exists. Otherwise, falls back to the absolute value.
         /// </summary>
-        /// <typeparam name="T">The rype of the enum of the class properties.</typeparam>
+        /// <typeparam name="T">The type of the enum of the class properties.</typeparam>
         /// <param name="bindings">The collection of data-bound values.</param>
         /// <param name="bindableProperty">The property to obtain.</param>
         /// <param name="absoluteValue">The absolute value, if any.</param>
