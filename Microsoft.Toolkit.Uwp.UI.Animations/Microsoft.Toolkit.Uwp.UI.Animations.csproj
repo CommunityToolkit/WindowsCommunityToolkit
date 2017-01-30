@@ -48,6 +48,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationSetCompletedEventArgs.cs" />
     <Compile Include="AnimationSetState.cs" />
     <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\Blur.cs" />
