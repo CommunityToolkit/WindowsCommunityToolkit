@@ -135,6 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             HideInfoArea();
 
+            NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
@@ -145,6 +146,86 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (targetSample != null)
                 {
                     NavigateToSample(targetSample);
+                }
+            }
+        }
+
+        private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
+        {
+            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
+            {
+                HideInfoArea();
+            }
+            else
+            {
+                ShowInfoArea();
+
+                var sampleName = navigationEventArgs.Parameter.ToString();
+                var sample = await Samples.GetSampleByName(sampleName);
+
+                if (sample == null)
+                {
+                    HideInfoArea();
+                    return;
+                }
+
+                var propertyDesc = sample.PropertyDescriptor;
+
+                DataContext = sample;
+
+                InfoAreaPivot.Items.Clear();
+
+                if (propertyDesc != null)
+                {
+                    NavigationFrame.DataContext = propertyDesc.Expando;
+                }
+
+                Title.Text = sample.Name;
+
+                _currentSample = sample;
+
+                if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                {
+                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                }
+
+                if (sample.HasXAMLCode)
+                {
+                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+
+                    InfoAreaPivot.Items.Add(XamlPivotItem);
+
+                    InfoAreaPivot.SelectedIndex = 0;
+                }
+
+                if (sample.HasCSharpCode)
+                {
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+                    InfoAreaPivot.Items.Add(CSharpPivotItem);
+                }
+
+                if (sample.HasJavaScriptCode)
+                {
+                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
+                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
+                }
+
+                UpdateRootGridMinWidth();
+
+                if (!string.IsNullOrEmpty(sample.CodeUrl))
+                {
+                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
+                    GitHub.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    GitHub.Visibility = Visibility.Collapsed;
+                }
+
+                if (sample.HasDocumentation)
+                {
+                    InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
                 }
             }
         }
@@ -238,87 +319,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
-        private async void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
-
-            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
-            {
-                HideInfoArea();
-            }
-            else
-            {
-                var sampleName = navigationEventArgs.Parameter.ToString();
-                var sample = await Samples.GetSampleByName(sampleName);
-
-                if (sample == null)
-                {
-                    HideInfoArea();
-                    return;
-                }
-
-                var propertyDesc = await sample.GetPropertyDescriptorAsync();
-
-                DataContext = sample;
-
-                ShowInfoArea();
-                InfoAreaPivot.Items.Clear();
-
-                if (propertyDesc != null)
-                {
-                    (NavigationFrame.Content as Page).DataContext = propertyDesc.Expando;
-                }
-
-                Title.Text = sample.Name;
-
-                _currentSample = sample;
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
-
-                if (sample.HasXAMLCode)
-                {
-                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
-
-                    InfoAreaPivot.Items.Add(XamlPivotItem);
-
-                    InfoAreaPivot.SelectedIndex = 0;
-                }
-
-                if (sample.HasCSharpCode)
-                {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
-                    InfoAreaPivot.Items.Add(CSharpPivotItem);
-                }
-
-                if (sample.HasJavaScriptCode)
-                {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
-                UpdateRootGridMinWidth();
-
-                if (!string.IsNullOrEmpty(sample.CodeUrl))
-                {
-                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
-                    GitHub.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    GitHub.Visibility = Visibility.Collapsed;
-                }
-
-                if (sample.HasDocumentation)
-                {
-                    InfoAreaPivot.Items.Add(DocumentationPivotItem);
-                    DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
-                }
-            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
