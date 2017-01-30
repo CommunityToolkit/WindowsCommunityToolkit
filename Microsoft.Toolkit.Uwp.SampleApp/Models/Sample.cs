@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         // Need to do some cleaning
                         // Rework code tags
-                        var regex = new Regex("```(xaml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
+                        var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
 
                         foreach (Match match in regex.Matches(result))
                         {
