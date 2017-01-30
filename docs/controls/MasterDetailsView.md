@@ -4,7 +4,7 @@ The **MasterDetailsView Control** presents items in a master/details pattern. It
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:MasterDetailsView
           ItemsSource="{Binding Items}"

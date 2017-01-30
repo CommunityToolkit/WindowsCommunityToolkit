@@ -11,7 +11,7 @@ The further away from the light source the more the light will spread over the U
 
 You can either use the light behavior from your XAML code:
 
-```xaml
+```xml
 
     <interactivity:Interaction.Behaviors>
     <behaviors:Light x:Name="LightBehavior" 

@@ -4,7 +4,7 @@ The **ParallaxService** class allows to create a parralax effect for items conta
 
 ## Syntax
 
-```xaml
+```xml
 
 <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
        ParallaxService.VerticalMultiplier="2.5/>

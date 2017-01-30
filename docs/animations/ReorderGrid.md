@@ -4,7 +4,7 @@ The **ReorderGridAnimation** class allows your GridView controls to animate item
 
 ## Syntax
 
-```xaml
+```xml
 
 <GridView x:Name="GridItems"
           animations:ReorderGridAnimation.Duration="250"/>
