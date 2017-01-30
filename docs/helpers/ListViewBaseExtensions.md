@@ -7,7 +7,7 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
 
 ## Example
 
-```xaml
+```xml
     // Attach the command declared in MainViewModel to ListView declared in XAML
     // IsItemClickEnabled is set to true as shown below
     <ListView

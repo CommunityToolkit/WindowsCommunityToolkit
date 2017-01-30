@@ -25,7 +25,7 @@ In case you want to add a custom variable character you can use property TextBox
 
 ## Syntax
 
-```xaml
+```xml
 
             <TextBox controls:TextBoxMasks.Mask="9a9a-a9a*"
                      Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
@@ -56,7 +56,7 @@ In case you want to add a custom variable character you can use property TextBox
 
 The following sample demonstrates how to add TextBoxMask property.
 
-```xaml
+```xml
 
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMaskPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

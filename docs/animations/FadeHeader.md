@@ -10,7 +10,7 @@ The **FadeHeader Behavior** fades a ListView or GridView Header UIElement when t
 
 Automatically detects the Header element by finding the ListViewBase (note: GridView uses ListViewBase)
 
-```xaml
+```xml
 
     <interactivity:Interaction.Behaviors>
         <behaviors:FadeHeaderBehavior />
@@ -23,7 +23,7 @@ Automatically detects the Header element by finding the ListViewBase (note: Grid
 
 Set the ElementName property using the UIElement of the Header manually
 
-```xaml
+```xml
 
     <interactivity:Interaction.Behaviors>
         <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=MyHeaderGrid}" />
@@ -52,7 +52,7 @@ Explicit usage:
 
 ## Example ##
 
-```xaml
+```xml
 
     <ListView x:Name="MyListView">
     <interactivity:Interaction.Behaviors>

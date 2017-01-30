@@ -6,7 +6,7 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 ## Syntax
 
-```xaml
+```xml
 
  <controls:MarkdownTextBlock
     Text="**This is *Markdown*!"
