@@ -55,6 +55,16 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
         }
 
+        private DateTimeOffset? _dateModified;
+
+        /// <summary>
+        /// Gets the date and time that the current OneDrive item was last modified.
+        /// </summary>
+        public DateTimeOffset? DateModified
+        {
+            get { return _dateModified; }
+        }
+
         private string _displayName;
 
         /// <summary>
@@ -173,6 +183,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             _oneDriveItem = oneDriveItem;
             _name = oneDriveItem.Name;
             _dateCreated = oneDriveItem.CreatedDateTime;
+            _dateModified = oneDriveItem.LastModifiedDateTime;
             _displayName = _name;
             _folderId = oneDriveItem.Id;
             if (IsFile())
