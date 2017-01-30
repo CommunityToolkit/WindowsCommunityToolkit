@@ -258,6 +258,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
@@ -363,6 +364,7 @@
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
+    <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -425,6 +427,14 @@
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDriveDataTemplateSelector.cs" />
+    <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
+      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
+      <DependentUpon>OneDrivePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
     </Compile>
@@ -622,6 +632,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -800,13 +818,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
-      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
+      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>

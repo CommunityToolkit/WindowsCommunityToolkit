@@ -10,32 +10,33 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///  RootParentReference class
     /// </summary>
-    public sealed partial class ParallaxPage : Page
+    public class OneDriveParentReference
     {
-        public ParallaxPage()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneDriveParentReference"/> class.
+        /// </summary>
+        public OneDriveParentReference()
         {
-            InitializeComponent();
+            Parent = new OneDriveParent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
+        /// <summary>
+        /// Gets or sets the reference to the parent's item
+        /// </summary>
+        [JsonProperty("parentReference")]
+        public OneDriveParent Parent { get; set; }
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the item's name
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

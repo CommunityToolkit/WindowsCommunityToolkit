@@ -10,32 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///  Class ofr the OneDrive Constants
     /// </summary>
-    public sealed partial class ParallaxPage : Page
+    public class OneDriveConstants
     {
-        public ParallaxPage()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Maximum file size for a simple upload
+        /// </summary>
+        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
+        /// <summary>
+        /// Default chunk when uploading a karge file
+        /// </summary>
+        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
+        /// <summary>
+        /// Chunk size increment
+        /// </summary>
+        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
     }
 }
