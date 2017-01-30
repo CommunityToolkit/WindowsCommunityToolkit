@@ -12,9 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -561,7 +559,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public void Dispose()
         {
-
+            _animationTCS = null;
         }
 
         /// <summary>
@@ -631,6 +629,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 _animationTCS.SetResult(State == AnimationSetState.Completed);
             }
         }
-
     }
 }
