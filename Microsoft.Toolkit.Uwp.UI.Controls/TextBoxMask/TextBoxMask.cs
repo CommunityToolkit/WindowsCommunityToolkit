@@ -307,57 +307,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!isDeleteOrBackspace)
             {
-                int changeLength;
-                if (isSingleSelection)
-                {
-                    changeLength = newSelectionIndex + 1;
-                }
-                else
-                {
-                    changeLength = oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex;
-                }
+                var maskChar = mask[newSelectionIndex];
 
-                for (int i = newSelectionIndex; i < changeLength; i++)
+                // If dynamic character a,9,* or custom
+                if (representationDictionary.ContainsKey(maskChar))
                 {
-                    var maskChar = mask[i];
-
-                    // If dynamic character a,9,* or custom
-                    if (representationDictionary.ContainsKey(maskChar))
+                    var pattern = representationDictionary[maskChar];
+                    if (Regex.IsMatch(selectedChar.ToString(), pattern))
                     {
-                        var pattern = representationDictionary[maskChar];
-                        if (Regex.IsMatch(selectedChar.ToString(), pattern))
-                        {
-                            textArray[i] = selectedChar;
-
-                            // updating text box new index
-                            newSelectionIndex++;
-                        }
-
-                        // character doesn't match the pattern get the old character
-                        else
-                        {
-                            // if single press don't change
-                            if (oldSelectionLength == 0)
-                            {
-                                textArray[i] = oldText[i];
-                            }
-
-                            // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
-                            else
-                            {
-                                textArray[i] = placeHolder;
-                            }
-                        }
-                    }
-
-                    // if fixed character
-                    else
-                    {
-                        textArray[i] = oldText[i];
+                        textArray[newSelectionIndex] = selectedChar;
 
                         // updating text box new index
                         newSelectionIndex++;
                     }
+
+                    // character doesn't match the pattern get the old character
+                    else
+                    {
+                        // if single press don't change
+                        if (oldSelectionLength == 0)
+                        {
+                            textArray[newSelectionIndex] = oldText[newSelectionIndex];
+                        }
+
+                        // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
+                        else
+                        {
+                            textArray[newSelectionIndex] = placeHolder;
+                        }
+                    }
+                }
+
+                // if fixed character
+                else
+                {
+                    textArray[newSelectionIndex] = oldText[newSelectionIndex];
+
+                    // updating text box new index
+                    newSelectionIndex++;
                 }
             }
 
