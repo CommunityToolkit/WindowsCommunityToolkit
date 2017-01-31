@@ -10,24 +10,49 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
+using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.System;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// A page that shows how to use the FadeHeaderBehavior
-    /// </summary>
-    public sealed partial class UsefulLinksPage : Page
+    public sealed partial class UsefulLinksPage
     {
         public UsefulLinksPage()
         {
             InitializeComponent();
+        }
 
-            // If you wanted to use C# instead of XAML to attach the behavior, you can do it like this
-            // Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.DisplayWaitRing = true;
+            try
+            {
+                using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/links.md")))
+                {
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    {
+                        if (response.Success)
+                        {
+                            MarkdownTextBlockTextblock.Text = await response.Content.ReadAsStringAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MarkdownTextBlockTextblock.Text = "Unable to download content: " + exception.Message;
+            }
+
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void MarkdownTextBlockTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }
 }

@@ -4,7 +4,7 @@ The **Offset animation behavior** gets the number of pixels, from the origin of 
 
 ## Syntax
 
-```xaml
+```xml
 
 <behaviors:Offset x:Name="OffsetBehavior" 
 	OffsetX="25.0" 

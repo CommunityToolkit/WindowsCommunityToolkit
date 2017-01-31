@@ -9,7 +9,7 @@ The Radial Gauge supports animated transitions between configuration states. The
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:RadialGauge x:Name="RadialGaugeControl"
 	Column="1"
