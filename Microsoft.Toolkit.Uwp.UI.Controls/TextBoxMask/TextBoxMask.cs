@@ -279,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newSelectionIndex = oldSelectionStart - deleteBackspaceIndex;
 
             // check if single selection
-            var isSingleSelection = textbox.SelectionLength == 0 || textbox.SelectionLength == 1;
+            var isSingleSelection = oldSelectionLength != 0 && oldSelectionLength != 1;
 
             // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
