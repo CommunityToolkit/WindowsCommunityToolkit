@@ -278,54 +278,83 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // detect if backspace or delete is triggered to handle the right removed character
             var newSelectionIndex = oldSelectionStart - deleteBackspaceIndex;
 
-            // for handling single key click add +1 to match length for selection =1
-            var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
-            for (int i = newSelectionIndex; i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex); i++)
-            {
-                var maskChar = mask[i];
+            // check if single selection
+            var isSingleSelection = textbox.SelectionLength == 0 || textbox.SelectionLength == 1;
 
-                // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar))
+            // for handling single key click add +1 to match length for selection = 1
+            var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
+            if (isSingleSelection || isDeleteOrBackspace)
+            {
+                for (int i = newSelectionIndex;
+                    i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex);
+                    i++)
                 {
-                    if (isDeleteOrBackspace)
+                    var maskChar = mask[i];
+
+                    // If dynamic character a,9,* or custom
+                    if (representationDictionary.ContainsKey(maskChar))
                     {
                         textArray[i] = placeHolder;
-                        continue;
                     }
 
-                    var pattern = representationDictionary[maskChar];
-                    if (Regex.IsMatch(selectedChar.ToString(), pattern))
-                    {
-                        textArray[i] = selectedChar;
-
-                        // updating text box new index
-                        newSelectionIndex++;
-                    }
-
-                    // character doesn't match the pattern get the old character
+                    // if fixed character
                     else
                     {
-                        // if single press don't change
-                        if (oldSelectionLength == 0)
-                        {
-                            textArray[i] = oldText[i];
-                        }
-
-                        // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
-                        else
-                        {
-                            textArray[i] = placeHolder;
-                        }
+                        textArray[i] = oldText[i];
                     }
                 }
+            }
 
-                // if fixed character
+            if (!isDeleteOrBackspace)
+            {
+                int changeLength;
+                if (isSingleSelection)
+                {
+                    changeLength = newSelectionIndex + 1;
+                }
                 else
                 {
-                    textArray[i] = oldText[i];
+                    changeLength = oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex;
+                }
 
-                    if (!isDeleteOrBackspace)
+                for (int i = newSelectionIndex; i < changeLength; i++)
+                {
+                    var maskChar = mask[i];
+
+                    // If dynamic character a,9,* or custom
+                    if (representationDictionary.ContainsKey(maskChar))
                     {
+                        var pattern = representationDictionary[maskChar];
+                        if (Regex.IsMatch(selectedChar.ToString(), pattern))
+                        {
+                            textArray[i] = selectedChar;
+
+                            // updating text box new index
+                            newSelectionIndex++;
+                        }
+
+                        // character doesn't match the pattern get the old character
+                        else
+                        {
+                            // if single press don't change
+                            if (oldSelectionLength == 0)
+                            {
+                                textArray[i] = oldText[i];
+                            }
+
+                            // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
+                            else
+                            {
+                                textArray[i] = placeHolder;
+                            }
+                        }
+                    }
+
+                    // if fixed character
+                    else
+                    {
+                        textArray[i] = oldText[i];
+
                         // updating text box new index
                         newSelectionIndex++;
                     }
@@ -334,18 +363,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
-
-            // without selection
-            if (oldSelectionLength == 0)
-            {
-                textbox.SelectionStart = newSelectionIndex;
-            }
-            else
-            {
-                // we can't handle both selection direction because there is no property to detect which direction the selection was
-                // so considering the most common direction from left to right and position the index based on it
-                textbox.SelectionStart = oldSelectionStart + oldSelectionLength;
-            }
+            textbox.SelectionStart = newSelectionIndex;
         }
     }
 }
