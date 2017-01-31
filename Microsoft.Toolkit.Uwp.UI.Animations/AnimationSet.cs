@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                     if (!completed)
                     {
-                        // the animation was stoped
+                        // the animation was stopped
                         return await _animationTCS.Task;
                     }
                 }
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     await task.Task;
                 }
 
-                // if _animationSet is stoped while task was running
+                // if _animationSet is stopped while task was running
                 if (State == AnimationSetState.Stopped)
                 {
                     return await _animationTCS.Task;
@@ -605,11 +605,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             HandleCompleted();
         }
 
-        private void HandleCompleted(bool stoped = false)
+        private void HandleCompleted(bool stopped = false)
         {
             var completed = _storyboardCompleted && _compositionCompleted;
 
-            if (!completed && !stoped)
+            if (!completed && !stopped)
             {
                 return;
             }
