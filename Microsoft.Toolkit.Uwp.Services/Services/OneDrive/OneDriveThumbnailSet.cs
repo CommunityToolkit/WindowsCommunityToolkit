@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             Small = set.Small.Url;
             Medium = set.Medium.Url;
             Large = set.Large.Url;
-            Source = set.Source.Url;
+            Source = set.Source?.Url;
         }
     }
 }
