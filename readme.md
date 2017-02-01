@@ -41,28 +41,38 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
-* [Offset](http://docs.uwpcommunitytoolkit.com/en/master/animations/Offset/)
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
+* [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
+* [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
+* [Offset](http://docs.uwpcommunitytoolkit.com/en/master/animations/Offset/)
+* [ParallaxService](http://docs.uwpcommunitytoolkit.com/en/master/animations/ParallaxService/)
+* [ReorderGrid](http://docs.uwpcommunitytoolkit.com/en/master/animations/ReorderGrid/)
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
-* [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 
 ### Controls
 
 * [AdaptiveGridView](http://docs.uwpcommunitytoolkit.com/en/master/controls/AdaptiveGridView/)
 * [BladeView](http://docs.uwpcommunitytoolkit.com/en/master/controls/BladeView/)
 * [DropShadowPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DropShadowPanel/)
+* [Expander](http://docs.uwpcommunitytoolkit.com/en/master/controls/Expander/)
 * [GridSplitter](http://docs.uwpcommunitytoolkit.com/en/master/controls/GridSplitter/)
 * [HamburgerMenu](http://docs.uwpcommunitytoolkit.com/en/master/controls/HamburgerMenu/)
 * [HeaderedTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedTextBlock/)
 * [ImageEx](http://docs.uwpcommunitytoolkit.com/en/master/controls/ImageEx/)
+* [Loading](http://docs.uwpcommunitytoolkit.com/en/master/controls/Loading/)
+* [MarkdownTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/MarkdownTextBlock/)
 * [MasterDetailsView](http://docs.uwpcommunitytoolkit.com/en/master/controls/MasterDetailsView/)
 * [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
 * [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
+* [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
+* [SurfaceDialTextboxHelper](http://docs.uwpcommunitytoolkit.com/en/master/controls/SurfaceDialTextboxHelper/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxMask/)
+* [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxRegex/)
+* [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Code Helpers
@@ -95,6 +105,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Facebook](http://docs.uwpcommunitytoolkit.com/en/master/services/Facebook/)
 * [LinkedIn](http://docs.uwpcommunitytoolkit.com/en/master/services/Linkedin/)
 * [Microsoft Graph](http://docs.uwpcommunitytoolkit.com/en/master/services/MicrosoftGraph/)
+* [Microsoft Translator Service](http://docs.uwpcommunitytoolkit.com/en/master/services/MicrosoftTranslator/)
+* [OneDrive](http://docs.uwpcommunitytoolkit.com/en/master/services/OneDrive/)
 * [Twitter](http://docs.uwpcommunitytoolkit.com/en/master/services/Twitter/)
 
 ### Notifications
