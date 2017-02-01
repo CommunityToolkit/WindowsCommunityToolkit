@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public static async Task<Stream> GetThumbnailAsync(this IItemRequestBuilder builder, IOneDriveClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
         {
             // Requests the different sizes of the thumbnail
-            var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken);
+            var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken).ConfigureAwait(false);
 
             if (thumbnailSet == null)
             {
