@@ -222,6 +222,16 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
+        /// Retrieves a thumbnail set for the file
+        /// </summary>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
+        public async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await RequestBuilder.GetThumbnailSetAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// Retrieves a thumbnail image for the file
         /// </summary>
         /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>

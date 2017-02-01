@@ -111,6 +111,7 @@
     <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
     <Compile Include="Services\MicrosoftTranslator\ITranslatorService.cs" />
     <Compile Include="Services\MicrosoftTranslator\TranslatorService.cs" />
+    <Compile Include="Services\OneDrive\OneDriveThumbnailSet.cs" />
     <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
     <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />

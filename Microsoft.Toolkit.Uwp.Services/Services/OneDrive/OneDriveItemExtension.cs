@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -27,6 +28,27 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     public static class OneDriveItemExtension
     {
         /// <summary>
+        /// Gets a file's thumbnail set
+        /// </summary>
+        /// <param name="builder">Http request builder</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
+        public static async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(this IItemRequestBuilder builder, CancellationToken cancellationToken)
+        {
+            // Requests the differente size of the thumbnail
+            var requestThumbnail = await builder.Thumbnails.Request().GetAsync(cancellationToken).ConfigureAwait(false);
+
+            var thumbnailSet = requestThumbnail.FirstOrDefault();
+
+            if (thumbnailSet == null)
+            {
+                return null;
+            }
+
+            return new OneDriveThumbnailSet(thumbnailSet);
+        }
+
+        /// <summary>
         /// Gets a file's thumbnail
         /// </summary>
         /// <param name="builder">Http request builder</param>
@@ -36,36 +58,37 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
         public static async Task<Stream> GetThumbnailAsync(this IItemRequestBuilder builder, IOneDriveClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
         {
-            // Requests the differente size of the thumbnail
-            var requestThumbnail = await builder.Thumbnails.Request().GetAsync(cancellationToken).ConfigureAwait(false);
-            if (requestThumbnail.Count == 1)
+            // Requests the different sizes of the thumbnail
+            var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken).ConfigureAwait(false);
+
+            if (thumbnailSet == null)
             {
-                var thumbnailInfos = requestThumbnail.CurrentPage[0];
-                string requestUrl = null;
-
-                if (optionSize == ThumbnailSize.Small)
-                {
-                    requestUrl = thumbnailInfos.Small.Url;
-                }
-                else if (optionSize == ThumbnailSize.Medium)
-                {
-                    requestUrl = thumbnailInfos.Medium.Url;
-                }
-                else if (optionSize == ThumbnailSize.Large)
-                {
-                    requestUrl = thumbnailInfos.Large.Url;
-                }
-
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                await provider.AuthenticationProvider.AuthenticateRequestAsync(request).ConfigureAwait(false);
-                var response = await provider.HttpProvider.SendAsync(request).ConfigureAwait(false);
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStreamAsync();
-                }
+                return null;
             }
 
-            // No thumbNail
+            string requestUrl = null;
+
+            if (optionSize == ThumbnailSize.Small)
+            {
+                requestUrl = thumbnailSet.Small;
+            }
+            else if (optionSize == ThumbnailSize.Medium)
+            {
+                requestUrl = thumbnailSet.Medium;
+            }
+            else if (optionSize == ThumbnailSize.Large)
+            {
+                requestUrl = thumbnailSet.Large;
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            await provider.AuthenticationProvider.AuthenticateRequestAsync(request).ConfigureAwait(false);
+            var response = await provider.HttpProvider.SendAsync(request).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStreamAsync();
+            }
+
             return null;
         }
 
