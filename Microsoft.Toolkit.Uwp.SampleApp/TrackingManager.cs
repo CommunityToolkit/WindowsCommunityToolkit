@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class TrackingManager
     {
-        private static readonly Tracker Tracker = AnalyticsManager.Current.CreateTracker("UA-91148254-1");
+        private static readonly Tracker Tracker = AnalyticsManager.Current.CreateTracker("");
 
         static TrackingManager()
         {
