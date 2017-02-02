@@ -152,13 +152,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
-            TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
+                DataContext = null;
+                if (navigationEventArgs.Parameter != null)
+                {
+                    var category = navigationEventArgs.Parameter as SampleCategory;
+
+                    if (category != null)
+                    {
+                        TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
+                    }
+                }
+
                 HideInfoArea();
             }
             else
             {
+                TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
                 ShowInfoArea();
 
                 var sampleName = navigationEventArgs.Parameter.ToString();
@@ -367,7 +378,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (InfoAreaPivot.SelectedItem != null)
             {
-                TrackingManager.TrackEvent("PropertyGrid", "Tab selected", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name);
+                var sample = DataContext as Sample;
+
+                if (sample != null)
+                {
+                    TrackingManager.TrackEvent("PropertyGrid", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name, sample.Name);
+                }
             }
 
             if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
@@ -399,6 +415,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (DataContext == null)
+            {
+                return;
+            }
+
+            UpdateRootGridMinWidth();
         }
     }
 }

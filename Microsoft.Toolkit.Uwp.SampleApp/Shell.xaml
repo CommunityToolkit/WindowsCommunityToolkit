@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate"
