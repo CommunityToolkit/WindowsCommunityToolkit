@@ -21,60 +21,24 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// Performs an animation on a ListView or GridView Header to make it quick return or sticky using composition.
+    /// Performs an animation on a ListView or GridView Header to make it sticky using composition.
     /// </summary>
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class ScrollHeaderBehavior : Behavior<FrameworkElement>
+    public class StickyHeaderBehavior : Behavior<FrameworkElement>
     {
-        /// <summary>
-        /// Identifies the <see cref="QuickReturn"/> property.
-        /// </summary>
-        public static readonly DependencyProperty QuickReturnProperty =
-            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(ScrollHeaderBehavior), new PropertyMetadata(false, PropertyChangedCallback));
-
-        /// <summary>
-        /// Identifies the <see cref="Sticky"/> property.
-        /// </summary>
-        public static readonly DependencyProperty StickyProperty =
-            DependencyProperty.Register(nameof(Sticky), typeof(bool), typeof(ScrollHeaderBehavior), new PropertyMetadata(false, PropertyChangedCallback));
-
         /// <summary>
         /// The UIElement that will be faded.
         /// </summary>
         public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
-            nameof(HeaderElement), typeof(UIElement), typeof(ScrollHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
+            nameof(HeaderElement), typeof(UIElement), typeof(QuickReturnHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
         private ScrollViewer _scrollViewer;
         private double _previousVerticalScrollOffset;
         private CompositionPropertySet _scrollProperties;
         private CompositionPropertySet _animationProperties;
         private Visual _headerVisual;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the quick return header is enabled.
-        /// If true the quick return behavior is used.
-        /// If false regular header behavior is used.
-        /// Default is true.
-        /// </summary>
-        public bool QuickReturn
-        {
-            get { return (bool)GetValue(QuickReturnProperty); }
-            set { SetValue(QuickReturnProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the quick return header should always be visible.
-        /// If true the header is always visible.
-        /// If false the header will move out of view when scrolling down.
-        /// Default is false.
-        /// </summary>
-        public bool Sticky
-        {
-            get { return (bool)GetValue(StickyProperty); }
-            set { SetValue(StickyProperty, value); }
-        }
 
         /// <summary>
         /// Gets or sets the target element for the ScrollHeader behavior.
@@ -128,13 +92,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// If any of the properties are changed then the animation is automatically started depending on the QuickReturn and IsSticky properties.
+        /// If any of the properties are changed then the animation is automatically started.
         /// </summary>
         /// <param name="d">The dependency object.</param>
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var b = d as ScrollHeaderBehavior;
+            var b = d as StickyHeaderBehavior;
             b?.AssignAnimation();
         }
 
@@ -220,9 +184,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return;
             }
 
-            _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
-            _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-
             (HeaderElement as FrameworkElement).SizeChanged -= ScrollHeader_SizeChanged;
             (HeaderElement as FrameworkElement).SizeChanged += ScrollHeader_SizeChanged;
 
@@ -236,14 +197,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
             _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
 
-            if (QuickReturn || Sticky)
-            {
-                ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation($"Round(max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0))");
-                expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
-                expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
+            ExpressionAnimation expressionAnimation = compositor.CreateExpressionAnimation($"max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0)");
+            expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
+            expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
 
-                _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
-            }
+            _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
         }
 
         /// <summary>
@@ -251,14 +209,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         private void RemoveAnimation()
         {
-            if (_scrollViewer != null)
+            var element = HeaderElement as FrameworkElement;
+            if (element != null)
             {
-                _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
-            }
-
-            if (HeaderElement != null && HeaderElement is FrameworkElement)
-            {
-                (HeaderElement as FrameworkElement).SizeChanged -= ScrollHeader_SizeChanged;
+                element.SizeChanged -= ScrollHeader_SizeChanged;
             }
 
             StopAnimation();
@@ -269,15 +223,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         private void StopAnimation()
         {
-            if (_headerVisual != null)
-            {
-                _headerVisual.StopAnimation("Offset.Y");
-            }
+            _headerVisual?.StopAnimation("Offset.Y");
 
-            if (_animationProperties != null)
-            {
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
-            }
+            _animationProperties?.InsertScalar("OffsetY", 0.0f);
 
             if (_headerVisual != null)
             {
@@ -290,33 +238,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private void ScrollHeader_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AssignAnimation();
-        }
-
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            if (_animationProperties != null)
-            {
-                if (!Sticky)
-                {
-                    float oldOffsetY = 0.0f;
-                    _animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
-
-                    var delta = _scrollViewer.VerticalOffset - _previousVerticalScrollOffset;
-                    _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-                    var newOffsetY = oldOffsetY - (float)delta;
-
-                    // Keep values within negativ header size and 0
-                    FrameworkElement header = (FrameworkElement)HeaderElement;
-                    newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
-                    newOffsetY = Math.Min(0, newOffsetY);
-
-                    if (oldOffsetY != newOffsetY)
-                    {
-                        _animationProperties.InsertScalar("OffsetY", newOffsetY);
-                    }
-                }
-            }
         }
     }
 }
