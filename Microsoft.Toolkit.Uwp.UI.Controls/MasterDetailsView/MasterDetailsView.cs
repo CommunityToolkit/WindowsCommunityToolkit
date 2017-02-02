@@ -143,6 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
             SetVisualState(_stateGroup.CurrentState, true);
+            SetBackButtonVisibility(_stateGroup.CurrentState);
 
             UpdateViewState();
         }
