@@ -71,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
+            SetDetailsContent();
 
             SetMasterHeaderVisibility();
         }
