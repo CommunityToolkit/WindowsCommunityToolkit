@@ -13,7 +13,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;

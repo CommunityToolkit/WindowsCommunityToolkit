@@ -11,10 +11,9 @@
 // ******************************************************************
 
 using System;
-using Windows.System;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.System;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
