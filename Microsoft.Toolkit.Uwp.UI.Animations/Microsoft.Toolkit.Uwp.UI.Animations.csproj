@@ -60,7 +60,8 @@
     <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
-    <Compile Include="Behaviors\ScrollHeaderBehavior.cs" />
+    <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
+    <Compile Include="Behaviors\QuickReturnHeaderBehavior.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="EasingType.cs" />
