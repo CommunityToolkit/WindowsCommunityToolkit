@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception exception)
             {
                 MarkdownTextBlockTextblock.Text = "Unable to download content: " + exception.Message;
+                TrackingManager.TrackException(exception);
             }
 
             Shell.Current.DisplayWaitRing = false;
@@ -52,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void MarkdownTextBlockTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
+            TrackingManager.TrackEvent("Link", e.Link);
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }

@@ -116,6 +116,7 @@
                                      Grid.Column="2"
                                      Margin="0,0,10,0"
                                      Content="Github"
+                                     Click="GitHub_OnClick"
                                      Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"

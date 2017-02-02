@@ -140,6 +140,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {
@@ -200,6 +201,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {
@@ -242,6 +244,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {
@@ -267,6 +270,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {
@@ -292,6 +296,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {
@@ -317,6 +322,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
             }
             finally
             {

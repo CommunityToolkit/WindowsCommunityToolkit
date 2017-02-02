@@ -227,6 +227,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
                                         continue;
                                     }
 
@@ -243,6 +244,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
                                         continue;
                                     }
 
@@ -267,6 +269,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
                                         continue;
                                     }
 

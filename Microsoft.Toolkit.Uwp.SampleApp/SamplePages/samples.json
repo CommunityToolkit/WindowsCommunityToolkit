@@ -383,7 +383,8 @@
         "About": "The OneDrive service allows you to get your files from OneDrive using an Microsoft Account or OneDrive For Business using an Office 365 account",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/OneDrive/",
         "CodeFile": "OneDriveCode.bind",
-        "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png"
+        "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/services/OneDrive.md"
       },
       {
         "Name": "LinkedIn Service",
@@ -444,6 +445,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BackgroundTaskHelper.md"
       },
       {

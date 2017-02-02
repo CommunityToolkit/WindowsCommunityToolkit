@@ -8,10 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <ScrollViewer>
             <StackPanel>
                 <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
@@ -28,23 +24,6 @@ Nam eu lobortis velit, ac lobortis nibh. Mauris facilisis urna mi, id iaculis le
                     </TextBlock>
                 </Border>
             </StackPanel>
-        </ScrollViewer>
-        <ScrollViewer Grid.Column="1"
-                      HorizontalScrollBarVisibility="Auto"
-                      HorizontalScrollMode="Enabled" 
-                      VerticalScrollBarVisibility="Hidden"
-                      VerticalScrollMode="Disabled">
-            <Grid>
-                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
-                       Stretch="UniformToFill"
-                       an:HorizontalMultiplier="@[HorizontalMultiplier:Slider:-.7:-1-1-.1]"/>
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                </StackPanel>
-            </Grid>
         </ScrollViewer>      
     </Grid>
 </Page>

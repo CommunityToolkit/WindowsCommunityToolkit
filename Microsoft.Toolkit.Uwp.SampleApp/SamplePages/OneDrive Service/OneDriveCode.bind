@@ -17,7 +17,7 @@
 
 // OneDrive For Business you need to register your app from the Azure Management Portal
 // For more information to manualy register your app see go to the following article
-// https://docs.microsoft.com/fr-fr/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
+// https://docs.microsoft.com/en-US/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
 // When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions
 
 // First get the root of your OneDrive

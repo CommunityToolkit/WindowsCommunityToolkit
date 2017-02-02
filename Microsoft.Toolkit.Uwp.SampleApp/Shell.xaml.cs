@@ -414,6 +414,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
+            TrackingManager.TrackEvent("Link", e.Link);
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
@@ -425,6 +426,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             UpdateRootGridMinWidth();
+        }
+
+        private void GitHub_OnClick(object sender, RoutedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
     }
 }

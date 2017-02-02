@@ -8,10 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <ScrollViewer>
             <StackPanel>
                 <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
@@ -19,7 +15,7 @@
                        Stretch="UniformToFill"
                        an:ParallaxService.VerticalMultiplier="{Binding VerticalMultiplier.Value}"/>
                 <Border Background="{StaticResource Brush-Grey-05}">
-                    <TextBlock TextWrapping="WrapWholeWords" FontSize="20">
+                    <TextBlock TextWrapping="WrapWholeWords" FontSize="20" Margin="10">
                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla ultrices est eu ornare. Suspendisse purus massa, iaculis in finibus dictum, gravida vel purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec vitae dolor imperdiet, vehicula enim quis, mollis tellus. Donec placerat diam sed est porttitor, venenatis semper mauris tempus. Sed placerat ipsum enim, quis porta nibh accumsan sit amet. Etiam tempus dapibus dolor, eget sollicitudin risus cursus eget. Vestibulum non rhoncus velit. Vestibulum volutpat, lacus quis laoreet accumsan, erat diam dignissim ligula, sit amet molestie purus erat eget tortor. Vestibulum posuere consequat libero, at fermentum tellus tempus eget. Curabitur viverra nisl a augue porta luctus. 
 Duis sodales metus et purus finibus, at tincidunt felis porta. Fusce elementum ut diam ut sodales. Nunc eget varius lectus. Fusce nec rhoncus arcu. Nunc feugiat, nulla non luctus dapibus, justo odio tincidunt libero, mattis commodo sem nulla sed tellus. Aliquam ut condimentum est, id euismod turpis. Donec nec orci nulla. Suspendisse faucibus mollis sapien, ac congue nulla aliquet vel. In hac habitasse platea dictumst. Duis dapibus sem a ullamcorper vestibulum. 
 Aliquam varius imperdiet tortor vitae elementum. Curabitur eget diam a neque blandit egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus pulvinar laoreet ipsum ut scelerisque. Praesent eget molestie sem. Sed pretium suscipit orci, mollis interdum purus vestibulum vitae. Curabitur accumsan nec enim eu imperdiet. Fusce nec lectus mollis, laoreet odio vel, rhoncus nisi. Nulla mi neque, imperdiet nec diam et, tincidunt blandit metus. Quisque bibendum nisl a orci efficitur, sit amet volutpat nisi convallis. Sed lobortis ac lacus et volutpat. Nullam sodales porta nibh, eget semper augue fermentum sit amet. Phasellus sed nibh volutpat, fringilla ligula ut, lacinia dolor. 
@@ -30,23 +26,6 @@ Nam eu lobortis velit, ac lobortis nibh. Mauris facilisis urna mi, id iaculis le
                     </TextBlock>
                 </Border>
             </StackPanel>
-        </ScrollViewer>
-        <ScrollViewer Grid.Column="1"
-                      HorizontalScrollBarVisibility="Auto"
-                      HorizontalScrollMode="Enabled" 
-                      VerticalScrollBarVisibility="Hidden"
-                      VerticalScrollMode="Disabled">
-            <Grid>
-                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
-                       Stretch="UniformToFill"
-                       an:ParallaxService.HorizontalMultiplier="{Binding HorizontalMultiplier.Value}"/>
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                    <Rectangle Fill="Black" Opacity=".6" Width="200" Margin="12,24"/>
-                </StackPanel>
-            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>
