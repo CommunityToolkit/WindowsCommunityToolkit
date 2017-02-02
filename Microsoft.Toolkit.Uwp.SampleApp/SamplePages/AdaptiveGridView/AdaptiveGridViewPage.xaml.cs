@@ -30,13 +30,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
             AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
             AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
             AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;

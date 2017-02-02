@@ -38,6 +38,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive
                 return (obj as AdaptiveSubgroup).ConvertToElement();
             }
 
+            if (obj is AdaptiveProgressBar)
+            {
+                return (obj as AdaptiveProgressBar).ConvertToElement();
+            }
+
             throw new NotImplementedException("Unknown object: " + obj.GetType());
         }
     }

@@ -29,10 +29,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
         /// </summary>
-        /// <param name="graphClientProvider">Instance of GraphClientService class</param>
-        public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
+        /// <param name="graphProvider">Instance of GraphClientService class</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphProvider)
         {
-            _graphProvider = graphClientProvider;
+            _graphProvider = graphProvider;
         }
 
         ///// <summary>
@@ -80,8 +80,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 _currentConnectedUser = await _graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
 
-            InitializeMessage();
-
             return _currentConnectedUser;
         }
 
@@ -126,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create an instance of MicrosoftGraphServiceMessage
         /// </summary>
-        private void InitializeMessage()
+        internal void InitializeMessage()
         {
             _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
         }

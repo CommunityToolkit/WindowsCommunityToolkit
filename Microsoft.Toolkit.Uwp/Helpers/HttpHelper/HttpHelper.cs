@@ -72,8 +72,9 @@ namespace Microsoft.Toolkit.Uwp
         /// Process Http Request using instance of HttpClient.
         /// </summary>
         /// <param name="request">instance of <see cref="HttpHelperRequest"/></param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
-        public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
+        public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp
 
                 client = GetHttpClientInstance();
 
-                var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+                var response = await client.SendRequestAsync(httpRequestMessage).AsTask(cancellationToken).ConfigureAwait(false);
 
                 FixInvalidCharset(response);
 
@@ -118,8 +119,6 @@ namespace Microsoft.Toolkit.Uwp
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                
-
                 client = new HttpClient(_httpFilter);
             }
 

@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Robmikh.CompositionSurfaceFactory": "0.7.0-alpha",
     "StyleCop.Analyzers": "1.0.0"
   },
   "frameworks": {

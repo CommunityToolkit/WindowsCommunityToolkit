@@ -37,9 +37,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
             var languageValue = config.Language.GetStringValue();
@@ -70,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
                     break;
             }
 
-            var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}");
+            var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}&first={(pageIndex * maxRecords) + (pageIndex > 0 ? 1 : 0)}");
 
             using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {

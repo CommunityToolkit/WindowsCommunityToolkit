@@ -11,6 +11,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HamburgerMenu">
@@ -19,6 +20,7 @@
                                    CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                    DisplayMode="{TemplateBinding DisplayMode}"
                                    IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   IsTabStop="False"
                                    OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                    PaneBackground="{TemplateBinding PaneBackground}"
                                    PanePlacement="{TemplateBinding PanePlacement}">
@@ -37,9 +39,10 @@
                                               AutomationProperties.Name="Menu items"
                                               IsItemClickEnabled="True"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              SelectedIndex="{TemplateBinding SelectedIndex}"
-                                              SelectedItem="{TemplateBinding SelectedItem}"
+                                              SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                               SelectionMode="Single"
                                               TabIndex="1">
                                         <ListView.ItemContainerStyle>
@@ -63,9 +66,10 @@
                                                   AutomationProperties.Name="Option items"
                                                   IsItemClickEnabled="True"
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                                                  ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                                   ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                                  SelectedIndex="{TemplateBinding SelectedOptionsIndex}"
-                                                  SelectedItem="{TemplateBinding SelectedOptionsItem}"
+                                                  SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                                   TabIndex="2">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">

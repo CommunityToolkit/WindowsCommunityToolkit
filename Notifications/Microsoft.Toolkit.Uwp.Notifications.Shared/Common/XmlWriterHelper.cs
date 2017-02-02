@@ -140,6 +140,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 return "false";
             }
+            else if (propertyValue is DateTimeOffset?)
+            {
+                DateTimeOffset? dateTime = propertyValue as DateTimeOffset?;
+                if (dateTime.HasValue)
+                {
+                    // ISO 8601 format
+                    return System.Xml.XmlConvert.ToString(dateTime.Value);
+                }
+                else
+                {
+                    return null;
+                }
+            }
 
             return propertyValue.ToString();
         }
@@ -202,6 +215,27 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #else
             return propertyInfo.GetCustomAttributes(true).OfType<Attribute>();
 #endif
+        }
+
+        /// <summary>
+        /// Gets the provided binding value, if it exists. Otherwise, falls back to the absolute value.
+        /// </summary>
+        /// <typeparam name="T">The type of the enum of the class properties.</typeparam>
+        /// <param name="bindings">The collection of data-bound values.</param>
+        /// <param name="bindableProperty">The property to obtain.</param>
+        /// <param name="absoluteValue">The absolute value, if any.</param>
+        /// <returns>The provided binding value, if it exists. Otherwise, falls back to the absolute value.</returns>
+        internal static string GetBindingOrAbsoluteXmlValue<T>(IDictionary<T, string> bindings, T bindableProperty, string absoluteValue)
+        {
+            // If a binding is provided, use the binding value
+            string bindingValue;
+            if (bindings.TryGetValue(bindableProperty, out bindingValue))
+            {
+                return "{" + bindingValue + "}";
+            }
+
+            // Otherwise fallback to the absolute value
+            return absoluteValue;
         }
     }
 }

@@ -4,7 +4,7 @@ The BladeView provides a container to host blades as extra detail pages in, for 
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:BladeView>
     <controls:BladeItem IsOpen="True"
@@ -26,6 +26,42 @@ The BladeView provides a container to host blades as extra detail pages in, for 
                    Style="{StaticResource SubtitleTextBlockStyle}"
                    Text="This is a blade with all settings set to default." />
     </controls:BladeItem>
+</controls:BladeView>
+
+```
+
+## Blade modes
+
+You can customize your BladeView control by setting the `BladeMode` property.
+If you want blade items to stay unchanged (based on their respective width and height), you will choose the default mode (BladeMode.Normal).
+Otherwise, you can extend each blade items to fill the entire container (example: Grid, StackPanel, etc..). To do that, you'll have to choose the Fullscreen mode (BladeMode.Fullscreen).
+
+```csharp
+
+public enum BladeMode
+{
+    /// <summary>
+    /// Default mode : each blade will take the specified Width and Height
+    /// </summary>
+    Normal,
+
+    /// <summary>
+    /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
+    /// </summary>
+    Fullscreen
+}
+
+```
+
+Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
+
+```xml
+
+<controls:BladeView x:Name="BladeView"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BladeMode="{Binding BladeMode}">
 </controls:BladeView>
 
 ```

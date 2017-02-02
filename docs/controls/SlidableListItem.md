@@ -54,7 +54,7 @@ If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, 
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:SlidableListItem
 	LeftIcon="Favorite" 

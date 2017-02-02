@@ -4,12 +4,15 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:samples="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:BladeView Padding="24"
+        <controls:BladeView x:Name="BladeView"
+                            Padding="0"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch">
+                            VerticalAlignment="Stretch"
+                            BladeMode="{Binding BladeMode.Value}">
             <controls:BladeItem x:Name="FirstBlade"
                                 Title="Test"
                                 Width="400"
@@ -20,6 +23,7 @@
                 <StackPanel Margin="24">
                     <TextBlock Text="This first blade has a hidden TitleBar, so you can't close it."
                                TextWrapping="WrapWholeWords" />
+
                     <TextBlock Margin="0,12,0,0"
                                Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened."
                                TextWrapping="WrapWholeWords" />
@@ -76,6 +80,7 @@
                            Text="This is a blade with a custom close button color." />
             </controls:BladeItem>
         </controls:BladeView>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Full">

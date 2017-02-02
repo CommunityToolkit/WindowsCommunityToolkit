@@ -58,10 +58,15 @@
                                Text="{x:Bind Text}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="WrapWholeWords" />
-                    <TextBlock Grid.Row="2"
-                               HorizontalAlignment="Right"
-                               FontWeight="ExtraLight"
-                               Text="{x:Bind CreationDate}" />
+                    <StackPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <TextBlock FontWeight="ExtraLight"
+                                   Text="{x:Bind CreationDate}" />
+                        <TextBlock Margin="4,0,0,0"
+                                   FontWeight="ExtraLight"
+                                   Text="{x:Bind GeoData.DisplayCoordinates}" />
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -187,6 +192,32 @@
                             <TextBox x:Name="TweetText"
                                      Margin="0,0,0,12"
                                      Header="Tweet" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <AppBarButton x:Name="GetLocation"
+                                              Click="GetLocation_OnClick"
+                                              Icon="World"
+                                              Label="Locate" />
+                                <TextBox x:Name="Latitude"
+                                         Grid.Column="1"
+                                         Margin="0,0,6,12"
+                                         Header="Latitude" />
+                                <TextBox x:Name="Longitude"
+                                         Grid.Column="2"
+                                         Margin="6,0,6,12"
+                                         Header="Longitude" />
+                                <CheckBox x:Name="DisplayCoordinates"
+                                          Grid.Column="3"
+                                          Margin="6,0,6,12"
+                                          VerticalAlignment="Bottom"
+                                          Content="Display Coords" />
+                            </Grid>
+
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
                                         Margin="0,0,12,0"

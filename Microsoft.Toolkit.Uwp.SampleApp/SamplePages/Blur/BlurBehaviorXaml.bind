@@ -1,5 +1,5 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OffsetBehaviorPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.BlurBehaviorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OffsetBehavior"
@@ -24,7 +24,7 @@
       <Button Content="Apply" Margin="10">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Offset}" MethodName="StartAnimation"/>
+            <core:CallMethodAction TargetObject="{Binding ElementName=BlurBehavior}" MethodName="StartAnimation"/>
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
       </Button>

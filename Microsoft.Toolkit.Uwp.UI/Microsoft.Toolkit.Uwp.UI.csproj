@@ -49,6 +49,13 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.cs" />
+    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.Defer.cs" />
+    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.Events.cs" />
+    <Compile Include="AdvancedCollectionView\IAdvancedCollectionView.cs" />
+    <Compile Include="AdvancedCollectionView\SortDescription.cs" />
+    <Compile Include="AdvancedCollectionView\SortDirection.cs" />
+    <Compile Include="AdvancedCollectionView\VectorChangedEventArgs.cs" />
     <Compile Include="Cache\CacheBase.cs" />
     <Compile Include="Cache\ImageCache.cs" />
     <Compile Include="Cache\FileCache.cs" />

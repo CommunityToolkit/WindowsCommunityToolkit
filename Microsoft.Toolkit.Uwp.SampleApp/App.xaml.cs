@@ -16,6 +16,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -40,6 +41,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Suspending += OnSuspending;
         }
 
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            await RunAppInitialization(null);
+
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                try
+                {
+                    // Launching via protocol link
+                    var parser = DeepLinkParser.Create(args);
+                    var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
+                    if (targetSample != null)
+                    {
+                        Shell.Current?.NavigateToSample(targetSample);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error processing protocol launch: {ex.ToString()}");
+                }
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -50,6 +74,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (e.PrelaunchActivated)
             {
                 return;
+            }
+
+            if (e.PreviousExecutionState != ApplicationExecutionState.Running
+                && e.PreviousExecutionState != ApplicationExecutionState.Suspended)
+            {
+                await RunAppInitialization(e?.Arguments);
+            }
+        }
+
+        private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
+        {
+            // Go fullscreen on Xbox
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            {
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
             // Initialize the constant for the app display name, used for tile and toast previews
@@ -88,38 +127,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (rootFrame.Content == null)
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(Shell), e.Arguments);
-                }
-
-                // Status bar
-                if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
-                    ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
-                {
-                    StatusBar statusBar = StatusBar.GetForCurrentView();
-
-                    // Hide the status bar
-                    await statusBar.HideAsync();
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(Shell), launchParameters);
             }
+
+            // Status bar
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
+                ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+
+                // Hide the status bar
+                await statusBar.HideAsync();
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>

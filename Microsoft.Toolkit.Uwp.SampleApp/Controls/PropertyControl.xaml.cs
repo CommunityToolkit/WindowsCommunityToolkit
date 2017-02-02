@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             InitializeComponent();
         }
 
-        private async void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (args.NewValue == _currentSample)
             {
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (_currentSample != null)
             {
-                var propertyDesc = await _currentSample.GetPropertyDescriptorAsync();
+                var propertyDesc = _currentSample.PropertyDescriptor;
 
                 if (propertyDesc == null)
                 {
@@ -78,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             {
                                 slider.Minimum = sliderOption.MinValue;
                                 slider.Maximum = sliderOption.MaxValue;
+                                slider.StepFrequency = sliderOption.Step;
                             }
 
                             if (option.Kind == PropertyKind.DoubleSlider)
