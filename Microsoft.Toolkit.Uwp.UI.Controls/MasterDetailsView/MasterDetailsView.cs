@@ -96,9 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
-                view._detailsPresenter.Content = view.MapDetails == null
-                    ? view.SelectedItem
-                    : view.MapDetails(view.SelectedItem);
+                view.SetDetailsContent();
             }
 
             if (view._stateGroup != null)
@@ -275,6 +273,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, animate);
+        }
+
+        private void SetDetailsContent()
+        {
+            if ((SelectedItem != null) && (_detailsPresenter != null))
+            {
+                _detailsPresenter.Content = MapDetails == null
+                    ? SelectedItem
+                    : MapDetails(SelectedItem);
+            }
         }
     }
 }
