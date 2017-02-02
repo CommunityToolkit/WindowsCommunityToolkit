@@ -86,7 +86,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            view.SetVisualState(view._stateGroup.CurrentState, true);
+            if (view._stateGroup != null)
+            {
+                view.SetVisualState(view._stateGroup.CurrentState, true);
+            }
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
@@ -98,7 +101,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     : view.MapDetails(view.SelectedItem);
             }
 
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            if (view._stateGroup != null)
+            {
+                view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            }
         }
 
         /// <summary>
