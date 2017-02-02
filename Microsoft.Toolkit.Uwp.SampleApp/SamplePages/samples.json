@@ -508,7 +508,7 @@
         "Type": "AnalyticsPage",
         "About": "List of frameworks to help you track activity in your apps.",
         "CodeFile": "AnalyticsCode.bind",
-        "Icon": "/SamplePages/Analytics/Analytics.jpg"
+        "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
   }

@@ -233,6 +233,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
@@ -259,7 +260,6 @@
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
-    <Content Include="SamplePages\Analytics\Analytics.jpg" />
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
