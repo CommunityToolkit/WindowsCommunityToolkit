@@ -115,7 +115,8 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ## Feedback and Requests
 
-Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions, comments, feature requests, or if would like to vote on what others are recommending.
+Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions and comments.
+For feature requests, please create en entry in our [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
