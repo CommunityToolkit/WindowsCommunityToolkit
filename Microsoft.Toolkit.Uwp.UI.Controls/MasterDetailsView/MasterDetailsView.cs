@@ -86,10 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
+            view.SetVisualState(view._stateGroup.CurrentState, true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
@@ -140,10 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
-            string noSelectionState = _stateGroup.CurrentState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
+            SetVisualState(_stateGroup.CurrentState, true);
 
             UpdateViewState();
         }
@@ -174,10 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetBackButtonVisibility(e.NewState);
 
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            string noSelectionState = e.NewState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
+            SetVisualState(e.NewState, false);
         }
 
         /// <summary>
@@ -270,6 +261,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 ViewStateChanged?.Invoke(this, after);
             }
+        }
+
+        private void SetVisualState(VisualState state, bool animate)
+        {
+            string noSelectionState = state == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, animate);
         }
     }
 }
