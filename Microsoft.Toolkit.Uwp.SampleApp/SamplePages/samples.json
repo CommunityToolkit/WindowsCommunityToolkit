@@ -502,6 +502,13 @@
         "Type": "UsefulLinksPage",
         "About": "List of useful links for UWP developers.",
         "Icon": "/SamplePages/Useful links/UsefulLinks.png"
+      },
+      {
+        "Name": "Analytics",
+        "Type": "AnalyticsPage",
+        "About": "List of frameworks to help you track activity in your apps.",
+        "CodeFile": "AnalyticsCode.bind",
+        "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
   }

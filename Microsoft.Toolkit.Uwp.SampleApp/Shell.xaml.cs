@@ -13,6 +13,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
@@ -120,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
 
             // Get list of samples
-            var sampleCategories = await Samples.GetCategoriesAsync();
+            var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
             var moreResources = sampleCategories.Last(); // Remove the last one because it is a specific case
             sampleCategories.Remove(moreResources);
 
@@ -152,6 +153,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
+            TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 HideInfoArea();
@@ -226,6 +228,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
+                }
+
+                if (InfoAreaPivot.Items.Count == 0)
+                {
+                    HideInfoArea();
                 }
             }
         }
@@ -359,6 +366,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void InfoAreaPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (InfoAreaPivot.SelectedItem != null)
+            {
+                TrackingManager.TrackEvent("PropertyGrid", "Tab selected", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name);
+            }
+
             if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
                 return;

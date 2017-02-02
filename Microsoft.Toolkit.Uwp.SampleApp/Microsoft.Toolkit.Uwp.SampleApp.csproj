@@ -233,6 +233,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
@@ -365,6 +366,7 @@
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
+    <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -435,6 +437,9 @@
       <DependentUpon>OneDrivePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
+    <Compile Include="SamplePages\Analytics\AnalyticsPage.xaml.cs">
+      <DependentUpon>AnalyticsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
     </Compile>
@@ -573,6 +578,7 @@
       <DependentUpon>SamplePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrackingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -637,6 +643,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Analytics\AnalyticsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
