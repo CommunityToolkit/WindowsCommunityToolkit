@@ -21,10 +21,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// Gets or sets the name of the person.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets person's profession
-        /// </summary>
-        public string Profession { get; set; }
     }
 }
