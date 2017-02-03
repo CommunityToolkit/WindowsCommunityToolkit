@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            bool succeeded = true;
+            bool succeeded = false;
 
             try
             {
@@ -72,17 +72,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
                 OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
+                succeeded = true;
             }
             catch (ServiceException serviceEx)
             {
                 await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(serviceEx);
-                succeeded = false;
             }
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
                 TrackingManager.TrackException(ex);
-                succeeded = false;
             }
             finally
             {
@@ -121,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
             }
         }
 
