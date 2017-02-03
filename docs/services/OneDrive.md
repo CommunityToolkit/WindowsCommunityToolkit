@@ -33,7 +33,8 @@ OneDrive for Business requires you to register your app in the Azure Management 
 OneDrive For Business you need to register your app from the Azure Management Portal
 For more information to manualy register your app see go to the following article
 https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
-When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions
+When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions. You should set your Redirect URI to "urn:ietf:wg:oauth:2.0:oob". You may also need to add the following capabilities to your Package.appxmanifest: privateNetworkClientServer; enterpriseAuthentication
+
 
 ## Syntax
 

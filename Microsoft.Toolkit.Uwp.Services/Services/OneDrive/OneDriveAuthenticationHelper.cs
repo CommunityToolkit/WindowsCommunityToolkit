@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             var discoveryResourceUri = "https://api.office.com/discovery/";
             _appClientId = appClientId;
-            IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(discoveryResourceUri, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
+            IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(discoveryResourceUri, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Auto, true));
             _userInfoSettings = SaveUserInfo(userAuthnResult);
             return userAuthnResult;
         }
