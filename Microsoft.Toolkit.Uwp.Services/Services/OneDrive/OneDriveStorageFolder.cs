@@ -279,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             List<OneDriveStorageItem> items = new List<OneDriveStorageItem>();
 
-            for (int i = (int)startIndex; i < maxToRetrieve; i++)
+            for (int i = (int)startIndex; i < maxToRetrieve && i < tempo.Count; i++)
             {
                 items.Add(InitializeOneDriveStorageItem(tempo[i]));
             }
