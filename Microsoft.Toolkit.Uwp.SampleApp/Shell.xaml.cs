@@ -263,6 +263,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
+            ExpandOrCloseProperties();
+        }
+
+        private void ExpandOrCloseProperties()
+        {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
             string currentState = states.CurrentState.Name;
 
@@ -280,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                     else
                     {
-                        // ane is closed, so let's open it
+                        // pane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
@@ -341,6 +346,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+
+            if (_isPaneOpen)
+            {
+                ExpandOrCloseProperties();
+            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
