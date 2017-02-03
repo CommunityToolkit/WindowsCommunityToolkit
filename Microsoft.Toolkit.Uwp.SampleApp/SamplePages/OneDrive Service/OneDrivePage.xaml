@@ -411,6 +411,11 @@
                                      x:Name="ClientId" 
                                      Margin="0,15,0,12"
                                      Text="" Visibility="Collapsed"/>
+                            <HyperlinkButton x:Name="ClientIdHelper" Margin="0,0,0,15"
+                                             Content="Show me how to get this ID"
+                                             NavigateUri="https://dev.onedrive.com/app-registration.htm"
+                                             Visibility="Collapsed"
+                                             />
                             <Button Content="Sign in" 
                                     x:Name="ConnectButton" 
                                     Click="ConnectButton_Click" 

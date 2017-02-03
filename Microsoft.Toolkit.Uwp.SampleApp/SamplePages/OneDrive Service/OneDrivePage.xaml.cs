@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
@@ -46,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
+            bool succeeded = true;
 
             try
             {
@@ -74,34 +76,53 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (ServiceException serviceEx)
             {
                 await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(serviceEx);
+                succeeded = false;
             }
             catch (Exception ex)
             {
                 await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
                 TrackingManager.TrackException(ex);
+                succeeded = false;
             }
             finally
             {
                 Shell.Current.DisplayWaitRing = false;
             }
 
-            FilesBox.Visibility = Visibility.Visible;
-            UserBox.Visibility = Visibility.Visible;
-            ClientIdBox.Visibility = Visibility.Collapsed;
-            LogOutButton.Visibility = Visibility.Visible;
-            ConnectButton.Visibility = Visibility.Collapsed;
-            menuButton.Visibility = Visibility.Visible;
-            BackButton.Visibility = Visibility.Visible;
+            if (succeeded)
+            {
+                FilesBox.Visibility = Visibility.Visible;
+                UserBox.Visibility = Visibility.Visible;
+                ClientIdBox.Visibility = Visibility.Collapsed;
+                ClientIdHelper.Visibility = Visibility.Collapsed;
+                LogOutButton.Visibility = Visibility.Visible;
+                ConnectButton.Visibility = Visibility.Collapsed;
+                menuButton.Visibility = Visibility.Visible;
+                BackButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                FilesBox.Visibility = Visibility.Collapsed;
+                UserBox.Visibility = Visibility.Collapsed;
+                ClientIdBox.Visibility = Visibility.Visible;
+                ClientIdHelper.Visibility = Visibility.Visible;
+                LogOutButton.Visibility = Visibility.Collapsed;
+                ConnectButton.Visibility = Visibility.Visible;
+                menuButton.Visibility = Visibility.Collapsed;
+                BackButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ClientId.Text))
+            try
             {
-                return;
+                await SigninAsync(_indexProvider, ClientId.Text);
             }
-
-            await SigninAsync(_indexProvider, ClientId.Text);
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private async void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -112,6 +133,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
+            ClientIdHelper.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
             BackButton.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
@@ -317,7 +339,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 visibility = Visibility.Collapsed;
             }
 
-            ConnectButton.Visibility = ClientId.Visibility = visibility;
+            ClientIdHelper.Visibility = ConnectButton.Visibility = ClientId.Visibility = visibility;
         }
 
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
