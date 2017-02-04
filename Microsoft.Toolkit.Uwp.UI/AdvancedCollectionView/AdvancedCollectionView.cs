@@ -377,24 +377,26 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             foreach (var sd in _sortDescriptions)
             {
-                IComparable cx, cy;
+                object cx, cy;
 
                 if (string.IsNullOrEmpty(sd.PropertyName))
                 {
-                    cx = x as IComparable;
-                    cy = y as IComparable;
+                    cx = x;
+                    cy = y;
                 }
                 else
                 {
                     var pi = _sortProperties[sd.PropertyName];
-                    cx = pi.GetValue(x) as IComparable;
-                    cy = pi.GetValue(y) as IComparable;
+
+                    cx = pi.GetValue(x);
+                    cy = pi.GetValue(y);
                 }
 
                 try
                 {
-                    // ReSharper disable once PossibleUnintendedReferenceComparison
-                    var cmp = cx == cy ? 0 : cx == null ? -1 : cy == null ? +1 : cx.CompareTo(cy);
+                    var comparer = sd.Comparer ?? ComparerAdapter.Instance;
+                    var cmp = comparer.Compare(cx, cy);
+
                     if (cmp != 0)
                     {
                         return sd.Direction == SortDirection.Ascending ? +cmp : -cmp;
@@ -601,6 +603,24 @@ namespace Microsoft.Toolkit.Uwp.UI
             _index = i;
             OnCurrentChanged(null);
             return true;
+        }
+
+        private class ComparerAdapter : IComparer
+        {
+            public static readonly IComparer Instance = new ComparerAdapter();
+
+            private ComparerAdapter()
+            {
+            }
+
+            public int Compare(object x, object y)
+            {
+                var cx = x as IComparable;
+                var cy = y as IComparable;
+
+                // ReSharper disable once PossibleUnintendedReferenceComparison
+                return cx == cy ? 0 : cx == null ? -1 : cy == null ? +1 : cx.CompareTo(cy);
+            }
         }
     }
 }

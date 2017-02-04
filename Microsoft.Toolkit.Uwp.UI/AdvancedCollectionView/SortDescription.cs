@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections;
+
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
@@ -28,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         public SortDirection Direction { get; }
 
         /// <summary>
+        /// Gets the comparer
+        /// </summary>
+        public IComparer Comparer { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SortDescription"/> class that describes
         /// a sort on the object itself
         /// </summary>
@@ -35,6 +42,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         public SortDescription(SortDirection direction)
         {
             Direction = direction;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortDescription"/> class that describes
+        /// a sort on the object itself
+        /// </summary>
+        /// <param name="direction">directio of sort</param>
+        /// <param name="comparer">comparer to use</param>
+        public SortDescription(SortDirection direction, IComparer comparer)
+        {
+            Direction = direction;
+            Comparer = comparer;
         }
 
         /// <summary>
@@ -46,6 +65,19 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PropertyName = propertyName;
             Direction = direction;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortDescription"/> class.
+        /// </summary>
+        /// <param name="propertyName">name of property to sort on</param>
+        /// <param name="direction">direction of sort</param>
+        /// <param name="comparer">comparer to use</param>
+        public SortDescription(string propertyName, SortDirection direction, IComparer comparer)
+        {
+            PropertyName = propertyName;
+            Direction = direction;
+            Comparer = comparer;
         }
     }
 }
