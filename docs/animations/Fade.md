@@ -4,7 +4,7 @@ The **Fade animation behavior** fades objects, in and out, over time.
 
 ## Syntax
 
-```xaml
+```xml
 
     <behaviors:Fade x:Name="FadeBehavior>" 
                 Value="0.5" 

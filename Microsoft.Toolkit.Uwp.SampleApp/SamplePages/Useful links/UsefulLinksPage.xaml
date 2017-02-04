@@ -3,73 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,12,0,0"
-                        HorizontalAlignment="Center">
-                <TextBlock Margin="0,0,0,20"
-                           FontSize="22"
-                           Text="Links and resources"
-                           TextAlignment="Center" />
-                <StackPanel Margin="0,0,0,36"
-                            HorizontalAlignment="Center"
-                            Orientation="Vertical">
-                    <TextBlock Margin="0"
-                               HorizontalAlignment="Center"
-                               FontSize="18"
-                               Text="Main entry point for all official UWP related resources" />
-                    <HyperlinkButton HorizontalAlignment="Center"
-                                     FontSize="18"
-                                     Foreground="{StaticResource Brush-Blue-01}"
-                                     NavigateUri="https://developer.microsoft.com/en-us/windows/apps/getstarted">
-                        Developer Center
-                    </HyperlinkButton>
-                </StackPanel>
-                <StackPanel Margin="0,0,0,35"
-                            HorizontalAlignment="Center"
-                            Orientation="Vertical">
-                    <TextBlock Margin="0"
-                               HorizontalAlignment="Center"
-                               FontSize="18"
-                               Text="Getting started" />
-                    <HyperlinkButton Margin="0"
-                                     HorizontalAlignment="Center"
-                                     FontSize="18"
-                                     Foreground="{StaticResource Brush-Blue-01}"
-                                     NavigateUri="https://channel9.msdn.com/Series/C-Sharp-Fundamentals-Development-for-Absolute-Beginners">
-                        C# fundamentals development for absolute beginners
-                    </HyperlinkButton>
-                    <HyperlinkButton Margin="0,0,0,12"
-                                     HorizontalAlignment="Center"
-                                     FontSize="18"
-                                     Foreground="{StaticResource Brush-Blue-01}"
-                                     NavigateUri="https://channel9.msdn.com/Series/Windows-10-development-for-absolute-beginners">
-                        Windows 10 development for absolute beginners
-                    </HyperlinkButton>
-                </StackPanel>
-                <StackPanel Margin="0,0,0,35"
-                            HorizontalAlignment="Center"
-                            Orientation="Vertical">
-                    <TextBlock Margin="0"
-                               HorizontalAlignment="Center"
-                               FontSize="18"
-                               Text="API samples for the Universal Windows Platform" />
-                    <HyperlinkButton HorizontalAlignment="Center"
-                                     FontSize="18"
-                                     Foreground="{StaticResource Brush-Blue-01}"
-                                     NavigateUri="https://developer.microsoft.com/en-us/windows/samples">
-                        Dev Center Code Samples
-                    </HyperlinkButton>
-                    <HyperlinkButton Margin="0,0,0,12"
-                                     HorizontalAlignment="Center"
-                                     FontSize="18"
-                                     Foreground="{StaticResource Brush-Blue-01}"
-                                     NavigateUri="https://github.com/Microsoft/Windows-universal-samples">
-                        Windows 10 Samples
-                    </HyperlinkButton>
-                </StackPanel>
-            </StackPanel>
+        <ScrollViewer Padding="10,5">
+            <controls:MarkdownTextBlock x:Name="MarkdownTextBlockTextblock" 
+                                        Header1FontSize="32"
+                                        Header2Margin="0,40,0,40"
+                                        Foreground="{StaticResource Brush-Grey-01}" 
+                                        LinkClicked="MarkdownTextBlockTextblock_OnLinkClicked"/>
         </ScrollViewer>
     </Grid>
 </Page>

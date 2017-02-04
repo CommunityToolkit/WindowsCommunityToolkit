@@ -21,11 +21,11 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample XAML page that shows how to use <see cref="TranslatorServiceClient"/> class.
+    /// A sample XAML page that shows how to use <see cref="TranslatorService"/> class.
     /// </summary>
     public sealed partial class MicrosoftTranslatorPage
     {
-        private TranslatorServiceClient _translatorClient;
+        private TranslatorService _translatorClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftTranslatorPage"/> class.
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            _translatorClient = new TranslatorServiceClient();
+            _translatorClient = TranslatorService.Instance;
         }
 
         private async void GetKey_OnClick(object sender, RoutedEventArgs e)

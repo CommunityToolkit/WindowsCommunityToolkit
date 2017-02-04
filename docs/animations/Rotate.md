@@ -4,7 +4,7 @@ The **Rotate animation behavior** allows users to modify and animate the control
 
 ## Syntax
 
-```xaml
+```xml
 
    <behaviors:Rotate x:Name="RotateBehavior" 
 				Value="180"

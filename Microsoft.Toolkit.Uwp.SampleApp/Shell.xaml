@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate"
@@ -115,6 +116,7 @@
                                      Grid.Column="2"
                                      Margin="0,0,10,0"
                                      Content="Github"
+                                     Click="GitHub_OnClick"
                                      Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
@@ -140,20 +142,26 @@
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
                                Header="JAVASCRIPT">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
+
+                    <PivotItem x:Name="DocumentationPivotItem"
+                               Header="DOCUMENTATION">
+                        <ScrollViewer Background="{StaticResource Brush-White}" Padding="10,5" x:Name="DocumentationScrollViewer">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock" 
+                                                        Foreground="{StaticResource Brush-Grey-01}" 
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked"/>
+                        </ScrollViewer>
                     </PivotItem>
                 </Pivot>
 
