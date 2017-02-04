@@ -180,5 +180,54 @@ namespace UnitTests.UI
             Assert.AreEqual(((Person)a.First()).Age, 42);
             Assert.AreEqual(a.Count, 2);
         }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Sorting_OnSelf()
+        {
+            var l = new ObservableCollection<Person>
+            {
+                new Person()
+                {
+                    Name = "lorem",
+                    Age = 4
+                },
+                new Person()
+                {
+                    Name = "imsum",
+                    Age = 8
+                },
+                new Person()
+                {
+                    Name = "dolor",
+                    Age = 15
+                },
+                new Person()
+                {
+                    Name = "sit",
+                    Age = 16
+                },
+                new Person()
+                {
+                    Name = "amet",
+                    Age = 23
+                },
+                new Person()
+                {
+                    Name = "consectetur",
+                    Age = 42
+                },
+            };
+
+            var a = new AdvancedCollectionView(l)
+            {
+                SortDescriptions =
+                {
+                    new SortDescription(SortDirection.Descending)
+                }
+            };
+
+            Assert.AreEqual(((Person)a.First()).Age, 42);
+        }
     }
 }

@@ -20,12 +20,22 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets the name of property to sort on
         /// </summary>
-        public string PropertyName { get; private set; }
+        public string PropertyName { get; }
 
         /// <summary>
         /// Gets the direction of sort
         /// </summary>
-        public SortDirection Direction { get; private set; }
+        public SortDirection Direction { get; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortDescription"/> class that describes
+        /// a sort on the object itself
+        /// </summary>
+        /// <param name="direction">direction of sort</param>
+        public SortDescription(SortDirection direction)
+        {
+            Direction = direction;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SortDescription"/> class.

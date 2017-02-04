@@ -368,15 +368,29 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var typeInfo = x.GetType().GetTypeInfo();
                 foreach (var sd in _sortDescriptions)
                 {
-                    _sortProperties[sd.PropertyName] = typeInfo.GetDeclaredProperty(sd.PropertyName);
+                    if (!string.IsNullOrEmpty(sd.PropertyName))
+                    {
+                        _sortProperties[sd.PropertyName] = typeInfo.GetDeclaredProperty(sd.PropertyName);
+                    }
                 }
             }
 
             foreach (var sd in _sortDescriptions)
             {
-                var pi = _sortProperties[sd.PropertyName];
-                var cx = pi.GetValue(x) as IComparable;
-                var cy = pi.GetValue(y) as IComparable;
+                IComparable cx, cy;
+
+                if (string.IsNullOrEmpty(sd.PropertyName))
+                {
+                    cx = x as IComparable;
+                    cy = y as IComparable;
+                }
+                else
+                {
+                    var pi = _sortProperties[sd.PropertyName];
+                    cx = pi.GetValue(x) as IComparable;
+                    cy = pi.GetValue(y) as IComparable;
+                }
+
                 try
                 {
                     // ReSharper disable once PossibleUnintendedReferenceComparison
