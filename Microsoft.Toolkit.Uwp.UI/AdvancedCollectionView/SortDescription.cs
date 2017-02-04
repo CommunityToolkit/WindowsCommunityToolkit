@@ -39,19 +39,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Initializes a new instance of the <see cref="SortDescription"/> class that describes
         /// a sort on the object itself
         /// </summary>
-        /// <param name="direction">direction of sort</param>
-        public SortDescription(SortDirection direction)
-            : this(null, direction, ObjectComparer.Instance)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SortDescription"/> class that describes
-        /// a sort on the object itself
-        /// </summary>
-        /// <param name="direction">directio of sort</param>
-        /// <param name="comparer">comparer to use</param>
-        public SortDescription(SortDirection direction, IComparer comparer)
+        /// <param name="direction">Direction of sort</param>
+        /// <param name="comparer">Comparer to use. If null, will use default comparer</param>
+        public SortDescription(SortDirection direction, IComparer comparer = null)
             : this(null, direction, comparer)
         {
         }
@@ -59,24 +49,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="SortDescription"/> class.
         /// </summary>
-        /// <param name="propertyName">name of property to sort on</param>
-        /// <param name="direction">direction of sort</param>
-        public SortDescription(string propertyName, SortDirection direction)
-            : this(propertyName, direction, ObjectComparer.Instance)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SortDescription"/> class.
-        /// </summary>
-        /// <param name="propertyName">name of property to sort on</param>
-        /// <param name="direction">direction of sort</param>
-        /// <param name="comparer">comparer to use</param>
-        public SortDescription(string propertyName, SortDirection direction, IComparer comparer)
+        /// <param name="propertyName">Name of property to sort on</param>
+        /// <param name="direction">Direction of sort</param>
+        /// <param name="comparer">Comparer to use. If null, will use default comparer</param>
+        public SortDescription(string propertyName, SortDirection direction, IComparer comparer = null)
         {
             PropertyName = propertyName;
             Direction = direction;
-            Comparer = comparer;
+            Comparer = comparer ?? ObjectComparer.Instance;
         }
 
         private class ObjectComparer : IComparer
