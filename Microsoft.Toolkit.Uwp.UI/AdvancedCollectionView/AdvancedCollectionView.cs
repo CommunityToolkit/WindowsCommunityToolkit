@@ -392,18 +392,11 @@ namespace Microsoft.Toolkit.Uwp.UI
                     cy = pi.GetValue(y);
                 }
 
-                try
-                {
-                    var cmp = sd.Comparer.Compare(cx, cy);
+                var cmp = sd.Comparer.Compare(cx, cy);
 
-                    if (cmp != 0)
-                    {
-                        return sd.Direction == SortDirection.Ascending ? +cmp : -cmp;
-                    }
-                }
-                catch
+                if (cmp != 0)
                 {
-                    // fail silently
+                    return sd.Direction == SortDirection.Ascending ? +cmp : -cmp;
                 }
             }
 
