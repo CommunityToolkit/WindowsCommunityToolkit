@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -40,8 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="direction">direction of sort</param>
         public SortDescription(SortDirection direction)
+            : this(null, direction, ObjectComparer.Instance)
         {
-            Direction = direction;
         }
 
         /// <summary>
@@ -51,9 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="direction">directio of sort</param>
         /// <param name="comparer">comparer to use</param>
         public SortDescription(SortDirection direction, IComparer comparer)
+            : this(null, direction, comparer)
         {
-            Direction = direction;
-            Comparer = comparer;
         }
 
         /// <summary>
@@ -62,9 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="propertyName">name of property to sort on</param>
         /// <param name="direction">direction of sort</param>
         public SortDescription(string propertyName, SortDirection direction)
+            : this(propertyName, direction, ObjectComparer.Instance)
         {
-            PropertyName = propertyName;
-            Direction = direction;
         }
 
         /// <summary>
@@ -78,6 +77,24 @@ namespace Microsoft.Toolkit.Uwp.UI
             PropertyName = propertyName;
             Direction = direction;
             Comparer = comparer;
+        }
+
+        private class ObjectComparer : IComparer
+        {
+            public static readonly IComparer Instance = new ObjectComparer();
+
+            private ObjectComparer()
+            {
+            }
+
+            public int Compare(object x, object y)
+            {
+                var cx = x as IComparable;
+                var cy = y as IComparable;
+
+                // ReSharper disable once PossibleUnintendedReferenceComparison
+                return cx == cy ? 0 : cx == null ? -1 : cy == null ? +1 : cx.CompareTo(cy);
+            }
         }
     }
 }

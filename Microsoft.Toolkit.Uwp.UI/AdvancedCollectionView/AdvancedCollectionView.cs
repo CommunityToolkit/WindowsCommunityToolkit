@@ -394,8 +394,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 try
                 {
-                    var comparer = sd.Comparer ?? ComparerAdapter.Instance;
-                    var cmp = comparer.Compare(cx, cy);
+                    var cmp = sd.Comparer.Compare(cx, cy);
 
                     if (cmp != 0)
                     {
@@ -603,24 +602,6 @@ namespace Microsoft.Toolkit.Uwp.UI
             _index = i;
             OnCurrentChanged(null);
             return true;
-        }
-
-        private class ComparerAdapter : IComparer
-        {
-            public static readonly IComparer Instance = new ComparerAdapter();
-
-            private ComparerAdapter()
-            {
-            }
-
-            public int Compare(object x, object y)
-            {
-                var cx = x as IComparable;
-                var cy = y as IComparable;
-
-                // ReSharper disable once PossibleUnintendedReferenceComparison
-                return cx == cy ? 0 : cx == null ? -1 : cy == null ? +1 : cx.CompareTo(cy);
-            }
         }
     }
 }
