@@ -4,7 +4,7 @@ The **Scale animation behavior** allows you to change a control's scale by incre
 
 ## Syntax
 
-```xaml
+```xml
 
 <interactivity:Interaction.Behaviors>
     <behaviors:Scale x:Name="Scale" 
@@ -87,6 +87,8 @@ You can change the way how the animation interpolates between keyframes by defin
 ```csharp
 MyRectangle.Offset(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
 ```
+
+*Please note that EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Example Image
 

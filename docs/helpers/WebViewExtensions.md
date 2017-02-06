@@ -4,7 +4,7 @@ The **WebViewExtensions** allows attaching HTML content to WebView.
 
 ## Example
 
-```xaml
+```xml
 	// Attach HTML content directly to WebView.
 	<WebView xaml:WebViewExtensions.Content="{Binding HtmlContent}" />
 

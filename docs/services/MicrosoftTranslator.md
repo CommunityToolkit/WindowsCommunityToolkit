@@ -12,10 +12,10 @@ The **Microsoft Translator Service** allows you to translate text to various sup
 
 // using Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator;
 
-var translatorClient = new TranslatorServiceClient("<translator service key");	
+await TranslatorService.Instance.InitializeAsync("<translator service key");
 
 // Translates the text to Italian.
-var translatedText = await translatorClient.TranslateAsync("Hello everyone!", "it");
+var translatedText = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
 ```
 
 ## Example

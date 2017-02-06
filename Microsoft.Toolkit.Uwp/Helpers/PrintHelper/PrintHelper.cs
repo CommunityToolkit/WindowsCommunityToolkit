@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp
         public event Action OnPrintFailed;
 
         /// <summary>
+        /// Event raised when print is cancelled by the user
+        /// </summary>
+        public event Action OnPrintCanceled;
+
+        /// <summary>
         /// Event which is called after print preview pages are generated.
         /// </summary>
         /// <remarks>
@@ -233,9 +238,13 @@ namespace Microsoft.Toolkit.Uwp
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
-                            case PrintTaskCompletion.Canceled:
                                 {
                                     OnPrintFailed?.Invoke();
+                                    break;
+                                }
+                            case PrintTaskCompletion.Canceled:
+                                {
+                                    OnPrintCanceled?.Invoke();
                                     break;
                                 }
                             case PrintTaskCompletion.Submitted:

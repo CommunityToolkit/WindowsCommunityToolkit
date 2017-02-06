@@ -43,15 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.Paste -= Textbox_Paste;
             textbox.Loaded -= Textbox_Loaded;
+            textbox.GotFocus -= Textbox_GotFocus;
             textbox.Loaded += Textbox_Loaded;
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
         {
-            var textbox = sender as TextBox;
+            var textbox = (TextBox)sender;
 
             // incase no value is provided us it as normal textbox
-            var mask = textbox?.GetValue(MaskProperty) as string;
+            var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
                 return;
@@ -113,14 +114,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var textboxInitialValue = textbox.Text;
                 textbox.Text = displayText;
-                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary);
+                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder);
             }
 
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
+            textbox.GotFocus += Textbox_GotFocus;
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SelectionStart = 0;
+        }
+
+        private static void Textbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            if (string.IsNullOrWhiteSpace(mask) ||
+                representationDictionary == null ||
+                string.IsNullOrEmpty(placeHolderValue))
+            {
+                return;
+            }
+
+            var placeHolder = placeHolderValue[0];
+
+            // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            // if the textbox has value set the cursor to the first empty mask character
+            var textboxText = textbox.Text;
+            for (int i = 0; i < textboxText.Length; i++)
+            {
+                if (placeHolder == textboxText[i])
+                {
+                    textbox.SelectionStart = i;
+                    break;
+                }
+            }
         }
 
         private static async void Textbox_Paste(object sender, TextControlPasteEventArgs e)
@@ -138,18 +168,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var textbox = sender as TextBox;
-            var mask = textbox?.GetValue(MaskProperty) as string;
+            var textbox = (TextBox)sender;
+            var mask = textbox.GetValue(MaskProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
             if (string.IsNullOrWhiteSpace(mask) ||
-                representationDictionary == null)
+            representationDictionary == null ||
+            string.IsNullOrEmpty(placeHolderValue))
             {
                 return;
             }
 
             // to update the textbox text without triggering TextChanging text
             textbox.TextChanging -= Textbox_TextChanging;
-            SetTextBoxValue(pasteText, textbox, mask, representationDictionary);
+            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0]);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.TextChanging += Textbox_TextChanging;
         }
@@ -158,13 +190,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string newValue,
             TextBox textbox,
             string mask,
-            Dictionary<char, string> representationDictionary)
+            Dictionary<char, string> representationDictionary,
+            char placeholder)
         {
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-            var maxLength = newValue.Length < mask.Length ? newValue.Length : mask.Length;
+            var maxLength = (newValue.Length + oldSelectionStart) < mask.Length ? (newValue.Length + oldSelectionStart) : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
-            for (int i = oldSelectionStart; i < oldSelectionStart + maxLength; i++)
+            for (int i = oldSelectionStart; i < maxLength; i++)
             {
                 var maskChar = mask[i];
                 var selectedChar = newValue[i - oldSelectionStart];
@@ -177,18 +210,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         textArray[i] = selectedChar;
                     }
+                    else
+                    {
+                        textArray[i] = placeholder;
+                    }
                 }
             }
 
             textbox.Text = new string(textArray);
-            textbox.SelectionStart = oldSelectionStart + maxLength;
+            textbox.SelectionStart = maxLength;
         }
 
         private static void Textbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var textbox = sender as TextBox;
-            textbox?.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
-            textbox?.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
+            var textbox = (TextBox)sender;
+            textbox.SetValue(OldSelectionStartProperty, textbox.SelectionStart);
+            textbox.SetValue(OldSelectionLengthProperty, textbox.SelectionLength);
         }
 
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
@@ -248,25 +285,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // detect if backspace or delete is triggered to handle the right removed character
             var newSelectionIndex = oldSelectionStart - deleteBackspaceIndex;
 
-            // for handling single key click add +1 to match length for selection =1
+            // check if single selection
+            var isSingleSelection = oldSelectionLength != 0 && oldSelectionLength != 1;
+
+            // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
-            for (int i = newSelectionIndex; i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex); i++)
+
+            if (!isDeleteOrBackspace)
             {
-                var maskChar = mask[i];
+                var maskChar = mask[newSelectionIndex];
 
                 // If dynamic character a,9,* or custom
                 if (representationDictionary.ContainsKey(maskChar))
                 {
-                    if (isDeleteOrBackspace)
-                    {
-                        textArray[i] = placeHolder;
-                        continue;
-                    }
-
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
                     {
-                        textArray[i] = selectedChar;
+                        textArray[newSelectionIndex] = selectedChar;
 
                         // updating text box new index
                         newSelectionIndex++;
@@ -278,13 +313,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // if single press don't change
                         if (oldSelectionLength == 0)
                         {
-                            textArray[i] = oldText[i];
+                            textArray[newSelectionIndex] = oldText[newSelectionIndex];
                         }
 
                         // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
                         else
                         {
-                            textArray[i] = placeHolder;
+                            textArray[newSelectionIndex] = placeHolder;
                         }
                     }
                 }
@@ -292,30 +327,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // if fixed character
                 else
                 {
-                    textArray[i] = oldText[i];
+                    textArray[newSelectionIndex] = oldText[newSelectionIndex];
 
-                    if (!isDeleteOrBackspace)
+                    // updating text box new index
+                    newSelectionIndex++;
+                }
+            }
+
+            if (isSingleSelection || isDeleteOrBackspace)
+            {
+                for (int i = newSelectionIndex;
+                    i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex);
+                    i++)
+                {
+                    var maskChar = mask[i];
+
+                    // If dynamic character a,9,* or custom
+                    if (representationDictionary.ContainsKey(maskChar))
                     {
-                        // updating text box new index
-                        newSelectionIndex++;
+                        textArray[i] = placeHolder;
+                    }
+
+                    // if fixed character
+                    else
+                    {
+                        textArray[i] = oldText[i];
                     }
                 }
             }
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(mask, newSelectionIndex, representationDictionary);
+        }
 
-            // without selection
-            if (oldSelectionLength == 0)
+        private static int GetSelectionStart(string mask, int selectionIndex, Dictionary<char, string> representationDictionary)
+        {
+            for (int i = selectionIndex; i < mask.Length; i++)
             {
-                textbox.SelectionStart = newSelectionIndex;
+                var maskChar = mask[i];
+
+                // If dynamic character a,9,* or custom
+                if (representationDictionary.ContainsKey(maskChar))
+                {
+                    return i;
+                }
             }
-            else
-            {
-                // we can't handle both selection direction because there is no property to detect which direction the selection was
-                // so considering the most common direction from left to right and position the index based on it
-                textbox.SelectionStart = oldSelectionStart + oldSelectionLength;
-            }
+
+            return selectionIndex;
         }
     }
 }

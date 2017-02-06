@@ -10,7 +10,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
 	Foreground="White"
@@ -42,7 +42,7 @@ You can also create HamburgerMenuGlyphItem (or HamburgerMenuImageItem) directly 
 
 The next sample demonstrates how to add custom menu items to the HamburgerMenu control.
 
-```xaml
+```xml
 
 <Page
     x:Class="HamburgerSample.MainPage"

@@ -4,7 +4,7 @@ The **Offset animation behavior** gets the number of pixels, from the origin of 
 
 ## Syntax
 
-```xaml
+```xml
 
 <behaviors:Offset x:Name="OffsetBehavior" 
 	OffsetX="25.0" 
@@ -80,6 +80,8 @@ You can change the way how the animation interpolates between keyframes by defin
 ```csharp
 MyRectangle.Offset(offsetX: 10, offsetY: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
 ```
+
+*Please note that EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Example Image
 

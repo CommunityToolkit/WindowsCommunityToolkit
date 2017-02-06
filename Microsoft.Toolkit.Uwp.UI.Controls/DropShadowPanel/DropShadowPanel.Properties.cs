@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -57,6 +59,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ShadowOpacityProperty =
             DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(1.0, OnShadowOpacityChanged));
+
+        /// <summary>
+        /// Gets a value indicating whether the platform supports drop shadows.
+        /// </summary>
+        /// <remarks>
+        /// On platforms not supporting drop shadows, this control has no effect.
+        /// </remarks>
+        public static bool IsSupported =>
+            !DesignMode.DesignModeEnabled &&
+            ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
+
+        /// <summary>
+        /// Gets or sets the casting element.
+        /// </summary>
+        [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
+        public FrameworkElement CastingElement
+        {
+            get
+            {
+                return this.Content as FrameworkElement;
+            }
+
+            set
+            {
+                this.Content = value;
+            }
+        }
+
+        /// <summary>
+         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
+         /// </summary>
+        public DropShadow DropShadow => _dropShadow;
+
+        /// <summary>
+        /// Gets or sets the mask of the underlying <see cref="Windows.UI.Composition.DropShadow"/>.
+        /// Allows for a custom <see cref="Windows.UI.Composition.CompositionBrush"/> to be set.
+        /// </summary>
+        public CompositionBrush Mask
+        {
+            get
+            {
+                return _dropShadow?.Mask;
+            }
+
+            set
+            {
+                if (_dropShadow != null)
+                {
+                    _dropShadow.Mask = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the blur radius of the drop shadow.

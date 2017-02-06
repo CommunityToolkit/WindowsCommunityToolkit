@@ -4,7 +4,7 @@ The **Fade animation behavior** fades objects, in and out, over time.
 
 ## Syntax
 
-```xaml
+```xml
 
     <behaviors:Fade x:Name="FadeBehavior>" 
                 Value="0.5" 
@@ -69,6 +69,8 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quartic | Creates an animation that accelerates or decelerates using the formula f(t) = t4. |
 | Quintic | Create an animation that accelerates or decelerates using the formula f(t) = t5. |
 | Sine | Creates an animation that accelerates or decelerates using a sine formula. |
+
+*Please note that EasingType is used only when AnimationSet.UseComposition == false*
 
 **Example Usage:**
 ```csharp
