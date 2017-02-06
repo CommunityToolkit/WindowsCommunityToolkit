@@ -10,15 +10,29 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace UnitTests.UI
 {
     /// <summary>
     /// Sample class to test AdvancedCollectionViewSource functionality
     /// </summary>
-    internal class Person
+    internal class Person : IComparable
     {
         public string Name { get; set; }
 
         public int Age { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            var other = obj as Person;
+
+            if (other == null)
+            {
+                return -1;
+            }
+
+            return Age.CompareTo(other.Age);
+        }
     }
 }
