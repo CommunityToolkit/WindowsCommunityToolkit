@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the offset behavior.
+    /// A page that shows how to use the blur behavior.
     /// </summary>
     public sealed partial class BlurBehaviorPage
     {
@@ -37,13 +37,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
 
             if (!AnimationExtensions.IsBlurSupported)
             {

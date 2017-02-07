@@ -15,7 +15,10 @@ Several events are available to control the printing process:
 * OnPrintSucceeded will be triggered after a successful print
 * OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
 
-** Please note that page breaks are not supported. Every control will be printed on a single page**
+**Please note that page breaks are not supported. Every control will be printed on a single page**
+
+Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. 
+In this mode you are responsible for the sizing and the layout.
 
 ## Example
 
@@ -51,6 +54,19 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
+
+```
+
+Direct print example:
+
+```csharp
+
+// Create a new PrintHelper instance
+// "container" is a XAML panel that will be used to get the list of printable controls. 
+var printHelper = new PrintHelper(container);
+
+// Start printing process
+await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
 
 ```
 

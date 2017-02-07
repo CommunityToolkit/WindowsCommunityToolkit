@@ -6,7 +6,7 @@ If there are not enough items to fill one row, the control will stretch the item
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:AdaptiveGridView  Name="AdaptiveGridViewControl"
           ItemHeight="200"

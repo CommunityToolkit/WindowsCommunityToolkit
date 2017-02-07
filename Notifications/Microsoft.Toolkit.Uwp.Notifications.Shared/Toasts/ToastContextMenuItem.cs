@@ -55,33 +55,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
 
+        /// <summary>
+        /// New in Creators Update: Additional options relating to activation of the toast context menu item.
+        /// </summary>
+        public ToastActivationOptions ActivationOptions { get; set; }
+
         internal Element_ToastAction ConvertToElement()
         {
-            return new Element_ToastAction
+            var el = new Element_ToastAction
             {
                 Content = Content,
                 Arguments = Arguments,
-                ActivationType = GetElementActivationType(),
+                ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 Placement = Element_ToastActionPlacement.ContextMenu
             };
-        }
 
-        private Element_ToastActivationType GetElementActivationType()
-        {
-            switch (ActivationType)
-            {
-                case ToastActivationType.Foreground:
-                    return Element_ToastActivationType.Foreground;
+            ActivationOptions?.PopulateElement(el);
 
-                case ToastActivationType.Background:
-                    return Element_ToastActivationType.Background;
-
-                case ToastActivationType.Protocol:
-                    return Element_ToastActivationType.Protocol;
-
-                default:
-                    throw new NotImplementedException();
-            }
+            return el;
         }
     }
 }

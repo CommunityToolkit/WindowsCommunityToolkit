@@ -13,12 +13,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveImageEnums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveProgressBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveProgressBarBindableProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveProgressBarValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveSubgroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveSubgroupEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveTextBindableProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\AdaptiveTextEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\BaseImageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\BaseTextHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\BindableValues\BindableProgressBarValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\BindableValues\BindableString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adaptive\Elements\Element_AdaptiveProgressBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\IAdaptiveSubgroupChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\Elements\Element_AdaptiveGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adaptive\Elements\Element_AdaptiveImage.cs" />
@@ -31,6 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeGlyphContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeGlyphValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Badges\BadgeNumericContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ArgumentValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\BaseElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\INotificationContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\EnumStringAttribute.cs" />
@@ -63,6 +71,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTemplateNameV3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileTextStacking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tiles\TileVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\Element_ToastHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\Elements\IElement_ToastActivatable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastActivationOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastBindingGenericChild.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\IToastInput.cs" />
@@ -91,6 +102,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericAppLogoEnums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericAttributionText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastGenericHeroImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastSelectionBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastSelectionBoxItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Toasts\ToastTextBox.cs" />

@@ -12,6 +12,7 @@
 
 using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -31,7 +32,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_GetHttpStream()
         {
-            using (var stream = await new Uri("http://dev.windows.com").GetHttpStreamAsync())
+            using (var stream = await new Uri("http://dev.windows.com").GetHttpStreamAsync(default(CancellationToken)))
             {
                 Assert.IsNotNull(stream);
             }

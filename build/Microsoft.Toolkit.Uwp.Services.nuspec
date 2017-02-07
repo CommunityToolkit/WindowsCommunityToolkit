@@ -6,11 +6,11 @@
     <title>UWP Community Toolkit Services</title>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
-    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph and Twitter. It is part of the UWP Community Toolkit.</description>
+    <description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the UWP Community Toolkit.</description>
     <releaseNotes>First public release.</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn</tags>
@@ -21,7 +21,9 @@
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="winsdkfb" version="0.12.20161020.4" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="Microsoft.Graph" version="1.1.1"/>
+      <dependency id="Microsoft.Graph" version="1.2.0"/>
+      <dependency id="Microsoft.OneDriveSDK" version="2.0.6"/>
+      <dependency id="Microsoft.OneDriveSDK.Authentication" version="1.0.8"/>
       <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.13.7"/>
     </dependencies>
   </metadata>

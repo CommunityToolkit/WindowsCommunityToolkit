@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,18 +20,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class Samples
     {
-        private static SampleCategory[] _samplesCategories;
+        private static List<SampleCategory> _samplesCategories;
 
-        public static async Task<SampleCategory[]> GetCategoriesAsync()
+        public static async Task<SampleCategory> GetCategoryByName(string name)
         {
-            SampleCategory[] allCategories;
+            return (await GetCategoriesAsync()).FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
 
+        public static async Task<Sample> GetSampleByName(string name)
+        {
+            return (await GetCategoriesAsync()).SelectMany(c => c.Samples).FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static async Task<List<SampleCategory>> GetCategoriesAsync()
+        {
             if (_samplesCategories == null)
             {
+                List<SampleCategory> allCategories;
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<SampleCategory[]>(jsonString);
+                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
                 }
 
                 // Check API
@@ -44,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (sample.IsSupported)
                         {
                             finalSamples.Add(sample);
+                            await sample.PreparePropertyDescriptorAsync();
                         }
                     }
 
@@ -54,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                 }
 
-                _samplesCategories = supportedCategories.ToArray();
+                _samplesCategories = supportedCategories.ToList();
             }
 
             return _samplesCategories;

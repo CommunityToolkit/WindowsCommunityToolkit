@@ -26,9 +26,17 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\UWPCommunityToolkitSampleAppSplashScreen.png" BackgroundColor="#242424" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="uwpct">
+            <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="location" />
   </Capabilities>
 </Package>
