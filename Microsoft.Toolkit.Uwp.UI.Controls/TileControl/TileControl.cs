@@ -441,16 +441,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (strategy == UIStrategy.Composition)
                 {
                     var compositor = _containerVisual.Compositor;
+                    
+                    var surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(compositor);
 
-                    using (var surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(compositor))
-                    {
-                        var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
+                    var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
 
-                        _uriSurface = surfaceUri;
-                        _brushVisual = compositor.CreateSurfaceBrush(surfaceUri.Surface);
+                    _uriSurface = surfaceUri;
+                    _brushVisual = compositor.CreateSurfaceBrush(surfaceUri.Surface);
 
-                        _imageSize = surfaceUri.Size;
-                    }
+                    _imageSize = surfaceUri.Size;
                 }
                 else
                 {
