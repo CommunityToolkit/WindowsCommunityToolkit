@@ -441,7 +441,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (strategy == UIStrategy.Composition)
                 {
                     var compositor = _containerVisual.Compositor;
-                    
                     var surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(compositor);
 
                     var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
