@@ -233,6 +233,29 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Retrieves item represented by Uri from the in-memory cache if it exists and is not out of date.
+        /// </summary>
+        /// <param name="uri">Uri of the item.</param>
+        /// <returns>an instance of Generic type</returns>
+        public T GetFromMemoryCache(Uri uri)
+        {
+            T instance = default(T);
+
+            string fileName = GetCacheFileName(uri);
+
+            if (_inMemoryFileStorage.MaxItemCount > 0)
+            {
+                var msi = _inMemoryFileStorage.GetItem(fileName, CacheDuration);
+                if (msi != null)
+                {
+                    instance = msi.Item;
+                }
+            }
+
+            return instance;
+        }
+
+        /// <summary>
         /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="stream">input stream</param>
