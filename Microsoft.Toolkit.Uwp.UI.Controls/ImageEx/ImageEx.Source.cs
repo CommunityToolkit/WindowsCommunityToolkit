@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CancellationTokenSource _tokenSource = null;
 
         /// <summary>
-        /// Gets or sets get or set the source used by the image
+        /// Gets or sets the source used by the image
         /// </summary>
         public object Source
         {
