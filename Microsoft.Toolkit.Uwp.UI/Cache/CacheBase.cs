@@ -233,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Retrieves item represented by Uri from the in-memory cache if it exists and is not out of date.
+        /// Retrieves item represented by Uri from the in-memory cache if it exists and is not out of date. If item is not found or is out of date, default instance of the generic type is returned.
         /// </summary>
         /// <param name="uri">Uri of the item.</param>
         /// <returns>an instance of Generic type</returns>
