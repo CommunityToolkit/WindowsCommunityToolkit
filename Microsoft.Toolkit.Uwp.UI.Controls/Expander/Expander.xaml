@@ -327,6 +327,7 @@
                                           IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             
                             <ContentPresenter Grid.Row="1" x:Name="PART_MainContent"
+                                              Background="{TemplateBinding Background}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               HorizontalContentAlignment="Stretch"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
