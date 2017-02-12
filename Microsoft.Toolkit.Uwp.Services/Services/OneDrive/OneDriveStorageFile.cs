@@ -101,15 +101,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 throw new ArgumentNullException(nameof(destinationFile));
             }
 
-            var requestMessage = Provider.Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
-            await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
-            var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
-            foreach (var item in requestMessage.Headers)
-            {
-                downloader.SetRequestHeader(item.Key, item.Value.First());
-            }
-
-            return await Task.Run(() => downloader.CreateDownload(requestMessage.RequestUri, destinationFile), cancellationToken);
+            return await Task.Run(
+                async () =>
+                {
+                    var requestMessage = Provider.Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
+                    await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
+                    var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
+                    foreach (var item in requestMessage.Headers)
+                    {
+                        downloader.SetRequestHeader(item.Key, item.Value.First());
+                    }
+                    return downloader.CreateDownload(requestMessage.RequestUri, destinationFile);
+                }, cancellationToken);
         }
 
         /// <summary>
