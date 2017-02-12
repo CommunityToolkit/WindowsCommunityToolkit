@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         private StorageFolder _cacheFolder = null;
         private InMemoryStorage<T> _inMemoryFileStorage = null;
 
-        private Dictionary<string, ConcurrentRequest> _concurrentTasks = new Dictionary<string, ConcurrentRequest>();
+        private ConcurrentDictionary<string, ConcurrentRequest> _concurrentTasks = new ConcurrentDictionary<string, ConcurrentRequest>();
         private object _concurrencyLock = new object();
 
         /// <summary>
@@ -314,13 +315,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             ConcurrentRequest request = null;
 
-            lock (_concurrencyLock)
-            {
-                if (_concurrentTasks.ContainsKey(fileName))
-                {
-                    request = _concurrentTasks[fileName];
-                }
-            }
+            _concurrentTasks.TryGetValue(fileName, out request);
 
             // if similar request exists check if it was preCacheOnly and validate that current request isn't preCacheOnly
             if (request != null && request.EnsureCachedCopy && !preCacheOnly)
@@ -337,10 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     EnsureCachedCopy = preCacheOnly
                 };
 
-                lock (_concurrencyLock)
-                {
-                    _concurrentTasks.Add(fileName, request);
-                }
+                _concurrentTasks.TryAdd(fileName, request);
             }
 
             try
@@ -357,13 +349,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             finally
             {
-                lock (_concurrencyLock)
-                {
-                    if (_concurrentTasks.ContainsKey(fileName))
-                    {
-                        _concurrentTasks.Remove(fileName);
-                    }
-                }
+                _concurrentTasks.TryRemove(fileName, out request);
+                request = null;
             }
 
             return instance;
