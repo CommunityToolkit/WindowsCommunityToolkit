@@ -103,38 +103,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetDocumentationAsync()
         {
-            using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
+            try
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
                 {
-                    if (response.Success)
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-
-                        // Need to do some cleaning
-                        // Rework code tags
-                        var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
-
-                        foreach (Match match in regex.Matches(result))
+                        if (response.Success)
                         {
-                            var code = match.Groups["code"].Value;
-                            var lines = code.Split('\n');
-                            var newCode = new StringBuilder();
-                            foreach (var line in lines)
+                            var result = await response.Content.ReadAsStringAsync();
+
+                            // Need to do some cleaning
+                            // Rework code tags
+                            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
+
+                            foreach (Match match in regex.Matches(result))
                             {
-                                newCode.AppendLine("    " + line);
+                                var code = match.Groups["code"].Value;
+                                var lines = code.Split('\n');
+                                var newCode = new StringBuilder();
+                                foreach (var line in lines)
+                                {
+                                    newCode.AppendLine("    " + line);
+                                }
+
+                                result = result.Replace(match.Value, newCode.ToString());
                             }
 
-                            result = result.Replace(match.Value, newCode.ToString());
+                            // Images
+                            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+                            result = regex.Replace(result, "##");
+
+                            return result;
                         }
-
-                        // Images
-                        regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
-                        result = regex.Replace(result, "##");
-
-                        return result;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
 
             return string.Empty;
