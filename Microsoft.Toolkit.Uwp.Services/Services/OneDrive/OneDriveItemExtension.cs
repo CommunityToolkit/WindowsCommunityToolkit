@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return requestBuilder.Children.Request().Top(top).Filter(filter);
             }
 
-            string order = $"{orderBy} asc".ToLower();
+            string order = OneDriveHelper.TransformOrderByToODataString(orderBy);
 
             if (string.IsNullOrEmpty(filter))
             {
