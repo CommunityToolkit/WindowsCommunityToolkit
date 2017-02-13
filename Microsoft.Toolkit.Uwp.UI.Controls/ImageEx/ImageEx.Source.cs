@@ -117,12 +117,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var propValues = new List<KeyValuePair<string, object>>();
 
-                        if (DecodePixelHeight != 0)
+                        if (DecodePixelHeight > 0)
                         {
                             propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelHeight), DecodePixelHeight));
                         }
 
-                        if (DecodePixelWidth != 0)
+                        if (DecodePixelWidth > 0)
                         {
                             propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelWidth), DecodePixelWidth));
                         }
