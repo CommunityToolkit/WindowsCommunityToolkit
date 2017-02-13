@@ -68,6 +68,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 foreach (var kvp in initializerKeyValues)
                 {
+                    if (string.IsNullOrWhiteSpace(kvp.Key))
+                    {
+                        continue;
+                    }
+
                     var propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
 
                     if (propInfo != null && propInfo.CanWrite)
