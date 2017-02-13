@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="stream">input stream</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues)
+        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
             if (stream.Size == 0)
             {
@@ -72,7 +72,6 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                     if (propInfo != null && propInfo.CanWrite)
                     {
-                        //var val = Convert.ChangeType(kvp.Value, propInfo.PropertyType);
                         propInfo.SetValue(image, kvp.Value);
                     }
                 }
@@ -89,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="baseFile">storage file</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues)
+        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
             using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
             {

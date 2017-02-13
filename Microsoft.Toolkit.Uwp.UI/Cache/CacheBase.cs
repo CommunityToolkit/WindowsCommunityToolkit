@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="stream">input stream</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues);
+        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null);
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
@@ -270,7 +270,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="baseFile">storage file</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues);
+        protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null);
 
         /// <summary>
         /// Override-able method that checks whether file is valid or not.
