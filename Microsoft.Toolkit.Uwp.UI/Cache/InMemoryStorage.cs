@@ -84,6 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             foreach (var key in keys)
             {
+                if (string.IsNullOrWhiteSpace(key))
+                {
+                    continue;
+                }
+
                 InMemoryStorageItem<T> tempItem = null;
 
                 _inMemoryStorage.TryRemove(key, out tempItem);

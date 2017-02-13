@@ -47,8 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         private InMemoryStorage<T> _inMemoryFileStorage = null;
 
         private ConcurrentDictionary<string, ConcurrentRequest> _concurrentTasks = new ConcurrentDictionary<string, ConcurrentRequest>();
-        private object _concurrencyLock = new object();
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheBase{T}"/> class.
         /// </summary>
