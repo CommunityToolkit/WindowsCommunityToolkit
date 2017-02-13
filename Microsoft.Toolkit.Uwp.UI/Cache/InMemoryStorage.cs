@@ -117,7 +117,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             // ensure max limit is maintained. trim older entries first
             if (_inMemoryStorage.Count > MaxItemCount)
             {
-                Remove(_inMemoryStorage.Keys.Take(_inMemoryStorage.Count - MaxItemCount));
+                var itemsToRemove = _inMemoryStorage.OrderBy(kvp => kvp.Value.Created).Take(_inMemoryStorage.Count - MaxItemCount).Select(kvp => kvp.Key);
+                Remove(itemsToRemove);
             }
         }
 
