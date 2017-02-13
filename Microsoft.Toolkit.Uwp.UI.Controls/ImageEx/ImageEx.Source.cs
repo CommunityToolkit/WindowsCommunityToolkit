@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -114,7 +115,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     try
                     {
-                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token);
+                        var propValues = new List<KeyValuePair<string, object>>();
+
+                        if (DecodePixelHeight > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelHeight), DecodePixelHeight));
+                        }
+
+                        if (DecodePixelWidth > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelWidth), DecodePixelWidth));
+                        }
+
+                        if (propValues.Count > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
+                        }
+
+                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token, propValues);
 
                         _image.Source = img;
                         ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());

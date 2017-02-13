@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>Awaitable Task</returns>
         public Task PreCacheAsync(Uri uri, bool throwOnError = false, bool storeToMemoryCache = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetItemAsync(uri, throwOnError, !storeToMemoryCache, cancellationToken);
+            return GetItemAsync(uri, throwOnError, !storeToMemoryCache, cancellationToken, null);
         }
 
         /// <summary>
@@ -210,10 +210,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="uri">Uri of the item.</param>
         /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
         /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>an instance of Generic type</returns>
-        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken), List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            return GetItemAsync(uri, throwOnError, false, cancellationToken);
+            return GetItemAsync(uri, throwOnError, false, cancellationToken, initializerKeyValues);
         }
 
         /// <summary>
@@ -259,15 +260,17 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="stream">input stream</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream);
+        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null);
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
+        protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null);
 
         /// <summary>
         /// Override-able method that checks whether file is valid or not.
@@ -306,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return value;
         }
 
-        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly, CancellationToken cancellationToken)
+        private async Task<T> GetItemAsync(Uri uri, bool throwOnError, bool preCacheOnly, CancellationToken cancellationToken, List<KeyValuePair<string, object>> initializerKeyValues)
         {
             T instance = default(T);
 
@@ -327,7 +330,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 request = new ConcurrentRequest()
                 {
-                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly, cancellationToken),
+                    Task = GetFromCacheOrDownloadAsync(uri, fileName, preCacheOnly, cancellationToken, initializerKeyValues),
                     EnsureCachedCopy = preCacheOnly
                 };
 
@@ -355,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly, CancellationToken cancellationToken)
+        private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly, CancellationToken cancellationToken, List<KeyValuePair<string, object>> initializerKeyValues)
         {
             StorageFile baseFile = null;
             T instance = default(T);
@@ -382,7 +385,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
                 try
                 {
-                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken).ConfigureAwait(false);
+                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken, initializerKeyValues).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
@@ -393,7 +396,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                instance = await InitializeTypeAsync(baseFile).ConfigureAwait(false);
+                instance = await InitializeTypeAsync(baseFile, initializerKeyValues).ConfigureAwait(false);
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
@@ -407,7 +410,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             return instance;
         }
 
-        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly, CancellationToken cancellationToken)
+        private async Task<T> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly, CancellationToken cancellationToken, List<KeyValuePair<string, object>> initializerKeyValues)
         {
             T instance = default(T);
 
@@ -416,7 +419,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    instance = await InitializeTypeAsync(webStream).ConfigureAwait(false);
+                    instance = await InitializeTypeAsync(webStream, initializerKeyValues).ConfigureAwait(false);
 
                     webStream.Seek(0);
                 }
