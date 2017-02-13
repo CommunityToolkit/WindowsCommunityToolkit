@@ -332,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     EnsureCachedCopy = preCacheOnly
                 };
 
-                _concurrentTasks.TryAdd(fileName, request);
+                _concurrentTasks[fileName] = request;
             }
 
             try

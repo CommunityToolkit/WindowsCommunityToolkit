@@ -68,20 +68,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             DateTime expirationDate = DateTime.Now.Subtract(duration);
 
-            // clears expired items in in-memory cache
-            var keysToDelete = new List<string>();
+            var itemsToRemove = _inMemoryStorage.Where(kvp => kvp.Value.LastUpdated <= expirationDate).Select(kvp => kvp.Key);
 
-            foreach (var k in _inMemoryStorage.Keys)
+            if (itemsToRemove.Any())
             {
-                if (((InMemoryStorageItem<T>)_inMemoryStorage[k]).LastUpdated <= expirationDate)
-                {
-                    keysToDelete.Add(k);
-                }
-            }
-
-            if (keysToDelete.Count > 0)
-            {
-                Remove(keysToDelete);
+                Remove(itemsToRemove);
             }
         }
 
