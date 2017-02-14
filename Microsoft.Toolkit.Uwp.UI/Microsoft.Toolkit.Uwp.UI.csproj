@@ -61,6 +61,7 @@
     <Compile Include="Cache\FileCache.cs" />
     <Compile Include="Cache\InMemoryStorage.cs" />
     <Compile Include="Cache\InMemoryStorageItem.cs" />
+    <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\BoolToObjectConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionVisibilityConverter.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Converters\EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\EmptyObjectToObjectConverter.cs" />
     <Compile Include="Converters\EmptyStringToObjectConverter.cs" />
+    <Compile Include="Converters\FormatStringConverter.cs" />
+    <Compile Include="Converters\ResourceNameToResourceStringConverter.cs" />
     <Compile Include="Extensions\ListViewBaseExtensions.cs" />
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
