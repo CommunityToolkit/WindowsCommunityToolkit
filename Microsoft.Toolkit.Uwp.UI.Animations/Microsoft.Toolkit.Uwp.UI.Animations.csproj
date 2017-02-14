@@ -48,6 +48,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationSetCompletedEventArgs.cs" />
     <Compile Include="AnimationSetState.cs" />
     <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\Blur.cs" />
@@ -59,7 +60,8 @@
     <Compile Include="Behaviors\Rotate.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
-    <Compile Include="Behaviors\ScrollHeaderBehavior.cs" />
+    <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
+    <Compile Include="Behaviors\QuickReturnHeaderBehavior.cs" />
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="EasingType.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
     <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
     <Compile Include="Extensions\AnimationTools.cs" />
+    <Compile Include="ParallaxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReorderGridAnimation.cs" />
     <Compile Include="SurfaceLoader.cs" />

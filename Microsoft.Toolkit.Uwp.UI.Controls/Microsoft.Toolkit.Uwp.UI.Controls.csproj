@@ -60,6 +60,10 @@
     <Compile Include="Carousel\CarouselPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
+    <Compile Include="Expander\Expander.Constants.cs" />
+    <Compile Include="Expander\Expander.cs" />
+    <Compile Include="Expander\Expander.Events.cs" />
+    <Compile Include="Expander\Expander.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
     <Compile Include="GridSplitter\GridSplitter.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
@@ -109,16 +113,16 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
-    <Compile Include="MosaicControl\MosaicControl.cs" />
+    <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
-    <Content Include="MarkdownTextBlock\About.txt" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
+    <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
@@ -167,6 +171,11 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Expander\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -191,7 +200,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MosaicControl\MosaicControl.xaml">
+    <Page Include="TileControl\TileControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -257,7 +266,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Controls.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

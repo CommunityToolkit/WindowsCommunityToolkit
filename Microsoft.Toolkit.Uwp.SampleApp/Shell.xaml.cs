@@ -14,6 +14,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -118,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
 
             // Get list of samples
-            var sampleCategories = await Samples.GetCategoriesAsync();
+            var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
             var moreResources = sampleCategories.Last(); // Remove the last one because it is a specific case
             sampleCategories.Remove(moreResources);
 
@@ -133,6 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             HideInfoArea();
 
+            NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
@@ -143,6 +146,103 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (targetSample != null)
                 {
                     NavigateToSample(targetSample);
+                }
+            }
+        }
+
+        private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
+        {
+            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
+            {
+                DataContext = null;
+                if (navigationEventArgs.Parameter != null)
+                {
+                    var category = navigationEventArgs.Parameter as SampleCategory;
+
+                    if (category != null)
+                    {
+                        TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
+                    }
+                }
+
+                HideInfoArea();
+            }
+            else
+            {
+                TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
+                ShowInfoArea();
+
+                var sampleName = navigationEventArgs.Parameter.ToString();
+                var sample = await Samples.GetSampleByName(sampleName);
+
+                if (sample == null)
+                {
+                    HideInfoArea();
+                    return;
+                }
+
+                var propertyDesc = sample.PropertyDescriptor;
+
+                DataContext = sample;
+
+                InfoAreaPivot.Items.Clear();
+
+                if (propertyDesc != null)
+                {
+                    NavigationFrame.DataContext = propertyDesc.Expando;
+                }
+
+                Title.Text = sample.Name;
+
+                _currentSample = sample;
+
+                if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                {
+                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                }
+
+                if (sample.HasXAMLCode)
+                {
+                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+
+                    InfoAreaPivot.Items.Add(XamlPivotItem);
+
+                    InfoAreaPivot.SelectedIndex = 0;
+                }
+
+                if (sample.HasCSharpCode)
+                {
+                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+                    InfoAreaPivot.Items.Add(CSharpPivotItem);
+                }
+
+                if (sample.HasJavaScriptCode)
+                {
+                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
+                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
+                }
+
+                UpdateRootGridMinWidth();
+
+                if (!string.IsNullOrEmpty(sample.CodeUrl))
+                {
+                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
+                    GitHub.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    GitHub.Visibility = Visibility.Collapsed;
+                }
+
+                if (sample.HasDocumentation)
+                {
+                    InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
+                }
+
+                if (InfoAreaPivot.Items.Count == 0)
+                {
+                    HideInfoArea();
                 }
             }
         }
@@ -163,6 +263,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
+            ExpandOrCloseProperties();
+        }
+
+        private void ExpandOrCloseProperties()
+        {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
             string currentState = states.CurrentState.Name;
 
@@ -180,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                     else
                     {
-                        // ane is closed, so let's open it
+                        // pane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
@@ -236,80 +341,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
-        private async void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
 
-            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
+            if (_isPaneOpen)
             {
-                HideInfoArea();
-            }
-            else
-            {
-                var sampleName = navigationEventArgs.Parameter.ToString();
-                var sample = await Samples.GetSampleByName(sampleName);
-
-                if (sample == null)
-                {
-                    HideInfoArea();
-                    return;
-                }
-
-                var propertyDesc = await sample.GetPropertyDescriptorAsync();
-
-                DataContext = sample;
-
-                ShowInfoArea();
-                InfoAreaPivot.Items.Clear();
-
-                if (propertyDesc != null)
-                {
-                    (NavigationFrame.Content as Page).DataContext = propertyDesc.Expando;
-                }
-
-                Title.Text = sample.Name;
-
-                _currentSample = sample;
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
-
-                if (sample.HasXAMLCode)
-                {
-                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
-
-                    InfoAreaPivot.Items.Add(XamlPivotItem);
-
-                    InfoAreaPivot.SelectedIndex = 0;
-                }
-
-                if (sample.HasCSharpCode)
-                {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
-                    InfoAreaPivot.Items.Add(CSharpPivotItem);
-                }
-
-                if (sample.HasJavaScriptCode)
-                {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
-                UpdateRootGridMinWidth();
-
-                if (!string.IsNullOrEmpty(sample.CodeUrl))
-                {
-                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
-                    GitHub.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    GitHub.Visibility = Visibility.Collapsed;
-                }
+                ExpandOrCloseProperties();
             }
         }
 
@@ -346,6 +386,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void InfoAreaPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (InfoAreaPivot.SelectedItem != null)
+            {
+                var sample = DataContext as Sample;
+
+                if (sample != null)
+                {
+                    TrackingManager.TrackEvent("PropertyGrid", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name, sample.Name);
+                }
+            }
+
             if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
                 return;
@@ -370,6 +420,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
             }
+        }
+
+        private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Link", e.Link);
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (DataContext == null)
+            {
+                return;
+            }
+
+            UpdateRootGridMinWidth();
+        }
+
+        private void GitHub_OnClick(object sender, RoutedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
     }
 }

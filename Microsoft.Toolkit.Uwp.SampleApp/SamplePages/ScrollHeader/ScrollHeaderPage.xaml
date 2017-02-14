@@ -11,9 +11,7 @@
         <ListView Name="listView"
                   ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
-                <controls:ScrollHeader Fade="{Binding Fade.Value}"
-                                       QuickReturn="{Binding QuickReturn.Value}"
-                                       Sticky="{Binding Sticky.Value}"
+                <controls:ScrollHeader Mode="{Binding Mode.Value}"
                                        TargetListViewBase="{x:Bind listView}">
                     <Grid x:Name="MyHeaderGrid"
                           MinHeight="250"

@@ -4,7 +4,7 @@ The **Scale animation behavior** allows you to change a control's scale by incre
 
 ## Syntax
 
-```xaml
+```xml
 
 <interactivity:Interaction.Behaviors>
     <behaviors:Scale x:Name="Scale" 

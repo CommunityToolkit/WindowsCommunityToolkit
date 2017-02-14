@@ -108,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             catch (Exception ex)
             {
                 await new MessageDialog($"An error occured finding your location. Message: {ex.Message}").ShowAsync();
+                TrackingManager.TrackException(ex);
             }
         }
 
