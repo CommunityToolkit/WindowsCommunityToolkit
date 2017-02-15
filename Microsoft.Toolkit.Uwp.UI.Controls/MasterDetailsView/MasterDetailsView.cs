@@ -87,22 +87,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            if (view._stateGroup != null)
-            {
-                view.SetVisualState(view._stateGroup.CurrentState, true);
-            }
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
+
+            view.UpdateView(true);
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
                 view.SetDetailsContent();
-            }
-
-            if (view._stateGroup != null)
-            {
-                view.SetBackButtonVisibility();
             }
         }
 
@@ -142,10 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
-            SetVisualState(_stateGroup.CurrentState, true);
-            SetBackButtonVisibility();
-
-            UpdateViewState();
+            UpdateView(true);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -171,10 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility();
-
-            // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            SetVisualState(e.NewState, false);
+            UpdateView(false);
         }
 
         /// <summary>
@@ -216,12 +203,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void UpdateView(bool animate)
+        {
+            UpdateViewState();
+            SetBackButtonVisibility();
+            if (_stateGroup != null)
+            {
+                SetVisualState(_stateGroup.CurrentState, animate);
+            }
+        }
+
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
         private void SetBackButtonVisibility()
         {
-            UpdateViewState();
             if (DesignMode.DesignModeEnabled)
             {
                 return;
@@ -250,6 +246,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateViewState()
         {
+            if (_stateGroup == null)
+            {
+                return;
+            }
+
             var before = ViewState;
 
             if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
