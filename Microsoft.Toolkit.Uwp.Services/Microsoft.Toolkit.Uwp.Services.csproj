@@ -46,7 +46,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="project.json" />
-    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
