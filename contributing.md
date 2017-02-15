@@ -13,8 +13,8 @@ That's why many of the guidelines of this document are obvious and serve only on
 ## A good pull request
 Every contribution has to come with:
 
-* Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
-* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once valdied your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
+* Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
+* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once validated your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
 * You tested your code with SDK 10586 and SDK 14393

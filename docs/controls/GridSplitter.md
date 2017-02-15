@@ -10,7 +10,7 @@ Developers can use the control to resize fixed and star (*) width/height columns
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:GridSplitter 
             Grid.Column="1"
@@ -46,7 +46,7 @@ Developers can use the control to resize fixed and star (*) width/height columns
 
 The following sample demonstrates how to add Grid Splitter Control.
 
-```xaml
+```xml
 
 <Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GridSplitterPage"

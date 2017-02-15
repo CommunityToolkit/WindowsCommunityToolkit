@@ -111,6 +111,7 @@
                         <Image Source="Unicorn.png"
                                Stretch="Uniform" />
                     </controls:DropShadowPanel>
+
                     <controls:DropShadowPanel HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"

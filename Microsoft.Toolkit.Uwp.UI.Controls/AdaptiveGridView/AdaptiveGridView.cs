@@ -203,7 +203,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (containerWidth > 0)
             {
-                ItemWidth = CalculateItemWidth(containerWidth);
+                var newWidth = CalculateItemWidth(containerWidth);
+
+                if (double.IsNaN(ItemWidth) || Math.Abs(newWidth - ItemWidth) > 1)
+                {
+                    ItemWidth = newWidth;
+                }
             }
         }
     }

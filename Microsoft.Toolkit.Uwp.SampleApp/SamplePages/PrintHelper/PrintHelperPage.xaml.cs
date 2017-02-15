@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _printHelper = new PrintHelper(Container);
             _printHelper.AddFrameworkElementToPrint(PrintableContent);
 
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
@@ -45,6 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             _printHelper = new PrintHelper(DirectPrintContainer);
 
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
@@ -75,6 +77,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ReleasePrintHelper();
             var dialog = new MessageDialog("Printing failed.");
             await dialog.ShowAsync();
+        }
+
+        private void PrintHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
         }
     }
 }

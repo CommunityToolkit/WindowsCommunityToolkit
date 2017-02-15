@@ -1,8 +1,11 @@
 ﻿{
   "dependencies": {
-    "Microsoft.Graph": "1.1.1",
+    "Microsoft.Graph": "1.2.0",
     "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.13.7",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.OneDriveSDK": "2.0.6",
+    "Microsoft.OneDriveSDK.Authentication": "1.0.8",
+    "StyleCop.Analyzers": "1.0.0",
     "winsdkfb": "0.12.20161020.4"
   },
   "frameworks": {

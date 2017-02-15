@@ -6,18 +6,19 @@
     <title>UWP Community Toolkit Controls</title>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
-    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>This library provides XAML user controls. It is part of the UWP Community Toolkit.</description>
-    <releaseNotes>First public release.</releaseNotes>
+    <releaseNotes>v1.4: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v1.4.0</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
-    <tags>UWP Toolkit Windows Controls XAML Hamburger Range</tags>
+    <tags>UWP Toolkit Windows Controls XAML Hamburger Range WrapPanel Adaptive Markdown</tags>
     <dependencies>
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
 	    <dependency id="Microsoft.Toolkit.Uwp.UI.Animations" version="$version$" />
+	    <dependency id="Robmikh.CompositionSurfaceFactory" version="0.7.1" />
     </dependencies>
   </metadata>
   <files>

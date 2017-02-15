@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TagProperty = DependencyProperty.Register(nameof(Tag), typeof(object), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies label to display.
+        /// Gets or sets a value that specifies label to display.
         /// </summary>
         public string Label
         {
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies the page to navigate to (if you use the HamburgerMenu with a Frame content)
+        /// Gets or sets a value that specifies the page to navigate to (if you use the HamburgerMenu with a Frame content)
         /// </summary>
         public Type TargetPageType
         {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies an user specific value.
+        /// Gets or sets a value that specifies an user specific value.
         /// </summary>
         public object Tag
         {
