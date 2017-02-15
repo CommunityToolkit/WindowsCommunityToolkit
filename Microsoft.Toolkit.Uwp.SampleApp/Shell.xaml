@@ -89,9 +89,9 @@
                 <Frame x:Name="NavigationFrame" />
                 <!--Uncomment this control to help you determine where the focus is.
                 This could be useful when validating accessibility of your control-->
-                <local:FocusTracker VerticalAlignment="Bottom" 
+                <!--<local:FocusTracker VerticalAlignment="Bottom" 
                         HorizontalAlignment="Center"
-                        IsRunning="True"/>
+                        IsRunning="True"/>-->
             </Grid>
             <Grid x:Name="InfoAreaGrid"
                   Background="{StaticResource Brush-Grey-04}">
