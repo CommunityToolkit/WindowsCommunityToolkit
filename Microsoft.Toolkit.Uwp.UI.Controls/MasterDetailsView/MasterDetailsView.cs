@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
+        private AppViewBackButtonVisibility _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
@@ -74,6 +75,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDetailsContent();
 
             SetMasterHeaderVisibility();
+
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                _previousBackButtonVisibility = SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
+            }
         }
 
         /// <summary>
@@ -232,11 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (previousState == MasterDetailsViewState.Details)
             {
                 // Make sure we show the back button if the stack can navigate back
-                var frame = GetFrame();
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    ((frame != null) && frame.CanGoBack)
-                        ? AppViewBackButtonVisibility.Visible
-                        : AppViewBackButtonVisibility.Collapsed;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility;
             }
         }
 
