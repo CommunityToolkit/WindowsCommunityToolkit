@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (view._stateGroup != null)
             {
-                view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+                view.SetBackButtonVisibility();
             }
         }
 
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
             SetVisualState(_stateGroup.CurrentState, true);
-            SetBackButtonVisibility(_stateGroup.CurrentState);
+            SetBackButtonVisibility();
 
             UpdateViewState();
         }
@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility(e.NewState);
+            SetBackButtonVisibility();
 
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
             SetVisualState(e.NewState, false);
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility(VisualState currentState)
+        private void SetBackButtonVisibility()
         {
             UpdateViewState();
             if (DesignMode.DesignModeEnabled)
