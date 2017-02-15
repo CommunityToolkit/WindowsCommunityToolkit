@@ -109,6 +109,7 @@
         <!--  Column Grid Splitter  -->
         <controls:GridSplitter Grid.Column="{Binding Column.Value}"
                                Width="11"
+                               x:Name="ColumnSplitter"
                                HorizontalAlignment="{Binding HorizontalAlignment.Value, Mode=TwoWay}"
                                Background="{StaticResource Brush-Grey-04}"
                                CursorBehavior="{Binding CursorBehavior.Value, Mode=TwoWay}"
@@ -127,6 +128,7 @@
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontFamily="Segoe MDL2 Assets"
+                           x:Name="RowSplitter"
                            Foreground="White"
                            Text="&#xE76F;" />
             </controls:GridSplitter.Element>
