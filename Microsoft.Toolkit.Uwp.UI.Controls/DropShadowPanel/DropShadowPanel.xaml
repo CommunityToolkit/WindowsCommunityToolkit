@@ -3,6 +3,7 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="controls:DropShadowPanel">
+        <Setter Property="IsTabStop" Value="False"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:DropShadowPanel">
