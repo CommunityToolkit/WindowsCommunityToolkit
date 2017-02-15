@@ -205,8 +205,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateView(bool animate)
         {
+            var currentState = ViewState;
             UpdateViewState();
-            SetBackButtonVisibility();
+            SetBackButtonVisibility(currentState);
             if (_stateGroup != null)
             {
                 SetVisualState(_stateGroup.CurrentState, animate);
@@ -216,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility()
+        private void SetBackButtonVisibility(MasterDetailsViewState previousState)
         {
             if (DesignMode.DesignModeEnabled)
             {
@@ -228,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Visible;
             }
-            else
+            else if (previousState == MasterDetailsViewState.Details)
             {
                 // Make sure we show the back button if the stack can navigate back
                 var frame = GetFrame();
