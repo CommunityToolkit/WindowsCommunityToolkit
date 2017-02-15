@@ -46,6 +46,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
@@ -87,8 +88,10 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\Twitter\TwitterEntities.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
+    <Compile Include="Services\Twitter\TwitterMedia.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
     <Compile Include="Services\Twitter\TwitterStatus.cs" />
+    <Compile Include="Services\Twitter\TwitterUrl.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
