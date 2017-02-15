@@ -5,13 +5,13 @@
     <version>$version$</version>
     <title>UWP Community Toolkit</title>
     <authors>Microsoft</authors>
-    <iconUrl>https://github.com/Microsoft/UWPCommunityToolkit/tree/master/build/nuget.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
     <owners>microsoft, nugetuwptoolkit</owners>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.</description>
-    <releaseNotes>First public release.</releaseNotes>
+    <description>This package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc.</description>
+    <releaseNotes>v1.4: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v1.4.0</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows</tags>
     <dependencies>

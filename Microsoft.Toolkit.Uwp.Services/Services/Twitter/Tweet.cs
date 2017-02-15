@@ -28,6 +28,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string CreatedAt { get; set; }
 
         /// <summary>
+        /// Gets or sets the geographic data (latitude and longitude)
+        /// </summary>
+        [JsonProperty("geo")]
+        public TwitterGeoData GeoData { get; set; }
+
+        /// <summary>
         /// Gets or sets item Id.
         /// </summary>
         [JsonProperty("id_str")]

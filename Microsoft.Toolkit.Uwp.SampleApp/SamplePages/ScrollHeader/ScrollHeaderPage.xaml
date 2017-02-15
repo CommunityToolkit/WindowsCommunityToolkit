@@ -8,16 +8,16 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
+        <ListView Name="listView"
+                  ItemsSource="{x:Bind _items, Mode=OneWay}">
             <ListView.Header>
-                <controls:ScrollHeader Fade="{Binding Fade.Value}"
-                                       QuickReturn="{Binding QuickReturn.Value}"
-                                       Sticky="{Binding Sticky.Value}"
+                <controls:ScrollHeader Mode="{Binding Mode.Value}"
                                        TargetListViewBase="{x:Bind listView}">
                     <Grid x:Name="MyHeaderGrid"
                           MinHeight="250"
                           Background="{StaticResource Brush-Blue-01}">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                             <TextBlock Margin="12"
                                        FontSize="48"
                                        FontWeight="Bold"
@@ -37,7 +37,8 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Item">
-                    <Grid MinHeight="100" Background="{StaticResource Brush-Grey-04}">
+                    <Grid MinHeight="100"
+                          Background="{StaticResource Brush-Grey-04}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />

@@ -19,6 +19,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -70,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
+            SetDetailsContent();
 
             SetMasterHeaderVisibility();
         }
@@ -85,22 +87,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : HasSelectionState, true);
+            if (view._stateGroup != null)
+            {
+                view.SetVisualState(view._stateGroup.CurrentState, true);
+            }
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
-                view._detailsPresenter.Content = view.MapDetails == null
-                    ? view.SelectedItem
-                    : view.MapDetails(view.SelectedItem);
+                view.SetDetailsContent();
             }
 
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            if (view._stateGroup != null)
+            {
+                view.SetBackButtonVisibility(view._stateGroup.CurrentState);
+            }
         }
 
         /// <summary>
@@ -122,6 +125,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating += OnFrameNavigating;
+                }
             }
 
             if (_stateGroup != null)
@@ -134,10 +142,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _narrowState = GetTemplateChild(NarrowState) as VisualState;
 
-            string noSelectionState = _stateGroup.CurrentState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, true);
+            SetVisualState(_stateGroup.CurrentState, true);
+            SetBackButtonVisibility(_stateGroup.CurrentState);
 
             UpdateViewState();
         }
@@ -147,6 +153,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
             }
         }
 
@@ -163,10 +174,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetBackButtonVisibility(e.NewState);
 
             // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            string noSelectionState = e.NewState == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(this, this.SelectedItem == null ? noSelectionState : HasSelectionState, false);
+            SetVisualState(e.NewState, false);
+        }
+
+        /// <summary>
+        /// Closes the details pane if we are in narrow state
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="args">The event args</param>
+        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
+        {
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            {
+                SelectedItem = null;
+                args.Cancel = true;
+            }
         }
 
         /// <summary>
@@ -244,6 +266,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (before != after)
             {
                 ViewStateChanged?.Invoke(this, after);
+            }
+        }
+
+        private void SetVisualState(VisualState state, bool animate)
+        {
+            string noSelectionState = state == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, animate);
+        }
+
+        private void SetDetailsContent()
+        {
+            if ((SelectedItem != null) && (_detailsPresenter != null))
+            {
+                _detailsPresenter.Content = MapDetails == null
+                    ? SelectedItem
+                    : MapDetails(SelectedItem);
             }
         }
     }

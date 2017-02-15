@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// Starts the animation.
         /// </summary>
-        public async override void StartAnimation()
+        public override void StartAnimation()
         {
             if (AnimationExtensions.IsLightingSupported)
             {

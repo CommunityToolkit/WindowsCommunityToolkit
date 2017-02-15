@@ -201,5 +201,49 @@ namespace UnitTests.Helpers
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
             await subfolder.DeleteAsync(StorageDeleteOption.Default);
         }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFileNameValid_WithCorrectFileName()
+        {
+            string filename = "my_file.txt";
+
+            bool result = StorageFileHelper.IsFileNameValid(filename);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFileNameValid_WithIllegalCharacters()
+        {
+            string filename = "my|file.txt";
+
+            bool result = StorageFileHelper.IsFileNameValid(filename);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithCorrectFilePath()
+        {
+            string filepath = "my_folder/my_file.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithIllegalCharacters()
+        {
+            string filepath = "my>folder|my<file\t.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsFalse(result);
+        }
     }
 }

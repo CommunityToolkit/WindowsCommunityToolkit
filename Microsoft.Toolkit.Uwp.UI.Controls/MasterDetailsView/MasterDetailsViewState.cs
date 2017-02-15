@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The <see cref="MasterDetailsView"/> state.
+    /// </summary>
     public enum MasterDetailsViewState
     {
         /// <summary>
