@@ -75,11 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDetailsContent();
 
             SetMasterHeaderVisibility();
-
-            if (DesignMode.DesignModeEnabled == false)
-            {
-                _previousBackButtonVisibility = SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
-            }
         }
 
         /// <summary>
@@ -232,8 +227,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ViewState == MasterDetailsViewState.Details)
             {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Visible;
+                var navigationManager = SystemNavigationManager.GetForCurrentView();
+                _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+
+                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
             else if (previousState == MasterDetailsViewState.Details)
             {
