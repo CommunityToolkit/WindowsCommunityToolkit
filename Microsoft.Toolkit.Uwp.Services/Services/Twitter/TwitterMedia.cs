@@ -15,6 +15,5 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("url")]
         public string Url { get; set; }
-
     }
 }
