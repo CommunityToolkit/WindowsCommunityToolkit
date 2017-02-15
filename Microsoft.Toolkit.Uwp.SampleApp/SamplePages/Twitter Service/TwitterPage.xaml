@@ -19,6 +19,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -62,6 +63,8 @@
                                HorizontalAlignment="Right"
                                FontWeight="ExtraLight"
                                Text="{x:Bind CreationDate}" />
+                    <Image Grid.Row="3"
+                           Source="{x:Bind Entities.Media[0].MediaUrl}"/>
                 </Grid>
             </Border>
         </DataTemplate>
