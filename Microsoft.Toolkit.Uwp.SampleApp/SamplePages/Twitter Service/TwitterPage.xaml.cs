@@ -86,10 +86,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
-            
-            //ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+
             ListView.ItemsSource = await TwitterService.Instance.RequestAsync(new TwitterDataConfig
             {
+                Query = user.ScreenName,
                 QueryType = TwitterQueryType.Home
             });
 
