@@ -275,6 +275,20 @@ There are other methods of generating links that aren't appropriate for discussi
 
 *****
 
+# IMAGES
+
+To add an image, it is almost like a link. You just need to add a \! before.
+
+So inline image syntax looks like this:
+
+>\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+which renders in:
+
+![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+*****
+
 # BLOCK QUOTES
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
