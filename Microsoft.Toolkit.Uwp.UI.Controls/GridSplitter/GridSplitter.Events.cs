@@ -10,8 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -44,8 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Element = gripper;
 
-            gripper.OnKeyboardHorizontalMoveAction = (movement) => HorizontalMove(movement);
-            gripper.OnKeyboardVerticalMoveAction = (movement) => VerticalMove(movement);
+            gripper.KeyDown += Gripper_KeyDown;
 
             var hoverWrapper = new GripperHoverWrapper(
                 CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
@@ -58,6 +58,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
 
             _hoverWrapper = hoverWrapper;
+        }
+
+        private void Gripper_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var gripper = sender as GridSplitterGripper;
+
+            if (gripper == null)
+            {
+                return;
+            }
+
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (gripper.ResizeDirection == GridResizeDirection.Columns)
+            {
+                if (e.Key == VirtualKey.Left)
+                {
+                    HorizontalMove(-step);
+                }
+                else if (e.Key == VirtualKey.Right)
+                {
+                    HorizontalMove(step);
+                }
+                else
+                {
+                    return;
+                }
+
+                e.Handled = true;
+                return;
+            }
+
+            if (gripper.ResizeDirection == GridSplitter.GridResizeDirection.Rows)
+            {
+                if (e.Key == VirtualKey.Up)
+                {
+                    VerticalMove(-step);
+                }
+                else if (e.Key == VirtualKey.Down)
+                {
+                    VerticalMove(step);
+                }
+                else
+                {
+                    return;
+                }
+
+                e.Handled = true;
+            }
         }
 
         /// <inheritdoc />

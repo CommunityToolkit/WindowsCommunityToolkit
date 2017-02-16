@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string GripperDisplayFont = "Segoe MDL2 Assets";
         private readonly TextBlock _gripperDisplay;
 
-        private readonly GridSplitter.GridResizeDirection _gridSplitterDirection;
+        public GridSplitter.GridResizeDirection ResizeDirection { get; private set; }
 
         internal Action<double> OnKeyboardHorizontalMoveAction { get; set; }
 
@@ -50,12 +50,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal GridSplitterGripper(GridSplitter.GridResizeDirection gridSplitterDirection)
         {
-            _gridSplitterDirection = gridSplitterDirection;
+            ResizeDirection = gridSplitterDirection;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalContentAlignment = VerticalAlignment.Stretch;
             IsTabStop = true;
             UseSystemFocusVisuals = true;
-            KeyDown += GridSplitterGripper_KeyDown;
         }
 
         internal GridSplitterGripper(
@@ -87,53 +86,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             : this(gridSplitterDirection)
         {
             Content = content;
-        }
-
-        private void GridSplitterGripper_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            var step = 1;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-            {
-                step = 5;
-            }
-
-            if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
-            {
-                if (e.Key == VirtualKey.Left)
-                {
-                    OnKeyboardHorizontalMoveAction?.Invoke(-step);
-                }
-                else if (e.Key == VirtualKey.Right)
-                {
-                    OnKeyboardHorizontalMoveAction?.Invoke(step);
-                }
-                else
-                {
-                    return;
-                }
-
-                e.Handled = true;
-                return;
-            }
-
-            if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Rows)
-            {
-                if (e.Key == VirtualKey.Up)
-                {
-                    OnKeyboardVerticalMoveAction?.Invoke(-step);
-                }
-                else if (e.Key == VirtualKey.Down)
-                {
-                    OnKeyboardVerticalMoveAction?.Invoke(step);
-                }
-                else
-                {
-                    return;
-                }
-
-                e.Handled = true;
-            }
         }
     }
 }
