@@ -227,6 +227,26 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
+Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
+
+\`\`\`
+
+public void main(Strings argv[]){
+
+  System.out.println("Hello world!");
+
+}
+
+\`\`\`
+
+will produce:
+
+```
+public void main(Strings argv[]){
+    System.out.println("Hello world!");
+}
+```
+
 *****
 
 # LINKS

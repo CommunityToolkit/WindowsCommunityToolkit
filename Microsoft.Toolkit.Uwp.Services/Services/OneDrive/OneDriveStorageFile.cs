@@ -12,16 +12,13 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
-using Windows.Foundation;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Streams;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using System.Linq;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
