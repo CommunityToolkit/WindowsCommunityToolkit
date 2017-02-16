@@ -78,6 +78,10 @@
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WebViewExtensions.cs" />
     <Compile Include="Helpers\BindableValueHolder.cs" />
+    <Compile Include="Helpers\Emoji\Emoji.cs" />
+    <Compile Include="Helpers\Emoji\EmojiHelper.cs" />
+    <Compile Include="Helpers\Emoji\EmojiManager.cs" />
+    <Compile Include="Helpers\Emoji\EmojiSkinTone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
