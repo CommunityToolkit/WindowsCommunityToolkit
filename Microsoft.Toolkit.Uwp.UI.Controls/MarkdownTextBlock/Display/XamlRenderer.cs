@@ -325,6 +325,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public TextWrapping TextWrapping { get; set; }
 
         /// <summary>
+        /// Gets or sets the brush used to render links.  If this is <c>null</c>, then
+        /// <see cref="Foreground"/> is used.
+        /// </summary>
+        public Brush LinkForeground { get; set; }
+
+        /// <summary>
         /// Called externally to render markdown to a text block.
         /// </summary>
         /// <returns> A XAML UI element. </returns>
@@ -814,6 +820,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 // Render the children into the link inline.
                 var childContext = context.Clone();
                 childContext.WithinHyperlink = true;
+
+                if (LinkForeground != null)
+                {
+                    link.Foreground = LinkForeground;
+                }
+
                 RenderInlineChildren(link.Inlines, element.Inlines, link, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
@@ -879,8 +891,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Make a text block for the link
             Run linkText = new Run
             {
-                Text = CollapseWhitespace(context, element.Text)
+                Text = CollapseWhitespace(context, element.Text),
+                Foreground = LinkForeground ?? context.Foreground
             };
+
             link.Inlines.Add(linkText);
 
             // Add it to the current inlines
