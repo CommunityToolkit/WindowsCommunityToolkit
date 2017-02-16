@@ -326,6 +326,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers.Emoji
             return code;
         }
 
+        /// <summary>
+        /// Checks to see if the given emoji supports the multi color modifier
+        /// </summary>
+        /// <param name="emoji">The emoji.</param>
+        /// <returns>true if it does</returns>
+        public static bool SupportsMultipleColors(this Emoji emoji)
+        {
+            var details = EmojiArray.FirstOrDefault(x => x.Emoji == emoji);
+            return details.SupportsModifier;
+        }
+
         private static string ToModifierCharacter(this EmojiSkinTone skinTone)
         {
             string hexadecimalCode;

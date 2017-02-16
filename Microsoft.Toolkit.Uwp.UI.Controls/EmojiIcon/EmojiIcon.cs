@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The emoji skin tone property
         /// </summary>
         public static readonly DependencyProperty EmojiSkinToneProperty = DependencyProperty.Register(
-            nameof(EmojiSkinTone), typeof(EmojiSkinTone), typeof(EmojiIcon), new PropertyMetadata(default(EmojiSkinTone)));
+            nameof(EmojiSkinTone), typeof(EmojiSkinTone), typeof(EmojiIcon), new PropertyMetadata(default(EmojiSkinTone), OnEmojiChanged));
 
         /// <summary>
         /// Gets or sets the emoji skin tone.

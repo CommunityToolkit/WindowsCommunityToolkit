@@ -1,0 +1,42 @@
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.EmojiPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:emoji="using:Microsoft.Toolkit.Uwp.UI.Helpers.Emoji"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Margin="20">
+            <TextBlock Margin="0,0,0,12"
+                       Text="This sample shows a limited selection of emojis available, there are many more."
+                       TextWrapping="WrapWholeWords" />
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="EmojiList"
+                          Header="Emojis:"
+                          SelectionChanged="EmojiList_OnSelectionChanged" />
+                <ComboBox x:Name="SkinTones"
+                          Header="Skin tones:" />
+            </StackPanel>
+
+            <TextBlock Margin="0,12,0,6"
+                       Text="EmojiIcon:" />
+            <controls:EmojiIcon Emoji="{Binding SelectedItem, ElementName=EmojiList}"
+                                EmojiSkinTone="{Binding SelectedItem, ElementName=SkinTones}" />
+
+            <TextBlock Margin="0,12,0,6"
+                       Text="Regular TextBlock:" />
+            <TextBlock emoji:EmojiHelper.Emoji="{Binding SelectedItem, ElementName=EmojiList}" />
+
+            <TextBlock Margin="0,12,0,6"
+                       Text="Bind to the Run of a TextBlock:" />
+            <TextBlock>
+                <Run Text="The emoji is:" />
+                <Run emoji:EmojiHelper.Emoji="{Binding SelectedItem, ElementName=EmojiList}" />
+                <Run emoji:EmojiHelper.Emoji="{Binding SelectedItem, ElementName=EmojiList}"
+                     emoji:EmojiHelper.EmojiSkinTone="{Binding SelectedItem, ElementName=SkinTones}" />
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

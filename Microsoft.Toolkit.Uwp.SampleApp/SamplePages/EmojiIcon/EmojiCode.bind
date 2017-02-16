@@ -1,0 +1,8 @@
+// XAML UIElement
+<TextBlock x:Name="EmojiIcon" />
+
+string emoji = Emoji.SmilingFaceWithHalo.GetEmoji();
+EmojiIcon.Text = emoji;
+
+bool supportsMultiColorModifier = Emoji.SmilingFaceWithHalo.SupportsMultipleColors();
+
