@@ -25,9 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
-        private const int RootGridColumnsMinWidth = 300;
-        private const int RootGridColumnsDefaultMinWidth = 0;
-
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
@@ -47,8 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void ShowInfoArea()
         {
-            InfoAreaGrid.Visibility = Visibility.Visible;
-            UpdateRootGridMinWidth();
+            InfoAreaGrid.Visibility = Visibility.Visible;           
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
@@ -63,8 +59,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
@@ -222,8 +216,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                UpdateRootGridMinWidth();
-
                 if (!string.IsNullOrEmpty(sample.CodeUrl))
                 {
                     GitHub.NavigateUri = new Uri(sample.CodeUrl);
@@ -244,20 +236,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     HideInfoArea();
                 }
-            }
-        }
-
-        private void UpdateRootGridMinWidth()
-        {
-            if (ActualWidth > 2 * RootGridColumnsMinWidth)
-            {
-                RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
-                RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
-            }
-            else
-            {
-                RootGrid.ColumnDefinitions[0].MinWidth = 0;
-                RootGrid.ColumnDefinitions[1].MinWidth = 0;
             }
         }
 
@@ -434,8 +412,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 return;
             }
-
-            UpdateRootGridMinWidth();
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
