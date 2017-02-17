@@ -25,9 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
-        private const int RootGridColumnsMinWidth = 300;
-        private const int RootGridColumnsDefaultMinWidth = 0;
-
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
@@ -62,8 +59,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
