@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
@@ -322,6 +323,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the word wrapping behavior.
         /// </summary>
         public TextWrapping TextWrapping { get; set; }
+
+        /// <summary>
+        /// Gets or sets the brush used to render links.  If this is <c>null</c>, then
+        /// <see cref="Foreground"/> is used.
+        /// </summary>
+        public Brush LinkForeground { get; set; }
 
         /// <summary>
         /// Called externally to render markdown to a text block.
@@ -727,6 +734,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 case MarkdownInlineType.Code:
                     RenderCodeRun(inlineCollection, (CodeInline)element, context);
                     break;
+                case MarkdownInlineType.Image:
+                    RenderImage(inlineCollection, (ImageInline)element, context);
+                    break;
             }
         }
 
@@ -810,6 +820,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 // Render the children into the link inline.
                 var childContext = context.Clone();
                 childContext.WithinHyperlink = true;
+
+                if (LinkForeground != null)
+                {
+                    link.Foreground = LinkForeground;
+                }
+
                 RenderInlineChildren(link.Inlines, element.Inlines, link, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
@@ -838,6 +854,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         }
 
         /// <summary>
+        /// Renders an image element.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        private void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
+        {
+            var image = new Image();
+            var imageContainer = new InlineUIContainer() { Child = image };
+
+            image.Source = new BitmapImage(new Uri(element.Url));
+            image.HorizontalAlignment = HorizontalAlignment.Left;
+            image.VerticalAlignment = VerticalAlignment.Top;
+            image.Stretch = Stretch.None;
+
+            ToolTipService.SetToolTip(image, element.Tooltip);
+
+            // Add it to the current inlines
+            inlineCollection.Add(imageContainer);
+        }
+
+        /// <summary>
         /// Renders a raw link element.
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
@@ -853,8 +891,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Make a text block for the link
             Run linkText = new Run
             {
-                Text = CollapseWhitespace(context, element.Text)
+                Text = CollapseWhitespace(context, element.Text),
+                Foreground = LinkForeground ?? context.Foreground
             };
+
             link.Inlines.Add(linkText);
 
             // Add it to the current inlines

@@ -3,6 +3,7 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
     <Style TargetType="controls:MarkdownTextBlock">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="LinkForeground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
         <Setter Property="QuoteBackground" Value="#FFE0E0E0" />
         <Setter Property="QuoteBorderBrush" Value="#FFBEBEBE" />
         <Setter Property="QuoteBorderThickness" Value="2, 0, 0, 0" />

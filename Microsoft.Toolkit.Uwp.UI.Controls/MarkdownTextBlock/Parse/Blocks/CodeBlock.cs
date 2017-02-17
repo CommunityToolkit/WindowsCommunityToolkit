@@ -47,27 +47,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         {
             StringBuilder code = null;
             actualEnd = start;
+            bool insideCodeBlock = false;
+
+            /*
+                Two options here:
+                Either every line starts with a tab character or at least 4 spaces
+                Or the code block starts and ends with ```
+            */
 
             foreach (var lineInfo in Common.ParseLines(markdown, start, maxEnd, quoteDepth))
             {
-                // Add every line that starts with a tab character or at least 4 spaces.
                 int pos = lineInfo.StartOfLine;
-                if (pos < maxEnd && markdown[pos] == '\t')
+                if (pos < maxEnd && markdown[pos] == '`')
                 {
-                    pos++;
-                }
-                else
-                {
-                    int spaceCount = 0;
-                    while (pos < maxEnd && spaceCount < 4)
+                    var backTickCount = 0;
+                    while (pos < maxEnd && backTickCount < 3)
                     {
-                        if (markdown[pos] == ' ')
+                        if (markdown[pos] == '`')
                         {
-                            spaceCount++;
-                        }
-                        else if (markdown[pos] == '\t')
-                        {
-                            spaceCount += 4;
+                            backTickCount++;
                         }
                         else
                         {
@@ -77,13 +75,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                         pos++;
                     }
 
-                    if (spaceCount < 4)
+                    if (backTickCount == 3)
                     {
-                        // We found a line that doesn't start with a tab or 4 spaces.
-                        // But don't end the code block until we find a non-blank line.
-                        if (lineInfo.IsLineBlank == false)
+                        insideCodeBlock = !insideCodeBlock;
+
+                        if (!insideCodeBlock)
                         {
+                            actualEnd = lineInfo.StartOfNextLine;
                             break;
+                        }
+                    }
+                }
+
+                if (!insideCodeBlock)
+                {
+                    // Add every line that starts with a tab character or at least 4 spaces.
+                    if (pos < maxEnd && markdown[pos] == '\t')
+                    {
+                        pos++;
+                    }
+                    else
+                    {
+                        int spaceCount = 0;
+                        while (pos < maxEnd && spaceCount < 4)
+                        {
+                            if (markdown[pos] == ' ')
+                            {
+                                spaceCount++;
+                            }
+                            else if (markdown[pos] == '\t')
+                            {
+                                spaceCount += 4;
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                            pos++;
+                        }
+
+                        if (spaceCount < 4)
+                        {
+                            // We found a line that doesn't start with a tab or 4 spaces.
+                            // But don't end the code block until we find a non-blank line.
+                            if (lineInfo.IsLineBlank == false)
+                            {
+                                break;
+                            }
                         }
                     }
                 }

@@ -39,6 +39,7 @@
             <controls:MarkdownTextBlock x:Name="UiMarkdownText"
                                         Margin="6"
                                         Foreground="Black"
+                                        LinkForeground="BlueViolet"
                                         LinkClicked="MarkdownText_LinkClicked"
                                         Text="{Binding ElementName=UiUnformattedText, Path=Text}" />
         </ScrollViewer>
