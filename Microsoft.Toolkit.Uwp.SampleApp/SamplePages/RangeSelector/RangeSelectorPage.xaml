@@ -21,6 +21,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                        HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
                        Foreground="Black"
                        Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
             <controls:RangeSelector x:Name="RangeSelectorControl"
@@ -29,6 +30,7 @@
                                     Minimum="{Binding Minimum.Value, Mode=TwoWay}" />
             <TextBlock Grid.Column="2"
                        HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
                        Foreground="Black"
                        Text="{Binding RangeMax, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
         </Grid>
