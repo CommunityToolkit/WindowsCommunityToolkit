@@ -131,7 +131,7 @@ var pinTile = function () {
     tile.requestCreateAsync()
         .then(function () {
             // generate the tile notification content and update the tile
-            var content = generateTileContent("MasterHip", "Assets/Photos/Owl.png");
+            var content = generateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
             var tileNotification = new Windows.UI.Notifications.TileNotification(content.getXml());
             Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForSecondaryTile(tile.TileId).update(tileNotification);
         });

@@ -18,7 +18,7 @@ private async void PinTile()
     }
 
     // Generate the tile notification content and update the tile
-    TileContent content = GenerateTileContent("MasterHip", "Assets/Photos/Owl.png");
+    TileContent content = GenerateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
     TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
 }
 
