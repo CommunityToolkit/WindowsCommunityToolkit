@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (BackgroundTaskHelper.IsBackgroundTaskRegistered("TestBackgroundTaskName"))
+            if (BackgroundTaskHelper.IsBackgroundTaskRegistered(Constants.TestBackgroundTaskName))
             {
                 // Background task already registered.
                 StatusMessage.Text = "Background Task already registered";
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Check for background access.
             await BackgroundExecutionManager.RequestAccessAsync();
 
-            BackgroundTaskHelper.Register("TestBackgroundTaskName", new TimeTrigger(15, false));
+            BackgroundTaskHelper.Register(Constants.TestBackgroundTaskName, new TimeTrigger(15, false));
 
             // If registering Multi-Process Background task
             // BackgroundTaskHelper.Register("TestName", "TestEntryPoint", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void UnregisterButton_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundTaskHelper.Unregister("TestBackgroundTaskName");
+            BackgroundTaskHelper.Unregister(Constants.TestBackgroundTaskName);
 
             StatusMessage.Text = "Background Task Unregistered";
         }

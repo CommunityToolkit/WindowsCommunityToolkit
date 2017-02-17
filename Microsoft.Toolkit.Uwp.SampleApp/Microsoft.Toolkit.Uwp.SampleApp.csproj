@@ -384,6 +384,7 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
