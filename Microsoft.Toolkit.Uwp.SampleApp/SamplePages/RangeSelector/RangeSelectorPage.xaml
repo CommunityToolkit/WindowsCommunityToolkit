@@ -26,6 +26,7 @@
                        Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
             <controls:RangeSelector x:Name="RangeSelectorControl"
                                     Grid.Column="1"
+                                    IsTouchOptimized="True"
                                     Maximum="{Binding Maximum.Value, Mode=TwoWay}"
                                     Minimum="{Binding Minimum.Value, Mode=TwoWay}" />
             <TextBlock Grid.Column="2"
