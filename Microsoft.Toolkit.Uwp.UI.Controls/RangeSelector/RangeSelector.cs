@@ -608,15 +608,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsTouchOptimized)
             {
-                _outOfRangeContentContainer.Height = _minThumb.Height = _maxThumb.Height = 44;
-                _minThumb.Width = _maxThumb.Width = 44;
-                _minThumb.Margin = _maxThumb.Margin = new Thickness(-20, 0, 0, 0);
+                if (_outOfRangeContentContainer != null)
+                {
+                    _outOfRangeContentContainer.Height = 44;
+                }
+
+                if (_minThumb != null)
+                {
+                    _minThumb.Width = _minThumb.Height = 44;
+                    _minThumb.Margin = new Thickness(-20, 0, 0, 0);
+                }
+
+                if (_maxThumb != null)
+                {
+                    _maxThumb.Width = _maxThumb.Height = 44;
+                    _maxThumb.Margin = new Thickness(-20, 0, 0, 0);
+                }
             }
             else
             {
-                _outOfRangeContentContainer.Height = _minThumb.Height = _maxThumb.Height = 24;
-                _minThumb.Width = _maxThumb.Width = 8;
-                _minThumb.Margin = _maxThumb.Margin = new Thickness(-8, 0, 0, 0);
+                if (_outOfRangeContentContainer != null)
+                {
+                    _outOfRangeContentContainer.Height = 24;
+                }
+
+                if (_minThumb != null)
+                {
+                    _minThumb.Width = 8;
+                    _minThumb.Height = 24;
+                    _minThumb.Margin = new Thickness(-8, 0, 0, 0);
+                }
+
+                if (_maxThumb != null)
+                {
+                    _maxThumb.Width = 8;
+                    _maxThumb.Height = 24;
+                    _maxThumb.Margin = new Thickness(-8, 0, 0, 0);
+                }
             }
         }
 
