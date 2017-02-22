@@ -13,7 +13,7 @@
 using System.Globalization;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Uwp.UI.Helpers.Emoji
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
     ///     Class to help manage use of Emojis

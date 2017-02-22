@@ -14,7 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 
-namespace Microsoft.Toolkit.Uwp.UI.Helpers.Emoji
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
     /// Provides attached properties for emojis

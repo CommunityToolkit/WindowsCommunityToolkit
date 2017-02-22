@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Helpers.Emoji;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Helpers.Emoji
+namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>
     ///     Enum listing the names of the skin tone types

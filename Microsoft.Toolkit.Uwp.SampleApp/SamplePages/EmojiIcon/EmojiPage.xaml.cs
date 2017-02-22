@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Helpers.Emoji;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
