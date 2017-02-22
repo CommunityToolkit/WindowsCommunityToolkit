@@ -449,13 +449,13 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BackgroundTaskHelper.md"
       },
       {
-        "Name": "ConnectionHelper",
-        "Type": "ConnectionHelperPage",
-        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
-        "CodeFile": "ConnectionHelperCode.bind",
+        "Name": "NetworkHelper",
+        "Type": "NetworkHelperPage",
+        "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Network/NetworkHelper",
+        "CodeFile": "NetworkHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ConnectionHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/NetworkHelper.md"
       },
       {
         "Name": "SystemInformation",
