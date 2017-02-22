@@ -7,9 +7,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:EmojiIcon">
-                    <TextBlock x:Name="EmojiText"
-                               FontSize="{TemplateBinding FontSize}"
-                               FontFamily="Segoe UI Emoji" />
+                    <Grid>
+                        <TextBlock x:Name="EmojiText"
+                                   HorizontalAlignment="Stretch"
+                                   FontFamily="Segoe UI Emoji"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontStyle="Normal"
+                                   FontWeight="Normal"
+                                   TextAlignment="Center" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
