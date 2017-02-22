@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TwitterPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TwitterPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,6 +16,7 @@
                     CornerRadius="4">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -58,6 +59,7 @@
                                Text="{x:Bind Text}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="WrapWholeWords" />
+                  
                     <StackPanel Grid.Row="2"
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal">
@@ -67,6 +69,9 @@
                                    FontWeight="ExtraLight"
                                    Text="{x:Bind GeoData.DisplayCoordinates}" />
                     </StackPanel>
+                  
+                    <Image Grid.Row="3"
+                           Source="{x:Bind Entities.Media[0].MediaUrl}"/>
                 </Grid>
             </Border>
         </DataTemplate>
