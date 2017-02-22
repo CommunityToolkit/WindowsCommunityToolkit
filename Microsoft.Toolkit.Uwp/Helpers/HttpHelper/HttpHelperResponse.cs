@@ -12,6 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
 
@@ -89,6 +90,16 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return Content.ReadAsStringAsync().AsTask();
+        }
+
+        public async Task<IInputStream> GetStreamResultAsync()
+        {
+            if (Content == null)
+            {
+                return null;
+            }
+
+            return await Content.ReadAsInputStreamAsync();
         }
 
         /// <summary>

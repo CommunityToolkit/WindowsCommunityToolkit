@@ -59,7 +59,7 @@
                                Text="{x:Bind Text}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="WrapWholeWords" />
-                  
+
                     <StackPanel Grid.Row="2"
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal">
@@ -69,7 +69,7 @@
                                    FontWeight="ExtraLight"
                                    Text="{x:Bind GeoData.DisplayCoordinates}" />
                     </StackPanel>
-                  
+
                     <Image Grid.Row="3"
                            Source="{x:Bind Entities.Media[0].MediaUrl}"/>
                 </Grid>
@@ -113,6 +113,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -149,12 +150,15 @@
                                              Content="Show me how to get these values"
                                              NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/" />
                             <TextBox x:Name="ConsumerKey"
+                                     Text="n4J84SiGTLXHFh7F5mex5PGLZ"
                                      Margin="0,0,0,12"
                                      Header="Consumer Key:" />
                             <TextBox x:Name="ConsumerSecret"
+                                     Text="8ht8N38Sh8hrNYgww3XRYS8X6gIcoywFoJYDcAoBoSfZXaKibt"
                                      Margin="0,0,0,12"
                                      Header="Consumer Secret:" />
                             <TextBox x:Name="CallbackUri"
+                                     Text="https://miriot.suismoi.fr"
                                      Margin="0,0,0,12"
                                      Header="Callback URI:" />
                             <Button x:Name="ConnectButton"
@@ -274,9 +278,45 @@
                         </StackPanel>
                     </Grid>
 
+                    <!--  Search area  -->
+                    <Grid x:Name="LiveFeedBox"
+                          Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="LiveFeedBoxExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="LiveFeedBoxExpandButton_OnClick"
+                                    Content=""
+                                    FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Live feed" />
+                        </Grid>
+
+                        <StackPanel x:Name="LiveFeedPanel"
+                                    Grid.Row="1"
+                                    Margin="24">
+                            <ToggleSwitch x:Name="LiveFeedToggle"
+                                          Header="Include live tweets"
+                                          Toggled="LiveFeedPanel_OnToggled"/>
+
+                        </StackPanel>
+                    </Grid>
+
                     <!--  Results area  -->
                     <ListView x:Name="ListView"
-                              Grid.Row="3"
+                              Grid.Row="4"
                               Margin="0,12,0,0"
                               IsItemClickEnabled="False"
                               ItemTemplate="{StaticResource TwitterSchemaTemplate}"

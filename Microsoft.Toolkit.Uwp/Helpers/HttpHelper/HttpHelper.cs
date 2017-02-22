@@ -12,8 +12,13 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 
@@ -91,6 +96,45 @@ namespace Microsoft.Toolkit.Uwp
                 FixInvalidCharset(response);
 
                 return new HttpHelperResponse(response);
+            }
+            finally
+            {
+                // Add the HttpClient instance back to the queue.
+                if (client != null)
+                {
+                    _httpClientQueue.Enqueue(client);
+                }
+
+                _semaphore.Release();
+            }
+        }
+
+        public async Task<HttpHelperResponse> GetRequestAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await _semaphore.WaitAsync().ConfigureAwait(false);
+
+            HttpClient client = null;
+
+            try
+            {
+                var httpRequestMessage = request.ToHttpRequestMessage();
+
+                client = GetHttpClientInstance();
+                foreach (var header in request.Headers)
+                {
+                    if (!client.DefaultRequestHeaders.ContainsKey(header.Key))
+                    {
+                        client.DefaultRequestHeaders.Add(header);
+                    }
+                    else
+                    {
+                        client.DefaultRequestHeaders[header.Key] = header.Value;
+                    }
+                }
+
+                var response = await client.GetInputStreamAsync(httpRequestMessage.RequestUri).AsTask(cancellationToken).ConfigureAwait(false);
+
+                return new HttpHelperResponse(new HttpResponseMessage { Content = new HttpStreamContent(response) });
             }
             finally
             {

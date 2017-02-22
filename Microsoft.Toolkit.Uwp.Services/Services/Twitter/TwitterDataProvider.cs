@@ -25,6 +25,7 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
@@ -39,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
         private const string PublishUrl = "https://upload.twitter.com/1.1";
+        private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
         /// <summary>
         /// Base Url for service.
@@ -49,6 +51,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Password vault used to store access tokens
         /// </summary>
         private readonly PasswordVault _vault;
+
+        private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -372,6 +376,48 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Get user streams (Events, DirectMessages...)
+        /// </summary>
+        /// <param name="parser">Specific stream's result parser</param>
+        /// <param name="callback">Method called each time a result occurs</param>
+        /// <returns>Task doing the job</returns>
+        public Task GetUserStreamsAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            try
+            {
+                var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
+
+                _streamRequest = new TwitterOAuthRequest();
+
+                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)));
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        public void StopStream()
+        {
+            _streamRequest.Abort();
+            _streamRequest = null;
         }
 
         /// <summary>

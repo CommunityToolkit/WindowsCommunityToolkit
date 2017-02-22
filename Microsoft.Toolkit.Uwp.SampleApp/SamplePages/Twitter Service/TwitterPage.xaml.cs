@@ -11,21 +11,29 @@
 // ******************************************************************
 
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {
+        public ObservableCollection<Tweet> Tweets { get; set; }
+
         public TwitterPage()
         {
             InitializeComponent();
+            DataContext = this;
+            Tweets = new ObservableCollection<Tweet>();
 
             ShareBox.Visibility = Visibility.Collapsed;
             SearchBox.Visibility = Visibility.Collapsed;
@@ -87,7 +95,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+            Tweets = new ObservableCollection<Tweet>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+
+            ListView.ItemsSource = Tweets;
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -140,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
+            Tweets = new ObservableCollection<Tweet>(await TwitterService.Instance.SearchAsync(TagText.Text, 50));
             Shell.Current.DisplayWaitRing = false;
         }
 
@@ -166,6 +176,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
                 }
             }
+        }
+
+        private void LiveFeedPanel_OnToggled(object sender, RoutedEventArgs e)
+        {
+            if (LiveFeedToggle.IsOn)
+            {
+                Shell.Current.DisplayWaitRing = true;
+                GetUserStreams();
+                Shell.Current.DisplayWaitRing = false;
+            }
+            else
+            {
+                TwitterService.Instance.StopUserStreams();
+            }
+        }
+
+        private async void GetUserStreams()
+        {
+            await TwitterService.Instance.GetUserStreams(async tweet =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (tweet != null)
+                    {
+                        Tweets.Insert(0, tweet);
+                    }
+                });
+            });
         }
 
         private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
@@ -204,6 +242,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        private void LiveFeedBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (LiveFeedPanel.Visibility == Visibility.Visible)
+            {
+                HideLiveFeedPanel();
+            }
+            else
+            {
+                ShowLiveFeedPanel();
+            }
+        }
+
         private void ShowCredentialsPanel()
         {
             CredentialsBoxExpandButton.Content = "";
@@ -238,6 +288,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SearchBoxExpandButton.Content = "";
             SearchPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowLiveFeedPanel()
+        {
+            LiveFeedBoxExpandButton.Content = "";
+            LiveFeedPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideLiveFeedPanel()
+        {
+            LiveFeedBoxExpandButton.Content = "";
+            LiveFeedPanel.Visibility = Visibility.Collapsed;
         }
     }
 }
