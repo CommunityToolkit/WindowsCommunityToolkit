@@ -59,6 +59,8 @@
     <Compile Include="Expander\Expander.cs" />
     <Compile Include="Expander\Expander.Events.cs" />
     <Compile Include="Expander\Expander.Properties.cs" />
+    <Compile Include="FrostedGlassPanel\FrostedGlassPanel.cs" />
+    <Compile Include="FrostedGlassPanel\FrostedGlassPanel.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
     <Compile Include="GridSplitter\GridSplitter.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
@@ -168,6 +170,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="FrostedGlassPanel\FrostedGlassPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,6 +265,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Controls.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

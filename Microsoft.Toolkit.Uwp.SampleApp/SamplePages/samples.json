@@ -204,6 +204,16 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "FrostedGlassPanel",
+        "Type": "FrostedGlassPanelPage",
+        "About": "The FrostedGlassPanel allows the creation of a layout with translucent effect similar to a glass.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/FrostedGlassPanel",
+        "XamlCodeFile": "FrostedGlassPanelXaml.bind",
+        "Icon": "/SamplePages/FrostedGlassPanel/FrostedGlassPanel.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/FrostedGlassPanel.md"
       }
     ]
   },
