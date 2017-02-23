@@ -197,6 +197,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/WrapPanel.md"
       },
       {
+        "Name": "Carousel",
+        "Type": "CarouselPage",
+        "About": "A control that allows a user to cycle through a collection of items.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
+        "XamlCodeFile": "CarouselXaml.bind",
+        "CodeFile": "CarouselCode.bind",
+        "Icon": "/SamplePages/Carousel/Carousel.png"
+      },
+      {
         "Name": "TextBoxRegex",
         "Type": "TextBoxRegexPage",
         "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",

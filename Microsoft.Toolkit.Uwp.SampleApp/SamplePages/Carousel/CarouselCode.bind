@@ -1,0 +1,33 @@
+// used when CarouselItem.DefaultAnimationEnabled==false
+private void CarouselItem_CarouselItemLocationChanged(object sender, CarouselItemLocationChangedEventArgs e)
+{
+  var item = sender as CarouselItem;
+  float centerX = (float)item.ActualWidth / 2;
+  float centerY = (float)item.ActualHeight / 2;
+
+  item.Rotate(item.CarouselItemLocation * 10f, centerX, centerY, 200).Start();
+
+  TextBlock text = item.FindName("Text") as TextBlock;
+  if (text != null)
+  {
+    centerX = (float)text.ActualWidth / 2;
+    if (item.CarouselItemLocation == 0)
+    {
+      if (CarouselControl.Orientation == Orientation.Horizontal)
+      {
+        text.Scale(scaleX: 2, scaleY: 2, centerX: centerX).Start();
+        text.Offset(offsetY: 200).Start();
+      }
+      else
+      {
+        text.Scale(scaleX: 2, scaleY: 2).Start();
+        text.Offset(offsetX: 200, offsetY: -90).Start();
+      }
+    }
+    else
+    {
+      text.Scale(scaleX: 1, scaleY: 1, centerX: centerX).Start();
+      text.Offset(offsetY: 0, offsetX: 0).Start();
+    }
+  }
+}
