@@ -56,9 +56,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the container this header belongs to
         /// </summary>
-        public ListView TargetListViewBase
+        public ListViewBase TargetListViewBase
         {
-            get { return (ListView)GetValue(TargetListViewBaseProperty); }
+            get { return (ListViewBase)GetValue(TargetListViewBaseProperty); }
             set { SetValue(TargetListViewBaseProperty, value); }
         }
 
