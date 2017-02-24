@@ -54,6 +54,18 @@
                            Margin="20,0"
                            FontSize="22" />
             </StackPanel>
+
+            <StackPanel x:Name="Stack4"
+                        Margin="10"
+                        Orientation="Horizontal">
+                <TextBlock FontSize="22"
+                           FontWeight="Bold"
+                           Text="Network names:"
+                           TextWrapping="Wrap" />
+                <TextBlock x:Name="NetworkNamesText"
+                           Margin="20,0"
+                           FontSize="22" />
+            </StackPanel>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -72,6 +84,7 @@
                         <Setter Target="Stack1.Orientation" Value="Vertical" />
                         <Setter Target="Stack2.Orientation" Value="Vertical" />
                         <Setter Target="Stack3.Orientation" Value="Vertical" />
+                        <Setter Target="Stack4.Orientation" Value="Vertical" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

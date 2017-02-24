@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             IsInternetOnMeteredConnectionText.Text = NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection ? "Yes" : "No";
             ConnectionTypeText.Text = NetworkHelper.Instance.ConnectionInformation.ConnectionType.ToString();
             SignalBarsText.Text = NetworkHelper.Instance.ConnectionInformation.SignalStrength.GetValueOrDefault(0).ToString();
+            NetworkNamesText.Text = string.Join(", ", NetworkHelper.Instance.ConnectionInformation.NetworkNames);
         }
     }
 }

@@ -20,8 +20,6 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public class NetworkHelper
     {
-        private ConnectionInformation connectionInformation = null;
-
         /// <summary>
         /// Private singleton field.
         /// </summary>
@@ -40,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets instance of <see cref="ConnectionInformation"/>.
         /// </summary>
-        public ConnectionInformation ConnectionInformation { get; private set; }
+        public ConnectionInformation ConnectionInformation { get; } = new ConnectionInformation();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkHelper"/> class.

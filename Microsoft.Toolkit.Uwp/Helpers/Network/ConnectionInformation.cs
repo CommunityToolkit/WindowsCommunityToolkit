@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public class ConnectionInformation
     {
-        private List<string> networkNames = new List<string>();
+        private readonly List<string> networkNames = new List<string>();
 
         /// <summary>
         /// Updates  the current object based on profile passed.
