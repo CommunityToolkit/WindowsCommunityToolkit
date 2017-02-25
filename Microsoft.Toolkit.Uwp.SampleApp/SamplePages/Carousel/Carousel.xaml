@@ -8,21 +8,22 @@
       mc:Ignorable="d">
 
 
- 
+
 
     <Grid Background="{StaticResource Brush-Grey-05}">
 
         <Border Margin="0"  >
 
-            <controls:Carousel 
-                        SelectedIndex="{Binding SelectedIndex.Value, Mode=OneWay}"
-                        TransitionDuration="{Binding TransitionDuration.Value, Mode=OneWay}" 
-                        Depth="{Binding Depth.Value, Mode=OneWay}" 
-                        MaxVisibleItems="{Binding MaxVisibleItems.Value, Mode=OneWay}"
+            <controls:Carousel Background="{StaticResource Brush-Grey-05}"
                         x:Name="carouselControl"
-                        Rotation="{Binding Rotation.Value, Mode=OneWay}" 
-                        TranslateY="{Binding TranslateY.Value, Mode=OneWay}"
-                        TranslateX ="{Binding TranslateX.Value, Mode=OneWay}">
+                        SelectedIndex="{Binding SelectedIndex.Value, Mode=TwoWay}"
+                        ItemDepth="{Binding ItemDepth.Value, Mode=OneWay}" 
+                        Orientation="{Binding Orientation.Value, Mode=OneWay}"
+                        ItemMargin="{Binding ItemMargin.Value, Mode=OneWay}"
+                        ItemRotationX="{Binding ItemRotationX.Value, Mode=OneWay}" 
+                        ItemRotationY="{Binding ItemRotationY.Value, Mode=OneWay}"
+                        ItemRotationZ ="{Binding ItemRotationZ.Value, Mode=OneWay}"
+                        InvertPositive="{Binding InvertPositive.Value, Mode=OneWay}">
                 <controls:Carousel.EasingFunction>
                     <CubicEase EasingMode="EaseOut" />
                 </controls:Carousel.EasingFunction>
@@ -33,8 +34,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Image Source="{Binding BitmapImage}" Width="400" Height="300" VerticalAlignment="Bottom" 
-                               Stretch="Uniform"></Image>
+                            <Image Source="{Binding BitmapImage}" Width="200" Height="200" VerticalAlignment="Bottom"
+                                Stretch="Uniform"></Image>
                         </Grid>
                     </DataTemplate>
                 </controls:Carousel.ItemTemplate>
@@ -42,7 +43,7 @@
             </controls:Carousel>
         </Border>
 
-        
+
 
     </Grid>
 </Page>

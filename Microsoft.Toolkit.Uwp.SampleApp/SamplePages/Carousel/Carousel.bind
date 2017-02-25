@@ -11,18 +11,19 @@
 
   <Grid Background="{StaticResource Brush-Grey-05}">
 
-    <Border Margin="0"  >
+    <Border Margin="0">
 
-      <controls:Carousel ItemsSource="{Binding Datas}"
-                  SelectedIndex="@[SelectedIndex:Slider:8:0-14]"
-                  ItemTemplate="{StaticResource TemplateFullScreen}"
-                  TransitionDuration="@[TransitionDuration:Slider:300:100-500]"
-                  Depth="@[Depth:Slider:120:100-1000]"
-                  MaxVisibleItems="@[MaxVisibleItems:Slider:4:3-10]"
-                  x:Name="LightStoneElement"
-                  Rotation="@[Rotation:Slider:45:0-100]"
-                  TranslateY="@[TranslateY:Slider:20:0-500]"
-                  TranslateX ="@[TranslateX:Slider:90:0-500]">
+      <controls:Carousel ItemsSource="{Binding Datas}" Background="{StaticResource Brush-Grey-05}"
+                  x:Name="carouselControl"
+                  SelectedIndex="@[SelectedIndex:String:4]"
+                  ItemDepth="@[ItemDepth:Slider:50:0-400]"
+                  Orientation="@[Orientation:Enum:Orientation.Horizontal]"
+                  ItemMargin="@[ItemMargin:Slider:0:0-500]"
+                  ItemRotationX="@[ItemRotationX:Slider:0:0-180]" 
+                  ItemRotationY="@[ItemRotationY:Slider:45:0-180]"
+                  ItemRotationZ ="@[ItemRotationZ:Slider:0:0-180]"
+                  InvertPositive="@[InvertPositive:Bool:True]"
+                         >
         <controls:Carousel.EasingFunction>
           <CubicEase EasingMode="EaseOut" />
         </controls:Carousel.EasingFunction>
@@ -33,7 +34,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
               </Grid.RowDefinitions>
-              <Image Source="{Binding BitmapImage}" Width="400" Height="300" VerticalAlignment="Bottom"
+              <Image Source="{Binding BitmapImage}" Width="200" Height="100" VerticalAlignment="Bottom"
                  Stretch="Uniform"></Image>
             </Grid>
           </DataTemplate>

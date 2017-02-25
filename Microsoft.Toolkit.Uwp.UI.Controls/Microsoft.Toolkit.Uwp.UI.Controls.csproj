@@ -53,6 +53,7 @@
     <Compile Include="BladeView\BladeView.Events.cs" />
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
+    <Compile Include="Carousel\CarouselPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
@@ -111,6 +112,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Carousel\Carousel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
       <SubType>Designer</SubType>
