@@ -28,6 +28,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequest
     {
+        private bool _abort;
+
         /// <summary>
         /// HTTP Get request to specified Uri.
         /// </summary>
@@ -49,11 +51,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
+        /// <summary>
+        /// HTTP Get request for stream service.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="callback">Function invoked when stream available.</param>
+        /// <returns>awaitable task</returns>
         public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback)
         {
             using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
             {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens);
 
                 request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
@@ -77,8 +86,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
-        private bool _abort;
-
+        /// <summary>
+        /// Stop reading stream
+        /// </summary>
         public void Abort()
         {
             _abort = true;

@@ -379,11 +379,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
-        /// Get user streams (Events, DirectMessages...)
+        /// Get user streams (Events, DirectMessages...).
         /// </summary>
-        /// <param name="parser">Specific stream's result parser</param>
-        /// <param name="callback">Method called each time a result occurs</param>
-        /// <returns>Task doing the job</returns>
+        /// <param name="parser">Specific stream's result parser.</param>
+        /// <param name="callback">Method called each time a result occurs.</param>
+        /// <returns>Awaitable task.</returns>
         public Task GetUserStreamsAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
         {
             try
@@ -414,9 +414,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
+        /// <summary>
+        /// Stop user's stream
+        /// </summary>
         public void StopStream()
         {
-            _streamRequest.Abort();
+            _streamRequest?.Abort();
             _streamRequest = null;
         }
 

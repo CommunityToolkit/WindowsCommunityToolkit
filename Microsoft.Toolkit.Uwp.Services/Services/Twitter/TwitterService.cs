@@ -283,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
-        /// Open a connection with Tweet stream service
+        /// Open a connection to user's stream service
         /// </summary>
         /// <param name="callback">Method called each time a tweet arrives</param>
         /// <returns>Task</returns>
@@ -302,6 +302,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
+        /// <summary>
+        /// Close the connection to user's stream service
+        /// </summary>
         public void StopUserStreams()
         {
             Provider.StopStream();

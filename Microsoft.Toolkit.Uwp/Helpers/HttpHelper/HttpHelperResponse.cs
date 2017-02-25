@@ -92,14 +92,18 @@ namespace Microsoft.Toolkit.Uwp
             return Content.ReadAsStringAsync().AsTask();
         }
 
-        public async Task<IInputStream> GetStreamResultAsync()
+        /// <summary>
+        /// Reads the Content as stream and returns it to the caller.
+        /// </summary>
+        /// <returns>stream content</returns>
+        public Task<IInputStream> GetStreamResultAsync()
         {
             if (Content == null)
             {
-                return null;
+                return Task.FromResult<IInputStream>(null);
             }
 
-            return await Content.ReadAsInputStreamAsync();
+            return Content.ReadAsInputStreamAsync().AsTask();
         }
 
         /// <summary>
