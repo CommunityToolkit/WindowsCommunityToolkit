@@ -13,7 +13,7 @@ await BackgroundExecutionManager.RequestAccessAsync();
 BackgroundTaskHelper.Register(testBackgroundTaskName, new TimeTrigger(15, false));
 
 // Register (Multi Process) w/ Conditions.
-BackgroundTaskHelper.Register(nameof(TestBackgroundTask), "Microsoft.Toolkit.Uwp.SampleApp.SamplePages", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
+BackgroundTaskHelper.Register(nameof(TestBackgroundTask), "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
 
 //Unregister
 BackgroundTaskHelper.Unregister(testBackgroundTaskName);

@@ -47,8 +47,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Check for background access.
             await BackgroundExecutionManager.RequestAccessAsync();
 
-            // If registering Multi-Process Background task
-            BackgroundTaskHelper.Register(nameof(TestBackgroundTask), "Microsoft.Toolkit.Uwp.SampleApp.SamplePages", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            // Registering Multi-Process Background task
+            BackgroundTaskHelper.Register(nameof(TestBackgroundTask), "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
 
             StatusMessage.Text = "Background Task registered (MPM)";
         }
