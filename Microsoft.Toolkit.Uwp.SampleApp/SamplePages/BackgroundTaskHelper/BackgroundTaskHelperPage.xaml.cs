@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             BackgroundTaskHelper.Register(Constants.TestBackgroundTaskName, new TimeTrigger(15, false));
 
             // If registering Multi-Process Background task
-            // BackgroundTaskHelper.Register("TestName", "TestEntryPoint", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
+            // BackgroundTaskHelper.Register(testBackgroundTaskName, "Microsoft.Toolkit.Uwp.SampleApp.SamplePages", new TimeTrigger(15, false), false, true, new SystemCondition(SystemConditionType.InternetAvailable));
             StatusMessage.Text = "Background Task registered";
         }
 
