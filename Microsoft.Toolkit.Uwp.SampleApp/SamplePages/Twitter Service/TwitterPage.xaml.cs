@@ -27,13 +27,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {
-        public ObservableCollection<Tweet> Tweets { get; set; }
+        public ObservableCollection<ITwitterStreamResult> Tweets { get; set; }
 
         public TwitterPage()
         {
             InitializeComponent();
             DataContext = this;
-            Tweets = new ObservableCollection<Tweet>();
+            Tweets = new ObservableCollection<ITwitterStreamResult>();
 
             ShareBox.Visibility = Visibility.Collapsed;
             SearchBox.Visibility = Visibility.Collapsed;
@@ -95,9 +95,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            Tweets = new ObservableCollection<Tweet>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
-
-            ListView.ItemsSource = Tweets;
+            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -150,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            Tweets = new ObservableCollection<Tweet>(await TwitterService.Instance.SearchAsync(TagText.Text, 50));
+            ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
             Shell.Current.DisplayWaitRing = false;
         }
 
@@ -182,12 +180,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (LiveFeedToggle.IsOn)
             {
+                ListView.ItemsSource = Tweets;
                 Shell.Current.DisplayWaitRing = true;
                 GetUserStreams();
                 Shell.Current.DisplayWaitRing = false;
             }
             else
             {
+                Tweets.Clear();
                 TwitterService.Instance.StopUserStreams();
             }
         }

@@ -4,6 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:twitter="using:Microsoft.Toolkit.Uwp.Services.Twitter"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Twitter_Service"
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="TwitterSchemaTemplate"
@@ -75,6 +76,79 @@
                 </Grid>
             </Border>
         </DataTemplate>
+
+        <DataTemplate x:Key="TwitterEventTemplate"
+                      x:DataType="twitter:TwitterStreamEvent">
+            <Border Margin="12,0,12,12"
+                    Padding="12"
+                    Background="White"
+                    BorderBrush="#FFCC9999"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.RowSpan="2"
+                               Width="50"
+                               Height="50"
+                               Margin="0,0,12,0"
+                               VerticalAlignment="Top"
+                               Source="{Binding Source.ProfileImageUrl}"
+                               Stretch="Uniform" />
+                        <TextBlock Grid.Column="1"
+                                   FontWeight="SemiBold"
+                                   Text="{x:Bind Source.Name}" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Top"
+                                   FontWeight="Light"
+                                   Text="{x:Bind Source.ScreenName}" />
+                        <Image Grid.RowSpan="2"
+                               Grid.Column="2"
+                               Width="24"
+                               Height="24"
+                               VerticalAlignment="Top"
+                               Source="/SamplePages/Twitter Service/TwitterLogo.png"
+                               Stretch="Uniform" />
+                    </Grid>
+                    <TextBlock Grid.Row="1"
+                               FontWeight="SemiBold"
+                               Text="{x:Bind TargetObject.Text}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="WrapWholeWords" />
+
+                    <StackPanel Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <TextBlock FontWeight="ExtraLight"
+                                   Text="{x:Bind CreatedAt}" />
+                        <TextBlock Margin="4,0,0,0"
+                                   FontWeight="ExtraLight"
+                                   Text="{x:Bind EventType}" />
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!--Template Selector-->
+        <local:TwitterTemplateSelector x:Key="TwitterTemplateSelector" 
+                                       TweetTemplate="{StaticResource TwitterSchemaTemplate}"
+                                       EventTemplate="{StaticResource TwitterEventTemplate}"/>
     </Page.Resources>
 
     <Grid MaxWidth="800"
@@ -319,7 +393,7 @@
                               Grid.Row="4"
                               Margin="0,12,0,0"
                               IsItemClickEnabled="False"
-                              ItemTemplate="{StaticResource TwitterSchemaTemplate}"
+                              ItemTemplateSelector="{StaticResource TwitterTemplateSelector}"
                               SelectionMode="None">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">

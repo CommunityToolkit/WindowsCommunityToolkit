@@ -13,20 +13,17 @@
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Callbacks used for Twitter streams.
+    /// Twitter stream interface.
     /// </summary>
-    public class TwitterStreamCallbacks
+    public interface ITwitterStreamResult
     {
-        /// <summary>
-        /// Callback converting json to Tweet
-        /// </summary>
-        /// <param name="json">Raw Json from Twitter API</param>
-        public delegate void RawJsonCallback(string json);
+        TwitterStreamType ResultType { get; }
+    }
 
-        /// <summary>
-        /// Callback returning the parsed tweet
-        /// </summary>
-        /// <param name="tweet">Strongly typed tweet</param>
-        public delegate void TwitterStreamCallback(ITwitterStreamResult tweet);
+    public enum TwitterStreamType
+    {
+        Event,
+        DirectMessage,
+        User
     }
 }

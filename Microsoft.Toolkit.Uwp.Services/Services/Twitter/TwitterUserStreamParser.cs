@@ -27,16 +27,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>List of strongly typed objects.</returns>
-        public Tweet Parse(string data)
+        public ITwitterStreamResult Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
                 return null;
             }
-
-            //var t = JsonConvert.DeserializeObject<Tweet>(data);
-
-            //return tt;
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(data);
 
@@ -74,41 +70,38 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             //    }
             //}
 
-            //var events = obj.SelectToken("event", false);
-            //if (events != null)
-            //{
-            //    if (eventCallback != null)
-            //    {
-            //        var targetobject = obj.SelectToken("target_object", false);
-            //        TwitterObject endtargetobject = null;
-            //        if (targetobject != null)
-            //        {
-            //            if (targetobject.SelectToken("subscriber_count", false) != null)
-            //            {
-            //                endtargetobject = JsonConvert.DeserializeObject<TwitterList>(targetobject.ToString());
-            //            }
-            //            else if (targetobject.SelectToken("user", false) != null)
-            //            {
-            //                endtargetobject = JsonConvert.DeserializeObject<TwitterStatus>(targetobject.ToString());
-            //            }
-            //        }
-            //        var endevent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
-            //        endevent.TargetObject = endtargetobject;
-            //        this.eventCallback(endevent);
-            //    }
-            //    return;
-            //}
+            var events = obj.SelectToken("event", false);
+            if (events != null)
+            {
+                var targetobject = obj.SelectToken("target_object", false);
+                Tweet endtargetobject = null;
+                if (targetobject != null)
+                {
+                    if (targetobject.SelectToken("subscriber_count", false) != null)
+                    {
+                        //endtargetobject = JsonConvert.DeserializeObject<TwitterList>(targetobject.ToString());
+                    }
+                    else if (targetobject.SelectToken("user", false) != null)
+                    {
+                        endtargetobject = JsonConvert.DeserializeObject<Tweet>(targetobject.ToString());
+                    }
+                }
+
+                var endevent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
+                endevent.TargetObject = endtargetobject;
+                return endevent;
+            }
 
             var user = obj.SelectToken("user", false);
             if (user != null && user.HasValues)
             {
-                return JsonConvert.DeserializeObject<Tweet>(obj.ToString());
+                return JsonConvert.DeserializeObject<TwitterUserStream>(obj.ToString());
             }
 
             var directMessage = obj.SelectToken("direct_message", false);
             if (directMessage != null && directMessage.HasValues)
             {
-                return JsonConvert.DeserializeObject<Tweet>(directMessage.ToString());
+                return JsonConvert.DeserializeObject<TwitterDirectMessage>(directMessage.ToString());
             }
 
             return null;

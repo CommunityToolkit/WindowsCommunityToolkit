@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter User type.
     /// </summary>
-    public class TwitterDirectMessage
+    public class TwitterDirectMessage : ITwitterStreamResult
     {
         /// <summary>
         /// Gets or sets the direct message id.
@@ -88,5 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <value>The entities.</value>
         [JsonProperty(PropertyName = "entities")]
         public TwitterEntities Entities { get; set; }
+
+        public TwitterStreamType ResultType => TwitterStreamType.DirectMessage;
     }
 }

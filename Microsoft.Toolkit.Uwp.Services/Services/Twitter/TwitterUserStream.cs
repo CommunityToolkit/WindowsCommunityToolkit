@@ -10,22 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
     /// Twitter User type.
     /// </summary>
-    public class TwitterUserStream
+    public class TwitterUserStream : Tweet, ITwitterStreamResult
     {
-        /// <summary>
-        /// Gets or sets friends ids
-        /// </summary>
-        [JsonProperty("friends")]
-        public IEnumerable<long> Friends { get; set; }
-
-        
+        public TwitterStreamType ResultType => TwitterStreamType.User;
     }
 }
