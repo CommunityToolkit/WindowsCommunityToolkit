@@ -13,10 +13,9 @@
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Twitter User type.
+    /// Any kind of twitter object.
     /// </summary>
-    public class TwitterUserStream : Tweet, ITwitterStreamResult
+    public interface ITwitterResult
     {
-        public TwitterStreamType ResultType => TwitterStreamType.User;
     }
 }

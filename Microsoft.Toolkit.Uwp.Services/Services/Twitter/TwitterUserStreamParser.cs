@@ -10,8 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -27,64 +25,45 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>List of strongly typed objects.</returns>
-        public ITwitterStreamResult Parse(string data)
+        public ITwitterResult Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
                 return null;
             }
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(data);
+            var obj = (JObject)JsonConvert.DeserializeObject(data);
 
-            //var friends = obj.SelectToken("friends", false);
-            //if (friends != null)
-            //{
-            //    //if (friendsCallback != null && friends.HasValues)
-            //    //{
-            //    //    friendsCallback(JsonConvert.DeserializeObject<TwitterIdCollection>(ConvertJTokenToString(friends)));
-            //    //}
-            //    return null;
-            //}
+            var friends = obj.SelectToken("friends", false);
+            if (friends != null && friends.HasValues)
+            {
+                return null;
+            }
 
-            //var delete = obj.SelectToken("delete", false);
-            //if (delete != null)
-            //{
-            //    var deletedStatus = delete.SelectToken("status", false);
-            //    if (deletedStatus != null)
-            //    {
-            //        //if (statusDeletedCallback != null && deletedStatus.HasValues)
-            //        //{
-            //        //    statusDeletedCallback(JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(ConvertJTokenToString(deletedStatus)));
-            //        //}
-            //        return null;
-            //    }
+            var delete = obj.SelectToken("delete", false);
+            if (delete != null)
+            {
+                var deletedStatus = delete.SelectToken("status", false);
+                if (deletedStatus != null && deletedStatus.HasValues)
+                {
+                    return JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(deletedStatus.ToString());
+                }
 
-            //    var deletedDirectMessage = delete.SelectToken("direct_message", false);
-            //    if (deletedDirectMessage != null)
-            //    {
-            //        //if (directMessageDeletedCallback != null && deletedDirectMessage.HasValues)
-            //        //{
-            //        //    directMessageDeletedCallback(JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(ConvertJTokenToString(deletedDirectMessage)));
-            //        //}
-            //        return;
-            //    }
-            //}
+                var deletedDirectMessage = delete.SelectToken("direct_message", false);
+                if (deletedDirectMessage != null && deletedDirectMessage.HasValues)
+                {
+                    return JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(deletedDirectMessage.ToString());
+                }
+            }
 
             var events = obj.SelectToken("event", false);
             if (events != null)
             {
                 var targetobject = obj.SelectToken("target_object", false);
                 Tweet endtargetobject = null;
-                if (targetobject != null)
+                if (targetobject?.SelectToken("user", false) != null)
                 {
-                    if (targetobject.SelectToken("subscriber_count", false) != null)
-                    {
-                        //endtargetobject = JsonConvert.DeserializeObject<TwitterList>(targetobject.ToString());
-                    }
-                    else if (targetobject.SelectToken("user", false) != null)
-                    {
-                        endtargetobject = JsonConvert.DeserializeObject<Tweet>(targetobject.ToString());
-                    }
+                    endtargetobject = JsonConvert.DeserializeObject<Tweet>(targetobject.ToString());
                 }
 
                 var endevent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
@@ -95,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var user = obj.SelectToken("user", false);
             if (user != null && user.HasValues)
             {
-                return JsonConvert.DeserializeObject<TwitterUserStream>(obj.ToString());
+                return JsonConvert.DeserializeObject<Tweet>(obj.ToString());
             }
 
             var directMessage = obj.SelectToken("direct_message", false);

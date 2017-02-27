@@ -10,15 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Services.Twitter;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Microsoft.Toolkit.Uwp.Services.Twitter;
+using System.Linq;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,18 +27,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {
-        public ObservableCollection<ITwitterStreamResult> Tweets { get; set; }
+        private ObservableCollection<ITwitterResult> _tweets;
 
         public TwitterPage()
         {
             InitializeComponent();
-            DataContext = this;
-            Tweets = new ObservableCollection<ITwitterStreamResult>();
 
             ShareBox.Visibility = Visibility.Collapsed;
             SearchBox.Visibility = Visibility.Collapsed;
+            LiveFeedBox.Visibility = Visibility.Collapsed;
             HideSearchPanel();
             HideTweetPanel();
+            HideLiveFeedPanel();
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -68,10 +68,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ShareBox.Visibility = Visibility.Visible;
             SearchBox.Visibility = Visibility.Visible;
+            LiveFeedBox.Visibility = Visibility.Visible;
 
             HideCredentialsPanel();
             ShowSearchPanel();
             ShowTweetPanel();
+            ShowLiveFeedPanel();
 
             TwitterUser user;
             try
@@ -180,14 +182,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (LiveFeedToggle.IsOn)
             {
-                ListView.ItemsSource = Tweets;
+                _tweets = new ObservableCollection<ITwitterResult>();
+                ListView.ItemsSource = _tweets;
                 Shell.Current.DisplayWaitRing = true;
                 GetUserStreams();
                 Shell.Current.DisplayWaitRing = false;
             }
             else
             {
-                Tweets.Clear();
+                _tweets.Clear();
                 TwitterService.Instance.StopUserStreams();
             }
         }
@@ -200,7 +203,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     if (tweet != null)
                     {
-                        Tweets.Insert(0, tweet);
+                        if (tweet is TwitterStreamDeletedEvent)
+                        {
+                            var toRemove = _tweets.Where(t => t is Tweet)
+                                .SingleOrDefault(t => ((Tweet)t).Id == ((TwitterStreamDeletedEvent)tweet).Id);
+
+                            if (toRemove != null)
+                            {
+                                _tweets.Remove(toRemove);
+                            }
+                        }
+                        else
+                        {
+                            _tweets.Insert(0, tweet);
+                        }
                     }
                 });
             });

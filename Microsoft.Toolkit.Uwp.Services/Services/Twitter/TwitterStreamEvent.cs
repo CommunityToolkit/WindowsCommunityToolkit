@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -18,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter User type.
     /// </summary>
-    public class TwitterStreamEvent : ITwitterStreamResult
+    public class TwitterStreamEvent : ITwitterResult
     {
         /// <summary>
         /// Gets or sets the type of the event.
@@ -53,6 +55,21 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty(PropertyName = "created_at")]
         public string CreatedAt { get; set; }
 
-        public TwitterStreamType ResultType => TwitterStreamType.Event;
+        /// <summary>
+        /// Gets the creation date
+        /// </summary>
+        public DateTime CreationDate
+        {
+            get
+            {
+                DateTime dt;
+                if (!DateTime.TryParseExact(CreatedAt, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                {
+                    dt = DateTime.Today;
+                }
+
+                return dt;
+            }
+        }
     }
 }

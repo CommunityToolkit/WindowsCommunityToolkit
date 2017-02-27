@@ -10,20 +10,27 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Newtonsoft.Json;
+
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Twitter stream interface.
+    /// Twitter User type.
     /// </summary>
-    public interface ITwitterStreamResult
+    public class TwitterStreamDeletedEvent : ITwitterResult
     {
-        TwitterStreamType ResultType { get; }
-    }
+        /// <summary>
+        /// Gets or sets the user id of the event. This is always the user who initiated the event.
+        /// </summary>
+        /// <value>The user Id.</value>
+        [JsonProperty(PropertyName = "user_id_str")]
+        public string UserId { get; set; }
 
-    public enum TwitterStreamType
-    {
-        Event,
-        DirectMessage,
-        User
+        /// <summary>
+        /// Gets or sets the id of the event. This is the tweet that was affected.
+        /// </summary>
+        /// <value>The tweet Id.</value>
+        [JsonProperty(PropertyName = "id_str")]
+        public string Id { get; set; }
     }
 }

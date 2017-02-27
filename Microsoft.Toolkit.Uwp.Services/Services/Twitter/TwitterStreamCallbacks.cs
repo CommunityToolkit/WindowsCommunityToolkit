@@ -27,6 +27,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Callback returning the parsed tweet
         /// </summary>
         /// <param name="tweet">Strongly typed tweet</param>
-        public delegate void TwitterStreamCallback(ITwitterStreamResult tweet);
+        public delegate void TwitterStreamCallback(ITwitterResult tweet);
     }
 }

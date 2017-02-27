@@ -81,12 +81,13 @@
                       x:DataType="twitter:TwitterStreamEvent">
             <Border Margin="12,0,12,12"
                     Padding="12"
-                    Background="White"
-                    BorderBrush="#FFCC9999"
+                    Background="#FFCCCCCC"
+                    BorderBrush="#E2FFF893"
                     BorderThickness="1"
                     CornerRadius="4">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -103,20 +104,53 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.RowSpan="2"
-                               Width="50"
-                               Height="50"
+                               Width="25"
+                               Height="25"
                                Margin="0,0,12,0"
                                VerticalAlignment="Top"
                                Source="{Binding Source.ProfileImageUrl}"
                                Stretch="Uniform" />
                         <TextBlock Grid.Column="1"
                                    FontWeight="SemiBold"
+                                   FontSize="12"
                                    Text="{x:Bind Source.Name}" />
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
                                    VerticalAlignment="Top"
+                                   FontSize="12"
                                    FontWeight="Light"
                                    Text="{x:Bind Source.ScreenName}" />
+                        <TextBlock Grid.RowSpan="2"
+                                   Grid.Column="2"
+                                   Margin="4,0,0,0"
+                                   FontWeight="ExtraBold"
+                                   Text="{x:Bind EventType}" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.RowSpan="2"
+                               Width="50"
+                               Height="50"
+                               Margin="0,0,12,0"
+                               VerticalAlignment="Top"
+                               Source="{Binding Target.ProfileImageUrl}"
+                               Stretch="Uniform" />
+                        <TextBlock Grid.Column="1"
+                                   FontWeight="SemiBold"
+                                   Text="{x:Bind Target.Name}" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Top"
+                                   FontWeight="Light"
+                                   Text="{x:Bind Target.ScreenName}" />
                         <Image Grid.RowSpan="2"
                                Grid.Column="2"
                                Width="24"
@@ -125,22 +159,18 @@
                                Source="/SamplePages/Twitter Service/TwitterLogo.png"
                                Stretch="Uniform" />
                     </Grid>
-                    <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="2"
                                FontWeight="SemiBold"
                                Text="{x:Bind TargetObject.Text}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="WrapWholeWords" />
 
-                    <StackPanel Grid.Row="2"
+                    <StackPanel Grid.Row="3"
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal">
                         <TextBlock FontWeight="ExtraLight"
-                                   Text="{x:Bind CreatedAt}" />
-                        <TextBlock Margin="4,0,0,0"
-                                   FontWeight="ExtraLight"
-                                   Text="{x:Bind EventType}" />
+                                   Text="{x:Bind CreationDate}" />
                     </StackPanel>
-
                 </Grid>
             </Border>
         </DataTemplate>
@@ -352,7 +382,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <!--  Search area  -->
+                    <!--  Live feed area  -->
                     <Grid x:Name="LiveFeedBox"
                           Grid.Row="3">
                         <Grid.RowDefinitions>
@@ -380,9 +410,9 @@
 
                         <StackPanel x:Name="LiveFeedPanel"
                                     Grid.Row="1"
-                                    Margin="24">
+                                    Margin="24,24,24,10">
                             <ToggleSwitch x:Name="LiveFeedToggle"
-                                          Header="Include live tweets"
+                                          Header="Get live tweets"
                                           Toggled="LiveFeedPanel_OnToggled"/>
 
                         </StackPanel>

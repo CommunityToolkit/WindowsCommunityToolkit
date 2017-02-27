@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -17,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter User type.
     /// </summary>
-    public class TwitterDirectMessage : ITwitterStreamResult
+    public class TwitterDirectMessage : ITwitterResult
     {
         /// <summary>
         /// Gets or sets the direct message id.
@@ -52,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <value>The created date.</value>
         [JsonProperty(PropertyName = "created_at")]
-        public string CreatedDate { get; set; }
+        public string CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the sender screen.
@@ -89,6 +91,21 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty(PropertyName = "entities")]
         public TwitterEntities Entities { get; set; }
 
-        public TwitterStreamType ResultType => TwitterStreamType.DirectMessage;
+        /// <summary>
+        /// Gets the creation date
+        /// </summary>
+        public DateTime CreationDate
+        {
+            get
+            {
+                DateTime dt;
+                if (!DateTime.TryParseExact(CreatedAt, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                {
+                    dt = DateTime.Today;
+                }
+
+                return dt;
+            }
+        }
     }
 }

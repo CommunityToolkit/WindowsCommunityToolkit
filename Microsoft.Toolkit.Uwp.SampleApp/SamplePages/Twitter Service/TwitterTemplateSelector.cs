@@ -24,18 +24,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Twitter_Service
                     return TweetTemplate;
                 }
 
-                var streamObject = item as ITwitterStreamResult;
-                if (streamObject != null)
+                if (item is TwitterDirectMessage)
                 {
-                    switch (streamObject.ResultType)
-                    {
-                        case TwitterStreamType.DirectMessage:
-                            return DirectMessageTemplate;
-                        case TwitterStreamType.Event:
-                            return EventTemplate;
-                        default:
-                            return TweetTemplate;
-                    }
+                    return DirectMessageTemplate;
+                }
+
+                if (item is TwitterStreamEvent)
+                {
+                    return EventTemplate;
                 }
             }
 
