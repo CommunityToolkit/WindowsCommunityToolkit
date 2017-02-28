@@ -146,17 +146,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
+            SampleCategory category;
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 DataContext = null;
-                if (navigationEventArgs.Parameter != null)
-                {
-                    var category = navigationEventArgs.Parameter as SampleCategory;
+                category = navigationEventArgs.Parameter as SampleCategory;
 
-                    if (category != null)
-                    {
-                        TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
-                    }
+                if (category != null)
+                {
+                    TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
                 }
 
                 HideInfoArea();
@@ -174,6 +172,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                     return;
                 }
+
+                category = await Samples.GetCategoryBySample(sample);
 
                 var propertyDesc = sample.PropertyDescriptor;
 
@@ -236,6 +236,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     HideInfoArea();
                 }
+            }
+
+            if (HamburgerMenu.Items.Contains(category))
+            {
+                HamburgerMenu.SelectedItem = category;
+                HamburgerMenu.SelectedOptionsItem = null;
+            }
+            else
+            {
+                HamburgerMenu.SelectedItem = null;
+                HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
             }
         }
 
