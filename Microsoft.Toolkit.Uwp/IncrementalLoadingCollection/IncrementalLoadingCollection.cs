@@ -198,7 +198,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Clears the collection and reloads data from the source
         /// </summary>
-        public void Refresh()
+        /// <returns>This method does not return a result</returns>
+        public async Task RefreshAsync()
         {
             if (this.IsLoading)
             {
@@ -209,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp
                 Clear();
                 CurrentPageIndex = 0;
                 HasMoreItems = true;
-                DontAwait(LoadMoreItemsAsync(1));
+                await LoadMoreItemsAsync(1);
             }
         }
 
@@ -274,16 +275,11 @@ namespace Microsoft.Toolkit.Uwp
                 if (_refreshOnLoad)
                 {
                     _refreshOnLoad = false;
-                    Refresh();
+                    await RefreshAsync();
                 }
             }
 
             return new LoadMoreItemsResult { Count = resultCount };
-        }
-
-        private void DontAwait(IAsyncOperation<LoadMoreItemsResult> asyncOperation)
-        {
-            // do nothing
         }
     }
 }
