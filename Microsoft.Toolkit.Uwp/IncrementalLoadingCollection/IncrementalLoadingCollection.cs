@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>This method does not return a result</returns>
         public async Task RefreshAsync()
         {
-            if (this.IsLoading)
+            if (IsLoading)
             {
                 _refreshOnLoad = true;
             }
