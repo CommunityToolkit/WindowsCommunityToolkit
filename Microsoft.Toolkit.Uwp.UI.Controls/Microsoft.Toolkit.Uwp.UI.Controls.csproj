@@ -59,6 +59,8 @@
     <Compile Include="Expander\Expander.cs" />
     <Compile Include="Expander\Expander.Events.cs" />
     <Compile Include="Expander\Expander.Properties.cs" />
+    <Compile Include="FlyoutView\FlyoutView.cs" />
+    <Compile Include="FlyoutView\FlyoutView.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.cs" />
     <Compile Include="GridSplitter\GridSplitter.Data.cs" />
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
@@ -166,6 +168,11 @@
     <Page Include="Expander\Expander.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="FlyoutView\FlyoutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="GridSplitter\GridSplitter.xaml">

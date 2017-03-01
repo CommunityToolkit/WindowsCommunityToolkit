@@ -1,0 +1,38 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ExpanderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      <controls:FlyoutView IsOpen="@[IsOpen:Bool:False]"
+                           Placement="@[Placement:Enum:PlacementType.Left]"
+                           UseDismissOvelay="True"
+                           BackgroundOverlay="#BBF0F0F0"
+                           ContentWidth="300"
+                           ContentHeight="150">
+        <controls:FlyoutView.HeaderTemplate>
+          <DataTemplate>
+            <Grid Background="{StaticResource Brush-Grey-02}">
+              <TextBlock Text="@[Header:String:Header]"
+                         Style="{StaticResource HeaderTextBlockStyle}"
+                         Margin="20" />
+            </Grid>
+          </DataTemplate>
+        </controls:FlyoutView.HeaderTemplate>
+
+        <Grid Background="{StaticResource Brush-Grey-03}">
+          <TextBlock HorizontalAlignment="Center"
+                     TextWrapping="Wrap"
+                     Text="This is the content"
+                     VerticalAlignment="Center"
+                     Style="{StaticResource HeaderTextBlockStyle}" />
+        </Grid>
+      </controls:FlyoutView>
+    </Grid>
+  </Grid>
+</Page>
