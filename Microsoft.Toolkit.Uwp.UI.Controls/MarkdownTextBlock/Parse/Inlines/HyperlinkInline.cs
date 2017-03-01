@@ -108,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             "news://",
             "mumble://",
             "ssh://",
+            "ms-windows-store://",
         };
 
         /// <summary>

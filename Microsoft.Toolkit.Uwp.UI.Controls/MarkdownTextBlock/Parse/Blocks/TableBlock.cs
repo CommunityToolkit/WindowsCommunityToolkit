@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 while (pos < maxEndingPos)
                 {
                     // Ignore any whitespace at the start of the cell (except for a newline character).
-                    while (pos < maxEndingPos && Common.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n')
+                    while (pos < maxEndingPos && Common.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
                     {
                         pos++;
                     }
@@ -220,6 +220,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 
                         if (c == '\n')
                         {
+                            break;
+                        }
+
+                        if (c == '\r')
+                        {
+                            if (pos < maxEndingPos && markdown[pos] == '\n')
+                            {
+                                pos++; // Swallow the complete linefeed.
+                            }
+
                             break;
                         }
 

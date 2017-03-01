@@ -122,8 +122,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
         public async Task<bool> StartAsync()
         {
-            if (_animationTCS == null)
+            if (_animationTCS == null || _animationTCS.Task.IsCompleted)
             {
+                if (_animationTCS != null && _animationTCS.Task.IsCompleted)
+                {
+                    foreach (var set in _animationSets)
+                    {
+                        set.State = AnimationSetState.NotStarted;
+                        set._animationTCS = null;
+                    }
+                }
+
                 State = AnimationSetState.Running;
                 _animationTCS = new TaskCompletionSource<bool>();
             }

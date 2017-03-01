@@ -11,10 +11,14 @@
 // ******************************************************************
 
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
 using Microsoft.OneDrive.Sdk.Authentication;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -325,6 +329,50 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Photos.Request().GetAsync();
             return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Creates a background download for given OneDriveId
+        /// </summary>
+        /// <param name="oneDriveId">OneDrive item's Id</param>
+        /// <param name="destinationFile">A <see cref="StorageFile"/> to which content will be downloaded</param>
+        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to which should <see cref="BackgroundDownloader"/> reffer to</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request</param>
+        /// <returns>The created <see cref="DownloadOperation"/></returns>
+        public async Task<DownloadOperation> CreateBackgroundDownloadForItemAsync(string oneDriveId, StorageFile destinationFile, BackgroundTransferCompletionGroup completionGroup = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (string.IsNullOrWhiteSpace(oneDriveId))
+            {
+                throw new ArgumentNullException(nameof(oneDriveId));
+            }
+
+            if (destinationFile == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFile));
+            }
+
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            return await Task.Run(
+                async () =>
+                {
+                    var requestMessage = Provider.Drive.Items[oneDriveId].Content.Request().GetHttpRequestMessage();
+                    await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
+                    var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
+                    foreach (var item in requestMessage.Headers)
+                    {
+                        downloader.SetRequestHeader(item.Key, item.Value.First());
+                    }
+                    return downloader.CreateDownload(requestMessage.RequestUri, destinationFile);
+                }, cancellationToken);
         }
     }
 }

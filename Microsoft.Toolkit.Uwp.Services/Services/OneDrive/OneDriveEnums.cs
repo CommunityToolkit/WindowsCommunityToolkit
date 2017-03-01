@@ -49,14 +49,49 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             None,
 
             /// <summary>
-            /// Use the name to order the items
+            /// Use the name to order the items with "A" first
             /// </summary>
             Name,
 
             /// <summary>
-            /// Use the size to order the items
+            /// Use the name to order the items, with "A" first, new form
+            /// </summary>
+            NameAsc = Name,
+
+            /// <summary>
+            /// Use the name to order the items, with "Z" first
+            /// </summary>
+            NameDesc,
+
+            /// <summary>
+            /// Use the size to order the items, with the smallest first
             /// </summary>
             Size,
+
+            /// <summary>
+            /// Use the size to order the items, with the smallest first, new form
+            /// </summary>
+            SizeAsc = Size,
+
+            /// <summary>
+            /// Use the size to order the items, with the largest first
+            /// </summary>
+            SizeDesc,
+
+            /// <summary>
+            /// Use the date to order the items, with the oldest first
+            /// </summary>
+            Date,
+
+            /// <summary>
+            /// Use the date to order the items, with the oldest first, new form
+            /// </summary>
+            DateAsc = Date,
+
+            /// <summary>
+            /// Use the date to order the items, with the newest first
+            /// </summary>
+            DateDesc
         }
 
         /// <summary>

@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets or sets gets GraphServiceClient instance
+        /// Gets or sets GraphServiceClient instance
         /// </summary>
         internal IOneDriveClient Provider
         {

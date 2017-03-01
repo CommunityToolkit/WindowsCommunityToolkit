@@ -25,9 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
-        private const int RootGridColumnsMinWidth = 300;
-        private const int RootGridColumnsDefaultMinWidth = 0;
-
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
@@ -48,7 +45,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void ShowInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
-            UpdateRootGridMinWidth();
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
@@ -63,8 +59,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
@@ -152,17 +146,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
+            SampleCategory category;
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 DataContext = null;
-                if (navigationEventArgs.Parameter != null)
-                {
-                    var category = navigationEventArgs.Parameter as SampleCategory;
+                category = navigationEventArgs.Parameter as SampleCategory;
 
-                    if (category != null)
-                    {
-                        TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
-                    }
+                if (category != null)
+                {
+                    TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
                 }
 
                 HideInfoArea();
@@ -180,6 +172,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                     return;
                 }
+
+                category = await Samples.GetCategoryBySample(sample);
 
                 var propertyDesc = sample.PropertyDescriptor;
 
@@ -222,8 +216,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                UpdateRootGridMinWidth();
-
                 if (!string.IsNullOrEmpty(sample.CodeUrl))
                 {
                     GitHub.NavigateUri = new Uri(sample.CodeUrl);
@@ -245,19 +237,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
             }
-        }
 
-        private void UpdateRootGridMinWidth()
-        {
-            if (ActualWidth > 2 * RootGridColumnsMinWidth)
+            if (HamburgerMenu.Items.Contains(category))
             {
-                RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
-                RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
+                HamburgerMenu.SelectedItem = category;
+                HamburgerMenu.SelectedOptionsItem = null;
             }
             else
             {
-                RootGrid.ColumnDefinitions[0].MinWidth = 0;
-                RootGrid.ColumnDefinitions[1].MinWidth = 0;
+                HamburgerMenu.SelectedItem = null;
+                HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
             }
         }
 
@@ -434,8 +423,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 return;
             }
-
-            UpdateRootGridMinWidth();
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)

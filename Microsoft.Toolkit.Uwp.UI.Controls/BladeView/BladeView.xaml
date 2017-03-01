@@ -99,6 +99,7 @@
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
@@ -123,6 +124,7 @@
                                        Text="{TemplateBinding Title}" />
                             <Button Name="CloseButton"
                                     Grid.Column="1"
+                                    TabIndex="0"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"

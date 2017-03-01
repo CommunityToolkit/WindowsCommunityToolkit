@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CancellationTokenSource _tokenSource = null;
 
         /// <summary>
-        /// Gets or sets get or set the source used by the image
+        /// Gets or sets the source used by the image
         /// </summary>
         public object Source
         {
@@ -103,10 +104,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
             }
 
-            await LoadImageAsync();
+            await LoadImageAsync(_uri);
         }
 
-        private async Task LoadImageAsync()
+        private async Task LoadImageAsync(Uri imageUri)
         {
             if (_uri != null)
             {
@@ -114,11 +115,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     try
                     {
-                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token);
+                        var propValues = new List<KeyValuePair<string, object>>();
 
-                        _image.Source = img;
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
+                        if (DecodePixelHeight > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelHeight), DecodePixelHeight));
+                        }
+
+                        if (DecodePixelWidth > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelWidth), DecodePixelWidth));
+                        }
+
+                        if (propValues.Count > 0)
+                        {
+                            propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
+                        }
+
+                        var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
+
+                        lock (_lockObj)
+                        {
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == imageUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
+                        }
                     }
                     catch (OperationCanceledException)
                     {
@@ -126,8 +152,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
+                        lock (_lockObj)
+                        {
+                            if (_uri == imageUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
+                        }
                     }
                 }
                 else

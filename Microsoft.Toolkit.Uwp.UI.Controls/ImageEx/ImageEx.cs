@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Image _image;
         private ProgressRing _progress;
         private bool _isInitialized;
+        private object _lockObj;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageEx"/> class.
@@ -48,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageEx()
         {
             DefaultStyleKey = typeof(ImageEx);
+            _lockObj = new object();
         }
 
         /// <summary>

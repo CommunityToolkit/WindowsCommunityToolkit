@@ -52,6 +52,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterUser User { get; set; }
 
         /// <summary>
+        /// Gets or sets attached content of the tweet
+        /// </summary>
+        [JsonProperty("entities")]
+        public TwitterEntities Entities { get; set; }
+
+        /// <summary>
         /// Gets the creation date
         /// </summary>
         public DateTime CreationDate
