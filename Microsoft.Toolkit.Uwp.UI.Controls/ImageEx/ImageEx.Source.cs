@@ -113,6 +113,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (IsCacheEnabled && _isHttpSource)
                 {
+                    var ogUri = _uri;
+
                     try
                     {
                         var propValues = new List<KeyValuePair<string, object>>();
@@ -132,11 +134,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
                         }
 
-                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token, propValues);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(ogUri, true, _tokenSource.Token, propValues);
 
-                        _image.Source = img;
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
+                        lock (_lockObj)
+                        {
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == ogUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
+                        }
                     }
                     catch (OperationCanceledException)
                     {
@@ -144,8 +154,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
+                        lock (_lockObj)
+                        {
+                            if (_uri == ogUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
+                        }
                     }
                 }
                 else
