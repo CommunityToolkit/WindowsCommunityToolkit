@@ -414,7 +414,6 @@
                             <ToggleSwitch x:Name="LiveFeedToggle"
                                           Header="Get live tweets"
                                           Toggled="LiveFeedPanel_OnToggled"/>
-
                         </StackPanel>
                     </Grid>
 

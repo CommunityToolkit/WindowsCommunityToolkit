@@ -191,13 +191,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             else
             {
                 _tweets.Clear();
-                TwitterService.Instance.StopUserStreams();
+                TwitterService.Instance.StopUserStream();
             }
         }
 
         private async void GetUserStreams()
         {
-            await TwitterService.Instance.GetUserStreams(async tweet =>
+            await TwitterService.Instance.StartUserStreamAsync(async tweet =>
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {

@@ -287,25 +287,25 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="callback">Method called each time a tweet arrives</param>
         /// <returns>Task</returns>
-        public async Task GetUserStreams(TwitterStreamCallbacks.TwitterStreamCallback callback)
+        public async Task StartUserStreamAsync(TwitterStreamCallbacks.TwitterStreamCallback callback)
         {
             if (Provider.LoggedIn)
             {
-                await Provider.GetUserStreamsAsync(new TwitterUserStreamParser(), callback);
+                await Provider.StartUserStreamAsync(new TwitterUserStreamParser(), callback);
                 return;
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                await GetUserStreams(callback);
+                await StartUserStreamAsync(callback);
             }
         }
 
         /// <summary>
         /// Close the connection to user's stream service
         /// </summary>
-        public void StopUserStreams()
+        public void StopUserStream()
         {
             Provider.StopStream();
         }

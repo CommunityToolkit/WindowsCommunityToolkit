@@ -379,12 +379,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
-        /// Get user streams (Events, DirectMessages...).
+        /// Open a connection to user streams service (Events, DirectMessages...).
         /// </summary>
         /// <param name="parser">Specific stream's result parser.</param>
-        /// <param name="callback">Method called each time a result occurs.</param>
+        /// <param name="callback">Method invoked each time a result occurs.</param>
         /// <returns>Awaitable task.</returns>
-        public Task GetUserStreamsAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
+        public Task StartUserStreamAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
         {
             try
             {
