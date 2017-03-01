@@ -387,15 +387,10 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
-=======
-    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
-    <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
-      <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
->>>>>>> dev
     </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
