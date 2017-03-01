@@ -135,8 +135,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.PortraitFlipped;
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
