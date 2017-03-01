@@ -130,29 +130,29 @@
     <Content Include="Assets\NotificationAssets\Sunny.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms-Square.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms.png" />
-    <Content Include="Assets\Photos\BigFourSummerHeat.png" />
-    <Content Include="Assets\Photos\BisonBadlandsChillin.png" />
-    <Content Include="Assets\Photos\ColumbiaRiverGorge.png" />
-    <Content Include="Assets\Photos\GiantSlabInOregon.png" />
-    <Content Include="Assets\Photos\GrandTetons.png" />
+    <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
+    <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
+    <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
+    <Content Include="Assets\Photos\GiantSlabInOregon.jpg" />
+    <Content Include="Assets\Photos\GrandTetons.jpg" />
     <Content Include="Assets\Photos\ImageExPlaceholder.jpg" />
-    <Content Include="Assets\Photos\LakeAnnMushroom.png" />
-    <Content Include="Assets\Photos\LunchBreak.png" />
-    <Content Include="Assets\Photos\MilkyWayStHelensHikePurple.png" />
-    <Content Include="Assets\Photos\MitchellButtes.png" />
-    <Content Include="Assets\Photos\MultnomahFalls.png" />
-    <Content Include="Assets\Photos\NorthernCascadesReflection.png" />
-    <Content Include="Assets\Photos\NovemberHikeWaterfall.png" />
-    <Content Include="Assets\Photos\OregonWineryNamaste.png" />
-    <Content Include="Assets\Photos\Owl.png" />
-    <Content Include="Assets\Photos\PaintedHillsPathway.png" />
-    <Content Include="Assets\Photos\RunningDogPacificCity.png" />
-    <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.png" />
-    <Content Include="Assets\Photos\SmithnRockDownTheRiverView.png" />
-    <Content Include="Assets\Photos\SnowyInterbayt.png" />
-    <Content Include="Assets\Photos\SpeedTripleAtristsPoint.png" />
-    <Content Include="Assets\Photos\Van.png" />
-    <Content Include="Assets\Photos\WestSeattleView.png" />
+    <Content Include="Assets\Photos\LakeAnnMushroom.jpg" />
+    <Content Include="Assets\Photos\LunchBreak.jpg" />
+    <Content Include="Assets\Photos\MilkyWayStHelensHikePurple.jpg" />
+    <Content Include="Assets\Photos\MitchellButtes.jpg" />
+    <Content Include="Assets\Photos\MultnomahFalls.jpg" />
+    <Content Include="Assets\Photos\NorthernCascadesReflection.jpg" />
+    <Content Include="Assets\Photos\NovemberHikeWaterfall.jpg" />
+    <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
+    <Content Include="Assets\Photos\Owl.jpg" />
+    <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
+    <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
+    <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
+    <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
+    <Content Include="Assets\Photos\SnowyInterbayt.jpg" />
+    <Content Include="Assets\Photos\SpeedTripleAtristsPoint.jpg" />
+    <Content Include="Assets\Photos\Van.jpg" />
+    <Content Include="Assets\Photos\WestSeattleView.jpg" />
     <Content Include="Assets\ToolkitLogoTransparent.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-100.png" />
     <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-125.png" />
@@ -380,10 +380,14 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
+    <Compile Include="Controls\FocusTracker.xaml.cs">
+      <DependentUpon>FocusTracker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
@@ -596,6 +600,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FocusTracker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -829,6 +837,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
+      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>

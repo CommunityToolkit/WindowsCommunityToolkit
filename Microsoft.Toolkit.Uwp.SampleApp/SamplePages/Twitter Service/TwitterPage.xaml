@@ -254,15 +254,12 @@
                                              Content="Show me how to get these values"
                                              NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Twitter/" />
                             <TextBox x:Name="ConsumerKey"
-                                     Text="n4J84SiGTLXHFh7F5mex5PGLZ"
                                      Margin="0,0,0,12"
                                      Header="Consumer Key:" />
                             <TextBox x:Name="ConsumerSecret"
-                                     Text="8ht8N38Sh8hrNYgww3XRYS8X6gIcoywFoJYDcAoBoSfZXaKibt"
                                      Margin="0,0,0,12"
                                      Header="Consumer Secret:" />
                             <TextBox x:Name="CallbackUri"
-                                     Text="https://miriot.suismoi.fr"
                                      Margin="0,0,0,12"
                                      Header="Callback URI:" />
                             <Button x:Name="ConnectButton"

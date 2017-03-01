@@ -11,15 +11,15 @@
 // ******************************************************************
 
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
 using Microsoft.OneDrive.Sdk.Authentication;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using System.Linq;
-using System.Threading;
+using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -374,6 +374,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     return downloader.CreateDownload(requestMessage.RequestUri, destinationFile);
                 }, cancellationToken);
         }
-
     }
 }

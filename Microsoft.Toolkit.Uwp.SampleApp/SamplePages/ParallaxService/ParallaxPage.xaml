@@ -10,7 +10,7 @@
     <Grid Background="{StaticResource Brush-Grey-05}">
         <ScrollViewer>
             <StackPanel>
-                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
+                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"
                        MaxHeight="500"
                        Stretch="UniformToFill"
                        an:ParallaxService.VerticalMultiplier="{Binding VerticalMultiplier.Value}"/>

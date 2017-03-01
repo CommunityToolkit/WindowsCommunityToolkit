@@ -86,6 +86,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(true, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the brush used to render links.  If this is
+        /// <c>null</c>, then Foreground is used.
+        /// </summary>
+        public Brush LinkForeground
+        {
+            get { return (Brush)GetValue(LinkForegroundProperty); }
+            set { SetValue(LinkForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="LinkForeground"/>.
+        /// </summary>
+        public static readonly DependencyProperty LinkForegroundProperty = DependencyProperty.Register(
+            nameof(LinkForeground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the brush used to fill the background of a code block.
         /// </summary>
         public Brush CodeBackground
@@ -1001,7 +1020,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     TableBorderThickness = TableBorderThickness,
                     TableCellPadding = TableCellPadding,
                     TableMargin = TableMargin,
-                    TextWrapping = TextWrapping
+                    TextWrapping = TextWrapping,
+                    LinkForeground = LinkForeground
                 };
                 _rootElement.Child = renderer.Render();
             }

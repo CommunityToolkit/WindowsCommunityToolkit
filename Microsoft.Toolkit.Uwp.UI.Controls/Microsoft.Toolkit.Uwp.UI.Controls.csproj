@@ -83,6 +83,7 @@
     <Compile Include="MarkdownTextBlock\Parse\Blocks\CodeBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HeaderBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HorizontalRuleBlock.cs" />
+    <Compile Include="MarkdownTextBlock\Parse\Inlines\ImageInline.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\LinkReferenceBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\ListBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\ParagraphBlock.cs" />
