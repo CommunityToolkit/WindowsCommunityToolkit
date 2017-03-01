@@ -22,6 +22,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private static List<SampleCategory> _samplesCategories;
 
+        public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
+        {
+            return (await GetCategoriesAsync()).FirstOrDefault(c => c.Samples.Contains(sample));
+        }
+
         public static async Task<SampleCategory> GetCategoryByName(string name)
         {
             return (await GetCategoriesAsync()).FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));

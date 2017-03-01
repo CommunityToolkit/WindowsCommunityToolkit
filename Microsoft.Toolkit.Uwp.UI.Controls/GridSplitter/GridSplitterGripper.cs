@@ -10,13 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class GridSplitterGripper : Grid
+    internal class GridSplitterGripper : ContentControl
     {
         // Symbol GripperBarVertical in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
@@ -26,28 +29,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string GripperDisplayFont = "Segoe MDL2 Assets";
         private readonly TextBlock _gripperDisplay;
 
+        public GridSplitter.GridResizeDirection ResizeDirection { get; private set; }
+
+        internal Action<double> OnKeyboardHorizontalMoveAction { get; set; }
+
+        internal Action<double> OnKeyboardVerticalMoveAction { get; set; }
+
         internal Brush GripperForeground
         {
-            get
-            {
-                return _gripperDisplay.Foreground;
-            }
-
             set
             {
+                if (_gripperDisplay == null)
+                {
+                    return;
+                }
+
                 _gripperDisplay.Foreground = value;
             }
+        }
+
+        internal GridSplitterGripper(GridSplitter.GridResizeDirection gridSplitterDirection)
+        {
+            ResizeDirection = gridSplitterDirection;
+            HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            VerticalContentAlignment = VerticalAlignment.Stretch;
+            IsTabStop = true;
+            UseSystemFocusVisuals = true;
         }
 
         internal GridSplitterGripper(
             GridSplitter.GridResizeDirection gridSplitterDirection,
             Brush gripForeground)
+            : this(gridSplitterDirection)
         {
-            _gripperDisplay = new TextBlock();
-            _gripperDisplay.FontFamily = new FontFamily(GripperDisplayFont);
-            _gripperDisplay.HorizontalAlignment = HorizontalAlignment.Center;
-            _gripperDisplay.VerticalAlignment = VerticalAlignment.Center;
-            _gripperDisplay.Foreground = gripForeground;
+            _gripperDisplay = new TextBlock
+            {
+                FontFamily = new FontFamily(GripperDisplayFont),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = gripForeground
+            };
 
             if (gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
             {
@@ -58,7 +79,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _gripperDisplay.Text = GripperBarHorizontal;
             }
 
-            Children.Add(_gripperDisplay);
+            Content = _gripperDisplay;
+        }
+
+        internal GridSplitterGripper(UIElement content, GridSplitter.GridResizeDirection gridSplitterDirection)
+            : this(gridSplitterDirection)
+        {
+            Content = content;
         }
     }
 }
