@@ -49,43 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            //var datas = new ObservableCollection<CarouselData>();
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/BigFourSummerHeat.png", UriKind.Absolute)), Title = "01" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/BisonBadlandsChillin.png", UriKind.Absolute)), Title = "02" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ColumbiaRiverGorge.png", UriKind.Absolute)), Title = "03" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/SnowyInterbayt.png", UriKind.Absolute)), Title = "04" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/GrandTetons.png", UriKind.Absolute)), Title = "05" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/LakeAnnMushroom.png", UriKind.Absolute)), Title = "06" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MilkyWayStHelensHikePurple.png", UriKind.Absolute)), Title = "08" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MilkyWayStHelensHikePurple.png", UriKind.Absolute)), Title = "10" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MitchellButtes.png", UriKind.Absolute)), Title = "11" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MultnomahFalls.png", UriKind.Absolute)), Title = "12" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/NorthernCascadesReflection.png", UriKind.Absolute)), Title = "13" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/NovemberHikeWaterfall.png", UriKind.Absolute)), Title = "14" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/Owl.png", UriKind.Absolute)), Title = "15" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ColumbiaRiverGorge.png", UriKind.Absolute)), Title = "03" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/SnowyInterbayt.png", UriKind.Absolute)), Title = "04" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/GrandTetons.png", UriKind.Absolute)), Title = "05" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/LakeAnnMushroom.png", UriKind.Absolute)), Title = "06" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MilkyWayStHelensHikePurple.png", UriKind.Absolute)), Title = "08" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MilkyWayStHelensHikePurple.png", UriKind.Absolute)), Title = "10" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MitchellButtes.png", UriKind.Absolute)), Title = "11" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/MultnomahFalls.png", UriKind.Absolute)), Title = "12" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/NorthernCascadesReflection.png", UriKind.Absolute)), Title = "13" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/NovemberHikeWaterfall.png", UriKind.Absolute)), Title = "14" });
-            //datas.Add(new CarouselData { BitmapImage = new BitmapImage(new Uri("ms-appx:///Assets/Photos/Owl.png", UriKind.Absolute)), Title = "15" });
-
-
-
-
             carouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
-    }
-
-    public class CarouselData
-    {
-        public BitmapImage BitmapImage { get; set; }
-
-        public string Title { get; set; }
     }
 }
