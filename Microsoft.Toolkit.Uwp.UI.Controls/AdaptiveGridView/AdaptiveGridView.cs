@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollMode _savedHorizontalScrollMode;
         private ScrollBarVisibility _savedVerticalScrollBarVisibility;
         private ScrollBarVisibility _savedHorizontalScrollBarVisibility;
+        private Orientation _savedOrientation;
         private bool _needToRestoreScrollStates;
 
         /// <summary>
@@ -178,6 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (itemsWrapGridPanel != null)
                     {
+                        _savedOrientation = itemsWrapGridPanel.Orientation;
                         itemsWrapGridPanel.Orientation = Orientation.Vertical;
                     }
 
@@ -197,10 +199,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     ClearValue(MaxHeightProperty);
-                    if (itemsWrapGridPanel != null)
-                    {
-                        itemsWrapGridPanel.Orientation = Orientation.Horizontal;
-                    }
 
                     if (!_needToRestoreScrollStates)
                     {
@@ -208,6 +206,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     _needToRestoreScrollStates = false;
+
+                    if (itemsWrapGridPanel != null)
+                    {
+                        itemsWrapGridPanel.Orientation = _savedOrientation;
+                    }
+
                     ScrollViewer.SetVerticalScrollMode(this, _savedVerticalScrollMode);
                     ScrollViewer.SetVerticalScrollBarVisibility(this, _savedVerticalScrollBarVisibility);
                     ScrollViewer.SetHorizontalScrollBarVisibility(this, _savedHorizontalScrollBarVisibility);
