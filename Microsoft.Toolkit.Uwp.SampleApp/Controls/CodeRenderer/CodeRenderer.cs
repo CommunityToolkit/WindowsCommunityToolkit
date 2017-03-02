@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private Button _copyButton;
         private PrintHelper _printHelper;
         private Grid _container;
-        private string displayedText;
+        private string _displayedText;
 
         private bool _isInitialized;
 
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (_copyButton != null)
             {
-                _copyButton.Click += CopyButton_Click;
+                _copyButton.Click -= CopyButton_Click;
             }
 
             _progress = GetTemplateChild("progress") as ProgressRing;
@@ -135,10 +135,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            TrackingManager.TrackEvent("Copy", displayedText);
+            TrackingManager.TrackEvent("Copy", _displayedText);
 
             var content = new DataPackage();
-            content.SetText(displayedText);
+            content.SetText(_displayedText);
             Clipboard.SetContent(content);
         }
 
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 var patternFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/Html/{pattern}"));
                 var patternText = await FileIO.ReadTextAsync(patternFile);
 
-                displayedText = docText;
+                _displayedText = docText;
                 docText = docText.Replace("<", "&lt;").Replace(">", "&gt;");
 
                 string html = patternText.Replace("[CODE]", docText);
