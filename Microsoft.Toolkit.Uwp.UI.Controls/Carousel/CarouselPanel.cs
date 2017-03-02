@@ -49,7 +49,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Carousel Carousel
         {
-            get { return carouselControl ?? (carouselControl = this.FindVisualAscendant<Carousel>()); }
+            get
+            {
+                if (carouselControl != null)
+                {
+                    return carouselControl;
+                }
+
+                this.carouselControl = this.FindVisualAscendant<Carousel>();
+
+                if (this.carouselControl == null)
+                {
+                    throw new Exception("This CarouselPanel must be used as an ItemsPanel in a Carousel control");
+                }
+
+                return this.carouselControl;
+            }
         }
 
         /// <summary>

@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // Using a DependencyProperty as the backing store for TransitionDuration.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(500));
+        public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
         /// <summary>
         /// Gets or sets depth of non Selected Index Items
@@ -170,19 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Carousel carouselControl = (Carousel)d;
-            if (carouselControl.ItemsPanel == null)
-            {
-                return;
-            }
-
-            var itemsPanel = carouselControl.GetItemsPanel();
-
-            if (itemsPanel == null)
-            {
-                return;
-            }
-
-            itemsPanel.UpdatePosition();
+            carouselControl.UpdatePositions();
         }
 
         /// <summary>
@@ -212,12 +200,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(Carousel);
             this.ManipulationMode = ManipulationModes.All;
             this.IsHitTestVisible = true;
-
-            this.SubscribePropertyChanged("ItemsSource", OnCarouselPropertyChanged);
-
+            this.RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) => ((Carousel)d).UpdatePositions());
             this.PointerWheelChanged += OnPointerWheelChanged;
             this.PointerReleased += CarouselControl_PointerReleased;
             this.KeyDown += Keyboard_KeyUp;
+        }
+
+        /// <summary>
+        /// Launch an update positions (and animations) on the ItemsPanel
+        /// </summary>
+        private void UpdatePositions()
+        {
+            if (this.ItemsPanel == null)
+            {
+                return;
+            }
+
+            var itemsPanel = this.GetItemsPanel();
+
+            if (itemsPanel == null)
+            {
+                return;
+            }
+
+            itemsPanel.UpdatePosition();
         }
 
         /// <summary>
