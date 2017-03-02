@@ -97,7 +97,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+            _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            ListView.ItemsSource = _tweets;
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -182,15 +183,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (LiveFeedToggle.IsOn)
             {
-                _tweets = new ObservableCollection<ITwitterResult>();
-                ListView.ItemsSource = _tweets;
                 Shell.Current.DisplayWaitRing = true;
                 GetUserStreams();
                 Shell.Current.DisplayWaitRing = false;
             }
             else
             {
-                _tweets.Clear();
                 TwitterService.Instance.StopUserStream();
             }
         }
