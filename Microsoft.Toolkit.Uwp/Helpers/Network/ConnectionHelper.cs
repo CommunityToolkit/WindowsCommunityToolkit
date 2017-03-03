@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets a value indicating whether if the current internet connection is metered.
         /// </summary>
-        [Obsolete("This property is obsolete; use NetworkHelper.Instance.IsInternetOnMeteredConnection property instead")]
+        [Obsolete("This property is obsolete; use NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection property instead")]
         public static bool IsInternetOnMeteredConnection
         {
             get
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets a value indicating whether internet is available across all connections.
         /// </summary>
         /// <returns>True if internet can be reached.</returns>
-        [Obsolete("This property is obsolete; use NetworkHelper.Instance.IsInternetAvailable property instead")]
+        [Obsolete("This property is obsolete; use NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable property instead")]
         public static bool IsInternetAvailable
         {
             get
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets connection type for the current Internet Connection Profile.
         /// </summary>
         /// <returns>value of <see cref="ConnectionType"/></returns>
-        [Obsolete("This property is obsolete; use NetworkHelper.Instance.ConnectionType property instead")]
+        [Obsolete("This property is obsolete; use NetworkHelper.Instance.ConnectionInformation.ConnectionType property instead")]
         public static ConnectionType ConnectionType
         {
             get
