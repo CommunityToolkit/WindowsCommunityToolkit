@@ -68,11 +68,17 @@
                             <WebView Name="webView"
                                      Grid.Row="0"
                                      Visibility="Collapsed" />
-                            <Button x:Name="PrintButton"
+                            <StackPanel 
+                                    Orientation="Horizontal"
                                     Grid.Row="1"
-                                    Margin="5"
-                                    HorizontalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                                <Button x:Name="CopyButton"                                    
+                                    Margin="5"                                    
+                                    Content="Copy" />
+                                <Button x:Name="PrintButton"                                    
+                                    Margin="5"                                    
                                     Content="Print" />
+                            </StackPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
