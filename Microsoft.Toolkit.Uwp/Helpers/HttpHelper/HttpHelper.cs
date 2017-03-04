@@ -109,7 +109,13 @@ namespace Microsoft.Toolkit.Uwp
             }
         }
 
-        public async Task<HttpHelperResponse> GetRequestAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Process Http Request using instance of HttpClient.
+        /// </summary>
+        /// <param name="request">instance of <see cref="HttpHelperRequest"/></param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
+        /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
+        public async Task<HttpHelperResponse> GetInputStreamAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -122,14 +128,7 @@ namespace Microsoft.Toolkit.Uwp
                 client = GetHttpClientInstance();
                 foreach (var header in request.Headers)
                 {
-                    if (!client.DefaultRequestHeaders.ContainsKey(header.Key))
-                    {
-                        client.DefaultRequestHeaders.Add(header);
-                    }
-                    else
-                    {
-                        client.DefaultRequestHeaders[header.Key] = header.Value;
-                    }
+                    client.DefaultRequestHeaders[header.Key] = header.Value;
                 }
 
                 var response = await client.GetInputStreamAsync(httpRequestMessage.RequestUri).AsTask(cancellationToken).ConfigureAwait(false);
@@ -141,6 +140,9 @@ namespace Microsoft.Toolkit.Uwp
                 // Add the HttpClient instance back to the queue.
                 if (client != null)
                 {
+                    // Clean up default request headers
+                    client.DefaultRequestHeaders.Clear();
+
                     _httpClientQueue.Enqueue(client);
                 }
 
