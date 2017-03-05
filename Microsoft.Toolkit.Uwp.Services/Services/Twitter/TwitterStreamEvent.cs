@@ -13,49 +13,47 @@
 using System;
 using System.Globalization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Twitter Timeline item.
+    /// Twitter User type.
     /// </summary>
-    public class Tweet : SchemaBase, ITwitterResult
+    public class TwitterStreamEvent : ITwitterResult
     {
         /// <summary>
-        /// Gets or sets time item was created.
+        /// Gets or sets the type of the event.
         /// </summary>
-        [JsonProperty("created_at")]
+        /// <value>The type of the event.</value>
+        [JsonProperty(PropertyName = "event")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TwitterStreamEventType EventType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source of the event. This is always the user who initiated the event.
+        /// </summary>
+        /// <value>The source.</value>
+        public TwitterUser Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target of the event. This is the user who was affected, or who owns the affected object.
+        /// </summary>
+        /// <value>The source.</value>
+        public TwitterUser Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target object.
+        /// </summary>
+        /// <value>The target object.</value>
+        public Tweet TargetObject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the creation date.
+        /// </summary>
+        /// <value>The creation date.</value>
+        [JsonProperty(PropertyName = "created_at")]
         public string CreatedAt { get; set; }
-
-        /// <summary>
-        /// Gets or sets the geographic data (latitude and longitude)
-        /// </summary>
-        [JsonProperty("geo")]
-        public TwitterGeoData GeoData { get; set; }
-
-        /// <summary>
-        /// Gets or sets item Id.
-        /// </summary>
-        [JsonProperty("id_str")]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets text of the status.
-        /// </summary>
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
-        /// <summary>
-        /// Gets or sets user who posted the status.
-        /// </summary>
-        [JsonProperty("user")]
-        public TwitterUser User { get; set; }
-
-        /// <summary>
-        /// Gets or sets attached content of the tweet
-        /// </summary>
-        [JsonProperty("entities")]
-        public TwitterEntities Entities { get; set; }
 
         /// <summary>
         /// Gets the creation date
