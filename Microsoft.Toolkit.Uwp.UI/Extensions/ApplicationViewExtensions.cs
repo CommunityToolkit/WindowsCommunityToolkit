@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -45,6 +47,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 applicationView.Title = value;
             }
+        }
+
+        /// <summary>
+        /// Gets <see cref="bool"/> for <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <returns><see cref="string"/></returns>
+        public static bool GetExtendViewIntoTitleBar(DependencyObject obj)
+        {
+            var applicationView = GetCoreApplicationView();
+
+            return applicationView?.TitleBar?.ExtendViewIntoTitleBar ?? false;
+        }
+
+        /// <summary>
+        /// Sets <see cref="bool"/> to <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="value"><see cref="bool"/></param>
+        public static void SetExtendViewIntoTitleBar(DependencyObject obj, bool value)
+        {
+            var applicationView = GetCoreApplicationView();
+            if (applicationView != null && applicationView.TitleBar != null)
+            {
+                applicationView.TitleBar.ExtendViewIntoTitleBar = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets <see cref="AppViewBackButtonVisibility"/> for <see cref="SystemNavigationManager.AppViewBackButtonVisibility"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <returns><see cref="string"/></returns>
+        public static AppViewBackButtonVisibility GetBackButtonVisibility(DependencyObject obj)
+        {
+            var systemNavigationManager = GetSystemNavigationManager();
+
+            return systemNavigationManager?.AppViewBackButtonVisibility ?? AppViewBackButtonVisibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Sets <see cref="AppViewBackButtonVisibility"/> to <see cref="SystemNavigationManager.AppViewBackButtonVisibility"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="value"><see cref="AppViewBackButtonVisibility"/></param>
+        public static void SetBackButtonVisibility(DependencyObject obj, AppViewBackButtonVisibility value)
+        {
+            var systemNavigationManager = GetSystemNavigationManager();
+
+            if (systemNavigationManager != null)
+            {
+                systemNavigationManager.AppViewBackButtonVisibility = value;
+            }
+        }
+
+        private static SystemNavigationManager GetSystemNavigationManager()
+        {
+            return SystemNavigationManager.GetForCurrentView();
+        }
+
+        private static CoreApplicationView GetCoreApplicationView()
+        {
+            return CoreApplication.GetCurrentView();
         }
 
         private static ApplicationView GetApplicationView()
