@@ -148,13 +148,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return;
             }
 
-            var attach = Detach();
-            if (attach)
+            var detached = Detach();
+            if (detached)
             {
-                _isAttached = true;
+                _isAttached = false;
             }
-
-            _isAttaching = false;
         }
 
         /// <summary>
