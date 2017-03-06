@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <remarks>
     /// For more info, see https://github.com/Microsoft/UWPCommunityToolkit/issues/1008.
     /// </remarks>
-    public abstract class BehaviorsBase<T> : Behavior<T>
+    public abstract class BehaviorBase<T> : Behavior<T>
         where T : UIElement
     {
         private bool _isAttaching;

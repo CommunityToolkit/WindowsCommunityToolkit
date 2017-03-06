@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class FadeHeaderBehavior : BehaviorsBase<FrameworkElement>
+    public class FadeHeaderBehavior : BehaviorBase<FrameworkElement>
     {
         /// <summary>
         /// Attaches the behavior to the associated object.
