@@ -123,8 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="bool"/></returns>
         public static bool GetIsVisible(DependencyObject obj)
         {
-            var height = GetStatusBar()?.OccludedRect.Height ?? 0;
-            return height > 0;
+            return (bool)obj.GetValue(IsVisibleProperty);
         }
 
         /// <summary>
@@ -132,21 +131,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/></param>
         /// <param name="value"><see cref="bool"/></param>
-        public static async void SetIsVisible(DependencyObject obj, bool value)
+        public static void SetIsVisible(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
+        /// </summary>
+        public static readonly DependencyProperty IsVisibleProperty =
+            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(StatusBarExtensions), new PropertyMetadata(true, OnIsVisibleChanged));
+
+        private static async void OnIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var statusBar = GetStatusBar();
+
             if (statusBar == null)
             {
                 return;
             }
 
-            if (value)
+            bool isVisible = (bool)e.NewValue;
+
+            if (isVisible)
             {
-                await StatusBar.GetForCurrentView().ShowAsync();
+                await statusBar.ShowAsync();
             }
             else
             {
-                await StatusBar.GetForCurrentView().HideAsync();
+                await statusBar.HideAsync();
             }
         }
 

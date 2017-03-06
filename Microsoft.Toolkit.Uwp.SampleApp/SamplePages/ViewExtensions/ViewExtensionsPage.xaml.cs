@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Sample page demonstrating view extensions
     /// </summary>
     public sealed partial class ViewExtensionsPage : Page
     {
@@ -31,8 +31,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            StatusBarToggle.Visibility = StatusBarExtensions.IsStatusBarSupported ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

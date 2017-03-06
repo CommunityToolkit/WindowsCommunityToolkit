@@ -9,15 +9,10 @@
       viewHelper:StatusBarExtensions.BackgroundColor="Blue"
       viewHelper:StatusBarExtensions.BackgroundOpacity="0.8"
       viewHelper:StatusBarExtensions.ForegroundColor="White"
-      viewHelper:StatusBarExtensions.IsVisible="True"
+      viewHelper:StatusBarExtensions.IsVisible="{Binding IsVisible.Value, Mode=OneWay}"
       viewHelper:TitleBarExtensions.BackgroundColor="Blue"
       viewHelper:TitleBarExtensions.ForegroundColor="White"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <Button x:Name="StatusBarToggle"
-                Margin="50"
-                Content="Toggle status bar"
-                Tapped="Button_Tapped" />
-    </Grid>
+    <Grid Background="{StaticResource Brush-Grey-05}" />
 </Page>

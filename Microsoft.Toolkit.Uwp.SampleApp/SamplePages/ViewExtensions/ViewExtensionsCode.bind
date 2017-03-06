@@ -9,7 +9,7 @@
       viewHelper:StatusBarExtensions.BackgroundColor="Blue"
       viewHelper:StatusBarExtensions.BackgroundOpacity="0.8"
       viewHelper:StatusBarExtensions.ForegroundColor="White"
-      viewHelper:StatusBarExtensions.IsVisible="True"
+      viewHelper:StatusBarExtensions.IsVisible="@[IsVisible:Bool:false]"
       viewHelper:ApplicationViewExtensions.Title="View Extensions"
       viewHelper:TitleBarExtensions.BackgroundColor="Blue"
       viewHelper:TitleBarExtensions.ForegroundColor="White"

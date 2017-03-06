@@ -7,7 +7,6 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      viewHelper:StatusBarExtensions.IsVisible="False"
       viewHelper:TitleBarExtensions.BackgroundColor="{StaticResource Grey-01}"
       viewHelper:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Grey-03}"
       viewHelper:TitleBarExtensions.ButtonForegroundColor="{StaticResource Grey-04}"
@@ -93,9 +92,11 @@
                                Text="Sample App" />
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
-                <!--Uncomment this control to help you determine where the focus is.
-                This could be useful when validating accessibility of your control-->
-                <!--<local:FocusTracker VerticalAlignment="Bottom" 
+                <!--
+                    Uncomment this control to help you determine where the focus is.
+                    This could be useful when validating accessibility of your control
+                -->
+                <!--<local:FocusTracker VerticalAlignment="Bottom"
                         HorizontalAlignment="Center"
                         IsRunning="True"/>-->
             </Grid>
