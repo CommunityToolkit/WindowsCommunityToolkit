@@ -243,6 +243,7 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\FlyoutView\FlyoutView.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
@@ -367,6 +368,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
+    <Content Include="SamplePages\FlyoutView\FlyoutViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -426,6 +428,9 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FlyoutView\FlyoutViewPage.xaml.cs">
+      <DependentUpon>FlyoutViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
@@ -632,6 +637,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FlyoutView\FlyoutViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
