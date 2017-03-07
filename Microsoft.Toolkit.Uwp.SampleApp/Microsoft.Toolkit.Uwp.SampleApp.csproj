@@ -380,9 +380,6 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
-    <Compile Include="Controls\FocusTracker.xaml.cs">
-      <DependentUpon>FocusTracker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
@@ -599,10 +596,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\FocusTracker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -836,6 +829,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+      <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
+      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>

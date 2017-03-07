@@ -11,15 +11,22 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace Microsoft.Toolkit.Uwp.DeveloperTools
 {
+    /// <summary>
+    /// The FocusTracker is used as to display information about the current focused element (if any).
+    /// </summary>
     public sealed partial class FocusTracker
     {
         private readonly DispatcherTimer updateTimer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusTracker"/> class.
+        /// </summary>
         public FocusTracker()
         {
             this.InitializeComponent();
@@ -28,6 +35,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             updateTimer.Tick += UpdateTimer_Tick;
         }
 
+        /// <summary>
+        /// Gets or sets a boolean indicating whehter the tracker is running or not.
+        /// </summary>
         public bool IsRunning
         {
             get
@@ -56,12 +66,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 ControlName.Text = string.Empty;
                 ControlType.Text = string.Empty;
+                ControlAutomationName.Text = string.Empty;
                 ControlFirstParentWithName.Text = string.Empty;
                 return;
             }
 
             ControlName.Text = focusedControl.Name;
             ControlType.Text = focusedControl.GetType().Name;
+            ControlAutomationName.Text = AutomationProperties.GetName(focusedControl);
 
             var parentWithName = FindVisualAscendantWithName(focusedControl);
 
