@@ -167,7 +167,7 @@
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Expander.md"
-      }, 
+      },
       {
         "Name": "TileControl",
         "Type": "TileControlPage",
@@ -204,6 +204,16 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "EmojiIcon",
+        "Type": "EmojiPage",
+        "About": "The EmojiIcon allows you to easily choose an emoji and display it as a control, or use attached properties to set it to a TextBlock or Run.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/EmojiIcon",
+        "XamlCodeFile": "EmojiXaml.bind",
+        "CodeFile": "EmojiCode.bind", 
+        "Icon": "/SamplePages/EmojiIcon/Emoji.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/EmojiIcon.md"
       }
     ]
   },
