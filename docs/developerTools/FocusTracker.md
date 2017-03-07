@@ -18,13 +18,13 @@ The **FocusTracker Control** can be used to display information about the curren
 
 ## Example Image
 
-![FocusTracker image](../resources/images/DeveloperTools-FocusTracker.gif "FocusTracker")
+![FocusTracker image](../resources/images/DeveloperTools-FocusTracker.jpg "FocusTracker")
 
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| Namespace | Microsoft.Toolkit.Uwp.DeveloperTools |
 
 ## API
 
