@@ -27,10 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string GlassHostElementName = "GlassHostElement";
 
-        private Compositor _compositor;
-        private CompositionBrush _backdropBrush;
-        private GaussianBlurEffect _glassEffect;
-        private SpriteVisual _glassVisual;
+        private CompositionEffectBrush _effectBrush;
         private Border _border;
 
         /// <summary>
@@ -69,91 +66,84 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var hostVisual = ElementCompositionPreview.GetElementVisual(_border);
-            _compositor = hostVisual.Compositor;
+            var compositor = hostVisual.Compositor;
 
             // Create a glass effect, requires Win2D NuGet package
-            CreateGlassEffect();
-
-            // Create a Visual to contain the frosted glass effect
-            _glassVisual = _compositor.CreateSpriteVisual();
-
-            // Create the glass brush to apply the glass effect
-            _backdropBrush = _compositor.CreateBackdropBrush();
-            UpdateGlassBrush();
-
-            // Add the blur as a child of the host in the visual tree
-            ElementCompositionPreview.SetElementChildVisual(_border, _glassVisual);
-
-            // Make sure size of glass host and glass visual always stay in sync
-            var bindSizeAnimation = _compositor.CreateExpressionAnimation("hostVisual.Size");
-            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
-
-            _glassVisual.StartAnimation("Size", bindSizeAnimation);
-        }
-
-        private void CreateGlassEffect()
-        {
-            // Create a glass effect, requires Win2D NuGet package
-            _glassEffect = new GaussianBlurEffect
+            var glassEffect = new GaussianBlurEffect
             {
+                Name = "Blur",
                 BlurAmount = (float)BlurAmount,
                 BorderMode = EffectBorderMode.Hard,
                 Source = new ArithmeticCompositeEffect
                 {
+                    Name = "SourceMultiplication",
                     MultiplyAmount = 0,
                     Source1Amount = (float)Transparency,
                     Source2Amount = 1 - (float)Transparency,
                     Source1 = new CompositionEffectSourceParameter("backdropBrush"),
                     Source2 = new ColorSourceEffect
                     {
+                        Name = "Color",
                         Color = ((SolidColorBrush)Brush).Color
                     }
                 }
             };
-        }
 
-        private void UpdateGlassBrush()
-        {
+            // Create a Visual to contain the frosted glass effect
+            var glassVisual = compositor.CreateSpriteVisual();
+
+            // Create the glass brush to apply the glass effect
+            var backdropBrush = compositor.CreateBackdropBrush();
+
             // Create an instance of the effect and set its source to a CompositionBackdropBrush
-            var effectFactory = _compositor.CreateEffectFactory(_glassEffect);
-            var effectBrush = effectFactory.CreateBrush();
+            var effectFactory = compositor.CreateEffectFactory(
+                glassEffect,
+                new[] { "Blur.BlurAmount", "SourceMultiplication.Source1Amount", "SourceMultiplication.Source2Amount", "Color.Color" });
+            _effectBrush = effectFactory.CreateBrush();
 
-            effectBrush.SetSourceParameter("backdropBrush", _backdropBrush);
+            _effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
 
-            _glassVisual.Brush = effectBrush;
+            glassVisual.Brush = _effectBrush;
+
+            // Add the blur as a child of the host in the visual tree
+            ElementCompositionPreview.SetElementChildVisual(_border, glassVisual);
+
+            // Make sure size of glass host and glass visual always stay in sync
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
         }
 
         private void OnBlurAmountChanged(double newValue)
         {
-            if (_glassEffect == null)
+            if (_effectBrush == null)
             {
                 return;
             }
 
-            CreateGlassEffect();
-            UpdateGlassBrush();
+            _effectBrush.Properties.InsertScalar("Blur.BlurAmount", (float)BlurAmount);
         }
 
         private void OnBrushChanged(Brush newValue)
         {
-            if (_glassEffect == null)
+            if (_effectBrush == null)
             {
                 return;
             }
 
-            CreateGlassEffect();
-            UpdateGlassBrush();
+            _effectBrush.Properties.InsertColor("Color.Color", ((SolidColorBrush)Brush).Color);
         }
 
         private void OnTransparencyChanged(double newValue)
         {
-            if (_glassEffect == null)
+            if (_effectBrush == null)
             {
                 return;
             }
 
-            CreateGlassEffect();
-            UpdateGlassBrush();
+            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source1Amount", (float)Transparency);
+            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source2Amount", 1 - (float)Transparency);
         }
     }
 }
