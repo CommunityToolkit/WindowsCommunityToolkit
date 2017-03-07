@@ -380,10 +380,14 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
+    <Compile Include="Controls\FocusTracker.xaml.cs">
+      <DependentUpon>FocusTracker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
@@ -534,6 +538,7 @@
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
     <Compile Include="SamplePages\Useful links\UsefulLinksPage.xaml.cs">
       <DependentUpon>UsefulLinksPage.xaml</DependentUpon>
     </Compile>
@@ -595,6 +600,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FocusTracker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -828,6 +837,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
+      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>

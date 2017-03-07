@@ -40,17 +40,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(DropShadowPanel);
 
-            Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-            _shadowVisual = compositor.CreateSpriteVisual();
-
             if (IsSupported)
             {
+                Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+                _shadowVisual = compositor.CreateSpriteVisual();
+
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
-            }
 
-            SizeChanged += OnSizeChanged;
+                SizeChanged += OnSizeChanged;
+            }
         }
 
         /// <summary>

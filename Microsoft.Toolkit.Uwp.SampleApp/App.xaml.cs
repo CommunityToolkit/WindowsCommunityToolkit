@@ -12,6 +12,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
@@ -83,6 +84,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+        /// <summary>
+        /// Event fired when a Background Task is activated (in Single Process Model)
+        /// </summary>
+        /// <param name="args">Arguments that describe the BackgroundTask activated</param>
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case Constants.TestBackgroundTaskName:
+                    new TestBackgroundTask().Run(args.TaskInstance);
+                    break;
+            }
+
+            deferral.Complete();
+        }
+
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
             // Go fullscreen on Xbox
@@ -113,8 +134,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     titleBar.ForegroundColor = lightGreyBrush;
                 }
             }
-
-            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.PortraitFlipped;
 
             Frame rootFrame = Window.Current.Content as Frame;
 

@@ -299,6 +299,7 @@
 
     <Style TargetType="controls:Expander">
         <Setter Property="Header" Value="Header" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -321,6 +322,8 @@
                             </Grid.RowDefinitions>
                             
                             <ToggleButton x:Name="PART_ExpanderToggleButton" Height="40"
+                                          TabIndex="0"
+                                          AutomationProperties.Name="Expand"
                                           Style="{StaticResource HeaderToggleButtonStyle}" 
                                           VerticalAlignment="Top" HorizontalAlignment="Stretch"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
