@@ -48,11 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (!IsSupported)
-            {
-                return;
-            }
-
             _border = GetTemplateChild(GlassHostElementName) as Border;
 
             base.OnApplyTemplate();
@@ -60,11 +55,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            Initialize();
+            if (IsSupported)
+            {
+                Initialize();
+            }
         }
 
         private void Initialize()
         {
+            if (_border == null)
+            {
+                return;
+            }
+
             var hostVisual = ElementCompositionPreview.GetElementVisual(_border);
             _compositor = hostVisual.Compositor;
 
