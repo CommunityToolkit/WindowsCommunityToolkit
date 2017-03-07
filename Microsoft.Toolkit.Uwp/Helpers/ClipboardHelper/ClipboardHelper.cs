@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Get image bytes from clipboard.
         /// </summary>
         /// <returns>Image.</returns>
-        public static async Task<byte[]> GetImage()
+        public static async Task<byte[]> GetImageAsync()
         {
             var content = Clipboard.GetContent();
             var streamReference = await content.GetBitmapAsync();
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Get text from clipboard.
         /// </summary>
         /// <returns>Text.</returns>
-        public static async Task<string> GetText()
+        public static async Task<string> GetTextAsync()
         {
             var content = Clipboard.GetContent();
             return await content.GetTextAsync();
