@@ -3,6 +3,7 @@
                     xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools">
 
     <Style TargetType="developerTools:FocusTracker">
+        <Setter Property="IsTabStop" Value="False"></Setter>
         <Setter Property="MinWidth" Value="300"></Setter>
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"></Setter>
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Setter>

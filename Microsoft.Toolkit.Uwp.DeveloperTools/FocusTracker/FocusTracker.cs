@@ -80,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         private void Stop()
         {
             updateTimer?.Stop();
+            ClearContent();
         }
 
         /// <summary>
@@ -93,16 +94,21 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             controlFirstParentWithName = GetTemplateChild("ControlFirstParentWithName") as TextBlock;
         }
 
+        private void ClearContent()
+        {
+            controlName.Text = string.Empty;
+            controlType.Text = string.Empty;
+            controlAutomationName.Text = string.Empty;
+            controlFirstParentWithName.Text = string.Empty;
+        }
+
         private void UpdateTimer_Tick(object sender, object e)
         {
             var focusedControl = FocusManager.GetFocusedElement() as FrameworkElement;
 
             if (focusedControl == null)
             {
-                controlName.Text = string.Empty;
-                controlType.Text = string.Empty;
-                controlAutomationName.Text = string.Empty;
-                controlFirstParentWithName.Text = string.Empty;
+                ClearContent();
                 return;
             }
 
