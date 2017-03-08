@@ -12,19 +12,18 @@
 
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached properties for interacting with the <see cref="ApplicationView"/> on a window (app view).
+    /// Provides attached properties for interacting with the <see cref="Windows.UI.ViewManagement.ApplicationView"/> on a window (app view).
     /// </summary>
-    public static class ApplicationViewExtensions
+    public static class ApplicationView
     {
         /// <summary>
-        /// Gets <see cref="string"/> for <see cref="ApplicationView.Title"/>
+        /// Gets <see cref="string"/> for <see cref="Windows.UI.ViewManagement.ApplicationView.Title"/>
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
@@ -36,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="string"/> to <see cref="ApplicationView.Title"/>
+        /// Sets <see cref="string"/> to <see cref="Windows.UI.ViewManagement.ApplicationView.Title"/>
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
         /// <param name="value"><see cref="string"/></param>
@@ -112,9 +111,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return CoreApplication.GetCurrentView();
         }
 
-        private static ApplicationView GetApplicationView()
+        private static Windows.UI.ViewManagement.ApplicationView GetApplicationView()
         {
-            return ApplicationView.GetForCurrentView();
+            return Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
         }
     }
 }

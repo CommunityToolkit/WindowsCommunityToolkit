@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Go fullscreen on Xbox
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
             {
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
             // Initialize the constant for the app display name, used for tile and toast previews

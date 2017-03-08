@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for interacting with the <see cref="ApplicationViewTitleBar"/> on a window (app view).
     /// </summary>
-    public static class TitleBarExtensions
+    public static class TitleBar
     {
         /// <summary>
         /// Gets a value indicating whether TitleBar is supported or not.
@@ -413,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static ApplicationViewTitleBar GetTitleBar()
         {
-            return IsTitleBarSupported ? ApplicationView.GetForCurrentView().TitleBar : null;
+            return IsTitleBarSupported ? Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar : null;
         }
     }
 }

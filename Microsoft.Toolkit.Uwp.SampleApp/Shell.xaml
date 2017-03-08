@@ -6,11 +6,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      viewHelper:TitleBarExtensions.BackgroundColor="{StaticResource Grey-01}"
-      viewHelper:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Grey-03}"
-      viewHelper:TitleBarExtensions.ButtonForegroundColor="{StaticResource Grey-04}"
-      viewHelper:TitleBarExtensions.ForegroundColor="{StaticResource Grey-04}"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
+      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
+      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>

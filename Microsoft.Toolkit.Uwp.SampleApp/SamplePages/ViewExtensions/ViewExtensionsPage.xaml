@@ -4,14 +4,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      viewHelper:ApplicationViewExtensions.Title="View Extensions"
-      viewHelper:StatusBarExtensions.BackgroundColor="Blue"
-      viewHelper:StatusBarExtensions.BackgroundOpacity="0.8"
-      viewHelper:StatusBarExtensions.ForegroundColor="White"
-      viewHelper:StatusBarExtensions.IsVisible="{Binding IsVisible.Value, Mode=OneWay}"
-      viewHelper:TitleBarExtensions.BackgroundColor="Blue"
-      viewHelper:TitleBarExtensions.ForegroundColor="White"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      extensions:ApplicationView.Title="View Extensions"
+      extensions:StatusBar.BackgroundColor="Blue"
+      extensions:StatusBar.BackgroundOpacity="0.8"
+      extensions:StatusBar.ForegroundColor="White"
+      extensions:StatusBar.IsVisible="{Binding IsVisible.Value, Mode=OneWay}"
+      extensions:TitleBar.BackgroundColor="Blue"
+      extensions:TitleBar.ForegroundColor="White"
       mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}" />

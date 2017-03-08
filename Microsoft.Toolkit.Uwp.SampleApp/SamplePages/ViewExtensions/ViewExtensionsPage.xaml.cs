@@ -37,23 +37,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedFrom(e);
 
-            StatusBarExtensions.SetIsVisible(this, false);
+            StatusBar.SetIsVisible(this, false);
 
-            ApplicationViewExtensions.SetTitle(this, string.Empty);
+            ApplicationView.SetTitle(this, string.Empty);
 
             var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];
             var greyBrush03 = (Color)Application.Current.Resources["Grey-03"];
             var greyBrush01 = (Color)Application.Current.Resources["Grey-01"];
 
-            TitleBarExtensions.SetButtonBackgroundColor(this, greyBrush03);
-            TitleBarExtensions.SetButtonForegroundColor(this, lightGreyBrush);
-            TitleBarExtensions.SetBackgroundColor(this, greyBrush01);
-            TitleBarExtensions.SetForegroundColor(this, lightGreyBrush);
+            TitleBar.SetButtonBackgroundColor(this, greyBrush03);
+            TitleBar.SetButtonForegroundColor(this, lightGreyBrush);
+            TitleBar.SetBackgroundColor(this, greyBrush01);
+            TitleBar.SetForegroundColor(this, lightGreyBrush);
         }
 
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            StatusBarExtensions.SetIsVisible(this, !StatusBarExtensions.GetIsVisible(this));
+            StatusBar.SetIsVisible(this, !StatusBar.GetIsVisible(this));
         }
     }
 }

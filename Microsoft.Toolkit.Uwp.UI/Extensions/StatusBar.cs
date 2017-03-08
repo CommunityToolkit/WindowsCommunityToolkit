@@ -12,7 +12,6 @@
 
 using System;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for interacting with the <see cref="StatusBar"/> on a window (app view).
     /// </summary>
-    public static class StatusBarExtensions
+    public static class StatusBar
     {
         /// <summary>
         /// Gets a value indicating whether StatusBar is supported or not.
@@ -140,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty IsVisibleProperty =
-            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(StatusBarExtensions), new PropertyMetadata(true, OnIsVisibleChanged));
+            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(StatusBar), new PropertyMetadata(true, OnIsVisibleChanged));
 
         private static async void OnIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -163,9 +162,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static StatusBar GetStatusBar()
+        private static Windows.UI.ViewManagement.StatusBar GetStatusBar()
         {
-            return IsStatusBarSupported ? StatusBar.GetForCurrentView() : null;
+            return IsStatusBarSupported ? Windows.UI.ViewManagement.StatusBar.GetForCurrentView() : null;
         }
     }
 }
