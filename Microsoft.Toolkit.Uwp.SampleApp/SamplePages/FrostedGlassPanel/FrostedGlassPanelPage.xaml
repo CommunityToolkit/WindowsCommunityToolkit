@@ -11,10 +11,10 @@
         <Image Source="/Assets/Photos/BigFourSummerHeat.jpg" Stretch="UniformToFill" />
 
         <controls:FrostedGlassPanel Width="300" Height="300"
-                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                               Brush="{Binding Path=Brush.Value, Mode=TwoWay}" 
-                               BlurAmount="{Binding Path=BlurAmount.Value, Mode=TwoWay}"
-                               Transparency="{Binding Path=Transparency.Value, Mode=TwoWay}">
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                    GlassColor="{Binding Path=GlassColor.Value, Mode=TwoWay}" 
+                                    BlurAmount="{Binding Path=BlurAmount.Value, Mode=TwoWay}"
+                                    GlassTransparency="{Binding Path=GlassTransparency.Value, Mode=TwoWay}">
             <TextBlock Text="Some text" FontSize="42" Margin="20" />
         </controls:FrostedGlassPanel>
     </Grid>

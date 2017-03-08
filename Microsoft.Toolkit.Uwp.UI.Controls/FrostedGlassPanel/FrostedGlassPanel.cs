@@ -78,13 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     Name = "SourceMultiplication",
                     MultiplyAmount = 0,
-                    Source1Amount = (float)Transparency,
-                    Source2Amount = 1 - (float)Transparency,
+                    Source1Amount = (float)GlassTransparency,
+                    Source2Amount = 1 - (float)GlassTransparency,
                     Source1 = new CompositionEffectSourceParameter("backdropBrush"),
                     Source2 = new ColorSourceEffect
                     {
                         Name = "Color",
-                        Color = ((SolidColorBrush)Brush).Color
+                        Color = ((SolidColorBrush)GlassColor).Color
                     }
                 }
             };
@@ -125,25 +125,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _effectBrush.Properties.InsertScalar("Blur.BlurAmount", (float)BlurAmount);
         }
 
-        private void OnBrushChanged(Brush newValue)
+        private void OnGlassColorChanged(Brush newValue)
         {
             if (_effectBrush == null)
             {
                 return;
             }
 
-            _effectBrush.Properties.InsertColor("Color.Color", ((SolidColorBrush)Brush).Color);
+            _effectBrush.Properties.InsertColor("Color.Color", ((SolidColorBrush)GlassColor).Color);
         }
 
-        private void OnTransparencyChanged(double newValue)
+        private void OnGlassTransparencyChanged(double newValue)
         {
             if (_effectBrush == null)
             {
                 return;
             }
 
-            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source1Amount", (float)Transparency);
-            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source2Amount", 1 - (float)Transparency);
+            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source1Amount", (float)GlassTransparency);
+            _effectBrush.Properties.InsertScalar("SourceMultiplication.Source2Amount", 1 - (float)GlassTransparency);
         }
     }
 }

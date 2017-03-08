@@ -30,16 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
              DependencyProperty.Register(nameof(BlurAmount), typeof(double), typeof(FrostedGlassPanel), new PropertyMetadata(15.0, OnBlurAmountChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Brush"/> dependency property.
+        /// Identifies the <see cref="GlassColor"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty BrushProperty =
-             DependencyProperty.Register(nameof(Brush), typeof(Brush), typeof(FrostedGlassPanel), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 245, 245, 245)), OnBrushChanged));
+        public static readonly DependencyProperty GlassColorProperty =
+             DependencyProperty.Register(nameof(GlassColor), typeof(Brush), typeof(FrostedGlassPanel), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 245, 245, 245)), OnGlassColorChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Transparency"/> dependency property.
+        /// Identifies the <see cref="GlassTransparency"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TransparencyProperty =
-             DependencyProperty.Register(nameof(Transparency), typeof(double), typeof(FrostedGlassPanel), new PropertyMetadata(0.5, OnTransparencyChanged));
+        public static readonly DependencyProperty GlassTransparencyProperty =
+             DependencyProperty.Register(nameof(GlassTransparency), typeof(double), typeof(FrostedGlassPanel), new PropertyMetadata(0.5, OnGlassTransparencyChanged));
 
         /// <summary>
         /// Gets a value indicating whether the platform supports drop shadows.
@@ -63,19 +63,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the color of the frosted glass.
         /// </summary>
-        public Brush Brush
+        public Brush GlassColor
         {
-            get { return (Brush)GetValue(BrushProperty); }
-            set { SetValue(BrushProperty, value); }
+            get { return (Brush)GetValue(GlassColorProperty); }
+            set { SetValue(GlassColorProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the transparency of the frosted glass.
         /// </summary>
-        public double Transparency
+        public double GlassTransparency
         {
-            get { return (double)GetValue(TransparencyProperty); }
-            set { SetValue(TransparencyProperty, value); }
+            get { return (double)GetValue(GlassTransparencyProperty); }
+            set { SetValue(GlassTransparencyProperty, value); }
         }
 
         private static void OnBlurAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -86,19 +86,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void OnBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnGlassColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (IsSupported)
             {
-                ((FrostedGlassPanel)d).OnBrushChanged((Brush)e.NewValue);
+                ((FrostedGlassPanel)d).OnGlassColorChanged((Brush)e.NewValue);
             }
         }
 
-        private static void OnTransparencyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnGlassTransparencyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (IsSupported)
             {
-                ((FrostedGlassPanel)d).OnTransparencyChanged((double)e.NewValue);
+                ((FrostedGlassPanel)d).OnGlassTransparencyChanged((double)e.NewValue);
             }
         }
     }
