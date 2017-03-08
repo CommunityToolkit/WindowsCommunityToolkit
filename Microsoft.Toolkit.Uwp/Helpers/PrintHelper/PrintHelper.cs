@@ -283,7 +283,10 @@ namespace Microsoft.Toolkit.Uwp
             else
             {
                 // Attach the canvas
-                _canvasContainer.Children.Add(_printCanvas);
+                if (!_canvasContainer.Children.Contains(_printCanvas))
+                {
+                    _canvasContainer.Children.Add(_printCanvas);
+                }
 
                 // Clear the cache of preview pages
                 ClearPageCache();
