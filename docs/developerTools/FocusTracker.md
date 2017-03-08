@@ -2,7 +2,7 @@
 
 The **FocusTracker Control** can be used to display information about the current focused XAML element (if any).
 
-**FocusTracker** will display the following information (if not available an emptry string will be used)  about the current focused XAML element:
+**FocusTracker** will display the following information (when available) about the current focused XAML element:
 - Name
 - Type
 - AutomationProperties.Name
@@ -12,7 +12,7 @@ The **FocusTracker Control** can be used to display information about the curren
 
 ```xml
 
-<developerTools:FocusTracker IsRunning="True"/>
+<developerTools:FocusTracker IsActive="True"/>
 
 ```
 

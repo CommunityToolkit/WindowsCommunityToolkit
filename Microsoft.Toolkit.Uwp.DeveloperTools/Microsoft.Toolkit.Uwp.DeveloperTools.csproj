@@ -111,16 +111,20 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FocusTracker\FocusTracker.xaml.cs">
-      <DependentUpon>FocusTracker.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AlignmentGrid\AlignmentGrid.cs" />
+    <Compile Include="FocusTracker\FocusTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.DeveloperTools.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="FocusTracker\FocusTracker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
