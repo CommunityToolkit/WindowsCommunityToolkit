@@ -8,7 +8,7 @@
 
   <Grid>
     <developerTools:AlignmentGrid
-            Opacity="1"
+            Opacity="@[Opacity:DoubleSlider:0.2:0.1-1.0]"
             LineBrush="@[LineBrush:Brush:Black]"
             HorizontalStep="@[HorizontalStep:Slider:20:5-100]"
             VerticalStep="@[VerticalStep:Slider:20:5-100]"
