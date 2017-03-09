@@ -25,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="string"/> for <see cref="Windows.UI.ViewManagement.ApplicationView.Title"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        public static string GetTitle(DependencyObject obj)
+        public static string GetTitle(Page page)
         {
             var applicationView = GetApplicationView();
 
@@ -37,9 +37,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="string"/> to <see cref="Windows.UI.ViewManagement.ApplicationView.Title"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="string"/></param>
-        public static void SetTitle(DependencyObject obj, string value)
+        public static void SetTitle(Page page, string value)
         {
             var applicationView = GetApplicationView();
             if (applicationView != null)
@@ -51,9 +51,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="bool"/> for <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        public static bool GetExtendViewIntoTitleBar(DependencyObject obj)
+        public static bool GetExtendViewIntoTitleBar(Page page)
         {
             var applicationView = GetCoreApplicationView();
 
@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="bool"/> to <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="bool"/></param>
-        public static void SetExtendViewIntoTitleBar(DependencyObject obj, bool value)
+        public static void SetExtendViewIntoTitleBar(Page page, bool value)
         {
             var applicationView = GetCoreApplicationView();
             if (applicationView != null && applicationView.TitleBar != null)
@@ -77,9 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="AppViewBackButtonVisibility"/> for <see cref="SystemNavigationManager.AppViewBackButtonVisibility"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        public static AppViewBackButtonVisibility GetBackButtonVisibility(DependencyObject obj)
+        public static AppViewBackButtonVisibility GetBackButtonVisibility(Page page)
         {
             var systemNavigationManager = GetSystemNavigationManager();
 
@@ -89,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="AppViewBackButtonVisibility"/> to <see cref="SystemNavigationManager.AppViewBackButtonVisibility"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="AppViewBackButtonVisibility"/></param>
-        public static void SetBackButtonVisibility(DependencyObject obj, AppViewBackButtonVisibility value)
+        public static void SetBackButtonVisibility(Page page, AppViewBackButtonVisibility value)
         {
             var systemNavigationManager = GetSystemNavigationManager();
 

@@ -30,9 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetBackgroundColor(DependencyObject obj)
+        public static Color GetBackgroundColor(Page page)
         {
             Color color;
 
@@ -48,9 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetBackgroundColor(DependencyObject obj, Color value)
+        public static void SetBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -62,9 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonBackgroundColor(DependencyObject obj)
+        public static Color GetButtonBackgroundColor(Page page)
         {
             Color color;
 
@@ -80,9 +80,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="StaApplicationViewTitleBartusBar.ButtonBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonBackgroundColor(DependencyObject obj, Color value)
+        public static void SetButtonBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -94,9 +94,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonForegroundColor(DependencyObject obj)
+        public static Color GetButtonForegroundColor(Page page)
         {
             Color color;
 
@@ -112,9 +112,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonForegroundColor(DependencyObject obj, Color value)
+        public static void SetButtonForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -126,9 +126,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonHoverBackgroundColor(DependencyObject obj)
+        public static Color GetButtonHoverBackgroundColor(Page page)
         {
             Color color;
 
@@ -144,9 +144,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonHoverBackgroundColor(DependencyObject obj, Color value)
+        public static void SetButtonHoverBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -158,9 +158,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonHoverForegroundColor(DependencyObject obj)
+        public static Color GetButtonHoverForegroundColor(Page page)
         {
             Color color;
 
@@ -176,9 +176,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonHoverForegroundColor(DependencyObject obj, Color value)
+        public static void SetButtonHoverForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -190,9 +190,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonInactiveBackgroundColor(DependencyObject obj)
+        public static Color GetButtonInactiveBackgroundColor(Page page)
         {
             Color color;
 
@@ -208,9 +208,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonInactiveBackgroundColor(DependencyObject obj, Color value)
+        public static void SetButtonInactiveBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -222,9 +222,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonInactiveForegroundColor(DependencyObject obj)
+        public static Color GetButtonInactiveForegroundColor(Page page)
         {
             Color color;
 
@@ -240,9 +240,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonInactiveForegroundColor(DependencyObject obj, Color value)
+        public static void SetButtonInactiveForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -254,9 +254,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonPressedBackgroundColor(DependencyObject obj)
+        public static Color GetButtonPressedBackgroundColor(Page page)
         {
             Color color;
 
@@ -272,9 +272,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonPressedBackgroundColor(DependencyObject obj, Color value)
+        public static void SetButtonPressedBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -286,9 +286,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetButtonPressedForegroundColor(DependencyObject obj)
+        public static Color GetButtonPressedForegroundColor(Page page)
         {
             Color color;
 
@@ -304,9 +304,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetButtonPressedForegroundColor(DependencyObject obj, Color value)
+        public static void SetButtonPressedForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -318,9 +318,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetForegroundColor(DependencyObject obj)
+        public static Color GetForegroundColor(Page page)
         {
             Color color;
 
@@ -336,9 +336,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetForegroundColor(DependencyObject obj, Color value)
+        public static void SetForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -350,9 +350,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetInactiveBackgroundColor(DependencyObject obj)
+        public static Color GetInactiveBackgroundColor(Page page)
         {
             Color color;
 
@@ -368,9 +368,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetInactiveBackgroundColor(DependencyObject obj, Color value)
+        public static void SetInactiveBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)
@@ -382,9 +382,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetInactiveForegroundColor(DependencyObject obj)
+        public static Color GetInactiveForegroundColor(Page page)
         {
             Color color;
 
@@ -400,9 +400,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetInactiveForegroundColor(DependencyObject obj, Color value)
+        public static void SetInactiveForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
             if (titleBar != null)

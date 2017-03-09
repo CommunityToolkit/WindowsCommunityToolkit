@@ -30,9 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> for <see cref="StatusBar.BackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetBackgroundColor(DependencyObject obj)
+        public static Color GetBackgroundColor(Page page)
         {
             Color color;
 
@@ -48,9 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="StatusBar.BackgroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="Color"/></param>
-        public static void SetBackgroundColor(DependencyObject obj, Color value)
+        public static void SetBackgroundColor(Page page, Color value)
         {
             var statusBar = GetStatusBar();
             if (statusBar != null)
@@ -62,9 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="Color"/> from <see cref="StatusBar.ForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="Color"/></returns>
-        public static Color GetForegroundColor(DependencyObject obj)
+        public static Color GetForegroundColor(Page page)
         {
             Color color;
 
@@ -80,9 +80,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="Color"/> to <see cref="StatusBar.ForegroundColor"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"> <see cref="Color"/></param>
-        public static void SetForegroundColor(DependencyObject obj, Color value)
+        public static void SetForegroundColor(Page page, Color value)
         {
             var statusBar = GetStatusBar();
             if (statusBar != null)
@@ -94,9 +94,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="double"/> from <see cref="StatusBar.BackgroundOpacity"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="double"/></returns>
-        public static double GetBackgroundOpacity(DependencyObject obj)
+        public static double GetBackgroundOpacity(Page page)
         {
             return GetStatusBar()?.BackgroundOpacity ?? 0;
         }
@@ -104,9 +104,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets <see cref="double"/> to <see cref="StatusBar.BackgroundOpacity"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="double"/></param>
-        public static void SetBackgroundOpacity(DependencyObject obj, double value)
+        public static void SetBackgroundOpacity(Page page, double value)
         {
             var statusBar = GetStatusBar();
             if (statusBar != null)
@@ -118,21 +118,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets <see cref="bool"/> indicating whether <see cref="StatusBar"/> is visible or not.
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> typically <see cref="Page"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="bool"/></returns>
-        public static bool GetIsVisible(DependencyObject obj)
+        public static bool GetIsVisible(Page page)
         {
-            return (bool)obj.GetValue(IsVisibleProperty);
+            var statusBar = GetStatusBar();
+
+            return statusBar?.OccludedRect.Height > 0;
         }
 
         /// <summary>
         /// Sets a <see cref="bool"/> resulting in <see cref="StatusBar"/> becoming visible or invisible.
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/></param>
+        /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="bool"/></param>
-        public static void SetIsVisible(DependencyObject obj, bool value)
+        public static void SetIsVisible(Page page, bool value)
         {
-            obj.SetValue(IsVisibleProperty, value);
+            page.SetValue(IsVisibleProperty, value);
         }
 
         /// <summary>
