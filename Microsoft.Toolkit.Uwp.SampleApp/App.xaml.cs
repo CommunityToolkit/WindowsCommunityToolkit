@@ -23,6 +23,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -109,30 +110,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Go fullscreen on Xbox
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
             {
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {
                 Constants.ApplicationDisplayName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
-            }
-
-            // Set title bar colors
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
-            {
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                var lightGreyBrush = (Color)Resources["Grey-04"];
-                var greyBrush03 = (Color)Resources["Grey-03"];
-                var greyBrush01 = (Color)Resources["Grey-01"];
-
-                if (titleBar != null)
-                {
-                    titleBar.ButtonBackgroundColor = greyBrush03;
-                    titleBar.ButtonForegroundColor = lightGreyBrush;
-                    titleBar.BackgroundColor = greyBrush01;
-                    titleBar.ForegroundColor = lightGreyBrush;
-                }
             }
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -158,15 +142,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 rootFrame.Navigate(typeof(Shell), launchParameters);
             }
 
-            // Status bar
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
-                ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-
-                // Hide the status bar
-                await statusBar.HideAsync();
-            }
 
             // Ensure the current window is active
             Window.Current.Activate();
