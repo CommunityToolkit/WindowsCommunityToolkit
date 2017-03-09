@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -200,6 +201,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(Carousel);
             this.ManipulationMode = ManipulationModes.All;
             this.IsHitTestVisible = true;
+
+            // Activating the focus visual default behavior
+            this.UseSystemFocusVisuals = true;
+
+            // Events registered
             this.RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) => ((Carousel)d).UpdatePositions());
             this.PointerWheelChanged += OnPointerWheelChanged;
             this.PointerReleased += CarouselControl_PointerReleased;
@@ -375,6 +381,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             contentControl.Content = contentElement;
             contentControl.Opacity = 1;
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
+            contentControl.IsTabStop = false;
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
