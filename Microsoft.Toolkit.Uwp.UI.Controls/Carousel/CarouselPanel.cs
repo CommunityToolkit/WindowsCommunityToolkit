@@ -22,9 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public class CarouselPanel : Panel
     {
-        // prevent ArrangeOverride on items adding
-        private bool isUpdatingPosition;
-
         // Storyboard on gesture
         private Storyboard storyboard = new Storyboard();
 
@@ -189,7 +186,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void UpdatePosition()
         {
             storyboard = new Storyboard();
-            isUpdatingPosition = true;
             ManipulationMode = ManipulationModes.None;
 
             for (int i = 0; i < Children.Count; i++)
@@ -218,7 +214,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // When storyboard completed, Invalidate
             storyboard.Completed += (sender, o) =>
             {
-                isUpdatingPosition = false;
                 ManipulationMode = ManipulationModes.All;
             };
 
@@ -231,11 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return an item size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (isUpdatingPosition)
-            {
-                return finalSize;
-            }
-
             double centerLeft = 0;
             double centerTop = 0;
 
