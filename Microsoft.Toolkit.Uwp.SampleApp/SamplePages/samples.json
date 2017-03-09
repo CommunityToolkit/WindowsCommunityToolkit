@@ -502,6 +502,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "ViewExtensions",
+        "Type": "ViewExtensionsPage",
+        "About": "View extensions to set StatusBar and TitleBar properties.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ViewExtensions",
+        "XamlCodeFile": "ViewExtensionsCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
       }
     ]
   },
