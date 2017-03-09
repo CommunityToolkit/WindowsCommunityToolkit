@@ -9,7 +9,7 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <Border Margin="0">
-            <controls:Carousel x:Name="carouselControl"
+            <controls:Carousel x:Name="CarouselControl"
                                Background="{StaticResource Brush-Grey-05}"
                                InvertPositive="{Binding InvertPositive.Value, Mode=OneWay}"
                                ItemDepth="{Binding ItemDepth.Value, Mode=OneWay}"

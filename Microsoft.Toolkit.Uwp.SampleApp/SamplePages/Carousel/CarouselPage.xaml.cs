@@ -11,18 +11,13 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the DropShadowPanel control.
+    /// A page that shows how to use the Carousel control.
     /// </summary>
     public sealed partial class CarouselPage : Page
     {
@@ -49,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DataContext = propertyDesc.Expando;
             }
 
-            carouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }

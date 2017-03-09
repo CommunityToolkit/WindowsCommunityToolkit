@@ -10,21 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -236,28 +224,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public Carousel()
         {
             // Set style
-            this.DefaultStyleKey = typeof(Carousel);
-            this.ManipulationMode = ManipulationModes.All;
-            this.IsHitTestVisible = true;
+            DefaultStyleKey = typeof(Carousel);
+            ManipulationMode = ManipulationModes.All;
+            IsHitTestVisible = true;
 
             // Activating the focus visual default behavior
-            this.UseSystemFocusVisuals = true;
+            UseSystemFocusVisuals = true;
 
             // Events registered
-            this.PointerWheelChanged += OnPointerWheelChanged;
-            this.PointerReleased += CarouselControl_PointerReleased;
-            this.KeyDown += Keyboard_KeyUp;
+            PointerWheelChanged += OnPointerWheelChanged;
+            PointerReleased += CarouselControl_PointerReleased;
+            KeyDown += Keyboard_KeyUp;
 
             // Register ItemSource changed to get correct SelectedItem and SelectedIndex
-            this.RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) =>
+            RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) =>
             {
                 var carouselControl = (Carousel)d;
                 var itemsPanel = carouselControl.GetItemsPanel();
 
                 // Prioritize the SelectedItem over the SelectedIndex
-                if (this.SelectedItem != null && this.Items[carouselControl.SelectedIndex] != this.SelectedItem)
+                if (SelectedItem != null && Items[carouselControl.SelectedIndex] != SelectedItem)
                 {
-                    var index = carouselControl.Items.IndexOf(this.SelectedItem);
+                    var index = carouselControl.Items.IndexOf(SelectedItem);
 
                     // Double check
                     if (carouselControl.SelectedIndex != index)
@@ -265,9 +253,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         carouselControl.SetValue(SelectedIndexProperty, index);
                     }
                 }
-                else if (this.SelectedItem == null && this.SelectedIndex >= 0)
+                else if (SelectedItem == null && SelectedIndex >= 0)
                 {
-                    var item = carouselControl.Items[this.SelectedIndex];
+                    var item = carouselControl.Items[SelectedIndex];
 
                     // Double check
                     if (carouselControl.SelectedItem != item)
@@ -283,12 +271,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdatePositions()
         {
-            if (this.ItemsPanel == null)
+            if (ItemsPanel == null)
             {
                 return;
             }
 
-            var itemsPanel = this.GetItemsPanel();
+            var itemsPanel = GetItemsPanel();
 
             if (itemsPanel == null)
             {
@@ -300,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CarouselControl_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            this.Focus(FocusState.Pointer);
+            Focus(FocusState.Pointer);
             e.Handled = true;
         }
 
@@ -311,11 +299,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Down:
                 case Windows.System.VirtualKey.GamepadDPadDown:
                 case Windows.System.VirtualKey.GamepadLeftThumbstickDown:
-                    if (this.Orientation == Orientation.Vertical)
+                    if (Orientation == Orientation.Vertical)
                     {
-                        if (this.SelectedIndex < this.Items.Count - 1)
+                        if (SelectedIndex < Items.Count - 1)
                         {
-                            this.SelectedIndex++;
+                            SelectedIndex++;
                         }
 
                         e.Handled = true;
@@ -325,11 +313,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Up:
                 case Windows.System.VirtualKey.GamepadDPadUp:
                 case Windows.System.VirtualKey.GamepadLeftThumbstickUp:
-                    if (this.Orientation == Orientation.Vertical)
+                    if (Orientation == Orientation.Vertical)
                     {
-                        if (this.SelectedIndex > 0)
+                        if (SelectedIndex > 0)
                         {
-                            this.SelectedIndex--;
+                            SelectedIndex--;
                         }
 
                         e.Handled = true;
@@ -339,11 +327,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Left:
                 case Windows.System.VirtualKey.GamepadDPadLeft:
                 case Windows.System.VirtualKey.GamepadLeftThumbstickLeft:
-                    if (this.Orientation == Orientation.Horizontal)
+                    if (Orientation == Orientation.Horizontal)
                     {
-                        if (this.SelectedIndex > 0)
+                        if (SelectedIndex > 0)
                         {
-                            this.SelectedIndex--;
+                            SelectedIndex--;
                         }
 
                         e.Handled = true;
@@ -353,11 +341,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Right:
                 case Windows.System.VirtualKey.GamepadDPadRight:
                 case Windows.System.VirtualKey.GamepadLeftThumbstickRight:
-                    if (this.Orientation == Orientation.Horizontal)
+                    if (Orientation == Orientation.Horizontal)
                     {
-                        if (this.SelectedIndex < this.Items.Count - 1)
+                        if (SelectedIndex < Items.Count - 1)
                         {
-                            this.SelectedIndex++;
+                            SelectedIndex++;
                         }
 
                         e.Handled = true;
@@ -371,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (carouselPanel == null)
             {
-                carouselPanel = this.GetItemsPanel();
+                carouselPanel = GetItemsPanel();
             }
 
             if (carouselPanel == null)
@@ -386,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (carouselPanel == null)
             {
-                carouselPanel = this.GetItemsPanel();
+                carouselPanel = GetItemsPanel();
             }
 
             if (carouselPanel == null)
@@ -400,14 +388,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
             var index = e.GetCurrentPoint(null).Properties.MouseWheelDelta > 0 ? -1 : 1;
-            if (index == -1 && this.SelectedIndex > 0)
+            if (index == -1 && SelectedIndex > 0)
             {
-                this.SelectedIndex--;
+                SelectedIndex--;
             }
 
-            if (index == 1 && this.SelectedIndex < this.Items.Count - 1)
+            if (index == 1 && SelectedIndex < Items.Count - 1)
             {
-                this.SelectedIndex++;
+                SelectedIndex++;
             }
 
             e.Handled = true;
@@ -417,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            if (this.ItemTemplate == null)
+            if (ItemTemplate == null)
             {
                 return;
             }
@@ -425,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var contentControl = element as ContentControl;
 
             // load data templated
-            var contentElement = this.ItemTemplate.LoadContent() as FrameworkElement;
+            var contentElement = ItemTemplate.LoadContent() as FrameworkElement;
 
             if (contentElement == null)
             {
