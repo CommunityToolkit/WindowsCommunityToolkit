@@ -21,6 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public static partial class AnimationExtensions
     {
+        /// <summary>
+        /// Gets the blur effect.
+        /// </summary>
+        /// <value>
+        /// The blur effect.
+        /// </value>
         public static Blur BlurEffect { get; } = new Blur();
 
         /// <summary>
