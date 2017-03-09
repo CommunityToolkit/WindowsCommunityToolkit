@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// IsPullToRefreshWithMouseEnabled Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
-            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -101,9 +102,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _refreshIndicatorTransform;
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
+        private CompositeTransform _headerTransform;
+        private CompositeTransform _footerTransform;
         private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
+        private ScrollBar _scrollerVerticalScrollBar;
         private double _lastOffset = 0.0;
         private double _pullDistance = 0.0;
         private DateTime _lastRefreshActivation = default(DateTime);
@@ -151,6 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_scroller != null)
             {
+                _scroller.Loaded -= Scroller_Loaded;
                 _scroller.DirectManipulationCompleted -= Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted -= Scroller_DirectManipulationStarted;
             }
@@ -158,6 +163,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_refreshIndicatorBorder != null)
             {
                 _refreshIndicatorBorder.SizeChanged -= RefreshIndicatorBorder_SizeChanged;
+            }
+
+            if (_root != null)
+            {
+                _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
             }
 
             _root = GetTemplateChild(PartRoot) as Border;
@@ -175,10 +186,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _refreshIndicatorTransform != null &&
                 (_defaultIndicatorContent != null || _pullAndReleaseIndicatorContent != null))
             {
-                _root.ManipulationMode = ManipulationModes.TranslateY;
-                _root.ManipulationDelta += Scroller_ManipulationDelta;
-                _root.ManipulationStarted += Scroller_ManipulationStarted;
-                _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                _scroller.Loaded += Scroller_Loaded;
+
+                if (IsPullToRefreshWithMouseEnabled)
+                {
+                    _root.ManipulationMode = ManipulationModes.TranslateY;
+                    _root.ManipulationStarted += Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                }
 
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
@@ -201,27 +216,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            // Other input are already managed by the scroll viewer
+            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
+                && IsPullToRefreshWithMouseEnabled
+                && _scroller.VerticalOffset < 1)
+            {
+                _root.ManipulationDelta += Scroller_ManipulationDelta;
+                DisplayPullToRefreshContent();
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                CompositionTarget.Rendering += CompositionTarget_Rendering;
+                _isManipulatingWithMouse = true;
+            }
+        }
+
         private void Scroller_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
+            _root.ManipulationDelta -= Scroller_ManipulationDelta;
+
             if (!IsPullToRefreshWithMouseEnabled)
             {
                 return;
             }
 
             OnManipulationCompleted();
-        }
-
-        private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            // Other input are already managed by the scroll viewer
-            if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
-                && IsPullToRefreshWithMouseEnabled)
-            {
-                DisplayPullToRefreshContent();
-                CompositionTarget.Rendering -= CompositionTarget_Rendering;
-                CompositionTarget.Rendering += CompositionTarget_Rendering;
-                _isManipulatingWithMouse = true;
-            }
         }
 
         private void Scroller_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
@@ -258,6 +277,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var maxTranslation = 150;
             _contentTransform.TranslateY = easing * maxTranslation;
+
+            if (_headerTransform != null)
+            {
+                _headerTransform.TranslateY = _contentTransform.TranslateY;
+            }
+
+            if (_footerTransform != null)
+            {
+                _footerTransform.TranslateY = _contentTransform.TranslateY;
+            }
         }
 
         private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -270,9 +299,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // sometimes the value gets stuck at 0.something, so checking if less than 1
             if (_scroller.VerticalOffset < 1)
             {
-                DisplayPullToRefreshContent();
-
                 OnManipulationCompleted();
+                DisplayPullToRefreshContent();
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
             }
         }
@@ -311,6 +339,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_contentTransform != null)
             {
                 _contentTransform.TranslateY = 0;
+
+                if (_headerTransform != null)
+                {
+                    _headerTransform.TranslateY = 0;
+                }
+
+                if (_footerTransform != null)
+                {
+                    _footerTransform.TranslateY = 0;
+                }
             }
 
             if (_refreshActivated)
@@ -326,8 +364,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _pullDistance = 0;
             _refreshActivated = false;
             _lastRefreshActivation = default(DateTime);
+            _isManipulatingWithMouse = false;
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = 0 });
+            _pullAndReleaseIndicatorContent.Content = null;
         }
 
         private void CompositionTarget_Rendering(object sender, object e)
@@ -340,6 +380,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_contentTransform != null)
                 {
                     _contentTransform.TranslateY = 0;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = 0;
+                    }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = 0;
+                    }
                 }
 
                 _refreshActivated = false;
@@ -353,14 +403,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentTransform == null)
             {
-                var itemScrollPanel = _scrollerContent.FindDescendant<Panel>();
-                if (itemScrollPanel == null)
+                var headerContent = VisualTreeHelper.GetChild(_scrollerContent, 0) as UIElement;
+                var itemsPanel = VisualTreeHelper.GetChild(_scrollerContent, 1) as UIElement;
+                var footerContent = VisualTreeHelper.GetChild(_scrollerContent, 2) as UIElement;
+
+                if (_headerTransform == null && VisualTreeHelper.GetChildrenCount(headerContent) > 0)
+                {
+                    if (headerContent != null)
+                    {
+                        _headerTransform = new CompositeTransform();
+                        headerContent.RenderTransform = _headerTransform;
+                    }
+                }
+
+                if (_footerTransform == null && VisualTreeHelper.GetChildrenCount(footerContent) > 0)
+                {
+                    if (footerContent != null)
+                    {
+                        _footerTransform = new CompositeTransform();
+                        footerContent.RenderTransform = _footerTransform;
+                    }
+                }
+
+                if (itemsPanel == null)
                 {
                     return;
                 }
 
                 _contentTransform = new CompositeTransform();
-                itemScrollPanel.RenderTransform = _contentTransform;
+                itemsPanel.RenderTransform = _contentTransform;
             }
 
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
@@ -388,6 +459,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_isManipulatingWithMouse)
                 {
                     _contentTransform.TranslateY = _pullDistance - offset;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = _pullDistance - offset
@@ -398,6 +479,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_isManipulatingWithMouse)
                 {
                     _contentTransform.TranslateY = 0;
+
+                    if (_headerTransform != null)
+                    {
+                        _headerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
@@ -456,6 +547,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = pullProgress });
+        }
+
+        private void Scroller_Loaded(object sender, RoutedEventArgs e)
+        {
+            _scrollerVerticalScrollBar = _scroller.FindDescendantByName("VerticalScrollBar") as ScrollBar;
+            _scrollerVerticalScrollBar.PointerEntered += ScrollerVerticalScrollBar_PointerEntered;
+            _scrollerVerticalScrollBar.PointerExited += ScrollerVerticalScrollBar_PointerExited;
+        }
+
+        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled)
+            {
+                _root.ManipulationMode = ManipulationModes.TranslateY;
+            }
+        }
+
+        private void ScrollerVerticalScrollBar_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            _root.ManipulationMode = ManipulationModes.System;
         }
 
         /// <summary>
@@ -589,8 +700,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool IsPullToRefreshWithMouseEnabled
         {
-            get { return (bool)GetValue(IsPullToRefreshWithMouseEnabledProperty); }
-            set { SetValue(IsPullToRefreshWithMouseEnabledProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsPullToRefreshWithMouseEnabledProperty);
+            }
+
+            set
+            {
+                if (_root != null)
+                {
+                    if (value)
+                    {
+                        _root.ManipulationMode = ManipulationModes.TranslateY;
+                        _root.ManipulationStarted += Scroller_ManipulationStarted;
+                        _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                    }
+                    else
+                    {
+                        _root.ManipulationMode = ManipulationModes.System;
+                        _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                        _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    }
+                }
+
+                SetValue(IsPullToRefreshWithMouseEnabledProperty, value);
+            }
         }
     }
 }

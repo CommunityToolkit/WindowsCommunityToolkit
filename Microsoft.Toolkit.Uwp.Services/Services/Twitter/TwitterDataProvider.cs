@@ -321,6 +321,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Success or failure.</returns>
         public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
+            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
+        }
+
+        /// <summary>
+        /// Tweets a status update.
+        /// </summary>
+        /// <param name="status">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        {
             try
             {
                 var mediaIds = string.Empty;
@@ -336,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     mediaIds = "&media_ids=" + string.Join(",", ids);
                 }
 
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{mediaIds}");
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 await request.ExecutePostAsync(uri, _tokens);
@@ -414,9 +425,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)

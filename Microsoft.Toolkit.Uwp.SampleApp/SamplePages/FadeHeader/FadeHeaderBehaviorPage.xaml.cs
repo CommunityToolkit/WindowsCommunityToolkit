@@ -38,13 +38,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
             // Load the ListView with Sample Data
             MyListView.ItemsSource = GenerateItems();
         }

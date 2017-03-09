@@ -40,9 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Image _image;
         private ProgressRing _progress;
-        private object _lockObj;
-
         private bool _isInitialized;
+        private object _lockObj;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageEx"/> class.
@@ -50,7 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageEx()
         {
             DefaultStyleKey = typeof(ImageEx);
-            Loaded += OnLoaded;
             _lockObj = new object();
         }
 
@@ -106,19 +104,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ImageFailed?.Invoke(this, e);
             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (_image != null && _image.Source == null)
-            {
-                RefreshImage();
-            }
-        }
-
-        private async void RefreshImage()
-        {
-            await LoadImageAsync();
         }
     }
 }

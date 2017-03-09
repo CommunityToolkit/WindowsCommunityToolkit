@@ -12,10 +12,12 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -53,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
                     if (targetSample != null)
                     {
-                        await Shell.Current?.NavigateToSampleAsync(targetSample);
+                        Shell.Current?.NavigateToSample(targetSample);
                     }
                 }
                 catch (Exception ex)
@@ -82,8 +84,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+        /// <summary>
+        /// Event fired when a Background Task is activated (in Single Process Model)
+        /// </summary>
+        /// <param name="args">Arguments that describe the BackgroundTask activated</param>
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case Constants.TestBackgroundTaskName:
+                    new TestBackgroundTask().Run(args.TaskInstance);
+                    break;
+            }
+
+            deferral.Complete();
+        }
+
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
+            // Go fullscreen on Xbox
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            {
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+            }
+
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {

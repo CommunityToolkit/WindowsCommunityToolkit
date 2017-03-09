@@ -16,7 +16,7 @@ Commonly used **converters** that allow the data to be modified as it passes thr
 `BoolToObjectConverter` can be used to generalize the behavior of `BoolToVisibilityConverter` by allowing to pass the two values it can return.
 You can use it to switch Visibility by declaring it :
 
-```xaml
+```xml
 
 <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
 
@@ -24,7 +24,7 @@ You can use it to switch Visibility by declaring it :
 
 and using it like that :
 
-```xaml
+```xml
 
 <Image Visibility="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -34,7 +34,7 @@ It can also be used to switch between two values of brush.
 
 Note : you can use a resource for the brush or pass the color string and have it converted to a brush automatically.
 
-```xaml
+```xml
 
 <converters:BoolToObjectConverter x:Key="BoolToBrushConverter" TrueValue="Green" FalseValue="{StaticResource NopeBrush}" />
 
@@ -42,7 +42,7 @@ Note : you can use a resource for the brush or pass the color string and have it
 
 and using it like that :
 
-```xaml
+```xml
 
 <Border Background="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToBrushConverter}}" />
 
@@ -50,7 +50,7 @@ and using it like that :
 
 An other example is to switch between two images by specifying their source :
 
-```xaml
+```xml
 
 <converters:BoolToObjectConverter x:Key="BoolToImageConverter" TrueValue="ms-appx:///Assets/Yes.png" FalseValue="ms-appx:///Assets/No.png" />
 
@@ -58,7 +58,7 @@ An other example is to switch between two images by specifying their source :
 
 and using it like that :
 
-```xaml
+```xml
 
 <Image Source="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToImageConverter}}" />
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -76,7 +76,9 @@
     <Compile Include="Services\LinkedIn\LinkedInShareVisibility.cs" />
     <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
+    <Compile Include="Services\MicrosoftGraph\JWToken.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
+    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphEnums.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphCoreService.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphExtensions.cs" />
@@ -87,8 +89,36 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\OneDrive\DiscoverySettings.cs" />
+    <Compile Include="Services\OneDrive\OneDriveAuthenticationHelper.cs" />
+    <Compile Include="Services\OneDrive\OneDriveConflictItem.cs" />
+    <Compile Include="Services\OneDrive\OneDriveConstants.cs" />
+    <Compile Include="Services\OneDrive\OneDriveHelper.cs" />
+    <Compile Include="Services\OneDrive\OneDriveItem.cs" />
+    <Compile Include="Services\OneDrive\OneDriveEnums.cs" />
+    <Compile Include="Services\OneDrive\OneDriveItemConflictBehavior.cs" />
+    <Compile Include="Services\OneDrive\OneDriveItemExtension.cs" />
+    <Compile Include="Services\OneDrive\OneDriveParent.cs" />
+    <Compile Include="Services\OneDrive\OneDriveParentReference.cs" />
+    <Compile Include="Services\OneDrive\OneDriveRequestSource.cs" />
+    <Compile Include="Services\OneDrive\OneDriveScopes.cs" />
+    <Compile Include="Services\OneDrive\OneDriveService.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageFile.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageFolder.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageItem.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageItemsCollection.cs" />
+    <Compile Include="Services\OneDrive\OneDriveStorageItemsEnumerator.cs" />
+    <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ITranslatorService.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorService.cs" />
+    <Compile Include="Services\OneDrive\OneDriveThumbnailSet.cs" />
+    <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
+    <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
+    <Compile Include="Services\Twitter\TwitterEntities.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
+    <Compile Include="Services\Twitter\TwitterMedia.cs" />
+    <Compile Include="Services\Twitter\TwitterGeoData.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
     <Compile Include="Services\Facebook\FacebookDataHost.cs" />
@@ -133,6 +163,8 @@
     <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
+    <Compile Include="Services\Twitter\TwitterStatus.cs" />
+    <Compile Include="Services\Twitter\TwitterUrl.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
-      <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
+      <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,20 +4,6 @@ This document describes how to add a new sample page for a new control you want 
 
 ## Sample page
 First you need to create a Xaml page in the folder /SamplePages/YourControl.
-This page needs to add this specific code to be able to connect with the property UI:
-```
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-```
 
 ## Binding text
 In order to provide a property UI and associated code, you have to define a text file associated with your page.

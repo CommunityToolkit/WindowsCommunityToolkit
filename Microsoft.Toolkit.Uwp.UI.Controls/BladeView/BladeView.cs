@@ -10,8 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,12 +31,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private ScrollViewer _scrollViewer;
 
+        private Dictionary<BladeItem, Size> _cachedBladeItemSizes = new Dictionary<BladeItem, Size>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeView"/> class.
         /// </summary>
         public BladeView()
         {
             DefaultStyleKey = typeof(BladeView);
+
+            Items.VectorChanged += ItemsVectorChanged;
+
+            Loaded += (sender, e) => AdjustBladeItemSize();
+            SizeChanged += (sender, e) => AdjustBladeItemSize();
         }
 
         /// <summary>
@@ -40,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
             CycleBlades();
+            AdjustBladeItemSize();
         }
 
         /// <summary>
@@ -97,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void BladeOnVisibilityChanged(object sender, Visibility visibility)
+        private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
 
@@ -108,7 +122,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
-                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+
+                // Need to do this because of touch. See more information here: https://github.com/Microsoft/UWPCommunityToolkit/issues/760#issuecomment-276466464
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                });
+
                 return;
             }
 
@@ -119,6 +139,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollViewer GetScrollViewer()
         {
             return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
+        }
+
+        private void AdjustBladeItemSize()
+        {
+            // Adjust blade items to be full screen
+            if (BladeMode == BladeMode.Fullscreen && GetScrollViewer() != null)
+            {
+                foreach (BladeItem blade in Items)
+                {
+                    blade.Width = _scrollViewer.ActualWidth;
+                    blade.Height = _scrollViewer.ActualHeight;
+                }
+            }
+        }
+
+        private void ItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+        {
+            if (BladeMode == BladeMode.Fullscreen)
+            {
+                var bladeItem = (BladeItem)sender[(int)e.Index];
+                if (bladeItem != null)
+                {
+                    if (!_cachedBladeItemSizes.ContainsKey(bladeItem))
+                    {
+                        // Execute change of blade item size when a blade item is added in Fullscreen mode
+                        _cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
+                        AdjustBladeItemSize();
+                    }
+                }
+            }
         }
     }
 }

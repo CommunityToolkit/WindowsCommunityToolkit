@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "Microsoft.Identity.Client": "1.0.304142221-alpha",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Newtonsoft.Json": "9.0.1",
     "StyleCop.Analyzers": "1.0.0"

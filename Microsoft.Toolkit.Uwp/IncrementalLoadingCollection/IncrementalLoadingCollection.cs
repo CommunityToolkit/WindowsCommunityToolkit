@@ -15,13 +15,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp
@@ -42,6 +38,21 @@ namespace Microsoft.Toolkit.Uwp
          where TSource : IIncrementalSource<IType>
     {
         /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
+        /// </summary>
+        public Action OnStartLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation ends.
+        /// </summary>
+        public Action OnEndLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets an <see cref="Action"/> that is called if an error occours during data retrieval. The actual <see cref="Exception"/> is passed as an argument.
+        /// </summary>
+        public Action<Exception> OnError { get; set; }
+
+        /// <summary>
         /// Gets a value indicating the source of incremental loading.
         /// </summary>
         protected TSource Source { get; }
@@ -56,13 +67,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         protected int CurrentPageIndex { get; set; }
 
-        private readonly Action _onStartLoading;
-        private readonly Action _onEndLoading;
-        private readonly Action<Exception> _onError;
-
         private bool _isLoading;
         private bool _hasMoreItems;
         private CancellationToken _cancellationToken;
+        private bool _refreshOnLoad;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -83,11 +91,11 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (_isLoading)
                     {
-                        _onStartLoading?.Invoke();
+                        OnStartLoading?.Invoke();
                     }
                     else
                     {
-                        _onEndLoading?.Invoke();
+                        OnEndLoading?.Invoke();
                     }
                 }
             }
@@ -167,9 +175,9 @@ namespace Microsoft.Toolkit.Uwp
 
             Source = source;
 
-            _onStartLoading = onStartLoading;
-            _onEndLoading = onEndLoading;
-            _onError = onError;
+            OnStartLoading = onStartLoading;
+            OnEndLoading = onEndLoading;
+            OnError = onError;
 
             ItemsPerPage = itemsPerPage;
             _hasMoreItems = true;
@@ -185,7 +193,26 @@ namespace Microsoft.Toolkit.Uwp
         /// An object of the <see cref="LoadMoreItemsAsync(uint)"/> that specifies how many items have been actually retrieved.
         /// </returns>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-            => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
+            => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
+
+        /// <summary>
+        /// Clears the collection and reloads data from the source
+        /// </summary>
+        /// <returns>This method does not return a result</returns>
+        public async Task RefreshAsync()
+        {
+            if (IsLoading)
+            {
+                _refreshOnLoad = true;
+            }
+            else
+            {
+                Clear();
+                CurrentPageIndex = 0;
+                HasMoreItems = true;
+                await LoadMoreItemsAsync(1);
+            }
+        }
 
         /// <summary>
         /// Actually performs the incremental loading.
@@ -221,25 +248,19 @@ namespace Microsoft.Toolkit.Uwp
                     {
                         // The operation has been canceled using the Cancellation Token.
                     }
-                    catch (Exception ex) when (_onError != null)
+                    catch (Exception ex) when (OnError != null)
                     {
-                        _onError.Invoke(ex);
+                        OnError.Invoke(ex);
                     }
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
                     {
-                        var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
 
-                        await dispatcher.RunAsync(
-                            CoreDispatcherPriority.Normal,
-                            () =>
-                            {
-                                foreach (var item in data)
-                                {
-                                    Add(item);
-                                }
-                            });
+                        foreach (var item in data)
+                        {
+                            Add(item);
+                        }
                     }
                     else
                     {
@@ -250,6 +271,12 @@ namespace Microsoft.Toolkit.Uwp
             finally
             {
                 IsLoading = false;
+
+                if (_refreshOnLoad)
+                {
+                    _refreshOnLoad = false;
+                    await RefreshAsync();
+                }
             }
 
             return new LoadMoreItemsResult { Count = resultCount };

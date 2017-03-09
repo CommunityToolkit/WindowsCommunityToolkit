@@ -12,7 +12,7 @@ The *RefreshIndicatorContent* can be used with the *PullProgressChanged* event t
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:PullToRefreshListView Name="PullToRefreshListViewControl"
 	ItemsSource="{x:Bind _items}"	

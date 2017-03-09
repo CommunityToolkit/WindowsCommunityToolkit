@@ -32,10 +32,16 @@
             <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="location" />
   </Capabilities>
 </Package>

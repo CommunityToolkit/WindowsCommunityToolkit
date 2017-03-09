@@ -10,6 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+#if WINRT
+using System.Collections.Generic;
+#endif
 using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
@@ -21,13 +24,25 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         : IAdaptiveChild,
         IAdaptiveSubgroupChild,
         ITileBindingContentAdaptiveChild,
-        IToastBindingGenericChild,
-        IBaseText
+        IToastBindingGenericChild
     {
+#if WINRT
         /// <summary>
-        /// The text to display.
+        /// Gets a dictionary of the current data bindings, where you can assign new bindings.
         /// </summary>
-        public string Text { get; set; }
+        public IDictionary<AdaptiveTextBindableProperty, string> Bindings { get; private set; } = new Dictionary<AdaptiveTextBindableProperty, string>();
+#endif
+
+        /// <summary>
+        /// The text to display. Data binding support added in Creators Update, only works for toast top-level text elements.
+        /// </summary>
+        public
+#if WINRT
+            string
+#else
+            BindableString
+#endif
+            Text { get; set; }
 
         /// <summary>
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
@@ -97,9 +112,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         internal Element_AdaptiveText ConvertToElement()
         {
-            return new Element_AdaptiveText()
+            var answer = new Element_AdaptiveText()
             {
-                Text = Text,
                 Lang = Language,
                 Style = HintStyle,
                 Wrap = HintWrap,
@@ -107,6 +121,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 MinLines = HintMinLines,
                 Align = HintAlign
             };
+
+#if WINRT
+            answer.Text = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveTextBindableProperty.Text, Text);
+#else
+            answer.Text = Text?.ToXmlString();
+#endif
+
+            return answer;
         }
 
         /// <summary>
