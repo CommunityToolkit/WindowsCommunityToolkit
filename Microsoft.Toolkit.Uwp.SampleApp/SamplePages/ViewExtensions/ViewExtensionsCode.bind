@@ -9,7 +9,7 @@
       extensions:StatusBar.BackgroundColor="Blue"
       extensions:StatusBar.BackgroundOpacity="0.8"
       extensions:StatusBar.ForegroundColor="White"
-      extensions:StatusBar.IsVisible="@[StatusBar IsVisible:Bool:false]"
+      extensions:StatusBar.IsVisible="@[IsVisible:Bool:false]"
       extensions:ApplicationView.Title="View Extensions"
       extensions:TitleBar.BackgroundColor="Blue"
       extensions:TitleBar.ForegroundColor="White"

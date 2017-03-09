@@ -11,6 +11,7 @@
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
       extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      extensions:StatusBar.IsVisible="False"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
