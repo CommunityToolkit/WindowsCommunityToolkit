@@ -39,6 +39,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CarouselPanel carouselPanel;
 
         /// <summary>
+        /// Gets or sets the selected Item
+        /// </summary>
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
+
+        /// <summary>
         /// Gets or sets selected Index
         /// </summary>
         public int SelectedIndex
@@ -171,6 +184,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Carousel carouselControl = (Carousel)d;
+
+            if (e.Property == SelectedIndexProperty)
+            {
+                var item = carouselControl.Items[(int)e.NewValue];
+
+                // double check
+                if (carouselControl.SelectedItem != item)
+                {
+                    carouselControl.SetValue(SelectedItemProperty, item);
+                    return;
+                }
+            }
+
+            if (e.Property == SelectedItemProperty)
+            {
+                var index = carouselControl.Items.IndexOf(e.NewValue);
+
+                // double check
+                if (carouselControl.SelectedIndex != index)
+                {
+                    carouselControl.SetValue(SelectedIndexProperty, index);
+                    return;
+                }
+            }
+
             carouselControl.UpdatePositions();
         }
 
@@ -206,10 +244,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UseSystemFocusVisuals = true;
 
             // Events registered
-            this.RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) => ((Carousel)d).UpdatePositions());
             this.PointerWheelChanged += OnPointerWheelChanged;
             this.PointerReleased += CarouselControl_PointerReleased;
             this.KeyDown += Keyboard_KeyUp;
+
+            // Register ItemSource changed to get correct SelectedItem and SelectedIndex
+            this.RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) =>
+            {
+                var carouselControl = (Carousel)d;
+                var itemsPanel = carouselControl.GetItemsPanel();
+
+                // Prioritize the SelectedItem over the SelectedIndex
+                if (this.SelectedItem != null && this.Items[carouselControl.SelectedIndex] != this.SelectedItem)
+                {
+                    var index = carouselControl.Items.IndexOf(this.SelectedItem);
+
+                    // Double check
+                    if (carouselControl.SelectedIndex != index)
+                    {
+                        carouselControl.SetValue(SelectedIndexProperty, index);
+                    }
+                }
+                else if (this.SelectedItem == null && this.SelectedIndex >= 0)
+                {
+                    var item = carouselControl.Items[this.SelectedIndex];
+
+                    // Double check
+                    if (carouselControl.SelectedItem != item)
+                    {
+                        carouselControl.SetValue(SelectedItemProperty, item);
+                    }
+                }
+            });
         }
 
         /// <summary>
@@ -230,17 +296,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             itemsPanel.UpdatePosition();
-        }
-
-        /// <summary>
-        /// Subsribe to a Dependency Property Changed Event
-        /// </summary>
-        public void SubscribePropertyChanged(string property, PropertyChangedCallback propertyChangedCallback)
-        {
-            Binding b = new Binding { Path = new PropertyPath(property), Source = this };
-            var prop = DependencyProperty.RegisterAttached(property, typeof(object), typeof(Control), new PropertyMetadata(null, propertyChangedCallback));
-
-            this.SetBinding(prop, b);
         }
 
         private void CarouselControl_PointerReleased(object sender, PointerRoutedEventArgs e)
