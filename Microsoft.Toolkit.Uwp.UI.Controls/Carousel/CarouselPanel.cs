@@ -12,6 +12,7 @@
 
 using System;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -35,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             IsHitTestVisible = true;
 
+            Background = new SolidColorBrush(Colors.Transparent);
             ManipulationMode = ManipulationModes.All;
             ManipulationCompleted += OnManipulationCompleted;
             ManipulationDelta += OnManipulationDelta;

@@ -225,7 +225,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Set style
             DefaultStyleKey = typeof(Carousel);
-            ManipulationMode = ManipulationModes.All;
             IsHitTestVisible = true;
 
             // Activating the focus visual default behavior
@@ -353,36 +352,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     break;
             }
-        }
-
-        protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
-        {
-            if (carouselPanel == null)
-            {
-                carouselPanel = GetItemsPanel();
-            }
-
-            if (carouselPanel == null)
-            {
-                return;
-            }
-
-            carouselPanel.OnManipulationDelta(this, e);
-        }
-
-        protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
-        {
-            if (carouselPanel == null)
-            {
-                carouselPanel = GetItemsPanel();
-            }
-
-            if (carouselPanel == null)
-            {
-                return;
-            }
-
-            carouselPanel.OnManipulationCompleted(this, e);
         }
 
         internal void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
