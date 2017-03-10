@@ -20,6 +20,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -238,15 +239,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (HamburgerMenu.Items.Contains(category))
+            if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
             {
-                HamburgerMenu.SelectedItem = category;
+                // This is a search
+                HamburgerMenu.SelectedItem = null;
                 HamburgerMenu.SelectedOptionsItem = null;
             }
             else
             {
-                HamburgerMenu.SelectedItem = null;
-                HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                if (HamburgerMenu.Items.Contains(category))
+                {
+                    HamburgerMenu.SelectedItem = category;
+                    HamburgerMenu.SelectedOptionsItem = null;
+                }
+                else
+                {
+                    HamburgerMenu.SelectedItem = null;
+                    HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                }
             }
         }
 
@@ -428,6 +438,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
+        }
+
+        private void ConnectToSearch()
+        {
+            var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
+            var searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as SearchBox;
+
+            if (searchBox == null || searchButton == null)
+            {
+                return;
+            }
+
+            searchButton.Click += (sender, args) =>
+            {
+                HamburgerMenu.IsPaneOpen = true;
+                searchBox.QueryText = string.Empty;
+                searchBox.Focus(FocusState.Programmatic);
+            };
+
+            searchBox.QuerySubmitted += (sender, args) =>
+            {
+                NavigationFrame.Navigate(typeof(SamplePicker), searchBox.QueryText);
+            };
+        }
+
+        private void Shell_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Connect to search UI
+            ConnectToSearch();
         }
     }
 }

@@ -37,6 +37,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return (await GetCategoriesAsync()).SelectMany(c => c.Samples).FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
+        public static async Task<Sample[]> FindSamplesByName(string name)
+        {
+            var query = name.ToLower();
+            return (await GetCategoriesAsync()).SelectMany(c => c.Samples).Where(s => s.Name.ToLower().Contains(query)).ToArray();
+        }
+
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {
             if (_samplesCategories == null)
