@@ -184,8 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
             }
-
-            if (e.Property == SelectedItemProperty)
+            else if (e.Property == SelectedItemProperty)
             {
                 var index = carouselControl.Items.IndexOf(e.NewValue);
 
