@@ -13,7 +13,7 @@ You can either use the saturation behavior from your XAML code:
 ```xml
 
     <interactivity:Interaction.Behaviors>
-    <behaviors:Blur x:Name="SaturationBehavior" 
+    <behaviors:Saturation x:Name="SaturationBehavior" 
            Value="10" 
            Duration="500" 
            Delay="250" 
