@@ -443,7 +443,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void ConnectToSearch()
         {
             var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
-            var searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as SearchBox;
+            var searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
 
             if (searchBox == null || searchButton == null)
             {
@@ -453,13 +453,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             searchButton.Click += (sender, args) =>
             {
                 HamburgerMenu.IsPaneOpen = true;
-                searchBox.QueryText = string.Empty;
+                searchBox.Text = string.Empty;
                 searchBox.Focus(FocusState.Programmatic);
             };
 
             searchBox.QuerySubmitted += (sender, args) =>
             {
-                NavigationFrame.Navigate(typeof(SamplePicker), searchBox.QueryText);
+                NavigationFrame.Navigate(typeof(SamplePicker), searchBox.Text);
             };
         }
 

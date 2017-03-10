@@ -35,13 +35,6 @@
         <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
 
-        <SolidColorBrush x:Key="SearchBoxButtonPointerOverBackgroundThemeBrush"
-                         Color="{ThemeResource SystemAccentColor}" />
-        <SolidColorBrush x:Key="SearchBoxButtonBackgroundThemeBrush" 
-                         Color="Transparent" />
-        <SolidColorBrush x:Key="SearchBoxButtonForegroundThemeBrush"
-                         Color="{ThemeResource SystemAccentColor}" />
-
         <!--  Styles  -->
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
@@ -188,13 +181,14 @@
                                                 <SymbolIcon Symbol="Find"
                                                             Foreground="{TemplateBinding Foreground}"/>
                                             </Button>
-                                            <SearchBox x:Name="SearchBox" 
+                                            <AutoSuggestBox x:Name="SearchBox"
+                                                       QueryIcon="Find"
                                                        Margin="5"
                                                        IsTabStop="True"
                                                        TabIndex="1"
                                                        VerticalAlignment="Center"
                                                        Visibility="{Binding ElementName=MainSplitView, Path=IsPaneOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            </SearchBox>
+                                            </AutoSuggestBox>
                                         </Grid>
                                         <ListView Name="ButtonsListView"
                                               Grid.Row="2"
