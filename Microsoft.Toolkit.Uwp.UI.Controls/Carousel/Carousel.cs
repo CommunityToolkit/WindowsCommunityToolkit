@@ -67,14 +67,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets depth of non Selected Index Items
         /// </summary>
-        public double ItemDepth
+        public int ItemDepth
         {
-            get { return (double)GetValue(ItemDepthProperty); }
+            get { return (int)GetValue(ItemDepthProperty); }
             set { SetValue(ItemDepthProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Depth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
+        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
         /// Gets or sets easing function to apply for each Transition

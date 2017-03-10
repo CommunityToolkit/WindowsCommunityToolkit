@@ -360,7 +360,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var relativePosition = Math.Abs(newPosition);
 
             // max Depth
-            var depth = -Carousel.ItemDepth;
+            double depth = (double)-Carousel.ItemDepth;
 
             // rotations
             var rotationX = Carousel.ItemRotationX;
