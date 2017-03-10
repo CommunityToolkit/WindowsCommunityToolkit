@@ -24,8 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class Carousel : ItemsControl
     {
-        private CarouselPanel carouselPanel;
-
         /// <summary>
         /// Gets or sets the selected Item
         /// </summary>
