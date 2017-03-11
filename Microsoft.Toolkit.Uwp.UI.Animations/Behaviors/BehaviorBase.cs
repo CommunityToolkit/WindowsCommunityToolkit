@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
         private void HandleAttach()
         {
-            if (_isAttached || _isAttached)
+            if (_isAttaching || _isAttached)
             {
                 return;
             }

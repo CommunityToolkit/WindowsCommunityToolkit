@@ -113,7 +113,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
             if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
             {
-                return false;
+                // Just return true since it's not supported
+                return true;
             }
 
             if (AssociatedObject == null)
