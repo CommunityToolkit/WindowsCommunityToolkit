@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -226,6 +226,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
+    <Content Include="Icons\DeveloperTools.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
@@ -233,6 +234,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\Bing Service\icon.png" />
@@ -247,6 +249,7 @@
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
+    <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
@@ -367,6 +370,11 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
+    <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
+    <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -380,15 +388,22 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
-    <Compile Include="Controls\FocusTracker.xaml.cs">
-      <DependentUpon>FocusTracker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FocusTracker\FocusTrackerPage.xaml.cs">
+      <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
+      <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
+      <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
@@ -426,6 +441,9 @@
     </Compile>
     <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
       <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml.cs">
+      <DependentUpon>AlignmentGridPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
@@ -538,6 +556,7 @@
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
     <Compile Include="SamplePages\Useful links\UsefulLinksPage.xaml.cs">
       <DependentUpon>UsefulLinksPage.xaml</DependentUpon>
     </Compile>
@@ -602,13 +621,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FocusTracker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -631,6 +654,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -836,6 +863,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+      <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
+      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
@@ -864,14 +895,6 @@
       <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
