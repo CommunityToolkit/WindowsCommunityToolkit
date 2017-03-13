@@ -51,6 +51,7 @@
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />
     <Compile Include="Services\Bing\BingLanguage.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
     <Compile Include="Services\Bing\BingResult.cs" />
@@ -116,6 +117,12 @@
     <Compile Include="Services\OneDrive\OneDriveThumbnailSet.cs" />
     <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
     <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamDeletedEvent.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamEventType.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamEvent.cs" />
+    <Compile Include="Services\Twitter\TwitterDirectMessage.cs" />
+    <Compile Include="Services\Twitter\ITwitterResult.cs" />
+    <Compile Include="Services\Twitter\TwitterUserStreamParser.cs" />
     <Compile Include="Services\Twitter\TwitterEntities.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
