@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -344,7 +344,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
-    <Content Include="SamplePages\ConnectionHelper\ConnectionHelperCode.bind" />
+    <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
@@ -392,6 +392,9 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
+      <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\FocusTracker\FocusTrackerPage.xaml.cs">
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
@@ -402,6 +405,7 @@
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
@@ -629,7 +633,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml">
+    <Page Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
