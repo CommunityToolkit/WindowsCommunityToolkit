@@ -25,13 +25,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             IsInternetAvailableText.Text = ConnectionHelper.IsInternetAvailable ? "Yes" : "No";
             IsInternetOnMeteredConnectionText.Text = ConnectionHelper.IsInternetOnMeteredConnection ? "Yes" : "No";
             ConnectionTypeText.Text = ConnectionHelper.ConnectionType.ToString();
+            ConnectionNameText.Text = await ConnectionHelper.GetNetworkSsidAsync();
         }
     }
 }

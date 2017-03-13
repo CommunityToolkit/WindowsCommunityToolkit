@@ -10,7 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
+using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
 
 namespace Microsoft.Toolkit.Uwp
@@ -105,6 +108,55 @@ namespace Microsoft.Toolkit.Uwp
 
                 return connectionType;
             }
+        }
+
+    /// <summary>
+    /// Gets connection ssid for the current Wifi Connection.
+    /// </summary>
+    /// <returns> string value of current ssid/></returns>
+    ///
+    public static async Task<string> GetNetworkSsidAsync()
+        {
+            var pProfileFilter = new ConnectionProfileFilter();
+            System.Collections.Generic.IReadOnlyList<ConnectionProfile> x = await NetworkInformation.FindConnectionProfilesAsync(pProfileFilter);
+
+            try
+            {
+                WiFiAdapter firstAdapter;
+                var access = await WiFiAdapter.RequestAccessAsync();
+                if (access != WiFiAccessStatus.Allowed)
+                {
+                   throw new UnauthorizedAccessException("Acess Denied for wifi Control");
+                }
+                else
+                {
+                    var result = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
+                    if (result.Count >= 1)
+                    {
+                        firstAdapter = await WiFiAdapter.FromIdAsync(result[0].Id);
+                    }
+                    else
+                    {
+                        return "No WiFi Adapters detected on this machine";
+                    }
+
+                    var connectedProfile = await firstAdapter.NetworkAdapter.GetConnectedProfileAsync();
+                    if (connectedProfile != null)
+                    {
+                        return connectedProfile.ProfileName;
+                    }
+                    else if (connectedProfile == null)
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return null;
         }
     }
 }

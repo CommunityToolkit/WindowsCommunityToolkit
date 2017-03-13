@@ -24,3 +24,6 @@ switch(ConnectionHelper.ConnectionType)
 		// Unknown
 		break;
 }
+
+//Get Connection Name
+ var ssidName = await ConnectionHelper.GetNetworkSsidAsync();
