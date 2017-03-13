@@ -12,6 +12,7 @@
 
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -224,6 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Set style
             DefaultStyleKey = typeof(Carousel);
+            SetValue(AutomationProperties.NameProperty, "Carousel");
             IsHitTestVisible = true;
 
             // Activating the focus visual default behavior
