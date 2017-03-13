@@ -303,6 +303,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SelectedIndex++;
                         }
+                        else if (e.OriginalKey != Windows.System.VirtualKey.Down)
+                        {
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                        }
 
                         e.Handled = true;
                     }
@@ -316,6 +320,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (SelectedIndex > 0)
                         {
                             SelectedIndex--;
+                        }
+                        else if (e.OriginalKey != Windows.System.VirtualKey.Up)
+                        {
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
                         }
 
                         e.Handled = true;
@@ -331,6 +339,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             SelectedIndex--;
                         }
+                        else if (e.OriginalKey != Windows.System.VirtualKey.Left)
+                        {
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
+                        }
 
                         e.Handled = true;
                     }
@@ -344,6 +356,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (SelectedIndex < Items.Count - 1)
                         {
                             SelectedIndex++;
+                        }
+                        else if (e.OriginalKey != Windows.System.VirtualKey.Right)
+                        {
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
                         }
 
                         e.Handled = true;
