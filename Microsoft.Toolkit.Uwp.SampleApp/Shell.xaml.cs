@@ -14,13 +14,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private bool _isPaneOpen;
         private Sample _currentSample;
+        private AutoSuggestBox _searchBox;
 
         public bool DisplayWaitRing
         {
@@ -440,26 +441,58 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
 
+        private async void UpdateSearchSuggestions()
+        {
+            _searchBox.ItemsSource = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name);
+        }
+
         private void ConnectToSearch()
         {
             var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
-            var searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
+            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
 
-            if (searchBox == null || searchButton == null)
+            if (_searchBox == null || searchButton == null)
             {
                 return;
             }
 
-            searchButton.Click += (sender, args) =>
+            searchButton.Click += async (sender, args) =>
             {
                 HamburgerMenu.IsPaneOpen = true;
-                searchBox.Text = string.Empty;
-                searchBox.Focus(FocusState.Programmatic);
+                _searchBox.Text = string.Empty;
+
+                // We need to wait for the textbox to be created to focus it (only first time).
+                TextBox innerTextbox = null;
+
+                do
+                {
+                    innerTextbox = _searchBox.FindDescendant<TextBox>();
+                    innerTextbox?.Focus(FocusState.Programmatic);
+
+                    if (innerTextbox == null)
+                    {
+                        await Task.Delay(150);
+                    }
+                }
+                while (innerTextbox == null);
             };
 
-            searchBox.QuerySubmitted += (sender, args) =>
+            _searchBox.DisplayMemberPath = "Name";
+            _searchBox.TextMemberPath = "Name";
+
+            _searchBox.QuerySubmitted += (sender, args) =>
             {
-                NavigationFrame.Navigate(typeof(SamplePicker), searchBox.Text);
+                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+            };
+
+            _searchBox.TextChanged += (sender, args) =>
+            {
+                if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+                {
+                    return;
+                }
+
+                UpdateSearchSuggestions();
             };
         }
 
