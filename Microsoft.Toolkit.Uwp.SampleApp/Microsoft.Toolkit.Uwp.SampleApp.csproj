@@ -238,6 +238,7 @@
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\Carousel\Carousel.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
     <Content Include="SamplePages\Expander\Expander.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
@@ -370,6 +371,7 @@
     <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -393,6 +395,9 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
       <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
+      </Compile>
+    <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
+      <DependentUpon>CarouselPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ConnectionHelper\ConnectionHelperPage.xaml.cs">
       <DependentUpon>ConnectionHelperPage.xaml</DependentUpon>
@@ -608,6 +613,10 @@
     <Page Include="Controls\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Carousel\CarouselPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\FocusTracker.xaml">
       <SubType>Designer</SubType>
