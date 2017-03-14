@@ -156,6 +156,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header1Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 1 headers.
+        /// </summary>
+        public Brush Header1Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 2 headers.
         /// </summary>
         public FontWeight Header2FontWeight { get; set; }
@@ -169,6 +174,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 2 headers.
         /// </summary>
         public Thickness Header2Margin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 2 headers.
+        /// </summary>
+        public Brush Header2Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the font weight to use for level 3 headers.
@@ -186,6 +196,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header3Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 3 headers.
+        /// </summary>
+        public Brush Header3Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 4 headers.
         /// </summary>
         public FontWeight Header4FontWeight { get; set; }
@@ -199,6 +214,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 4 headers.
         /// </summary>
         public Thickness Header4Margin { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the foreground brush for level 4 headers.
+        /// </summary>
+        public Brush Header4Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the font weight to use for level 5 headers.
@@ -216,6 +236,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header5Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 5 headers.
+        /// </summary>
+        public Brush Header5Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 6 headers.
         /// </summary>
         public FontWeight Header6FontWeight { get; set; }
@@ -229,6 +254,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 6 headers.
         /// </summary>
         public Thickness Header6Margin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 6 headers.
+        /// </summary>
+        public Brush Header6Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the brush used to render a horizontal rule.  If this is <c>null</c>, then
@@ -472,31 +502,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     paragraph.Margin = Header1Margin;
                     paragraph.FontSize = Header1FontSize;
                     paragraph.FontWeight = Header1FontWeight;
+                    paragraph.Foreground = Header1Foreground;
                     break;
                 case 2:
                     paragraph.Margin = Header2Margin;
                     paragraph.FontSize = Header2FontSize;
                     paragraph.FontWeight = Header2FontWeight;
+                    paragraph.Foreground = Header2Foreground;
                     break;
                 case 3:
                     paragraph.Margin = Header3Margin;
                     paragraph.FontSize = Header3FontSize;
                     paragraph.FontWeight = Header3FontWeight;
+                    paragraph.Foreground = Header3Foreground;
                     break;
                 case 4:
                     paragraph.Margin = Header4Margin;
                     paragraph.FontSize = Header4FontSize;
                     paragraph.FontWeight = Header4FontWeight;
+                    paragraph.Foreground = Header4Foreground;
                     break;
                 case 5:
                     paragraph.Margin = Header5Margin;
                     paragraph.FontSize = Header5FontSize;
                     paragraph.FontWeight = Header5FontWeight;
+                    paragraph.Foreground = Header5Foreground;
                     break;
                 case 6:
                     paragraph.Margin = Header6Margin;
                     paragraph.FontSize = Header6FontSize;
                     paragraph.FontWeight = Header6FontWeight;
+                    paragraph.Foreground = Header6Foreground;
 
                     var underline = new Underline();
                     childInlines = underline.Inlines;
