@@ -179,8 +179,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                 // no sense in inserting w/ filters or sorts, just add it
                 _sourceList.Add(item);
             }
-
-            _sourceList.Insert(index, item);
+            else
+            {
+                _sourceList.Insert(index, item);
+            }
         }
 
         /// <summary>
@@ -263,12 +265,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         public IObservableVector<object> CollectionGroups => null;
 
         /// <summary>
-        /// Gets or sets the current item
+        /// Gets the current item
         /// </summary>
         public object CurrentItem
         {
             get { return _index > -1 && _index < _view.Count ? _view[_index] : null; }
-            set { MoveCurrentTo(value); }
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace UnitTests.UI
                 Filter = (x) => x.ToString().Length < 5
             };
 
-            Assert.AreEqual(a.Count, 2);
+            Assert.AreEqual(2, a.Count);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -62,11 +62,11 @@ namespace UnitTests.UI
 
             var a = new AdvancedCollectionView(l);
 
-            Assert.AreEqual(a.Count, 5);
+            Assert.AreEqual(5, a.Count);
 
             l.Add("new item");
 
-            Assert.AreEqual(a.Count, 6);
+            Assert.AreEqual(6, a.Count);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -115,7 +115,7 @@ namespace UnitTests.UI
                 }
             };
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -165,8 +165,8 @@ namespace UnitTests.UI
                 Filter = (x) => ((Person)x).Name.Length > 5
             };
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
-            Assert.AreEqual(a.Count, 1);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
+            Assert.AreEqual(1, a.Count);
 
             l.Add(new Person
             {
@@ -180,8 +180,8 @@ namespace UnitTests.UI
                 Age = 10
             });
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
-            Assert.AreEqual(a.Count, 2);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
+            Assert.AreEqual(2, a.Count);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -230,7 +230,7 @@ namespace UnitTests.UI
                 }
             };
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -279,7 +279,7 @@ namespace UnitTests.UI
                 }
             };
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -328,7 +328,7 @@ namespace UnitTests.UI
                 }
             };
 
-            Assert.AreEqual(((Person)a.First()).Age, 42);
+            Assert.AreEqual(42, ((Person)a.First()).Age);
         }
 
         private class DelegateComparable : IComparer
