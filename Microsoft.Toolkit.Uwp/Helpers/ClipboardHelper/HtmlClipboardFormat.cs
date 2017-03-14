@@ -15,6 +15,10 @@ using System.Text;
 
 namespace Microsoft.Toolkit.Uwp
 {
+    /// <summary>
+    /// Html clipboard format.
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms649015(v=vs.85).aspx
+    /// </summary>
     public sealed class HtmlClipboardFormat
     {
         private const string EndFragment = "EndFragment:{0:D10}";
@@ -35,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp
 
         private readonly string _html;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HtmlClipboardFormat"/> class.
+        /// </summary>
+        /// <param name="html">The html string you want to copy into the clipboard.</param>
+        /// <exception cref="ArgumentNullException">'html' is null.</exception>
         public HtmlClipboardFormat(string html)
         {
             if (html == null)
@@ -45,6 +54,10 @@ namespace Microsoft.Toolkit.Uwp
             _html = html;
         }
 
+        /// <summary>
+        /// Cast to html clipboard format string.<see cref="ToString"/>
+        /// </summary>
+        /// <param name="htmlClipboardFormat">Html clipboard format instance.</param>
         public static implicit operator string(HtmlClipboardFormat htmlClipboardFormat)
         {
             if (htmlClipboardFormat == null)
@@ -55,6 +68,10 @@ namespace Microsoft.Toolkit.Uwp
             return htmlClipboardFormat.ToString();
         }
 
+        /// <summary>
+        /// Cast to html cliboard format string.
+        /// </summary>
+        /// <returns>The html string in clipboard format.</returns>
         public override string ToString()
         {
             var indexBuilder = new StringBuilder(StringBuilderDefaultCapacity);

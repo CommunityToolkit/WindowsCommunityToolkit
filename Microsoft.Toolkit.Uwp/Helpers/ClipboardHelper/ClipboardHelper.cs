@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Get image bytes from clipboard.
         /// </summary>
-        /// <returns>Image.</returns>
+        /// <returns>The image bytes.</returns>
         public static async Task<byte[]> GetImageAsync()
         {
             var content = Clipboard.GetContent();
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Get text from clipboard.
         /// </summary>
-        /// <returns>Text.</returns>
+        /// <returns>The text string.</returns>
         public static async Task<string> GetTextAsync()
         {
             var content = Clipboard.GetContent();
@@ -52,7 +52,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Set image bytes into clipboard.
         /// </summary>
-        /// <param name="image">Image bytes.</param>
+        /// <param name="image">The image bytes.</param>
+        /// <exception cref="ArgumentNullException">'image' is null.</exception>
         public static void SetImage(byte[] image)
         {
             if (image == null)
@@ -68,7 +69,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Set html into clipboard.
         /// </summary>
-        /// <param name="html">Html content.</param>
+        /// <param name="html">The html string.</param>
+        /// <exception cref="ArgumentNullException">'html' is null.</exception>
         public static void SetRawHtml(string html)
         {
             if (html == null)
@@ -84,7 +86,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Set text into clipboard.
         /// </summary>
-        /// <param name="text">Text.</param>
+        /// <param name="text">The text string.</param>
+        /// <exception cref="ArgumentNullException">'text' is null.</exception>
         public static void SetText(string text)
         {
             if (text == null)
