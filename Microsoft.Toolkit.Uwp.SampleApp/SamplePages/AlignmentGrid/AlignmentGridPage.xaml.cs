@@ -10,26 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
-namespace UnitTests.Helpers
+using Windows.UI.Xaml.Navigation;
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    [TestClass]
-    public class Test_ConnectionHelper
+    public sealed partial class AlignmentGridPage
     {
-        [TestCategory("Helpers")]
-        [TestMethod]
-        public void Test_ConnectionHelper_IsInternetOnMeteredConnection()
+        public AlignmentGridPage()
         {
-            Assert.IsFalse(NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection);
-        }
-
-        [TestCategory("Helpers")]
-        [TestMethod]
-        public void Test_ConnectionHelper_IsInternetAvailable()
-        {
-            Assert.IsTrue(NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable);
+            InitializeComponent();
         }
     }
 }
