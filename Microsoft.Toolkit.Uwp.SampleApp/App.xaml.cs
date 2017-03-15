@@ -15,15 +15,11 @@ using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation.Metadata;
-using Windows.Graphics.Display;
 using Windows.System.Profile;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -141,7 +137,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // parameter
                 rootFrame.Navigate(typeof(Shell), launchParameters);
             }
-
 
             // Ensure the current window is active
             Window.Current.Activate();

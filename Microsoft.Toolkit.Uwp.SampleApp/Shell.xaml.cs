@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Core;
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private bool _isPaneOpen;
         private Sample _currentSample;
+        private AutoSuggestBox _searchBox;
 
         public bool DisplayWaitRing
         {
@@ -238,15 +240,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (HamburgerMenu.Items.Contains(category))
+            if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
             {
-                HamburgerMenu.SelectedItem = category;
+                // This is a search
+                HamburgerMenu.SelectedItem = null;
                 HamburgerMenu.SelectedOptionsItem = null;
             }
             else
             {
-                HamburgerMenu.SelectedItem = null;
-                HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                if (HamburgerMenu.Items.Contains(category))
+                {
+                    HamburgerMenu.SelectedItem = category;
+                    HamburgerMenu.SelectedOptionsItem = null;
+                }
+                else
+                {
+                    HamburgerMenu.SelectedItem = null;
+                    HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                }
             }
         }
 
@@ -428,6 +439,67 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
+        }
+
+        private async void UpdateSearchSuggestions()
+        {
+            _searchBox.ItemsSource = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name);
+        }
+
+        private void ConnectToSearch()
+        {
+            var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
+            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
+
+            if (_searchBox == null || searchButton == null)
+            {
+                return;
+            }
+
+            searchButton.Click += async (sender, args) =>
+            {
+                HamburgerMenu.IsPaneOpen = true;
+                _searchBox.Text = string.Empty;
+
+                // We need to wait for the textbox to be created to focus it (only first time).
+                TextBox innerTextbox = null;
+
+                do
+                {
+                    innerTextbox = _searchBox.FindDescendant<TextBox>();
+                    innerTextbox?.Focus(FocusState.Programmatic);
+
+                    if (innerTextbox == null)
+                    {
+                        await Task.Delay(150);
+                    }
+                }
+                while (innerTextbox == null);
+            };
+
+            _searchBox.DisplayMemberPath = "Name";
+            _searchBox.TextMemberPath = "Name";
+
+            _searchBox.QuerySubmitted += (sender, args) =>
+            {
+                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+            };
+
+            _searchBox.TextChanged += (sender, args) =>
+            {
+                if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+                {
+                    return;
+                }
+
+                UpdateSearchSuggestions();
+            };
+        }
+
+        private void Shell_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Connect to search UI
+            ConnectToSearch();
         }
     }
 }

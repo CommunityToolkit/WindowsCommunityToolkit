@@ -13,6 +13,7 @@
       extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       extensions:StatusBar.IsVisible="False"
+      Loaded="Shell_OnLoaded"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
