@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             var content = new DataPackage();
-            content.SetHtmlFormat(new HtmlClipboardFormat(html));
+            content.SetHtmlFormat(HtmlFormatHelper.CreateHtmlFormat(html));
             Clipboard.SetContent(content);
         }
 
