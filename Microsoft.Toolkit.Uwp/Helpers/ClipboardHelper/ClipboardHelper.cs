@@ -40,6 +40,27 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Get html from clipboard.
+        /// </summary>
+        /// <returns>The raw html string.</returns>
+        public static async Task<string> GetRawHtmlAsync()
+        {
+            var content = Clipboard.GetContent();
+            var htmlFormat = await content.GetHtmlFormatAsync();
+            return HtmlFormatHelper.GetStaticFragment(htmlFormat);
+        }
+
+        /// <summary>
+        /// Get rtf format text from clipboard.
+        /// </summary>
+        /// <returns>The rtf format text.</returns>
+        public static async Task<string> GetRtfAsync()
+        {
+            var content = Clipboard.GetContent();
+            return await content.GetRtfAsync();
+        }
+
+        /// <summary>
         /// Get text from clipboard.
         /// </summary>
         /// <returns>The text string.</returns>
@@ -80,6 +101,23 @@ namespace Microsoft.Toolkit.Uwp
 
             var content = new DataPackage();
             content.SetHtmlFormat(new HtmlClipboardFormat(html));
+            Clipboard.SetContent(content);
+        }
+
+        /// <summary>
+        /// Set rtf format text into clipboard.
+        /// </summary>
+        /// <param name="rtf">The rtf format text.</param>
+        /// <exception cref="ArgumentNullException">'rtf' is null.</exception>
+        public static void SetRtf(string rtf)
+        {
+            if (rtf == null)
+            {
+                throw new ArgumentNullException(nameof(rtf));
+            }
+
+            DataPackage content = new DataPackage();
+            content.SetRtf(rtf);
             Clipboard.SetContent(content);
         }
 
