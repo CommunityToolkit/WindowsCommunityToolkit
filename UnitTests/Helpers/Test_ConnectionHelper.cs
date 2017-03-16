@@ -22,14 +22,14 @@ namespace UnitTests.Helpers
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetOnMeteredConnection()
         {
-            Assert.IsFalse(ConnectionHelper.IsInternetOnMeteredConnection);
+            Assert.IsFalse(NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection);
         }
 
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetAvailable()
         {
-            Assert.IsTrue(ConnectionHelper.IsInternetAvailable);
+            Assert.IsTrue(NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable);
         }
     }
 }

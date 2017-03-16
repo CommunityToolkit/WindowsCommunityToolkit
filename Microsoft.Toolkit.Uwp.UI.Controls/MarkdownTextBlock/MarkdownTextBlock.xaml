@@ -31,21 +31,27 @@
         <Setter Property="Header1FontWeight" Value="Bold" />
         <Setter Property="Header1FontSize" Value="20" />
         <Setter Property="Header1Margin" Value="0, 15, 0, 15" />
+        <Setter Property="Header1Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="Header2FontWeight" Value="Normal" />
         <Setter Property="Header2FontSize" Value="20" />
         <Setter Property="Header2Margin" Value="0, 15, 0, 15" />
+        <Setter Property="Header2Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="Header3FontWeight" Value="Bold" />
         <Setter Property="Header3FontSize" Value="17" />
         <Setter Property="Header3Margin" Value="0, 10, 0, 10" />
+        <Setter Property="Header3Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="Header4FontWeight" Value="Normal" />
         <Setter Property="Header4FontSize" Value="17" />
         <Setter Property="Header4Margin" Value="0, 10, 0, 10" />
+        <Setter Property="Header4Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="Header5FontWeight" Value="Bold" />
         <Setter Property="Header5FontSize" Value="15" />
         <Setter Property="Header5Margin" Value="0, 10, 0, 5" />
+        <Setter Property="Header5Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="Header6FontWeight" Value="Normal" />
         <Setter Property="Header6FontSize" Value="15" />
         <Setter Property="Header6Margin" Value="0, 10, 0, 0" />
+        <Setter Property="Header6Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="HorizontalRuleBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="HorizontalRuleMargin" Value="0, 7, 0, 7" />
         <Setter Property="HorizontalRuleThickness" Value="2" />
