@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            if (AnimationExtensions.IsBlurSupported)
+            if (AnimationExtensions.BlurEffect.IsSupported)
             {
                 _frameworkElement?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
             }
