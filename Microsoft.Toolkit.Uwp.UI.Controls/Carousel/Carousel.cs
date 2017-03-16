@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -43,8 +44,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public int SelectedIndex
         {
-            get { return (int)GetValue(SelectedIndexProperty); }
-            set { SetValue(SelectedIndexProperty, value); }
+            get
+            {
+                return (int)GetValue(SelectedIndexProperty);
+            }
+
+            set
+            {
+                SetValue(SelectedIndexProperty, value);
+            }
         }
 
         // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
@@ -177,11 +185,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Property == SelectedIndexProperty)
             {
                 var item = carouselControl.Items[(int)e.NewValue];
+                carouselControl.FocusContainerFromIndex((int)e.NewValue);
 
                 // double check
                 if (carouselControl.SelectedItem != item)
                 {
                     carouselControl.SetValue(SelectedItemProperty, item);
+
                     return;
                 }
             }
@@ -193,11 +203,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (carouselControl.SelectedIndex != index)
                 {
                     carouselControl.SetValue(SelectedIndexProperty, index);
+
                     return;
                 }
             }
 
             carouselControl.UpdatePositions();
+        }
+
+        private void FocusContainerFromIndex(int index)
+        {
+            var oldElem = FocusManager.GetFocusedElement() as ContentControl;
+            var newElem = ContainerFromIndex(index) as ContentControl;
+
+            if (oldElem == newElem)
+            {
+                return;
+            }
+
+            if (newElem != null)
+            {
+                newElem.IsTabStop = true;
+                newElem.Focus(oldElem != null && oldElem.FocusState != FocusState.Unfocused ? oldElem.FocusState : FocusState.Programmatic);
+            }
+
+            if (oldElem != null && (string)oldElem.Tag == "CarouselItem")
+            {
+                oldElem.IsTabStop = false;
+            }
         }
 
         /// <summary>
@@ -228,8 +261,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetValue(AutomationProperties.NameProperty, "Carousel");
             IsHitTestVisible = true;
 
-            // Activating the focus visual default behavior
-            UseSystemFocusVisuals = true;
+            IsTabStop = false;
+            TabNavigation = KeyboardNavigationMode.Once;
 
             // Events registered
             PointerWheelChanged += OnPointerWheelChanged;
@@ -410,7 +443,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             contentControl.Content = contentElement;
             contentControl.Opacity = 1;
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.IsTabStop = false;
+            contentControl.IsTabStop = Items.IndexOf(item) == SelectedIndex;
+            contentControl.UseSystemFocusVisuals = true;
+            contentControl.Tag = "CarouselItem";
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
