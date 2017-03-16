@@ -1,20 +1,26 @@
-﻿// <copyright file="ObservableGattCharacteristics.cs" company="Microsoft Corporation">
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//----------------------------------------------------------------------------------------------
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using BluetoothExplorer.Services.GattUuidsService;
-using BluetoothExplorer.Services.Other;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 
-namespace BluetoothExplorer.Models
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Wrapper around <see cref="GattCharacteristic"/>  to make it easier to use
@@ -36,219 +42,54 @@ namespace BluetoothExplorer.Models
         }
 
         /// <summary>
-        /// Raw buffer of this value of this characteristic
+        /// Source for <see cref="Characteristic"/>
         /// </summary>
-        private IBuffer rawData;
+        private GattCharacteristic _characteristic;
 
         /// <summary>
         /// byte array representation of the characteristic value
         /// </summary>
-        private byte[] data;
-
-        /// <summary>
-        /// Source for <see cref="Characteristic"/>
-        /// </summary>
-        private GattCharacteristic characteristic;
-
-        /// <summary>
-        /// Gets or sets the characteristic this class wraps
-        /// </summary>
-        public GattCharacteristic Characteristic
-        {
-            get
-            {
-                return characteristic;
-            }
-
-            set
-            {
-                if (characteristic != value)
-                {
-                    characteristic = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Characteristic"));
-                }
-            }
-        }
+        private byte[] _data;
 
         /// <summary>
         /// Source for <see cref="IsIndicateSet"/>
         /// </summary>
-        private bool isIndicateSet = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether indicate is set
-        /// </summary>
-        public bool IsIndicateSet
-        {
-            get
-            {
-                return isIndicateSet;
-            }
-
-            set
-            {
-                if (isIndicateSet != value)
-                {
-                    isIndicateSet = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsIndicateSet"));
-                }
-            }
-        }
+        private bool _isIndicateSet;
 
         /// <summary>
         /// Source for <see cref="IsNotifySet"/>
         /// </summary>
-        private bool isNotifySet = false;
+        private bool _isNotifySet;
 
         /// <summary>
-        /// Gets or sets a value indicating whether notify is set
+        /// Raw buffer of this value of this characteristic
         /// </summary>
-        public bool IsNotifySet
-        {
-            get
-            {
-                return isNotifySet;
-            }
-
-            set
-            {
-                if (isNotifySet != value)
-                {
-                    isNotifySet = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsNotifySet"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Source for <see cref="Parent"/>
-        /// </summary>
-        private ObservableGattDeviceService parent;
-
-        /// <summary>
-        /// Gets or sets the parent service of this characteristic
-        /// </summary>
-        public ObservableGattDeviceService Parent
-        {
-            get
-            {
-                return parent;
-            }
-
-            set
-            {
-                if (parent != value)
-                {
-                    parent = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Parent"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Source for <see cref="Name"/>
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// Gets or sets the name of this characteristic
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-
-            set
-            {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Name"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Source for <see cref="UUID"/>
-        /// </summary>
-        private string uuid;
-
-        /// <summary>
-        /// Gets or sets the UUID of this characteristic
-        /// </summary>
-        public string UUID
-        {
-            get
-            {
-                return uuid;
-            }
-
-            set
-            {
-                if (uuid != value)
-                {
-                    uuid = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("UUID"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Source for <see cref="Value"/>
-        /// </summary>
-        private string value;
-
-        /// <summary>
-        /// Gets the value of this characteristic
-        /// </summary>
-        public string Value
-        {
-            get
-            {
-                return value;
-            }
-
-            private set
-            {
-                if (this.value != value)
-                {
-                    this.value = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Value"));
-                }
-            }
-        }
+        private IBuffer _rawData;
 
         /// <summary>
         /// Source for <see cref="DisplayType"/>
         /// </summary>
-        private DisplayTypes displayType = DisplayTypes.NotSet;
+        private DisplayTypes _displayType = DisplayTypes.NotSet;
 
         /// <summary>
-        /// Gets or sets how this characteristic's value should be displayed
+        /// Source for <see cref="Name"/>
         /// </summary>
-        public DisplayTypes DisplayType
-        {
-            get
-            {
-                return displayType;
-            }
+        private string _name;
 
-            set
-            {
-                if (value == DisplayTypes.NotSet)
-                {
-                    return;
-                }
+        /// <summary>
+        /// Source for <see cref="Parent"/>
+        /// </summary>
+        private ObservableGattDeviceService _parent;
 
-                if (displayType != value)
-                {
-                    displayType = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DisplayType"));
-                }
-            }
-        }
+        /// <summary>
+        /// Source for <see cref="UUID"/>
+        /// </summary>
+        private string _uuid;
+
+        /// <summary>
+        /// Source for <see cref="Value"/>
+        /// </summary>
+        private string _value;
 
         /// <summary>
         /// Initializes a new instance of the<see cref="ObservableGattCharacteristics" /> class.
@@ -267,9 +108,153 @@ namespace BluetoothExplorer.Models
             characteristic.ValueChanged += Characteristic_ValueChanged;
 
             PropertyChanged += ObservableGattCharacteristics_PropertyChanged;
-
-            return;
         }
+
+        /// <summary>
+        /// Gets or sets the characteristic this class wraps
+        /// </summary>
+        public GattCharacteristic Characteristic
+        {
+            get { return _characteristic; }
+
+            set
+            {
+                if (_characteristic != value)
+                {
+                    _characteristic = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Characteristic"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether indicate is set
+        /// </summary>
+        public bool IsIndicateSet
+        {
+            get { return _isIndicateSet; }
+
+            set
+            {
+                if (_isIndicateSet != value)
+                {
+                    _isIndicateSet = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("IsIndicateSet"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether notify is set
+        /// </summary>
+        public bool IsNotifySet
+        {
+            get { return _isNotifySet; }
+
+            set
+            {
+                if (_isNotifySet != value)
+                {
+                    _isNotifySet = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("IsNotifySet"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent service of this characteristic
+        /// </summary>
+        public ObservableGattDeviceService Parent
+        {
+            get { return _parent; }
+
+            set
+            {
+                if (_parent != value)
+                {
+                    _parent = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Parent"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of this characteristic
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Name"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the UUID of this characteristic
+        /// </summary>
+        public string UUID
+        {
+            get { return _uuid; }
+
+            set
+            {
+                if (_uuid != value)
+                {
+                    _uuid = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("UUID"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of this characteristic
+        /// </summary>
+        public string Value
+        {
+            get { return _value; }
+
+            private set
+            {
+                if (_value != value)
+                {
+                    _value = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Value"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets how this characteristic's value should be displayed
+        /// </summary>
+        public DisplayTypes DisplayType
+        {
+            get { return _displayType; }
+
+            set
+            {
+                if (value == DisplayTypes.NotSet)
+                {
+                    return;
+                }
+
+                if (_displayType != value)
+                {
+                    _displayType = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("DisplayType"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event to notify when this object has changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Executes when this characteristic changes
@@ -291,7 +276,7 @@ namespace BluetoothExplorer.Models
         {
             try
             {
-                GattReadResult result = await Characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+                var result = await Characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
 
                 if (result.Status == GattCommunicationStatus.Success)
                 {
@@ -319,7 +304,7 @@ namespace BluetoothExplorer.Models
         /// <returns>Set indicate task</returns>
         public async Task<bool> SetIndicate()
         {
-            if (IsIndicateSet == true)
+            if (IsIndicateSet)
             {
                 // already set
                 return true;
@@ -331,21 +316,21 @@ namespace BluetoothExplorer.Models
                 // We receive them in the ValueChanged event handler.
                 // Note that this sample configures either Indicate or Notify, but not both.
                 var result = await
-                        Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                            GattClientCharacteristicConfigurationDescriptorValue.Indicate);
+                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.Indicate);
                 if (result == GattCommunicationStatus.Success)
                 {
                     Debug.WriteLine("Successfully registered for indications");
                     IsIndicateSet = true;
                     return true;
                 }
-                else if (result == GattCommunicationStatus.ProtocolError)
+                if (result == GattCommunicationStatus.ProtocolError)
                 {
                     Debug.WriteLine("Error registering for indications: Protocol Error");
                     IsIndicateSet = false;
                     return false;
                 }
-                else if (result == GattCommunicationStatus.Unreachable)
+                if (result == GattCommunicationStatus.Unreachable)
                 {
                     Debug.WriteLine("Error registering for indications: Unreachable");
                     IsIndicateSet = false;
@@ -379,30 +364,30 @@ namespace BluetoothExplorer.Models
             if (IsIndicateSet == false)
             {
                 // indicate is not set, can skip this
-                return true; 
+                return true;
             }
 
             try
-            { 
+            {
                 // BT_Code: Must write the CCCD in order for server to send indications.
                 // We receive them in the ValueChanged event handler.
                 // Note that this sample configures either Indicate or Notify, but not both.
                 var result = await
-                        Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                            GattClientCharacteristicConfigurationDescriptorValue.None);
+                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.None);
                 if (result == GattCommunicationStatus.Success)
                 {
                     Debug.WriteLine("Successfully un-registered for indications");
                     IsIndicateSet = false;
                     return true;
                 }
-                else if (result == GattCommunicationStatus.ProtocolError)
+                if (result == GattCommunicationStatus.ProtocolError)
                 {
                     Debug.WriteLine("Error un-registering for indications: Protocol Error");
                     IsIndicateSet = true;
                     return false;
                 }
-                else if (result == GattCommunicationStatus.Unreachable)
+                if (result == GattCommunicationStatus.Unreachable)
                 {
                     Debug.WriteLine("Error un-registering for indications: Unreachable");
                     IsIndicateSet = true;
@@ -426,7 +411,7 @@ namespace BluetoothExplorer.Models
         /// <returns>Set notify task</returns>
         public async Task<bool> SetNotify()
         {
-            if (IsNotifySet == true)
+            if (IsNotifySet)
             {
                 // already set
                 return true;
@@ -438,21 +423,21 @@ namespace BluetoothExplorer.Models
                 // We receive them in the ValueChanged event handler.
                 // Note that this sample configures either Indicate or Notify, but not both.
                 var result = await
-                        Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                            GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 if (result == GattCommunicationStatus.Success)
                 {
                     Debug.WriteLine("Successfully registered for notifications");
                     IsNotifySet = true;
                     return true;
                 }
-                else if (result == GattCommunicationStatus.ProtocolError)
+                if (result == GattCommunicationStatus.ProtocolError)
                 {
                     Debug.WriteLine("Error registering for notifications: Protocol Error");
                     IsNotifySet = false;
                     return false;
                 }
-                else if (result == GattCommunicationStatus.Unreachable)
+                if (result == GattCommunicationStatus.Unreachable)
                 {
                     Debug.WriteLine("Error registering for notifications: Unreachable");
                     IsNotifySet = false;
@@ -495,21 +480,21 @@ namespace BluetoothExplorer.Models
                 // We receive them in the ValueChanged event handler.
                 // Note that this sample configures either Indicate or Notify, but not both.
                 var result = await
-                        Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                            GattClientCharacteristicConfigurationDescriptorValue.None);
+                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.None);
                 if (result == GattCommunicationStatus.Success)
                 {
                     Debug.WriteLine("Successfully un-registered for notifications");
                     IsNotifySet = false;
                     return true;
                 }
-                else if (result == GattCommunicationStatus.ProtocolError)
+                if (result == GattCommunicationStatus.ProtocolError)
                 {
                     Debug.WriteLine("Error un-registering for notifications: Protocol Error");
                     IsNotifySet = true;
                     return false;
                 }
-                else if (result == GattCommunicationStatus.Unreachable)
+                if (result == GattCommunicationStatus.Unreachable)
                 {
                     Debug.WriteLine("Error un-registering for notifications: Unreachable");
                     IsNotifySet = true;
@@ -536,10 +521,7 @@ namespace BluetoothExplorer.Models
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 Windows.UI.Core.CoreDispatcherPriority.Normal,
-                () =>
-            {
-                SetValue(args.CharacteristicValue);
-            });
+                () => { SetValue(args.CharacteristicValue); });
         }
 
         /// <summary>
@@ -548,8 +530,8 @@ namespace BluetoothExplorer.Models
         /// <param name="buffer">The raw input buffer</param>
         private void SetValue(IBuffer buffer)
         {
-            rawData = buffer;
-            CryptographicBuffer.CopyToByteArray(rawData, out data);
+            _rawData = buffer;
+            CryptographicBuffer.CopyToByteArray(_rawData, out _data);
 
             SetValue();
         }
@@ -559,7 +541,7 @@ namespace BluetoothExplorer.Models
         /// </summary>
         private void SetValue()
         {
-            if (data == null)
+            if (_data == null)
             {
                 Value = "NULL";
                 return;
@@ -582,8 +564,8 @@ namespace BluetoothExplorer.Models
                 }
                 else
                 {
-                    bool isString = true;
-                    string buffer = Encoding.UTF8.GetString(data);
+                    var isString = true;
+                    var buffer = Encoding.UTF8.GetString(_data);
 
                     // if buffer is only 1 char or 2 char with 0 at end then let's assume it's hex
                     if (buffer.Length == 1)
@@ -596,7 +578,7 @@ namespace BluetoothExplorer.Models
                     }
                     else
                     {
-                        foreach (char b in buffer)
+                        foreach (var b in buffer)
                         {
                             // if within the reasonable range of used characters and not null, let's assume it's a UTF8 string by default, else hex
                             if ((b < ' ' || b > '~') && b != 0)
@@ -647,13 +629,13 @@ namespace BluetoothExplorer.Models
                     DisplayType = DisplayTypes.UTF16;
                 }
                 else if (format.FormatType == GattPresentationFormatTypes.UInt128 ||
-                    format.FormatType == GattPresentationFormatTypes.SInt128 ||
-                    format.FormatType == GattPresentationFormatTypes.DUInt16 ||
-                    format.FormatType == GattPresentationFormatTypes.SInt64 ||
-                    format.FormatType == GattPresentationFormatTypes.Struct ||
-                    format.FormatType == GattPresentationFormatTypes.Float ||
-                    format.FormatType == GattPresentationFormatTypes.Float32 ||
-                    format.FormatType == GattPresentationFormatTypes.Float64)
+                         format.FormatType == GattPresentationFormatTypes.SInt128 ||
+                         format.FormatType == GattPresentationFormatTypes.DUInt16 ||
+                         format.FormatType == GattPresentationFormatTypes.SInt64 ||
+                         format.FormatType == GattPresentationFormatTypes.Struct ||
+                         format.FormatType == GattPresentationFormatTypes.Float ||
+                         format.FormatType == GattPresentationFormatTypes.Float32 ||
+                         format.FormatType == GattPresentationFormatTypes.Float64)
                 {
                     DisplayType = DisplayTypes.Unsupported;
                 }
@@ -666,27 +648,22 @@ namespace BluetoothExplorer.Models
             // Decode the value into the right display type
             if (DisplayType == DisplayTypes.Hex || DisplayType == DisplayTypes.Unsupported)
             {
-                Value = CryptographicBuffer.EncodeToHexString(rawData);
+                Value = CryptographicBuffer.EncodeToHexString(_rawData);
             }
             else if (DisplayType == DisplayTypes.Decimal)
             {
-                byte[] buf = BytePadder.GetBytes(data, 8);
+                byte[] buf = BytePadder.GetBytes(_data, 8);
                 Value = BitConverter.ToUInt64(buf, 0).ToString();
             }
             else if (DisplayType == DisplayTypes.UTF8)
             {
-                Value = Encoding.UTF8.GetString(data);
+                Value = Encoding.UTF8.GetString(_data);
             }
             else if (DisplayType == DisplayTypes.UTF16)
             {
-                Value = Encoding.Unicode.GetString(data);
+                Value = Encoding.Unicode.GetString(_data);
             }
         }
-
-        /// <summary>
-        /// Event to notify when this object has changed
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Executes when this class changes
@@ -696,13 +673,10 @@ namespace BluetoothExplorer.Models
         {
             if (e.PropertyName == "DisplayType")
             {
-                Debug.WriteLine($"{this.Name} - DisplayType set: {this.DisplayType.ToString()}");
+                Debug.WriteLine($"{Name} - DisplayType set: {DisplayType}");
             }
 
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
     }
 }

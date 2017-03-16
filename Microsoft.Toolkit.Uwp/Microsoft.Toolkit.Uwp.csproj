@@ -50,6 +50,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattCharacteristics.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattDeviceService.cs" />
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
