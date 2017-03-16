@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     public class Saturation : CompositionBehaviorBase
     {
         /// <summary>
-        /// The Blur value of the associated object
+        /// The Saturation value of the associated object
         /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
             typeof(double), typeof(Saturation), new PropertyMetadata(0d, PropertyChangedCallback));
@@ -31,10 +31,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private FrameworkElement _frameworkElement;
 
         /// <summary>
-        /// Gets or sets the Blur.
+        /// Gets or sets the Saturation.
         /// </summary>
         /// <value>
-        /// The Blur.
+        /// The Saturation.
         /// </value>
         public double Value
         {
