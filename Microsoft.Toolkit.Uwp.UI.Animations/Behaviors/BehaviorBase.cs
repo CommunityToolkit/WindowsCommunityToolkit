@@ -18,10 +18,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <summary>
     /// Base class for behaviors that solves 2 problems:
     ///   1. Prevent duplicate initialization that can happen (prevent multiple OnAttached calls);
-    ///   2. Whenever <see cref="Attach"/> initially fails, this method will subscribe to <see cref="FrameworkElement.SizeChanged"/> to allow lazy initialization.
+    ///   2. Whenever <see cref="Initialize"/> initially fails, this method will subscribe to <see cref="FrameworkElement.SizeChanged"/> to allow lazy initialization.
     /// </summary>
     /// <typeparam name="T">The type of the associated object.</typeparam>
-    /// <seealso cref="Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.FrameworkElement}" />
+    /// <seealso cref="Microsoft.Xaml.Interactivity.Behavior{T}" />
     /// <remarks>
     /// For more info, see https://github.com/Microsoft/UWPCommunityToolkit/issues/1008.
     /// </remarks>
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </value>
         protected bool IsAttached
         {
-            get {  return _isAttached; }
+            get { return _isAttached; }
         }
 
         /// <summary>
@@ -98,6 +98,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
         }
 
+        /// <summary>
+        /// Initializes the behavior to the associated object.
+        /// </summary>
+        /// <returns><c>true</c> if the initialization succeeded; otherwise <c>false</c>.</returns>
+        protected virtual bool Initialize()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Uninitializes the behavior from the associated object.
+        /// </summary>
+        /// <returns><c>true</c> if uninitialization succeeded; otherwise <c>false</c>.</returns>
+        protected virtual bool Uninitialize()
+        {
+            return true;
+        }
+
         private void OnAssociatedObjectLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isAttached)
@@ -108,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             OnAssociatedObjectLoaded();
         }
 
-        protected void OnAssociatedObjectUnloaded(object sender, RoutedEventArgs e)
+        private void OnAssociatedObjectUnloaded(object sender, RoutedEventArgs e)
         {
             OnAssociatedObjectUnloaded();
 
@@ -132,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
             _isAttaching = true;
 
-            var attached = Attach();
+            var attached = Initialize();
             if (attached)
             {
                 _isAttached = true;
@@ -148,23 +166,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return;
             }
 
-            var detached = Detach();
+            var detached = Uninitialize();
             if (detached)
             {
                 _isAttached = false;
             }
         }
-
-        /// <summary>
-        /// Attaches the behavior to the associated object.
-        /// </summary>
-        /// <returns><c>true</c> if attaching succeeded; otherwise <c>false</c>.</returns>
-        protected abstract bool Attach();
-
-        /// <summary>
-        /// Detaches the behavior from the associated object.
-        /// </summary>
-        /// <returns><c>true</c> if detaching succeeded; otherwise <c>false</c>.</returns>
-        protected abstract bool Detach();
     }
 }

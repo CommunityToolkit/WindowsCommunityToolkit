@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <returns>
         ///   <c>true</c> if attaching succeeded; otherwise <c>false</c>.
         /// </returns>
-        protected override bool Attach()
+        protected override bool Initialize()
         {
             var result = AssignFadeAnimation();
             return result;
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <returns>
         ///   <c>true</c> if detaching succeeded; otherwise <c>false</c>.
         /// </returns>
-        protected override bool Detach()
+        protected override bool Uninitialize()
         {
             RemoveFadeAnimation();
             return true;
@@ -94,6 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
         /// is entirely scrolled off.
         /// </summary>
+        /// <returns><c>true</c> if the assignment was successfull; otherwise, <c>false</c>.</returns>
         private bool AssignFadeAnimation()
         {
             // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).

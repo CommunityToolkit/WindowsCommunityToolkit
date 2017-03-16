@@ -19,25 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// </summary>
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase" />
     /// <seealso cref="AnimationExtensions.IsLightingSupported"/>
-    public class Light : CompositionBehaviorBase
+    public class Light : CompositionBehaviorBase<FrameworkElement>
     {
-        /// <summary>
-        /// The _framework element
-        /// </summary>
-        private FrameworkElement _frameworkElement;
-
-        /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            _frameworkElement = AssociatedObject as FrameworkElement;
-        }
-
         /// <summary>
         /// The Blur value of the associated object
         /// </summary>
@@ -62,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (AnimationExtensions.IsLightingSupported)
             {
-               (_frameworkElement?.Light(duration: Duration, delay: Delay, distance: (float)Distance))?.StartAsync();
+               AssociatedObject?.Light(duration: Duration, delay: Delay, distance: (float)Distance)?.Start();
             }
         }
     }

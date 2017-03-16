@@ -53,6 +53,7 @@
     <Compile Include="AnimationTask.cs" />
     <Compile Include="Behaviors\BehaviorBase.cs" />
     <Compile Include="Behaviors\Blur.cs" />
+    <Compile Include="Behaviors\CompositionBehaviorBase.nongeneric.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
     <Compile Include="Behaviors\Light.cs" />

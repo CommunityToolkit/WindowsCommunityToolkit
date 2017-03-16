@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
@@ -18,44 +17,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <summary>
     /// A base class for all behaviors using composition.It contains some of the common propeties to set on a visual.
     /// </summary>
-    public abstract class CompositionBehaviorBase : Behavior<UIElement>
+    /// <typeparam name="T">The type of the associated object.</typeparam>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.BehaviorBase{T}" />
+    public abstract class CompositionBehaviorBase<T> : BehaviorBase<T>
+        where T : UIElement
     {
         /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// Called when the associated object has been loaded.
         /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
+        protected override void OnAssociatedObjectLoaded()
         {
-            base.OnAttached();
+            base.OnAssociatedObjectLoaded();
 
-            var frameworkElement = AssociatedObject as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                frameworkElement.Loaded += OnFrameworkElementLoaded;
-            }
-        }
-
-        /// <summary>
-        /// Called while the behavior is detaching from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to finalize and free everything associated to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-
-            var frameworkElement = AssociatedObject as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                frameworkElement.Loaded -= OnFrameworkElementLoaded;
-            }
-        }
-
-        private void OnFrameworkElementLoaded(object sender, RoutedEventArgs e)
-        {
             if (AutomaticallyStart)
             {
                 StartAnimation();
@@ -125,9 +98,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         protected static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            var behavior = dependencyObject as CompositionBehaviorBase;
+            var behavior = dependencyObject as CompositionBehaviorBase<T>;
+            if (behavior == null)
+            {
+                return;
+            }
 
-            if (behavior?.AutomaticallyStart ?? false)
+            if (behavior.AutomaticallyStart)
             {
                 behavior.StartAnimation();
             }
