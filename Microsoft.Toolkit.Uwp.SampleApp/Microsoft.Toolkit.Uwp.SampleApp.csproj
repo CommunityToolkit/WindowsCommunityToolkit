@@ -264,6 +264,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
+    <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
@@ -316,13 +317,15 @@
     <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
-    <Content Include="SamplePages\samples.json" />
+    <Content Include="SamplePages\samples.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
     <Content Include="SamplePages\RotatorTile\RotatorTileCode.bind" />
-    <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
-    <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\Saturation\SaturationBehaviorCode.bind" />
+    <Content Include="SamplePages\Saturation\SaturationBehaviorXaml.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
     <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
@@ -371,6 +374,8 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -462,6 +467,9 @@
     <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\Analytics\AnalyticsPage.xaml.cs">
       <DependentUpon>AnalyticsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
+      <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
@@ -689,6 +697,10 @@
     <Page Include="SamplePages\Analytics\AnalyticsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Saturation\SaturationBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
