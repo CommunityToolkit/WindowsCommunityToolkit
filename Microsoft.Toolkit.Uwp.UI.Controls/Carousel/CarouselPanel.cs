@@ -92,6 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         bool _inertialManipulation = false;
         double _previousInertialVelocity;
+        int _timeToStop;
         /// <summary>
         /// Set a manipulation
         /// </summary>
@@ -111,6 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var curV = Carousel.Orientation == Orientation.Horizontal ? e.Velocities.Linear.X : e.Velocities.Linear.Y;
                     var deceleration = curV - _previousInertialVelocity;
                     var projectedDistance = curV * curV / (2 * deceleration);
+                    _timeToStop = (int)(curV / deceleration);
 
                     var hasBreak = false;
                     var translation = Carousel.Orientation == Orientation.Horizontal ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
@@ -271,7 +273,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var props = GetProjectionFromSelectedIndex(i);
 
                 // Apply projection
-                ApplyProjection(item, props, storyboard, inertia);
+                ApplyProjection(item, props, storyboard, inertia, _timeToStop);
 
                 // Zindex and Opacity
                 var deltaFromSelectedIndex = Math.Abs(Carousel.SelectedIndex - i);
