@@ -143,6 +143,28 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        public void Test_ColorHelper_ToHsv_MaxR()
+        {
+            HsvColor hsvColor;
+            hsvColor.A = 1.0;        // Alpha
+            hsvColor.H = 330;        // Hue
+            hsvColor.S = 0.58823529; // Saturation
+            hsvColor.V = 1;          // Value
+
+            // Use a test color with non-zero/non-max values for both RGB and HSV
+            var color = Windows.UI.Color.FromArgb(255, 255, 105, 180).ToHsv();
+
+            // These still may not come out exactly even, so define a delta so that
+            // if the two are almost equal, the test still passes.
+            const double delta = 0.000001d;
+            Assert.AreEqual(color.H, hsvColor.H, delta);
+            Assert.AreEqual(color.S, hsvColor.S, delta);
+            Assert.AreEqual(color.V, hsvColor.V, delta);
+            Assert.AreEqual(color.A, hsvColor.A, delta);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
         public void Test_ColorHelper_FromHsl()
         {
             Assert.AreEqual(ColorHelper.FromHsl(0.0, 1.0, 0.5), Windows.UI.Colors.Red);
