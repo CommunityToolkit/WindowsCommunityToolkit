@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp
                 h1 = 4 + ((r - g) / chroma);
             }
 
-            double lightness = 0.5 * (max - min);
+            double lightness = 0.5 * (max + min);
             double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
             HslColor ret;
             ret.H = 60 * h1;
@@ -225,8 +225,7 @@ namespace Microsoft.Toolkit.Uwp
                 h1 = 4 + ((r - g) / chroma);
             }
 
-            double lightness = 0.5 * (max - min);
-            double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
+            double saturation = chroma == 0 ? 0 : chroma / max;
             HsvColor ret;
             ret.H = 60 * h1;
             ret.S = saturation;
