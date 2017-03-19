@@ -171,7 +171,9 @@ namespace Microsoft.Toolkit.Uwp
             }
             else if (max == r)
             {
-                h1 = ((g - b) / chroma) % 6;
+                // The % operator doesn't do proper modulo on negative
+                // numbers, so we'll add 6 before using it
+                h1 = (((g - b) / chroma) + 6) % 6;
             }
             else if (max == g)
             {

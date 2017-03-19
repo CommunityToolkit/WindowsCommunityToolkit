@@ -102,6 +102,25 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        public void Test_ColorHelper_ToHsl_MaxR()
+        {
+            // Test when given an RGB value where R is the max value.
+            HslColor hslColor;
+            hslColor.A = 1.0;        // Alpha
+            hslColor.H = 330.0;      // Hue
+            hslColor.S = 1.0;        // Saturation
+            hslColor.L = 0.7058823;  // Lightness
+
+            const double delta = 0.000001d;
+            var color = Windows.UI.Color.FromArgb(255, 255, 105, 180).ToHsl();
+            Assert.AreEqual(color.H, hslColor.H, delta);
+            Assert.AreEqual(color.S, hslColor.S, delta);
+            Assert.AreEqual(color.L, hslColor.L, delta);
+            Assert.AreEqual(color.A, hslColor.A, delta);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
         public void Test_ColorHelper_ToHsv()
         {
             HsvColor hsvColor;
