@@ -51,6 +51,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
         /// </summary>
+        public AdvancedCollectionView()
+            : this(new List<object>(0))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
+        /// </summary>
         /// <param name="source">source IEnumerable</param>
         public AdvancedCollectionView(IEnumerable source)
         {
@@ -265,11 +273,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         public IObservableVector<object> CollectionGroups => null;
 
         /// <summary>
-        /// Gets the current item
+        /// Gets or sets the current item
         /// </summary>
         public object CurrentItem
         {
             get { return _index > -1 && _index < _view.Count ? _view[_index] : null; }
+            set { MoveCurrentTo(value); }
         }
 
         /// <summary>

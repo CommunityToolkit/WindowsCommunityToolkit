@@ -28,6 +28,27 @@ namespace UnitTests.UI
     {
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
+        public void Test_AdvancedCollectionView_ParameterlessCtor()
+        {
+            var a = new AdvancedCollectionView()
+            {
+                Filter = (x) => x.ToString().Length < 5
+            };
+
+            a.Source = new List<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sit",
+                "amet"
+            };
+
+            Assert.AreEqual(2, a.Count);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
         public void Test_AdvancedCollectionView_Filter()
         {
             var l = new List<string>
