@@ -1,7 +1,7 @@
 # Carousel XAML Control 
 
 The `Carousel` control provides a new control, inherited from the `ItemsControl`, representing a nice and smooth carousel.  
-This control let you specify a lot of properties for a flexible layouting.
+This control lets you specify a lot of properties for a flexible layouting.  
 The `Carousel` control works fine with mouse, touch, mouse and keyboard as well. 
 
 ![Carousel Overview](../resources/images/Controls-Carousel-Overview.gif "Carousel")  
@@ -39,8 +39,8 @@ The `Carousel` control works fine with mouse, touch, mouse and keyboard as well.
 
 ### Orientation
 
-You can customize the `Carousel` orientation by setting the `Orientation` property. 
-The carousel control use a known property from `Windows.UI.Xaml.Controls` to provide a Vertical or Horizontal orientation 
+You can customize the `Carousel` orientation by setting the `Orientation` property.   
+The carousel control use a known property from `Windows.UI.Xaml.Controls` to provide a `Vertical` or `Horizontal` orientation.  
 
 ```csharp
 
@@ -60,7 +60,7 @@ namespace Windows.UI.Xaml.Controls
 
 ### ItemDepth
 
-The ItemDepth specify the depth beetween the centered (and so the selected) item and all the others items
+The ItemDepth specify the depth beetween the centered (and so the selected) item and all the others items.
 
 ```csharp
 
@@ -83,7 +83,7 @@ The ItemDepth specify the depth beetween the centered (and so the selected) item
 
 ### ItemMargin
 
-The ItemMargin specify the margin beetween each items, excepting the selected item
+The ItemMargin specifies the margin beetween each items, excepting the selected item.
 
 ```csharp
 
