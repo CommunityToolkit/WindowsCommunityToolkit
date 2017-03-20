@@ -1320,7 +1320,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+#pragma warning restore 618
                     ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
                 }
             });
@@ -1338,7 +1340,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Background,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
+#pragma warning restore 618
                 }
             });
 
@@ -1368,7 +1372,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+#pragma warning restore 618
                     ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
                 }
             };
@@ -1381,7 +1387,9 @@ namespace UnitTests.Notifications
             AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
 
             // Default should be ignored
+#pragma warning disable 618
             item.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+#pragma warning restore 618
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
 
@@ -1431,7 +1439,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Background,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
+#pragma warning restore 618
                 }
             });
 
@@ -1443,7 +1453,9 @@ namespace UnitTests.Notifications
                     Launch = "myArgs",
                     ActivationOptions = new ToastActivationOptions()
                     {
+#pragma warning disable 618
                         AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+#pragma warning restore 618
                     }
                 });
                 Assert.Fail("InvalidOperationException should have been thrown.");
@@ -1490,13 +1502,17 @@ namespace UnitTests.Notifications
             AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
 
             // Default should be ignored
+#pragma warning disable 618
             header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+#pragma warning restore 618
             AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
 
             // Using anything other than default should throw exception
             try
             {
+#pragma warning disable 618
                 header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate;
+#pragma warning restore 618
                 AssertHeaderPayload("Exception should be thrown", header);
                 Assert.Fail("InvalidOperationException should have been thrown.");
             }
