@@ -10,6 +10,7 @@
     <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:BladeView x:Name="BladeView"
                             Padding="0"
+                            OpenBlades="3"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             BladeMode="{Binding BladeMode.Value}">
@@ -36,6 +37,10 @@
                     <ToggleButton Margin="0,24,0,0"
                                   Content="Custom close button"
                                   IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}" />
+
+                    <Button  Margin="0,12,0,0"
+                             Content="Add blade"
+                             Click="OnAddBladeButtonClicked" />
                 </StackPanel>
             </controls:BladeItem>
 

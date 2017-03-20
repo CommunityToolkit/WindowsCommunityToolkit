@@ -33,6 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
+        public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(1, OnOpenBladesChanged));
+
         /// <summary>
         /// Gets or sets a collection of visible blades
         /// </summary>
@@ -49,6 +51,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (BladeMode)GetValue(BladeModeProperty); }
             set { SetValue(BladeModeProperty, value); }
+        }
+
+        public int OpenBlades
+        {
+            get { return (int)GetValue(OpenBladesProperty); }
+            set { SetValue(OpenBladesProperty, value); }
         }
 
         private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -84,6 +92,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Execute change of blade item size
             bladeView.AdjustBladeItemSize();
+        }
+
+        private static void OnOpenBladesChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var bladeView = (BladeView)dependencyObject;
+            bladeView.CycleBlades();
         }
     }
 }
