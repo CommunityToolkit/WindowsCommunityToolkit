@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -90,9 +89,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        bool _inertialManipulation = false;
-        double _previousInertialVelocity;
-        int _timeToStop;
         /// <summary>
         /// Set a manipulation
         /// </summary>
@@ -100,103 +96,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var previousIndex = Carousel.SelectedIndex;
 
-            if (e.IsInertial)
+            for (int i = 0; i < Children.Count; i++)
             {
-                // ignore intertia and animate to item
-                if (!_inertialManipulation)
+                var item = Children[i];
+
+                var delta = Carousel.Orientation == Orientation.Horizontal ? e.Delta.Translation.X : e.Delta.Translation.Y;
+                var itemLength = Carousel.Orientation == Orientation.Horizontal ? item.DesiredSize.Width : item.DesiredSize.Height;
+
+                var proj = GetProjectionFromManipulation(item, delta);
+
+                ApplyProjection(item, proj);
+
+                // We have to take care of the first and last items when manipulating
+                if ((i == 0 && proj.Position > itemLength / 2) || (i == Children.Count - 1 && proj.Position < -itemLength))
                 {
-                    _previousInertialVelocity = Carousel.Orientation == Orientation.Horizontal ? e.Velocities.Linear.X : e.Velocities.Linear.Y;
-                }
-                else
-                {
-                    var curV = Carousel.Orientation == Orientation.Horizontal ? e.Velocities.Linear.X : e.Velocities.Linear.Y;
-                    var deceleration = curV - _previousInertialVelocity;
-                    var projectedDistance = curV * curV / (2 * deceleration);
-                    _timeToStop = (int)(curV / deceleration);
-
-                    var hasBreak = false;
-                    var translation = Carousel.Orientation == Orientation.Horizontal ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
-
-                    for (int i = 0; i < Children.Count - 1; i++)
-                    {
-                        var child = Children[i];
-
-                        PlaneProjection projection = child.Projection as PlaneProjection;
-                        CompositeTransform compositeTransform = child.RenderTransform as CompositeTransform;
-
-                        if (projection == null || compositeTransform == null)
-                        {
-                            continue;
-                        }
-
-                        var margin = Carousel.ItemMargin;
-                        var size = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
-                        var left = Carousel.Orientation == Orientation.Horizontal ? compositeTransform.TranslateX : compositeTransform.TranslateY;
-                        left += Math.Abs(projectedDistance);
-                        var right = left + size + margin;
-                        var condition = translation < 0 ? (left > 0) : (right > 0);
-
-                        if (condition)
-                        {
-                            Carousel.SelectedIndex = i;
-                            hasBreak = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasBreak)
-                    {
-                        Carousel.SelectedIndex = translation > 0 ? 0 : Children.Count - 1;
-                    }
-
-                    UpdatePosition(true);
-
+                    e.Handled = true;
                     e.Complete();
-                }
-            }
-            else
-            {
-                _inertialManipulation = false;
-            }
+                    Carousel.SelectedIndex = i;
 
-            if (!_inertialManipulation)
-            {
-                _inertialManipulation = e.IsInertial;
-
-                for (int i = 0; i < Children.Count; i++)
-                {
-                    var item = Children[i];
-
-                    var delta = Carousel.Orientation == Orientation.Horizontal ? e.Delta.Translation.X : e.Delta.Translation.Y;
-                    var itemLength = Carousel.Orientation == Orientation.Horizontal ? item.DesiredSize.Width : item.DesiredSize.Height;
-
-                    var proj = GetProjectionFromManipulation(item, delta);
-
-                    ApplyProjection(item, proj);
-
-                    // We have to take care of the first and last items when manipulating
-                    if ((i == 0 && proj.Position > itemLength / 2) || (i == Children.Count - 1 && proj.Position < -itemLength))
+                    // force refresh if we are already on the first / last item
+                    if (previousIndex == i)
                     {
-                        e.Handled = true;
-                        e.Complete();
-                        Carousel.SelectedIndex = i;
-
-                        // force refresh if we are already on the first / last item
-                        if (previousIndex == i)
-                        {
-                            UpdatePosition();
-                        }
-
-                        return;
+                        UpdatePosition();
                     }
 
-                    // Calculate the Z index to be sure selected item is over all others
-                    var zindexItemIndex = delta > 0 ? Carousel.SelectedIndex - 1 : Carousel.SelectedIndex + 1;
-                    var deltaFromSelectedIndex = Math.Abs(zindexItemIndex - i);
-
-                    int zindex = (Children.Count * 100) - deltaFromSelectedIndex;
-                    Canvas.SetZIndex(item, zindex);
+                    return;
                 }
+
+                // Calculate the Z index to be sure selected item is over all others
+                var zindexItemIndex = delta > 0 ? Carousel.SelectedIndex - 1 : Carousel.SelectedIndex + 1;
+                var deltaFromSelectedIndex = Math.Abs(zindexItemIndex - i);
+
+                int zindex = (Children.Count * 100) - deltaFromSelectedIndex;
+                Canvas.SetZIndex(item, zindex);
             }
 
             e.Handled = true;
@@ -253,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update all positions. Launch every animations on all items with a unique StoryBoard
         /// </summary>
-        internal void UpdatePosition(bool inertia = false)
+        internal void UpdatePosition()
         {
             storyboard = new Storyboard();
             ManipulationMode = ManipulationModes.None;
@@ -273,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var props = GetProjectionFromSelectedIndex(i);
 
                 // Apply projection
-                ApplyProjection(item, props, storyboard, inertia, _timeToStop);
+                ApplyProjection(item, props, storyboard);
 
                 // Zindex and Opacity
                 var deltaFromSelectedIndex = Math.Abs(Carousel.SelectedIndex - i);
@@ -347,12 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Apply the projection, with or without a storyboard involved
         /// </summary>
-        private void ApplyProjection(
-            UIElement element,
-            Proj proj,
-            Storyboard storyboard = null,
-            bool inertia = false,
-            int inertiaAnimationTransition = 0)
+        private void ApplyProjection(UIElement element, Proj proj, Storyboard storyboard = null)
         {
             // then apply the plane projection transform
             PlaneProjection planeProjection = element.Projection as PlaneProjection;
@@ -387,15 +314,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 string rotationYProjection = "(UIElement.Projection).(PlaneProjection.RotationY)";
                 string rotationZProjection = "(UIElement.Projection).(PlaneProjection.RotationZ)";
 
-                var transitionDuration = inertia ? inertiaAnimationTransition : Carousel.TransitionDuration;
-                var easingFunction = inertia ? new QuadraticEase() : Carousel.EasingFunction;
-
-                AddAnimation(storyboard, element, transitionDuration, proj.Position, localProjectionOrientation, easingFunction);
-                AddAnimation(storyboard, element, transitionDuration, 0, localProjectionOrientationInvert, easingFunction);
-                AddAnimation(storyboard, element, transitionDuration, proj.Depth, globalDepthProjection, easingFunction);
-                AddAnimation(storyboard, element, transitionDuration, proj.RotationX, rotationXProjection, easingFunction);
-                AddAnimation(storyboard, element, transitionDuration, proj.RotationY, rotationYProjection, easingFunction);
-                AddAnimation(storyboard, element, transitionDuration, proj.RotationZ, rotationZProjection, easingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Position, localProjectionOrientation, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, 0, localProjectionOrientationInvert, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Depth, globalDepthProjection, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationX, rotationXProjection, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationY, rotationYProjection, Carousel.EasingFunction);
+                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationZ, rotationZProjection, Carousel.EasingFunction);
             }
         }
 
