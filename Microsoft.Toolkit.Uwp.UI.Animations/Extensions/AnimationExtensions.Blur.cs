@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Animations.Effects;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp.UI.Animations.Effects;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

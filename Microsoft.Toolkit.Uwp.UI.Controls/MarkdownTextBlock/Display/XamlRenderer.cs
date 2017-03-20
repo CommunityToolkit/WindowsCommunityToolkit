@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 4 headers.
         /// </summary>
         public Thickness Header4Margin { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the foreground brush for level 4 headers.
         /// </summary>

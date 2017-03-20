@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             };
 
             var propertyToChange = $"{EffectName}.Saturation";
-            var propertiesToAnimate = new[] {propertyToChange};
+            var propertiesToAnimate = new[] { propertyToChange };
 
             EffectBrush = Compositor.CreateEffectFactory(saturationEffect, propertiesToAnimate).CreateBrush();
             EffectBrush.SetSourceParameter("source", Compositor.CreateBackdropBrush());

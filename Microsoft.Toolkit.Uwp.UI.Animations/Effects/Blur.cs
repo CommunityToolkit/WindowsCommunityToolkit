@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             };
 
             var propertyToChange = $"{EffectName}.BlurAmount";
-            var propertiesToAnimate = new[] {propertyToChange};
+            var propertiesToAnimate = new[] { propertyToChange };
 
             EffectBrush = Compositor.CreateEffectFactory(gaussianBlur, propertiesToAnimate).CreateBrush();
             EffectBrush.SetSourceParameter("source", Compositor.CreateBackdropBrush());

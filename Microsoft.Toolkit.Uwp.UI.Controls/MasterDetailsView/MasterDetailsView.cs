@@ -339,7 +339,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 panel.Children.Add(MasterCommandBar);
             }
-
         }
     }
 }

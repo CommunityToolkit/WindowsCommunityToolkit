@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             {
                 foreach (var effectProperty in _effectProperties)
                 {
-                    animationSet.AddEffectDirectPropertyChange(EffectBrush, (float) value, effectProperty);
+                    animationSet.AddEffectDirectPropertyChange(EffectBrush, (float)value, effectProperty);
                 }
             }
             else
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
                 foreach (var effectProperty in _effectProperties)
                 {
                     var animation = Compositor.CreateScalarKeyFrameAnimation();
-                    animation.InsertKeyFrame(1f, (float) value);
+                    animation.InsertKeyFrame(1f, (float)value);
                     animation.Duration = TimeSpan.FromMilliseconds(duration);
                     animation.DelayTime = TimeSpan.FromMilliseconds(delay);
 

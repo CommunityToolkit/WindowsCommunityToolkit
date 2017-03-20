@@ -14,12 +14,10 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Storage.Streams;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {

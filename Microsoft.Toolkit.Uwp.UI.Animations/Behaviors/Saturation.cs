@@ -22,8 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The Saturation value of the associated object
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
-            typeof(double), typeof(Saturation), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(Saturation), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The _framework element
@@ -38,8 +37,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </value>
         public double Value
         {
-            get { return (double) GetValue(ValueProperty); }
+            get { return (double)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
+        }
+
+        /// <summary>
+        /// Starts the animation.
+        /// </summary>
+        public override void StartAnimation()
+        {
+            if (AnimationExtensions.SaturationEffect.IsSupported)
+            {
+                _frameworkElement?.Saturation(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
+            }
         }
 
         /// <summary>
@@ -52,17 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             base.OnAttached();
             _frameworkElement = AssociatedObject as FrameworkElement;
-        }
-
-        /// <summary>
-        /// Starts the animation.
-        /// </summary>
-        public override void StartAnimation()
-        {
-            if (AnimationExtensions.SaturationEffect.IsSupported)
-            {
-                _frameworkElement?.Saturation(duration: Duration, delay: Delay, value: (float) Value)?.StartAsync();
-            }
         }
     }
 }

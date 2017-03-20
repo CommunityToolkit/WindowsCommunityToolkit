@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Brush Header1Foreground
         {
-            get { return (Brush) GetValue(Header1ForegroundProperty); }
+            get { return (Brush)GetValue(Header1ForegroundProperty); }
             set { SetValue(Header1ForegroundProperty, value); }
         }
 
