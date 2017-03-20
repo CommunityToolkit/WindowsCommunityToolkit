@@ -60,7 +60,7 @@ namespace Windows.UI.Xaml.Controls
 
 ### ItemDepth
 
-The ItemDepth specify the depth beetween the centered (and so the selected) item and all the others items.
+The ItemDepth specify the depth beetween the centered (and so the selected) item and all others items.
 
 ```csharp
 
