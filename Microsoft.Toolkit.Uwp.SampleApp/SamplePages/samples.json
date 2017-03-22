@@ -3,7 +3,7 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
-     {
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -212,6 +212,15 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "AppBarBadgeButton",
+        "Type": "AppBarBadgeButtonPage",
+        "About": "AppBarBadgeButton can indicate a number over a AppBarButton.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AppBarBadgeButton",
+        "XamlCodeFile": "AppBarBadgeButton.bind",
+        "Icon": "/SamplePages/AppBarBadgeButton/AppBarBadgeButton.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AppBarBadgeButton.md"
       }
     ]
   },

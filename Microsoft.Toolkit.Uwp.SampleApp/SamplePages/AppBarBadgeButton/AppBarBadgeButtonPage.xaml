@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AppBarBadgeButtonPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" x:Name="rootPage"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <controls:AppBarBadgeButton Icon="Comment" 
+                   Count="{Binding Count.Value, Mode=TwoWay}" 
+                                        BadgeBackground="{Binding BadgeBackground.Value, Mode=TwoWay}"
+                                        BadgeForeground="{Binding BadgeForeground.Value, Mode=TwoWay}"
+                                        Label="Comments"/>
+        </CommandBar>
+    </Grid>
+</Page>
