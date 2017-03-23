@@ -24,32 +24,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class FadeHeaderBehavior : Behavior<FrameworkElement>
+    public class FadeHeaderBehavior : BehaviorBase<FrameworkElement>
     {
         /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// Attaches the behavior to the associated object.
         /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
+        /// <returns>
+        ///   <c>true</c> if attaching succeeded; otherwise <c>false</c>.
+        /// </returns>
+        protected override bool Initialize()
         {
-            base.OnAttached();
-            AssignFadeAnimation();
-            AssociatedObject.Loaded += AssociatedObjectOnLoaded;
+            var result = AssignFadeAnimation();
+            return result;
         }
 
         /// <summary>
-        /// Called when the behavior is being detached from its <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// Detaches the behavior from the associated object.
         /// </summary>
-        /// <remarks>
-        /// Override this to unhook functionality from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnDetaching()
+        /// <returns>
+        ///   <c>true</c> if detaching succeeded; otherwise <c>false</c>.
+        /// </returns>
+        protected override bool Uninitialize()
         {
-            base.OnDetaching();
             RemoveFadeAnimation();
-            AssociatedObject.Loaded -= AssociatedObjectOnLoaded;
+            return true;
         }
 
         /// <summary>
@@ -91,46 +89,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Called when the associated object is loaded.
-        /// </summary>
-        /// <param name="sender">The associated object</param>
-        /// <param name="routedEventArgs">The <see cref="RoutedEventArgs"/> instance containing the event data</param>
-        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            AssignFadeAnimation();
-        }
-
-        /// <summary>
         /// Uses Composition API to get the UIElement and sets an ExpressionAnimation
         /// The ExpressionAnimation uses the height of the UIElement to calculate an opacity value
         /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
         /// is entirely scrolled off.
         /// </summary>
-        private void AssignFadeAnimation()
+        /// <returns><c>true</c> if the assignment was successfull; otherwise, <c>false</c>.</returns>
+        private bool AssignFadeAnimation()
         {
             // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
             if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
             {
-                return;
+                // Just return true since it's not supported
+                return true;
             }
 
             if (AssociatedObject == null)
             {
-                return;
+                return false;
             }
 
             var scroller = AssociatedObject as ScrollViewer ?? AssociatedObject.FindDescendant<ScrollViewer>();
-
             if (scroller == null)
             {
-                return;
+                return false;
             }
 
             // Implicit operation: Find the Header object of the control if it uses ListViewBase
             if (HeaderElement == null)
             {
                 var listElement = AssociatedObject as ListViewBase ?? AssociatedObject.FindDescendant<ListViewBase>();
-
                 if (listElement != null)
                 {
                     HeaderElement = listElement.Header as UIElement;
@@ -138,9 +126,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             }
 
             // If no header is set or detected, return.
-            if (HeaderElement == null)
+            if (HeaderElement == null || HeaderElement.RenderSize.Height == 0d)
             {
-                return;
+                return false;
             }
 
             // Get the ScrollViewer's ManipulationPropertySet
@@ -159,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             // Begin animating
             var targetElement = ElementCompositionPreview.GetElementVisual(HeaderElement);
             targetElement.StartAnimation("Opacity", opacityExpression);
+
+            return true;
         }
 
         /// <summary>
