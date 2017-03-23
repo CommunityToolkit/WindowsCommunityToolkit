@@ -67,10 +67,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty BadgeVisibilityProperty =
             DependencyProperty.Register("BadgeVisibility", typeof(Visibility), typeof(AppBarBadgeButton), new PropertyMetadata(Visibility.Collapsed, null));
 
-
-
-
-
         public SolidColorBrush BadgeBackground
         {
             get { return (SolidColorBrush)GetValue(BadgeBackgroundProperty); }
@@ -81,9 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty BadgeBackgroundProperty =
             DependencyProperty.Register("BadgeBackground", typeof(SolidColorBrush), typeof(AppBarBadgeButton), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
-
-
-
         public SolidColorBrush BadgeForeground
         {
             get { return (SolidColorBrush)GetValue(BadgeForegroundProperty); }
@@ -93,8 +86,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Using a DependencyProperty as the backing store for BadgeForeground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BadgeForegroundProperty =
             DependencyProperty.Register("BadgeForeground", typeof(SolidColorBrush), typeof(AppBarBadgeButton), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-
-
     }
 }
