@@ -17,6 +17,13 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 ```
 
+## Limitations
+
+Here are some limitations you may encounter:
+
+- Images cannot be embedded inside a hyperlink
+- All images are stretched with the same stretch value (defined by ImageStretch property)
+
 ## Example Image
 Note: scrolling is smooth, the gif below is not.
 

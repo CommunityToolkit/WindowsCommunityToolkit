@@ -44,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         }
 
         /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch { get; set; }
+
+        /// <summary>
         /// Gets or sets a brush that provides the background of the control.
         /// </summary>
         public Brush Background { get; set; }
@@ -903,7 +908,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             image.Source = new BitmapImage(new Uri(element.Url));
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = Stretch.None;
+            image.Stretch = ImageStretch;
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 
