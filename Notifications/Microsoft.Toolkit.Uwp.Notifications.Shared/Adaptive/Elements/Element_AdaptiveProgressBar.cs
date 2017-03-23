@@ -12,7 +12,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    [NotificationXmlElement("progressBar")]
+    [NotificationXmlElement("progress")]
     internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild
     {
         [NotificationXmlAttribute("value")]
