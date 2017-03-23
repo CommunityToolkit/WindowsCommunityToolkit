@@ -53,6 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(RefreshCommand), typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="RefreshIntentCanceledCommand"/> property.
+        /// </summary>
+        public static readonly DependencyProperty RefreshIntentCanceledCommandProperty =
+            DependencyProperty.Register(nameof(RefreshIntentCanceledCommand), typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="RefreshIndicatorContent"/> property.
         /// </summary>
         public static readonly DependencyProperty RefreshIndicatorContentProperty =
@@ -112,6 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _pullDistance = 0.0;
         private DateTime _lastRefreshActivation = default(DateTime);
         private bool _refreshActivated = false;
+        private bool _refreshIntentCanceled = false;
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
 
@@ -119,6 +126,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when the user has requested content to be refreshed
         /// </summary>
         public event EventHandler RefreshRequested;
+
+        /// <summary>
+        /// Occurs when the user has cancels an intent for the content to be refreshed
+        /// </summary>
+        public event EventHandler RefreshIntentCanceled;
 
         /// <summary>
         /// Occurs when listview overscroll distance is changed
@@ -359,10 +371,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     RefreshCommand.Execute(null);
                 }
             }
+            else if (_refreshIntentCanceled)
+            {
+                RefreshIntentCanceled?.Invoke(this, new EventArgs());
+                if (RefreshIntentCanceledCommand != null && RefreshIntentCanceledCommand.CanExecute(null))
+                {
+                    RefreshIntentCanceledCommand.Execute(null);
+                }
+            }
 
             _lastOffset = 0;
             _pullDistance = 0;
             _refreshActivated = false;
+            _refreshIntentCanceled = false;
             _lastRefreshActivation = default(DateTime);
             _isManipulatingWithMouse = false;
 
@@ -499,6 +520,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _lastRefreshActivation = DateTime.Now;
                 _refreshActivated = true;
+                _refreshIntentCanceled = false;
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
@@ -520,6 +542,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // if more then a second since activation, deactivate
                 if (timeSinceActivated.TotalMilliseconds > 1000)
                 {
+                    _refreshIntentCanceled |= _refreshActivated;
                     _refreshActivated = false;
                     _lastRefreshActivation = default(DateTime);
                     pullProgress = _pullDistance / PullThreshold;
@@ -539,11 +562,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     pullProgress = 1.0;
+                    _refreshIntentCanceled |= _refreshActivated;
                 }
             }
             else
             {
                 pullProgress = _pullDistance / PullThreshold;
+                _refreshIntentCanceled |= _refreshActivated;
             }
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = pullProgress });
@@ -619,6 +644,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ICommand)GetValue(RefreshCommandProperty); }
             set { SetValue(RefreshCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Command that will be invoked when a refresh intent is cancled
+        /// </summary>
+        public ICommand RefreshIntentCanceledCommand
+        {
+            get { return (ICommand)GetValue(RefreshIntentCanceledCommandProperty); }
+            set { SetValue(RefreshIntentCanceledCommandProperty, value); }
         }
 
         /// <summary>
