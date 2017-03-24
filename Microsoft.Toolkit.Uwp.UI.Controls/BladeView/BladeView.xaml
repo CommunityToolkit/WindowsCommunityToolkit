@@ -128,7 +128,7 @@
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    Content="&#xE711;"
+                                    Content="&#xE1D9;"
                                     FontFamily="Segoe MDL2 Assets"
                                     Foreground="{TemplateBinding CloseButtonForeground}"
                                     Visibility="Collapsed" />

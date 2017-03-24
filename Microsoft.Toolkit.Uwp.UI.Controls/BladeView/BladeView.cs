@@ -110,7 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ActiveBlades.Add(blade);
             }
 
-            if (ActiveBlades.Any())
+            //TODO: Glenn - What do we do with this feature when blade mode is set to fullscreen? ( for now we ignore the feature )
+            if (OpenBlades > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
             {
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
                 if (openBlades?.Count > OpenBlades)
@@ -144,6 +145,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             BladeClosed?.Invoke(this, blade);
             ActiveBlades.Remove(blade);
+
+            var lastBlade = ActiveBlades.LastOrDefault();
+            if (lastBlade != null && lastBlade.TitleBarVisibility == Visibility.Visible)
+                lastBlade.BladeItemMode = lastBlade.BladeItemMode == BladeItemMode.Small
+                ? BladeItemMode.Normal
+                : BladeItemMode.Small;
         }
 
         private ScrollViewer GetScrollViewer()

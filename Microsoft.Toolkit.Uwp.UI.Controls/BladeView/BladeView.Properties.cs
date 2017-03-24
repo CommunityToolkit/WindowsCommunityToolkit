@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
-        public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(1, OnOpenBladesChanged));
+        public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(0, OnOpenBladesChanged));
 
         /// <summary>
         /// Gets or sets a collection of visible blades
