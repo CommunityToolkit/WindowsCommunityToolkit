@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
-        /// 
+        /// Identifies the <see cref="BladeItemMode"/> dependency property
         /// </summary>
         public static readonly DependencyProperty BladeItemModeProperty = DependencyProperty.RegisterAttached(nameof(BladeItemMode), typeof(BladeItemMode), typeof(BladeItem), new PropertyMetadata(BladeItemMode.Normal, OnBladeItemModeChanged));
 
@@ -124,6 +124,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsOpenProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating in what mode the blade should be presented, normal or small
+        /// </summary>
         public BladeItemMode BladeItemMode
         {
             get { return (BladeItemMode)GetValue(BladeItemModeProperty); }
@@ -141,12 +144,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             BladeItem bladeItem = (BladeItem)dependencyObject;
 
-            // TODO: Glenn - Should be a visual effect, UI Composition or StoryBoard/State?
             bladeItem.Width = bladeItem.BladeItemMode == BladeItemMode.Small
                 ? bladeItem.Width = 70
                 : bladeItem.Width = bladeItem._normalModeWidth;
 
-            //TODO: Glenn - move this also to the storyboard!
             bladeItem._enlargeButton.Visibility = bladeItem.BladeItemMode == BladeItemMode.Small
                 ? Visibility.Visible
                 : Visibility.Collapsed;

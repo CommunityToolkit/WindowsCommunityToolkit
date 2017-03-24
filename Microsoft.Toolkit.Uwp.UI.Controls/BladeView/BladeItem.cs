@@ -34,7 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(BladeItem);
 
-            //TODO: Glenn - is this the way to track sizechanges?
             SizeChanged += OnSizeChanged;
         }
 

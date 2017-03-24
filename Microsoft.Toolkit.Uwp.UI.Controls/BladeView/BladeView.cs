@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ActiveBlades.Add(blade);
             }
 
-            //TODO: Glenn - What do we do with this feature when blade mode is set to fullscreen? ( for now we ignore the feature )
+            // For now we skip this feature when blade mode is set to fullscreen
             if (OpenBlades > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
             {
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();

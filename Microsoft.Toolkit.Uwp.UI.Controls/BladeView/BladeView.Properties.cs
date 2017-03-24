@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
+
         public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(0, OnOpenBladesChanged));
 
         /// <summary>
@@ -53,6 +54,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(BladeModeProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating what the overflow amount should be to start collapsing blade items
+        /// </summary>
+        /// <example>
+        /// For example we put OpenBlades = 2
+        /// This means that each time a blade is added to the bladeview collection,
+        /// we will validate the amount of added blades that have a title bar visible.
+        /// If this number get's bigger than OpenBlade, we will collapse all blades but the last on
+        /// </example>
+        /// <remarks>
+        /// We don't touch blade items that have no title bar
+        /// </remarks>
         public int OpenBlades
         {
             get { return (int)GetValue(OpenBladesProperty); }
