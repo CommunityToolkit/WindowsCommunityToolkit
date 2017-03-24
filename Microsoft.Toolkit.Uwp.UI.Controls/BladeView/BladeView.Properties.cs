@@ -33,7 +33,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
-
+        /// <summary>
+        ///  Identifies the <see cref="OpenBlades"/> attached property.
+        /// </summary>
         public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(0, OnOpenBladesChanged));
 
         /// <summary>
