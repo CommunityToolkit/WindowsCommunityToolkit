@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <summary>
     /// Performs a rotation animation using composition.
     /// </summary>
-    public class Rotate : CompositionBehaviorBase
+    public class Rotate : CompositionBehaviorBase<UIElement>
     {
         /// <summary>
         /// The rotation of the associated object in degrees

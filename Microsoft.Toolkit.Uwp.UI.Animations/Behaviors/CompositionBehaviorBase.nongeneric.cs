@@ -10,21 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
+using Windows.UI.Xaml;
+
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
-    [NotificationXmlElement("progress")]
-    internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild
+    /// <summary>
+    /// Non-generic convenience implementation to provide backwards compatibility.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase{T}" />
+    public abstract class CompositionBehaviorBase : CompositionBehaviorBase<UIElement>
     {
-        [NotificationXmlAttribute("value")]
-        public string Value { get; set; }
-
-        [NotificationXmlAttribute("title")]
-        public string Title { get; set; }
-
-        [NotificationXmlAttribute("valueStringOverride")]
-        public string ValueStringOverride { get; set; }
-
-        [NotificationXmlAttribute("status")]
-        public string Status { get; set; }
     }
 }
