@@ -34,9 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
         /// <summary>
-        ///  Identifies the <see cref="OpenBlades"/> attached property.
+        ///  Identifies the <see cref="MaxOpenBlades"/> attached property.
         /// </summary>
-        public static readonly DependencyProperty OpenBladesProperty = DependencyProperty.RegisterAttached(nameof(OpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(0, OnOpenBladesChanged));
+        public static readonly DependencyProperty MaxOpenBladesProperty = DependencyProperty.RegisterAttached(nameof(MaxOpenBlades), typeof(int), typeof(BladeView), new PropertyMetadata(0, OnOpenBladesChanged));
 
         /// <summary>
         /// Gets or sets a collection of visible blades
@@ -60,18 +60,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating what the overflow amount should be to start collapsing blade items
         /// </summary>
         /// <example>
-        /// For example we put OpenBlades = 2
+        /// For example we put MaxOpenBlades = 2
         /// This means that each time a blade is added to the bladeview collection,
         /// we will validate the amount of added blades that have a title bar visible.
-        /// If this number get's bigger than OpenBlade, we will collapse all blades but the last on
+        /// If this number get's bigger than MaxOpenBlades, we will collapse all blades but the last one
         /// </example>
         /// <remarks>
         /// We don't touch blade items that have no title bar
         /// </remarks>
-        public int OpenBlades
+        public int MaxOpenBlades
         {
-            get { return (int)GetValue(OpenBladesProperty); }
-            set { SetValue(OpenBladesProperty, value); }
+            get { return (int)GetValue(MaxOpenBladesProperty); }
+            set { SetValue(MaxOpenBladesProperty, value); }
         }
 
         private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)

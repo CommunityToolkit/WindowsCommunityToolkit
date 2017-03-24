@@ -111,10 +111,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // For now we skip this feature when blade mode is set to fullscreen
-            if (OpenBlades > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
+            if (MaxOpenBlades > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
             {
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
-                if (openBlades?.Count > OpenBlades)
+                if (openBlades?.Count > MaxOpenBlades)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
                         openBlades[i].BladeItemMode = BladeItemMode.Small;
