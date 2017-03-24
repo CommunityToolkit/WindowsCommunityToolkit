@@ -115,6 +115,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Margin="4,0,0,0"
@@ -122,8 +123,17 @@
                                        VerticalAlignment="Center"
                                        Foreground="{TemplateBinding TitleBarForeground}"
                                        Text="{TemplateBinding Title}" />
-                            <Button Name="CloseButton"
+                            <Button Name="EnlargeButton"
                                     Grid.Column="1"
+                                    TabIndex="0"
+                                    HorizontalAlignment="Right"
+                                    Background="{TemplateBinding CloseButtonBackground}"
+                                    Content="&#xE711;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Foreground="{TemplateBinding CloseButtonForeground}"
+                                    Visibility="Collapsed" />
+                            <Button Name="CloseButton"
+                                    Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"

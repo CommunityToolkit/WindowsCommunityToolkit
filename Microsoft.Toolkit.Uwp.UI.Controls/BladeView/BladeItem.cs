@@ -19,9 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The Blade is used as a child in the BladeView
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
+    [TemplatePart(Name = "EnlargeButton", Type = typeof(Button))]
     public partial class BladeItem : ContentControl
     {
         private Button _closeButton;
+        private Button _enlargeButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeItem"/> class.
@@ -39,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _closeButton = GetTemplateChild("CloseButton") as Button;
+            _enlargeButton = GetTemplateChild("EnlargeButton") as Button;
 
             if (_closeButton == null)
             {
@@ -47,11 +50,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _closeButton.Click -= CloseButton_Click;
             _closeButton.Click += CloseButton_Click;
+            _enlargeButton.Click -= EnlargeButton_Click;
+            _enlargeButton.Click += EnlargeButton_Click;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             IsOpen = false;
+        }
+
+        private void EnlargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            BladeItemMode = BladeItemMode.Normal;
+
         }
     }
 }

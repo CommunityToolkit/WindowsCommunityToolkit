@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
                 if (openBlades?.Count > OpenBlades)
                 {
-                    for (int i = 0; i < OpenBlades; i++)
+                    for (int i = 0; i < openBlades.Count - 1; i++)
                         openBlades[i].BladeItemMode = BladeItemMode.Small;
                 }
             }
