@@ -905,6 +905,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
+            // if url is not absolute we have to return as local images are not supported
+            if (!element.Url.StartsWith("http") && !element.Url.StartsWith("ms-app"))
+            {
+                return;
+            }
+
             image.Source = new BitmapImage(new Uri(element.Url));
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
@@ -912,8 +918,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 
-            // Add it to the current inlines
-            inlineCollection.Add(imageContainer);
+            // Try to add it to the current inlines
+            // Could fail because some containers like Hyperlink cannot have inlined images
+            try
+            {
+                inlineCollection.Add(imageContainer);
+            }
+            catch
+            {
+                // Ignore error
+            }
         }
 
         /// <summary>
