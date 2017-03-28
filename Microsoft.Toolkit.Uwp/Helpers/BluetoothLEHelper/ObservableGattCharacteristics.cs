@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp
                 }
                 else if (result.Status == GattCommunicationStatus.ProtocolError)
                 {
-                    Value = Services.Other.GattProtocolErrorParser.GetErrorString(result.ProtocolError);
+                    Value = GattProtocolErrorParser.GetErrorString(result.ProtocolError);
                 }
                 else
                 {

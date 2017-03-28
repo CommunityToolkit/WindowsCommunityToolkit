@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (result.Status == GattCommunicationStatus.Success)
                 {
                     sb.Append(" - getAllCharacteristics found ");
-                    sb.Append(result.Characteristics.Count());
+                    sb.Append(result.Characteristics.Count);
                     sb.Append(" characteristics");
                     Debug.WriteLine(sb);
                     foreach (GattCharacteristic gattchar in result.Characteristics)

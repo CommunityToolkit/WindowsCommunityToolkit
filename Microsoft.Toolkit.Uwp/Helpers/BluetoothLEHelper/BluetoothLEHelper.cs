@@ -107,13 +107,15 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets the list of created service
         /// </summary>
-        public ObservableCollection<GenericGattServiceViewModel> CreatedServices { get; set; } =
-            new ObservableCollection<GenericGattServiceViewModel>();
+        // TODO: fix this
+        //public ObservableCollection<GenericGattServiceViewModel> CreatedServices { get; set; } =
+        //    new ObservableCollection<GenericGattServiceViewModel>();
 
         /// <summary>
         /// Gets or sets the currently selected gatt server service
         /// </summary>
-        public GenericGattServiceViewModel SelectedGattServerService { get; set; } = null;
+        // TODO: fix this
+        //public GenericGattServiceViewModel SelectedGattServerService { get; set; } = null;
 
         /// <summary>
         /// Gets a value indicating whether app is currently enumerating
