@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             {
                 Tooltip = tooltip,
                 Url = url,
-                Text = markdown.Substring(start, pos + 1)
+                Text = markdown.Substring(start, pos + 1 - start)
             };
             return new Common.InlineParseResult(result, start, end);
         }
