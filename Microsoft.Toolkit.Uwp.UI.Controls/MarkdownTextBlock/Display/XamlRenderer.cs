@@ -908,6 +908,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // if url is not absolute we have to return as local images are not supported
             if (!element.Url.StartsWith("http") && !element.Url.StartsWith("ms-app"))
             {
+                RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
                 return;
             }
 
