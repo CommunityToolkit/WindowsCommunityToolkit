@@ -13,8 +13,8 @@
 #if WINRT
 using System.Collections.Generic;
 #endif
-using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 using System;
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
