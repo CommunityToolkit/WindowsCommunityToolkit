@@ -3,7 +3,7 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
-     {
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -519,6 +519,15 @@
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
+      },
+      {
+        "Name": "ClipboardHelper",
+        "Type": "ClipboardHelperPage",
+        "About": "The ClipboardHelper can set/get clipboard easier",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ClipboardHelper",
+        "CodeFile": "ClipboardHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ClipboardHelper.md"
       }
     ]
   },
