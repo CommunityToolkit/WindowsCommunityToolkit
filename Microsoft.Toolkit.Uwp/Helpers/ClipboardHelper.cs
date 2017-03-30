@@ -11,9 +11,11 @@
 // ******************************************************************
 
 using System;
-using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Data.Html;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp
@@ -29,13 +31,20 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>The image bytes.</returns>
         public static async Task<byte[]> GetImageAsync()
         {
-            var content = Clipboard.GetContent();
-            var streamReference = await content.GetBitmapAsync();
-            var stream = await streamReference.OpenReadAsync();
-            using (var memoryStream = new MemoryStream())
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Bitmap))
             {
-                await stream.AsStreamForRead().CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
+                var imageReceived = await dataPackageView.GetBitmapAsync();
+                using (var imageStream = await imageReceived.OpenReadAsync())
+                {
+                    var bytes = new byte[imageStream.Size];
+                    await imageStream.ReadAsync(bytes.AsBuffer(), (uint)imageStream.Size, InputStreamOptions.None);
+                    return bytes;
+                }
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -45,9 +54,25 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>The raw html string.</returns>
         public static async Task<string> GetRawHtmlAsync()
         {
-            var content = Clipboard.GetContent();
-            var htmlFormat = await content.GetHtmlFormatAsync();
-            return HtmlFormatHelper.GetStaticFragment(htmlFormat);
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Html))
+            {
+                string htmlFormat;
+                try
+                {
+                    htmlFormat = await dataPackageView.GetHtmlFormatAsync();
+                }
+                catch (ArgumentException)
+                {
+                    // if the clipboard html format is empty string.
+                    return null;
+                }
+                return HtmlFormatHelper.GetStaticFragment(htmlFormat);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -56,8 +81,23 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>The rtf format text.</returns>
         public static async Task<string> GetRtfAsync()
         {
-            var content = Clipboard.GetContent();
-            return await content.GetRtfAsync();
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Rtf))
+            {
+                try
+                {
+                    return await dataPackageView.GetRtfAsync();
+                }
+                catch (ArgumentException)
+                {
+                    // if the clipboard rtf is empty string.
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -66,25 +106,40 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>The text string.</returns>
         public static async Task<string> GetTextAsync()
         {
-            var content = Clipboard.GetContent();
-            return await content.GetTextAsync();
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                return await dataPackageView.GetTextAsync();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
         /// Set image bytes into clipboard.
         /// </summary>
         /// <param name="image">The image bytes.</param>
-        /// <exception cref="ArgumentNullException">'image' is null.</exception>
-        public static void SetImage(byte[] image)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        public static async Task SetImageAsync(byte[] image)
         {
             if (image == null)
             {
                 throw new ArgumentNullException(nameof(image));
             }
 
-            var content = new DataPackage();
-            content.SetBitmap(RandomAccessStreamReference.CreateFromStream(new MemoryStream(image).AsRandomAccessStream()));
-            Clipboard.SetContent(content);
+            var dataPackage = new DataPackage();
+
+            var tempFileName = string.Format("{0}.tmp", Guid.NewGuid());
+            var tempFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(tempFileName, CreationCollisionOption.GenerateUniqueName);
+            await FileIO.WriteBytesAsync(tempFile, image);
+            var randomAccessStreamReference = RandomAccessStreamReference.CreateFromFile(tempFile);
+            dataPackage.SetBitmap(randomAccessStreamReference);
+            await tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
 
         /// <summary>
@@ -99,9 +154,13 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(html));
             }
 
-            var content = new DataPackage();
-            content.SetHtmlFormat(HtmlFormatHelper.CreateHtmlFormat(html));
-            Clipboard.SetContent(content);
+            var dataPackage = new DataPackage();
+            var htmlFormat = HtmlFormatHelper.CreateHtmlFormat(html);
+            var plainText = HtmlUtilities.ConvertToText(html);
+            dataPackage.SetHtmlFormat(htmlFormat);
+            dataPackage.SetText(plainText);
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
 
         /// <summary>
@@ -116,9 +175,10 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(rtf));
             }
 
-            DataPackage content = new DataPackage();
-            content.SetRtf(rtf);
-            Clipboard.SetContent(content);
+            var dataPackage = new DataPackage();
+            dataPackage.SetRtf(rtf);
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
 
         /// <summary>
@@ -133,9 +193,10 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(text));
             }
 
-            var content = new DataPackage();
-            content.SetText(text);
-            Clipboard.SetContent(content);
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(text);
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
     }
 }
