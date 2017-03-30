@@ -122,7 +122,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             var result = new ImageInline
             {
                 Tooltip = tooltip,
-                Url = url
+                Url = url,
+                Text = markdown.Substring(start, pos + 1 - start)
             };
             return new Common.InlineParseResult(result, start, end);
         }

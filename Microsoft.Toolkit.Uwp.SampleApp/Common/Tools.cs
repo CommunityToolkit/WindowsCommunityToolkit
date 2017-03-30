@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         internal static async Task<bool> CheckInternetConnectionAsync()
         {
-            if (!ConnectionHelper.IsInternetAvailable)
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
                 var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
                 await dialog.ShowAsync();

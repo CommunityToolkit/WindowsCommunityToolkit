@@ -49,7 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ImageEx;
-            control?.SetSource(e.NewValue);
+
+            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
+            {
+                control?.SetSource(e.NewValue);
+            }
         }
 
         private static bool IsHttpUri(Uri uri)
