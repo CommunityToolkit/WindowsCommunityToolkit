@@ -67,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp
                     // if the clipboard html format is empty string.
                     return null;
                 }
+
                 return HtmlFormatHelper.GetStaticFragment(htmlFormat);
             }
             else
@@ -115,31 +116,6 @@ namespace Microsoft.Toolkit.Uwp
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// Set image bytes into clipboard.
-        /// </summary>
-        /// <param name="image">The image bytes.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
-        public static async Task SetImageAsync(byte[] image)
-        {
-            if (image == null)
-            {
-                throw new ArgumentNullException(nameof(image));
-            }
-
-            var dataPackage = new DataPackage();
-
-            var tempFileName = string.Format("{0}.tmp", Guid.NewGuid());
-            var tempFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(tempFileName, CreationCollisionOption.GenerateUniqueName);
-            await FileIO.WriteBytesAsync(tempFile, image);
-            var randomAccessStreamReference = RandomAccessStreamReference.CreateFromFile(tempFile);
-            dataPackage.SetBitmap(randomAccessStreamReference);
-            await tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-
-            Clipboard.SetContent(dataPackage);
-            Clipboard.Flush();
         }
 
         /// <summary>

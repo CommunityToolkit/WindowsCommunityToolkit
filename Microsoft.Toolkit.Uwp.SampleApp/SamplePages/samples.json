@@ -167,7 +167,7 @@
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Expander.md"
-      }, 
+      },
       {
         "Name": "TileControl",
         "Type": "TileControlPage",
@@ -324,7 +324,7 @@
         "XamlCodeFile": "ParallaxPage.bind",
         "Icon": "/SamplePages/ParallaxService/Parallax.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/ParallaxService.md"
-      }, 
+      },
       {
         "Name": "ReorderGridAnimation",
         "Type": "ReorderGridPage",
@@ -491,6 +491,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "ClipboardHelper",
+        "Type": "ClipboardHelperPage",
+        "About": "The ClipboardHelper can set/get clipboard easier",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ClipboardHelper",
+        "CodeFile": "ClipboardHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ClipboardHelper.md"
       }
     ]
   },

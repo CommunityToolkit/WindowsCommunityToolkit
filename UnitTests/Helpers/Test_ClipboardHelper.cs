@@ -11,13 +11,12 @@
 // ******************************************************************
 
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Data.Html;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace UnitTests.Helpers
@@ -26,8 +25,6 @@ namespace UnitTests.Helpers
     public class Test_ClipboardHelper
     {
         private string _testHtml;
-
-        private byte[] _testImageBytes;
 
         private string _testRtf;
 
@@ -45,9 +42,6 @@ namespace UnitTests.Helpers
  ";
 
             _testHtml = "<div style=\"color:red;\">Hello world</div>";
-
-            var testImageFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "StoreLogo.png");
-            _testImageBytes = File.ReadAllBytes(testImageFilePath);
         }
 
         [TestCategory("Helpers")]
@@ -61,12 +55,14 @@ namespace UnitTests.Helpers
                 Assert.IsNull(nullResult);
 
                 var dataPackage = new DataPackage();
-                var r = RandomAccessStreamReference.CreateFromStream(new MemoryStream(_testImageBytes).AsRandomAccessStream());
-                dataPackage.SetBitmap(r);
+                var testImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/StoreLogo.png"));
+                var imageReference = RandomAccessStreamReference.CreateFromFile(testImage);
+                dataPackage.SetBitmap(imageReference);
                 Clipboard.SetContent(dataPackage);
 
+                var testImageBytes = await testImage.ReadBytesAsync();
                 var result = await ClipboardHelper.GetImageAsync();
-                CollectionAssert.AreEqual(_testImageBytes, result);
+                CollectionAssert.AreEqual(testImageBytes, result);
             });
         }
 
@@ -130,34 +126,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        public async Task Test_ClipboardHelper_SetImageAsync()
-        {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-            {
-                await Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.Assert
-                    .ThrowsException<ArgumentNullException>(
-                        async () =>
-                        {
-                            await ClipboardHelper.SetImageAsync(null);
-                        });
-
-                await ClipboardHelper.SetImageAsync(_testImageBytes);
-
-                var dataPackageView = Clipboard.GetContent();
-                var imageReceived = await dataPackageView.GetBitmapAsync();
-                using (var imageStream = await imageReceived.OpenReadAsync())
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await imageStream.AsStreamForRead().CopyToAsync(memoryStream);
-                        CollectionAssert.AreEqual(_testImageBytes, memoryStream.ToArray());
-                    }
-                }
-            });
-        }
-
-        [TestCategory("Helpers")]
-        [TestMethod]
         public async Task Test_ClipboardHelper_SetRawHtml()
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
@@ -166,12 +134,6 @@ namespace UnitTests.Helpers
                 {
                     ClipboardHelper.SetRawHtml(null);
                 });
-
-                ClipboardHelper.SetRawHtml(string.Empty);
-                var emptyContent = Clipboard.GetContent();
-                var emptyHtml = HtmlFormatHelper.GetStaticFragment(
-                    await emptyContent.GetHtmlFormatAsync());
-                Assert.AreEqual(string.Empty, emptyHtml);
 
                 ClipboardHelper.SetRawHtml(_testHtml);
                 var dataPackageView = Clipboard.GetContent();
@@ -194,14 +156,10 @@ namespace UnitTests.Helpers
                    ClipboardHelper.SetRtf(null);
                });
 
-               ClipboardHelper.SetRtf(string.Empty);
-               var emptyContent = Clipboard.GetContent();
-               Assert.AreEqual(string.Empty, await emptyContent.GetRtfAsync());
-
                ClipboardHelper.SetRtf(_testRtf);
                var dataPackageView = Clipboard.GetContent();
                var result = await dataPackageView.GetRtfAsync();
-               Assert.AreEqual(_testText, result);
+               Assert.AreEqual(_testRtf, result);
            });
         }
 

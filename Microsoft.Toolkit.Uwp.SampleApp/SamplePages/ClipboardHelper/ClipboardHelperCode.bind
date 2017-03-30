@@ -1,0 +1,25 @@
+// Set text into clipboard.
+ClipboardHelper.SetText("Hello World");
+
+// Get text from clipboard.
+var text = ClipboardHelper.GetTextAsync();
+if (text == null)
+{
+    // No text in clipboard.
+}
+else
+{
+}
+
+// Set html into clipboard.
+ClipboardHelper.SetHtml("<div style=\"color:red;\">Hello World</div>");
+
+// Get html from clipboard.
+var html = ClipboardHelper.GetHtmlAsync();
+if (html == null)
+{
+    // No html in clipboard.
+}
+else
+{
+}
