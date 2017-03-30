@@ -25,7 +25,6 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {

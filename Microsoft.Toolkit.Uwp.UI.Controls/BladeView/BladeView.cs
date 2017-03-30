@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -168,6 +167,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         AdjustBladeItemSize();
                     }
                 }
+            }
+            else if (e.CollectionChange == CollectionChange.ItemInserted)
+            {
+                UpdateLayout();
+                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
             }
         }
     }

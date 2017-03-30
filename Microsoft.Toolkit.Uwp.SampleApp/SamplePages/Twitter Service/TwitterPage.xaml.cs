@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services.Twitter;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;

@@ -1320,7 +1320,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+#pragma warning restore 618
                     ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
                 }
             });
@@ -1338,7 +1340,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Background,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
+#pragma warning restore 618
                 }
             });
 
@@ -1368,7 +1372,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Protocol,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate,
+#pragma warning restore 618
                     ProtocolActivationTargetApplicationPfn = "Microsoft.Settings"
                 }
             };
@@ -1381,7 +1387,9 @@ namespace UnitTests.Notifications
             AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
 
             // Default should be ignored
+#pragma warning disable 618
             item.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+#pragma warning restore 618
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='My content' arguments='myArgs' activationType='protocol' />", item);
 
@@ -1431,7 +1439,9 @@ namespace UnitTests.Notifications
                 ActivationType = ToastActivationType.Background,
                 ActivationOptions = new ToastActivationOptions()
                 {
+#pragma warning disable 618
                     AfterActivationBehavior = ToastAfterActivationBehavior.Default
+#pragma warning restore 618
                 }
             });
 
@@ -1443,7 +1453,9 @@ namespace UnitTests.Notifications
                     Launch = "myArgs",
                     ActivationOptions = new ToastActivationOptions()
                     {
+#pragma warning disable 618
                         AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate
+#pragma warning restore 618
                     }
                 });
                 Assert.Fail("InvalidOperationException should have been thrown.");
@@ -1490,13 +1502,17 @@ namespace UnitTests.Notifications
             AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
 
             // Default should be ignored
+#pragma warning disable 618
             header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.Default;
+#pragma warning restore 618
             AssertHeaderPayload("<header id='myId' title='My title' arguments='settings:about' activationType='protocol' />", header);
 
             // Using anything other than default should throw exception
             try
             {
+#pragma warning disable 618
                 header.ActivationOptions.AfterActivationBehavior = ToastAfterActivationBehavior.PendingUpdate;
+#pragma warning restore 618
                 AssertHeaderPayload("Exception should be thrown", header);
                 Assert.Fail("InvalidOperationException should have been thrown.");
             }
@@ -1525,41 +1541,46 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_ProgressBar_Value()
         {
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar());
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar() { Status = "Downloading..." });
 
             // Only non-WinRT supports implicit converters
 #if !WINRT
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = 0.3
+                Value = 0.3,
+                Status = "Downloading..."
             });
 #endif
 
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.FromValue(0.3)
+                Value = AdaptiveProgressBarValue.FromValue(0.3),
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='indeterminate'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='indeterminate' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.Indeterminate
+                Value = AdaptiveProgressBarValue.Indeterminate,
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='{progressValue}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
                 {
                     { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
-                }
+                },
 #else
-                Value = new BindableProgressBarValue("progressValue")
+                Value = new BindableProgressBarValue("progressValue"),
 #endif
+                Status = "Downloading..."
             });
 
             try
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(-4)
+                    Value = AdaptiveProgressBarValue.FromValue(-4),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1569,7 +1590,8 @@ namespace UnitTests.Notifications
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(1.3)
+                    Value = AdaptiveProgressBarValue.FromValue(1.3),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1581,24 +1603,32 @@ namespace UnitTests.Notifications
         {
             // There is NOT an escape string. Guidance to developers is if you're using data binding,
             // use data binding for ALL your user-generated strings.
-            AssertProgressBar("<progressBar value='0' title='{I like tacos}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' title='{I like tacos}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Title = "{I like tacos}"
+                Title = "{I like tacos}",
+                Status = "Downloading..."
             });
         }
 
         [TestMethod]
         public void Test_Toast_ProgressBar()
         {
-            AssertProgressBar("<progressBar value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Downloading...'/>", new AdaptiveProgressBar()
+            try
+            {
+                AssertProgressBar("Exception should be thrown", new AdaptiveProgressBar());
+                Assert.Fail("Exception should have been thrown, Status property is required");
+            }
+            catch (NullReferenceException) { }
+
+            AssertProgressBar("<progress value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Adding music...'/>", new AdaptiveProgressBar()
             {
                 Value = AdaptiveProgressBarValue.FromValue(0.3),
                 Title = "Katy Perry",
                 ValueStringOverride = "3/10 songs",
-                Status = "Downloading..."
+                Status = "Adding music..."
             });
 
-            AssertProgressBar("<progressBar value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
@@ -1616,12 +1646,12 @@ namespace UnitTests.Notifications
 #endif
             });
 
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar()
             {
                 Value = null,
                 Title = null,
                 ValueStringOverride = null,
-                Status = null
+                Status = "Downloading..."
             });
         }
 
