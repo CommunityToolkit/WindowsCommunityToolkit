@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -41,11 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private List<AnimationTask> _animationTasks;
 
-        private Task _mainRunningTask;
-        private Task _internalTask;
-        private CancellationTokenSource _cts;
-        private ManualResetEvent _manualResetEvent;
-        private ManualResetEventSlim _taskResetEvent;
+        private TaskCompletionSource<bool> _animationTCS;
 
         private bool _storyboardCompleted;
         private bool _compositionCompleted;
@@ -106,15 +101,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _storyboard = new Storyboard();
             _storyboardAnimations = new Dictionary<string, Timeline>();
             _animationTasks = new List<AnimationTask>();
-
-            _taskResetEvent = new ManualResetEventSlim();
-            _manualResetEvent = new ManualResetEvent(false);
         }
 
         /// <summary>
         /// Occurs when all animations have completed
         /// </summary>
-        public event EventHandler Completed;
+        public event EventHandler<AnimationSetCompletedEventArgs> Completed;
 
         /// <summary>
         /// Stats all animations. This method is not awaitable.
@@ -128,30 +120,117 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Starts all animations and returns an awaitable task.
         /// </summary>
         /// <returns>A <see cref="Task"/> that can be awaited until all animations have completed</returns>
-        public Task StartAsync()
+        public async Task<bool> StartAsync()
         {
-            if (_mainRunningTask == null)
+            if (_animationTCS == null || _animationTCS.Task.IsCompleted)
             {
-                _mainRunningTask = Task.Run(() =>
+                if (_animationTCS != null && _animationTCS.Task.IsCompleted)
                 {
-                    _manualResetEvent.Reset();
-                    _manualResetEvent.WaitOne();
-                });
-            }
-
-            if (State != AnimationSetState.Running)
-            {
-                if (_cts != null)
-                {
-                    _cts.Cancel();
-                    _cts.Dispose();
+                    foreach (var set in _animationSets)
+                    {
+                        set.State = AnimationSetState.NotStarted;
+                        set._animationTCS = null;
+                    }
                 }
 
-                _cts = new CancellationTokenSource();
-                var nop = StartTheAnimationAsync(_cts.Token);
+                State = AnimationSetState.Running;
+                _animationTCS = new TaskCompletionSource<bool>();
+            }
+            else
+            {
+                return await _animationTCS.Task;
             }
 
-            return _mainRunningTask;
+            foreach (var set in _animationSets)
+            {
+                if (set.State != AnimationSetState.Completed)
+                {
+                    var completed = await set.StartAsync();
+
+                    if (!completed)
+                    {
+                        // the animation was stopped
+                        return await _animationTCS.Task;
+                    }
+                }
+            }
+
+            foreach (var task in _animationTasks)
+            {
+                if (task.Task != null && !task.Task.IsCompleted)
+                {
+                    await task.Task;
+                }
+
+                // if _animationSet is stopped while task was running
+                if (State == AnimationSetState.Stopped)
+                {
+                    return await _animationTCS.Task;
+                }
+            }
+
+            _animationTasks.Clear();
+
+            foreach (var property in _directCompositionPropertyChanges)
+            {
+                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
+            }
+
+            foreach (var definition in _directCompositionEffectPropertyChanges)
+            {
+                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
+            }
+
+            if (_compositionAnimations.Count > 0 || _compositionEffectAnimations.Count > 0)
+            {
+                if (_batch != null)
+                {
+                    if (!_batch.IsEnded)
+                    {
+                        _batch.End();
+                    }
+
+                    _batch.Completed -= Batch_Completed;
+                }
+
+                _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+                _batch.Completed += Batch_Completed;
+
+                foreach (var anim in _compositionAnimations)
+                {
+                    Visual.StartAnimation(anim.Key, anim.Value);
+                }
+
+                foreach (var effect in _compositionEffectAnimations)
+                {
+                    effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
+                }
+
+                _compositionCompleted = false;
+                _batch.End();
+            }
+            else
+            {
+                _compositionCompleted = true;
+            }
+
+            if (_storyboardAnimations.Count > 0)
+            {
+                _storyboardCompleted = false;
+
+                _storyboard.Completed -= Storyboard_Completed;
+                _storyboard.Completed += Storyboard_Completed;
+
+                _storyboard.Begin();
+            }
+            else
+            {
+                _storyboardCompleted = true;
+            }
+
+            HandleCompleted();
+
+            return await _animationTCS.Task;
         }
 
         /// <summary>
@@ -159,11 +238,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public void Stop()
         {
-            if (_cts != null)
-            {
-                _cts.Cancel();
-            }
-
             foreach (var set in _animationSets)
             {
                 if (set.State != AnimationSetState.Completed)
@@ -193,6 +267,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             _storyboard.Pause();
+
+            HandleCompleted(true);
+            _animationTCS = null;
         }
 
         /// <summary>
@@ -491,8 +568,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public void Dispose()
         {
-            _manualResetEvent?.Dispose();
-            _taskResetEvent?.Dispose();
+            _animationTCS = null;
         }
 
         /// <summary>
@@ -524,120 +600,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _directCompositionEffectPropertyChanges.Add(definition);
         }
 
-        private async Task<Task> StartTheAnimationAsync(CancellationToken token)
-        {
-            if (State == AnimationSetState.Running || State == AnimationSetState.Completed)
-            {
-                return _internalTask;
-            }
-
-            State = AnimationSetState.Running;
-
-            foreach (var set in _animationSets)
-            {
-                if (set.State != AnimationSetState.Completed)
-                {
-                    var t = await set.StartTheAnimationAsync(token);
-                    await t;
-
-                    if (t.IsCanceled == true)
-                    {
-                        return _internalTask;
-                    }
-                }
-            }
-
-            _internalTask = Task.Run(
-                () =>
-                {
-                    _taskResetEvent.Reset();
-
-                    try
-                    {
-                        _taskResetEvent.Wait(token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        State = AnimationSetState.Stopped;
-                    }
-                }, token);
-
-            if (token.IsCancellationRequested)
-            {
-                State = AnimationSetState.Stopped;
-                return _internalTask;
-            }
-
-            foreach (var task in _animationTasks)
-            {
-                if (task.Task != null && !task.Task.IsCompleted)
-                {
-                    await task.Task;
-                }
-            }
-
-            _animationTasks.Clear();
-
-            foreach (var property in _directCompositionPropertyChanges)
-            {
-                typeof(Visual).GetProperty(property.Key).SetValue(Visual, property.Value);
-            }
-
-            foreach (var definition in _directCompositionEffectPropertyChanges)
-            {
-                definition.EffectBrush.Properties.InsertScalar(definition.PropertyName, definition.Value);
-            }
-
-            if (_compositionAnimations.Count > 0 || _compositionEffectAnimations.Count > 0)
-            {
-                if (_batch != null)
-                {
-                    if (!_batch.IsEnded)
-                    {
-                        _batch.End();
-                    }
-
-                    _batch.Completed -= Batch_Completed;
-                }
-
-                _batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-                _batch.Completed += Batch_Completed;
-
-                foreach (var anim in _compositionAnimations)
-                {
-                    Visual.StartAnimation(anim.Key, anim.Value);
-                }
-
-                foreach (var effect in _compositionEffectAnimations)
-                {
-                    effect.EffectBrush.StartAnimation(effect.PropertyName, effect.Animation);
-                }
-
-                _compositionCompleted = false;
-                _batch.End();
-            }
-            else
-            {
-                _compositionCompleted = true;
-            }
-
-            if (State == AnimationSetState.Stopped)
-            {
-                _storyboard.Begin();
-            }
-            else
-            {
-                _storyboardCompleted = false;
-
-                _storyboard.Completed -= Storyboard_Completed;
-                _storyboard.Completed += Storyboard_Completed;
-
-                _storyboard.Begin();
-            }
-
-            return _internalTask;
-        }
-
         private void Storyboard_Completed(object sender, object e)
         {
             _storyboardCompleted = true;
@@ -652,14 +614,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             HandleCompleted();
         }
 
-        private void HandleCompleted()
+        private void HandleCompleted(bool stopped = false)
         {
+            var completed = _storyboardCompleted && _compositionCompleted;
+
+            if (!completed && !stopped)
+            {
+                return;
+            }
+
             if (_storyboardCompleted && _compositionCompleted)
             {
-                _taskResetEvent.Set();
                 State = AnimationSetState.Completed;
-                Completed?.Invoke(this, new EventArgs());
-                _manualResetEvent.Set();
+            }
+            else
+            {
+                State = AnimationSetState.Stopped;
+            }
+
+            if (_animationTCS != null && !_animationTCS.Task.IsCompleted)
+            {
+                Completed?.Invoke(this, new AnimationSetCompletedEventArgs() { Completed = _storyboardCompleted && _compositionCompleted });
+                _animationTCS.SetResult(State == AnimationSetState.Completed);
             }
         }
     }

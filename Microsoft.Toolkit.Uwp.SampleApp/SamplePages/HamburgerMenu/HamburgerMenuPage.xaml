@@ -54,6 +54,7 @@
                                 DisplayMode="{Binding DisplayMode.Value}"
                                 Foreground="White"
                                 HamburgerHeight="{Binding HamburgerHeight.Value}"
+                                HamburgerVisibility="{Binding HamburgerVisibility.Value}"
                                 HamburgerWidth="48"
                                 IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
                                 ItemClick="HamburgerMenu_OnItemClick"
@@ -65,13 +66,13 @@
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BigFourSummerHeat.png"
+                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BigFourSummerHeat.jpg"
                                                      Label="Big four summer heat" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BisonBadlandsChillin.png"
+                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BisonBadlandsChillin.jpg"
                                                      Label="Bison badlands Chillin" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/GiantSlabInOregon.png"
+                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/GiantSlabInOregon.jpg"
                                                      Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/LakeAnnMushroom.png"
+                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/LakeAnnMushroom.jpg"
                                                      Label="Lake Ann Mushroom" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>

@@ -103,6 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
         private CompositeTransform _headerTransform;
+        private CompositeTransform _footerTransform;
         private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
@@ -281,6 +282,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _headerTransform.TranslateY = _contentTransform.TranslateY;
             }
+
+            if (_footerTransform != null)
+            {
+                _footerTransform.TranslateY = _contentTransform.TranslateY;
+            }
         }
 
         private void RefreshIndicatorBorder_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -338,6 +344,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _headerTransform.TranslateY = 0;
                 }
+
+                if (_footerTransform != null)
+                {
+                    _footerTransform.TranslateY = 0;
+                }
             }
 
             if (_refreshActivated)
@@ -374,6 +385,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _headerTransform.TranslateY = 0;
                     }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = 0;
+                    }
                 }
 
                 _refreshActivated = false;
@@ -387,9 +403,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentTransform == null)
             {
-                if (_headerTransform == null && Header != null)
+                var headerContent = VisualTreeHelper.GetChild(_scrollerContent, 0) as UIElement;
+                var itemsPanel = VisualTreeHelper.GetChild(_scrollerContent, 1) as UIElement;
+                var footerContent = VisualTreeHelper.GetChild(_scrollerContent, 2) as UIElement;
+
+                if (_headerTransform == null && VisualTreeHelper.GetChildrenCount(headerContent) > 0)
                 {
-                    var headerContent = _scrollerContent.FindDescendant<ContentControl>();
                     if (headerContent != null)
                     {
                         _headerTransform = new CompositeTransform();
@@ -397,14 +416,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
-                if (itemScrollPanel == null)
+                if (_footerTransform == null && VisualTreeHelper.GetChildrenCount(footerContent) > 0)
+                {
+                    if (footerContent != null)
+                    {
+                        _footerTransform = new CompositeTransform();
+                        footerContent.RenderTransform = _footerTransform;
+                    }
+                }
+
+                if (itemsPanel == null)
                 {
                     return;
                 }
 
                 _contentTransform = new CompositeTransform();
-                itemScrollPanel.RenderTransform = _contentTransform;
+                itemsPanel.RenderTransform = _contentTransform;
             }
 
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
@@ -437,6 +464,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _headerTransform.TranslateY = _contentTransform.TranslateY;
                     }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = _pullDistance - offset
@@ -451,6 +483,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (_headerTransform != null)
                     {
                         _headerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
                     }
                 }
 

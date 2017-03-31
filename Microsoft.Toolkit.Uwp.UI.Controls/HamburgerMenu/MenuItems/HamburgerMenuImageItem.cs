@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The HamburgerMenuItem provides an image based implementation for HamburgerMenu entries.
+    /// The HamburgerMenuImageItem provides an image based implementation for HamburgerMenu entries.
     /// </summary>
     public class HamburgerMenuImageItem : HamburgerMenuItem
     {
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(BitmapImage), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies the glyph to use from Segoe MDL2 Assets font.
+        /// Gets or sets a value that specifies a bitmap to display with an Image control.
         /// </summary>
         public BitmapImage Thumbnail
         {

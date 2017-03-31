@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Core;
@@ -25,13 +26,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
-        private const int RootGridColumnsMinWidth = 300;
-        private const int RootGridColumnsDefaultMinWidth = 0;
-
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
         private Sample _currentSample;
+        private AutoSuggestBox _searchBox;
 
         public bool DisplayWaitRing
         {
@@ -48,7 +47,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void ShowInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Visible;
-            UpdateRootGridMinWidth();
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
@@ -63,8 +61,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsDefaultMinWidth;
-            RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsDefaultMinWidth;
         }
 
         public void ShowOnlyHeader(string title)
@@ -120,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
 
             // Get list of samples
-            var sampleCategories = await Samples.GetCategoriesAsync();
+            var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
             var moreResources = sampleCategories.Last(); // Remove the last one because it is a specific case
             sampleCategories.Remove(moreResources);
 
@@ -152,12 +148,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
+            SampleCategory category;
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
+                DataContext = null;
+                category = navigationEventArgs.Parameter as SampleCategory;
+
+                if (category != null)
+                {
+                    TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
+                }
+
                 HideInfoArea();
             }
             else
             {
+                TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
                 ShowInfoArea();
 
                 var sampleName = navigationEventArgs.Parameter.ToString();
@@ -168,6 +174,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                     return;
                 }
+
+                category = await Samples.GetCategoryBySample(sample);
 
                 var propertyDesc = sample.PropertyDescriptor;
 
@@ -210,8 +218,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                UpdateRootGridMinWidth();
-
                 if (!string.IsNullOrEmpty(sample.CodeUrl))
                 {
                     GitHub.NavigateUri = new Uri(sample.CodeUrl);
@@ -227,24 +233,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
                 }
-            }
-        }
 
-        private void UpdateRootGridMinWidth()
-        {
-            if (ActualWidth > 2 * RootGridColumnsMinWidth)
+                if (InfoAreaPivot.Items.Count == 0)
+                {
+                    HideInfoArea();
+                }
+            }
+
+            if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
             {
-                RootGrid.ColumnDefinitions[0].MinWidth = RootGridColumnsMinWidth;
-                RootGrid.ColumnDefinitions[1].MinWidth = RootGridColumnsMinWidth;
+                // This is a search
+                HamburgerMenu.SelectedItem = null;
+                HamburgerMenu.SelectedOptionsItem = null;
             }
             else
             {
-                RootGrid.ColumnDefinitions[0].MinWidth = 0;
-                RootGrid.ColumnDefinitions[1].MinWidth = 0;
+                if (HamburgerMenu.Items.Contains(category))
+                {
+                    HamburgerMenu.SelectedItem = category;
+                    HamburgerMenu.SelectedOptionsItem = null;
+                }
+                else
+                {
+                    HamburgerMenu.SelectedItem = null;
+                    HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                }
             }
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExpandOrCloseProperties();
+        }
+
+        private void ExpandOrCloseProperties()
         {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
             string currentState = states.CurrentState.Name;
@@ -263,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                     else
                     {
-                        // ane is closed, so let's open it
+                        // pane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
@@ -324,6 +346,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+
+            if (_isPaneOpen)
+            {
+                ExpandOrCloseProperties();
+            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
@@ -359,6 +386,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void InfoAreaPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (InfoAreaPivot.SelectedItem != null)
+            {
+                var sample = DataContext as Sample;
+
+                if (sample != null)
+                {
+                    TrackingManager.TrackEvent("PropertyGrid", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name, sample.Name);
+                }
+            }
+
             if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
                 return;
@@ -387,7 +424,82 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
+            TrackingManager.TrackEvent("Link", e.Link);
             await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (DataContext == null)
+            {
+                return;
+            }
+        }
+
+        private void GitHub_OnClick(object sender, RoutedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
+        }
+
+        private async void UpdateSearchSuggestions()
+        {
+            _searchBox.ItemsSource = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name);
+        }
+
+        private void ConnectToSearch()
+        {
+            var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
+            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
+
+            if (_searchBox == null || searchButton == null)
+            {
+                return;
+            }
+
+            searchButton.Click += async (sender, args) =>
+            {
+                HamburgerMenu.IsPaneOpen = true;
+                _searchBox.Text = string.Empty;
+
+                // We need to wait for the textbox to be created to focus it (only first time).
+                TextBox innerTextbox = null;
+
+                do
+                {
+                    innerTextbox = _searchBox.FindDescendant<TextBox>();
+                    innerTextbox?.Focus(FocusState.Programmatic);
+
+                    if (innerTextbox == null)
+                    {
+                        await Task.Delay(150);
+                    }
+                }
+                while (innerTextbox == null);
+            };
+
+            _searchBox.DisplayMemberPath = "Name";
+            _searchBox.TextMemberPath = "Name";
+
+            _searchBox.QuerySubmitted += (sender, args) =>
+            {
+                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+            };
+
+            _searchBox.TextChanged += (sender, args) =>
+            {
+                if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+                {
+                    return;
+                }
+
+                UpdateSearchSuggestions();
+            };
+        }
+
+        private void Shell_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Connect to search UI
+            ConnectToSearch();
         }
     }
 }

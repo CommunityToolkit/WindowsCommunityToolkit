@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var textboxInitialValue = textbox.Text;
                 textbox.Text = displayText;
-                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary);
+                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder);
             }
 
             textbox.TextChanging += Textbox_TextChanging;
@@ -171,15 +171,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var textbox = (TextBox)sender;
             var mask = textbox.GetValue(MaskProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
             if (string.IsNullOrWhiteSpace(mask) ||
-                representationDictionary == null)
+            representationDictionary == null ||
+            string.IsNullOrEmpty(placeHolderValue))
             {
                 return;
             }
 
             // to update the textbox text without triggering TextChanging text
             textbox.TextChanging -= Textbox_TextChanging;
-            SetTextBoxValue(pasteText, textbox, mask, representationDictionary);
+            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0]);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.TextChanging += Textbox_TextChanging;
         }
@@ -188,13 +190,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string newValue,
             TextBox textbox,
             string mask,
-            Dictionary<char, string> representationDictionary)
+            Dictionary<char, string> representationDictionary,
+            char placeholder)
         {
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-            var maxLength = newValue.Length < mask.Length ? newValue.Length : mask.Length;
+            var maxLength = (newValue.Length + oldSelectionStart) < mask.Length ? (newValue.Length + oldSelectionStart) : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
-            for (int i = oldSelectionStart; i < oldSelectionStart + maxLength; i++)
+            for (int i = oldSelectionStart; i < maxLength; i++)
             {
                 var maskChar = mask[i];
                 var selectedChar = newValue[i - oldSelectionStart];
@@ -207,11 +210,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         textArray[i] = selectedChar;
                     }
+                    else
+                    {
+                        textArray[i] = placeholder;
+                    }
                 }
             }
 
             textbox.Text = new string(textArray);
-            textbox.SelectionStart = oldSelectionStart + maxLength;
+            textbox.SelectionStart = maxLength;
         }
 
         private static void Textbox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -278,25 +285,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // detect if backspace or delete is triggered to handle the right removed character
             var newSelectionIndex = oldSelectionStart - deleteBackspaceIndex;
 
-            // for handling single key click add +1 to match length for selection =1
+            // check if single selection
+            var isSingleSelection = oldSelectionLength != 0 && oldSelectionLength != 1;
+
+            // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
-            for (int i = newSelectionIndex; i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex); i++)
+
+            if (!isDeleteOrBackspace)
             {
-                var maskChar = mask[i];
+                var maskChar = mask[newSelectionIndex];
 
                 // If dynamic character a,9,* or custom
                 if (representationDictionary.ContainsKey(maskChar))
                 {
-                    if (isDeleteOrBackspace)
-                    {
-                        textArray[i] = placeHolder;
-                        continue;
-                    }
-
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
                     {
-                        textArray[i] = selectedChar;
+                        textArray[newSelectionIndex] = selectedChar;
 
                         // updating text box new index
                         newSelectionIndex++;
@@ -308,13 +313,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // if single press don't change
                         if (oldSelectionLength == 0)
                         {
-                            textArray[i] = oldText[i];
+                            textArray[newSelectionIndex] = oldText[newSelectionIndex];
                         }
 
                         // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
                         else
                         {
-                            textArray[i] = placeHolder;
+                            textArray[newSelectionIndex] = placeHolder;
                         }
                     }
                 }
@@ -322,30 +327,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // if fixed character
                 else
                 {
-                    textArray[i] = oldText[i];
+                    textArray[newSelectionIndex] = oldText[newSelectionIndex];
 
-                    if (!isDeleteOrBackspace)
+                    // updating text box new index
+                    newSelectionIndex++;
+                }
+            }
+
+            if (isSingleSelection || isDeleteOrBackspace)
+            {
+                for (int i = newSelectionIndex;
+                    i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex);
+                    i++)
+                {
+                    var maskChar = mask[i];
+
+                    // If dynamic character a,9,* or custom
+                    if (representationDictionary.ContainsKey(maskChar))
                     {
-                        // updating text box new index
-                        newSelectionIndex++;
+                        textArray[i] = placeHolder;
+                    }
+
+                    // if fixed character
+                    else
+                    {
+                        textArray[i] = oldText[i];
                     }
                 }
             }
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(mask, newSelectionIndex, representationDictionary);
+        }
 
-            // without selection
-            if (oldSelectionLength == 0)
+        private static int GetSelectionStart(string mask, int selectionIndex, Dictionary<char, string> representationDictionary)
+        {
+            for (int i = selectionIndex; i < mask.Length; i++)
             {
-                textbox.SelectionStart = newSelectionIndex;
+                var maskChar = mask[i];
+
+                // If dynamic character a,9,* or custom
+                if (representationDictionary.ContainsKey(maskChar))
+                {
+                    return i;
+                }
             }
-            else
-            {
-                // we can't handle both selection direction because there is no property to detect which direction the selection was
-                // so considering the most common direction from left to right and position the index based on it
-                textbox.SelectionStart = oldSelectionStart + oldSelectionLength;
-            }
+
+            return selectionIndex;
         }
     }
 }

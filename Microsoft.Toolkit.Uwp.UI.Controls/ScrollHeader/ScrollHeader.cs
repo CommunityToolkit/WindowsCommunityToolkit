@@ -12,14 +12,13 @@
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
 using Microsoft.Xaml.Interactivity;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Quick return header control to be used with ListViews or GridViews
+    /// Scroll header control to be used with ListViews or GridViews
     /// </summary>
     public class ScrollHeader : ContentControl
     {
@@ -33,22 +32,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="QuickReturn"/> property.
+        /// Identifies the <see cref="Mode"/> property.
         /// </summary>
-        public static readonly DependencyProperty QuickReturnProperty =
-            DependencyProperty.Register(nameof(QuickReturn), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnQuickReturnChanged));
-
-        /// <summary>
-        /// Identifies the <see cref="Sticky"/> property.
-        /// </summary>
-        public static readonly DependencyProperty StickyProperty =
-            DependencyProperty.Register(nameof(Sticky), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnStickyChanged));
-
-        /// <summary>
-        /// Identifies the <see cref="Fade"/> property.
-        /// </summary>
-        public static readonly DependencyProperty FadeProperty =
-            DependencyProperty.Register(nameof(Fade), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(false, OnFadeChanged));
+        public static readonly DependencyProperty ModeProperty =
+            DependencyProperty.Register(nameof(Mode), typeof(ScrollHeaderMode), typeof(ScrollHeader), new PropertyMetadata(ScrollHeaderMode.None, OnModeChanged));
 
         /// <summary>
         /// Identifies the <see cref="TargetListViewBase"/> property.
@@ -57,61 +44,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets a value indicating whether the quick return header is enabled.
-        /// If true the quick return behavior is used.
-        /// If false regular header behavior is used.
-        /// Default is true.
+        /// Gets or sets a value indicating whether the current mode.
+        /// Default is none.
         /// </summary>
-        public bool QuickReturn
+        public ScrollHeaderMode Mode
         {
-            get { return (bool)GetValue(QuickReturnProperty); }
-            set { SetValue(QuickReturnProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the quick return header should always be visible.
-        /// If true the header is always visible.
-        /// If false the header will move out of view when scrolling down.
-        /// Default is false.
-        /// </summary>
-        public bool Sticky
-        {
-            get { return (bool)GetValue(StickyProperty); }
-            set { SetValue(StickyProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether header fading is enabled.
-        /// If true the header fades in and out.
-        /// If false regular header behavior is used.
-        /// Default is false.
-        /// </summary>
-        public bool Fade
-        {
-            get { return (bool)GetValue(FadeProperty); }
-            set { SetValue(FadeProperty, value); }
+            get { return (ScrollHeaderMode)GetValue(ModeProperty); }
+            set { SetValue(ModeProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the container this header belongs to
         /// </summary>
-        public ListView TargetListViewBase
+        public ListViewBase TargetListViewBase
         {
-            get { return (ListView)GetValue(TargetListViewBaseProperty); }
+            get { return (ListViewBase)GetValue(TargetListViewBaseProperty); }
             set { SetValue(TargetListViewBaseProperty, value); }
-        }
-
-        /// <summary>
-        /// Show the header
-        /// </summary>
-        public void Show()
-        {
-            var scrollHeaderBehavior = GetScrollHeaderBehavior();
-
-            if (scrollHeaderBehavior != null)
-            {
-                scrollHeaderBehavior.Show();
-            }
         }
 
         /// <summary>
@@ -119,84 +67,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (TargetListViewBase != null)
+            if (TargetListViewBase == null)
             {
-                // Place items below header
-                var panel = TargetListViewBase.ItemsPanelRoot;
-                Canvas.SetZIndex(panel, -1);
+                return;
             }
+
+            // Place items below header
+            var panel = TargetListViewBase.ItemsPanelRoot;
+            Canvas.SetZIndex(panel, -1);
+
+            UpdateScrollHeaderBehavior();
         }
 
-        private static void OnQuickReturnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as ScrollHeader).UpdateScrollHeaderBehavior();
-        }
-
-        private static void OnStickyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as ScrollHeader).UpdateScrollHeaderBehavior();
-        }
-
-        private static void OnFadeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var me = d as ScrollHeader;
-
-            if (me.TargetListViewBase != null)
-            {
-                if (me.Fade)
-                {
-                    var behavior = new FadeHeaderBehavior();
-
-                    Interaction.GetBehaviors(me.TargetListViewBase).Add(behavior);
-                }
-                else
-                {
-                    foreach (var behavior in Interaction.GetBehaviors(me.TargetListViewBase))
-                    {
-                        if (behavior is FadeHeaderBehavior)
-                        {
-                            Interaction.GetBehaviors(me.TargetListViewBase).Remove(behavior);
-                            break;
-                        }
-                    }
-                }
-            }
+            (d as ScrollHeader)?.UpdateScrollHeaderBehavior();
         }
 
         private void UpdateScrollHeaderBehavior()
         {
-            if (TargetListViewBase != null)
+            if (TargetListViewBase == null)
             {
-                bool attachBehavior = false;
-                ScrollHeaderBehavior behavior = GetScrollHeaderBehavior();
-
-                if (behavior == null)
-                {
-                    behavior = new ScrollHeaderBehavior();
-                    attachBehavior = true;
-                }
-
-                behavior.QuickReturn = QuickReturn;
-                behavior.Sticky = Sticky;
-
-                if (attachBehavior)
-                {
-                    Interaction.GetBehaviors(TargetListViewBase).Add(behavior);
-                }
+                return;
             }
-        }
 
-        private ScrollHeaderBehavior GetScrollHeaderBehavior()
-        {
-            foreach (var attachedBehavior in Interaction.GetBehaviors(TargetListViewBase))
+            // Remove previous behaviors
+            foreach (var behavior in Interaction.GetBehaviors(TargetListViewBase))
             {
-                if (attachedBehavior is ScrollHeaderBehavior)
+                if (behavior is FadeHeaderBehavior || behavior is QuickReturnHeaderBehavior || behavior is StickyHeaderBehavior)
                 {
-                    return attachedBehavior as ScrollHeaderBehavior;
+                    Interaction.GetBehaviors(TargetListViewBase).Remove(behavior);
                 }
             }
 
-            return null;
+            switch (Mode)
+            {
+                case ScrollHeaderMode.None:
+                    break;
+                case ScrollHeaderMode.QuickReturn:
+                    Interaction.GetBehaviors(TargetListViewBase).Add(new QuickReturnHeaderBehavior());
+                    break;
+                case ScrollHeaderMode.Sticky:
+                    Interaction.GetBehaviors(TargetListViewBase).Add(new StickyHeaderBehavior());
+                    break;
+                case ScrollHeaderMode.Fade:
+                    Interaction.GetBehaviors(TargetListViewBase).Add(new FadeHeaderBehavior());
+                    break;
+            }
         }
     }
 }

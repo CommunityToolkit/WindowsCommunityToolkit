@@ -53,6 +53,8 @@
     <Compile Include="BladeView\BladeView.cs" />
     <Compile Include="BladeView\BladeView.Events.cs" />
     <Compile Include="BladeView\BladeView.Properties.cs" />
+    <Compile Include="Carousel\Carousel.cs" />
+    <Compile Include="Carousel\CarouselPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="Expander\Expander.Constants.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="MarkdownTextBlock\Parse\Blocks\CodeBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HeaderBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\HorizontalRuleBlock.cs" />
+    <Compile Include="MarkdownTextBlock\Parse\Inlines\ImageInline.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\LinkReferenceBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\ListBlock.cs" />
     <Compile Include="MarkdownTextBlock\Parse\Blocks\ParagraphBlock.cs" />
@@ -108,6 +111,7 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
@@ -155,6 +159,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Carousel\Carousel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
       <Generator>MSBuild:Compile</Generator>

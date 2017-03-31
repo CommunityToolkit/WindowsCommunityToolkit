@@ -11,6 +11,7 @@
         <StackPanel Margin="20">
             <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" 
                                Header="This is the header - expander 1"
+                               HorizontalContentAlignment="Stretch"
                                IsExpanded="{Binding Path=IsExpanded1.Value, Mode=TwoWay}">
                 <Grid Height="250" Background="{StaticResource Brush-Grey-01}">
                     <TextBlock HorizontalAlignment="Center" 
@@ -23,6 +24,7 @@
 
             <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0" 
                                Header="This is the header - expander 2"
+                               HorizontalContentAlignment="Stretch"
                                IsExpanded="{Binding Path=IsExpanded2.Value, Mode=TwoWay}">
                 <Grid Height="250" Background="{StaticResource Brush-Grey-02}">
                     <TextBlock HorizontalAlignment="Center" 

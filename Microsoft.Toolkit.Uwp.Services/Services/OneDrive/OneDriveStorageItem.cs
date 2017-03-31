@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets or sets gets GraphServiceClient instance
+        /// Gets or sets GraphServiceClient instance
         /// </summary>
         internal IOneDriveClient Provider
         {
@@ -219,6 +219,16 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             await RequestBuilder.Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Retrieves a thumbnail set for the file
+        /// </summary>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
+        public async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await RequestBuilder.GetThumbnailSetAsync(cancellationToken);
         }
 
         /// <summary>

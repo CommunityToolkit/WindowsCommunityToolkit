@@ -10,12 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -109,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void BladeOnVisibilityChanged(object sender, Visibility visibility)
+        private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
 
@@ -120,7 +121,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
-                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+
+                // Need to do this because of touch. See more information here: https://github.com/Microsoft/UWPCommunityToolkit/issues/760#issuecomment-276466464
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                });
 
                 return;
             }
@@ -161,6 +167,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         AdjustBladeItemSize();
                     }
                 }
+            }
+            else if (e.CollectionChange == CollectionChange.ItemInserted)
+            {
+                UpdateLayout();
+                GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
             }
         }
     }
