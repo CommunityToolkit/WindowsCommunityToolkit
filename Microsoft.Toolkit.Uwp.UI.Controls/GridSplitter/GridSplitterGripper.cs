@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -47,8 +46,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ResizeDirection = gridSplitterDirection;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalContentAlignment = VerticalAlignment.Stretch;
-            IsTabStop = true;
-            UseSystemFocusVisuals = true;
+            //IsTabStop = true;
+            //UseSystemFocusVisuals = true;
         }
 
         internal GridSplitterGripper(
