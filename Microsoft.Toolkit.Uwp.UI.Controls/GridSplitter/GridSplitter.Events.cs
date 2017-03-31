@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Element = gripper;
 
-            KeyDown += Gripper_KeyDown;
+            gripper.KeyDown += Gripper_KeyDown;
 
             var hoverWrapper = new GripperHoverWrapper(
                 CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover

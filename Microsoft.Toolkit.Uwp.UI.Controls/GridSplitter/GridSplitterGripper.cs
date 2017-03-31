@@ -46,8 +46,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ResizeDirection = gridSplitterDirection;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalContentAlignment = VerticalAlignment.Stretch;
-            //IsTabStop = true;
-            //UseSystemFocusVisuals = true;
+            IsTabStop = true;
+            UseSystemFocusVisuals = true;
+            IsFocusEngagementEnabled = true;
         }
 
         internal GridSplitterGripper(
