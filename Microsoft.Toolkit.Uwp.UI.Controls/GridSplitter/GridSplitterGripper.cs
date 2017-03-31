@@ -10,9 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -30,10 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private readonly TextBlock _gripperDisplay;
 
         public GridSplitter.GridResizeDirection ResizeDirection { get; private set; }
-
-        internal Action<double> OnKeyboardHorizontalMoveAction { get; set; }
-
-        internal Action<double> OnKeyboardVerticalMoveAction { get; set; }
 
         internal Brush GripperForeground
         {
@@ -55,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VerticalContentAlignment = VerticalAlignment.Stretch;
             IsTabStop = true;
             UseSystemFocusVisuals = true;
+            IsFocusEngagementEnabled = true;
         }
 
         internal GridSplitterGripper(
