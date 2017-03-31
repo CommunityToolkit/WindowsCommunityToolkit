@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
@@ -41,6 +42,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             _document = document;
             _linkRegister = linkRegister;
         }
+
+        /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch { get; set; }
 
         /// <summary>
         /// Gets or sets a brush that provides the background of the control.
@@ -155,6 +161,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header1Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 1 headers.
+        /// </summary>
+        public Brush Header1Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 2 headers.
         /// </summary>
         public FontWeight Header2FontWeight { get; set; }
@@ -168,6 +179,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 2 headers.
         /// </summary>
         public Thickness Header2Margin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 2 headers.
+        /// </summary>
+        public Brush Header2Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the font weight to use for level 3 headers.
@@ -185,6 +201,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header3Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 3 headers.
+        /// </summary>
+        public Brush Header3Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 4 headers.
         /// </summary>
         public FontWeight Header4FontWeight { get; set; }
@@ -198,6 +219,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 4 headers.
         /// </summary>
         public Thickness Header4Margin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 4 headers.
+        /// </summary>
+        public Brush Header4Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the font weight to use for level 5 headers.
@@ -215,6 +241,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness Header5Margin { get; set; }
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 5 headers.
+        /// </summary>
+        public Brush Header5Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 6 headers.
         /// </summary>
         public FontWeight Header6FontWeight { get; set; }
@@ -228,6 +259,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 6 headers.
         /// </summary>
         public Thickness Header6Margin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 6 headers.
+        /// </summary>
+        public Brush Header6Foreground { get; set; }
 
         /// <summary>
         /// Gets or sets the brush used to render a horizontal rule.  If this is <c>null</c>, then
@@ -322,6 +358,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the word wrapping behavior.
         /// </summary>
         public TextWrapping TextWrapping { get; set; }
+
+        /// <summary>
+        /// Gets or sets the brush used to render links.  If this is <c>null</c>, then
+        /// <see cref="Foreground"/> is used.
+        /// </summary>
+        public Brush LinkForeground { get; set; }
 
         /// <summary>
         /// Called externally to render markdown to a text block.
@@ -465,31 +507,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     paragraph.Margin = Header1Margin;
                     paragraph.FontSize = Header1FontSize;
                     paragraph.FontWeight = Header1FontWeight;
+                    paragraph.Foreground = Header1Foreground;
                     break;
                 case 2:
                     paragraph.Margin = Header2Margin;
                     paragraph.FontSize = Header2FontSize;
                     paragraph.FontWeight = Header2FontWeight;
+                    paragraph.Foreground = Header2Foreground;
                     break;
                 case 3:
                     paragraph.Margin = Header3Margin;
                     paragraph.FontSize = Header3FontSize;
                     paragraph.FontWeight = Header3FontWeight;
+                    paragraph.Foreground = Header3Foreground;
                     break;
                 case 4:
                     paragraph.Margin = Header4Margin;
                     paragraph.FontSize = Header4FontSize;
                     paragraph.FontWeight = Header4FontWeight;
+                    paragraph.Foreground = Header4Foreground;
                     break;
                 case 5:
                     paragraph.Margin = Header5Margin;
                     paragraph.FontSize = Header5FontSize;
                     paragraph.FontWeight = Header5FontWeight;
+                    paragraph.Foreground = Header5Foreground;
                     break;
                 case 6:
                     paragraph.Margin = Header6Margin;
                     paragraph.FontSize = Header6FontSize;
                     paragraph.FontWeight = Header6FontWeight;
+                    paragraph.Foreground = Header6Foreground;
 
                     var underline = new Underline();
                     childInlines = underline.Inlines;
@@ -727,6 +775,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 case MarkdownInlineType.Code:
                     RenderCodeRun(inlineCollection, (CodeInline)element, context);
                     break;
+                case MarkdownInlineType.Image:
+                    RenderImage(inlineCollection, (ImageInline)element, context);
+                    break;
             }
         }
 
@@ -810,6 +861,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 // Render the children into the link inline.
                 var childContext = context.Clone();
                 childContext.WithinHyperlink = true;
+
+                if (LinkForeground != null)
+                {
+                    link.Foreground = LinkForeground;
+                }
+
                 RenderInlineChildren(link.Inlines, element.Inlines, link, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
@@ -838,6 +895,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         }
 
         /// <summary>
+        /// Renders an image element.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        private void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
+        {
+            var image = new Image();
+            var imageContainer = new InlineUIContainer() { Child = image };
+
+            // if url is not absolute we have to return as local images are not supported
+            if (!element.Url.StartsWith("http") && !element.Url.StartsWith("ms-app"))
+            {
+                RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
+                return;
+            }
+
+            image.Source = new BitmapImage(new Uri(element.Url));
+            image.HorizontalAlignment = HorizontalAlignment.Left;
+            image.VerticalAlignment = VerticalAlignment.Top;
+            image.Stretch = ImageStretch;
+
+            ToolTipService.SetToolTip(image, element.Tooltip);
+
+            // Try to add it to the current inlines
+            // Could fail because some containers like Hyperlink cannot have inlined images
+            try
+            {
+                inlineCollection.Add(imageContainer);
+            }
+            catch
+            {
+                // Ignore error
+            }
+        }
+
+        /// <summary>
         /// Renders a raw link element.
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
@@ -853,8 +947,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Make a text block for the link
             Run linkText = new Run
             {
-                Text = CollapseWhitespace(context, element.Text)
+                Text = CollapseWhitespace(context, element.Text),
+                Foreground = LinkForeground ?? context.Foreground
             };
+
             link.Inlines.Add(linkText);
 
             // Add it to the current inlines

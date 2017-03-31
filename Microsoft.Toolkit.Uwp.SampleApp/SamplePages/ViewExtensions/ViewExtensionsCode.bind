@@ -1,0 +1,22 @@
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.StatusBarExtensionsCode"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      extensions:StatusBar.BackgroundColor="Blue"
+      extensions:StatusBar.BackgroundOpacity="0.8"
+      extensions:StatusBar.ForegroundColor="White"
+      extensions:StatusBar.IsVisible="@[IsVisible:Bool:false]"
+      extensions:ApplicationView.Title="View Extensions"
+      extensions:TitleBar.BackgroundColor="Blue"
+      extensions:TitleBar.ForegroundColor="White"
+      mc:Ignorable="d">
+
+  <Grid x:Name="Root"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+  </Grid>
+</Page>

@@ -233,6 +233,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets a value indicating whether this attached proeprty is supported
+        /// </summary>
+        public static bool IsSupported
+        {
+            get
+            {
+                if (!ApiInformation.IsTypePresent("Windows.UI.Input.RadialController"))
+                {
+                    return false;
+                }
+
+                if (!RadialController.IsSupported())
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
         /// The Surface Dial controller instance itself
         /// </summary>
         private static RadialController _controller;
@@ -314,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The arguments of the changed event.</param>
         private static void StepValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformation.IsTypePresent("Windows.UI.Input.RadialController"))
+            if (!IsSupported)
             {
                 return;
             }
@@ -368,6 +389,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textBox = sender as TextBox;
 
             if (_textBox == null)
+            {
+                return;
+            }
+
+            if (!IsSupported)
             {
                 return;
             }

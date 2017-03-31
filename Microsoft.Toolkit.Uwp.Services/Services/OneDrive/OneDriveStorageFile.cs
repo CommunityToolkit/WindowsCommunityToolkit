@@ -12,12 +12,12 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
-using Windows.Foundation;
-using Windows.Storage.FileProperties;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -82,6 +82,34 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFile(renameItem.OneDriveItem);
+        }
+
+        /// <summary>
+        /// Creates a background download for the current file
+        /// </summary>
+        /// <param name="destinationFile">A <see cref="StorageFile"/> to which content will be downloaded</param>
+        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to which should <see cref="BackgroundDownloader"/> reffer to</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request</param>
+        /// <returns>The created <see cref="DownloadOperation"/></returns>
+        public async Task<DownloadOperation> CreateBackgroundDownloadAsync(StorageFile destinationFile, BackgroundTransferCompletionGroup completionGroup = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (destinationFile == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFile));
+            }
+
+            return await Task.Run(
+                async () =>
+                {
+                    var requestMessage = Provider.Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
+                    await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
+                    var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
+                    foreach (var item in requestMessage.Headers)
+                    {
+                        downloader.SetRequestHeader(item.Key, item.Value.First());
+                    }
+                    return downloader.CreateDownload(requestMessage.RequestUri, destinationFile);
+                }, cancellationToken);
         }
 
         /// <summary>

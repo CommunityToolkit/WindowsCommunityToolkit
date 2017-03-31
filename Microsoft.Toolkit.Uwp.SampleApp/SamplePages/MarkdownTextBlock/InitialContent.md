@@ -227,6 +227,26 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
+Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
+
+\`\`\`
+
+public void main(Strings argv[]){
+
+  System.out.println("Hello world!");
+
+}
+
+\`\`\`
+
+will produce:
+
+```
+public void main(Strings argv[]){
+    System.out.println("Hello world!");
+}
+```
+
 *****
 
 # LINKS
@@ -252,6 +272,20 @@ results in:
 >[Wikipedia](http://en.wikipedia.org "tooltip text").
 
 There are other methods of generating links that aren't appropriate for discussion-board style comments.  See the [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax#link) if you're interested in more info.
+
+*****
+
+# IMAGES
+
+To add an image, it is almost like a link. You just need to add a \! before.
+
+So inline image syntax looks like this:
+
+>\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+which renders in:
+
+![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
 
 *****
 

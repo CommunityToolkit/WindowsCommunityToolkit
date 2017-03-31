@@ -12,6 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
@@ -33,9 +34,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
         /// <summary>
         /// After obtaining a valid token, this class will cache it for this duration.
-        /// Use a duration of 5 minutes, which is less than the actual token lifetime of 10 minutes.
+        /// Use a duration of 8 minutes, which is less than the actual token lifetime of 10 minutes.
         /// </summary>
-        private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 5, 0);
+        private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 8, 0);
 
         private string _storedTokenValue = string.Empty;
         private DateTime _storedTokenTime = DateTime.MinValue;
@@ -79,14 +80,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// This method uses a cache to limit the number of request to the token service.
         /// A fresh token can be re-used during its lifetime of 10 minutes. After a successful
         /// request to the token service, this method caches the access token. Subsequent
-        /// invocations of the method return the cached token for the next 5 minutes. After
-        /// 5 minutes, a new token is fetched from the token service and the cache is updated.
+        /// invocations of the method return the cached token for the next 8 minutes. After
+        /// 8 minutes, a new token is fetched from the token service and the cache is updated.
         /// </remarks>
         public async Task<string> GetAccessTokenAsync()
         {
-            if (string.IsNullOrEmpty(SubscriptionKey))
+            if (string.IsNullOrEmpty(_subscriptionKey))
             {
-                throw new ArgumentNullException(nameof(SubscriptionKey), "A subscription key is required");
+                throw new ArgumentNullException(nameof(SubscriptionKey), "A subscription key is required. Go to Azure Portal and sign up for Microsoft Translator: https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation");
             }
 
             // Re-use the cached token if there is one.
@@ -100,10 +101,16 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
 
                 var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var token = await response.GetTextResultAsync().ConfigureAwait(false);
+                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+
+                if (!response.Success)
+                {
+                    var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
+                    throw new TranslatorServiceException(error.Message);
+                }
 
                 _storedTokenTime = DateTime.Now;
-                _storedTokenValue = $"Bearer {token}";
+                _storedTokenValue = $"Bearer {content}";
 
                 return _storedTokenValue;
             }

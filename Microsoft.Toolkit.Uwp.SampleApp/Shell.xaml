@@ -6,6 +6,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
+      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
+      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      extensions:StatusBar.IsVisible="False"
+      Loaded="Shell_OnLoaded"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
@@ -50,7 +58,6 @@
         </DataTemplate>
 
     </Page.Resources>
-
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             Foreground="{StaticResource Brush-Grey-04}"
                             ItemClick="HamburgerMenu_OnItemClick"
@@ -88,6 +95,11 @@
                                Text="Sample App" />
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
+                <!--Uncomment this control to help you determine where the focus is.
+                This could be useful when validating accessibility of your control-->
+                <!--<developerTools:FocusTracker VerticalAlignment="Bottom" 
+                                             HorizontalAlignment="Center"
+                                             IsRunning="True"/>-->
             </Grid>
             <Grid x:Name="InfoAreaGrid"
                   Background="{StaticResource Brush-Grey-04}">
@@ -115,8 +127,8 @@
                     <HyperlinkButton x:Name="GitHub"
                                      Grid.Column="2"
                                      Margin="0,0,10,0"
-                                     Content="Github"
                                      Click="GitHub_OnClick"
+                                     Content="Github"
                                      Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
@@ -157,10 +169,12 @@
 
                     <PivotItem x:Name="DocumentationPivotItem"
                                Header="DOCUMENTATION">
-                        <ScrollViewer Background="{StaticResource Brush-White}" Padding="10,5" x:Name="DocumentationScrollViewer">
-                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock" 
-                                                        Foreground="{StaticResource Brush-Grey-01}" 
-                                                        LinkClicked="DocumentationTextblock_OnLinkClicked"/>
+                        <ScrollViewer x:Name="DocumentationScrollViewer"
+                                      Padding="10,5"
+                                      Background="{StaticResource Brush-White}">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                        Foreground="{StaticResource Brush-Grey-01}"
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>

@@ -3,6 +3,14 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
+     {
+        "Name": "Carousel",
+        "Type": "CarouselPage",
+        "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
+        "XamlCodeFile": "CarouselCode.bind",
+        "Icon": "/SamplePages/Carousel/Carousel.png"
+      },
       {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
@@ -167,7 +175,7 @@
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Expander.md"
-      }, 
+      },
       {
         "Name": "TileControl",
         "Type": "TileControlPage",
@@ -296,6 +304,17 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Blur.md"
       },
       {
+        "Name": "Saturation",
+        "Type": "SaturationBehaviorPage",
+        "About": "Saturate XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "SaturationBehaviorCode.bind",
+        "XamlCodeFile": "SaturationBehaviorXaml.bind",
+        "Icon": "/SamplePages/Saturation/saturationBehavior.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Saturation.md"
+      },
+      {
         "Name": "Light",
         "Type": "LightBehaviorPage",
         "About": "Light XAML elements using composition",
@@ -324,7 +343,7 @@
         "XamlCodeFile": "ParallaxPage.bind",
         "Icon": "/SamplePages/ParallaxService/Parallax.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/ParallaxService.md"
-      }, 
+      },
       {
         "Name": "ReorderGridAnimation",
         "Type": "ReorderGridPage",
@@ -445,17 +464,16 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/BackgroundTaskHelper",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BackgroundTaskHelper.md"
       },
       {
-        "Name": "ConnectionHelper",
-        "Type": "ConnectionHelperPage",
-        "About": "The ConnectionHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ConnectionHelper",
-        "CodeFile": "ConnectionHelperCode.bind",
+        "Name": "NetworkHelper",
+        "Type": "NetworkHelperPage",
+        "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Network/NetworkHelper",
+        "CodeFile": "NetworkHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ConnectionHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/NetworkHelper.md"
       },
       {
         "Name": "SystemInformation",
@@ -492,6 +510,39 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "ViewExtensions",
+        "Type": "ViewExtensionsPage",
+        "About": "View extensions to set StatusBar and TitleBar properties.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ViewExtensions",
+        "XamlCodeFile": "ViewExtensionsCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
+      }
+    ]
+  },
+  {
+    "Name": "Developer tools",
+    "Icon": "Icons/DeveloperTools.png",
+    "Samples": [
+      {
+        "Name": "AlignmentGrid",
+        "Type": "AlignmentGridPage",
+        "About": "AlignmentGrid is used to display a grid to help aligning controls.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/AlignmentGrid",
+        "XamlCodeFile": "AlignmentGridXaml.bind",
+        "Icon": "/SamplePages/AlignmentGrid/AlignmentGrid.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/developerTools/AlignmentGrid.md"
+      },
+      {
+        "Name": "FocusTracker",
+        "Type": "FocusTrackerPage",
+        "About": "FocusTracker can be used to display information about the current focused XAML element.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/FocusTracker",
+        "XamlCodeFile": "FocusTrackerXaml.bind",
+        "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/developerTools/FocusTracker.md"
       }
     ]
   },

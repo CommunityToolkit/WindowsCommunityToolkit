@@ -74,6 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             /// Super script element.
             /// </summary>
             Superscript,
+
+            /// <summary>
+            /// Image element.
+            /// </summary>
+            Image,
         }
 
         /// <summary>
@@ -103,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             StrikethroughTextInline.AddTripChars(_triggerList);
             SuperscriptTextInline.AddTripChars(_triggerList);
             CodeInline.AddTripChars(_triggerList);
+            ImageInline.AddTripChars(_triggerList);
 
             // Create an array of characters to search against using IndexOfAny.
             _tripCharacters = _triggerList.Select(trigger => trigger.FirstChar).Distinct().ToArray();
@@ -263,6 +269,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                                 break;
                             case InlineParseMethod.Code:
                                 parseResult = CodeInline.Parse(markdown, pos, end);
+                                break;
+                            case InlineParseMethod.Image:
+                                parseResult = ImageInline.Parse(markdown, pos, end);
                                 break;
                         }
 

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Text;
+using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -73,6 +74,32 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             return sb.ToString().Split(',');
+        }
+
+        /// <summary>
+        /// Transform Orderby enum into the orderby string
+        /// </summary>
+        /// <param name="order">orderby enum</param>
+        /// <returns>a string array containing the OneDrive Order by string</returns>
+        public static string TransformOrderByToODataString(OrderBy order)
+        {
+            switch (order)
+            {
+                case OrderBy.Name:
+                    return "name asc";
+                case OrderBy.NameDesc:
+                    return "name desc";
+                case OrderBy.Size:
+                    return "size asc";
+                case OrderBy.SizeDesc:
+                    return "size desc";
+                case OrderBy.Date:
+                    return "lastModifiedDateTime asc";
+                case OrderBy.DateDesc:
+                    return "lastModifiedDateTime desc";
+            }
+
+            return string.Empty;
         }
     }
 }

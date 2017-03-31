@@ -101,7 +101,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (ActivationOptions != null)
             {
+#pragma warning disable 618
                 if (ActivationOptions.AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+#pragma warning restore 618
                 {
                     throw new InvalidOperationException("ToastHeader does not support a custom AfterActivationBehavior. Please ensure ActivationOptions.AfterActivationBehavior is set to Default.");
                 }
