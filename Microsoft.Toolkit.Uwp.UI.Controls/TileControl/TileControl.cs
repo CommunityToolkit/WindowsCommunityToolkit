@@ -387,6 +387,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
+            if (DesignMode.DesignModeEnabled)
+            {
+                return false;
+            }
+
             var strategy = Strategy;
 
             if (strategy == UIStrategy.Composition)
