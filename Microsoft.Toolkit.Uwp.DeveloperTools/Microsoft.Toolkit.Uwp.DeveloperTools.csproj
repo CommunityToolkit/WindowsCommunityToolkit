@@ -37,6 +37,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.DeveloperTools.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -100,11 +102,14 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -138,4 +143,19 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
+      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
+      <OutputPath>$(OutDir)</OutputPath>
+      <TargetPath>
+      </TargetPath>
+    </PropertyGroup>
+  </Target>
+  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
+    <PropertyGroup>
+      <OutputPath>$(Saved_OutputPath)</OutputPath>
+      <TargetPath>$(Saved_TargetPath)</TargetPath>
+    </PropertyGroup>
+  </Target>
 </Project>
