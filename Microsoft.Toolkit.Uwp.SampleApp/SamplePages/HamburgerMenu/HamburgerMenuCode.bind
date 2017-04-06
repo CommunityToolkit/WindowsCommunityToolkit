@@ -54,14 +54,15 @@
                                 DisplayMode="@[DisplayMode:Enum:SplitViewDisplayMode.CompactInline]"
                                 CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
                                 HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
+                                HamburgerVisibility="@[HamburgerVisibility:Enum:Visibility.Visible]"
                                 IsPaneOpen="@[IsPaneOpen:Bool:False]">
           <!--Items-->
           <controls:HamburgerMenu.ItemsSource>
             <controls:HamburgerMenuItemCollection>
-              <controls:HamburgerMenuGlyphItem Label="Big four summer heat" Glyph="/Assets/Photos/BigFourSummerHeat.png"/>
-              <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin" Glyph="/Assets/Photos/BisonBadlandsChillin.png"/>
-              <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon" Glyph="/Assets/Photos/GiantSlabInOregon.png"/>
-              <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom" Glyph="/Assets/Photos/LakeAnnMushroom.png"/>
+              <controls:HamburgerMenuGlyphItem Label="Big four summer heat" Glyph="/Assets/Photos/BigFourSummerHeat.jpg"/>
+              <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin" Glyph="/Assets/Photos/BisonBadlandsChillin.jpg"/>
+              <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon" Glyph="/Assets/Photos/GiantSlabInOregon.jpg"/>
+              <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom" Glyph="/Assets/Photos/LakeAnnMushroom.jpg"/>
             </controls:HamburgerMenuItemCollection>
           </controls:HamburgerMenu.ItemsSource>
 

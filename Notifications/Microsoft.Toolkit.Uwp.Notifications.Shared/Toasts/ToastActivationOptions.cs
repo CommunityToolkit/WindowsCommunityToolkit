@@ -25,8 +25,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         /// <summary>
-        /// Specifies the behavior that the toast should use when the user invokes this action. Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>.
+        /// Not supported on Windows: Specifies the behavior that the toast should use when the user invokes this action. Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>.
         /// </summary>
+        [Obsolete("Windows does not support AfterActivationBehavior. If a future version of Windows supports this, we will undeprecate the property when support is added.")]
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
 
         internal void PopulateElement(IElement_ToastActivatable el)
@@ -38,7 +39,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             el.ProtocolActivationTargetApplicationPfn = ProtocolActivationTargetApplicationPfn;
+#pragma warning disable 618
             el.AfterActivationBehavior = AfterActivationBehavior;
+#pragma warning restore 618
         }
     }
 }

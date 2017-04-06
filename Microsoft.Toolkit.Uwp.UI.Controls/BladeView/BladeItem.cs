@@ -45,11 +45,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _closeButton.Tapped -= CloseButtonOnTap;
-            _closeButton.Tapped += CloseButtonOnTap;
+            _closeButton.Click -= CloseButton_Click;
+            _closeButton.Click += CloseButton_Click;
         }
 
-        private void CloseButtonOnTap(object sender, RoutedEventArgs routedEventArgs)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             IsOpen = false;
         }

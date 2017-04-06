@@ -51,6 +51,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
         /// </summary>
+        public AdvancedCollectionView()
+            : this(new List<object>(0))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
+        /// </summary>
         /// <param name="source">source IEnumerable</param>
         public AdvancedCollectionView(IEnumerable source)
         {
@@ -179,8 +187,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                 // no sense in inserting w/ filters or sorts, just add it
                 _sourceList.Add(item);
             }
-
-            _sourceList.Insert(index, item);
+            else
+            {
+                _sourceList.Insert(index, item);
+            }
         }
 
         /// <summary>
@@ -368,27 +378,35 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var typeInfo = x.GetType().GetTypeInfo();
                 foreach (var sd in _sortDescriptions)
                 {
-                    _sortProperties[sd.PropertyName] = typeInfo.GetDeclaredProperty(sd.PropertyName);
+                    if (!string.IsNullOrEmpty(sd.PropertyName))
+                    {
+                        _sortProperties[sd.PropertyName] = typeInfo.GetDeclaredProperty(sd.PropertyName);
+                    }
                 }
             }
 
             foreach (var sd in _sortDescriptions)
             {
-                var pi = _sortProperties[sd.PropertyName];
-                var cx = pi.GetValue(x) as IComparable;
-                var cy = pi.GetValue(y) as IComparable;
-                try
+                object cx, cy;
+
+                if (string.IsNullOrEmpty(sd.PropertyName))
                 {
-                    // ReSharper disable once PossibleUnintendedReferenceComparison
-                    var cmp = cx == cy ? 0 : cx == null ? -1 : cy == null ? +1 : cx.CompareTo(cy);
-                    if (cmp != 0)
-                    {
-                        return sd.Direction == SortDirection.Ascending ? +cmp : -cmp;
-                    }
+                    cx = x;
+                    cy = y;
                 }
-                catch
+                else
                 {
-                    // fail silently
+                    var pi = _sortProperties[sd.PropertyName];
+
+                    cx = pi.GetValue(x);
+                    cy = pi.GetValue(y);
+                }
+
+                var cmp = sd.Comparer.Compare(cx, cy);
+
+                if (cmp != 0)
+                {
+                    return sd.Direction == SortDirection.Ascending ? +cmp : -cmp;
                 }
             }
 

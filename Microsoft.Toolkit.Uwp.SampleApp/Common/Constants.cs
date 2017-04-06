@@ -17,6 +17,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
     public static class Constants
     {
+        public const string TestBackgroundTaskName = "TestBackgroundTaskName";
+
         public static readonly Color ApplicationBackgroundColor = Color.FromArgb(255, 51, 51, 51);
 
         public static readonly Uri Square44x44Logo = new Uri("ms-appx:///Assets/Square44x44Logo.png");

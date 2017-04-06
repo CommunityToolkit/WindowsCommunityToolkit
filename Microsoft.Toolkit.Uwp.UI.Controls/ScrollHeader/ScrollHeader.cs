@@ -56,9 +56,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the container this header belongs to
         /// </summary>
-        public ListView TargetListViewBase
+        public ListViewBase TargetListViewBase
         {
-            get { return (ListView)GetValue(TargetListViewBaseProperty); }
+            get { return (ListViewBase)GetValue(TargetListViewBaseProperty); }
             set { SetValue(TargetListViewBaseProperty, value); }
         }
 
@@ -75,6 +75,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Place items below header
             var panel = TargetListViewBase.ItemsPanelRoot;
             Canvas.SetZIndex(panel, -1);
+
+            UpdateScrollHeaderBehavior();
         }
 
         private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

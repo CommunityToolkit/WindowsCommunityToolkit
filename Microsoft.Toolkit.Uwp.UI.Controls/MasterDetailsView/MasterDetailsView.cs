@@ -74,6 +74,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDetailsContent();
 
             SetMasterHeaderVisibility();
+            OnDetailsCommandBarChanged();
+            OnMasterCommandBarChanged();
         }
 
         /// <summary>
@@ -115,6 +117,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var view = (MasterDetailsView)d;
             view.SetMasterHeaderVisibility();
+        }
+
+        /// <summary>
+        /// Fired when the DetailsCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnDetailsCommandBarChanged();
+        }
+
+        /// <summary>
+        /// Fired when the MasterCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnMasterCommandBarChanged();
         }
 
         // Have to wait to get the VisualStateGroup until the control has Loaded
@@ -284,6 +308,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
                     : MapDetails(SelectedItem);
+            }
+        }
+
+        private void OnMasterCommandBarChanged()
+        {
+            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (DetailsCommandBar != null)
+            {
+                panel.Children.Add(DetailsCommandBar);
+            }
+        }
+
+        private void OnDetailsCommandBarChanged()
+        {
+            var panel = GetTemplateChild("MasterCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (MasterCommandBar != null)
+            {
+                panel.Children.Add(MasterCommandBar);
             }
         }
     }

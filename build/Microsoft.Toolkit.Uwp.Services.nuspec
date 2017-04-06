@@ -11,9 +11,9 @@
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the UWP Community Toolkit.</description>
-    <releaseNotes>First public release.</releaseNotes>
+    <releaseNotes>v1.4: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v1.4.0</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
-    <tags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn</tags>
+    <tags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn OneDrive</tags>
     <references>
       <reference file="Microsoft.Toolkit.Uwp.Services.dll" />
     </references>
