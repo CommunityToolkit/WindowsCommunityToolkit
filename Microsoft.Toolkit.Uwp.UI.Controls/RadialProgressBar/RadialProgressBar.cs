@@ -13,7 +13,7 @@
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = OutlineArcPartName, Type = typeof(ArcSegment))]
     [TemplatePart(Name = BarFigurePartName, Type = typeof(PathFigure))]
     [TemplatePart(Name = BarArcPartName, Type = typeof(ArcSegment))]
-    public sealed class RadialProgressBar : RangeBase
+    public sealed class RadialProgressBar : ProgressBar
     {
         private const string OutlineFigurePartName = "OutlineFigurePart";
         private const string OutlineArcPartName = "OutlineArcPart";
