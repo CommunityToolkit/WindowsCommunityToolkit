@@ -222,10 +222,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
-            if (ViewState == MasterDetailsViewState.Details)
+            if (!args.Handled)
             {
-                SelectedItem = null;
-                args.Handled = true;
+                if (ViewState == MasterDetailsViewState.Details)
+                {
+                    SelectedItem = null;
+                    args.Handled = true;
+                }
             }
         }
 
@@ -251,7 +254,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (ViewState == MasterDetailsViewState.Details)
+            bool chainState = false;
+            var subView = _detailsPresenter.FindDescendant<MasterDetailsView>();
+            if (subView != null)
+            {
+                chainState = subView.ViewState != MasterDetailsViewState.Both;
+            }
+
+            if (ViewState == MasterDetailsViewState.Details || chainState)
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     AppViewBackButtonVisibility.Visible;
