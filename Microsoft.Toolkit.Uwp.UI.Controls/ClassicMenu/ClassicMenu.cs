@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string ShiftValue = "SHIFT";
 
         // even if we have multiple menus in the same page we need only one cache because only one menu item will have certain short cut.
-        private static readonly Dictionary<string, MenuFlyoutItem> MenuItemInputGestureCache;
+        private static readonly Dictionary<string, MenuFlyoutItem> MenuItemInputGestureCache = new Dictionary<string, MenuFlyoutItem>();
 
         /// <summary>
         /// Gets or sets the orientation of the Classic menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
@@ -41,16 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(
-                "Orientation",
+                nameof(Orientation),
                 typeof(Orientation),
                 typeof(ClassicMenu),
                 new PropertyMetadata(Orientation.Horizontal));
-
-        static ClassicMenu()
-        {
-            MenuItemInputGestureCache =
-            new Dictionary<string, MenuFlyoutItem>();
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassicMenu"/> class.
@@ -64,7 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             Loaded -= ClassicMenu_Loaded;
+            Unloaded -= ClassicMenu_Unloaded;
+
             Loaded += ClassicMenu_Loaded;
+            Unloaded += ClassicMenu_Unloaded;
+
             base.OnApplyTemplate();
         }
     }

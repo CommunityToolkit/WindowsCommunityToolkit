@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// this method is used to show the menu for current item
+        /// This method is used to show the menu for current item
         /// </summary>
         public void ShowMenu()
         {

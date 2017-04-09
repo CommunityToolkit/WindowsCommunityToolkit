@@ -122,13 +122,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
         {
-            var wrapPanel = (WrapPanel.WrapPanel)ItemsPanelRoot;
-            wrapPanel.Orientation = Orientation;
+            var wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
+            if (wrapPanel != null)
+            {
+                wrapPanel.Orientation = Orientation;
+            }
 
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        }
+
+        private void ClassicMenu_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)

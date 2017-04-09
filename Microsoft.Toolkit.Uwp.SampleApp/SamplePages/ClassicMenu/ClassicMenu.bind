@@ -1,123 +1,101 @@
-<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ColumnResizer.ColumnResizerPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ColumnResizer"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ClassicMenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.ClassicMenu.Commands"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-  <Grid Background="{StaticResource Brush-Grey-05}" Padding="48">
-    <Grid.RowDefinitions>
-      <RowDefinition MinHeight="100"></RowDefinition>
-      <RowDefinition Height="11"></RowDefinition>
-      <RowDefinition></RowDefinition>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
-    </Grid.ColumnDefinitions>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources>
+            <commands:NewProjectCommand x:Key="NewProject" />
+            <commands:NewFileCommand x:Key="NewFile" />
+            <commands:GenericCommand x:Key="GenericCommand" />
+            <Style x:Key="ClassicMenuItemStyle"
+                   TargetType="controls:ClassicMenuItem">
+                <Setter Property="Background" Value="{StaticResource Brush-Grey-01}" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+        </Grid.Resources>
 
-    <Rectangle Grid.Column="0"
-               Grid.Row="0"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
-    <Rectangle Grid.Column="1"
-               Grid.Row="0"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
-    <Rectangle Grid.Column="2"
-               Grid.Row="0"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
-    <Rectangle Grid.Column="0"
-               Grid.Row="2"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
-    <Rectangle Grid.Column="1"
-               Grid.Row="2"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
-    <Rectangle Grid.Column="2"
-               Grid.Row="2"
-               Fill="{StaticResource Brush-White}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
 
-    <TextBlock Grid.Column="0"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect RowDefinition MinHeight="100"
-    </TextBlock>
-    <TextBlock Grid.Column="1"
-               Grid.Row="0"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-    </TextBlock>
-    <TextBlock Grid.Column="2"
-               Grid.Row="0"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-    </TextBlock>
 
-    <TextBlock Grid.Column="0"
-               Grid.Row="2"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-    </TextBlock>
-    <TextBlock Grid.Column="1"
-               Grid.Row="2"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-    </TextBlock>
-    <TextBlock Grid.Column="2"
-               Grid.Row="2"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-    </TextBlock>
+        <controls:ClassicMenu Background="Black"
+                              Orientation="Horizontal">
+            <controls:ClassicMenuItem Header="File"
+                                      Style="{StaticResource ClassicMenuItemStyle}">
+                <MenuFlyoutSubItem Text="New">
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"
+                                    Command="{StaticResource NewProject}"
+                                    Text="Project" />
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+N"
+                                    Command="{StaticResource NewFile}"
+                                    Text="File" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem Text="Open">
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+O"
+                                    Command="{StaticResource GenericCommand}"
+                                    CommandParameter="Select Project/Solution"
+                                    Text="Project/Solution" />
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+O"
+                                    Command="{StaticResource GenericCommand}"
+                                    CommandParameter="Select File"
+                                    Text="File" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="Page Setup" />
+                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+P"
+                                Command="{StaticResource GenericCommand}"
+                                CommandParameter="Page is Printed!!"
+                                Text="Print" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutSubItem Text="Recent Files">
+                    <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
+                    <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shit+E"
+                                Command="{StaticResource GenericCommand}"
+                                CommandParameter="Solution closed"
+                                Text="Exit" />
+            </controls:ClassicMenuItem>
 
-    <!--Column Grid Splitter-->
-    <controls:GridSplitter
-            Width="11"
-            Background="{StaticResource Brush-Grey-04}"
-            GripperCursor="@[GripperCursor:Enum:GripperCursorType.Default]"
-            HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Left]"
-            Grid.Column="@[Column:Slider:1:0-2]"
-            ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
-            ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"
-            CursorBehavior="@[CursorBehavior:Enum:SplitterCursorBehavior.ChangeOnSplitterHover]"
-            GripperForeground="White">
-    </controls:GridSplitter>
 
-    <!--Row Grid Splitter-->
-    <controls:GridSplitter
-        Grid.Row="1"
-        Background="{StaticResource Brush-Grey-04}" Height="11"
-        HorizontalAlignment="Stretch">
-      <controls:GridSplitter.Element>
-        <Grid>
-          <TextBlock HorizontalAlignment="Center"
-                         IsHitTestVisible="False"
-                         VerticalAlignment="Center"
-                         Text="&#xE76F;"
-                         Foreground="White"
-                         FontFamily="Segoe MDL2 Assets">
-          </TextBlock>
-        </Grid>
-      </controls:GridSplitter.Element>
-    </controls:GridSplitter>
+            <controls:ClassicMenuItem Header="Edit"
+                                      Style="{StaticResource ClassicMenuItemStyle}">
+                <MenuFlyoutSubItem Text="Go To">
+                    <MenuFlyoutItem Text="Go To Line" />
+                    <MenuFlyoutItem Text="Go To All" />
+                </MenuFlyoutSubItem>
+            </controls:ClassicMenuItem>
 
-  </Grid>
+            <controls:ClassicMenuItem Header="View"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
+
+            <controls:ClassicMenuItem Header="Project"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
+
+            <controls:ClassicMenuItem Header="Build"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
+
+            <controls:ClassicMenuItem Header="Debug"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
+
+        </controls:ClassicMenu>
+
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Click Alt to set focus on Classic Menu" />
+            <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
+            <TextBlock Text="Create new file shortcut: Ctrl+N" />
+            <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
+            <TextBlock Text="Open file shortcut: Ctrl+O" />
+            <TextBlock Text="Print shortcut: Ctrl+P" />
+            <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
+        </StackPanel>
+    </Grid>
 </Page>
