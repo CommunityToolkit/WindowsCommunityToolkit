@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public partial class ClassicMenu
     {
-        private static bool NavigateThrowMenuHeader(AcceleratorKeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
+        private static bool NavigateThrowMenuHeader(KeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
         {
             if (orientation == Orientation.Horizontal)
             {
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private static string MapInputToGestureKey(AcceleratorKeyEventArgs args)
+        private static string MapInputToGestureKey(KeyEventArgs args)
         {
             var isCtrlDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var isShiftDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -108,37 +108,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return gestureKeyBuilder.ToString();
-        }
-
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
-        {
-            if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
-            {
-                Focus(FocusState.Programmatic);
-            }
-
-            var element = FocusManager.GetFocusedElement();
-            var menuItem = element as ClassicMenuItem;
-            if (menuItem != null)
-            {
-                if (NavigateThrowMenuHeader(args, this, menuItem, Orientation))
-                {
-                    return;
-                }
-            }
-
-            string gestureKey = MapInputToGestureKey(args);
-
-            if (gestureKey == null)
-            {
-                return;
-            }
-
-            if (MenuItemInputGestureCache.ContainsKey(gestureKey))
-            {
-                var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
-                cachedMenuItem.Command?.Execute(cachedMenuItem.CommandParameter);
-            }
         }
     }
 }

@@ -8,7 +8,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <wrapPanel:WrapPanel Orientation="Vertical"/>
+                    <wrapPanel:WrapPanel/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -23,11 +23,12 @@
 
     <Style TargetType="local:ClassicMenuItem">
         <Setter Property="IsTabStop" Value="True"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ClassicMenuItem">
-                    <Button Content="Header" Background="Transparent" Margin="5" x:Name="FlyoutButton" IsTabStop="False">
+                    <Button Content="{TemplateBinding Header}" Background="{TemplateBinding Background}" x:Name="FlyoutButton" IsTabStop="False">
                     </Button>
                 </ControlTemplate>
             </Setter.Value>

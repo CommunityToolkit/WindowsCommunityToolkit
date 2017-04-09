@@ -404,7 +404,7 @@
     <Compile Include="SamplePages\ClassicMenu\ClassicMenuPage.xaml.cs">
       <DependentUpon>ClassicMenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ClassicMenu\DialogCommand.cs" />
+    <Compile Include="SamplePages\ClassicMenu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>

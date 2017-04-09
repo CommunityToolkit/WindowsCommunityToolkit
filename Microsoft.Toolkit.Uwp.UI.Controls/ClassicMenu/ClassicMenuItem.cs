@@ -39,21 +39,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _flyoutButton = GetTemplateChild("FlyoutButton") as Button;
 
-            if (_flyoutButton != null)
+            if (_flyoutButton != null && Items != null && Items.Any())
             {
                 var menuFlyout = new MenuFlyout();
                 menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
-                if (Items != null)
+
+                foreach (var item in Items)
                 {
-                    foreach (var item in Items)
+                    var menuItem = item as MenuFlyoutItemBase;
+                    if (menuItem != null)
                     {
-                        var menuItem = item as MenuFlyoutItemBase;
-                        if (menuItem != null)
-                        {
-                            menuFlyout.Items?.Add(menuItem);
-                        }
+                        menuFlyout.Items?.Add(menuItem);
                     }
                 }
 

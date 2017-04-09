@@ -51,10 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             Loaded -= ClassicMenu_Loaded;
-            Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-
             Loaded += ClassicMenu_Loaded;
-            Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             base.OnApplyTemplate();
         }
 
@@ -62,6 +59,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var wrapPanel = (WrapPanel.WrapPanel)ItemsPanelRoot;
             wrapPanel.Orientation = Orientation;
+
+            Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        }
+
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            var element = FocusManager.GetFocusedElement();
+            var menuItem = element as ClassicMenuItem;
+            if (menuItem != null)
+            {
+                if (NavigateThrowMenuHeader(args, this, menuItem, Orientation))
+                {
+                    return;
+                }
+            }
+
+            string gestureKey = MapInputToGestureKey(args);
+
+            if (gestureKey == null)
+            {
+                return;
+            }
+
+            if (MenuItemInputGestureCache.ContainsKey(gestureKey))
+            {
+                var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
+                cachedMenuItem.Command?.Execute(cachedMenuItem.CommandParameter);
+            }
+        }
+
+        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        {
+            if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
+            {
+                Focus(FocusState.Keyboard);
+            }
         }
     }
 }
