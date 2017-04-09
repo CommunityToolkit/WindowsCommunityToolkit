@@ -83,6 +83,7 @@
         </controls:ClassicMenu>
 
         <StackPanel Grid.Row="1">
+            <TextBlock Text="Click Alt to set focus on Classic Menu"></TextBlock>
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N"></TextBlock>
             <TextBlock Text="Create new file shortcut: Ctrl+N"></TextBlock>
             <TextBlock Text="Open project shortcut: Ctrl+Shift+O"></TextBlock>

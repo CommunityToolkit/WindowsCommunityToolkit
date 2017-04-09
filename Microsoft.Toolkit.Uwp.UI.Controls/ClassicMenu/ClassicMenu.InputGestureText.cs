@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

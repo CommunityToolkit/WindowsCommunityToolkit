@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -60,17 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
         }
-
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new MenuFlyoutItem();
-        }
-
-        protected override bool IsItemItsOwnContainerOverride(object item)
-        {
-            return item is MenuFlyoutItemBase;
-        }
-
+        
         private ClassicMenu ParentMenu => this.FindAscendant<ClassicMenu>();
     }
 }
