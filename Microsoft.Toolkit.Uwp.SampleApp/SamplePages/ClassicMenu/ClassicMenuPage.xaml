@@ -15,9 +15,14 @@
             <commands:GenericCommand x:Key="GenericCommand"/>
         </Grid.Resources>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+
         <controls:ClassicMenu HorizontalAlignment="Left"
                               VerticalAlignment="Top"
-                              Orientation="Vertical">
+                              Orientation="Horizontal" Width="600">
             <controls:ClassicMenuItem Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem Text="Project" 
@@ -77,5 +82,13 @@
 
         </controls:ClassicMenu>
 
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Create new project shortcut: Ctrl+Shift+N"></TextBlock>
+            <TextBlock Text="Create new file shortcut: Ctrl+N"></TextBlock>
+            <TextBlock Text="Open project shortcut: Ctrl+Shift+O"></TextBlock>
+            <TextBlock Text="Open file shortcut: Ctrl+O"></TextBlock>
+            <TextBlock Text="Print shortcut: Ctrl+P"></TextBlock>
+            <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E"></TextBlock>
+        </StackPanel>
     </Grid>
 </Page>

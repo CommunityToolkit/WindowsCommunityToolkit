@@ -19,7 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void InputGestureTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var inputGestureValue = e.NewValue as string;
-            if (string.IsNullOrEmpty(inputGestureValue) || MenuItemInputGestureCache.ContainsKey(inputGestureValue))
+            if (string.IsNullOrEmpty(inputGestureValue))
+            {
+                return;
+            }
+
+            inputGestureValue = inputGestureValue.ToUpper();
+
+            if (MenuItemInputGestureCache.ContainsKey(inputGestureValue))
             {
                 return;
             }
