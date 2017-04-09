@@ -61,7 +61,10 @@
 
 
             <controls:ClassicMenuItem Header="Edit">
-                
+                <MenuFlyoutSubItem Text="Go To">
+                    <MenuFlyoutItem Text="Go To Line" />
+                    <MenuFlyoutItem Text="Go To All" />
+                </MenuFlyoutSubItem>
             </controls:ClassicMenuItem>
 
             <controls:ClassicMenuItem Header="View">
