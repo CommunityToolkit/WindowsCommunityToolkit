@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -130,6 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_containerCanvas != null)
             {
                 _containerCanvas.SizeChanged -= ContainerCanvas_SizeChanged;
+                _containerCanvas.Tapped -= ContainerCanvas_Tapped;
             }
 
             IsEnabledChanged -= RangeSelector_IsEnabledChanged;
@@ -173,6 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
                 _containerCanvas.PointerEntered += ContainerCanvas_PointerEntered;
                 _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
+                _containerCanvas.Tapped += ContainerCanvas_Tapped;
             }
 
             VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", false);
@@ -294,6 +297,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SyncThumbs();
+        }
+
+        private void ContainerCanvas_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var position = e.GetPosition(_containerCanvas).X;
+            var tappedValue = position * Math.Abs(Maximum - Minimum) / _containerCanvas.ActualWidth;
+            double upperValueDiff = Math.Abs(RangeMax - tappedValue);
+            double lowerValueDiff = Math.Abs(RangeMin - tappedValue);
+
+            if (upperValueDiff < lowerValueDiff)
+            {
+                RangeMax = tappedValue;
+            }
+            else
+            {
+                RangeMin = tappedValue;
+            }
         }
 
         private void VerifyValues()
