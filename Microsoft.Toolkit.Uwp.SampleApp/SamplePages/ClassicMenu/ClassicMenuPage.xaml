@@ -12,6 +12,11 @@
             <commands:NewProjectCommand x:Key="NewProject" />
             <commands:NewFileCommand x:Key="NewFile" />
             <commands:GenericCommand x:Key="GenericCommand" />
+            <Style x:Key="ClassicMenuItemStyle"
+                   TargetType="controls:ClassicMenuItem">
+                <Setter Property="Background" Value="{StaticResource Brush-Grey-01}" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -20,8 +25,10 @@
         </Grid.RowDefinitions>
 
 
-        <controls:ClassicMenu Orientation="Horizontal">
-            <controls:ClassicMenuItem Header="File">
+        <controls:ClassicMenu Background="Black"
+                              Orientation="Horizontal">
+            <controls:ClassicMenuItem Header="File"
+                                      Style="{StaticResource ClassicMenuItemStyle}">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
@@ -58,20 +65,25 @@
             </controls:ClassicMenuItem>
 
 
-            <controls:ClassicMenuItem Header="Edit">
+            <controls:ClassicMenuItem Header="Edit"
+                                      Style="{StaticResource ClassicMenuItemStyle}">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Text="Go To Line" />
                     <MenuFlyoutItem Text="Go To All" />
                 </MenuFlyoutSubItem>
             </controls:ClassicMenuItem>
 
-            <controls:ClassicMenuItem Header="View" />
+            <controls:ClassicMenuItem Header="View"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
 
-            <controls:ClassicMenuItem Header="Project" />
+            <controls:ClassicMenuItem Header="Project"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
 
-            <controls:ClassicMenuItem Header="Build" />
+            <controls:ClassicMenuItem Header="Build"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
 
-            <controls:ClassicMenuItem Header="Debug" />
+            <controls:ClassicMenuItem Header="Debug"
+                                      Style="{StaticResource ClassicMenuItemStyle}" />
 
         </controls:ClassicMenu>
 

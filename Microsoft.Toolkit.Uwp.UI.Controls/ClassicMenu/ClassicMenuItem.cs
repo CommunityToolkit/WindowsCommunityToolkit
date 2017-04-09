@@ -14,6 +14,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -23,9 +24,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class ClassicMenuItem : ItemsControl
     {
         /// <summary>
-        /// ClassMenuItem header text
+        /// ClassicMenuItem header text
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(ClassicMenuItem), new PropertyMetadata(default(string)));
+
+        /// <summary>
+        /// ClassicMenuItem Menu background
+        /// </summary>
+        public static readonly DependencyProperty MenuBackgroundProperty =
+            DependencyProperty.Register(
+            nameof(MenuBackground),
+            typeof(Brush),
+            typeof(ClassicMenuItem),
+            new PropertyMetadata(default(Brush)));
 
         private ClassicMenu ParentMenu => this.FindAscendant<ClassicMenu>();
 
@@ -35,6 +46,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the title to appear in the title bar
         /// </summary>
         public string Header
+        {
+            get { return (string)GetValue(HeaderProperty); }
+            set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the MenuBackground to appear in the title bar
+        /// </summary>
+        public string MenuBackground
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }

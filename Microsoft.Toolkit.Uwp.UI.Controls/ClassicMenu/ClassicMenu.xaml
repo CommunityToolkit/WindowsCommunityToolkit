@@ -8,7 +8,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <wrapPanel:WrapPanel />
+                    <wrapPanel:WrapPanel Background="{TemplateBinding Background}" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -31,6 +31,7 @@
                     <Button x:Name="FlyoutButton"
                             Background="{TemplateBinding Background}"
                             Content="{TemplateBinding Header}"
+                            Foreground="{TemplateBinding Foreground}"
                             IsTabStop="False" />
                 </ControlTemplate>
             </Setter.Value>
