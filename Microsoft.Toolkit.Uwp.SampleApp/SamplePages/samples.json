@@ -3,7 +3,7 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
-     {
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -211,6 +211,15 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "ClassicMenu",
+        "Type": "ClassicMenuPage",
+        "About": "",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
+        "XamlCodeFile": "ClassicMenu.bind",
+        "Icon": "/SamplePages/ClassicMenu/ClassicMenu.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
       }
     ]

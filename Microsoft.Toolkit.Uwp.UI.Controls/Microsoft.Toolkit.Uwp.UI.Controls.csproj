@@ -55,6 +55,8 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
+    <Compile Include="ClassicMenu\ClassicMenu.cs" />
+    <Compile Include="ClassicMenu\ClassicMenuItem.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="Expander\Expander.Constants.cs" />
@@ -163,6 +165,11 @@
     <Page Include="Carousel\Carousel.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="ClassicMenu\ClassicMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
