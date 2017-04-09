@@ -55,7 +55,7 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
-    <Compile Include="ClassicMenu\ClassicMenu.Logic.cs" />
+    <Compile Include="ClassicMenu\ClassicMenu.Events.cs" />
     <Compile Include="ClassicMenu\ClassicMenu.InputGestureText.cs" />
     <Compile Include="ClassicMenu\ClassicMenu.cs" />
     <Compile Include="ClassicMenu\ClassicMenuItem.cs" />

@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Classic Menu Control defines a menu of choices for users to invoke.
+    /// </summary>
     public partial class ClassicMenu
     {
         private static bool NavigateThrowMenuHeader(KeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
@@ -103,6 +106,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return gestureKeyBuilder.ToString();
+        }
+
+        private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
+        {
+            var wrapPanel = (WrapPanel.WrapPanel)ItemsPanelRoot;
+            wrapPanel.Orientation = Orientation;
+
+            Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        }
+
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            var element = FocusManager.GetFocusedElement();
+            var menuItem = element as ClassicMenuItem;
+            if (menuItem != null)
+            {
+                if (NavigateThrowMenuHeader(args, this, menuItem, Orientation))
+                {
+                    return;
+                }
+            }
+
+            string gestureKey = MapInputToGestureKey(args);
+
+            if (gestureKey == null)
+            {
+                return;
+            }
+
+            if (MenuItemInputGestureCache.ContainsKey(gestureKey))
+            {
+                var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
+                cachedMenuItem.Command?.Execute(cachedMenuItem.CommandParameter);
+            }
+        }
+
+        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        {
+            if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
+            {
+                Focus(FocusState.Keyboard);
+            }
         }
     }
 }

@@ -20,71 +20,72 @@
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <controls:ClassicMenu HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Orientation="Horizontal" Width="600">
-            <controls:ClassicMenuItem Header="File">
-                <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem Text="Project" 
+        
+            <controls:ClassicMenu
+                              Orientation="Horizontal">
+                <controls:ClassicMenuItem Header="File">
+                    <MenuFlyoutSubItem Text="New">
+                        <MenuFlyoutItem Text="Project" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"  
                                     Command="{StaticResource NewProject}"/>
-                    <MenuFlyoutItem Text="File" 
+                        <MenuFlyoutItem Text="File" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+N"  
                                     Command="{StaticResource NewFile}"/>
-                </MenuFlyoutSubItem>
-                <MenuFlyoutSubItem Text="Open">
-                    <MenuFlyoutItem Text="Project/Solution" 
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSubItem Text="Open">
+                        <MenuFlyoutItem Text="Project/Solution" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+Shift+O"  
                                     Command="{StaticResource GenericCommand}" 
                                     CommandParameter="Select Project/Solution"/>
-                    <MenuFlyoutItem Text="File" 
+                        <MenuFlyoutItem Text="File" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+O"  
                                     Command="{StaticResource GenericCommand}"
                                     CommandParameter="Select File"/>
-                </MenuFlyoutSubItem>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem Text="Page Setup" />
-                <MenuFlyoutItem Text="Print" 
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="Page Setup" />
+                    <MenuFlyoutItem Text="Print" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+P"  
                                     Command="{StaticResource GenericCommand}" 
                                     CommandParameter="Page is Printed!!"/>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutSubItem Text="Recent Files">
-                    <MenuFlyoutItem Text="UWP ToolKit GridSplitter"/>
-                    <MenuFlyoutItem Text="UWP ToolKit WrapPanel"/>
-                </MenuFlyoutSubItem>
-                <MenuFlyoutItem Text="Exit" 
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutSubItem Text="Recent Files">
+                        <MenuFlyoutItem Text="UWP ToolKit GridSplitter"/>
+                        <MenuFlyoutItem Text="UWP ToolKit WrapPanel"/>
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutItem Text="Exit" 
                                     controls:ClassicMenu.InputGestureText="Ctrl+Shit+E"  
                                     Command="{StaticResource GenericCommand}" 
                                     CommandParameter="Solution closed"/>
-            </controls:ClassicMenuItem>
+                </controls:ClassicMenuItem>
 
 
-            <controls:ClassicMenuItem Header="Edit">
-                <MenuFlyoutSubItem Text="Go To">
-                    <MenuFlyoutItem Text="Go To Line" />
-                    <MenuFlyoutItem Text="Go To All" />
-                </MenuFlyoutSubItem>
-            </controls:ClassicMenuItem>
+                <controls:ClassicMenuItem Header="Edit">
+                    <MenuFlyoutSubItem Text="Go To">
+                        <MenuFlyoutItem Text="Go To Line" />
+                        <MenuFlyoutItem Text="Go To All" />
+                    </MenuFlyoutSubItem>
+                </controls:ClassicMenuItem>
 
-            <controls:ClassicMenuItem Header="View">
-                
-            </controls:ClassicMenuItem>
-            
-            <controls:ClassicMenuItem Header="Project">
-                
-            </controls:ClassicMenuItem>
+                <controls:ClassicMenuItem Header="View">
 
-            <controls:ClassicMenuItem Header="Build">
-                
-            </controls:ClassicMenuItem>
+                </controls:ClassicMenuItem>
 
-            <controls:ClassicMenuItem Header="Debug">
-                
-            </controls:ClassicMenuItem>
+                <controls:ClassicMenuItem Header="Project">
 
-        </controls:ClassicMenu>
+                </controls:ClassicMenuItem>
 
+                <controls:ClassicMenuItem Header="Build">
+
+                </controls:ClassicMenuItem>
+
+                <controls:ClassicMenuItem Header="Debug">
+
+                </controls:ClassicMenuItem>
+
+            </controls:ClassicMenu>
+        
+        
         <StackPanel Grid.Row="1">
             <TextBlock Text="Click Alt to set focus on Classic Menu"></TextBlock>
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N"></TextBlock>
