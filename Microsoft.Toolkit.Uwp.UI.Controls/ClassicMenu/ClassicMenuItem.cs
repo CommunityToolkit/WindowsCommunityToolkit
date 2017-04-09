@@ -26,8 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ClassicMenuItem()
         {
             DefaultStyleKey = typeof(ClassicMenuItem);
+            IsFocusEngagementEnabled = true;
         }
-
 
         public void ShowMenu()
         {
@@ -59,7 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _flyoutButton.Flyout = menuFlyout;
             }
-
 
             base.OnApplyTemplate();
         }
