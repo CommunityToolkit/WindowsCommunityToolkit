@@ -4,11 +4,11 @@
                     xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel">
 
     <Style TargetType="local:ClassicMenu">
-        <Setter Property="IsTabStop" Value="False"></Setter>
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <wrapPanel:WrapPanel/>
+                    <wrapPanel:WrapPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -22,14 +22,16 @@
     </Style>
 
     <Style TargetType="local:ClassicMenuItem">
-        <Setter Property="IsTabStop" Value="True"></Setter>
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="IsTabStop" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ClassicMenuItem">
-                    <Button Content="{TemplateBinding Header}" Background="{TemplateBinding Background}" x:Name="FlyoutButton" IsTabStop="False">
-                    </Button>
+                    <Button x:Name="FlyoutButton"
+                            Background="{TemplateBinding Background}"
+                            Content="{TemplateBinding Header}"
+                            IsTabStop="False" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

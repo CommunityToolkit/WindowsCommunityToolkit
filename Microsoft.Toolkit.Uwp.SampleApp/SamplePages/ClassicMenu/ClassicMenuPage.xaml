@@ -1,99 +1,89 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ClassicMenuPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.ClassicMenu.Commands"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ClassicMenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.ClassicMenu.Commands"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources>
-            <commands:NewProjectCommand x:Key="NewProject"/>
-            <commands:NewFileCommand x:Key="NewFile"/>
-            <commands:GenericCommand x:Key="GenericCommand"/>
+            <commands:NewProjectCommand x:Key="NewProject" />
+            <commands:NewFileCommand x:Key="NewFile" />
+            <commands:GenericCommand x:Key="GenericCommand" />
         </Grid.Resources>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
 
-        
-            <controls:ClassicMenu
-                              Orientation="Horizontal">
-                <controls:ClassicMenuItem Header="File">
-                    <MenuFlyoutSubItem Text="New">
-                        <MenuFlyoutItem Text="Project" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"  
-                                    Command="{StaticResource NewProject}"/>
-                        <MenuFlyoutItem Text="File" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+N"  
-                                    Command="{StaticResource NewFile}"/>
-                    </MenuFlyoutSubItem>
-                    <MenuFlyoutSubItem Text="Open">
-                        <MenuFlyoutItem Text="Project/Solution" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+Shift+O"  
-                                    Command="{StaticResource GenericCommand}" 
-                                    CommandParameter="Select Project/Solution"/>
-                        <MenuFlyoutItem Text="File" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+O"  
+
+        <controls:ClassicMenu Orientation="Horizontal">
+            <controls:ClassicMenuItem Header="File">
+                <MenuFlyoutSubItem Text="New">
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"
+                                    Command="{StaticResource NewProject}"
+                                    Text="Project" />
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+N"
+                                    Command="{StaticResource NewFile}"
+                                    Text="File" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem Text="Open">
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+O"
                                     Command="{StaticResource GenericCommand}"
-                                    CommandParameter="Select File"/>
-                    </MenuFlyoutSubItem>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Text="Page Setup" />
-                    <MenuFlyoutItem Text="Print" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+P"  
-                                    Command="{StaticResource GenericCommand}" 
-                                    CommandParameter="Page is Printed!!"/>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutSubItem Text="Recent Files">
-                        <MenuFlyoutItem Text="UWP ToolKit GridSplitter"/>
-                        <MenuFlyoutItem Text="UWP ToolKit WrapPanel"/>
-                    </MenuFlyoutSubItem>
-                    <MenuFlyoutItem Text="Exit" 
-                                    controls:ClassicMenu.InputGestureText="Ctrl+Shit+E"  
-                                    Command="{StaticResource GenericCommand}" 
-                                    CommandParameter="Solution closed"/>
-                </controls:ClassicMenuItem>
+                                    CommandParameter="Select Project/Solution"
+                                    Text="Project/Solution" />
+                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+O"
+                                    Command="{StaticResource GenericCommand}"
+                                    CommandParameter="Select File"
+                                    Text="File" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="Page Setup" />
+                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+P"
+                                Command="{StaticResource GenericCommand}"
+                                CommandParameter="Page is Printed!!"
+                                Text="Print" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutSubItem Text="Recent Files">
+                    <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
+                    <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shit+E"
+                                Command="{StaticResource GenericCommand}"
+                                CommandParameter="Solution closed"
+                                Text="Exit" />
+            </controls:ClassicMenuItem>
 
 
-                <controls:ClassicMenuItem Header="Edit">
-                    <MenuFlyoutSubItem Text="Go To">
-                        <MenuFlyoutItem Text="Go To Line" />
-                        <MenuFlyoutItem Text="Go To All" />
-                    </MenuFlyoutSubItem>
-                </controls:ClassicMenuItem>
+            <controls:ClassicMenuItem Header="Edit">
+                <MenuFlyoutSubItem Text="Go To">
+                    <MenuFlyoutItem Text="Go To Line" />
+                    <MenuFlyoutItem Text="Go To All" />
+                </MenuFlyoutSubItem>
+            </controls:ClassicMenuItem>
 
-                <controls:ClassicMenuItem Header="View">
+            <controls:ClassicMenuItem Header="View" />
 
-                </controls:ClassicMenuItem>
+            <controls:ClassicMenuItem Header="Project" />
 
-                <controls:ClassicMenuItem Header="Project">
+            <controls:ClassicMenuItem Header="Build" />
 
-                </controls:ClassicMenuItem>
+            <controls:ClassicMenuItem Header="Debug" />
 
-                <controls:ClassicMenuItem Header="Build">
+        </controls:ClassicMenu>
 
-                </controls:ClassicMenuItem>
 
-                <controls:ClassicMenuItem Header="Debug">
-
-                </controls:ClassicMenuItem>
-
-            </controls:ClassicMenu>
-        
-        
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Click Alt to set focus on Classic Menu"></TextBlock>
-            <TextBlock Text="Create new project shortcut: Ctrl+Shift+N"></TextBlock>
-            <TextBlock Text="Create new file shortcut: Ctrl+N"></TextBlock>
-            <TextBlock Text="Open project shortcut: Ctrl+Shift+O"></TextBlock>
-            <TextBlock Text="Open file shortcut: Ctrl+O"></TextBlock>
-            <TextBlock Text="Print shortcut: Ctrl+P"></TextBlock>
-            <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E"></TextBlock>
+            <TextBlock Text="Click Alt to set focus on Classic Menu" />
+            <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
+            <TextBlock Text="Create new file shortcut: Ctrl+N" />
+            <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
+            <TextBlock Text="Open file shortcut: Ctrl+O" />
+            <TextBlock Text="Print shortcut: Ctrl+P" />
+            <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
         </StackPanel>
     </Grid>
 </Page>
