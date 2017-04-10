@@ -70,30 +70,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static bool MoveFocusForward(ClassicMenu menu, ClassicMenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-            if (currentMenuItemIndex < menu.Items.Count - 1)
-            {
-                var nextItem = menu.Items.ElementAt(currentMenuItemIndex + 1) as ClassicMenuItem;
-                nextItem?.Focus(FocusState.Keyboard);
-                return true;
-            }
-
-            var firstItem = menu.Items.First() as ClassicMenuItem;
-            firstItem?.Focus(FocusState.Keyboard);
+            var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
+            var nextItem = menu.Items.ElementAt(nextIndex) as ClassicMenuItem;
+            nextItem?.Focus(FocusState.Keyboard);
             return true;
         }
 
         private static bool MoveFocusBackward(ClassicMenu menu, ClassicMenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-            if (currentMenuItemIndex > 0)
-            {
-                var previousItem = menu.Items.ElementAt(currentMenuItemIndex - 1) as ClassicMenuItem;
-                previousItem?.Focus(FocusState.Keyboard);
-                return true;
-            }
-
-            var lastItem = menu.Items.Last() as ClassicMenuItem;
-            lastItem?.Focus(FocusState.Keyboard);
+            var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
+            var nextItem = menu.Items.ElementAt(nextIndex) as ClassicMenuItem;
+            nextItem?.Focus(FocusState.Keyboard);
             return true;
         }
 
