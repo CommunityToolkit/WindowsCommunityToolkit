@@ -238,6 +238,13 @@
                     <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="Go To All" />
                 </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Find and Replace">
+                    <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="Find" />
+                    <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="Replace" />
+                </MenuFlyoutSubItem>
             </controls:ClassicMenuItem>
 
             <controls:ClassicMenuItem Header="View" />

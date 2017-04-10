@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var menuItem = item as MenuFlyoutItemBase;
                     if (menuItem != null)
                     {
-                        menuFlyout.Items?.Add(menuItem);
+                        menuFlyout.Items.Add(menuItem);
                     }
                 }
 
