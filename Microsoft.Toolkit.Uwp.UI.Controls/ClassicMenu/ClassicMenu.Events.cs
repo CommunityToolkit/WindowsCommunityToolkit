@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Linq;
 using System.Text;
 using Windows.System;
 using Windows.UI.Core;
@@ -36,21 +37,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (args.VirtualKey == VirtualKey.Left)
                 {
-                    var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-                    if (currentMenuItemIndex > 0)
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
-                        return true;
-                    }
+                    return MoveFocusBackward(menu, menuItem);
                 }
-                else if (args.VirtualKey == VirtualKey.Right)
+
+                if (args.VirtualKey == VirtualKey.Right)
                 {
-                    var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-                    if (currentMenuItemIndex < menu.Items.Count - 1)
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
-                        return true;
-                    }
+                    return MoveFocusForward(menu, menuItem);
                 }
             }
             else
@@ -63,25 +55,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (args.VirtualKey == VirtualKey.Up)
                 {
-                    var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-                    if (currentMenuItemIndex > 0)
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
-                        return true;
-                    }
+                    return MoveFocusBackward(menu, menuItem);
                 }
-                else if (args.VirtualKey == VirtualKey.Down)
+
+                if (args.VirtualKey == VirtualKey.Down)
                 {
-                    var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
-                    if (currentMenuItemIndex < menu.Items.Count - 1)
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
-                        return true;
-                    }
+                    return MoveFocusForward(menu, menuItem);
                 }
             }
 
             return false;
+        }
+
+        private static bool MoveFocusForward(ClassicMenu menu, ClassicMenuItem menuItem)
+        {
+            var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
+            if (currentMenuItemIndex < menu.Items.Count - 1)
+            {
+                var nextItem = menu.Items.ElementAt(currentMenuItemIndex + 1) as ClassicMenuItem;
+                nextItem?.Focus(FocusState.Keyboard);
+                return true;
+            }
+
+            var firstItem = menu.Items.First() as ClassicMenuItem;
+            firstItem?.Focus(FocusState.Keyboard);
+            return true;
+        }
+
+        private static bool MoveFocusBackward(ClassicMenu menu, ClassicMenuItem menuItem)
+        {
+            var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
+            if (currentMenuItemIndex > 0)
+            {
+                var previousItem = menu.Items.ElementAt(currentMenuItemIndex - 1) as ClassicMenuItem;
+                previousItem?.Focus(FocusState.Keyboard);
+                return true;
+            }
+
+            var lastItem = menu.Items.Last() as ClassicMenuItem;
+            lastItem?.Focus(FocusState.Keyboard);
+            return true;
         }
 
         private static string MapInputToGestureKey(KeyEventArgs args)

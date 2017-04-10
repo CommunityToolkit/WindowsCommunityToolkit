@@ -181,8 +181,7 @@
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
 
-        <controls:ClassicMenu Background="Black"
-                              Orientation="Horizontal">
+        <controls:ClassicMenu Orientation="Horizontal">
             <controls:ClassicMenuItem Header="File"
                                       MenuStyle="{StaticResource MenuStyle}">
                 <MenuFlyoutSubItem Text="New">
