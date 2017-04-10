@@ -29,6 +29,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(ClassicMenuItem), new PropertyMetadata(default(string)));
 
         /// <summary>
+        /// ClassicMenuItem Meny Style
+        /// </summary>
+        public static readonly DependencyProperty MenuStyleProperty = DependencyProperty.Register(nameof(MenuStyle), typeof(Style), typeof(ClassicMenuItem), new PropertyMetadata(default(Style)));
+
+        /// <summary>
         /// ClassicMenuItem Menu background
         /// </summary>
         public static readonly DependencyProperty MenuBackgroundProperty =
@@ -49,6 +54,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the menu style for ClassicMenuItem
+        /// </summary>
+        public Style MenuStyle
+        {
+            get { return (Style)GetValue(MenuStyleProperty); }
+            set { SetValue(MenuStyleProperty, value); }
         }
 
         /// <summary>
@@ -88,6 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
+                menuFlyout.MenuFlyoutPresenterStyle = MenuStyle;
 
                 foreach (var item in Items)
                 {

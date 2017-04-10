@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ClassicMenu
     {
-        private static bool NavigateThrowMenuHeader(KeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
+        private static bool NavigateThroughMenuHeader(KeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
         {
             if (orientation == Orientation.Horizontal)
             {
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuItem = element as ClassicMenuItem;
             if (menuItem != null)
             {
-                if (NavigateThrowMenuHeader(args, this, menuItem, Orientation))
+                if (NavigateThroughMenuHeader(args, this, menuItem, Orientation))
                 {
                     return;
                 }
