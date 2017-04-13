@@ -170,6 +170,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
+            if (IsTouchOptimized)
+            {
+                ArrangeForTouch();
+            }
+
             base.OnApplyTemplate();
         }
 
