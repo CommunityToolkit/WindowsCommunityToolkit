@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (gripper.ResizeDirection == GridSplitter.GridResizeDirection.Rows)
+            if (gripper.ResizeDirection == GridResizeDirection.Rows)
             {
                 if (e.Key == VirtualKey.Up)
                 {

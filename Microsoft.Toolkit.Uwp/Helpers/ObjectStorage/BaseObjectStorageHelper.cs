@@ -115,14 +115,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="value">Object to save</param>
         public void Save<T>(string key, T value)
         {
-            if (KeyExists(key))
-            {
-                Settings.Values[key] = JsonConvert.SerializeObject(value);
-            }
-            else
-            {
-                Settings.Values.Add(key, JsonConvert.SerializeObject(value));
-            }
+            Settings.Values[key] = JsonConvert.SerializeObject(value);
         }
 
         /// <summary>

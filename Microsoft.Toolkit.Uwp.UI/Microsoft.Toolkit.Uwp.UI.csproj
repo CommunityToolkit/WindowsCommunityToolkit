@@ -39,8 +39,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.XML</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
