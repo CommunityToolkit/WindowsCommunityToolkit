@@ -116,6 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (openBlades?.Count > MaxOpenBlades)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
+                        //VisualStateManager.GoToState(openBlades[i], "Small", false);
                         openBlades[i].BladeItemMode = BladeItemMode.Small;
                 }
             }
@@ -147,9 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var lastBlade = ActiveBlades.LastOrDefault();
             if (lastBlade != null && lastBlade.TitleBarVisibility == Visibility.Visible)
-                lastBlade.BladeItemMode = lastBlade.BladeItemMode == BladeItemMode.Small
-                ? BladeItemMode.Normal
-                : BladeItemMode.Small;
+                lastBlade.BladeItemMode = BladeItemMode.Normal;
         }
 
         private ScrollViewer GetScrollViewer()

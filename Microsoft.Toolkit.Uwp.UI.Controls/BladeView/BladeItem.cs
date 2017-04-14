@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnlargeButton_Click(object sender, RoutedEventArgs e)
         {
-            BladeItemMode = BladeItemMode.Normal;
+            BladeItemMode = BladeItemMode == BladeItemMode.Normal ? BladeItemMode.Small : BladeItemMode.Normal;
         }
     }
 }

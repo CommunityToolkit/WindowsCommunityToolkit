@@ -148,9 +148,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ? bladeItem.Width = 70
                 : bladeItem.Width = bladeItem._normalModeWidth;
 
-            bladeItem._enlargeButton.Visibility = bladeItem.BladeItemMode == BladeItemMode.Small
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            //bladeItem._enlargeButton.Visibility = bladeItem.BladeItemMode == BladeItemMode.Small
+            //    ? Visibility.Visible
+            //    : Visibility.Collapsed;
         }
     }
 }

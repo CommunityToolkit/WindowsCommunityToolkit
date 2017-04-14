@@ -110,6 +110,20 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
+                        <!--<VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="BladeItemModeStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Small">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.Target=""
+                                                                       Storyboard.TargetProperty="Width">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="70" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>-->
+
                         <Grid Background="{TemplateBinding TitleBarBackground}"
                               Visibility="{TemplateBinding TitleBarVisibility}">
                             <Grid.ColumnDefinitions>
@@ -130,8 +144,7 @@
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     Content="&#xE1D9;"
                                     FontFamily="Segoe MDL2 Assets"
-                                    Foreground="{TemplateBinding CloseButtonForeground}"
-                                    Visibility="Collapsed" />
+                                    Foreground="{TemplateBinding CloseButtonForeground}" />
                             <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
