@@ -54,6 +54,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _closeButton.Click -= CloseButton_Click;
             _closeButton.Click += CloseButton_Click;
+
+            if (_enlargeButton == null)
+                return;
+
             _enlargeButton.Click -= EnlargeButton_Click;
             _enlargeButton.Click += EnlargeButton_Click;
 

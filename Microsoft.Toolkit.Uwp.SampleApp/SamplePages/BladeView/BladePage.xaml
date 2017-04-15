@@ -10,7 +10,7 @@
     <Grid Background="{StaticResource Brush-Grey-05}">
         <controls:BladeView x:Name="BladeView"
                             Padding="0"
-                            MaxOpenBlades="3"
+                            AutoCollapseCountThreshold="3"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             BladeMode="{Binding BladeMode.Value}">

@@ -111,20 +111,6 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="BladeItemModeStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="Small">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeItemGrid"
-                                                                       Storyboard.TargetProperty="Width">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="70" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
                         <Grid Background="{TemplateBinding TitleBarBackground}"
                               Visibility="{TemplateBinding TitleBarVisibility}">
                             <Grid.ColumnDefinitions>
@@ -157,7 +143,8 @@
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
                         </Grid>
 
-                        <ContentPresenter Grid.Row="1"
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Grid.Row="1"
                                           VerticalAlignment="Stretch"
                                           Background="{TemplateBinding Background}"
                                           Visibility="{TemplateBinding IsOpen}" />

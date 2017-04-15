@@ -12,7 +12,9 @@
 
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -145,12 +147,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             BladeItem bladeItem = (BladeItem)dependencyObject;
 
             bladeItem.Width = bladeItem.BladeItemMode == BladeItemMode.Small
-                ? bladeItem.Width = 70
-                : bladeItem.Width = bladeItem._normalModeWidth;
+                ? 70
+                : bladeItem._normalModeWidth;
 
-            //bladeItem._enlargeButton.Visibility = bladeItem.BladeItemMode == BladeItemMode.Small
-            //    ? Visibility.Visible
-            //    : Visibility.Collapsed;
+            ContentPresenter content = bladeItem.GetTemplateChild("ContentPresenter") as ContentPresenter;
+            if (content == null)
+                return;
+
+            if (bladeItem.BladeItemMode == BladeItemMode.Small && content.Visibility == Visibility.Visible)
+                content.Visibility = Visibility.Collapsed;
+
+            if (bladeItem.BladeItemMode == BladeItemMode.Normal && content.Visibility == Visibility.Collapsed)
+                content.Visibility = Visibility.Visible;
         }
     }
 }

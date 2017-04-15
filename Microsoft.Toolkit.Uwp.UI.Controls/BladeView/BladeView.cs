@@ -110,14 +110,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // For now we skip this feature when blade mode is set to fullscreen
-            if (MaxOpenBlades > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
+            if (AutoCollapseCountThreshold > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
             {
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
-                if (openBlades?.Count > MaxOpenBlades)
+                if (openBlades?.Count > AutoCollapseCountThreshold)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
-                        VisualStateManager.GoToState(openBlades[i], "Small", false);
-                        //openBlades[i].BladeItemMode = BladeItemMode.Small;
+                        openBlades[i].BladeItemMode = BladeItemMode.Small;
                 }
             }
         }
@@ -128,6 +127,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (visibility == Visibility.Visible)
             {
+                if (Items == null)
+                    return;
+
                 Items.Remove(blade);
                 Items.Add(blade);
                 BladeOpened?.Invoke(this, blade);
