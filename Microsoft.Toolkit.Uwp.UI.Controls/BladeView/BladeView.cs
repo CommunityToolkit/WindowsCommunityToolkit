@@ -116,8 +116,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (openBlades?.Count > MaxOpenBlades)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
-                        //VisualStateManager.GoToState(openBlades[i], "Small", false);
-                        openBlades[i].BladeItemMode = BladeItemMode.Small;
+                        VisualStateManager.GoToState(openBlades[i], "Small", false);
+                        //openBlades[i].BladeItemMode = BladeItemMode.Small;
                 }
             }
         }

@@ -103,26 +103,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
-                    <Grid BorderBrush="{TemplateBinding BorderBrush}"
+                    <Grid x:Name="BladeItemGrid"
+                          BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <!--<VisualStateManager.VisualStateGroups>
+                        <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="BladeItemModeStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Small">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.Target=""
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeItemGrid"
                                                                        Storyboard.TargetProperty="Width">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="70" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>-->
+                        </VisualStateManager.VisualStateGroups>
 
                         <Grid Background="{TemplateBinding TitleBarBackground}"
                               Visibility="{TemplateBinding TitleBarVisibility}">
