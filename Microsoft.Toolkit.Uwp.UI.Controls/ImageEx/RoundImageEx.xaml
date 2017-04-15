@@ -113,7 +113,7 @@
                                                          To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="StokeUnloaded" />
+                                <VisualState x:Name="StrokeUnloaded" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
