@@ -17,6 +17,17 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
         SelectionMode="None" />
 ```
 
+<br/>
+The AlternateRowColor property provides a way to assign a background color to every other row.
+
+## Example
+
+```xml
+    <ListView
+        ui:ListViewBaseExtensions.AlternateRowColor="Silver"
+        ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
+```
+
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
