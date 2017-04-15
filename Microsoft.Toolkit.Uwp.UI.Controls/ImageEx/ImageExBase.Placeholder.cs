@@ -11,16 +11,15 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
-    /// Source images are downloaded asynchronously showing a load indicator while in progress.
-    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
+    /// Shared Code for ImageEx and RoundImageEx
     /// </summary>
-    public partial class ImageEx
+    public partial class ImageExBase
     {
         /// <summary>
         /// Identifies the <see cref="PlaceholderSource"/> dependency property.
@@ -28,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty PlaceholderSourceProperty = DependencyProperty.Register(
             nameof(PlaceholderSource),
             typeof(ImageSource),
-            typeof(ImageEx),
+            typeof(ImageExBase),
             new PropertyMetadata(default(ImageSource)));
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(
             nameof(PlaceholderStretch),
             typeof(Stretch),
-            typeof(ImageEx),
+            typeof(ImageExBase),
             new PropertyMetadata(default(Stretch)));
 
         /// <summary>
@@ -50,6 +49,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ImageSource)GetValue(PlaceholderSourceProperty); }
             set { SetValue(PlaceholderSourceProperty, value); }
+        }
+
+        private static void PlaceholderSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as ImageExBase;
+
+            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
+            {
+                if (control is RoundImageEx round)
+                {
+                    if (round.ShowPlaceholderStroke)
+                    {
+                        if (e.NewValue == null)
+                        {
+                            VisualStateManager.GoToState(round, StrokeUnloaded, true);
+                        }
+                        else
+                        {
+                            VisualStateManager.GoToState(round, ShowStrokeState, true);
+                        }
+                    }
+                }
+
+                control?.SetSource(e.NewValue);
+            }
         }
 
         /// <summary>

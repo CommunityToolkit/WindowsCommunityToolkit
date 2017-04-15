@@ -53,6 +53,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 AddImage(false, false);
             });
 
+            Shell.Current.RegisterNewCommand("Round Image with placeholder", (sender, args) =>
+            {
+                AddImage(false, true, true);
+            });
+
+            Shell.Current.RegisterNewCommand("Round Image with placeholder (invalid link or offline)", (sender, args) =>
+            {
+                AddImage(true, true, true);
+            });
+
+            Shell.Current.RegisterNewCommand("Round Image without placeholder", (sender, args) =>
+            {
+                AddImage(false, false, true);
+            });
+
             Shell.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
             {
                 Container.Children.Clear();
@@ -70,19 +85,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             photos = await new PhotosDataSource().GetItemsAsync(true);
         }
 
-        private void AddImage(bool broken, bool placeholder)
+        private void AddImage(bool broken, bool placeholder, bool round = false)
         {
-            var newImage = new ImageEx
+            ImageExBase newImage = null;
+            if (round)
             {
-                IsCacheEnabled = true,
-                Stretch = Stretch.UniformToFill,
-                Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                MaxWidth = 300,
-                Background = new SolidColorBrush(Colors.Transparent),
-                Foreground = new SolidColorBrush(Colors.White)
-            };
+                newImage = new RoundImageEx
+                {
+                    MaskHeight = 200,
+                    MaskWidth = 200
+                };
+            }
+            else
+            {
+                newImage = new ImageEx();
+            }
+
+            newImage.IsCacheEnabled = true;
+            newImage.Stretch = Stretch.UniformToFill;
+            newImage.Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail;
+            newImage.HorizontalAlignment = HorizontalAlignment.Center;
+            newImage.VerticalAlignment = VerticalAlignment.Center;
+            newImage.MaxWidth = 300;
+            newImage.Background = new SolidColorBrush(Colors.Transparent);
+            newImage.Foreground = new SolidColorBrush(Colors.White);
 
             if (placeholder)
             {
