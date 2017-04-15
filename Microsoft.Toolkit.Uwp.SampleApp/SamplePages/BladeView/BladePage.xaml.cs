@@ -34,9 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 IsOpen = true
             };
 
-            BladeView.Items.Add(bladeItem);
-            // TODO: Glenn - This has no effect?
-            // BladeView.ActiveBlades.Add(bladeItem);
+            BladeView?.Items?.Add(bladeItem);
         }
     }
 }
