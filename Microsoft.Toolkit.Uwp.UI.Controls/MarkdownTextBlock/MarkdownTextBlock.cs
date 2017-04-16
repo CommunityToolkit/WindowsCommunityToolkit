@@ -21,13 +21,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed class MarkdownTextBlock : Control, ILinkRegister
+    public sealed class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
     {
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
@@ -48,6 +49,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
         public event EventHandler<LinkClickedEventArgs> LinkClicked;
+
+        /// <summary>
+        /// Fired when an image from the markdown document needs to be resolved.
+        /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
+        /// </summary>
+        public event EventHandler<ResolveImageEventArgs> ResolveImage;
 
         /// <summary>
         /// Gets the dependency property for <see cref="ImageStretch"/>.
@@ -1090,7 +1097,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new XamlRenderer(markdown, this)
+                var renderer = new XamlRenderer(markdown, this, this)
                 {
                     Background = Background,
                     BorderBrush = BorderBrush,
@@ -1227,6 +1234,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Fire off the event.
             var eventArgs = new LinkClickedEventArgs(url);
             LinkClicked?.Invoke(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Called when the renderer needs to display a image.
+        /// </summary>
+        ImageSource IImageResolver.ResolveImage(string url, string tooltip)
+        {
+            var eventArgs = new ResolveImageEventArgs(url, tooltip);
+            ResolveImage?.Invoke(this, eventArgs);
+
+            return eventArgs.Handled 
+                ? eventArgs.Image 
+                : new BitmapImage(new Uri(url));
         }
     }
 }

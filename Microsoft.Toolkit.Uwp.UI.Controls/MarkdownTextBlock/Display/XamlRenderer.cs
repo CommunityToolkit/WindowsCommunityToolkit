@@ -37,10 +37,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private readonly ILinkRegister _linkRegister;
 
-        public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister)
+        /// <summary>
+        /// An interface that is used to resolve images.
+        /// </summary>
+        private readonly IImageResolver _imageResolver;
+
+        public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
         {
             _document = document;
             _linkRegister = linkRegister;
+            _imageResolver = imageResolver;
         }
 
         /// <summary>
@@ -905,14 +911,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
-            // if url is not absolute we have to return as local images are not supported
-            if (!element.Url.StartsWith("http") && !element.Url.StartsWith("ms-app"))
+            var resolvedImage = this._imageResolver.ResolveImage(element.Url, element.Tooltip);
+
+            // if image can not be resolved we have to return
+            if (resolvedImage == null)
             {
                 RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
                 return;
             }
 
-            image.Source = new BitmapImage(new Uri(element.Url));
+            image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
