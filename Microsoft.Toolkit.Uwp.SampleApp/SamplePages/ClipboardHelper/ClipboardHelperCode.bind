@@ -3,7 +3,7 @@ ClipboardHelper.SetText("Hello World");
 
 // Get text from clipboard.
 var text = await ClipboardHelper.GetTextAsync();
-if (text == null)
+if (string.IsNullOrEmpty(text))
 {
     // No text in clipboard.
 }
@@ -16,7 +16,7 @@ ClipboardHelper.SetHtml("<div style=\"color:red;\">Hello World</div>");
 
 // Get html from clipboard.
 var html = await ClipboardHelper.GetHtmlAsync();
-if (html == null)
+if (string.IsNullOrEmpty(html))
 {
     // No html in clipboard.
 }
