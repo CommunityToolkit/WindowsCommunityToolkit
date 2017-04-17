@@ -15,7 +15,7 @@ else
 ClipboardHelper.SetHtml("<div style=\"color:red;\">Hello World</div>");
 
 // Get html from clipboard.
-var html = ClipboardHelper.GetHtmlAsync();
+var html = await ClipboardHelper.GetHtmlAsync();
 if (html == null)
 {
     // No html in clipboard.
