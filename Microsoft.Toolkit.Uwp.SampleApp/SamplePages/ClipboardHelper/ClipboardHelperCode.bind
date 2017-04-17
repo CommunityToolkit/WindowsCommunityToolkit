@@ -2,7 +2,7 @@
 ClipboardHelper.SetText("Hello World");
 
 // Get text from clipboard.
-var text = ClipboardHelper.GetTextAsync();
+var text = await ClipboardHelper.GetTextAsync();
 if (text == null)
 {
     // No text in clipboard.
