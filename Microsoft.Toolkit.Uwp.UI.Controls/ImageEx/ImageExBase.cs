@@ -29,20 +29,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public abstract partial class ImageExBase : Control
     {
-        private const string PartImage = "Image";
-        private const string PartProgress = "Progress";
-        private const string CommonGroup = "CommonStates";
-        private const string LoadingState = "Loading";
-        private const string LoadedState = "Loaded";
-        private const string UnloadedState = "Unloaded";
-        private const string FailedState = "Failed";
-        private const string ShowStrokeState = "ShowStroke";
-        private const string StrokeUnloaded = "StrokeUnloaded";
+        protected const string PartImage = "Image";
+        protected const string PartProgress = "Progress";
+        protected const string CommonGroup = "CommonStates";
+        protected const string LoadingState = "Loading";
+        protected const string LoadedState = "Loaded";
+        protected const string UnloadedState = "Unloaded";
+        protected const string FailedState = "Failed";
 
-        protected object _image;
-        protected ProgressRing _progress;
-        protected bool _isInitialized;
-        protected object _lockObj;
+        private object _image;
+        private ProgressRing _progress;
+        private bool _isInitialized;
+        private object _lockObj;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageExBase"/> class.
@@ -52,21 +50,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _lockObj = new object();
         }
 
+        protected void AttachImageOpened(RoutedEventHandler handler)
+        {
+            dynamic image = _image;
+            if (image != null)
+            {
+                image.ImageOpened += handler;
+            }
+        }
+
+        protected void RemoveImageOpened(RoutedEventHandler handler)
+        {
+            dynamic image = _image;
+            if (image != null)
+            {
+                image.ImageOpened -= handler;
+            }
+        }
+
+        protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
+        {
+            dynamic image = _image;
+            if (image != null)
+            {
+                image.ImageFailed += handler;
+            }
+        }
+
+        protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
+        {
+            dynamic image = _image;
+            if (image != null)
+            {
+                image.ImageFailed -= handler;
+            }
+        }
+
         /// <summary>
         /// Update the visual state of the control when its template is changed.
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (_image is ImageBrush)
-            {
-                (_image as ImageBrush).ImageOpened -= OnImageOpened;
-                (_image as ImageBrush).ImageFailed -= OnImageFailed;
-            }
-            else if (_image is Image)
-            {
-                (_image as Image).ImageOpened -= OnImageOpened;
-                (_image as Image).ImageFailed -= OnImageFailed;
-            }
+            RemoveImageOpened(OnImageOpened);
+            RemoveImageFailed(OnImageFailed);
 
             _image = GetTemplateChild(PartImage) as object;
             _progress = GetTemplateChild(PartProgress) as ProgressRing;
@@ -75,16 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             SetSource(Source);
 
-            if (_image is ImageBrush)
-            {
-                (_image as ImageBrush).ImageOpened += OnImageOpened;
-                (_image as ImageBrush).ImageFailed += OnImageFailed;
-            }
-            else if (_image is Image)
-            {
-                (_image as Image).ImageOpened += OnImageOpened;
-                (_image as Image).ImageFailed += OnImageFailed;
-            }
+            AttachImageOpened(OnImageOpened);
+            AttachImageFailed(OnImageFailed);
 
             base.OnApplyTemplate();
         }
@@ -116,4 +134,3 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, FailedState, true);
         }
     }
-}
