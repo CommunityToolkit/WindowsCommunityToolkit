@@ -92,8 +92,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 newImage = new RoundImageEx
                 {
-                    MaskHeight = 200,
-                    MaskWidth = 200
+                    Height = 200,
+                    Width = 200
                 };
             }
             else

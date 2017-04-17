@@ -22,14 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RoundImageEx
     {
-        // Using a DependencyProperty as the backing store for MaskHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MaskHeightProperty =
-            DependencyProperty.Register(nameof(MaskHeight), typeof(double), typeof(RoundImageEx), new PropertyMetadata(default(double)));
-
-        // Using a DependencyProperty as the backing store for MaskWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MaskWidthProperty =
-            DependencyProperty.Register(nameof(MaskWidth), typeof(double), typeof(RoundImageEx), new PropertyMetadata(default(double)));
-
         // Using a DependencyProperty as the backing store for StrokeThickness.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register(nameof(StrokeThickness), typeof(double), typeof(RoundImageEx), new PropertyMetadata(default(double)));
@@ -43,25 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ShowPlaceholderStroke), typeof(bool), typeof(RoundImageEx), new PropertyMetadata(true));
 
         /// <summary>
-        /// Sets the Height of the Ellipse Mask
-        /// </summary>
-        public double MaskHeight
-        {
-            get { return (double)GetValue(MaskHeightProperty); }
-            set { SetValue(MaskHeightProperty, value); }
-        }
-
-        /// <summary>
-        /// Sets the Width of the Ellipse Mask
-        /// </summary>
-        public double MaskWidth
-        {
-            get { return (double)GetValue(MaskWidthProperty); }
-            set { SetValue(MaskWidthProperty, value); }
-        }
-
-        /// <summary>
-        /// Sets the Stroke Thickness for the Ellipse Mask
+        /// Gets or sets the Stroke Thickness for the Ellipse Mask
         /// </summary>
         public double StrokeThickness
         {
@@ -70,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Sets the Stroke for the Ellipse Mask
+        /// Gets or sets the Stroke for the Ellipse Mask
         /// </summary>
         public Brush Stroke
         {
@@ -78,6 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(StrokeProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to apply Stroke on Placeholder Images
+        /// </summary>
         public bool ShowPlaceholderStroke
         {
             get { return (bool)GetValue(ShowPlaceholderStrokeProperty); }
