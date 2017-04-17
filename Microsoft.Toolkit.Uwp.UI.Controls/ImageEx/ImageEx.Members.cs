@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(NineGridProperty, value); }
         }
 
-        /// <summary>k
+        /// <summary>
         /// Returns the image as a <see cref="CastingSource"/>.
         /// </summary>
         /// <returns>The image as a <see cref="CastingSource"/>.</returns>
