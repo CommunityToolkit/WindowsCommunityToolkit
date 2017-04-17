@@ -9,18 +9,21 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-
 using Newtonsoft.Json;
-
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -28,6 +31,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     {
         private ProgressRing _progress;
         private WebView _webView;
+        private Button _printButton;
+        private Button _copyButton;
+        private PrintHelper _printHelper;
+        private Grid _container;
+        private string _displayedText;
 
         private bool _isInitialized;
 
@@ -43,12 +51,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 _webView.LoadCompleted -= OnLoadCompleted;
             }
 
+            if (_printButton != null)
+            {
+                _printButton.Click -= PrintButton_Click;
+            }
+
+            if (_copyButton != null)
+            {
+                _copyButton.Click -= CopyButton_Click;
+            }
+
             _progress = GetTemplateChild("progress") as ProgressRing;
             _webView = GetTemplateChild("webView") as WebView;
+            _printButton = GetTemplateChild("PrintButton") as Button;
+            _copyButton = GetTemplateChild("CopyButton") as Button;
+            _container = GetTemplateChild("Container") as Grid;
 
             if (_webView != null)
             {
                 _webView.LoadCompleted += OnLoadCompleted;
+            }
+
+            if (_printButton != null)
+            {
+                _printButton.Click += PrintButton_Click;
+            }
+
+            if (_copyButton != null)
+            {
+                _copyButton.Click += CopyButton_Click;
             }
 
             _isInitialized = true;
@@ -62,6 +93,91 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             base.OnApplyTemplate();
         }
 
+        private async Task<Rectangle> PrepareWebViewForPrintingAsync()
+        {
+            var widthString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollWidth.toString()" });
+            int contentWidth;
+
+            if (!int.TryParse(widthString, out contentWidth))
+            {
+                throw new Exception(string.Format("failure/width:{0}", widthString));
+            }
+
+            _webView.Width = contentWidth;
+
+            // resize height to content
+            var heightString = await _webView.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
+            int contentHeight;
+
+            if (!int.TryParse(heightString, out contentHeight))
+            {
+                throw new Exception(string.Format("failure/height:{0}", heightString));
+            }
+
+            _webView.Height = contentHeight;
+
+            WebViewBrush brush = new WebViewBrush();
+            brush.SetSource(_webView);
+            brush.Stretch = Stretch.Uniform;
+
+            brush.Redraw();
+
+            // Send to printer
+            var rect = new Rectangle
+            {
+                Fill = brush,
+                Width = contentWidth,
+                Height = contentHeight
+            };
+
+            return rect;
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Copy", _displayedText);
+
+            var content = new DataPackage();
+            content.SetText(_displayedText);
+            Clipboard.SetContent(content);
+        }
+
+        private async void PrintButton_Click(object sender, RoutedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            _printHelper = new PrintHelper(_container);
+            _printHelper.AddFrameworkElementToPrint(await PrepareWebViewForPrintingAsync());
+
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
+        }
+
+        private void ReleasePrintHelper()
+        {
+            _webView.Width = double.NaN;
+            _webView.Height = double.NaN;
+            _printHelper.Dispose();
+
+            Shell.Current.DisplayWaitRing = false;
+        }
+
+        private async void PrintHelper_OnPrintSucceeded()
+        {
+            ReleasePrintHelper();
+            var dialog = new MessageDialog("Printing done.");
+            await dialog.ShowAsync();
+        }
+
+        private async void PrintHelper_OnPrintFailed()
+        {
+            ReleasePrintHelper();
+            var dialog = new MessageDialog("Printing failed.");
+            await dialog.ShowAsync();
+        }
+
         private async Task ShowDocument(string docText, string pattern)
         {
             if (_webView != null)
@@ -71,6 +187,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 var patternFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/Html/{pattern}"));
                 var patternText = await FileIO.ReadTextAsync(patternFile);
 
+                _displayedText = docText;
                 docText = docText.Replace("<", "&lt;").Replace(">", "&gt;");
 
                 string html = patternText.Replace("[CODE]", docText);

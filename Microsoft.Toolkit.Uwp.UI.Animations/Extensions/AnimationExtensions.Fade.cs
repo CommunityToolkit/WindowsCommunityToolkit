@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -29,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The fade value, between 0 and 1.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -36,7 +36,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this UIElement associatedObject,
             float value = 0f,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -44,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Fade(value, duration, delay);
+            return animationSet.Fade(value, duration, delay, easingType);
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The fade value, between 0 and 1.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -61,7 +63,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             float value = 0f,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (animationSet == null)
             {
@@ -75,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     To = value,
                     Duration = TimeSpan.FromMilliseconds(duration),
                     BeginTime = TimeSpan.FromMilliseconds(delay),
-                    EasingFunction = _defaultStoryboardEasingFunction
+                    EasingFunction = GetEasingFunction(easingType)
                 };
 
                 animationSet.AddStoryboardAnimation("Opacity", animation);

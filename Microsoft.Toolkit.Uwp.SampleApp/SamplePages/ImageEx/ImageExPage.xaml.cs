@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Container.Children.Clear();
                 GC.Collect(); // Force GC to free file locks
-                await ImageCache.ClearAsync();
+                await ImageCache.Instance.ClearAsync();
             });
 
             await LoadDataAsync();
@@ -80,7 +80,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 MaxWidth = 300,
-                Background = new SolidColorBrush(Colors.Transparent)
+                Background = new SolidColorBrush(Colors.Transparent),
+                Foreground = new SolidColorBrush(Colors.White)
             };
 
             if (placeholder)

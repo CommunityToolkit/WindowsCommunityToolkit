@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,8 +8,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
@@ -29,12 +28,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string ConsumerSecret { get; set; }
 
         /// <summary>
-        /// Gets or sets access Token.
+        /// Gets or sets access token.
         /// </summary>
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets or sets access Token Secret.
+        /// Gets or sets access token Secret.
         /// </summary>
         public string AccessTokenSecret { get; set; }
 

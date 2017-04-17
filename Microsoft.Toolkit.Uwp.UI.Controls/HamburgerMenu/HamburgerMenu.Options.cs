@@ -9,7 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
+using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -29,12 +32,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty OptionsItemTemplateProperty = DependencyProperty.Register(nameof(OptionsItemTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="OptionsItemTemplateSelector"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OptionsItemTemplateSelectorProperty = DependencyProperty.Register(nameof(OptionsItemTemplateSelector), typeof(DataTemplateSelector), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="OptionsVisibility"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OptionsVisibilityProperty = DependencyProperty.Register(nameof(OptionsVisibility), typeof(Visibility), typeof(HamburgerMenu), new PropertyMetadata(Visibility.Visible));
 
         /// <summary>
-        ///     Gets or sets an object source used to generate the content of the options.
+        /// Identifies the <see cref="SelectedOptionsItem"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedOptionsItemProperty = DependencyProperty.Register(nameof(SelectedOptionsItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedOptionsIndex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedOptionsIndexProperty = DependencyProperty.Register(nameof(SelectedOptionsIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
+
+        /// <summary>
+        /// Gets or sets an object source used to generate the content of the options.
         /// </summary>
         public object OptionsItemsSource
         {
@@ -52,12 +70,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets options' visibility.
+        /// Gets or sets the DataTemplateSelector used to display each item in the options.
+        /// </summary>
+        public DataTemplateSelector OptionsItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(OptionsItemTemplateSelectorProperty); }
+            set { SetValue(OptionsItemTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the collection used to generate the content of the option list.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// Exception thrown if OptionsListView is not yet defined.
+        /// </exception>
+        public ItemCollection OptionsItems
+        {
+            get
+            {
+                if (_optionsListView == null)
+                {
+                    throw new Exception("OptionsListView is not defined yet. Please use OptionsItemsSource instead.");
+                }
+
+                return _optionsListView?.Items;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the visibility of the options menu.
         /// </summary>
         public Visibility OptionsVisibility
         {
             get { return (Visibility)GetValue(OptionsVisibilityProperty); }
             set { SetValue(OptionsVisibilityProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected options menu item.
+        /// </summary>
+        public object SelectedOptionsItem
+        {
+            get { return GetValue(SelectedOptionsItemProperty); }
+            set { SetValue(SelectedOptionsItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected options menu index.
+        /// </summary>
+        public int SelectedOptionsIndex
+        {
+            get { return (int)GetValue(SelectedOptionsIndexProperty); }
+            set { SetValue(SelectedOptionsIndexProperty, value); }
         }
     }
 }

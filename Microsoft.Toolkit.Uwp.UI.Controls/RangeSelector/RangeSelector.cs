@@ -9,7 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MinThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
-    public sealed class RangeSelector : Control
+    public class RangeSelector : Control
     {
         /// <summary>
         /// Identifies the Minimum dependency property.
@@ -51,6 +53,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the RangeMax dependency property.
         /// </summary>
         public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
+
+        /// <summary>
+        /// Identifies the IsTouchOptimized dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
 
         private const double Epsilon = 0.01;
 
@@ -96,19 +103,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (_outOfRangeContentContainer != null)
-            {
-                _outOfRangeContentContainer.PointerPressed -= OutOfRangeContentContainer_PointerPressed;
-                _outOfRangeContentContainer.PointerMoved -= OutOfRangeContentContainer_PointerMoved;
-                _outOfRangeContentContainer.PointerReleased -= OutOfRangeContentContainer_PointerReleased;
-                _outOfRangeContentContainer.PointerExited -= OutOfRangeContentContainer_PointerExited;
-            }
-
             if (_minThumb != null)
             {
                 _minThumb.DragCompleted -= Thumb_DragCompleted;
                 _minThumb.DragDelta -= MinThumb_DragDelta;
                 _minThumb.DragStarted -= MinThumb_DragStarted;
+                _minThumb.KeyDown -= MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -116,11 +116,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted -= Thumb_DragCompleted;
                 _maxThumb.DragDelta -= MaxThumb_DragDelta;
                 _maxThumb.DragStarted -= MaxThumb_DragStarted;
+                _maxThumb.KeyDown -= MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
             {
                 _containerCanvas.SizeChanged -= ContainerCanvas_SizeChanged;
+                _containerCanvas.PointerPressed -= ContainerCanvas_PointerPressed;
+                _containerCanvas.PointerMoved -= ContainerCanvas_PointerMoved;
+                _containerCanvas.PointerReleased -= ContainerCanvas_PointerReleased;
+                _containerCanvas.PointerExited -= ContainerCanvas_PointerExited;
             }
 
             IsEnabledChanged -= RangeSelector_IsEnabledChanged;
@@ -135,19 +140,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
 
-            if (_outOfRangeContentContainer != null)
-            {
-                _outOfRangeContentContainer.PointerPressed += OutOfRangeContentContainer_PointerPressed;
-                _outOfRangeContentContainer.PointerMoved += OutOfRangeContentContainer_PointerMoved;
-                _outOfRangeContentContainer.PointerReleased += OutOfRangeContentContainer_PointerReleased;
-                _outOfRangeContentContainer.PointerExited += OutOfRangeContentContainer_PointerExited;
-            }
-
             if (_minThumb != null)
             {
                 _minThumb.DragCompleted += Thumb_DragCompleted;
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
+                _minThumb.KeyDown += MinThumb_KeyDown;
             }
 
             if (_maxThumb != null)
@@ -155,12 +153,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragCompleted += Thumb_DragCompleted;
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
+                _maxThumb.KeyDown += MaxThumb_KeyDown;
             }
 
             if (_containerCanvas != null)
             {
                 _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
                 _containerCanvas.PointerEntered += ContainerCanvas_PointerEntered;
+                _containerCanvas.PointerPressed += ContainerCanvas_PointerPressed;
+                _containerCanvas.PointerMoved += ContainerCanvas_PointerMoved;
+                _containerCanvas.PointerReleased += ContainerCanvas_PointerReleased;
                 _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
             }
 
@@ -168,12 +170,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
+            if (IsTouchOptimized)
+            {
+                ArrangeForTouch();
+            }
+
             base.OnApplyTemplate();
         }
 
-        private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void MinThumb_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "Normal", false);
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMin -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMin += 1;
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void MaxThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    RangeMax -= 1;
+                    e.Handled = true;
+                    break;
+                case VirtualKey.Right:
+                    RangeMax += 1;
+                    e.Handled = true;
+                    break;
+            }
         }
 
         private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -181,10 +213,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, "PointerOver", false);
         }
 
-        private void OutOfRangeContentContainer_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
+        {            
+            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+            var normalizedPosition = ((position / _containerCanvas.ActualWidth) * (Maximum - Minimum)) + Minimum;
+
+            if (_pointerManipulatingMin)
+            {
+                _pointerManipulatingMin = false;
+                _containerCanvas.IsHitTestVisible = true;
+                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+            }
+            else if (_pointerManipulatingMax)
+            {
+                _pointerManipulatingMax = false;
+                _containerCanvas.IsHitTestVisible = true;
+                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+            }
+            VisualStateManager.GoToState(this, "Normal", false);
+        }
+
+        private void ContainerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
+            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+            var normalizedPosition = ((position / _containerCanvas.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
             if (_pointerManipulatingMin)
             {
@@ -200,29 +252,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OutOfRangeContentContainer_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
-
-            if (_pointerManipulatingMin)
-            {
-                _pointerManipulatingMin = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
-            }
-            else if (_pointerManipulatingMax)
-            {
-                _pointerManipulatingMax = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
-            }
-        }
-
-        private void OutOfRangeContentContainer_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
+            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+            var normalizedPosition = ((position / _containerCanvas.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
             if (_pointerManipulatingMin && normalizedPosition < RangeMax)
             {
@@ -234,19 +267,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OutOfRangeContentContainer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_outOfRangeContentContainer).Position.X;
-            var normalizedPosition = ((position / _outOfRangeContentContainer.ActualWidth) * (Maximum - Minimum)) + Minimum;
-            if (normalizedPosition < RangeMin)
+            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+            var normalizedPosition = position * Math.Abs(Maximum - Minimum) / _containerCanvas.ActualWidth;
+            double upperValueDiff = Math.Abs(RangeMax - normalizedPosition);
+            double lowerValueDiff = Math.Abs(RangeMin - normalizedPosition);
+
+            if (upperValueDiff < lowerValueDiff)
             {
-                _pointerManipulatingMin = true;
-                _containerCanvas.IsHitTestVisible = false;
-            }
-            else if (normalizedPosition > RangeMax)
-            {
+                RangeMax = normalizedPosition;
                 _pointerManipulatingMax = true;
-                _containerCanvas.IsHitTestVisible = false;
+            }
+            else
+            {
+                RangeMin = normalizedPosition;
+                _pointerManipulatingMin = true;
             }
         }
 
@@ -526,6 +562,85 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control is optimized for touch use.
+        /// </summary>
+        /// <value>
+        /// The value for touch optimization.
+        /// </value>
+        public bool IsTouchOptimized
+        {
+            get
+            {
+                return (bool)GetValue(IsTouchOptimizedProperty);
+            }
+
+            set
+            {
+                SetValue(IsTouchOptimizedProperty, value);
+            }
+        }
+
+        private static void IsTouchOptimizedChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            rangeSelector.ArrangeForTouch();
+        }
+
+        private void ArrangeForTouch()
+        {
+            if (_containerCanvas == null)
+            {
+                return;
+            }
+
+            if (IsTouchOptimized)
+            {
+                if (_outOfRangeContentContainer != null)
+                {
+                    _outOfRangeContentContainer.Height = 44;
+                }
+
+                if (_minThumb != null)
+                {
+                    _minThumb.Width = _minThumb.Height = 44;
+                    _minThumb.Margin = new Thickness(-20, 0, 0, 0);
+                }
+
+                if (_maxThumb != null)
+                {
+                    _maxThumb.Width = _maxThumb.Height = 44;
+                    _maxThumb.Margin = new Thickness(-20, 0, 0, 0);
+                }
+            }
+            else
+            {
+                if (_outOfRangeContentContainer != null)
+                {
+                    _outOfRangeContentContainer.Height = 24;
+                }
+
+                if (_minThumb != null)
+                {
+                    _minThumb.Width = 8;
+                    _minThumb.Height = 24;
+                    _minThumb.Margin = new Thickness(-8, 0, 0, 0);
+                }
+
+                if (_maxThumb != null)
+                {
+                    _maxThumb.Width = 8;
+                    _maxThumb.Height = 24;
+                    _maxThumb.Margin = new Thickness(-8, 0, 0, 0);
+                }
+            }
+        }
+
         private void SyncThumbs()
         {
             if (_containerCanvas == null)
@@ -538,6 +653,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_activeRectangle, relativeLeft);
+            Canvas.SetTop(_activeRectangle, (_containerCanvas.ActualHeight - _activeRectangle.ActualHeight) / 2);
 
             Canvas.SetLeft(_maxThumb, relativeRight);
 

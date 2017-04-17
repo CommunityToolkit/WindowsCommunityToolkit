@@ -9,8 +9,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
-using System.Linq;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -19,7 +19,6 @@ using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -45,18 +44,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     TileLarge = GenerateTileBindingLarge(username, avatarLogoSource)
                 }
             };
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
         }
 
         private static TileBinding GenerateTileBindingMedium(string username, string avatarLogoSource)
@@ -233,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Initialize()
         {
             // Generate the tile notification content
-            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.png");
+            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
 
             // Prepare and update the preview tiles
             var previewTiles = new PreviewTile[] { MediumPreviewTile, WidePreviewTile, LargePreviewTile };

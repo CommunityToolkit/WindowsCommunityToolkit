@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             InitializeComponent();
         }
 
-        private async void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void PropertyControl_OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (args.NewValue == _currentSample)
             {
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (_currentSample != null)
             {
-                var propertyDesc = await _currentSample.GetPropertyDescriptorAsync();
+                var propertyDesc = _currentSample.PropertyDescriptor;
 
                 if (propertyDesc == null)
                 {
@@ -77,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             {
                                 slider.Minimum = sliderOption.MinValue;
                                 slider.Maximum = sliderOption.MaxValue;
+                                slider.StepFrequency = sliderOption.Step;
                             }
 
                             if (option.Kind == PropertyKind.DoubleSlider)
@@ -89,12 +91,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                             break;
                         case PropertyKind.Enum:
+                            var enumType = option.DefaultValue.GetType();
                             var comboBox = new ComboBox
                             {
-                                ItemsSource = Enum.GetNames(option.DefaultValue.GetType()),
+                                ItemsSource = Enum.GetNames(enumType),
                                 SelectedItem = option.DefaultValue.ToString()
                             };
 
+                            converter = new EnumConverter(enumType);
                             controlToAdd = comboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;

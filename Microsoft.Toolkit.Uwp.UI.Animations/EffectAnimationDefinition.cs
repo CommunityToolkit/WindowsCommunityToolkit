@@ -10,11 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -26,9 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     internal class EffectAnimationDefinition
     {
         /// <summary>
-        /// Gets or sets <see cref="CompositionEffectBrush"/> that will be animated
+        /// Gets or sets <see cref="CompositionObject"/> that will be animated
         /// </summary>
-        public CompositionEffectBrush EffectBrush { get; set; }
+        public CompositionObject EffectBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="CompositionAnimation"/>

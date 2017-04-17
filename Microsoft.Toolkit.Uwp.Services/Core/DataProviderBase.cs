@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,7 +8,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
 
 using System;
@@ -32,10 +30,11 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <typeparam name="TSchema">Strong typed object to parse the response items into.</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper record limit.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">Parser to use for results.</param>
         /// <returns>Strong typed list of results.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an async method, so nesting generic types is necessary.")]
-        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser)
+        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
             where TSchema : SchemaBase
         {
             if (config == null)
@@ -50,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Services
 
             ValidateConfig(config);
 
-            var result = await GetDataAsync(config, maxRecords, parser);
+            var result = await GetDataAsync(config, maxRecords, pageIndex, parser);
             if (result != null)
             {
                 return result
@@ -66,10 +65,11 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// </summary>
         /// <param name="config">Configuration to use</param>
         /// <param name="maxRecords">Maximum number of records to return</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">Parser to use</param>
         /// <typeparam name="TSchema">Schema defining data returned</typeparam>
         /// <returns>List of data</returns>
-        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, IParser<TSchema> parser)
+        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
             where TSchema : SchemaBase;
 
         /// <summary>

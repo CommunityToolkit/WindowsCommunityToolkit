@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,10 +8,11 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
-using System;
+
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
 
@@ -21,8 +21,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
     /// <summary>
     /// Class for connecting to Bing.
     /// </summary>
-    public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>
+    public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>, IIncrementalSource<BingResult>
     {
+        private readonly BingSearchConfig _config;
+
         private BingDataProvider bingDataProvider;
 
         /// <summary>
@@ -30,6 +32,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// </summary>
         public BingService()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BingService"/> class.
+        /// </summary>
+        /// <param name="config">BingSearchConfig instance.</param>
+        private BingService(BingSearchConfig config)
+        {
+            _config = config;
         }
 
         /// <summary>
@@ -43,6 +54,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         public static BingService Instance => instance ?? (instance = new BingService());
 
         /// <summary>
+        /// Gets an instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.
+        /// </summary>
+        /// <param name="config">BingSearchConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>An instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
+        public static IncrementalLoadingCollection<BingService, BingResult> GetAsIncrementalLoading(BingSearchConfig config, int maxRecords = 20)
+        {
+            var service = new BingService(config);
+            return new IncrementalLoadingCollection<BingService, BingResult>(service, maxRecords);
+        }
+
+        /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
         public BingDataProvider Provider => bingDataProvider ?? (bingDataProvider = new BingDataProvider());
@@ -52,12 +75,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// </summary>
         /// <param name="config">BingSearchConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<BingResult>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
+        public async Task<List<BingResult>> RequestAsync(BingSearchConfig config, int maxRecords = 20, int pageIndex = 0)
         {
             List<BingResult> queryResults = new List<BingResult>();
 
-            var results = await Provider.LoadDataAsync(config, maxRecords);
+            var results = await Provider.LoadDataAsync(config, maxRecords, pageIndex);
 
             foreach (var result in results)
             {
@@ -65,6 +89,27 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
             }
 
             return queryResults;
+        }
+
+        /// <summary>
+        /// Retrieves items based on <paramref name="pageIndex"/> and <paramref name="pageSize"/> arguments.
+        /// </summary>
+        /// <param name="pageIndex">
+        /// The zero-based index of the page that corresponds to the items to retrieve.
+        /// </param>
+        /// <param name="pageSize">
+        /// The number of records to retrieve for the specified <paramref name="pageIndex"/>.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// Used to propagate notification that operation should be canceled.
+        /// </param>
+        /// <returns>
+        /// Strongly typed list of data returned from the service.
+        /// </returns>
+        public async Task<IEnumerable<BingResult>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var queryResult = await RequestAsync(_config, pageSize, pageIndex);
+            return queryResult.AsEnumerable();
         }
     }
 }

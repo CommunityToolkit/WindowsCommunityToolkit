@@ -1,0 +1,35 @@
+image: Visual Studio 2015
+
+branches:
+  only:
+  - dev
+  - master
+  - build
+
+environment:
+  SignClientSecret:
+    secure: VTO9eDpMF+nIWNKN8ERYk52veXovg3lBm9HA1K9NXq1WukzRTWQtDBdAf3hUS5oL
+
+skip_branch_with_pr: true
+nuget:
+  disable_publish_on_pr: true
+  
+skip_commits:
+  files:
+    - 'docs/**/*.*'  
+    
+init:
+- ps: git config --global core.autocrlf true
+
+build_script:
+- ps: .\build\build.ps1 SignNuGet
+
+artifacts:
+- path: .\bin\nupkg\*.nupkg
+  
+deploy:
+  provider: NuGet
+  server: https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v2/package
+  api_key:
+    secure: zdiFuDKIh6wae8N0V0rT5b8q1pQjuX/YImNWBAlyGkqS7zCfeIrEUb3up4sTuxaU
+  symbol_server: https://dotnet.myget.org/F/uwpcommunitytoolkit/symbols/api/v2/package

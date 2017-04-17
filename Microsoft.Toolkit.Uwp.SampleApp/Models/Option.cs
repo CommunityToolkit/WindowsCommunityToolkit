@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -20,5 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string Name { get; set; }
 
         public Type PageType { get; set; }
+
+        public SampleCategory Tag { get; set; }
     }
 }

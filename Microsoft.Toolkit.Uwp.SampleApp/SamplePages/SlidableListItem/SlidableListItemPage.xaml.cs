@@ -10,11 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -23,9 +21,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private ObservableCollection<Item> _items;
 
+        private DelegateCommand<Item> _deleteItem = default(DelegateCommand<Item>);
+
+        public DelegateCommand<Item> DeleteItem => _deleteItem ?? (_deleteItem = new DelegateCommand<Item>(ExecuteDeleteItemCommand, CanExecuteDeleteItemCommand));
+
         public SlidableListItemPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)
@@ -36,21 +38,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _items = items;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private bool CanExecuteDeleteItemCommand(Item item)
         {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
+            return true;
         }
 
-        private void SlidableListItem_RightCommandActivated(object sender, EventArgs e)
+        private void ExecuteDeleteItemCommand(Item item)
         {
-            _items.Remove((sender as SlidableListItem).DataContext as Item);
+            _items.Remove(item);
         }
     }
 }

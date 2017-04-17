@@ -9,9 +9,11 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -29,26 +31,26 @@ namespace Microsoft.Toolkit.Uwp
         /// Get the response stream returned by a HTTP get request.
         /// </summary>
         /// <param name="uri">Uri to request.</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Response stream</returns>
-        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri)
+        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var content = await GetHttpContentAsync(uri);
-
-            if (content == null)
-            {
-                return null;
-            }
-
             var outputStream = new InMemoryRandomAccessStream();
 
-            using (content)
+            using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                await content.WriteToStreamAsync(outputStream);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
+                {
+                    if (response.Success)
+                    {
+                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
 
-                outputStream.Seek(0);
-
-                return outputStream;
+                        outputStream.Seek(0);
+                    }
+                }
             }
+
+            return outputStream;
         }
 
         /// <summary>
@@ -61,13 +63,17 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            using (content)
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
-                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
-                    await content.WriteToStreamAsync(fileStream);
+                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    {
+                        if (response.Success)
+                        {
+                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                        }
+                    }
                 }
             }
         }
@@ -78,12 +84,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetPackagedFileStreamAsync(
+        public static Task<IRandomAccessStream> GetPackagedFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
-            return await GetFileStreamAsync(fileName, accessMode, workingFolder);
+            return GetFileStreamAsync(fileName, accessMode, workingFolder);
         }
 
         /// <summary>
@@ -92,12 +98,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetLocalFileStreamAsync(
+        public static Task<IRandomAccessStream> GetLocalFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
-            return await GetFileStreamAsync(fileName, accessMode, workingFolder);
+            return GetFileStreamAsync(fileName, accessMode, workingFolder);
         }
 
         /// <summary>
@@ -106,12 +112,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(
+        public static Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
-            return await GetFileStreamAsync(fileName, accessMode, workingFolder);
+            return GetFileStreamAsync(fileName, accessMode, workingFolder);
         }
 
         /// <summary>
@@ -121,13 +127,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
-        public static async Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(
+        public static Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(
             KnownFolderId knownFolderId,
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
         {
             StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
-            return await GetFileStreamAsync(fileName, accessMode, workingFolder);
+            return GetFileStreamAsync(fileName, accessMode, workingFolder);
         }
 
         /// <summary>
@@ -135,10 +141,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
-        public static async Task<bool> IsPackagedFileExistsAsync(string fileName)
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
+        public static Task<bool> IsPackagedFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = Package.Current.InstalledLocation;
-            return await IsFileExistsAsync(workingFolder, fileName);
+            return workingFolder.IsFileExistsAsync(fileName);
         }
 
         /// <summary>
@@ -146,10 +153,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
-        public static async Task<bool> IsLocalFileExistsAsync(string fileName)
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
+        public static Task<bool> IsLocalFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
-            return await IsFileExistsAsync(workingFolder, fileName);
+            return workingFolder.IsFileExistsAsync(fileName);
         }
 
         /// <summary>
@@ -157,10 +165,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
-        public static async Task<bool> IsLocalCacheFileExistsAsync(string fileName)
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
+        public static Task<bool> IsLocalCacheFileExistsAsync(string fileName)
         {
             StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
-            return await IsFileExistsAsync(workingFolder, fileName);
+            return workingFolder.IsFileExistsAsync(fileName);
         }
 
         /// <summary>
@@ -169,12 +178,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="knownFolderId">The well known folder ID to use</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
-        public static async Task<bool> IsKnownFolderFileExistsAsync(
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
+        public static Task<bool> IsKnownFolderFileExistsAsync(
             KnownFolderId knownFolderId,
             string fileName)
         {
             StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
-            return await IsFileExistsAsync(workingFolder, fileName);
+            return workingFolder.IsFileExistsAsync(fileName);
         }
 
         /// <summary>
@@ -183,12 +193,13 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="workingFolder">Folder to use.</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <returns>True if file exists.</returns>
+        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
         public static async Task<bool> IsFileExistsAsync(
             this StorageFolder workingFolder,
             string fileName)
         {
             var name = Path.GetFileName(fileName);
-            workingFolder = await GetSubFolder(fileName, workingFolder);
+            workingFolder = await GetSubFolderAsync(fileName, workingFolder);
 
             var item = await workingFolder.TryGetItemAsync(name);
 
@@ -220,38 +231,20 @@ namespace Microsoft.Toolkit.Uwp
             return encoding.GetString(bytes);
         }
 
-        private static async Task<IHttpContent> GetHttpContentAsync(Uri uri)
-        {
-            if (uri == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    return response.Content;
-                }
-            }
-        }
-
         private static async Task<IRandomAccessStream> GetFileStreamAsync(
             string fullFileName,
             FileAccessMode accessMode,
             StorageFolder workingFolder)
         {
             var fileName = Path.GetFileName(fullFileName);
-            workingFolder = await GetSubFolder(fullFileName, workingFolder);
+            workingFolder = await GetSubFolderAsync(fullFileName, workingFolder);
 
             var file = await workingFolder.GetFileAsync(fileName);
 
             return await file.OpenAsync(accessMode);
         }
 
-        private static async Task<StorageFolder> GetSubFolder(
+        private static async Task<StorageFolder> GetSubFolderAsync(
             string fullFileName,
             StorageFolder workingFolder)
         {

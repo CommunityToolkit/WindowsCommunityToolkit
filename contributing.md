@@ -13,16 +13,32 @@ That's why many of the guidelines of this document are obvious and serve only on
 ## A good pull request
 Every contribution has to come with:
 
-* Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
-* A documentation page on the [documentation repo](https://github.com/Microsoft/UWPCommunityToolkit-docs)
+* Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
+* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once validated your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
 * You tested your code with SDK 10586 and SDK 14393
 * PR has to target dev branch
 
-PR has to be validated by at least two core members (either Microsoft or MVP) before being merged.
+PR has to be validated by at least two core members before being merged.
 
-Once merged, you can get a pre-release package of the toolkit by adding this [Nuget repo](https://ci.appveyor.com/nuget/uwpcommunitytoolkit-unwg9jaovwyr) to your Visual Studio.
+Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
+
+## Quality insurance for pull requests for XAML controls
+We encourage developers to follow the following guidances when submitting pull requests for controls:
+ * Your control must be usable and efficient with keyboard only
+  * Tab order must be logical
+  * Focused controls must be visible
+  * Action must be triggered when hitting Enter key
+ * Do not use custom colors but instead rely on theme colors so high contrasts themes can be used with your control
+ * Add AutomationProperties.Name on all controls to define what the controls purpose (Name is minimum, but there are some other things too that can really help the screen reader). 
+  * Don't use the same Name on two different elements unless they have different control types
+ * Use Narrator Dev mode (Launch Narrator [WinKey+Enter], then CTRL+F12) to test the screen reader experience. Is the information sufficient, meaningful and helps the user navigate and understand your control
+ * Ensure that you have run your xaml file changes through Xaml Styler (version 2.3+), which can be downloaded from [here](https://visualstudiogallery.msdn.microsoft.com/3de2a3c6-def5-42c4-924d-cc13a29ff5b7). Do not worry about the settings for this as they are set at the project level (settings.xamlstyler).
+
+You can find more information about these topics [here](https://blogs.msdn.microsoft.com/winuiautomation/2015/07/14/building-accessible-windows-universal-apps-introduction)
+
+This is to help as part of our effort to build an accessible toolkit (starting with 1.2)
 
 ## General rules
 

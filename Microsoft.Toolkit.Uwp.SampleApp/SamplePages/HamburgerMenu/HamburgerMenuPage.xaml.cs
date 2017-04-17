@@ -9,11 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
+using System;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -27,22 +26,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
-            HamburgerMenuControl.ItemsSource = await new PhotosDataSource().GetItemsAsync(maxCount: 5);
-
-            HamburgerMenuControl.OptionsItemsSource = new[] { new OptionMenuItem { Glyph = "", Name = "About" } };
-        }
-
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
             ContentGrid.DataContext = e.ClickedItem;
@@ -50,8 +33,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
         {
-            var menuItem = e.ClickedItem as OptionMenuItem;
-            var dialog = new MessageDialog($"You clicked on {menuItem.Name} button");
+            var menuItem = e.ClickedItem as HamburgerMenuItem;
+            var dialog = new MessageDialog($"You clicked on {menuItem.Label} button");
 
             await dialog.ShowAsync();
         }

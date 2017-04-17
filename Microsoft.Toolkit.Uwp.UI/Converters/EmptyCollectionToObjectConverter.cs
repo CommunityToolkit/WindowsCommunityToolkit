@@ -9,9 +9,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Collections;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
@@ -19,27 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// This class converts a collection size into an other object.
     /// Can be used to convert to bind a visibility, a color or an image to the size of the collection.
     /// </summary>
-    public class EmptyCollectionToObjectConverter : IValueConverter
+    public class EmptyCollectionToObjectConverter : EmptyObjectToObjectConverter
     {
         /// <summary>
-        /// Gets or sets the value to be returned when the collection is neither null nor empty
+        /// Checks collection for emptiness.
         /// </summary>
-        public object NotEmptyValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value to be returned when the collection is either null or empty
-        /// </summary>
-        public object EmptyValue { get; set; }
-
-        /// <summary>
-        /// Convert a boolean value to an other object.
-        /// </summary>
-        /// <param name="value">The source data being passed to the target.</param>
-        /// <param name="targetType">The type of the target property, as a type reference.</param>
-        /// <param name="parameter">An optional parameter to be used to invert the converter logic.</param>
-        /// <param name="language">The language of the conversion.</param>
-        /// <returns>The value to be passed to the target dependency property.</returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
+        /// <param name="value">Value to be checked.</param>
+        /// <returns>True if value is an empty collection or does not implement IEnumerable, false otherwise.</returns>
+        protected override bool CheckValueIsEmpty(object value)
         {
             bool isEmpty = true;
             var collection = value as IEnumerable;
@@ -49,26 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 isEmpty = !enumerator.MoveNext();
             }
 
-            // Negate if needed
-            if (ConverterTools.TryParseBool(parameter))
-            {
-                isEmpty = !isEmpty;
-            }
-
-            return ConverterTools.Convert(isEmpty ? EmptyValue : NotEmptyValue, targetType);
-        }
-
-        /// <summary>
-        /// Not implemented
-        /// </summary>
-        /// <param name="value">The target data being passed to the source.</param>
-        /// <param name="targetType">The type of the target property, as a type reference (System.Type for Microsoft .NET, a TypeName helper struct for Visual C++ component extensions (C++/CX)).</param>
-        /// <param name="parameter">An optional parameter to be used to invert the converter logic.</param>
-        /// <param name="language">The language of the conversion.</param>
-        /// <returns>The value to be passed to the source object.</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
+            return isEmpty;
         }
     }
 }

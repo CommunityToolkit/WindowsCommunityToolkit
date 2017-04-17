@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -27,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
     [TemplatePart(Name = PartImage, Type = typeof(Image))]
     [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
-    public sealed partial class ImageEx : Control
+    public partial class ImageEx : Control
     {
         private const string PartImage = "Image";
         private const string PartProgress = "Progress";
@@ -39,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Image _image;
         private ProgressRing _progress;
-
         private bool _isInitialized;
+        private object _lockObj;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageEx"/> class.
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageEx()
         {
             DefaultStyleKey = typeof(ImageEx);
-            Loaded += OnLoaded;
+            _lockObj = new object();
         }
 
         /// <summary>
@@ -78,40 +79,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        /// <summary>
-        /// Measures the size in layout required for child elements and determines a size for the control.
-        /// </summary>
-        /// <param name="availableSize">The available size that this element can give to child elements. Infinity can be specified as a value to indicate that the element will size to whatever content is available.</param>
-        /// <returns>The size that this element determines it needs during layout, based on its calculations of child element sizes.</returns>
-        protected override Size MeasureOverride(Size availableSize)
+        /// <inheritdoc/>
+        protected override Size ArrangeOverride(Size finalSize)
         {
-            _progress.Width = _progress.Height = Math.Min(1024, Math.Min(availableSize.Width, availableSize.Height)) / 8.0;
-            return base.MeasureOverride(availableSize);
+            var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
+
+            if (_progress?.Width == newSquareSize)
+            {
+                _progress.Height = newSquareSize;
+            }
+
+            return base.ArrangeOverride(finalSize);
         }
 
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageOpened?.Invoke(this, e);
+            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
             VisualStateManager.GoToState(this, LoadedState, true);
         }
 
         private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             ImageFailed?.Invoke(this, e);
+            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (_image != null && _image.Source == null)
-            {
-                RefreshImage();
-            }
-        }
-
-        private async void RefreshImage()
-        {
-            await LoadImageAsync();
         }
     }
 }

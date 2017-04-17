@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,15 +8,14 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
 using Newtonsoft.Json;
@@ -41,16 +39,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
         private const string PublishUrl = "https://upload.twitter.com/1.1";
+        private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private readonly TwitterOAuthTokens tokens;
+        private readonly TwitterOAuthTokens _tokens;
 
         /// <summary>
         /// Password vault used to store access tokens
         /// </summary>
-        private readonly PasswordVault vault;
+        private readonly PasswordVault _vault;
+
+        private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -69,8 +70,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
         {
-            this.tokens = tokens;
-            vault = new PasswordVault();
+            _tokens = tokens;
+            _vault = new PasswordVault();
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                rawResult = await request.ExecuteGetAsync(uri, tokens);
+                rawResult = await request.ExecuteGetAsync(uri, _tokens);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
             catch (WebException wex)
@@ -143,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                rawResult = await request.ExecuteGetAsync(uri, tokens);
+                rawResult = await request.ExecuteGetAsync(uri, _tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -201,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -238,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     return null;
                 }
 
-                var passwordCredentials = vault.RetrieveAll();
+                var passwordCredentials = _vault.RetrieveAll();
                 var temp = passwordCredentials.FirstOrDefault(c => c.Resource == "TwitterAccessToken");
 
                 if (temp == null)
@@ -246,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     return null;
                 }
 
-                return vault.Retrieve(temp.Resource, temp.UserName);
+                return _vault.Retrieve(temp.Resource, temp.UserName);
             }
         }
 
@@ -259,24 +260,24 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var twitterCredentials = PasswordCredential;
             if (twitterCredentials != null)
             {
-                tokens.AccessToken = twitterCredentials.UserName;
-                tokens.AccessTokenSecret = twitterCredentials.Password;
+                _tokens.AccessToken = twitterCredentials.UserName;
+                _tokens.AccessTokenSecret = twitterCredentials.Password;
                 UserScreenName = ApplicationData.Current.LocalSettings.Values["TwitterScreenName"].ToString();
                 LoggedIn = true;
                 return true;
             }
 
-            if (await InitializeRequestAccessTokens(tokens.CallbackUri) == false)
+            if (await InitializeRequestAccessTokensAsync(_tokens.CallbackUri) == false)
             {
                 LoggedIn = false;
                 return false;
             }
 
-            string requestToken = tokens.RequestToken;
+            string requestToken = _tokens.RequestToken;
             string twitterUrl = $"{OAuthBaseUrl}/authorize?oauth_token={requestToken}";
 
             Uri startUri = new Uri(twitterUrl);
-            Uri endUri = new Uri(tokens.CallbackUri);
+            Uri endUri = new Uri(_tokens.CallbackUri);
 
             var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, startUri, endUri);
 
@@ -284,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 case WebAuthenticationStatus.Success:
                     LoggedIn = true;
-                    return await ExchangeRequestTokenForAccessToken(result.ResponseData);
+                    return await ExchangeRequestTokenForAccessTokenAsync(result.ResponseData);
                 case WebAuthenticationStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     LoggedIn = false;
@@ -307,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var twitterCredentials = PasswordCredential;
             if (twitterCredentials != null)
             {
-                vault.Remove(twitterCredentials);
+                _vault.Remove(twitterCredentials);
                 ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = null;
                 UserScreenName = null;
             }
@@ -321,27 +322,38 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatus(string tweet, params IRandomAccessStream[] pictures)
+        public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
+        {
+            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
+        }
+
+        /// <summary>
+        /// Tweets a status update.
+        /// </summary>
+        /// <param name="status">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
         {
             try
             {
-                var media_ids = string.Empty;
+                var mediaIds = string.Empty;
 
                 if (pictures != null && pictures.Length > 0)
                 {
                     var ids = new List<string>();
                     foreach (var picture in pictures)
                     {
-                        ids.Add(await UploadPicture(picture));
+                        ids.Add(await UploadPictureAsync(picture));
                     }
 
-                    media_ids = "&media_ids=" + string.Join(",", ids);
+                    mediaIds = "&media_ids=" + string.Join(",", ids);
                 }
 
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{media_ids}");
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                await request.ExecutePostAsync(uri, tokens);
+                await request.ExecutePostAsync(uri, _tokens);
 
                 return true;
             }
@@ -366,27 +378,70 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
+        /// Open a connection to user streams service (Events, DirectMessages...).
+        /// </summary>
+        /// <param name="parser">Specific stream's result parser.</param>
+        /// <param name="callback">Method invoked each time a result occurs.</param>
+        /// <returns>Awaitable task.</returns>
+        public Task StartUserStreamAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            try
+            {
+                var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
+
+                _streamRequest = new TwitterOAuthRequest();
+
+                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)));
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Stop user's stream
+        /// </summary>
+        public void StopStream()
+        {
+            _streamRequest?.Abort();
+            _streamRequest = null;
+        }
+
+        /// <summary>
         /// Publish a picture to Twitter user's medias.
         /// </summary>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
-        public async Task<string> UploadPicture(IRandomAccessStream stream)
+        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
         {
             var uri = new Uri($"{PublishUrl}/media/upload.json");
 
             // Get picture data
             var fileBytes = new byte[stream.Size];
 
-            using (DataReader reader = new DataReader(stream))
-            {
-                await reader.LoadAsync((uint)stream.Size);
-                reader.ReadBytes(fileBytes);
-            }
+            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
+
+            stream.Seek(0);
 
             string boundary = DateTime.Now.Ticks.ToString("x");
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
-            return await request.ExecutePostMultipartAsync(uri, tokens, boundary, fileBytes);
+            return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes);
         }
 
         /// <summary>
@@ -418,9 +473,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)
@@ -448,22 +504,22 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         {
             if (config?.Query == null && config?.QueryType != TwitterQueryType.Home)
             {
-                throw new ConfigParameterNullException("Query");
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
 
-            if (tokens == null)
+            if (_tokens == null)
             {
-                throw new ConfigParameterNullException("Tokens");
+                throw new ConfigParameterNullException(nameof(_tokens));
             }
 
-            if (string.IsNullOrEmpty(tokens.ConsumerKey))
+            if (string.IsNullOrEmpty(_tokens.ConsumerKey))
             {
-                throw new OAuthKeysNotPresentException("ConsumerKey");
+                throw new OAuthKeysNotPresentException(nameof(_tokens.ConsumerKey));
             }
 
-            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
+            if (string.IsNullOrEmpty(_tokens.ConsumerSecret))
             {
-                throw new OAuthKeysNotPresentException("ConsumerSecret");
+                throw new OAuthKeysNotPresentException(nameof(_tokens.ConsumerSecret));
             }
         }
 
@@ -477,9 +533,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         {
             string requestOrAccessToken = null;
             string requestOrAccessTokenSecret = null;
-            string oauth_verifier = null;
-            string oauth_callback_confirmed = null;
-            string screen_name = null;
+            string oauthVerifier = null;
+            string oauthCallbackConfirmed = null;
+            string screenName = null;
             string[] keyValPairs = getResponse.Split('&');
 
             for (int i = 0; i < keyValPairs.Length; i++)
@@ -488,7 +544,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 switch (splits[0])
                 {
                     case "screen_name":
-                        screen_name = splits[1];
+                        screenName = splits[1];
                         break;
                     case "oauth_token":
                         requestOrAccessToken = splits[1];
@@ -497,10 +553,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                         requestOrAccessTokenSecret = splits[1];
                         break;
                     case "oauth_callback_confirmed":
-                        oauth_callback_confirmed = splits[1];
+                        oauthCallbackConfirmed = splits[1];
                         break;
                     case "oauth_verifier":
-                        oauth_verifier = splits[1];
+                        oauthVerifier = splits[1];
                         break;
                 }
             }
@@ -512,11 +568,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 case TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret:
                     return requestOrAccessTokenSecret;
                 case TwitterOAuthTokenType.OAuthVerifier:
-                    return oauth_verifier;
+                    return oauthVerifier;
                 case TwitterOAuthTokenType.ScreenName:
-                    return screen_name;
+                    return screenName;
                 case TwitterOAuthTokenType.OAuthCallbackConfirmed:
-                    return oauth_callback_confirmed;
+                    return oauthCallbackConfirmed;
             }
 
             return string.Empty;
@@ -537,7 +593,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, tokens);
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens);
 
                 return parser.Parse(rawResult);
             }
@@ -566,36 +622,34 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="twitterCallbackUrl">Callback Uri.</param>
         /// <returns>Success or failure.</returns>
-        private async Task<bool> InitializeRequestAccessTokens(string twitterCallbackUrl)
+        private async Task<bool> InitializeRequestAccessTokensAsync(string twitterCallbackUrl)
         {
             var twitterUrl = $"{OAuthBaseUrl}/request_token";
 
             string nonce = GetNonce();
             string timeStamp = GetTimeStamp();
-            string sigBaseStringParams = GetSignatureBaseStringParams(tokens.ConsumerKey, nonce, timeStamp, "oauth_callback=" + Uri.EscapeDataString(twitterCallbackUrl));
+            string sigBaseStringParams = GetSignatureBaseStringParams(_tokens.ConsumerKey, nonce, timeStamp, "oauth_callback=" + Uri.EscapeDataString(twitterCallbackUrl));
             string sigBaseString = "GET&" + Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
-            string signature = GetSignature(sigBaseString, tokens.ConsumerSecret);
+            string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
 
             twitterUrl += "?" + sigBaseStringParams + "&oauth_signature=" + Uri.EscapeDataString(signature);
 
             string getResponse;
 
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-
-            using (HttpClient httpClient = new HttpClient(handler))
-            {
-                try
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
-                    getResponse = await httpClient.GetStringAsync(new Uri(twitterUrl));
-                }
-                catch (HttpRequestException hre)
-                {
-                    Debug.WriteLine("HttpClient call failed trying to retrieve Twitter Request Tokens.  Message: {0}", hre.Message);
-                    return false;
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    if (response.Success)
+                    {
+                        getResponse = data;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
+                        return false;
+                    }
                 }
             }
 
@@ -605,8 +659,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return false;
             }
 
-            tokens.RequestToken = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
-            tokens.RequestTokenSecret = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
+            _tokens.RequestToken = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
+            _tokens.RequestTokenSecret = ExtractTokenFromResponse(getResponse, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
             return true;
         }
@@ -636,13 +690,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="webAuthResultResponseData">WAB data containing appropriate tokens.</param>
         /// <returns>Success or failure.</returns>
-        private async Task<bool> ExchangeRequestTokenForAccessToken(string webAuthResultResponseData)
+        private async Task<bool> ExchangeRequestTokenForAccessTokenAsync(string webAuthResultResponseData)
         {
             string responseData = webAuthResultResponseData.Substring(webAuthResultResponseData.IndexOf("oauth_token"));
             string requestToken = ExtractTokenFromResponse(responseData, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
 
             // Ensure requestToken matches accessToken per Twitter documentation.
-            if (requestToken != tokens.RequestToken)
+            if (requestToken != _tokens.RequestToken)
             {
                 return false;
             }
@@ -654,43 +708,37 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string timeStamp = GetTimeStamp();
             string nonce = GetNonce();
 
-            string sigBaseStringParams = GetSignatureBaseStringParams(tokens.ConsumerKey, nonce, timeStamp, "oauth_token=" + requestToken);
+            string sigBaseStringParams = GetSignatureBaseStringParams(_tokens.ConsumerKey, nonce, timeStamp, "oauth_token=" + requestToken);
 
             string sigBaseString = "POST&";
             sigBaseString += Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
 
-            string signature = GetSignature(sigBaseString, tokens.ConsumerSecret);
+            string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
+            string data = null;
 
-            StringContent httpContent = new StringContent("oauth_verifier=" + oAuthVerifier, System.Text.Encoding.UTF8);
-            httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+            string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
 
-            string authorizationHeaderParams = "oauth_consumer_key=\"" + tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_version=\"1.0\"";
-
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
+
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    data = await response.GetTextResultAsync().ConfigureAwait(false);
+                }
             }
 
-            string response;
-            using (HttpClient httpClient = new HttpClient(handler))
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
-                var httpResponseMessage = await httpClient.PostAsync(new Uri(twitterUrl), httpContent);
-                response = await httpResponseMessage.Content.ReadAsStringAsync();
-            }
-
-            var screenName = ExtractTokenFromResponse(response, TwitterOAuthTokenType.ScreenName);
-            var accessToken = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
-            var accessTokenSecret = ExtractTokenFromResponse(response, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
+            var screenName = ExtractTokenFromResponse(data, TwitterOAuthTokenType.ScreenName);
+            var accessToken = ExtractTokenFromResponse(data, TwitterOAuthTokenType.OAuthRequestOrAccessToken);
+            var accessTokenSecret = ExtractTokenFromResponse(data, TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret);
 
             UserScreenName = screenName;
-            tokens.AccessToken = accessToken;
-            tokens.AccessTokenSecret = accessTokenSecret;
+            _tokens.AccessToken = accessToken;
+            _tokens.AccessTokenSecret = accessTokenSecret;
 
             var passwordCredential = new PasswordCredential("TwitterAccessToken", accessToken, accessTokenSecret);
             ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = screenName;
-            vault.Add(passwordCredential);
+            _vault.Add(passwordCredential);
 
             return true;
         }

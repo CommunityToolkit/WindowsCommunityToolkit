@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,12 +8,11 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -231,9 +229,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Log user in to Twitter.
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public Task<bool> LoginAsync()
         {
-            return await Provider.LoginAsync();
+            return Provider.LoginAsync();
         }
 
         /// <summary>
@@ -252,6 +250,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Returns success or failure of post request.</returns>
         public async Task<bool> TweetStatusAsync(string message, params IRandomAccessStream[] pictures)
         {
+            return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
+        }
+
+        /// <summary>
+        /// Post a Tweet with associated pictures.
+        /// </summary>
+        /// <param name="status">The tweet information.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Returns success or failure of post request.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        {
             if (pictures.Length > 4)
             {
                 throw new ArgumentOutOfRangeException(nameof(pictures));
@@ -259,16 +268,44 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatus(message, pictures);
+                return await Provider.TweetStatusAsync(status, pictures);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(message, pictures);
+                return await TweetStatusAsync(status, pictures);
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Open a connection to user's stream service
+        /// </summary>
+        /// <param name="callback">Method called each time a tweet arrives</param>
+        /// <returns>Task</returns>
+        public async Task StartUserStreamAsync(TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            if (Provider.LoggedIn)
+            {
+                await Provider.StartUserStreamAsync(new TwitterUserStreamParser(), callback);
+                return;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                await StartUserStreamAsync(callback);
+            }
+        }
+
+        /// <summary>
+        /// Close the connection to user's stream service
+        /// </summary>
+        public void StopUserStream()
+        {
+            Provider.StopStream();
         }
     }
 }

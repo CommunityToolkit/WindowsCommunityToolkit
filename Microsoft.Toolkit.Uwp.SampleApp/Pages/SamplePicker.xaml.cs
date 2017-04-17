@@ -12,6 +12,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -56,11 +57,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         /// Invoked when the Page is loaded and becomes the current source of a parent Frame. Setting the View Model so that controls can bind to it.
         /// </summary>
         /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            ViewModel = e.Parameter as SampleCategory;
+            var category = e.Parameter as SampleCategory;
+
+            if (category != null)
+            {
+                ViewModel = category;
+                return;
+            }
+
+            // If not a direct category then it is a search result
+            var query = e.Parameter.ToString();
+
+            var customCategory = new SampleCategory
+            {
+                Samples = await Samples.FindSamplesByName(query),
+                Name = $"Search for \"{query}\""
+            };
+
+            ViewModel = customCategory;
         }
 
         /// <summary>
@@ -68,13 +86,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
-        private async void SamplesList_OnItemClick(object sender, ItemClickEventArgs e)
+        private void SamplesList_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var sample = e.ClickedItem as Sample;
 
             if (sample != null)
             {
-                await Shell.Current.NavigateToSampleAsync(sample);
+                Shell.Current.NavigateToSample(sample);
             }
         }
 
@@ -90,6 +108,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SamplePicker_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ActualWidth < 600)
+            {
+                var small = (DataTemplate)Resources["SmallSampleTemplate"];
+
+                if (SamplesList.ItemTemplate == small)
+                {
+                    return;
+                }
+
+                SamplesList.ItemTemplate = small;
+            }
+            else
+            {
+                var normal = (DataTemplate)Resources["SampleTemplate"];
+
+                if (SamplesList.ItemTemplate == normal)
+                {
+                    return;
+                }
+
+                SamplesList.ItemTemplate = normal;
+            }
         }
     }
 }

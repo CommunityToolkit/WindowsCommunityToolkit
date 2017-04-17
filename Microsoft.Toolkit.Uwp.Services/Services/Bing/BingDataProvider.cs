@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,14 +8,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
@@ -36,12 +37,28 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(BingSearchConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             var countryValue = config.Country.GetStringValue();
-            var locParameter = string.IsNullOrEmpty(countryValue) ? string.Empty : $"loc:{countryValue}+";
+            var languageValue = config.Language.GetStringValue();
+            var languageParameter = string.IsNullOrEmpty(languageValue) ? string.Empty : $"language:{languageValue}+";
+
+            if (string.IsNullOrEmpty(countryValue))
+            {
+                if (CultureInfo.CurrentCulture.IsNeutralCulture)
+                {
+                    countryValue = BingCountry.None.GetStringValue();
+                }
+                else
+                {
+                    countryValue = CultureInfo.CurrentCulture.Name.Split('-')[1].ToLower();
+                }
+            }
+
+            var locParameter = $"loc:{countryValue}+";
             var queryTypeParameter = string.Empty;
 
             switch (config.QueryType)
@@ -54,18 +71,22 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
                     break;
             }
 
-            var settings = new HttpRequestSettings
-            {
-                RequestedUri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}")
-            };
+            var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}&first={(pageIndex * maxRecords) + (pageIndex > 0 ? 1 : 0)}");
 
-            HttpRequestResult result = await HttpRequest.DownloadAsync(settings);
-            if (result.Success)
+            using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                return parser.Parse(result.Result);
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+
+                    if (response.Success && !string.IsNullOrEmpty(data))
+                    {
+                        return parser.Parse(data);
+                    }
+
+                    throw new RequestFailedException(response.StatusCode, data);
+                }
             }
-
-            throw new RequestFailedException(result.StatusCode, result.Result);
         }
 
         /// <summary>
@@ -86,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         {
             if (config?.Query == null)
             {
-                throw new ConfigParameterNullException("Query");
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
     }

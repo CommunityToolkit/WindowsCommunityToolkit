@@ -1,5 +1,4 @@
 ﻿// ******************************************************************
-//
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,16 +8,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-//
 // ******************************************************************
+
 using System;
 using System.IO;
-using System.IO.Compression;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
@@ -27,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequest
     {
+        private bool _abort;
+
         /// <summary>
         /// HTTP Get request to specified Uri.
         /// </summary>
@@ -35,11 +36,60 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens)
         {
-            HttpClient client = GetHttpClient(requestUri, tokens);
+            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
+            {
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
 
-            HttpResponseMessage response = await client.GetAsync(requestUri);
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-            return await response.Content.ReadAsStringAsync();
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
+                }
+            }
+        }
+
+        /// <summary>
+        /// HTTP Get request for stream service.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="callback">Function invoked when stream available.</param>
+        /// <returns>awaitable task</returns>
+        public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback)
+        {
+            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
+            {
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens);
+
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+
+                using (var response = await HttpHelper.Instance.GetInputStreamAsync(request).ConfigureAwait(false))
+                {
+                    var responseStream = await response.GetStreamResultAsync().ConfigureAwait(false);
+
+                    using (var reader = new StreamReader(responseStream.AsStreamForRead()))
+                    {
+                        while (!_abort && !reader.EndOfStream)
+                        {
+                            var result = reader.ReadLine();
+
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                callback?.Invoke(result);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stop reading stream
+        /// </summary>
+        public void Abort()
+        {
+            _abort = true;
         }
 
         /// <summary>
@@ -50,11 +100,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens)
         {
-            HttpClient client = GetHttpClient(requestUri, tokens, "POST");
+            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Post))
+            {
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-            HttpResponseMessage response = await client.PostAsync(requestUri, null);
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-            return await response.Content.ReadAsStringAsync();
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                {
+                    return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
+                }
+            }
         }
 
         /// <summary>
@@ -67,28 +123,54 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content)
         {
-            HttpClient client = GetHttpClient(requestUri, tokens, "POST");
-            MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent(boundary);
-            HttpContent byteContent = new ByteArrayContent(content);
+            JToken mediaId = null;
 
-            multipartFormDataContent.Add(byteContent, "media");
+            try
+            {
+                using (var multipartFormDataContent = new HttpMultipartFormDataContent(boundary))
+                {
+                    using (var byteContent = new HttpBufferContent(content.AsBuffer()))
+                    {
+                        multipartFormDataContent.Add(byteContent, "media");
 
-            HttpResponseMessage response = await client.PostAsync(requestUri, multipartFormDataContent);
+                        using (var request = new HttpHelperRequest(requestUri, HttpMethod.Post))
+                        {
+                            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-            string jsonResult = await response.Content.ReadAsStringAsync();
+                            request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-            JObject jObj = JObject.Parse(jsonResult);
-            return Convert.ToString(jObj["media_id_string"]);
+                            request.Content = multipartFormDataContent;
+
+                            using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                            {
+                                string jsonResult = await response.GetTextResultAsync().ConfigureAwait(false);
+
+                                JObject jObj = JObject.Parse(jsonResult);
+                                mediaId = jObj["media_id_string"];
+                            }
+                        }
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // known issue
+                // http://stackoverflow.com/questions/39109060/httpmultipartformdatacontent-dispose-throws-objectdisposedexception
+            }
+
+            return mediaId.ToString();
         }
 
-        private static HttpClient GetHttpClient(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
+        private string ProcessErrors(string content)
         {
-            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, method);
+            if (content.StartsWith("{\"errors\":"))
+            {
+                var errors = JsonConvert.DeserializeObject<TwitterErrors>(content);
 
-            var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
-            var client = new HttpClient(handler);
-            client.DefaultRequestHeaders.Add("Authorization", requestBuilder.AuthorizationHeader);
-            return client;
+                throw new TwitterException { Errors = errors };
+            }
+
+            return content;
         }
     }
 }

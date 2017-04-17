@@ -50,14 +50,35 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
+    <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Helpers\ConnectionHelper.cs" />
+    <Compile Include="Helpers\Network\ConnectionHelper.cs" />
+    <Compile Include="Helpers\Network\ConnectionInformation.cs" />
+    <Compile Include="Helpers\Network\ConnectionType.cs" />
+    <Compile Include="Helpers\DispatcherHelper.cs" />
+    <Compile Include="Helpers\Network\NetworkHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
+    <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
+    <Compile Include="Helpers\DeepLinkParser\DeepLinkParser.cs" />
+    <Compile Include="Helpers\DeepLinkParser\QueryParameterCollection.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
+    <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
+    <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
+    <Compile Include="Helpers\SystemInformation.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
+    <Compile Include="IncrementalLoadingCollection\IIncrementalSource.cs" />
+    <Compile Include="IncrementalLoadingCollection\IncrementalLoadingCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Structures\HslColor.cs" />
     <Compile Include="Structures\HsvColor.cs" />
+    <Compile Include="Structures\OSVersion.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
@@ -105,6 +126,20 @@
     <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>bin\Publish\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoStdLib>true</NoStdLib>
