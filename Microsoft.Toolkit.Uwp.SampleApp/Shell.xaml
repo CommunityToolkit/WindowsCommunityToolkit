@@ -222,6 +222,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -242,6 +244,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -262,6 +266,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
 
                 </VisualState>
