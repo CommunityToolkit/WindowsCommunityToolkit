@@ -22,7 +22,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 	DisplayMode="CompactInline"
 	CompactPaneLength="48"
 	HamburgerHeight="48"
-	IsPaneOpen="False"/>
+	IsPaneOpen="False">
 </controls:HamburgerMenu>
 
 ```

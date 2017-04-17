@@ -24,5 +24,6 @@
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.pdb" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.pri" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools\**\*.*" target="lib\uap10.0\Microsoft.Toolkit.Uwp.DeveloperTools" />
   </files>
 </package>
