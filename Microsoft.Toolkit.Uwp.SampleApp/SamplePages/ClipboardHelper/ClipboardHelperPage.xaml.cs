@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void PasteHtmlButton_Click(object sender, RoutedEventArgs e)
         {
             var html = await ClipboardHelper.GetRawHtmlAsync();
-            if (html != null)
+            if (string.IsNullOrEmpty(html))
             {
                 PasteHtmlTextBlock.Text = html;
             }
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void PasteTextButton_Click(object sender, RoutedEventArgs e)
         {
             var text = await ClipboardHelper.GetTextAsync();
-            if (text != null)
+            if (string.IsNullOrEmpty(text))
             {
                 PasteTextTextBlock.Text = text;
             }
