@@ -1,7 +1,7 @@
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ClassicMenuPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.ClassicMenu.Commands"
+      xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,31 +25,31 @@
         </Grid.RowDefinitions>
 
 
-        <controls:ClassicMenu Background="Black"
+        <controls:Menu Background="Black"
                               Orientation="Horizontal">
             <controls:ClassicMenuItem Header="File"
                                       Style="{StaticResource ClassicMenuItemStyle}">
                 <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+N"
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
                                     Text="Project" />
-                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+N"
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
                                     Command="{StaticResource NewFile}"
                                     Text="File" />
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSubItem Text="Open">
-                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shift+O"
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+O"
                                     Command="{StaticResource GenericCommand}"
                                     CommandParameter="Select Project/Solution"
                                     Text="Project/Solution" />
-                    <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+O"
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
                                     Command="{StaticResource GenericCommand}"
                                     CommandParameter="Select File"
                                     Text="File" />
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem Text="Page Setup" />
-                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+P"
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+P"
                                 Command="{StaticResource GenericCommand}"
                                 CommandParameter="Page is Printed!!"
                                 Text="Print" />
@@ -58,7 +58,7 @@
                     <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
                     <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
                 </MenuFlyoutSubItem>
-                <MenuFlyoutItem controls:ClassicMenu.InputGestureText="Ctrl+Shit+E"
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shit+E"
                                 Command="{StaticResource GenericCommand}"
                                 CommandParameter="Solution closed"
                                 Text="Exit" />
@@ -85,11 +85,11 @@
             <controls:ClassicMenuItem Header="Debug"
                                       Style="{StaticResource ClassicMenuItemStyle}" />
 
-        </controls:ClassicMenu>
+        </controls:Menu>
 
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Click Alt to set focus on Classic Menu" />
+            <TextBlock Text="Click Alt to set focus on Menu" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
             <TextBlock Text="Create new file shortcut: Ctrl+N" />
             <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />

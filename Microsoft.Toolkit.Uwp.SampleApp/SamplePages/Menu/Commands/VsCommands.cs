@@ -14,7 +14,7 @@ using System;
 using System.Windows.Input;
 using Windows.UI.Popups;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.ClassicMenu.Commands
+namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 {
     internal class NewProjectCommand : ICommand
     {

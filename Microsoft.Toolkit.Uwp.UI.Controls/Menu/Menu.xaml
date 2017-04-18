@@ -3,7 +3,7 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel">
 
-    <Style TargetType="local:ClassicMenu">
+    <Style TargetType="local:Menu">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -14,20 +14,20 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:ClassicMenu">
+                <ControlTemplate TargetType="local:Menu">
                     <ItemsPresenter />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style TargetType="local:ClassicMenuItem">
+    <Style TargetType="local:MenuItem">
         <Setter Property="IsTabStop" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:ClassicMenuItem">
+                <ControlTemplate TargetType="local:MenuItem">
                     <Button x:Name="FlyoutButton"
                             Background="{TemplateBinding Background}"
                             Content="{TemplateBinding Header}"

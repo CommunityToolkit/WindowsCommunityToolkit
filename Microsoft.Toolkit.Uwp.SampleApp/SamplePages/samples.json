@@ -214,13 +214,13 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
       },
       {
-        "Name": "ClassicMenu",
-        "Type": "ClassicMenuPage",
-        "About": "",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
-        "XamlCodeFile": "ClassicMenu.bind",
-        "Icon": "/SamplePages/ClassicMenu/ClassicMenu.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+        "Name": "Menu",
+        "Type": "MenuPage",
+        "About": "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
+        "XamlCodeFile": "Menu.bind",
+        "Icon": "/SamplePages/Menu/Menu.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Menu.md"
       }
     ]
   },

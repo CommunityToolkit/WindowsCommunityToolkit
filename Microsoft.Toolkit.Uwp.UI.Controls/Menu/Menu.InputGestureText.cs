@@ -16,9 +16,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Classic Menu Control defines a menu of choices for users to invoke.
+    /// Menu Control defines a menu of choices for users to invoke.
     /// </summary>
-    public partial class ClassicMenu
+    public partial class Menu
     {
         /// <summary>
         /// Sets the text describing an input gesture that will call the command tied to the specified item.

@@ -234,7 +234,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
-    <Content Include="SamplePages\ClassicMenu\ClassicMenu.png" />
+    <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
@@ -383,7 +383,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
-    <Content Include="SamplePages\ClassicMenu\ClassicMenu.bind" />
+    <Content Include="SamplePages\Menu\Menu.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -401,10 +401,10 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ClassicMenu\ClassicMenuPage.xaml.cs">
-      <DependentUpon>ClassicMenuPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ClassicMenu\Commands\VsCommands.cs" />
+    <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>
@@ -644,7 +644,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ClassicMenu\ClassicMenuPage.xaml">
+    <Page Include="SamplePages\Menu\MenuPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

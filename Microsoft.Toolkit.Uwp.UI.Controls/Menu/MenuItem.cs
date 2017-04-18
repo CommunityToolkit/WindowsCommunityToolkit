@@ -19,19 +19,19 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Classic Menu Item is the items main container for Class Menu control
+    /// Menu Item is the items main container for Class Menu control
     /// </summary>
-    public class ClassicMenuItem : ItemsControl
+    public class MenuItem : ItemsControl
     {
         /// <summary>
         /// ClassicMenuItem header text
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(ClassicMenuItem), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// ClassicMenuItem Meny Style
         /// </summary>
-        public static readonly DependencyProperty MenuStyleProperty = DependencyProperty.Register(nameof(MenuStyle), typeof(Style), typeof(ClassicMenuItem), new PropertyMetadata(default(Style)));
+        public static readonly DependencyProperty MenuStyleProperty = DependencyProperty.Register(nameof(MenuStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
 
         /// <summary>
         /// ClassicMenuItem Menu background
@@ -40,10 +40,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
             nameof(MenuBackground),
             typeof(Brush),
-            typeof(ClassicMenuItem),
+            typeof(MenuItem),
             new PropertyMetadata(default(Brush)));
 
-        private ClassicMenu ParentMenu => this.FindAscendant<ClassicMenu>();
+        private Menu ParentMenu => this.FindAscendant<Menu>();
 
         private Button _flyoutButton;
 
@@ -75,11 +75,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClassicMenuItem"/> class.
+        /// Initializes a new instance of the <see cref="MenuItem"/> class.
         /// </summary>
-        public ClassicMenuItem()
+        public MenuItem()
         {
-            DefaultStyleKey = typeof(ClassicMenuItem);
+            DefaultStyleKey = typeof(MenuItem);
             IsFocusEngagementEnabled = true;
         }
 

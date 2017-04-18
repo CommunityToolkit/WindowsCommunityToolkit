@@ -21,11 +21,14 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Classic Menu Control defines a menu of choices for users to invoke.
+    /// Menu Control defines a menu of choices for users to invoke.
     /// </summary>
-    public partial class ClassicMenu
+    public partial class Menu
     {
-        private static bool NavigateThroughMenuHeader(KeyEventArgs args, ClassicMenu menu, ClassicMenuItem menuItem, Orientation orientation)
+        private const string CtrlValue = "CTRL";
+        private const string ShiftValue = "SHIFT";
+
+        private static bool NavigateThroughMenuHeader(KeyEventArgs args, Menu menu, MenuItem menuItem, Orientation orientation)
         {
             if (orientation == Orientation.Horizontal)
             {
@@ -67,20 +70,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private static bool MoveFocusForward(ClassicMenu menu, ClassicMenuItem menuItem)
+        private static bool MoveFocusForward(Menu menu, MenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
             var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
-            var nextItem = menu.Items.ElementAt(nextIndex) as ClassicMenuItem;
+            var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
             nextItem?.Focus(FocusState.Keyboard);
             return true;
         }
 
-        private static bool MoveFocusBackward(ClassicMenu menu, ClassicMenuItem menuItem)
+        private static bool MoveFocusBackward(Menu menu, MenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
             var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
-            var nextItem = menu.Items.ElementAt(nextIndex) as ClassicMenuItem;
+            var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
             nextItem?.Focus(FocusState.Keyboard);
             return true;
         }
@@ -144,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             var element = FocusManager.GetFocusedElement();
-            var menuItem = element as ClassicMenuItem;
+            var menuItem = element as MenuItem;
             if (menuItem != null)
             {
                 if (NavigateThroughMenuHeader(args, this, menuItem, Orientation))
