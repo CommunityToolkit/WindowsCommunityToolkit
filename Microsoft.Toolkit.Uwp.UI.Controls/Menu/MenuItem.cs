@@ -24,24 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class MenuItem : ItemsControl
     {
         /// <summary>
-        /// ClassicMenuItem header text
+        /// MenuItem header text
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
-
-        /// <summary>
-        /// ClassicMenuItem Meny Style
-        /// </summary>
-        public static readonly DependencyProperty MenuStyleProperty = DependencyProperty.Register(nameof(MenuStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
-
-        /// <summary>
-        /// ClassicMenuItem Menu background
-        /// </summary>
-        public static readonly DependencyProperty MenuBackgroundProperty =
-            DependencyProperty.Register(
-            nameof(MenuBackground),
-            typeof(Brush),
-            typeof(MenuItem),
-            new PropertyMetadata(default(Brush)));
 
         private Menu ParentMenu => this.FindAscendant<Menu>();
 
@@ -51,24 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the title to appear in the title bar
         /// </summary>
         public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the menu style for ClassicMenuItem
-        /// </summary>
-        public Style MenuStyle
-        {
-            get { return (Style)GetValue(MenuStyleProperty); }
-            set { SetValue(MenuStyleProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the MenuBackground to appear in the title bar
-        /// </summary>
-        public string MenuBackground
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
@@ -102,7 +69,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
-                menuFlyout.MenuFlyoutPresenterStyle = MenuStyle;
+
+                menuFlyout.MenuFlyoutPresenterStyle = ParentMenu.MenuFlyoutStyle;
 
                 foreach (var item in Items)
                 {

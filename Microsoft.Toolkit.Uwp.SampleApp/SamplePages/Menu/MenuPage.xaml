@@ -277,9 +277,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <controls:Menu Orientation="Horizontal">
-            <controls:MenuItem Header="File"
-                               MenuStyle="{StaticResource MenuStyle}">
+        <controls:Menu MenuFlyoutStyle="{StaticResource MenuStyle}"
+                       Orientation="Horizontal">
+            <controls:MenuItem Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
@@ -325,8 +325,7 @@
             </controls:MenuItem>
 
 
-            <controls:MenuItem Header="Edit"
-                               MenuStyle="{StaticResource MenuStyle}">
+            <controls:MenuItem Header="Edit">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="Go To Line" />
@@ -342,8 +341,7 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="View"
-                               MenuStyle="{StaticResource MenuStyle}">
+            <controls:MenuItem Header="View">
                 <MenuFlyoutSubItem Text="Designer">
                     <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="VS Designer" />
@@ -359,8 +357,7 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Project"
-                               MenuStyle="{StaticResource MenuStyle}">
+            <controls:MenuItem Header="Project">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="Class" />
@@ -376,16 +373,14 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Build"
-                               MenuStyle="{StaticResource MenuStyle}">
+            <controls:MenuItem Header="Build">
                 <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                 Text="Build Solution" />
                 <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                 Text="Rebuild Solution" />
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Debug"
-                               MenuStyle="{StaticResource MenuStyle}">
+            <controls:MenuItem Header="Debug">
                 <MenuFlyoutSubItem Text="Windows">
                     <MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="Windows 8" />

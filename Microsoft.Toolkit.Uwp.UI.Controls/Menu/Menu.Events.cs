@@ -70,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
+        // this function enables the menu to cycle from start to end and from end to start
         private static bool MoveFocusForward(Menu menu, MenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
@@ -79,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
+        // this function enables the menu to cycle from end to start and from start to end
         private static bool MoveFocusBackward(Menu menu, MenuItem menuItem)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menuItem);

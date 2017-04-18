@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -50,6 +51,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(Orientation),
                 typeof(Menu),
                 new PropertyMetadata(Orientation.Horizontal));
+
+        /// <summary>
+        /// MenuItem Meny Style
+        /// </summary>
+        public static readonly DependencyProperty MenuFlyoutStyleProperty = DependencyProperty.Register(nameof(MenuFlyoutStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
+
+        /// <summary>
+        /// Gets or sets the menu style for MenuItem
+        /// </summary>
+        public Style MenuFlyoutStyle
+        {
+            get { return (Style)GetValue(MenuFlyoutStyleProperty); }
+            set { SetValue(MenuFlyoutStyleProperty, value); }
+        }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()
