@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MinThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
+    [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
     public class RangeSelector : Control
     {
         /// <summary>
@@ -66,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Thumb _minThumb;
         private Thumb _maxThumb;
         private Canvas _containerCanvas;
+        private Grid _controlGrid;
         private double _oldValue;
         private bool _valuesAssigned;
         private bool _minSet;
@@ -139,6 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _minThumb = GetTemplateChild("MinThumb") as Thumb;
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
+            _controlGrid = GetTemplateChild("ControlGrid") as Grid;
 
             if (_minThumb != null)
             {
@@ -214,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
-        {            
+        {
             var position = e.GetCurrentPoint(_containerCanvas).Position.X;
             var normalizedPosition = ((position / _containerCanvas.ActualWidth) * (Maximum - Minimum)) + Minimum;
 
@@ -601,6 +604,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsTouchOptimized)
             {
+                if (_controlGrid != null)
+                {
+                    _controlGrid.Height = 44;
+                }
+
                 if (_outOfRangeContentContainer != null)
                 {
                     _outOfRangeContentContainer.Height = 44;
@@ -620,6 +628,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
+                if (_controlGrid != null)
+                {
+                    _controlGrid.Height = 24;
+                }
+
                 if (_outOfRangeContentContainer != null)
                 {
                     _outOfRangeContentContainer.Height = 24;
