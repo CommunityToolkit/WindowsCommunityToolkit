@@ -15,7 +15,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Data.Html;
-using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp
@@ -51,8 +50,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Get html from clipboard.
         /// </summary>
-        /// <returns>The raw html string.</returns>
-        public static async Task<string> GetRawHtmlAsync()
+        /// <returns>The html string.</returns>
+        public static async Task<string> GetHtmlAsync()
         {
             var dataPackageView = Clipboard.GetContent();
             if (dataPackageView.Contains(StandardDataFormats.Html))
@@ -123,11 +122,16 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="html">The html string.</param>
         /// <exception cref="ArgumentNullException">'html' is null.</exception>
-        public static void SetRawHtml(string html)
+        /// <exception cref="ArgumentException">'html' length is not valid.</exception>
+        public static void SetHtml(string html)
         {
             if (html == null)
             {
                 throw new ArgumentNullException(nameof(html));
+            }
+            if (html.Length < 4)
+            {
+                throw new ArgumentException("html length is not valid.", nameof(html));
             }
 
             var dataPackage = new DataPackage();
@@ -144,11 +148,16 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="rtf">The rtf format text.</param>
         /// <exception cref="ArgumentNullException">'rtf' is null.</exception>
+        /// <exception cref="ArgumentException">'rtf' is empty string.</exception>
         public static void SetRtf(string rtf)
         {
             if (rtf == null)
             {
                 throw new ArgumentNullException(nameof(rtf));
+            }
+            if (rtf.Length <= 0)
+            {
+                throw new ArgumentException("rtf is empty string.", nameof(rtf));
             }
 
             var dataPackage = new DataPackage();
@@ -167,6 +176,10 @@ namespace Microsoft.Toolkit.Uwp
             if (text == null)
             {
                 throw new ArgumentNullException(nameof(text));
+            }
+            if (text.Length <= 0)
+            {
+                throw new ArgumentException("text is empty string.", nameof(text));
             }
 
             var dataPackage = new DataPackage();

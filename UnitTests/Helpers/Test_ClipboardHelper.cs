@@ -73,7 +73,7 @@ namespace UnitTests.Helpers
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
                 Clipboard.Clear();
-                var nullResult = await ClipboardHelper.GetRawHtmlAsync();
+                var nullResult = await ClipboardHelper.GetHtmlAsync();
                 Assert.IsNull(nullResult);
 
                 var dataPackage = new DataPackage();
@@ -81,7 +81,7 @@ namespace UnitTests.Helpers
                 dataPackage.SetHtmlFormat(htmlFormat);
                 Clipboard.SetContent(dataPackage);
 
-                var result = await ClipboardHelper.GetRawHtmlAsync();
+                var result = await ClipboardHelper.GetHtmlAsync();
                 Assert.AreEqual(_testHtml, result);
             });
         }
@@ -132,10 +132,10 @@ namespace UnitTests.Helpers
             {
                 Assert.ThrowsException<ArgumentNullException>(() =>
                 {
-                    ClipboardHelper.SetRawHtml(null);
+                    ClipboardHelper.SetHtml(null);
                 });
 
-                ClipboardHelper.SetRawHtml(_testHtml);
+                ClipboardHelper.SetHtml(_testHtml);
                 var dataPackageView = Clipboard.GetContent();
                 var htmlFormat = await dataPackageView.GetHtmlFormatAsync();
                 var htmlResult = HtmlFormatHelper.GetStaticFragment(htmlFormat);

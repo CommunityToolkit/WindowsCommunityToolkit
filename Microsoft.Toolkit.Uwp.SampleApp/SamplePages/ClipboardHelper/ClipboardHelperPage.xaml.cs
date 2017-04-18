@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void CopyHtmlButton_Click(object sender, RoutedEventArgs e)
         {
-            ClipboardHelper.SetRawHtml(CopyHtmlTextBox.Text);
+            ClipboardHelper.SetHtml(CopyHtmlTextBox.Text);
             await new MessageDialog("copy finished").ShowAsync();
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void PasteHtmlButton_Click(object sender, RoutedEventArgs e)
         {
-            var html = await ClipboardHelper.GetRawHtmlAsync();
+            var html = await ClipboardHelper.GetHtmlAsync();
             if (string.IsNullOrEmpty(html))
             {
                 PasteHtmlTextBlock.Text = html;
