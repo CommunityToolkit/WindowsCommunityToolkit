@@ -37,25 +37,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const string UnloadedState = "Unloaded";
         protected const string FailedState = "Failed";
 
-        protected object Image { get; private set; }
-
-        protected ProgressRing Progress { get; private set; }
-
-        protected bool IsInitialized { get; private set; }
-
-        protected object LockObj { get; private set; }
+        private object _image;
+        private ProgressRing _progress;
+        private bool _isInitialized;
+        private object _lockObj;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageExBase"/> class.
         /// </summary>
         public ImageExBase()
         {
-            LockObj = new object();
+            _lockObj = new object();
         }
 
         protected void AttachImageOpened(RoutedEventHandler handler)
         {
-            dynamic image = Image;
+            dynamic image = _image;
             if (image != null)
             {
                 image.ImageOpened += handler;
@@ -64,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected void RemoveImageOpened(RoutedEventHandler handler)
         {
-            dynamic image = Image;
+            dynamic image = _image;
             if (image != null)
             {
                 image.ImageOpened -= handler;
@@ -73,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
-            dynamic image = Image;
+            dynamic image = _image;
             if (image != null)
             {
                 image.ImageFailed += handler;
@@ -82,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
-            dynamic image = Image;
+            dynamic image = _image;
             if (image != null)
             {
                 image.ImageFailed -= handler;
@@ -97,10 +94,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RemoveImageOpened(OnImageOpened);
             RemoveImageFailed(OnImageFailed);
 
-            Image = GetTemplateChild(PartImage) as object;
-            Progress = GetTemplateChild(PartProgress) as ProgressRing;
+            _image = GetTemplateChild(PartImage) as object;
+            _progress = GetTemplateChild(PartProgress) as ProgressRing;
 
-            IsInitialized = true;
+            _isInitialized = true;
 
             SetSource(Source);
 
@@ -115,9 +112,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
 
-            if (Progress?.Width == newSquareSize)
+            if (_progress?.Width == newSquareSize)
             {
-                Progress.Height = newSquareSize;
+                _progress.Height = newSquareSize;
             }
 
             return base.ArrangeOverride(finalSize);
@@ -137,4 +134,3 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, FailedState, true);
         }
     }
-}

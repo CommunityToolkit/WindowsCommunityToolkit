@@ -61,19 +61,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AttachSource(ImageSource source)
         {
-            if (Image is ImageBrush)
+            if (_image is ImageBrush)
             {
-                (Image as ImageBrush).ImageSource = source;
+                (_image as ImageBrush).ImageSource = source;
             }
-            else if (Image is Image)
+            else if (_image is Image)
             {
-                (Image as Image).Source = source;
+                (_image as Image).Source = source;
             }
         }
 
         private async void SetSource(object source)
         {
-            if (!IsInitialized)
+            if (!_isInitialized)
             {
                 return;
             }
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
 
-                        lock (LockObj)
+                        lock (_lockObj)
                         {
                             // If you have many imageEx in a virtualized listview for instance
                             // controls will be recycled and the uri will change while waiting for the previous one to load
@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        lock (LockObj)
+                        lock (_lockObj)
                         {
                             if (_uri == imageUri)
                             {

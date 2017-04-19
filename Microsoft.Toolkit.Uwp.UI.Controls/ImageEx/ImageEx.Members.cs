@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The image as a <see cref="CastingSource"/>.</returns>
         public CastingSource GetAsCastingSource()
         {
-            return IsInitialized ? (Image as Image).GetAsCastingSource() : null;
+            return _isInitialized ? (_image as Image).GetAsCastingSource() : null;
         }
     }
 }

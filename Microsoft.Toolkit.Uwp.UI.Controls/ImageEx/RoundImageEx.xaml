@@ -14,9 +14,9 @@
                                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                     Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
-                                    StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}"
-                                    Height="{TemplateBinding Height}"
-                                    Width="{TemplateBinding Width}">
+                                    StrokeThickness="0"
+                                    Height="{TemplateBinding MaskHeight}"
+                                    Width="{TemplateBinding MaskWidth}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="PlaceholderImage"
                                             ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderSource}"
@@ -29,8 +29,8 @@
                                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                     Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
                                     StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}"
-                                    Height="{TemplateBinding Height}"
-                                    Width="{TemplateBinding Width}">
+                                    Height="{TemplateBinding MaskHeight}"
+                                    Width="{TemplateBinding MaskWidth}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="Image"
                                             Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stretch}" />
@@ -102,7 +102,7 @@
                                 </VisualState>
                                 <VisualState x:Name="Unloaded" />
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="StrokeStates">
+                            <VisualStateGroup x:Name="AdditionalStates">
                                 <VisualState x:Name="ShowStroke">
                                     <Storyboard>
                                         <DoubleAnimation AutoReverse="False"
