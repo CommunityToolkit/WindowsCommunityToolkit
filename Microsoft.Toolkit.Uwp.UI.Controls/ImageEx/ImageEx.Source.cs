@@ -16,21 +16,22 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Shared Code for ImageEx and RoundImageEx
+    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
+    /// Source images are downloaded asynchronously showing a load indicator while in progress.
+    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
-    public partial class ImageExBase
+    public partial class ImageEx
     {
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageExBase), new PropertyMetadata(null, SourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
 
         private Uri _uri;
         private bool _isHttpSource;
@@ -47,12 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ImageExBase;
-
-            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
-            {
-                control?.SetSource(e.NewValue);
-            }
+            var control = d as ImageEx;
+            control?.SetSource(e.NewValue);
         }
 
         private static bool IsHttpUri(Uri uri)
@@ -71,14 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this._tokenSource = new CancellationTokenSource();
 
-            if (_image is ImageBrush)
-            {
-                (_image as ImageBrush).ImageSource = null;
-            }
-            else if (_image is Image)
-            {
-                (_image as Image).Source = null;
-            }
+            _image.Source = null;
 
             if (source == null)
             {
@@ -91,15 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var imageSource = source as ImageSource;
             if (imageSource != null)
             {
-                if (_image is ImageBrush)
-                {
-                    (_image as ImageBrush).ImageSource = imageSource;
-                }
-                else if (_image is Image)
-                {
-                    (_image as Image).Source = imageSource;
-                }
-
+                _image.Source = imageSource;
                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                 VisualStateManager.GoToState(this, LoadedState, true);
                 return;
@@ -122,10 +104,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
             }
 
-            await LoadImageAsync(_uri);
+            await LoadImageAsync();
         }
 
-        private async Task LoadImageAsync(Uri imageUri)
+        private async Task LoadImageAsync()
         {
             if (_uri != null)
             {
@@ -150,26 +132,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
                         }
 
-                        var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token, propValues);
 
-                        lock (_lockObj)
-                        {
-                            // If you have many imageEx in a virtualized listview for instance
-                            // controls will be recycled and the uri will change while waiting for the previous one to load
-                            if (_uri == imageUri)
-                            {
-                                if (_image is ImageBrush)
-                                {
-                                    (_image as ImageBrush).ImageSource = img;
-                                }
-                                else if (_image is Image)
-                                {
-                                    (_image as Image).Source = img;
-                                }
-                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                                VisualStateManager.GoToState(this, LoadedState, true);
-                            }
-                        }
+                        _image.Source = img;
+                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                        VisualStateManager.GoToState(this, LoadedState, true);
                     }
                     catch (OperationCanceledException)
                     {
@@ -177,27 +144,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        lock (_lockObj)
-                        {
-                            if (_uri == imageUri)
-                            {
-                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                                VisualStateManager.GoToState(this, FailedState, true);
-                            }
-                        }
+                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                        VisualStateManager.GoToState(this, FailedState, true);
                     }
                 }
                 else
                 {
-                    var img = new BitmapImage(_uri);
-                    if (_image is ImageBrush)
-                    {
-                        (_image as ImageBrush).ImageSource = img;
-                    }
-                    else if (_image is Image)
-                    {
-                        (_image as Image).Source = img;
-                    }
+                    _image.Source = new BitmapImage(_uri);
                 }
             }
         }
