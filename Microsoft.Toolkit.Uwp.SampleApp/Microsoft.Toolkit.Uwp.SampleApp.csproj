@@ -367,6 +367,8 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbarCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -439,6 +441,9 @@
     <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\Analytics\AnalyticsPage.xaml.cs">
       <DependentUpon>AnalyticsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
+      <DependentUpon>TextToolbarPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
@@ -647,6 +652,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Analytics\AnalyticsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

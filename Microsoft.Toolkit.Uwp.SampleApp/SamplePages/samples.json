@@ -4,6 +4,13 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
       {
+        "Name": "TextToolbar",
+        "Type": "TextToolbarPage",
+        "About": "Toolbar for Editing Text attached to a RichEditBox",
+        "XamlCodeFile": "TextToolbar.bind",
+        "CodeFile": "TextToolbarCode.bind"
+      },
+      {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -167,7 +174,7 @@
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Expander.md"
-      }, 
+      },
       {
         "Name": "TileControl",
         "Type": "TileControlPage",

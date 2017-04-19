@@ -124,11 +124,23 @@
     <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
+    <Compile Include="TextToolbar\Formats\Formatter.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDownFormatter.cs" />
+    <Compile Include="TextToolbar\Formats\RichTextFormatter.cs" />
+    <Compile Include="TextToolbar\TextToolbar.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Events.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Labels.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\CustomToolbarButton.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\CustomToolbarItem.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\CustomToolbarSeparator.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
+    <Content Include="TextToolbar\Font\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlHelpers.Composition.cs" />
@@ -198,6 +210,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\TextToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
