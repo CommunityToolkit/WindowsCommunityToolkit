@@ -28,6 +28,28 @@ The AlternateRowColor property provides a way to assign a background color to ev
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
+<br/>
+The AlternateRowItemTemplate property provides a way to assign an alternate datatemplate to every other row. It is also possible to combine with the AlternateRowColor property.
+
+## Example
+
+```xml
+    <Page.Resources>
+        <DataTemplate x:Name="NormalTemplate">
+            <TextBlock Text="{Binding }" Foreground="Green"></TextBlock>
+        </DataTemplate>
+        
+        <DataTemplate x:Name="AlternateTemplate">
+            <TextBlock Text="{Binding }" Foreground="Orange"></TextBlock>
+        </DataTemplate>
+    </Page.Resources>
+
+    <ListView
+        ItemTemplate="{StaticResource NormalTemplate}"
+        ui:ListViewBaseExtensions.AlternateRowItemTemplate="{StaticResource AlternateTemplate}"
+        ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
+```
+
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
