@@ -15,6 +15,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Data.Html;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp
@@ -24,29 +25,6 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public static class ClipboardHelper
     {
-        /// <summary>
-        /// Get image bytes from clipboard.
-        /// </summary>
-        /// <returns>The image bytes.</returns>
-        public static async Task<byte[]> GetImageAsync()
-        {
-            var dataPackageView = Clipboard.GetContent();
-            if (dataPackageView.Contains(StandardDataFormats.Bitmap))
-            {
-                var imageReceived = await dataPackageView.GetBitmapAsync();
-                using (var imageStream = await imageReceived.OpenReadAsync())
-                {
-                    var bytes = new byte[imageStream.Size];
-                    await imageStream.ReadAsync(bytes.AsBuffer(), (uint)imageStream.Size, InputStreamOptions.None);
-                    return bytes;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         /// <summary>
         /// Get html from clipboard.
         /// </summary>
@@ -68,6 +46,29 @@ namespace Microsoft.Toolkit.Uwp
                 }
 
                 return HtmlFormatHelper.GetStaticFragment(htmlFormat);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get image bytes from clipboard.
+        /// </summary>
+        /// <returns>The image bytes.</returns>
+        public static async Task<byte[]> GetImageAsync()
+        {
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Bitmap))
+            {
+                var imageReceived = await dataPackageView.GetBitmapAsync();
+                using (var imageStream = await imageReceived.OpenReadAsync())
+                {
+                    var bytes = new byte[imageStream.Size];
+                    await imageStream.ReadAsync(bytes.AsBuffer(), (uint)imageStream.Size, InputStreamOptions.None);
+                    return bytes;
+                }
             }
             else
             {
@@ -144,6 +145,25 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Set image file into clipboard.
+        /// </summary>
+        /// <param name="file">The image file.</param>
+        /// <exception cref="ArgumentNullException">'image' is null.</exception>
+        public static void SetImageFromFile(IStorageFile file)
+        {
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            var dataPackage = new DataPackage();
+            var imageStreamReference = RandomAccessStreamReference.CreateFromFile(file);
+            dataPackage.SetBitmap(imageStreamReference);
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
+        }
+
+        /// <summary>
         /// Set rtf format text into clipboard.
         /// </summary>
         /// <param name="rtf">The rtf format text.</param>
@@ -171,6 +191,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="text">The text string.</param>
         /// <exception cref="ArgumentNullException">'text' is null.</exception>
+        /// <exception cref="ArgumentException">'text' is empty string.</exception>
         public static void SetText(string text)
         {
             if (text == null)

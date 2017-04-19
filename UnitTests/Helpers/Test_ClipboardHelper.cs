@@ -126,6 +126,19 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        public async Task Test_ClipboardHelper_SetImageFromFile()
+        {
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                Assert.ThrowsException<ArgumentNullException>(() =>
+                {
+                    ClipboardHelper.SetImageFromFile(null);
+                });
+            });
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
         public async Task Test_ClipboardHelper_SetRawHtml()
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
@@ -133,6 +146,10 @@ namespace UnitTests.Helpers
                 Assert.ThrowsException<ArgumentNullException>(() =>
                 {
                     ClipboardHelper.SetHtml(null);
+                });
+                Assert.ThrowsException<ArgumentException>(() =>
+                {
+                    ClipboardHelper.SetHtml(string.Empty);
                 });
 
                 ClipboardHelper.SetHtml(_testHtml);
@@ -155,6 +172,10 @@ namespace UnitTests.Helpers
                {
                    ClipboardHelper.SetRtf(null);
                });
+               Assert.ThrowsException<ArgumentException>(() =>
+               {
+                   ClipboardHelper.SetRtf(string.Empty);
+               });
 
                ClipboardHelper.SetRtf(_testRtf);
                var dataPackageView = Clipboard.GetContent();
@@ -173,10 +194,10 @@ namespace UnitTests.Helpers
                 {
                     ClipboardHelper.SetText(null);
                 });
-
-                ClipboardHelper.SetText(string.Empty);
-                var emptyContent = Clipboard.GetContent();
-                Assert.AreEqual(string.Empty, await emptyContent.GetTextAsync());
+                Assert.ThrowsException<ArgumentException>(() =>
+                {
+                    ClipboardHelper.SetText(string.Empty);
+                });
 
                 ClipboardHelper.SetText(_testText);
                 var dataPackageView = Clipboard.GetContent();
