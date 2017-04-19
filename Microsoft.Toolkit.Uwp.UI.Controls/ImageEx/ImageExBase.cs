@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string UnloadedState = "Unloaded";
         private const string FailedState = "Failed";
         private const string ShowStrokeState = "ShowStroke";
-        private const string StrokeUnloaded = "StrokeUnloaded";
+        private const string StrokeUnloaded = "StokeUnloaded";
 
         protected object _image;
         protected ProgressRing _progress;
