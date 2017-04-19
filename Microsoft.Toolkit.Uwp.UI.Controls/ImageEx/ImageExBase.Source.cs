@@ -59,18 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
 
-        private void AttachSource(ImageSource source)
-        {
-            if (_image is ImageBrush)
-            {
-                (_image as ImageBrush).ImageSource = source;
-            }
-            else if (_image is Image)
-            {
-                (_image as Image).Source = source;
-            }
-        }
-
         private async void SetSource(object source)
         {
             if (!_isInitialized)
@@ -82,7 +70,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this._tokenSource = new CancellationTokenSource();
 
-            AttachSource(null);
+            if (_image is ImageBrush)
+            {
+                (_image as ImageBrush).ImageSource = null;
+            }
+            else if (_image is Image)
+            {
+                (_image as Image).Source = null;
+            }
 
             if (source == null)
             {
@@ -95,7 +90,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var imageSource = source as ImageSource;
             if (imageSource != null)
             {
-                AttachSource(imageSource);
+                if (_image is ImageBrush)
+                {
+                    (_image as ImageBrush).ImageSource = imageSource;
+                }
+                else if (_image is Image)
+                {
+                    (_image as Image).Source = imageSource;
+                }
 
                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                 VisualStateManager.GoToState(this, LoadedState, true);
@@ -155,7 +157,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             // controls will be recycled and the uri will change while waiting for the previous one to load
                             if (_uri == imageUri)
                             {
-                                AttachSource(img);
+                                if (_image is ImageBrush)
+                                {
+                                    (_image as ImageBrush).ImageSource = img;
+                                }
+                                else if (_image is Image)
+                                {
+                                    (_image as Image).Source = img;
+                                }
                                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                                 VisualStateManager.GoToState(this, LoadedState, true);
                             }
@@ -180,7 +189,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     var img = new BitmapImage(_uri);
-                    AttachSource(img);
+                    if (_image is ImageBrush)
+                    {
+                        (_image as ImageBrush).ImageSource = img;
+                    }
+                    else if (_image is Image)
+                    {
+                        (_image as Image).Source = img;
+                    }
                 }
             }
         }

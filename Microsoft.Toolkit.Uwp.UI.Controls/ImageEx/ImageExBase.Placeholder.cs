@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(PlaceholderSource),
             typeof(ImageSource),
             typeof(ImageExBase),
-            new PropertyMetadata(default(ImageSource), PlaceholderSourceChanged));
+            new PropertyMetadata(default(ImageSource)));
 
         /// <summary>
         /// Identifies the <see cref="PlaceholderStretch"/> dependency property.
@@ -60,16 +60,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (round.ShowPlaceholderStroke)
                     {
-                        if (e.NewValue != null)
+                        if (e.NewValue == null)
                         {
-                            VisualStateManager.GoToState(round, RoundImageEx.ShowStrokeState, true);
+                            VisualStateManager.GoToState(round, StrokeUnloaded, true);
                         }
                         else
                         {
-                            VisualStateManager.GoToState(round, RoundImageEx.StrokeUnloaded, true);
+                            VisualStateManager.GoToState(round, ShowStrokeState, true);
                         }
                     }
                 }
+
+                control?.SetSource(e.NewValue);
             }
         }
 

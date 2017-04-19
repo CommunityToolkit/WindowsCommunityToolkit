@@ -109,7 +109,6 @@
                                                          BeginTime="0"
                                                          Storyboard.TargetName="PlaceholderEllipse"
                                                          Storyboard.TargetProperty="StrokeThickness"
-                                                         EnableDependentAnimation="True"
                                                          From="0"
                                                          To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}" />
                                     </Storyboard>
