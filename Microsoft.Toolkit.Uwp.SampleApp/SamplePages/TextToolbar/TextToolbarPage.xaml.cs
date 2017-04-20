@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Remove Code Button", (sender, args) =>
             {
-                Toolbar.RemoveDefaultButton(DefaultButton.Code);
+                Toolbar.RemoveDefaultButton(DefaultButton.OfType(DefaultButton.ButtonType.Code));
             });
 
             Shell.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
@@ -57,18 +57,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             demoText = DemoCounter > 0 ? demoText + DemoCounter : demoText;
             DemoCounter++;
 
-            Toolbar.CustomItems.Add(new CustomToolbarButton
+            var demoButton = new ToolbarButton
             {
                 Icon = new SymbolIcon { Symbol = Symbol.ReportHacked },
-                Label = demoText,
-                Action = new Action(() =>
+                ToolTip = demoText
+            };
+            demoButton.Click += (s, e) =>
+            {
+                if (Toolbar.Formatter is MarkDownFormatter md)
                 {
-                    if (Toolbar.Formatter is MarkDownFormatter md)
-                    {
-                        md.SetSelection($"[{demoText}]", $"[/{demoText}]");
-                    }
-                })
-            });
+                    md.SetSelection($"[{demoText}]", $"[/{demoText}]");
+                }
+            };
+
+            Toolbar.CustomButtons = new ButtonMap
+            {
+                demoButton
+            };
         }
 
         private void EditZone_TextChanged(object sender, RoutedEventArgs e)

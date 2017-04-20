@@ -1,6 +1,19 @@
-﻿namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
     using System;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.UI.Text;
 
     /// <summary>
@@ -29,16 +42,6 @@
         public abstract void FormatStrikethrough();
 
         /// <summary>
-        /// Applies Code
-        /// </summary>
-        public abstract void FormatCode();
-
-        /// <summary>
-        /// Applies Quote
-        /// </summary>
-        public abstract void FormatQuote();
-
-        /// <summary>
         /// Applies Link
         /// </summary>
         public abstract void FormatLink(string label, string link);
@@ -59,6 +62,11 @@
         public TextToolbar Model { get; }
 
         /// <summary>
+        /// Gets the default list of buttons
+        /// </summary>
+        public abstract ButtonMap DefaultButtons { get; }
+
+        /// <summary>
         /// Gets the formatted version of the Editor's Text
         /// </summary>
         public abstract string Text { get; }
@@ -66,7 +74,7 @@
         /// <summary>
         /// Gets shortcut to Carriage Return
         /// </summary>
-        protected string Return { get => "\r"; }
+        internal const string Return = "\r";
 
         /// <summary>
         /// Gets the current Editor Selection
@@ -76,7 +84,7 @@
         /// <summary>
         /// Determines the Position of the Selector, if not at a New Line, it will move the Selector to a new line.
         /// </summary>
-        public void EnsureAtNewLine()
+        public virtual void EnsureAtNewLine()
         {
             int val = Select.StartPosition;
             int counter = 0;

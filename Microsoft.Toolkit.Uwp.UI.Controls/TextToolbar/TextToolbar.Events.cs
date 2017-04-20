@@ -1,118 +1,62 @@
-﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Specialized;
     using System.Linq;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Controls.Primitives;
 
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
     public partial class TextToolbar
     {
-        public void AttachHandlers()
+        /// <summary>
+        /// Collects Default Button Set from the Formatter, or loads a Custom Set.
+        /// </summary>
+        /// <param name="root">Root Control</param>
+        private void LoadDefaultButtonMap(CommandBar root)
         {
-            DetermineAttach(BoldElement, MakeBold);
-            DetermineAttach(ItalicsElement, MakeItalics);
-            DetermineAttach(StrikethoughElement, MakeStrike);
-
-            DetermineAttach(CodeElement, MakeCode);
-            DetermineAttach(QuoteElement, MakeQuote);
-            DetermineAttach(LinkElement, MakeLink);
-
-            DetermineAttach(ListElement, MakeList);
-            DetermineAttach(OrderedElement, MakeOList);
-
-            CustomItems.CollectionChanged += CustomItems_CollectionChanged;
-        }
-
-        public void DettachHandlers()
-        {
-            DetermineDettach(BoldElement, MakeBold);
-            DetermineDettach(ItalicsElement, MakeItalics);
-            DetermineDettach(StrikethoughElement, MakeStrike);
-
-            DetermineDettach(CodeElement, MakeCode);
-            DetermineDettach(QuoteElement, MakeQuote);
-            DetermineDettach(LinkElement, MakeLink);
-
-            DetermineDettach(ListElement, MakeList);
-            DetermineDettach(OrderedElement, MakeOList);
-
-            CustomItems.CollectionChanged -= CustomItems_CollectionChanged;
-        }
-
-        private void CustomItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (GetTemplateChild(RootControl) is CommandBar root)
+            if (DefaultButtons == null)
             {
-                switch (e.Action)
+                DefaultButtons = Formatter.DefaultButtons;
+            }
+
+            AttachButtonMap(DefaultButtons, root);
+        }
+
+        /// <summary>
+        /// Adds all of the ToolbarButtons to the Root Control
+        /// </summary>
+        /// <param name="map">Collection of Buttons to add</param>
+        /// <param name="root">Root Control</param>
+        private void AttachButtonMap(ButtonMap map, CommandBar root)
+        {
+            foreach (var item in map)
+            {
+                if (!root.PrimaryCommands.Contains(item))
                 {
-                    case NotifyCollectionChangedAction.Add:
-                        foreach (var item in e.NewItems)
-                        {
-                            AddCustomButton(root, item as CustomToolbarItem);
-                        }
-
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        foreach (var item in e.OldItems)
-                        {
-                            RemoveCustomButton(root, item as CustomToolbarItem);
-                        }
-
-                        break;
+                    if (item.Position != -1)
+                    {
+                        root.PrimaryCommands.Insert(item.Position, item);
+                    }
+                    else
+                    {
+                        root.PrimaryCommands.Add(item);
+                    }
                 }
             }
-        }
-
-        private void AddCustomButton(CommandBar root, CustomToolbarItem item)
-        {
-            if (GetIfAttached(root, item) != null)
-            {
-                return;
-            }
-
-            ICommandBarElement element = null;
-            switch (item)
-            {
-                case CustomToolbarSeparator separator:
-                    element = new AppBarSeparator { Style = SeparatorStyle, Tag = item };
-                    break;
-
-                case CustomToolbarButton button:
-                    var content = new AppBarButton { Icon = button.Icon, Style = ButtonStyle, Tag = item };
-                    content.Click += (s, e) => { button.Action(); };
-                    ToolTipService.SetToolTip(content, button.Label);
-                    element = content;
-                    break;
-            }
-
-            if (item.Position.HasValue)
-            {
-                root.PrimaryCommands.Insert(item.Position.Value, element);
-            }
-            else
-            {
-                root.PrimaryCommands.Add(element);
-            }
-        }
-
-        private void RemoveCustomButton(CommandBar root, CustomToolbarItem item)
-        {
-            var control = GetIfAttached(root, item);
-            if (control != null)
-            {
-                root.PrimaryCommands.Remove(control);
-            }
-        }
-
-        private ICommandBarElement GetIfAttached(CommandBar root, CustomToolbarItem item)
-        {
-            return root.PrimaryCommands.FirstOrDefault(element => ((FrameworkElement)element).Tag == item);
         }
 
         /// <summary>
@@ -123,90 +67,13 @@
         {
             if (GetTemplateChild(RootControl) is CommandBar root)
             {
-                var element = GetTemplateChild(button.ToString()) as ICommandBarElement;
+                var element = root.PrimaryCommands.FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString());
                 root.PrimaryCommands.Remove(element);
             }
 
-            if (!removedButtons.Contains(button))
+            if (!RemoveDefaultButtons.Contains(button))
             {
-                removedButtons.Add(button);
-            }
-        }
-
-        private void MakeBold(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatBold();
-        }
-
-        private void MakeItalics(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatItalics();
-        }
-
-        private void MakeStrike(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatStrikethrough();
-        }
-
-        private void MakeCode(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatCode();
-        }
-
-        private void MakeQuote(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatQuote();
-        }
-
-        private async void MakeLink(object sender, RoutedEventArgs args)
-        {
-            var labelBox = new TextBox { PlaceholderText = LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
-            var linkBox = new TextBox { PlaceholderText = UrlLabel };
-
-            var result = await new ContentDialog
-            {
-                Title = CreateLinkLabel,
-                Content = new StackPanel
-                {
-                    Children =
-                    {
-                        labelBox,
-                        linkBox
-                    }
-                },
-                PrimaryButtonText = OkLabel,
-                SecondaryButtonText = CancelLabel
-            }.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                Formatter.FormatLink(labelBox.Text, linkBox.Text);
-            }
-        }
-
-        private void MakeList(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatList();
-        }
-
-        private void MakeOList(object sender, RoutedEventArgs args)
-        {
-            Formatter.FormatOrderedList();
-        }
-
-        public void DetermineAttach(string partName, RoutedEventHandler handler)
-        {
-            if (GetTemplateChild(partName) is ButtonBase element)
-            {
-                element.Click += handler;
-            }
-        }
-
-        public void DetermineDettach(string partName, RoutedEventHandler handler)
-        {
-            if (GetTemplateChild(partName) is ButtonBase element)
-            {
-                element.Click -= handler;
+                RemoveDefaultButtons.Add(button);
             }
         }
     }

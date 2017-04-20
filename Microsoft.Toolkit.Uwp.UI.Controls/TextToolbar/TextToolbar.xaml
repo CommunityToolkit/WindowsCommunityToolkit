@@ -2,6 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/ToolbarButton.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/ToolbarSeparator.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="local:TextToolbar">
         <Setter Property="Template">
             <Setter.Value>
@@ -16,34 +21,7 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled"
                         Background="{TemplateBinding Background}">
-                        <CommandBar x:Name="Root" Grid.Row="1" Background="{x:Null}"  HorizontalAlignment="Left" Style="{StaticResource SimpleCommandBar}">
-                            <AppBarButton x:Name="Bold" Icon="Bold" ToolTipService.ToolTip="{TemplateBinding BoldLabel}"  Style="{StaticResource ToolbarButton}" />
-                            <AppBarButton x:Name="Italics" Icon="Italic" ToolTipService.ToolTip="{TemplateBinding ItalicsLabel}" Style="{StaticResource ToolbarButton}" />
-                            <AppBarButton x:Name="Strikethrough" ToolTipService.ToolTip="{TemplateBinding StrikethroughLabel}" Style="{StaticResource ToolbarButton}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#x0335;a&#x0335;b&#x0335;c&#x0335;" FontFamily="Segoe UI" Margin="0,-5,0,0" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                            <AppBarSeparator Width="20" />
-                            <AppBarButton x:Name="Code" ToolTipService.ToolTip="{TemplateBinding CodeLabel}" Style="{StaticResource ToolbarButton}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="{}{}" FontFamily="Segoe UI" Margin="0,-5,0,0" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                            <AppBarButton x:Name="Quote" Icon="Message" ToolTipService.ToolTip="{TemplateBinding QuoteLabel}" Style="{StaticResource ToolbarButton}" />
-                            <AppBarButton x:Name="Link" Icon="Link" ToolTipService.ToolTip="{TemplateBinding CreateLinkLabel}" Style="{StaticResource ToolbarButton}" />
-                            <AppBarSeparator Width="20" />
-                            <AppBarButton x:Name="List" ToolTipService.ToolTip="{TemplateBinding ListLabel}" Style="{StaticResource ToolbarButton}">
-                                <AppBarButton.Icon>
-                                    <FontIcon FontFamily="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome" Glyph="&#xF0CA;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                            <AppBarButton x:Name="OrderedList" ToolTipService.ToolTip="{TemplateBinding OrderedListLabel}" Style="{StaticResource ToolbarButton}">
-                                <AppBarButton.Icon>
-                                    <FontIcon FontFamily="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome" Glyph="&#xF0CB;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                        </CommandBar>
+                        <CommandBar x:Name="Root" Grid.Row="1" Background="{x:Null}"  HorizontalAlignment="Left" Style="{StaticResource SimpleCommandBar}" />
                     </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
@@ -89,12 +67,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="ToolbarButton" TargetType="AppBarButton">
-        <Setter Property="Width" Value="40" />
-    </Style>
-    <Style x:Key="ToolbarSeparator" TargetType="AppBarSeparator">
-        <Setter Property="Width" Value="20" />
     </Style>
 </ResourceDictionary>

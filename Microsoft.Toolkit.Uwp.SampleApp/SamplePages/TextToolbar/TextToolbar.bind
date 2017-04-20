@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
           </Grid.RowDefinitions>
-          <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="#26000000" />
+          <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="#4C4F4F4F" />
           <RichEditBox x:Name="EditZone"
                        TextWrapping="Wrap"
                        TextChanged="EditZone_TextChanged"

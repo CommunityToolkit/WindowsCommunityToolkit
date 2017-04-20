@@ -1,8 +1,24 @@
-﻿namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
     using System;
     using System.Linq;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.UI.Text;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
 
     public class MarkDownFormatter : Formatter
     {
@@ -17,6 +33,40 @@
             {
                 Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out string currentvalue);
                 return currentvalue.Replace('\n', '\r'); // Converts CRLF into double Return for Markdown new line.
+            }
+        }
+
+        public override ButtonMap DefaultButtons
+        {
+            get
+            {
+                var code = new ToolbarButton
+                {
+                    Name = TextToolbar.CodeElement,
+                    ToolTip = Model.CodeLabel,
+                    Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) }
+                };
+                code.Click += (s, e) => { FormatCode(); };
+
+                var quote = new ToolbarButton { Name = TextToolbar.QuoteElement, ToolTip = Model.QuoteLabel, Icon = new SymbolIcon { Symbol = Symbol.Message } };
+                quote.Click += (s, e) => { FormatQuote(); };
+
+                return new ButtonMap
+                {
+                        Model.CommonButtons.Bold,
+                        Model.CommonButtons.Italics,
+                        Model.CommonButtons.Strikethrough,
+
+                        new ToolbarSeparator(),
+                        code,
+                        quote,
+                        Model.CommonButtons.Link,
+
+                        new ToolbarSeparator(),
+
+                        Model.CommonButtons.List,
+                        Model.CommonButtons.OrderedList
+                };
             }
         }
 
@@ -35,12 +85,12 @@
             SetSelection("~~", "~~");
         }
 
-        public override void FormatCode()
+        public void FormatCode()
         {
             SetSelection("```", string.Empty);
         }
 
-        public override void FormatQuote()
+        public void FormatQuote()
         {
             SetList(() => "> ");
         }
@@ -101,7 +151,7 @@
         /// <param name="end">Formatting at end of Text</param>
         /// <param name="reversible">Is the Text reversible?</param>
         /// <param name="contents">Text to insert between Start and End (Overwrites Current Text)</param>
-        public void SetSelection(string start, string end, bool reversible = true, string contents = null)
+        public virtual void SetSelection(string start, string end, bool reversible = true, string contents = null)
         {
             if (Model.Editor == null)
             {
@@ -134,7 +184,7 @@
         /// <param name="start">Formatting in front of Text</param>
         /// <param name="end">Formatting at end of Text</param>
         /// <returns>True if formatting is reversing, otherwise false</returns>
-        private bool DetermineSimpleReverse(string start, string end)
+        protected virtual bool DetermineSimpleReverse(string start, string end)
         {
             if (!DetermineSimpleInlineReverse(start, end))
             {
@@ -177,7 +227,7 @@
         /// <param name="start">Formatting in front of Text</param>
         /// <param name="end">Formatting at end of Text</param>
         /// <returns>True if formatting is reversing, otherwise false</returns>
-        private bool DetermineSimpleInlineReverse(string start, string end)
+        protected virtual bool DetermineSimpleInlineReverse(string start, string end)
         {
             try
             {
@@ -206,7 +256,7 @@
         ///  This function will either add List Characters to lines of text, or Remove List Characters from Lines of Text, if already applied.
         /// </summary>
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
-        public void SetList(Func<string> listChar)
+        public virtual void SetList(Func<string> listChar)
         {
             if (Model.Editor == null)
             {
@@ -252,7 +302,7 @@
         /// </summary>
         /// <param name="listChar">Function to generate the List Character</param>
         /// <returns>True if List formatting is reversing, otherwise false</returns>
-        private bool DetermineListReverse(Func<string> listChar)
+        protected virtual bool DetermineListReverse(Func<string> listChar)
         {
             if (string.IsNullOrWhiteSpace(Select.Text))
             {

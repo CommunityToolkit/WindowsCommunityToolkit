@@ -1,6 +1,19 @@
-﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -9,48 +22,34 @@
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
     [TemplatePart(Name = RootControl, Type = typeof(CommandBar))]
-    [TemplatePart(Name = BoldElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = ItalicsElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = StrikethoughElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = CodeElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = QuoteElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = LinkElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = ListElement, Type = typeof(AppBarButton))]
-    [TemplatePart(Name = OrderedElement, Type = typeof(AppBarButton))]
     public partial class TextToolbar : Control
     {
-        private const string RootControl = "Root";
-        private const string BoldElement = "Bold";
-        private const string ItalicsElement = "Italics";
-        private const string StrikethoughElement = "Strikethrough";
-        private const string CodeElement = "Code";
-        private const string QuoteElement = "Quote";
-        private const string LinkElement = "Link";
-        private const string ListElement = "List";
-        private const string OrderedElement = "OrderedList";
+        internal const string RootControl = "Root";
+        internal const string BoldElement = "Bold";
+        internal const string ItalicsElement = "Italics";
+        internal const string StrikethoughElement = "Strikethrough";
+        internal const string CodeElement = "Code";
+        internal const string QuoteElement = "Quote";
+        internal const string LinkElement = "Link";
+        internal const string ListElement = "List";
+        internal const string OrderedElement = "OrderedList";
 
-        public Style SeparatorStyle { get; set; }
-
-        public Style ButtonStyle { get; set; }
+        /// <summary>
+        /// Gets access to Generic Buttons that activate Formatter Methods
+        /// </summary>
+        internal CommonButtons CommonButtons { get; }
 
         public TextToolbar()
         {
             this.DefaultStyleKey = typeof(TextToolbar);
-        }
-
-        /// <summary>
-        /// Gets the default Style Dictionary to get the Button Styles.
-        /// </summary>
-        private ResourceDictionary DefaultDictionary
-        {
-            get { return new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/TextToolbar.xaml") }; }
+            CommonButtons = new CommonButtons(this);
         }
 
         protected override void OnApplyTemplate()
         {
             if (Formatter == null)
             {
-                switch (Formatting)
+                switch (Format)
                 {
                     case Format.MarkDown:
                         Formatter = new MarkDownFormatter(this);
@@ -67,24 +66,18 @@
 
             if (GetTemplateChild(RootControl) is CommandBar root)
             {
-                foreach (var button in removedButtons)
+                LoadDefaultButtonMap(root);
+
+                foreach (var button in RemoveDefaultButtons)
                 {
                     RemoveDefaultButton(button);
                 }
 
-                if (CustomItems != null)
+                if (CustomButtons != null)
                 {
-                    SeparatorStyle = DefaultDictionary["ToolbarSeparator"] as Style;
-                    ButtonStyle = DefaultDictionary["ToolbarButton"] as Style;
-
-                    foreach (var item in CustomItems)
-                    {
-                        AddCustomButton(root, item);
-                    }
+                    AttachButtonMap(CustomButtons, root);
                 }
             }
-
-            AttachHandlers();
 
             base.OnApplyTemplate();
         }
