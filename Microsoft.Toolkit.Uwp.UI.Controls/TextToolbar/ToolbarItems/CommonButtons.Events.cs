@@ -26,12 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             Model.Formatter.FormatBold();
         }
 
-        internal void MakeItalics(object sender, RoutedEventArgs args)
+        private void MakeItalics(object sender, RoutedEventArgs args)
         {
             Model.Formatter.FormatItalics();
         }
 
-        internal void MakeStrike(object sender, RoutedEventArgs args)
+        private void MakeStrike(object sender, RoutedEventArgs args)
         {
             Model.Formatter.FormatStrikethrough();
         }

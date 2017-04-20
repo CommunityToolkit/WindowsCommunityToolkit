@@ -114,9 +114,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
             if (!atNewLine)
             {
-                Select.Text += Return;
+                bool selectionEmpty = string.IsNullOrWhiteSpace(Select.Text);
+                Select.Text = Select.Text.Insert(0, Return);
                 Select.StartPosition += 1;
-                Select.EndPosition = Select.StartPosition;
+
+                if (selectionEmpty)
+                {
+                    Select.EndPosition = Select.StartPosition;
+                }
             }
         }
     }
