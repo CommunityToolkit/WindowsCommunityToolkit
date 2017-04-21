@@ -20,6 +20,8 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
 <br/>
 The AlternateRowColor property provides a way to assign a background color to every other row.
 
+> The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
+
 ## Example
 
 ```xml
@@ -30,6 +32,8 @@ The AlternateRowColor property provides a way to assign a background color to ev
 
 <br/>
 The AlternateRowItemTemplate property provides a way to assign an alternate datatemplate to every other row. It is also possible to combine with the AlternateRowColor property.
+
+> The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
 ## Example
 
