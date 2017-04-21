@@ -8,7 +8,7 @@ The ClipboardHelper can set/get clipboard easier.
 
     // Set html into clipboard.
     var html = "<div style=\"color:red;\">hello world</div>";
-    ClipboardHelper.SetRawHtml(html);
+    ClipboardHelper.SetHtml(html);
 
     // Set normal text into clipboard.
     var text = "hello world";
