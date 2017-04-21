@@ -57,11 +57,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         /// Invoked when the Page is loaded and becomes the current source of a parent Frame. Setting the View Model so that controls can bind to it.
         /// </summary>
         /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            ViewModel = e.Parameter as SampleCategory;
+            var category = e.Parameter as SampleCategory;
+
+            if (category != null)
+            {
+                ViewModel = category;
+                return;
+            }
+
+            // If not a direct category then it is a search result
+            var query = e.Parameter.ToString();
+
+            var customCategory = new SampleCategory
+            {
+                Samples = await Samples.FindSamplesByName(query),
+                Name = $"Search for \"{query}\""
+            };
+
+            ViewModel = customCategory;
         }
 
         /// <summary>

@@ -38,6 +38,7 @@
                       VerticalScrollBarVisibility="Visible">
             <controls:MarkdownTextBlock x:Name="UiMarkdownText"
                                         Margin="6"
+                                        Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                         Foreground="Black"
                                         LinkForeground="BlueViolet"
                                         LinkClicked="MarkdownText_LinkClicked"
