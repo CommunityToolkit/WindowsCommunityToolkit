@@ -49,7 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ImageEx;
-            control?.SetSource(e.NewValue);
+
+            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
+            {
+                control?.SetSource(e.NewValue);
+            }
         }
 
         private static bool IsHttpUri(Uri uri)
@@ -104,10 +108,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
             }
 
-            await LoadImageAsync();
+            await LoadImageAsync(_uri);
         }
 
-        private async Task LoadImageAsync()
+        private async Task LoadImageAsync(Uri imageUri)
         {
             if (_uri != null)
             {
@@ -132,11 +136,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
                         }
 
-                        var img = await ImageCache.Instance.GetFromCacheAsync(_uri, true, _tokenSource.Token, propValues);
+                        var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
 
-                        _image.Source = img;
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
+                        lock (_lockObj)
+                        {
+                            // If you have many imageEx in a virtualized listview for instance
+                            // controls will be recycled and the uri will change while waiting for the previous one to load
+                            if (_uri == imageUri)
+                            {
+                                _image.Source = img;
+                                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                                VisualStateManager.GoToState(this, LoadedState, true);
+                            }
+                        }
                     }
                     catch (OperationCanceledException)
                     {
@@ -144,8 +156,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
+                        lock (_lockObj)
+                        {
+                            if (_uri == imageUri)
+                            {
+                                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+                                VisualStateManager.GoToState(this, FailedState, true);
+                            }
+                        }
                     }
                 }
                 else

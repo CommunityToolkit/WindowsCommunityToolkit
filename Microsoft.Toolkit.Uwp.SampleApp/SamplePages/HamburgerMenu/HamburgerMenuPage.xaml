@@ -54,6 +54,7 @@
                                 DisplayMode="{Binding DisplayMode.Value}"
                                 Foreground="White"
                                 HamburgerHeight="{Binding HamburgerHeight.Value}"
+                                HamburgerVisibility="{Binding HamburgerVisibility.Value}"
                                 HamburgerWidth="48"
                                 IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
                                 ItemClick="HamburgerMenu_OnItemClick"
