@@ -120,11 +120,27 @@
     <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
+    <Compile Include="TextToolbar\Formats\Format.cs" />
+    <Compile Include="TextToolbar\Formats\Formatter.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDownFormatter.cs" />
+    <Compile Include="TextToolbar\Formats\RichTextFormatter.cs" />
+    <Compile Include="TextToolbar\TextToolbar.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Events.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Labels.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ButtonMap.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\CommonButtons.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\CommonButtons.Events.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\IToolbarItem.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ToolbarButton.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ToolbarSeparator.cs" />
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
+    <Content Include="TextToolbar\Font\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlHelpers.Composition.cs" />
@@ -198,6 +214,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TextToolbar\TextToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\ToolbarItems\ToolbarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\ToolbarItems\ToolbarSeparator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TileControl\TileControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -264,9 +292,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Controls.rd.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TextToolbar\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
