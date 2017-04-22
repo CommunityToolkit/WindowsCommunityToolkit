@@ -91,6 +91,7 @@
                         <Button Name="HamburgerButton"
                                 Width="{TemplateBinding HamburgerWidth}"
                                 Height="{TemplateBinding HamburgerHeight}"
+                                Visibility="{TemplateBinding HamburgerVisibility}"
                                 Padding="0"
                                 VerticalAlignment="Top"
                                 AutomationProperties.Name="Main button"

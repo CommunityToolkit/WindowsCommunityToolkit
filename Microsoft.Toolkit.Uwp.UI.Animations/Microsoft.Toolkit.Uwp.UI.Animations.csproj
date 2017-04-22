@@ -46,18 +46,22 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.UI.Animations.ruleset" />
     <None Include="project.json" />
+    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSetCompletedEventArgs.cs" />
     <Compile Include="AnimationSetState.cs" />
     <Compile Include="AnimationTask.cs" />
+    <Compile Include="Behaviors\BehaviorBase.cs" />
     <Compile Include="Behaviors\Blur.cs" />
+    <Compile Include="Behaviors\CompositionBehaviorBase.nongeneric.cs" />
     <Compile Include="Behaviors\CompositionBehaviorBase.cs" />
     <Compile Include="Behaviors\FadeHeaderBehavior.cs" />
     <Compile Include="Behaviors\Light.cs" />
     <Compile Include="Behaviors\Offset.cs" />
     <Compile Include="Behaviors\Fade.cs" />
     <Compile Include="Behaviors\Rotate.cs" />
+    <Compile Include="Behaviors\Saturation.cs" />
     <Compile Include="Behaviors\Scale.cs" />
     <Compile Include="AnimationSet.cs" />
     <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
@@ -65,12 +69,16 @@
     <Compile Include="EffectAnimationDefinition.cs" />
     <Compile Include="EffectDirectPropertyChangeDefinition.cs" />
     <Compile Include="EasingType.cs" />
+    <Compile Include="Effects\Blur.cs" />
+    <Compile Include="Effects\Saturation.cs" />
+    <Compile Include="Effects\AnimationEffect.cs" />
     <Compile Include="Extensions\AnimationExtensions.Blur.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Extensions\AnimationExtensions.Fade.cs" />
     <Compile Include="Extensions\AnimationExtensions.Light.cs" />
     <Compile Include="Extensions\AnimationExtensions.Offset.cs" />
     <Compile Include="Extensions\AnimationExtensions.Rotate.cs" />
+    <Compile Include="Extensions\AnimationExtensions.Saturation.cs" />
     <Compile Include="Extensions\AnimationExtensions.Scale.cs" />
     <Compile Include="Extensions\AnimationTools.cs" />
     <Compile Include="ParallaxService.cs" />

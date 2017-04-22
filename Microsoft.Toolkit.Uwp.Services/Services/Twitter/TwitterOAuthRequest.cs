@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -25,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequest
     {
+        private bool _abort;
+
         /// <summary>
         /// HTTP Get request to specified Uri.
         /// </summary>
@@ -44,6 +47,49 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
                 }
             }
+        }
+
+        /// <summary>
+        /// HTTP Get request for stream service.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="callback">Function invoked when stream available.</param>
+        /// <returns>awaitable task</returns>
+        public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback)
+        {
+            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
+            {
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens);
+
+                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+
+                using (var response = await HttpHelper.Instance.GetInputStreamAsync(request).ConfigureAwait(false))
+                {
+                    var responseStream = await response.GetStreamResultAsync().ConfigureAwait(false);
+
+                    using (var reader = new StreamReader(responseStream.AsStreamForRead()))
+                    {
+                        while (!_abort && !reader.EndOfStream)
+                        {
+                            var result = reader.ReadLine();
+
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                callback?.Invoke(result);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stop reading stream
+        /// </summary>
+        public void Abort()
+        {
+            _abort = true;
         }
 
         /// <summary>

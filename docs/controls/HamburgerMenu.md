@@ -22,7 +22,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 	DisplayMode="CompactInline"
 	CompactPaneLength="48"
 	HamburgerHeight="48"
-	IsPaneOpen="False"/>
+	IsPaneOpen="False">
 </controls:HamburgerMenu>
 
 ```
@@ -75,7 +75,7 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
                                 ItemClick="OnMenuItemClick"
                                 OptionsItemTemplate="{StaticResource DefaultTemplate}"
                                 OptionsItemClick="OnMenuItemClick">
-            <Frame x:Name="contentFrame"/>
+            <Frame x:Name="contentFrame" Foreground="Black"/>
         </controls:HamburgerMenu>
     </Grid>
 </Page>

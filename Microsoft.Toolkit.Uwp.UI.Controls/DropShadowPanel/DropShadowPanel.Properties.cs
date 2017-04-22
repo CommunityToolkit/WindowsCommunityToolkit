@@ -212,7 +212,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnBlurRadiusChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnBlurRadiusChanged((double)e.NewValue);
             }
         }
 
@@ -220,7 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnColorChanged((Color)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnColorChanged((Color)e.NewValue);
             }
         }
 
@@ -228,7 +230,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetXChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetXChanged((double)e.NewValue);
             }
         }
 
@@ -236,7 +239,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetYChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetYChanged((double)e.NewValue);
             }
         }
 
@@ -244,7 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetZChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetZChanged((double)e.NewValue);
             }
         }
 
@@ -252,7 +257,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnShadowOpacityChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnShadowOpacityChanged((double)e.NewValue);
             }
         }
     }

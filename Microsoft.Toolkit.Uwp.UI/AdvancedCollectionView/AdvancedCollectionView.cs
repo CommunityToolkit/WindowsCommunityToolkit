@@ -51,6 +51,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
         /// </summary>
+        public AdvancedCollectionView()
+            : this(new List<object>(0))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
+        /// </summary>
         /// <param name="source">source IEnumerable</param>
         public AdvancedCollectionView(IEnumerable source)
         {
@@ -179,8 +187,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                 // no sense in inserting w/ filters or sorts, just add it
                 _sourceList.Add(item);
             }
-
-            _sourceList.Insert(index, item);
+            else
+            {
+                _sourceList.Insert(index, item);
+            }
         }
 
         /// <summary>
