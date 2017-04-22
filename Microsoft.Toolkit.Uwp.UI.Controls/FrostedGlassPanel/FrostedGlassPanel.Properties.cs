@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         public static bool IsSupported =>
             !DesignMode.DesignModeEnabled &&
-            ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
+            ApiInformation.IsTypePresent("Windows.UI.Composition.CompositionBackdropBrush"); // SDK >= 14393
 
         /// <summary>
         /// Gets or sets the blur amount of the frosted glass.
