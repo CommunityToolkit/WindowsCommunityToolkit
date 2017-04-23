@@ -19,8 +19,10 @@ You can also use these events :
 ```xml
 
 <controls:Expander Header="Header of the expander"
+                   Foreground="White"
+                   Background="Gray"
                    IsExpanded="True">
-	<Grid Height="250" Background="#FFF5F1D9">
+	<Grid Height="250">
         <TextBlock HorizontalAlignment="Center"
                    TextWrapping="Wrap"
                    Text="This is the content"
