@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
+    using Windows.System;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
@@ -32,9 +33,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton { Name = TextToolbar.BoldElement, ToolTip = Model.BoldLabel, Icon = new SymbolIcon { Symbol = Symbol.Bold } };
-                button.Click += MakeBold;
-                return button;
+                return new ToolbarButton
+                {
+                    Name = TextToolbar.BoldElement,
+                    ToolTip = Model.BoldLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Bold },
+                    ShortcutKey = VirtualKey.B,
+                    Click = MakeBold
+                };
             }
         }
 
@@ -42,9 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton { Name = TextToolbar.ItalicsElement, ToolTip = Model.ItalicsLabel, Icon = new SymbolIcon { Symbol = Symbol.Italic } };
-                button.Click += MakeItalics;
-                return button;
+                return new ToolbarButton
+                {
+                    Name = TextToolbar.ItalicsElement,
+                    ToolTip = Model.ItalicsLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Italic },
+                    ShortcutKey = VirtualKey.I,
+                    Click = MakeItalics
+                };
             }
         }
 
@@ -52,14 +63,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton
+                return new ToolbarButton
                 {
                     Name = TextToolbar.StrikethoughElement,
                     ToolTip = Model.StrikethroughLabel,
-                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) }
+                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                    ShortcutKey = VirtualKey.R,
+                    Click = MakeStrike
                 };
-                button.Click += MakeStrike;
-                return button;
             }
         }
 
@@ -67,9 +78,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton { Name = TextToolbar.LinkElement, ToolTip = Model.LinkLabel, Icon = new SymbolIcon { Symbol = Symbol.Link } };
-                button.Click += MakeLink;
-                return button;
+                return new ToolbarButton
+                {
+                    Name = TextToolbar.LinkElement,
+                    ToolTip = Model.LinkLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Link },
+                    ShortcutKey = VirtualKey.K,
+                    Click = OpenLinkCreater,
+                    ShiftActivation = MakeLink
+                };
             }
         }
 
@@ -77,14 +94,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton
+                return new ToolbarButton
                 {
                     Name = TextToolbar.ListElement,
                     ToolTip = Model.ListLabel,
-                    Icon = new FontIcon { Glyph = "\uF0CA", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") }
+                    Icon = new FontIcon { Glyph = "\uF0CA", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") },
+                    Click = MakeList
                 };
-                button.Click += MakeList;
-                return button;
             }
         }
 
@@ -92,14 +108,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get
             {
-                var button = new ToolbarButton
+                return new ToolbarButton
                 {
                     Name = TextToolbar.OrderedElement,
                     ToolTip = Model.OrderedListLabel,
-                    Icon = new FontIcon { Glyph = "\uF0CB", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") }
+                    Icon = new FontIcon { Glyph = "\uF0CB", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") },
+                    Click = MakeOList
                 };
-                button.Click += MakeOList;
-                return button;
             }
         }
     }

@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Icon = new SymbolIcon { Symbol = Symbol.ReportHacked },
                 ToolTip = demoText
             };
-            demoButton.Click += (s, e) =>
+            demoButton.Click += () =>
             {
                 if (Toolbar.Formatter is MarkDownFormatter md)
                 {

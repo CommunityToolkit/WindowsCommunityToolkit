@@ -40,17 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                var code = new ToolbarButton
-                {
-                    Name = TextToolbar.CodeElement,
-                    ToolTip = Model.CodeLabel,
-                    Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) }
-                };
-                code.Click += (s, e) => { FormatCode(); };
-
-                var quote = new ToolbarButton { Name = TextToolbar.QuoteElement, ToolTip = Model.QuoteLabel, Icon = new SymbolIcon { Symbol = Symbol.Message } };
-                quote.Click += (s, e) => { FormatQuote(); };
-
                 return new ButtonMap
                 {
                         Model.CommonButtons.Bold,
@@ -58,8 +47,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                         Model.CommonButtons.Strikethrough,
 
                         new ToolbarSeparator(),
-                        code,
-                        quote,
+                        new ToolbarButton
+                        {
+                            Name = TextToolbar.CodeElement,
+                            ToolTip = Model.CodeLabel,
+                            Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                            ShortcutKeySymbol = "[",
+                            //ShortcutKey = Windows.System.VirtualKey.
+                            Click = FormatCode
+                        },
+                        new ToolbarButton
+                        {
+                            Name = TextToolbar.QuoteElement,
+                            ToolTip = Model.QuoteLabel,
+                            Icon = new SymbolIcon { Symbol = Symbol.Message },
+                            Click = FormatQuote
+                        },
                         Model.CommonButtons.Link,
 
                         new ToolbarSeparator(),
@@ -87,7 +90,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
         public void FormatCode()
         {
-            SetSelection("```", string.Empty);
+            if (/* Is Single Line */false)
+            {
+                SetSelection("`", "`");
+            }
+            else
+            {
+                string CodeLines()
+                {
+                    return ListLineIterator == 1 || ReachedEndLine ? "```" : string.Empty;
+                }
+
+                SetList(CodeLines, wrapNewLines: true);
+            }
         }
 
         public void FormatQuote()
@@ -137,7 +152,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             string Iterate()
             {
-                ListLineIterator++;
                 return ListLineIterator + ". ";
             }
 
@@ -248,43 +262,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         }
 
         /// <summary>
-        /// Gets or sets the value of the Line Number Iterator (Must be Iterated Manually). Use this for generating Numbered Lists.
+        /// Gets the value of the Line Number Iterator. Use this for generating Numbered Lists.
         /// </summary>
-        public int ListLineIterator { get; set; } = 0;
+        public int ListLineIterator { get; private set; } = 1;
+
+        /// <summary>
+        /// Gets a value indicating whether gets whether it is the last line of the list.
+        /// </summary>
+        public bool ReachedEndLine { get; private set; } = false;
 
         /// <summary>
         ///  This function will either add List Characters to lines of text, or Remove List Characters from Lines of Text, if already applied.
         /// </summary>
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
-        public virtual void SetList(Func<string> listChar)
+        /// <param name="wrapNewLines">Adds New Lines to Start and End of Selected Text</param>
+        public virtual void SetList(Func<string> listChar, bool wrapNewLines = false)
         {
             if (Model.Editor == null)
             {
                 return;
             }
 
-            ListLineIterator = 0;
-            if (!DetermineListReverse(listChar))
+            ListLineIterator = 1;
+            ReachedEndLine = false;
+            if (!DetermineListReverse(listChar, wrapNewLines))
             {
-                ListLineIterator = 0;
+                ListLineIterator = 1;
+                ReachedEndLine = false;
 
                 EnsureAtNewLine();
                 string text = listChar();
-                var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
+                if (!wrapNewLines)
+                {
+                    lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
+                }
+                else
+                {
+                    lines.Insert(0, string.Empty);
+                }
+
                 for (int i = 0; i < lines.Count; i++)
                 {
+                    ListLineIterator++;
+
                     var element = lines[i];
                     text += element;
 
-                    if (lines.Count > 1)
+                    ReachedEndLine = i + 1 >= lines.Count;
+
+                    if (lines.Count > 1 && !ReachedEndLine)
                     {
                         text += Return;
                     }
 
-                    bool atEnd = i + 1 >= lines.Count;
-                    if (!atEnd)
+                    if (!ReachedEndLine || wrapNewLines)
                     {
                         text += listChar();
+
+                        if (ReachedEndLine)
+                        {
+                            text += Return;
+                        }
                     }
                 }
 
@@ -301,22 +341,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// Determines whether a List already has the formatting applied.
         /// </summary>
         /// <param name="listChar">Function to generate the List Character</param>
+        /// <param name="wrapNewLines">Adds New Lines to Start and End of Selected Text</param>
         /// <returns>True if List formatting is reversing, otherwise false</returns>
-        protected virtual bool DetermineListReverse(Func<string> listChar)
+        protected virtual bool DetermineListReverse(Func<string> listChar, bool wrapNewLines)
         {
             if (string.IsNullOrWhiteSpace(Select.Text))
             {
                 return false;
             }
 
+            if (wrapNewLines && DetermineInlineWrapListReverse(listChar))
+            {
+                return true;
+            }
+
             string text = string.Empty;
             int startpos = Select.StartPosition;
-            var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
+            if (wrapNewLines)
+            {
+                lines.RemoveAt(lines.Count - 1); // removes the line kept from Wrapping with NewLines.
+            }
 
             for (int i = 0; i < lines.Count; i++)
             {
                 var line = lines[i];
+
+                ReachedEndLine = i + 1 >= lines.Count;
                 string listchar = listChar();
+
                 try
                 {
                     if (line.Substring(0, listchar.Length) == listchar)
@@ -336,10 +390,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 {
                     return false;
                 }
+
+                ListLineIterator++;
+            }
+
+            if (wrapNewLines)
+            {
+                text = text.Remove(0, 1);
+                text = text.Remove(text.Length - 1);
             }
 
             Select.Text = text;
             return true;
+        }
+
+        protected virtual bool DetermineInlineWrapListReverse(Func<string> listChar)
+        {
+            try
+            {
+                ListLineIterator = 1;
+                string start = listChar();
+                int startpos = Select.StartPosition - start.Length - 1; // removing newline char as well
+
+                ReachedEndLine = true;
+                string end = listChar();
+
+                Model.Editor.Document.GetText(TextGetOptions.None, out string text);
+
+                string startText = text.Substring(startpos, start.Length);
+                if (startText == start)
+                {
+                    string endText = text.Substring(Select.EndPosition + end.Length - 3, end.Length);
+                    if (endText == end)
+                    {
+                        return true; // works if Line Chars are only on the first and last lines, this would need to check all the other line chars for other NewLine Wrap methods that change the line char for all lines.
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            ListLineIterator = 1;
+            ReachedEndLine = false;
+
+            return false;
         }
     }
 }

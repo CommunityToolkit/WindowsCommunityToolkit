@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+    using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
@@ -51,32 +52,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 switch (Format)
                 {
-                    case Format.MarkDown:
-                        Formatter = new MarkDownFormatter(this);
-                        break;
-
-                    case Format.RichText:
-                        Formatter = new RichTextFormatter(this);
-                        break;
-
                     case Format.Custom:
                         throw new NullReferenceException("Custom Formatter was null");
+
+                    default:
+                        CreateFormatter();
+                        break;
                 }
             }
-
-            if (GetTemplateChild(RootControl) is CommandBar root)
+            else if (formatterLoadedBeforeTemplate)
             {
-                LoadDefaultButtonMap(root);
-
-                foreach (var button in RemoveDefaultButtons)
-                {
-                    RemoveDefaultButton(button);
-                }
-
-                if (CustomButtons != null)
-                {
-                    AttachButtonMap(CustomButtons, root);
-                }
+                BuildBar();
             }
 
             base.OnApplyTemplate();

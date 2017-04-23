@@ -21,22 +21,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// </summary>
     public partial class CommonButtons
     {
-        private void MakeBold(object sender, RoutedEventArgs args)
+        private void MakeBold()
         {
             Model.Formatter.FormatBold();
         }
 
-        private void MakeItalics(object sender, RoutedEventArgs args)
+        private void MakeItalics()
         {
             Model.Formatter.FormatItalics();
         }
 
-        private void MakeStrike(object sender, RoutedEventArgs args)
+        private void MakeStrike()
         {
             Model.Formatter.FormatStrikethrough();
         }
 
-        private async void MakeLink(object sender, RoutedEventArgs args)
+        private void MakeLink()
+        {
+            Model.Formatter.FormatLink(string.Empty, string.Empty);
+        }
+
+        private void MakeList()
+        {
+            Model.Formatter.FormatList();
+        }
+
+        private void MakeOList()
+        {
+            Model.Formatter.FormatOrderedList();
+        }
+
+        public async void OpenLinkCreater()
         {
             var labelBox = new TextBox { PlaceholderText = Model.LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
             var linkBox = new TextBox { PlaceholderText = Model.UrlLabel };
@@ -60,16 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             {
                 Model.Formatter.FormatLink(labelBox.Text, linkBox.Text);
             }
-        }
-
-        private void MakeList(object sender, RoutedEventArgs args)
-        {
-            Model.Formatter.FormatList();
-        }
-
-        private void MakeOList(object sender, RoutedEventArgs args)
-        {
-            Model.Formatter.FormatOrderedList();
         }
     }
 }

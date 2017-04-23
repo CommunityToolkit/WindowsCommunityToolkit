@@ -12,7 +12,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
     using Windows.UI.Xaml;
@@ -25,15 +25,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EditorProperty =
-            DependencyProperty.Register(nameof(Editor), typeof(int), typeof(TextToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Editor), typeof(int), typeof(TextToolbar), new PropertyMetadata(null, OnEditorChanged));
 
         // Using a DependencyProperty as the backing store for Formatting.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.MarkDown));
+            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.MarkDown, OnFormatTypeChanged));
 
         // Using a DependencyProperty as the backing store for TextFormat.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatterProperty =
-            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null, OnFormatterChanged));
 
         // Using a DependencyProperty as the backing store for DefaultButtons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DefaultButtonsProperty =
@@ -41,11 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for CustomButtons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CustomButtonsProperty =
-            DependencyProperty.Register(nameof(CustomButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CustomButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null, OnButtonMapChanged));
 
         // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RemoveDefaultButtonsProperty =
-            DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(IList<DefaultButton>), typeof(TextToolbar), new PropertyMetadata(new List<DefaultButton>()));
+            DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(ObservableCollection<DefaultButton>), typeof(TextToolbar), new PropertyMetadata(new ObservableCollection<DefaultButton>(), OnRemoveButtonsChanged));
 
         /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
@@ -95,10 +95,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a list of Default buttons to remove from the UI.
         /// </summary>
-        public IList<DefaultButton> RemoveDefaultButtons
+        public ObservableCollection<DefaultButton> RemoveDefaultButtons
         {
-            get { return (IList<DefaultButton>)GetValue(RemoveDefaultButtonsProperty); }
+            get { return (ObservableCollection<DefaultButton>)GetValue(RemoveDefaultButtonsProperty); }
             set { SetValue(RemoveDefaultButtonsProperty, value); }
         }
+
+        private bool formatterLoadedBeforeTemplate = false;
     }
 }

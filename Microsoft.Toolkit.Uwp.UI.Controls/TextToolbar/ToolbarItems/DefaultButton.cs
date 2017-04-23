@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         public ButtonType Type { get; set; }
 
+        internal IToolbarItem Button { get; set; }
+
         public override string ToString()
         {
             return Type.ToString();
