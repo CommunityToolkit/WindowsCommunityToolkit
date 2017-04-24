@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
     using Windows.UI.Text;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Input;
     using Windows.UI.Xaml.Media;
 
     public class MarkDownFormatter : Formatter
@@ -42,55 +43,99 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 return new ButtonMap
                 {
-                        Model.CommonButtons.Bold,
-                        Model.CommonButtons.Italics,
-                        Model.CommonButtons.Strikethrough,
+                    Model.CommonButtons.Bold,
+                    Model.CommonButtons.Italics,
+                    Model.CommonButtons.Strikethrough,
 
-                        new ToolbarSeparator(),
-                        new ToolbarButton
-                        {
-                            Name = TextToolbar.CodeElement,
-                            ToolTip = Model.CodeLabel,
-                            Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
-                            ShortcutKeySymbol = "[",
-                            //ShortcutKey = Windows.System.VirtualKey.
-                            Click = FormatCode
-                        },
-                        new ToolbarButton
-                        {
-                            Name = TextToolbar.QuoteElement,
-                            ToolTip = Model.QuoteLabel,
-                            Icon = new SymbolIcon { Symbol = Symbol.Message },
-                            Click = FormatQuote
-                        },
-                        Model.CommonButtons.Link,
+                    new ToolbarSeparator(),
 
-                        new ToolbarSeparator(),
+                    new ToolbarButton
+                    {
+                        Name = TextToolbar.HeadersElement,
+                        Icon = new SymbolIcon { Symbol = Symbol.FontSize },
+                        ToolTip = Model.HeaderLabel,
+                        Click = StyleHeader
+                    },
+                    new ToolbarButton
+                    {
+                        Name = TextToolbar.CodeElement,
+                        ToolTip = Model.CodeLabel,
+                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                        Click = FormatCode
+                    },
+                    new ToolbarButton
+                    {
+                        Name = TextToolbar.QuoteElement,
+                        ToolTip = Model.QuoteLabel,
+                        Icon = new SymbolIcon { Symbol = Symbol.Message },
+                        Click = FormatQuote
+                    },
+                    Model.CommonButtons.Link,
 
-                        Model.CommonButtons.List,
-                        Model.CommonButtons.OrderedList
+                    new ToolbarSeparator(),
+
+                    Model.CommonButtons.List,
+                    Model.CommonButtons.OrderedList
                 };
             }
         }
 
-        public override void FormatBold()
+        public void StyleHeader(ToolbarButton button)
+        {
+            var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
+            var flyout = new Flyout { Content = list };
+
+            void HeaderSelected(object sender, TappedRoutedEventArgs e)
+            {
+                var item = sender as ListBoxItem;
+                SetSelection(item.Tag as string, string.Empty, false);
+                flyout.Hide();
+            }
+
+            string headerVal = "#";
+            for (int i = 1; i <= 5; i++)
+            {
+                string val = string.Concat(Enumerable.Repeat(headerVal, i));
+                var item = new ListBoxItem
+                {
+                    Content = new MarkdownTextBlock
+                    {
+                        Text = val + Model.HeaderLabel,
+                        IsTextSelectionEnabled = false
+                    },
+                    Tag = val,
+                    Padding = new Thickness(5, 2, 5, 2),
+                    Margin = new Thickness(0)
+                };
+                item.Tapped += HeaderSelected;
+                list.Items.Add(item);
+            }
+
+            flyout.ShowAt(button);
+        }
+
+        public override void FormatBold(ToolbarButton button)
         {
             SetSelection("**", "**");
         }
 
-        public override void FormatItalics()
+        public override void FormatItalics(ToolbarButton button)
         {
             SetSelection("_", "_");
         }
 
-        public override void FormatStrikethrough()
+        public override void FormatStrikethrough(ToolbarButton button)
         {
             SetSelection("~~", "~~");
         }
 
-        public void FormatCode()
+        public void FormatCode(ToolbarButton button)
         {
-            if (/* Is Single Line */false)
+            if (DetermineSimpleReverse("`", "`"))
+            {
+                return;
+            }
+            else if (!Select.Text.Contains(Return))
             {
                 SetSelection("`", "`");
             }
@@ -101,16 +146,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     return ListLineIterator == 1 || ReachedEndLine ? "```" : string.Empty;
                 }
 
-                SetList(CodeLines, wrapNewLines: true);
+                SetList(CodeLines, button, wrapNewLines: true);
             }
         }
 
-        public void FormatQuote()
+        public void FormatQuote(ToolbarButton button)
         {
-            SetList(() => "> ");
+            SetList(() => "> ", button);
         }
 
-        public override void FormatLink(string label, string link)
+        public override void FormatLink(ToolbarButton button, string label, string link)
         {
             int originalStart = Select.StartPosition;
 
@@ -143,19 +188,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             }
         }
 
-        public override void FormatList()
+        public override void FormatList(ToolbarButton button)
         {
-            SetList(() => "- ");
+            SetList(() => "- ", button);
         }
 
-        public override void FormatOrderedList()
+        public override void FormatOrderedList(ToolbarButton button)
         {
             string Iterate()
             {
                 return ListLineIterator + ". ";
             }
 
-            SetList(() => Iterate());
+            SetList(Iterate, button);
         }
 
         /// <summary>
@@ -275,12 +320,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         ///  This function will either add List Characters to lines of text, or Remove List Characters from Lines of Text, if already applied.
         /// </summary>
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
+        /// <param name="button">Button that activated the Set List</param>
         /// <param name="wrapNewLines">Adds New Lines to Start and End of Selected Text</param>
-        public virtual void SetList(Func<string> listChar, bool wrapNewLines = false)
+        public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false)
         {
+            void SetListTextChanged(object sender, RoutedEventArgs e)
+            {
+                Select.StartPosition -= 1;
+                var lastEntered = Select.Text;
+                Select.StartPosition += 1;
+
+                if (lastEntered == Return)
+                {
+                    ListLineIterator++;
+                    Select.Text += listChar();
+
+                    Select.StartPosition = Select.EndPosition;
+                }
+            }
+
             if (Model.Editor == null)
             {
                 return;
+            }
+            else
+            {
+                button.IsToggleable = true;
+                button.IsToggled = true;
+
+                Model.Editor.TextChanged += SetListTextChanged;
+                button.ToggleEnded += (s, ee) =>
+                {
+                    Model.Editor.TextChanged -= SetListTextChanged;
+                };
             }
 
             ListLineIterator = 1;

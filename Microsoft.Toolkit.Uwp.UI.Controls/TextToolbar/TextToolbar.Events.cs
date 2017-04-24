@@ -41,8 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (args.NewValue is RichEditBox newEditor)
                 {
-                    // var keydownField = newEditor.GetType().GetField("KeyDown", BindingFlags.Instance | BindingFlags.NonPublic);
-                    // Figure out how to remove the default event handler from the invocation list, if a format such as Markdown is selected, so I can free Shortcuts such as CTRL + R and CTRL + L, as Markdown doesn't support Right to Left Text anyways.
                     newEditor.KeyDown += bar.Editor_KeyDown;
                 }
             }
@@ -59,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (ControlKeyDown)
                 {
-                    var args = new ShortcutKeyRequestArgs(e.Key, ShiftKeyDown);
+                    var args = new ShortcutKeyRequestArgs(e.Key, ShiftKeyDown, e);
                     foreach (var item in root.PrimaryCommands)
                     {
                         if (item is ToolbarButton button && !args.Handled)

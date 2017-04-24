@@ -29,32 +29,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <summary>
         /// Applies Bold
         /// </summary>
-        public abstract void FormatBold();
+        public abstract void FormatBold(ToolbarButton button);
 
         /// <summary>
         /// Applies Italics
         /// </summary>
-        public abstract void FormatItalics();
+        public abstract void FormatItalics(ToolbarButton button);
 
         /// <summary>
         /// Applies Strikethrough
         /// </summary>
-        public abstract void FormatStrikethrough();
+        public abstract void FormatStrikethrough(ToolbarButton button);
 
         /// <summary>
         /// Applies Link
         /// </summary>
-        public abstract void FormatLink(string label, string link);
+        public abstract void FormatLink(ToolbarButton button, string label, string link);
 
         /// <summary>
         /// Applies List
         /// </summary>
-        public abstract void FormatList();
+        public abstract void FormatList(ToolbarButton button);
 
         /// <summary>
         /// Applies Ordered List
         /// </summary>
-        public abstract void FormatOrderedList();
+        public abstract void FormatOrderedList(ToolbarButton button);
 
         /// <summary>
         /// Gets the source Toolbar

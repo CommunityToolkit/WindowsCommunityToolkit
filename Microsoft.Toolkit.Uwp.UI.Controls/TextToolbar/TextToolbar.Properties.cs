@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for Formatting.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.MarkDown, OnFormatTypeChanged));
+            DependencyProperty.Register(nameof(Format), typeof(Format?), typeof(TextToolbar), new PropertyMetadata(null, OnFormatTypeChanged));
 
         // Using a DependencyProperty as the backing store for TextFormat.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatterProperty =
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RemoveDefaultButtonsProperty =
-            DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(ObservableCollection<DefaultButton>), typeof(TextToolbar), new PropertyMetadata(new ObservableCollection<DefaultButton>(), OnRemoveButtonsChanged));
+            DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(ObservableCollection<DefaultButton>), typeof(TextToolbar), new PropertyMetadata(null, OnRemoveButtonsChanged));
 
         /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
@@ -59,9 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets which formatter to use, and which buttons to provide.
         /// </summary>
-        public Format Format
+        public Format? Format
         {
-            get { return (Format)GetValue(FormatProperty); }
+            get { return (Format?)GetValue(FormatProperty); }
             set { SetValue(FormatProperty, value); }
         }
 
@@ -75,12 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the provided buttons (Replaces all buttons)
+        /// Gets the default buttons for this format
         /// </summary>
-        private ButtonMap DefaultButtons
+        public ButtonMap DefaultButtons
         {
             get { return (ButtonMap)GetValue(DefaultButtonsProperty); }
-            set { SetValue(DefaultButtonsProperty, value); }
+            private set { SetValue(DefaultButtonsProperty, value); }
         }
 
         /// <summary>

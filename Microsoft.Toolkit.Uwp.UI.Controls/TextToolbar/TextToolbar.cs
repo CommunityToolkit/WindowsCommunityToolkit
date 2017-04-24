@@ -12,10 +12,8 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
+    using System.Collections.ObjectModel;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-    using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
@@ -34,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string LinkElement = "Link";
         internal const string ListElement = "List";
         internal const string OrderedElement = "OrderedList";
+        internal const string HeadersElement = "Headers";
 
         /// <summary>
         /// Gets access to Generic Buttons that activate Formatter Methods
@@ -44,21 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(TextToolbar);
             CommonButtons = new CommonButtons(this);
+
+            CustomButtons = new ButtonMap();
+            RemoveDefaultButtons = new ObservableCollection<DefaultButton>();
         }
 
         protected override void OnApplyTemplate()
         {
-            if (Formatter == null)
+            if (!Format.HasValue)
             {
-                switch (Format)
-                {
-                    case Format.Custom:
-                        throw new NullReferenceException("Custom Formatter was null");
-
-                    default:
-                        CreateFormatter();
-                        break;
-                }
+                Format = TextToolbarFormats.Format.MarkDown; // modify this to change the default format.
             }
             else if (formatterLoadedBeforeTemplate)
             {

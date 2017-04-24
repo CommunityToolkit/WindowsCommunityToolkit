@@ -29,15 +29,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void CreateFormatter()
         {
-            switch (Format)
+            if (Format.HasValue)
             {
-                case Format.MarkDown:
-                    Formatter = new MarkDownFormatter(this);
-                    break;
+                switch (Format.Value)
+                {
+                    case TextToolbarFormats.Format.MarkDown:
+                        Formatter = new MarkDownFormatter(this);
+                        break;
 
-                case Format.RichText:
-                    Formatter = new RichTextFormatter(this);
-                    break;
+                    case TextToolbarFormats.Format.RichText:
+                        Formatter = new RichTextFormatter(this);
+                        break;
+                }
             }
         }
 
@@ -50,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 root.PrimaryCommands.Clear();
 
-                LoadDefaultButtonMap(root);
+                AttachButtonMap(Formatter.DefaultButtons, root);
 
                 foreach (var button in RemoveDefaultButtons)
                 {
@@ -66,20 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 formatterLoadedBeforeTemplate = true;
             }
-        }
-
-        /// <summary>
-        /// Collects Default Button Set from the Formatter, or loads a Custom Set.
-        /// </summary>
-        /// <param name="root">Root Control</param>
-        private void LoadDefaultButtonMap(CommandBar root)
-        {
-            if (DefaultButtons == null)
-            {
-                DefaultButtons = Formatter.DefaultButtons;
-            }
-
-            AttachButtonMap(DefaultButtons, root);
         }
 
         /// <summary>
@@ -102,6 +91,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="root">Root Control</param>
         private void AddToolbarItem(IToolbarItem item, CommandBar root)
         {
+            if (item == null)
+            {
+                return;
+            }
+
             if (!root.PrimaryCommands.Contains(item))
             {
                 if (item is ToolbarButton button)
@@ -109,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     button.Model = this;
                 }
 
-                if (item.Position != -1)
+                if (item.Position != -1 && item.Position <= root.PrimaryCommands.Count)
                 {
                     root.PrimaryCommands.Insert(item.Position, item);
                 }

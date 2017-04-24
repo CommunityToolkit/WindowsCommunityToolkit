@@ -13,6 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
     using Windows.System;
+    using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 {
                     Name = TextToolbar.ListElement,
                     ToolTip = Model.ListLabel,
-                    Icon = new FontIcon { Glyph = "\uF0CA", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") },
+                    Content = new TextToolbarSymbols.List(),
                     Click = MakeList
                 };
             }
@@ -112,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 {
                     Name = TextToolbar.OrderedElement,
                     ToolTip = Model.OrderedListLabel,
-                    Icon = new FontIcon { Glyph = "\uF0CB", FontFamily = new FontFamily("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Font/FontAwesome.otf#FontAwesome") },
+                    Content = new TextToolbarSymbols.NumberedList(),
                     Click = MakeOList
                 };
             }

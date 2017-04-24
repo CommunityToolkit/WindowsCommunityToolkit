@@ -18,7 +18,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
     using Windows.System;
-    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
 
@@ -33,14 +32,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Switch Theme", (sender, args) =>
+            Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
-                MainGrid.RequestedTheme = MainGrid.RequestedTheme == ElementTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
-            });
-
-            Shell.Current.RegisterNewCommand("Remove Code Button", (sender, args) =>
-            {
-                Toolbar.RemoveDefaultButton(DefaultButton.OfType(DefaultButton.ButtonType.Code));
+                var button = DefaultButton.OfType(DefaultButton.ButtonType.Bold);
+                if (!codeRemoved)
+                {
+                    Toolbar.RemoveDefaultButtons.Add(button);
+                    codeRemoved = true;
+                }
+                else
+                {
+                    Toolbar.RemoveDefaultButtons.Remove(button);
+                    codeRemoved = false;
+                }
             });
 
             Shell.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
@@ -49,37 +53,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
+        private bool codeRemoved = false;
+
         private int DemoCounter { get; set; } = 0;
 
         private void AddCustomButton()
         {
             string demoText = "Demo";
             demoText = DemoCounter > 0 ? demoText + DemoCounter : demoText;
+
+            int keycode = (int)VirtualKey.Number0 + DemoCounter;
+            VirtualKey? shortcut = null;
+
+            if (keycode <= (int)VirtualKey.Number9)
+            {
+                shortcut = (VirtualKey)keycode;
+            }
+
             DemoCounter++;
 
             var demoButton = new ToolbarButton
             {
                 Icon = new SymbolIcon { Symbol = Symbol.ReportHacked },
-                ToolTip = demoText
-            };
-            demoButton.Click += () =>
-            {
-                if (Toolbar.Formatter is MarkDownFormatter md)
+                ToolTip = demoText,
+                ShortcutKey = shortcut,
+                Click = (b) =>
                 {
-                    md.SetSelection($"[{demoText}]", $"[/{demoText}]");
+                    if (Toolbar.Formatter is MarkDownFormatter md)
+                    {
+                        md.SetSelection($"[{demoText}]", $"[/{demoText}]");
+                    }
                 }
             };
 
-            Toolbar.CustomButtons = new ButtonMap
-            {
-                demoButton
-            };
-        }
-
-        private void EditZone_TextChanged(object sender, RoutedEventArgs e)
-        {
-            string text = Toolbar.Formatter.Text;
-            Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
+            Toolbar.CustomButtons.Add(demoButton);
         }
 
         private void Previewer_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -90,6 +97,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch
             {
+            }
+        }
+
+        private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (Toolbar.Formatter is MarkDownFormatter md)
+            {
+                string text = md.Text;
+                Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
             }
         }
     }

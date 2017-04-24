@@ -14,8 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
     using System;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+    using Windows.System;
     using Windows.UI.Text;
+    using Windows.UI.Xaml.Controls;
 
+    // Rudimentary showcase of RichText and Toggleable Toolbar Buttons, requires a detection of what current formatting the selected Text has, when the selection changes, and then reflecting that in the ToggleState of the Button.
     public class RichTextFormatter : Formatter
     {
         public RichTextFormatter(TextToolbar model)
@@ -38,37 +41,117 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 return new ButtonMap
                 {
+                    Model.CommonButtons.Bold,
+                    Model.CommonButtons.Italics,
+                    Underline,
+
+                    new ToolbarSeparator(),
+
+                    Model.CommonButtons.Strikethrough,
                     new ToolbarButton { Content = "WIP" }
                 };
             }
         }
 
-        public override void FormatBold()
+        public ToolbarButton Underline
+        {
+            get
+            {
+                return new ToolbarButton
+                {
+                    ToolTip = Model.UnderlineLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Underline },
+                    ShortcutKey = VirtualKey.U,
+                    Click = FormatUnderline
+                };
+            }
+        }
+
+        public ITextCharacterFormat SelectionFormat
+        {
+            get { return Select.CharacterFormat; }
+            set { Select.CharacterFormat = value; }
+        }
+
+        public override void FormatBold(ToolbarButton button)
+        {
+            button.IsToggleable = true;
+            button.IsToggled = true;
+
+            var format = SelectionFormat;
+            format.Bold = FormatEffect.On;
+            SelectionFormat = format;
+
+            button.ToggleEnded += (s, e) =>
+            {
+                var finishedFormat = SelectionFormat;
+                format.Bold = FormatEffect.Off;
+                SelectionFormat = format;
+            };
+        }
+
+        public override void FormatItalics(ToolbarButton button)
+        {
+            button.IsToggleable = true;
+            button.IsToggled = true;
+
+            var format = SelectionFormat;
+            format.Italic = FormatEffect.On;
+            SelectionFormat = format;
+
+            button.ToggleEnded += (s, e) =>
+            {
+                var finishedFormat = SelectionFormat;
+                format.Italic = FormatEffect.Off;
+                SelectionFormat = format;
+            };
+        }
+
+        public void FormatUnderline(ToolbarButton button)
+        {
+            button.IsToggleable = true;
+            button.IsToggled = true;
+
+            var format = SelectionFormat;
+            format.Underline = UnderlineType.Single;
+            SelectionFormat = format;
+
+            button.ToggleEnded += (s, e) =>
+            {
+                var finishedFormat = SelectionFormat;
+                format.Underline = UnderlineType.None;
+                SelectionFormat = format;
+            };
+        }
+
+        public override void FormatStrikethrough(ToolbarButton button)
+        {
+            button.IsToggleable = true;
+            button.IsToggled = true;
+
+            var format = SelectionFormat;
+            format.Strikethrough = FormatEffect.On;
+            SelectionFormat = format;
+
+            button.ToggleEnded += (s, e) =>
+            {
+                var finishedFormat = SelectionFormat;
+                format.Strikethrough = FormatEffect.Off;
+                SelectionFormat = format;
+            };
+        }
+
+        public override void FormatLink(ToolbarButton button, string label, string link)
         {
             throw new NotImplementedException();
         }
 
-        public override void FormatItalics()
+        public override void FormatList(ToolbarButton button)
         {
             throw new NotImplementedException();
         }
 
-        public override void FormatStrikethrough()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void FormatLink(string label, string link)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void FormatList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void FormatOrderedList()
+        public override void FormatOrderedList(ToolbarButton button)
         {
             throw new NotImplementedException();
         }

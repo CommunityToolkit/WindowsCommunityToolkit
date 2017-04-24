@@ -71,6 +71,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CancelLabelProperty =
             DependencyProperty.Register(nameof(CancelLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Cancel"));
 
+        // Using a DependencyProperty as the backing store for UnderlineLabel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UnderlineLabelProperty =
+            DependencyProperty.Register(nameof(UnderlineLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Underline"));
+
+        // Using a DependencyProperty as the backing store for HeaderLabel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderLabelProperty =
+            DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Header"));
+
         public string BoldLabel
         {
             get { return (string)GetValue(BoldLabelProperty); }
@@ -147,6 +155,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(CancelLabelProperty); }
             set { SetValue(CancelLabelProperty, value); }
+        }
+
+        public string UnderlineLabel
+        {
+            get { return (string)GetValue(UnderlineLabelProperty); }
+            set { SetValue(UnderlineLabelProperty, value); }
+        }
+
+        public string HeaderLabel
+        {
+            get { return (string)GetValue(HeaderLabelProperty); }
+            set { SetValue(HeaderLabelProperty, value); }
         }
     }
 }

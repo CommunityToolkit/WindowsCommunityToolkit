@@ -21,37 +21,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// </summary>
     public partial class CommonButtons
     {
-        private void MakeBold()
+        private void MakeBold(ToolbarButton button)
         {
-            Model.Formatter.FormatBold();
+            Model.Formatter.FormatBold(button);
         }
 
-        private void MakeItalics()
+        private void MakeItalics(ToolbarButton button)
         {
-            Model.Formatter.FormatItalics();
+            Model.Formatter.FormatItalics(button);
         }
 
-        private void MakeStrike()
+        private void MakeStrike(ToolbarButton button)
         {
-            Model.Formatter.FormatStrikethrough();
+            Model.Formatter.FormatStrikethrough(button);
         }
 
-        private void MakeLink()
+        private void MakeLink(ToolbarButton button)
         {
-            Model.Formatter.FormatLink(string.Empty, string.Empty);
+            Model.Formatter.FormatLink(button, string.Empty, string.Empty);
         }
 
-        private void MakeList()
+        private void MakeList(ToolbarButton button)
         {
-            Model.Formatter.FormatList();
+            Model.Formatter.FormatList(button);
         }
 
-        private void MakeOList()
+        private void MakeOList(ToolbarButton button)
         {
-            Model.Formatter.FormatOrderedList();
+            Model.Formatter.FormatOrderedList(button);
         }
 
-        public async void OpenLinkCreater()
+        public async void OpenLinkCreater(ToolbarButton button)
         {
             var labelBox = new TextBox { PlaceholderText = Model.LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
             var linkBox = new TextBox { PlaceholderText = Model.UrlLabel };
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
             if (result == ContentDialogResult.Primary)
             {
-                Model.Formatter.FormatLink(labelBox.Text, linkBox.Text);
+                Model.Formatter.FormatLink(button, labelBox.Text, linkBox.Text);
             }
         }
     }

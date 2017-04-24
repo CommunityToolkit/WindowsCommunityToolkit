@@ -5,29 +5,42 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:buttons="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar"
       mc:Ignorable="d">
 
-    <Grid x:Name="MainGrid" RequestedTheme="Light" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot>
-            <PivotItem Header="Edit">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="#4C4F4F4F" />
-                    <RichEditBox x:Name="EditZone"
+    <Page.Resources>
+        <local:IsFormat x:Key="IsFormatMarkdown" Format="MarkDown" />
+    </Page.Resources>
+
+    <StackPanel x:Name="MainGrid"
+                               RequestedTheme="{Binding Theme.Value, Mode=TwoWay}"
+                               Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:TextToolbar x:Name="Toolbar"
+                                Editor="{x:Bind EditZone}"
+                                Format="{Binding Format.Value, Mode=TwoWay}"
+                                Background="#4C4F4F4F" />
+
+        <RichEditBox x:Name="EditZone"
+                                 PlaceholderText="Enter Text Here"
                                  TextWrapping="Wrap"
                                  TextChanged="EditZone_TextChanged"
                                  VerticalContentAlignment="Stretch"
                                  Grid.Row="1"
                                  Background="{x:Null}"
-                                 BorderBrush="{x:Null}" />
-                </Grid>
-            </PivotItem>
-            <PivotItem Header="Preview">
-                <controls:MarkdownTextBlock x:Name="Previewer" LinkClicked="Previewer_LinkClicked" Canvas.ZIndex="99" />
-            </PivotItem>
-        </Pivot>
-    </Grid>
+                                 BorderBrush="{x:Null}"
+                                 MinHeight="300" />
+
+        <StackPanel x:Name="MD"
+                                 Padding="10"
+                                 Visibility="{Binding Format.Value, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+            <TextBlock Text="MarkDown Preview"
+                                 Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                                 Style="{StaticResource SubtitleTextBlockStyle}" />
+            <controls:MarkdownTextBlock x:Name="Previewer"
+                                 Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                                 LinkClicked="Previewer_LinkClicked"
+                                 Canvas.ZIndex="99" />
+        </StackPanel>
+    </StackPanel>
 </Page>

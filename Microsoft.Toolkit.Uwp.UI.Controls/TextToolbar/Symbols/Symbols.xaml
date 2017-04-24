@@ -1,0 +1,100 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols">
+
+    <Style TargetType="Grid" x:Key="ListBar">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+    </Style>
+
+    <Style TargetType="Grid" x:Key="Bullet">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Height" Value="3" />
+        <Setter Property="Width" Value="3" />
+        <Setter Property="Margin" Value="0,0,2,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="Numbers">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="7" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0,0,1,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+    </Style>
+
+    <Style TargetType="local:List">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:List">
+                    <Grid Width="20" Height="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Style="{StaticResource Bullet}" />
+                        <Grid Style="{StaticResource ListBar}" />
+
+                        <Grid Style="{StaticResource Bullet}" Grid.Row="1" />
+                        <Grid Style="{StaticResource ListBar}" Grid.Row="1" />
+
+                        <Grid Style="{StaticResource Bullet}" Grid.Row="2" />
+                        <Grid Style="{StaticResource ListBar}" Grid.Row="2" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:NumberedList">
+        <Setter Property="Background" Value="Red" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:NumberedList">
+                    <Grid Width="20" Height="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="1" Style="{StaticResource Numbers}" />
+                        <Grid Style="{StaticResource ListBar}" />
+
+                        <TextBlock Text="2" Style="{StaticResource Numbers}" Grid.Row="1" />
+                        <Grid Style="{StaticResource ListBar}" Grid.Row="1" />
+
+                        <TextBlock Text="3" Style="{StaticResource Numbers}" Grid.Row="2" />
+                        <Grid Style="{StaticResource ListBar}" Grid.Row="2" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
