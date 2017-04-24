@@ -44,13 +44,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         public ToolbarButton()
         {
             this.DefaultStyleKey = typeof(ToolbarButton);
-            base.Click += ToolbarButton_Click;
+            Click += ToolbarButton_Click;
         }
 
         /// <summary>
         /// Gets or sets the designated formatting task.
         /// </summary>
-        public new Action<ToolbarButton> Click { get; set; }
+        public Action<ToolbarButton> Activation { get; set; }
 
         /// <summary>
         /// Gets or sets the designated formatting task when pressing shift at the same time.
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 }
                 else
                 {
-                    Click?.Invoke(this);
+                    Activation?.Invoke(this);
                 }
             }
         }

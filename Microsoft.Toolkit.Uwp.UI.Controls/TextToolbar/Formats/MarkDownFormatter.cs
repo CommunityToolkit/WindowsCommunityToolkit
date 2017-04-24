@@ -54,21 +54,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                         Name = TextToolbar.HeadersElement,
                         Icon = new SymbolIcon { Symbol = Symbol.FontSize },
                         ToolTip = Model.HeaderLabel,
-                        Click = StyleHeader
+                        Activation = StyleHeader
                     },
                     new ToolbarButton
                     {
                         Name = TextToolbar.CodeElement,
                         ToolTip = Model.CodeLabel,
                         Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
-                        Click = FormatCode
+                        Activation = FormatCode
                     },
                     new ToolbarButton
                     {
                         Name = TextToolbar.QuoteElement,
                         ToolTip = Model.QuoteLabel,
                         Icon = new SymbolIcon { Symbol = Symbol.Message },
-                        Click = FormatQuote
+                        Activation = FormatQuote
                     },
                     Model.CommonButtons.Link,
 

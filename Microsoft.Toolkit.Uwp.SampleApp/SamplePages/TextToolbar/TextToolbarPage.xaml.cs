@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Icon = new SymbolIcon { Symbol = Symbol.ReportHacked },
                 ToolTip = demoText,
                 ShortcutKey = shortcut,
-                Click = (b) =>
+                Activation = (b) =>
                 {
                     if (Toolbar.Formatter is MarkDownFormatter md)
                     {

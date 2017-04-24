@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     ToolTip = Model.UnderlineLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
-                    Click = FormatUnderline
+                    Activation = FormatUnderline
                 };
             }
         }
