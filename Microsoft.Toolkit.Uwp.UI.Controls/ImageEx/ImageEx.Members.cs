@@ -51,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DecodePixelWidthProperty = DependencyProperty.Register(nameof(DecodePixelWidth), typeof(int), typeof(ImageEx), new PropertyMetadata(0));
 
         /// <summary>
+        /// Identifies the <see cref="IsCacheEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageEx), new PropertyMetadata(true));
+
+        /// <summary>
         /// Event raised if the image failed loading.
         /// </summary>
         [Obsolete("This event is obsolete; use ImageExFailed event instead")]
@@ -131,7 +136,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool IsCacheEnabled
         {
-            get; set;
+            get { return (bool)GetValue(IsCacheEnabledProperty); }
+            set { SetValue(IsCacheEnabledProperty, value); }
         }
     }
 }
