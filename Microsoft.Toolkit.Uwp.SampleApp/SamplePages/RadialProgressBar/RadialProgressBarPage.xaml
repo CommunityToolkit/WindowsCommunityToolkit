@@ -21,7 +21,8 @@
                                         Thickness="{Binding Thickness.Value, Mode=OneWay}"
                                         Value="{Binding Value.Value, Mode=OneWay}"
                                         Width="{Binding Width.Value, Mode=OneWay}"
-                                        Height="{Binding Height.Value, Mode=OneWay}"/>
+                                        Height="{Binding Height.Value, Mode=OneWay}"
+                                        Outline="{Binding Outline.Value, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </Page>
