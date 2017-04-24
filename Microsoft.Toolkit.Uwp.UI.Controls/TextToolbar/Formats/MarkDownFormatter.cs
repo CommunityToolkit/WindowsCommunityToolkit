@@ -222,6 +222,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 int originalStartPos = Select.StartPosition;
 
                 string originalText = contents ?? Select.Text;
+
+                if (!string.IsNullOrWhiteSpace(originalText) && originalText.Last() == Return.First())
+                {
+                    originalText = originalText.Remove(originalText.Length - 1, 1);
+                }
+
                 Select.Text = start + originalText + end;
 
                 if (string.IsNullOrWhiteSpace(originalText))
