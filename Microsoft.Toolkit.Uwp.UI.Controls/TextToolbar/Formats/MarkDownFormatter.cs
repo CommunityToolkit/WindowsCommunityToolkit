@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     return ListLineIterator == 1 || ReachedEndLine ? "```" : string.Empty;
                 }
 
-                SetList(CodeLines, button, wrapNewLines: true);
+                SetList(CodeLines, button, wrapNewLines: true, enableToggle: false);
             }
         }
 
@@ -322,7 +322,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
         /// <param name="button">Button that activated the Set List</param>
         /// <param name="wrapNewLines">Adds New Lines to Start and End of Selected Text</param>
-        public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false)
+        /// <param name="enableToggle">Is this a Toggleable element?</param>
+        public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false, bool enableToggle = true)
         {
             void SetListTextChanged(object sender, RoutedEventArgs e)
             {
@@ -343,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 return;
             }
-            else
+            else if (enableToggle)
             {
                 button.IsToggleable = true;
                 button.IsToggled = true;
