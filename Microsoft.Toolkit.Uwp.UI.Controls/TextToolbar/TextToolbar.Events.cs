@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
@@ -66,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                     }
 
+                    ShortcutRequested?.Invoke(this, args);
                     e.Handled = args.Handled;
                 }
             }
@@ -86,6 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift)); }
         }
+
+        /// <summary>
+        /// Fired when a CTRL + "Letter" combination is used inside the Editor.
+        /// </summary>
+        public event EventHandler<ShortcutKeyRequestArgs> ShortcutRequested;
 
         /// <summary>
         /// Creates a new formatter, if it is a built-in formatter.
