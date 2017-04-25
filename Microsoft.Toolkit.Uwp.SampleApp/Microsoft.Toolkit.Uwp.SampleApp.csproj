@@ -272,6 +272,7 @@
     <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
+    <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
@@ -372,6 +373,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
+    <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
     <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
@@ -479,6 +481,9 @@
     </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RadialProgressBar\RadialProgressBarPage.xaml.cs">
+      <DependentUpon>RadialProgressBarPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml.cs">
       <DependentUpon>ScrollHeaderPage.xaml</DependentUpon>
@@ -713,6 +718,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialProgressBar\RadialProgressBarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
