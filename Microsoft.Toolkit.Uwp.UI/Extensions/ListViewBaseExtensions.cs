@@ -13,6 +13,7 @@
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -89,20 +90,20 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate row background color to a <see cref="ListViewBase"/>
         /// </summary>
-        public static readonly DependencyProperty AlternateRowColorProperty = DependencyProperty.RegisterAttached(
-            "AlternateRowColor",
+        public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached(
+            "AlternateColor",
             typeof(Brush),
             typeof(ListViewBaseExtensions),
-            new PropertyMetadata(null, OnAlternateRowColorPropertyChanged));
+            new PropertyMetadata(null, OnAlternateColorPropertyChanged));
 
         /// <summary>
         /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="ListViewBase"/>
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> to get the associated <see cref="Brush"/> from</param>
         /// <returns>The <see cref="Brush"/> associated with the <see cref="ListViewBase"/></returns>
-        public static Brush GetAlternateRowColor(ListViewBase obj)
+        public static Brush GetAlternateColor(ListViewBase obj)
         {
-            return (Brush)obj.GetValue(AlternateRowColorProperty);
+            return (Brush)obj.GetValue(AlternateColorProperty);
         }
 
         /// <summary>
@@ -110,12 +111,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> to associate the <see cref="Brush"/> with</param>
         /// <param name="value">The <see cref="Brush"/> for binding to the <see cref="ListViewBase"/></param>
-        public static void SetAlternateRowColor(ListViewBase obj, Brush value)
+        public static void SetAlternateColor(ListViewBase obj, Brush value)
         {
-            obj.SetValue(AlternateRowColorProperty, value);
+            obj.SetValue(AlternateColorProperty, value);
         }
 
-        private static void OnAlternateRowColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             ListViewBase listViewBase = sender as ListViewBase;
 
@@ -126,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
 
-            if (AlternateRowColorProperty != null)
+            if (AlternateColorProperty != null)
             {
                 listViewBase.ContainerContentChanging += ColorContainerContentChanging;
             }
@@ -134,12 +135,12 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static void ColorContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var itemContainer = args.ItemContainer as ListViewItem;
+            var itemContainer = args.ItemContainer as SelectorItem;
             var itemIndex = sender.IndexFromContainer(itemContainer);
 
             if (itemIndex % 2 == 0)
             {
-                itemContainer.Background = GetAlternateRowColor(sender);
+                itemContainer.Background = GetAlternateColor(sender);
             }
             else
             {
@@ -150,20 +151,20 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate row template to a <see cref="ListViewBase"/>
         /// </summary>
-        public static readonly DependencyProperty AlternateRowItemTemplateProperty = DependencyProperty.RegisterAttached(
-            "AlternateRowItemTemplate",
+        public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached(
+            "AlternateItemTemplate",
             typeof(DataTemplate),
             typeof(ListViewBaseExtensions),
-            new PropertyMetadata(null, OnAlternateRowItemTemplatePropertyChanged));
+            new PropertyMetadata(null, OnAlternateItemTemplatePropertyChanged));
 
         /// <summary>
         /// Gets the <see cref="DataTemplate"/> associated with the specified <see cref="ListViewBase"/>
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> to get the associated <see cref="DataTemplate"/> from</param>
         /// <returns>The <see cref="DataTemplate"/> associated with the <see cref="ListViewBase"/></returns>
-        public static DataTemplate GetAlternateRowItemTemplate(ListViewBase obj)
+        public static DataTemplate GetAlternateItemTemplate(ListViewBase obj)
         {
-            return (DataTemplate)obj.GetValue(AlternateRowItemTemplateProperty);
+            return (DataTemplate)obj.GetValue(AlternateItemTemplateProperty);
         }
 
         /// <summary>
@@ -171,12 +172,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> to associate the <see cref="DataTemplate"/> with</param>
         /// <param name="value">The <see cref="DataTemplate"/> for binding to the <see cref="ListViewBase"/></param>
-        public static void SetAlternateRowItemTemplate(ListViewBase obj, DataTemplate value)
+        public static void SetAlternateItemTemplate(ListViewBase obj, DataTemplate value)
         {
-            obj.SetValue(AlternateRowItemTemplateProperty, value);
+            obj.SetValue(AlternateItemTemplateProperty, value);
         }
 
-        private static void OnAlternateRowItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             ListViewBase listViewBase = sender as ListViewBase;
 
@@ -187,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
 
-            if (AlternateRowItemTemplateProperty != null)
+            if (AlternateItemTemplateProperty != null)
             {
                 listViewBase.ContainerContentChanging += ItemTemplateContainerContentChanging;
             }
@@ -195,12 +196,12 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static void ItemTemplateContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var itemContainer = args.ItemContainer as ListViewItem;
+            var itemContainer = args.ItemContainer as SelectorItem;
             var itemIndex = sender.IndexFromContainer(itemContainer);
 
             if (itemIndex % 2 == 0)
             {
-                itemContainer.ContentTemplate = GetAlternateRowItemTemplate(sender);
+                itemContainer.ContentTemplate = GetAlternateItemTemplate(sender);
             }
             else
             {

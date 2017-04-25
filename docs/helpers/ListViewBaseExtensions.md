@@ -18,7 +18,7 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
 ```
 
 <br/>
-The AlternateRowColor property provides a way to assign a background color to every other row.
+The AlternateColor property provides a way to assign a background color to every other row.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
@@ -26,12 +26,12 @@ The AlternateRowColor property provides a way to assign a background color to ev
 
 ```xml
     <ListView
-        ui:ListViewBaseExtensions.AlternateRowColor="Silver"
+        ui:ListViewBaseExtensions.AlternateColor="Silver"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
 <br/>
-The AlternateRowItemTemplate property provides a way to assign an alternate datatemplate to every other row. It is also possible to combine with the AlternateRowColor property.
+The AlternateItemTemplate property provides a way to assign an alternate <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.datatemplate" target="_blank">datatemplate</a> to every other row. It is also possible to combine with the AlternateColor property.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
@@ -50,7 +50,7 @@ The AlternateRowItemTemplate property provides a way to assign an alternate data
 
     <ListView
         ItemTemplate="{StaticResource NormalTemplate}"
-        ui:ListViewBaseExtensions.AlternateRowItemTemplate="{StaticResource AlternateTemplate}"
+        ui:ListViewBaseExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
