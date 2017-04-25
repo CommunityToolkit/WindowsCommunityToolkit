@@ -279,7 +279,8 @@
 
         <controls:Menu MenuFlyoutStyle="{StaticResource MenuStyle}"
                        Orientation="Horizontal">
-            <controls:MenuItem Header="File">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
+                               Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"

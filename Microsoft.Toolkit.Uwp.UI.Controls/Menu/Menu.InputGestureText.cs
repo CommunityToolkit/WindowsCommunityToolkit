@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the text describing an input gesture that will call the command tied to the specified item.
         /// </summary>
-        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached("InputGestureText", typeof(string), typeof(MenuFlyoutItem), new PropertyMetadata(null, InputGestureTextChanged));
+        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached("InputGestureText", typeof(string), typeof(DependencyObject), new PropertyMetadata(null, InputGestureTextChanged));
 
         private static void InputGestureTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
@@ -40,8 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var menuItem = (MenuFlyoutItem)obj;
-            MenuItemInputGestureCache.Add(inputGestureValue.ToUpper(), menuItem);
+            MenuItemInputGestureCache.Add(inputGestureValue.ToUpper(), obj);
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target MenuFlyoutItem</param>
         /// <returns>Input gesture text</returns>
-        public static string GetInputGestureText(MenuFlyoutItem obj)
+        public static string GetInputGestureText(DependencyObject obj)
         {
             return (string)obj.GetValue(InputGestureTextProperty);
         }
@@ -59,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target MenuFlyoutItem</param>
         /// <param name="value">Input gesture text</param>
-        public static void SetInputGestureText(MenuFlyoutItem obj, string value)
+        public static void SetInputGestureText(DependencyObject obj, string value)
         {
             obj.SetValue(InputGestureTextProperty, value);
         }

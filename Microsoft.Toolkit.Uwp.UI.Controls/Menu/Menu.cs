@@ -13,7 +13,6 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -31,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // even if we have multiple menus in the same page we need only one cache because only one menu item will have certain short cut.
-        private static readonly Dictionary<string, MenuFlyoutItem> MenuItemInputGestureCache = new Dictionary<string, MenuFlyoutItem>();
+        private static readonly Dictionary<string, DependencyObject> MenuItemInputGestureCache = new Dictionary<string, DependencyObject>();
 
         /// <summary>
         /// Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally
