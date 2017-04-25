@@ -18,7 +18,7 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
 ```
 
 <br/>
-The AlternateColor property provides a way to assign a background color to every other row.
+The AlternateColor property provides a way to assign a background color to every other item.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
@@ -31,7 +31,7 @@ The AlternateColor property provides a way to assign a background color to every
 ```
 
 <br/>
-The AlternateItemTemplate property provides a way to assign an alternate <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.datatemplate" target="_blank">datatemplate</a> to every other row. It is also possible to combine with the AlternateColor property.
+The AlternateItemTemplate property provides a way to assign an alternate <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.datatemplate" target="_blank">datatemplate</a> to every other item. It is also possible to combine with the AlternateColor property.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 

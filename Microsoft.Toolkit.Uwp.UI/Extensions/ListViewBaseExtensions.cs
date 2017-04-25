@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate row background color to a <see cref="ListViewBase"/>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached(
             "AlternateColor",
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate row template to a <see cref="ListViewBase"/>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate template to a <see cref="ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached(
             "AlternateItemTemplate",
