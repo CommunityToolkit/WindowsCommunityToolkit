@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Media;
+
     /// <summary>
     /// The RoundImageEx control extends the default ImageBrush platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.

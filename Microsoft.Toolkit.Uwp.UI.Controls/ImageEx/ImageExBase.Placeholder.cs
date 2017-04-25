@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Media;
+
     /// <summary>
     /// Shared Code for ImageEx and RoundImageEx
     /// </summary>
