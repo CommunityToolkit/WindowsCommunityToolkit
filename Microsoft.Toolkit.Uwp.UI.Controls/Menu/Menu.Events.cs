@@ -28,42 +28,84 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
 
-        private static bool NavigateThroughMenuHeader(KeyEventArgs args, Menu menu, MenuItem menuItem, Orientation orientation)
+        private static bool NavigateThroughMenuHeader(KeyEventArgs args, Menu menu, Orientation orientation)
         {
             if (orientation == Orientation.Horizontal)
             {
                 if (args.VirtualKey == VirtualKey.Down)
                 {
-                    menuItem.ShowMenu();
+                    menu.SelectedHeaderItem.ShowMenu();
                     return true;
                 }
 
                 if (args.VirtualKey == VirtualKey.Left)
                 {
-                    return MoveFocusBackward(menu, menuItem);
+                    MoveFocusBackwardAndGetPrevious(menu);
+                    return true;
                 }
 
                 if (args.VirtualKey == VirtualKey.Right)
                 {
-                    return MoveFocusForward(menu, menuItem);
+                    MoveFocusForwardAndGetNext(menu);
+                    return true;
                 }
             }
             else
             {
                 if (args.VirtualKey == VirtualKey.Right)
                 {
-                    menuItem.ShowMenu();
+                    menu.SelectedHeaderItem.ShowMenu();
                     return true;
                 }
 
                 if (args.VirtualKey == VirtualKey.Up)
                 {
-                    return MoveFocusBackward(menu, menuItem);
+                    MoveFocusBackwardAndGetPrevious(menu);
+                    return true;
                 }
 
                 if (args.VirtualKey == VirtualKey.Down)
                 {
-                    return MoveFocusForward(menu, menuItem);
+                    MoveFocusForwardAndGetNext(menu);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool NavigateThroughMenuFlyoutItems(KeyEventArgs args, Menu menu, Orientation orientation)
+        {
+            if (orientation == Orientation.Horizontal)
+            {
+                if (args.VirtualKey == VirtualKey.Left)
+                {
+                    menu.SelectedHeaderItem.HideMenu();
+                    MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                    return true;
+                }
+
+                if (args.VirtualKey == VirtualKey.Right)
+                {
+                    menu.SelectedHeaderItem.HideMenu();
+                    MoveFocusForwardAndGetNext(menu).ShowMenu();
+                    return true;
+                }
+            }
+            else
+            {
+                if (args.VirtualKey == VirtualKey.Up)
+                {
+                    menu.SelectedHeaderItem.HideMenu();
+                    MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                    return true;
+                }
+
+                if (args.VirtualKey == VirtualKey.Down)
+                {
+                    menu.SelectedHeaderItem.HideMenu();
+                    MoveFocusForwardAndGetNext(menu).ShowMenu();
+                    return true;
                 }
             }
 
@@ -71,23 +113,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // this function enables the menu to cycle from start to end and from end to start
-        private static bool MoveFocusForward(Menu menu, MenuItem menuItem)
+        private static MenuItem MoveFocusForwardAndGetNext(Menu menu)
         {
-            var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
+            var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
             var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
             var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
             nextItem?.Focus(FocusState.Keyboard);
-            return true;
+            return nextItem;
         }
 
         // this function enables the menu to cycle from end to start and from start to end
-        private static bool MoveFocusBackward(Menu menu, MenuItem menuItem)
+        private static MenuItem MoveFocusBackwardAndGetPrevious(Menu menu)
         {
-            var currentMenuItemIndex = menu.Items.IndexOf(menuItem);
+            var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
             var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
             var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
             nextItem?.Focus(FocusState.Keyboard);
-            return true;
+            return nextItem;
         }
 
         private static string MapInputToGestureKey(KeyEventArgs args)
@@ -149,10 +191,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             var element = FocusManager.GetFocusedElement();
-            var menuItem = element as MenuItem;
-            if (menuItem != null)
+            if (element is MenuItem)
             {
-                if (NavigateThroughMenuHeader(args, this, menuItem, Orientation))
+                if (NavigateThroughMenuHeader(args, this, Orientation))
+                {
+                    return;
+                }
+            }
+
+            if (element is MenuFlyoutItem)
+            {
+                if (NavigateThroughMenuFlyoutItems(args, this, Orientation))
                 {
                     return;
                 }

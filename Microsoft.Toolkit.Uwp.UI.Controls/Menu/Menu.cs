@@ -34,7 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly Dictionary<string, MenuFlyoutItem> MenuItemInputGestureCache = new Dictionary<string, MenuFlyoutItem>();
 
         /// <summary>
-        /// Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
+        /// Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally
+        /// until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, 
+        /// vertical means that child will be added vertically until the height of the panel is received then a new column is added
         /// </summary>
         public Orientation Orientation
         {
@@ -65,6 +67,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (Style)GetValue(MenuFlyoutStyleProperty); }
             set { SetValue(MenuFlyoutStyleProperty, value); }
         }
+
+        /// <summary>
+        /// Gets the current selected menu header item
+        /// </summary>
+        public MenuItem SelectedHeaderItem { get; internal set; }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()

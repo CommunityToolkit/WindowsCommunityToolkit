@@ -14,7 +14,6 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -58,6 +57,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _flyoutButton?.Flyout?.ShowAt(_flyoutButton);
         }
 
+        /// <summary>
+        /// This method is used to hide the menu for current item
+        /// </summary>
+        public void HideMenu()
+        {
+            _flyoutButton?.Flyout?.Hide();
+        }
+
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
@@ -85,6 +92,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        /// <inheritdoc />
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            ParentMenu.SelectedHeaderItem = this;
+            base.OnGotFocus(e);
         }
     }
 }
