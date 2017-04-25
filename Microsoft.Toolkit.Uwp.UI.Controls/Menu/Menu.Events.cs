@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.System;
@@ -28,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
-        private const string AltValue = "ALT";
 
         private static bool NavigateThroughMenuHeader(KeyEventArgs args, Menu menu, Orientation orientation)
         {
@@ -138,7 +136,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var isCtrlDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var isShiftDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 
             if (!isCtrlDown && !isShiftDown)
             {
@@ -156,12 +153,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (isShiftDown)
             {
                 gestureKeyBuilder.Append(ShiftValue);
-                gestureKeyBuilder.Append("+");
-            }
-
-            if (isAltDown)
-            {
-                gestureKeyBuilder.Append(AltValue);
                 gestureKeyBuilder.Append("+");
             }
 
@@ -235,6 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (cachedMenuItem is MenuItem)
                 {
                     var menuItem = (MenuItem)cachedMenuItem;
+                    SelectedHeaderItem = menuItem;
                     menuItem.ShowMenu();
                 }
             }
@@ -245,7 +237,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             if (args.VirtualKey == VirtualKey.Menu && !isAltDown)
             {
-                Debug.WriteLine(args.VirtualKey);
                 Focus(FocusState.Keyboard);
             }
         }

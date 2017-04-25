@@ -279,7 +279,7 @@
 
         <controls:Menu MenuFlyoutStyle="{StaticResource MenuStyle}"
                        Orientation="Horizontal">
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
+            <controls:MenuItem controls:Menu.InputGestureText="Shift+F"
                                Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
