@@ -14,6 +14,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -92,6 +93,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        /// <inheritdoc />
+        protected override void OnTapped(TappedRoutedEventArgs e)
+        {
+            ParentMenu.SelectedHeaderItem = this;
+            base.OnTapped(e);
         }
 
         /// <inheritdoc />
