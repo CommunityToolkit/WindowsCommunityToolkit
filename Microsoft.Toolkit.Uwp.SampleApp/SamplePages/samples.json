@@ -86,6 +86,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialGauge.md"
       },
       {
+        "Name": "RadialProgressBar",
+        "Type": "RadialProgressBarPage",
+        "About": "The radial progress bar displays progress as a circle getting filled.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
+        "XamlCodeFile": "RadialProgressBarCode.bind",
+        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png"
+      },
+      {
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
