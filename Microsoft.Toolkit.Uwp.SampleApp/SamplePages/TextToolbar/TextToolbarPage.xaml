@@ -18,6 +18,7 @@
                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:TextToolbar x:Name="Toolbar"
                                 Editor="{x:Bind EditZone}"
+                                IsEnabled="{Binding IsEnabled.Value, Mode=TwoWay}"
                                 Format="{Binding Format.Value, Mode=TwoWay}"
                                 Background="#4C4F4F4F" />
 

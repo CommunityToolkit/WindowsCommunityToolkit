@@ -7,7 +7,6 @@
         <Setter Property="Grid.Column" Value="1" />
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="1" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
     </Style>
 
     <Style TargetType="Grid" x:Key="Bullet">
@@ -16,7 +15,6 @@
         <Setter Property="Width" Value="3" />
         <Setter Property="Margin" Value="0,0,2,0" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="Numbers">
@@ -26,7 +24,6 @@
         <Setter Property="Margin" Value="0,0,1,0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
     </Style>
 
     <Style TargetType="local:List">
@@ -39,6 +36,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:List">
                     <Grid Width="20" Height="20">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="Attach.Background" Value="Gray" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -49,14 +58,16 @@
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
 
-                        <Grid Style="{StaticResource Bullet}" />
-                        <Grid Style="{StaticResource ListBar}" />
+                        <Grid x:Name="Attach" Height="0" Width="0" Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
 
-                        <Grid Style="{StaticResource Bullet}" Grid.Row="1" />
-                        <Grid Style="{StaticResource ListBar}" Grid.Row="1" />
+                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" />
 
-                        <Grid Style="{StaticResource Bullet}" Grid.Row="2" />
-                        <Grid Style="{StaticResource ListBar}" Grid.Row="2" />
+                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
+
+                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -64,7 +75,6 @@
     </Style>
 
     <Style TargetType="local:NumberedList">
-        <Setter Property="Background" Value="Red" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -74,6 +84,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:NumberedList">
                     <Grid Width="20" Height="20">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="Attach.Background" Value="Gray" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -84,14 +106,16 @@
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
 
+                        <Grid x:Name="Attach" Height="0" Width="0" Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+
                         <TextBlock Text="1" Style="{StaticResource Numbers}" />
-                        <Grid Style="{StaticResource ListBar}" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" />
 
                         <TextBlock Text="2" Style="{StaticResource Numbers}" Grid.Row="1" />
-                        <Grid Style="{StaticResource ListBar}" Grid.Row="1" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
 
                         <TextBlock Text="3" Style="{StaticResource Numbers}" Grid.Row="2" />
-                        <Grid Style="{StaticResource ListBar}" Grid.Row="2" />
+                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

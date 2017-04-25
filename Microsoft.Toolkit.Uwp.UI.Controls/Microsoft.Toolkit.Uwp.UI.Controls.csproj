@@ -127,6 +127,7 @@
     <Compile Include="TextToolbar\ShortcutKeyRequestArgs.cs" />
     <Compile Include="TextToolbar\Symbols\List.cs" />
     <Compile Include="TextToolbar\Symbols\NumberedList.cs" />
+    <Compile Include="TextToolbar\Symbols\Symbol.cs" />
     <Compile Include="TextToolbar\TextToolbar.cs" />
     <Compile Include="TextToolbar\TextToolbar.Methods.cs" />
     <Compile Include="TextToolbar\TextToolbar.Events.cs" />

@@ -12,9 +12,10 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 {
-    using Windows.UI.Xaml.Controls;
-
-    public class List : Control
+    /// <summary>
+    /// Creates a List Icon
+    /// </summary>
+    public class List : Symbol
     {
         public List()
         {
