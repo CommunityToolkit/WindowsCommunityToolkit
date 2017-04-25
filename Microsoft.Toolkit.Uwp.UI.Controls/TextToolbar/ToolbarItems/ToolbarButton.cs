@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     using System.ComponentModel;
     using Windows.System;
     using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Automation;
     using Windows.UI.Xaml.Controls;
 
     /// <summary>
@@ -103,8 +104,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         public bool IsToggled
         {
-            get { return Toggled == Visibility.Visible; }
-            set { Toggled = value ? Visibility.Visible : Visibility.Collapsed; }
+            get
+            {
+                return Toggled == Visibility.Visible;
+            }
+
+            set
+            {
+                if (value)
+                {
+                    Toggled = Visibility.Visible;
+                }
+                else
+                {
+                    Toggled = Visibility.Collapsed;
+                    ToggleEnded?.Invoke(this, null);
+                }
+            }
         }
 
         private Visibility Toggled
@@ -141,6 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             }
 
             ToolTipService.SetToolTip(this, tooltip);
+            AutomationProperties.SetName(this, ToolTip);
         }
 
         private void ToolbarButton_Click(object sender, RoutedEventArgs e)
@@ -167,7 +184,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             if (IsToggleable && IsToggled)
             {
                 IsToggled = false;
-                ToggleEnded?.Invoke(this, null);
             }
             else
             {

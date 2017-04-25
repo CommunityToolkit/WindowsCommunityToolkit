@@ -41,6 +41,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
+                listButton = listButton != null ? listButton : Model.CommonButtons.List;
+                orderedListButton = orderedListButton != null ? orderedListButton : Model.CommonButtons.OrderedList;
+
                 return new ButtonMap
                 {
                     Model.CommonButtons.Bold,
@@ -74,11 +77,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
                     new ToolbarSeparator(),
 
-                    Model.CommonButtons.List,
-                    Model.CommonButtons.OrderedList
+                    listButton,
+                    orderedListButton
                 };
             }
         }
+
+        private ToolbarButton listButton = null;
+        private ToolbarButton orderedListButton = null;
 
         public void StyleHeader(ToolbarButton button)
         {
@@ -190,11 +196,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
         public override void FormatList(ToolbarButton button)
         {
+            if (orderedListButton.IsToggled)
+            {
+                orderedListButton.IsToggled = false;
+            }
+
             SetList(() => "- ", button);
         }
 
         public override void FormatOrderedList(ToolbarButton button)
         {
+            if (listButton.IsToggled)
+            {
+                listButton.IsToggled = false;
+            }
+
             string Iterate()
             {
                 return ListLineIterator + ". ";

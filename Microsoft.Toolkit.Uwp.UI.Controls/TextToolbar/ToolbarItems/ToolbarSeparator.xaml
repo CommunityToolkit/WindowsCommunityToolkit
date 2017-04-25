@@ -5,5 +5,7 @@
 
     <Style TargetType="local:ToolbarSeparator">
         <Setter Property="Width" Value="20" />
+        <Setter Property="AllowFocusOnInteraction" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
     </Style>
 </ResourceDictionary>

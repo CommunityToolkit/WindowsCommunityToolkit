@@ -9,6 +9,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="local:TextToolbar">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:TextToolbar">
@@ -21,8 +22,9 @@
                         HorizontalScrollMode="Enabled"
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled"
+                        IsTabStop="False"
                         Background="{TemplateBinding Background}">
-                        <CommandBar x:Name="Root" Grid.Row="1" Background="{x:Null}"  HorizontalAlignment="Left" Style="{StaticResource SimpleCommandBar}" />
+                        <CommandBar x:Name="Root" Grid.Row="1" Background="{x:Null}" IsTabStop="False"  HorizontalAlignment="Left" Style="{StaticResource SimpleCommandBar}" />
                     </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
