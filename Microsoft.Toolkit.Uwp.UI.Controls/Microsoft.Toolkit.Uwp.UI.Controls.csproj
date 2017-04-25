@@ -130,7 +130,7 @@
     <Compile Include="TextToolbar\TextToolbar.cs" />
     <Compile Include="TextToolbar\TextToolbar.Methods.cs" />
     <Compile Include="TextToolbar\TextToolbar.Events.cs" />
-    <Compile Include="TextToolbar\TextToolbar.Labels.cs" />
+    <Compile Include="TextToolbar\TextToolbarStrings.cs" />
     <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ButtonMap.cs" />
     <Compile Include="TextToolbar\ToolbarItems\CommonButtons.cs" />

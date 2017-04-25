@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.BoldElement,
-                    ToolTip = Model.BoldLabel,
+                    ToolTip = Model.Labels.BoldLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Bold },
                     ShortcutKey = VirtualKey.B,
                     Activation = MakeBold
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.ItalicsElement,
-                    ToolTip = Model.ItalicsLabel,
+                    ToolTip = Model.Labels.ItalicsLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Italic },
                     ShortcutKey = VirtualKey.I,
                     Activation = MakeItalics
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.StrikethoughElement,
-                    ToolTip = Model.StrikethroughLabel,
+                    ToolTip = Model.Labels.StrikethroughLabel,
                     Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                     ShortcutKey = VirtualKey.R,
                     Activation = MakeStrike
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.LinkElement,
-                    ToolTip = Model.LinkLabel,
+                    ToolTip = Model.Labels.LinkLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Link },
                     ShortcutKey = VirtualKey.K,
                     Activation = OpenLinkCreater,
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.ListElement,
-                    ToolTip = Model.ListLabel,
+                    ToolTip = Model.Labels.ListLabel,
                     Content = new TextToolbarSymbols.List(),
                     Activation = MakeList
                 };
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 return new ToolbarButton
                 {
                     Name = TextToolbar.OrderedElement,
-                    ToolTip = Model.OrderedListLabel,
+                    ToolTip = Model.Labels.OrderedListLabel,
                     Content = new TextToolbarSymbols.NumberedList(),
                     Activation = MakeOList
                 };

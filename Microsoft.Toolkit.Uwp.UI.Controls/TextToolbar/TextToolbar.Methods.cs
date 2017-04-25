@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 root.PrimaryCommands.Clear();
 
-                AttachButtonMap(Formatter.DefaultButtons, root);
+                AttachButtonMap(DefaultButtons, root);
 
                 foreach (var button in RemoveDefaultButtons)
                 {

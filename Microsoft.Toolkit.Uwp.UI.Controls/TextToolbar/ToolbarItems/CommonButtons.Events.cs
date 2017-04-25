@@ -53,12 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         public async void OpenLinkCreater(ToolbarButton button)
         {
-            var labelBox = new TextBox { PlaceholderText = Model.LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
-            var linkBox = new TextBox { PlaceholderText = Model.UrlLabel };
+            var labelBox = new TextBox { PlaceholderText = Model.Labels.LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
+            var linkBox = new TextBox { PlaceholderText = Model.Labels.UrlLabel };
 
             var result = await new ContentDialog
             {
-                Title = Model.CreateLinkLabel,
+                Title = Model.Labels.CreateLinkLabel,
                 Content = new StackPanel
                 {
                     Children =
@@ -67,8 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                         linkBox
                     }
                 },
-                PrimaryButtonText = Model.OkLabel,
-                SecondaryButtonText = Model.CancelLabel
+                PrimaryButtonText = Model.Labels.OkLabel,
+                SecondaryButtonText = Model.Labels.CancelLabel
             }.ShowAsync();
 
             if (result == ContentDialogResult.Primary)

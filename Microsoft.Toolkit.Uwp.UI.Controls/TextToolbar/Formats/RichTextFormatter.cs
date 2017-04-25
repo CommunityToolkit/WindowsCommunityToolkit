@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 return new ToolbarButton
                 {
-                    ToolTip = Model.UnderlineLabel,
+                    ToolTip = Model.Labels.UnderlineLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
                     Activation = FormatUnderline

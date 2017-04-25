@@ -15,69 +15,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml;
 
     /// <summary>
-    /// Toolbar for Editing Text attached to a RichEditBox
+    /// Strings for TextToolbar Tooltips and UI.
     /// </summary>
-    public partial class TextToolbar
+    public partial class TextToolbarStrings : DependencyObject
     {
         // Using a DependencyProperty as the backing store for BoldLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BoldLabelProperty =
-            DependencyProperty.Register(nameof(BoldLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Bold"));
+            DependencyProperty.Register(nameof(BoldLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Bold"));
 
         // Using a DependencyProperty as the backing store for ItalicsLahel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItalicsLabelProperty =
-            DependencyProperty.Register(nameof(ItalicsLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Italics"));
+            DependencyProperty.Register(nameof(ItalicsLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Italics"));
 
         // Using a DependencyProperty as the backing store for StrikethroughLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrikethroughLabelProperty =
-            DependencyProperty.Register(nameof(StrikethroughLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Strikethrough"));
+            DependencyProperty.Register(nameof(StrikethroughLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Strikethrough"));
 
         // Using a DependencyProperty as the backing store for QuoteLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty QuoteLabelProperty =
-            DependencyProperty.Register(nameof(QuoteLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Quote"));
+            DependencyProperty.Register(nameof(QuoteLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Quote"));
 
         // Using a DependencyProperty as the backing store for CodeLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CodeLabelProperty =
-            DependencyProperty.Register(nameof(CodeLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Code"));
+            DependencyProperty.Register(nameof(CodeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Code"));
 
         // Using a DependencyProperty as the backing store for ListLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListLabelProperty =
-            DependencyProperty.Register(nameof(ListLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("List"));
+            DependencyProperty.Register(nameof(ListLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("List"));
 
         // Using a DependencyProperty as the backing store for OrderedListLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OrderedListLabelProperty =
-            DependencyProperty.Register(nameof(OrderedListLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Ordered List"));
+            DependencyProperty.Register(nameof(OrderedListLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Ordered List"));
 
         // Using a DependencyProperty as the backing store for LinkLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LinkLabelProperty =
-            DependencyProperty.Register(nameof(LinkLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Link"));
+            DependencyProperty.Register(nameof(LinkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Link"));
 
         // Using a DependencyProperty as the backing store for CreateLinkLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CreateLinkLabelProperty =
-            DependencyProperty.Register(nameof(CreateLinkLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Create Link"));
+            DependencyProperty.Register(nameof(CreateLinkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Create Link"));
 
         // Using a DependencyProperty as the backing store for UrlLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UrlLabelProperty =
-            DependencyProperty.Register(nameof(UrlLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Url"));
+            DependencyProperty.Register(nameof(UrlLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Url"));
 
         // Using a DependencyProperty as the backing store for LabelLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelLabelProperty =
-            DependencyProperty.Register(nameof(LabelLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Label"));
+            DependencyProperty.Register(nameof(LabelLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Label"));
 
         // Using a DependencyProperty as the backing store for OkLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OkLabelProperty =
-            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Ok"));
+            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Ok"));
 
         // Using a DependencyProperty as the backing store for CancelLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CancelLabelProperty =
-            DependencyProperty.Register(nameof(CancelLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Cancel"));
+            DependencyProperty.Register(nameof(CancelLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Cancel"));
 
         // Using a DependencyProperty as the backing store for UnderlineLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UnderlineLabelProperty =
-            DependencyProperty.Register(nameof(UnderlineLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Underline"));
+            DependencyProperty.Register(nameof(UnderlineLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Underline"));
 
         // Using a DependencyProperty as the backing store for HeaderLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderLabelProperty =
-            DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbar), new PropertyMetadata("Header"));
+            DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Header"));
 
         public string BoldLabel
         {

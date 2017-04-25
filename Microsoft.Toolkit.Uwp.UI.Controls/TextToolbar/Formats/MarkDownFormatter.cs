@@ -53,20 +53,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     {
                         Name = TextToolbar.HeadersElement,
                         Icon = new SymbolIcon { Symbol = Symbol.FontSize },
-                        ToolTip = Model.HeaderLabel,
+                        ToolTip = Model.Labels.HeaderLabel,
                         Activation = StyleHeader
                     },
                     new ToolbarButton
                     {
                         Name = TextToolbar.CodeElement,
-                        ToolTip = Model.CodeLabel,
+                        ToolTip = Model.Labels.CodeLabel,
                         Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                         Activation = FormatCode
                     },
                     new ToolbarButton
                     {
                         Name = TextToolbar.QuoteElement,
-                        ToolTip = Model.QuoteLabel,
+                        ToolTip = Model.Labels.QuoteLabel,
                         Icon = new SymbolIcon { Symbol = Symbol.Message },
                         Activation = FormatQuote
                     },
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 {
                     Content = new MarkdownTextBlock
                     {
-                        Text = val + Model.HeaderLabel,
+                        Text = val + Model.Labels.HeaderLabel,
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
@@ -163,14 +163,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 if (!string.IsNullOrWhiteSpace(link))
                 {
-                    SetSelection($"[{Model.LabelLabel}](", ")", false, link);
+                    SetSelection($"[{Model.Labels.LabelLabel}](", ")", false, link);
                     Select.StartPosition = Select.EndPosition;
                     Select.EndPosition = Select.StartPosition;
                 }
                 else
                 {
-                    string startChars = $"[{Model.LabelLabel}](";
-                    string filler = Model.UrlLabel;
+                    string startChars = $"[{Model.Labels.LabelLabel}](";
+                    string filler = Model.Labels.UrlLabel;
                     SetSelection(startChars, ")", false, filler);
                     Select.StartPosition = originalStart + startChars.Length;
                     Select.EndPosition = Select.StartPosition + filler.Length;
@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             }
             else if (string.IsNullOrWhiteSpace(link))
             {
-                SetSelection("[", $"]({Model.UrlLabel})", false, label);
+                SetSelection("[", $"]({Model.Labels.UrlLabel})", false, label);
             }
             else
             {

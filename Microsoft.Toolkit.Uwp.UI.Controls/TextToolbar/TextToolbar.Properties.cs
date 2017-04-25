@@ -47,6 +47,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RemoveDefaultButtonsProperty =
             DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(ObservableCollection<DefaultButton>), typeof(TextToolbar), new PropertyMetadata(null, OnRemoveButtonsChanged));
 
+        // Using a DependencyProperty as the backing store for Labels.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LabelsProperty =
+            DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
+
         /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
         /// </summary>
@@ -99,6 +103,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ObservableCollection<DefaultButton>)GetValue(RemoveDefaultButtonsProperty); }
             set { SetValue(RemoveDefaultButtonsProperty, value); }
+        }
+
+        public TextToolbarStrings Labels
+        {
+            get { return (TextToolbarStrings)GetValue(LabelsProperty); }
+            set { SetValue(LabelsProperty, value); }
         }
 
         private bool formatterLoadedBeforeTemplate = false;

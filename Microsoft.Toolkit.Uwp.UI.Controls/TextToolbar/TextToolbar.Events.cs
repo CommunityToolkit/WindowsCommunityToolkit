@@ -116,6 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (obj is TextToolbar bar)
             {
+                bar.DefaultButtons = bar.Formatter.DefaultButtons;
                 bar.BuildBar();
             }
         }
