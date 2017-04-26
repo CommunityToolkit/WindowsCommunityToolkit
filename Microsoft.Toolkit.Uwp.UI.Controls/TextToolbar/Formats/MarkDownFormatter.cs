@@ -87,17 +87,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         private ToolbarButton listButton = null;
         private ToolbarButton orderedListButton = null;
 
+        private void HeaderSelected(object sender, TappedRoutedEventArgs e)
+        {
+            var item = sender as ListBoxItem;
+            SetSelection(item.Tag as string, string.Empty, false);
+            headerFlyout?.Hide();
+        }
+
+        private Flyout headerFlyout;
+
         public void StyleHeader(ToolbarButton button)
         {
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
-            var flyout = new Flyout { Content = list };
-
-            void HeaderSelected(object sender, TappedRoutedEventArgs e)
-            {
-                var item = sender as ListBoxItem;
-                SetSelection(item.Tag as string, string.Empty, false);
-                flyout.Hide();
-            }
+            headerFlyout = new Flyout { Content = list };
 
             string headerVal = "#";
             for (int i = 1; i <= 5; i++)
@@ -118,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 list.Items.Add(item);
             }
 
-            flyout.ShowAt(button);
+            headerFlyout.ShowAt(button);
         }
 
         public override void FormatBold(ToolbarButton button)
@@ -148,12 +150,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             }
             else
             {
-                string CodeLines()
+                Func<string> codeLines = () =>
                 {
                     return ListLineIterator == 1 || ReachedEndLine ? "```" : string.Empty;
-                }
+                };
 
-                SetList(CodeLines, button, wrapNewLines: true, enableToggle: false);
+                SetList(codeLines, button, wrapNewLines: true, enableToggle: false);
             }
         }
 
@@ -212,12 +214,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 listButton.IsToggled = false;
             }
 
-            string Iterate()
-            {
-                return ListLineIterator + ". ";
-            }
-
-            SetList(Iterate, button);
+            Func<string> iterate = () => ListLineIterator + ". ";
+            SetList(iterate, button);
         }
 
         /// <summary>
@@ -341,6 +339,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         public bool ReachedEndLine { get; private set; } = false;
 
         /// <summary>
+        /// Iterates a new line char if an enter was pressed.
+        /// </summary>
+        /// <param name="listChar">Line Char function.</param>
+        private void SetListTextChanged(Func<string> listChar)
+        {
+            Select.StartPosition -= 1;
+            var lastEntered = Select.Text;
+            Select.StartPosition += 1;
+
+            if (lastEntered == Return)
+            {
+                ListLineIterator++;
+                Select.Text += listChar();
+
+                Select.StartPosition = Select.EndPosition;
+            }
+        }
+
+        /// <summary>
         ///  This function will either add List Characters to lines of text, or Remove List Characters from Lines of Text, if already applied.
         /// </summary>
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
@@ -349,21 +366,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <param name="enableToggle">Is this a Toggleable element?</param>
         public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false, bool enableToggle = true)
         {
-            void SetListTextChanged(object sender, RoutedEventArgs e)
-            {
-                Select.StartPosition -= 1;
-                var lastEntered = Select.Text;
-                Select.StartPosition += 1;
-
-                if (lastEntered == Return)
-                {
-                    ListLineIterator++;
-                    Select.Text += listChar();
-
-                    Select.StartPosition = Select.EndPosition;
-                }
-            }
-
             if (Model.Editor == null)
             {
                 return;
@@ -373,10 +375,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 button.IsToggleable = true;
                 button.IsToggled = true;
 
-                Model.Editor.TextChanged += SetListTextChanged;
+                var textChanged = new RoutedEventHandler((s, e) => SetListTextChanged(listChar));
+                Model.Editor.TextChanged += textChanged;
                 button.ToggleEnded += (s, ee) =>
                 {
-                    Model.Editor.TextChanged -= SetListTextChanged;
+                    Model.Editor.TextChanged -= textChanged;
                 };
             }
 
@@ -501,6 +504,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             return true;
         }
 
+        /// <summary>
+        /// Determines if a reverse is requested, if the list characters are inside the Selection.
+        /// </summary>
+        /// <param name="listChar">List character generating function</param>
+        /// <returns>Is it reversing?</returns>
         protected virtual bool DetermineInlineWrapListReverse(Func<string> listChar)
         {
             try
