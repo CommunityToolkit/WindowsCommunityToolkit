@@ -32,7 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out string currentvalue);
+                string currentvalue = string.Empty;
+                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out currentvalue);
                 return currentvalue.Replace('\n', '\r'); // Converts CRLF into double Return for Markdown new line.
             }
         }
@@ -41,8 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                listButton = listButton != null ? listButton : Model.CommonButtons.List;
-                orderedListButton = orderedListButton != null ? orderedListButton : Model.CommonButtons.OrderedList;
+                listButton = listButton ?? Model.CommonButtons.List;
+                orderedListButton = orderedListButton ?? Model.CommonButtons.OrderedList;
 
                 return new ButtonMap
                 {
@@ -274,7 +275,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     int startpos = Select.StartPosition - start.Length;
                     int endpos = Select.EndPosition;
 
-                    Model.Editor.Document.GetText(TextGetOptions.NoHidden, out string text);
+                    string text = string.Empty;
+                    Model.Editor.Document.GetText(TextGetOptions.NoHidden, out text);
                     if (text.Substring(startpos, start.Length) == start)
                     {
                         string endofstring = text.Substring(endpos, end.Length);
@@ -510,7 +512,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 ReachedEndLine = true;
                 string end = listChar();
 
-                Model.Editor.Document.GetText(TextGetOptions.None, out string text);
+                string text = string.Empty;
+                Model.Editor.Document.GetText(TextGetOptions.None, out text);
 
                 string startText = text.Substring(startpos, start.Length);
                 if (startText == start)

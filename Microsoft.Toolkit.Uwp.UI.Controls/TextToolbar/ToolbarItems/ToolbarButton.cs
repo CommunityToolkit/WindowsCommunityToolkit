@@ -142,9 +142,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private static void ToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is ToolbarButton button)
+            if (obj is ToolbarButton)
             {
-                button.UpdateTooltip();
+                (obj as ToolbarButton).UpdateTooltip();
             }
         }
 
@@ -156,8 +156,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                 tooltip += $" (Ctrl + {ShortcutKey.Value.ToString()})";
             }
 
-            ToolTipService.SetToolTip(this, tooltip);
-            AutomationProperties.SetName(this, ToolTip);
+            if (!string.IsNullOrWhiteSpace(ToolTip))
+            {
+                ToolTipService.SetToolTip(this, tooltip);
+                AutomationProperties.SetName(this, ToolTip);
+            }
         }
 
         private void ToolbarButton_Click(object sender, RoutedEventArgs e)

@@ -79,7 +79,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShortcutKey = shortcut,
                 Activation = (b) =>
                 {
-                    if (Toolbar.Formatter is MarkDownFormatter md)
+                    var md = Toolbar.Formatter as MarkDownFormatter;
+                    if (md != null)
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
@@ -102,7 +103,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (Toolbar.Formatter is MarkDownFormatter md)
+            var md = Toolbar.Formatter as MarkDownFormatter;
+            if (md != null)
             {
                 string text = md.Text;
                 Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;

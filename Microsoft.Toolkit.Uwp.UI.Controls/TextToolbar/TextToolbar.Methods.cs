@@ -49,7 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void BuildBar()
         {
-            if (GetTemplateChild(RootControl) is CommandBar root)
+            var root = GetTemplateChild(RootControl) as CommandBar;
+            if (root != null)
             {
                 root.PrimaryCommands.Clear();
 
@@ -98,7 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!root.PrimaryCommands.Contains(item))
             {
-                if (item is ToolbarButton button)
+                var button = item as ToolbarButton;
+                if (button != null)
                 {
                     button.Model = this;
                 }
@@ -148,7 +150,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="button">Button to Remove</param>
         public void RemoveDefaultButton(DefaultButton button)
         {
-            if (GetTemplateChild(RootControl) is CommandBar root)
+            var root = GetTemplateChild(RootControl) as CommandBar;
+            if (root != null)
             {
                 var element = root.PrimaryCommands.FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString()) as IToolbarItem;
                 button.Button = element;

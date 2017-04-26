@@ -30,7 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out string currentvalue);
+                string currentvalue = string.Empty;
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
                 return currentvalue;
             }
         }

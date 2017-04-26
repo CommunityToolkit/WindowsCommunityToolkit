@@ -39,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         public override bool Equals(object obj)
         {
-            return obj is DefaultButton other && other.Type == Type;
+            var other = obj as DefaultButton;
+            return other != null && other.Type == Type;
         }
 
         public override int GetHashCode()

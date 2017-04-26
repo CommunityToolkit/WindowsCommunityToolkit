@@ -90,8 +90,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             int counter = 0;
             bool atNewLine = false;
 
-            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out string DocText);
-            var lines = DocText.Split(new string[] { Return }, StringSplitOptions.None);
+            string docText = string.Empty;
+            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out docText);
+            var lines = docText.Split(new string[] { Return }, StringSplitOptions.None);
 
             foreach (var line in lines)
             {

@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value is Format format && format == this.Format;
+            return (Format)value == Format;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
