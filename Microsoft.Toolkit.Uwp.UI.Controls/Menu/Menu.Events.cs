@@ -27,81 +27,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
+        private const string AltValue = "ALT";
+        private static object _lastFocusElement;
+        private bool _altHandled;
 
-        private static bool NavigateThroughMenuHeader(KeyEventArgs args, Menu menu, Orientation orientation)
+        private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
-            if (orientation == Orientation.Horizontal)
+            if ((args.VirtualKey == VirtualKey.Down && orientation == Orientation.Horizontal) ||
+                (args.VirtualKey == VirtualKey.Right && orientation == Orientation.Vertical))
             {
-                if (args.VirtualKey == VirtualKey.Down)
+                if (element is MenuItem)
                 {
                     menu.SelectedHeaderItem.ShowMenu();
                     return true;
                 }
+            }
 
-                if (args.VirtualKey == VirtualKey.Left)
+            if ((args.VirtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
+               (args.VirtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
+            {
+                if (element is MenuItem)
                 {
                     MoveFocusBackwardAndGetPrevious(menu);
                     return true;
                 }
 
-                if (args.VirtualKey == VirtualKey.Right)
-                {
-                    MoveFocusForwardAndGetNext(menu);
-                    return true;
-                }
-            }
-            else
-            {
-                if (args.VirtualKey == VirtualKey.Right)
-                {
-                    menu.SelectedHeaderItem.ShowMenu();
-                    return true;
-                }
-
-                if (args.VirtualKey == VirtualKey.Up)
-                {
-                    MoveFocusBackwardAndGetPrevious(menu);
-                    return true;
-                }
-
-                if (args.VirtualKey == VirtualKey.Down)
-                {
-                    MoveFocusForwardAndGetNext(menu);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool NavigateThroughMenuFlyoutItems(KeyEventArgs args, Menu menu, Orientation orientation)
-        {
-            if (orientation == Orientation.Horizontal)
-            {
-                if (args.VirtualKey == VirtualKey.Left)
+                if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();
                     MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
                     return true;
                 }
 
-                if (args.VirtualKey == VirtualKey.Right)
+                if (element is MenuFlyoutSubItem)
                 {
-                    menu.SelectedHeaderItem.HideMenu();
-                    MoveFocusForwardAndGetNext(menu).ShowMenu();
-                    return true;
+                    var menuFlyoutSubItem = (MenuFlyoutSubItem)element;
+                    if (menuFlyoutSubItem.Parent is MenuItem && element == _lastFocusElement)
+                    {
+                        menu.SelectedHeaderItem.HideMenu();
+                        MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                        return true;
+                    }
                 }
             }
-            else
+
+            if ((args.VirtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
+               (args.VirtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
             {
-                if (args.VirtualKey == VirtualKey.Up)
+                if (element is MenuItem)
                 {
-                    menu.SelectedHeaderItem.HideMenu();
-                    MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                    MoveFocusForwardAndGetNext(menu);
                     return true;
                 }
 
-                if (args.VirtualKey == VirtualKey.Down)
+                if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();
                     MoveFocusForwardAndGetNext(menu).ShowMenu();
@@ -132,12 +111,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return nextItem;
         }
 
-        private static string MapInputToGestureKey(KeyEventArgs args)
+        private static string MapInputToGestureKey(VirtualKey key)
         {
             var isCtrlDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var isShiftDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 
-            if (!isCtrlDown && !isShiftDown)
+            if (!isCtrlDown && !isShiftDown && !isAltDown)
             {
                 return null;
             }
@@ -156,13 +136,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 gestureKeyBuilder.Append("+");
             }
 
-            if (args.VirtualKey == VirtualKey.None)
+            if (isAltDown)
+            {
+                gestureKeyBuilder.Append(AltValue);
+                gestureKeyBuilder.Append("+");
+            }
+
+            if (key == VirtualKey.None)
             {
                 gestureKeyBuilder.Remove(gestureKeyBuilder.Length - 1, 1);
             }
             else
             {
-                gestureKeyBuilder.Append(args.VirtualKey);
+                gestureKeyBuilder.Append(key);
             }
 
             return gestureKeyBuilder.ToString();
@@ -191,23 +177,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             var element = FocusManager.GetFocusedElement();
-            if (element is MenuItem)
+
+            if (NavigateUsingKeyboard(element, args, this, Orientation))
             {
-                if (NavigateThroughMenuHeader(args, this, Orientation))
-                {
-                    return;
-                }
+                return;
             }
 
-            if (element is MenuFlyoutItem)
-            {
-                if (NavigateThroughMenuFlyoutItems(args, this, Orientation))
-                {
-                    return;
-                }
-            }
-
-            string gestureKey = MapInputToGestureKey(args);
+            string gestureKey = MapInputToGestureKey(args.VirtualKey);
 
             if (gestureKey == null)
             {
@@ -222,22 +198,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var menuFlyoutItem = (MenuFlyoutItem)cachedMenuItem;
                     menuFlyoutItem.Command?.Execute(menuFlyoutItem.CommandParameter);
                 }
-
-                if (cachedMenuItem is MenuItem)
-                {
-                    var menuItem = (MenuItem)cachedMenuItem;
-                    SelectedHeaderItem = menuItem;
-                    menuItem.ShowMenu();
-                }
             }
         }
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
-            var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-            if (args.VirtualKey == VirtualKey.Menu && !isAltDown)
+            _lastFocusElement = FocusManager.GetFocusedElement();
+            if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
+            {
+                _altHandled = false;
+            }
+            else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
             {
                 Focus(FocusState.Keyboard);
+            }
+            else if (args.KeyStatus.IsMenuKeyDown && args.KeyStatus.IsKeyReleased)
+            {
+                _altHandled = true;
+                string gestureKey = MapInputToGestureKey(args.VirtualKey);
+
+                if (gestureKey == null)
+                {
+                    return;
+                }
+
+                if (MenuItemInputGestureCache.ContainsKey(gestureKey))
+                {
+                    var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
+                    if (cachedMenuItem is MenuItem)
+                    {
+                        var menuItem = (MenuItem)cachedMenuItem;
+                        SelectedHeaderItem = menuItem;
+                        menuItem.ShowMenu();
+                    }
+                }
             }
         }
     }

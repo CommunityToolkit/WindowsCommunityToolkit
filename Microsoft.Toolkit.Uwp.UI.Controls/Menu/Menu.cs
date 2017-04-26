@@ -68,6 +68,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// HeaderButton Menu Style
+        /// </summary>
+        public static readonly DependencyProperty HeaderButtonStyleProperty = DependencyProperty.Register(nameof(HeaderButtonStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
+
+        /// <summary>
+        /// Gets or sets the style for HeaderButton
+        /// </summary>
+        public Style HeaderButtonStyle
+        {
+            get { return (Style)GetValue(HeaderButtonStyleProperty); }
+            set { SetValue(HeaderButtonStyleProperty, value); }
+        }
+
+        /// <summary>
         /// Gets the current selected menu header item
         /// </summary>
         public MenuItem SelectedHeaderItem { get; internal set; }
@@ -79,6 +93,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded += ClassicMenu_Unloaded;
 
             base.OnApplyTemplate();
+        }
+
+        /// <inheritdoc />
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is MenuItem;
+        }
+
+        /// <inheritdoc />
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new MenuItem();
         }
     }
 }

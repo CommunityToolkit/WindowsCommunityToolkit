@@ -79,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         : FlyoutPlacementMode.Right;
 
                 menuFlyout.MenuFlyoutPresenterStyle = ParentMenu.MenuFlyoutStyle;
+                _flyoutButton.Style = ParentMenu.HeaderButtonStyle;
 
                 foreach (var item in Items)
                 {
