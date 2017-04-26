@@ -56,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
             {
-                if (control is RoundImageEx round)
+                RoundImageEx round = control as RoundImageEx;
+                if (round != null)
                 {
                     if (round.ShowPlaceholderStroke)
                     {
