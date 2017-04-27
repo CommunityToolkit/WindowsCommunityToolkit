@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the dependency property for <see cref="ImageStretch"/>.
         /// </summary>
         public static readonly DependencyProperty ImageStretchProperty = DependencyProperty.Register(
-            nameof(IsTextSelectionEnabled),
+            nameof(ImageStretch),
             typeof(Stretch),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(Stretch.None, OnPropertyChangedStatic));
