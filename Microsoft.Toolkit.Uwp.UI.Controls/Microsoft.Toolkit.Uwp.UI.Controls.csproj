@@ -138,6 +138,7 @@
     <Compile Include="TextToolbar\ToolbarItems\CommonButtons.Events.cs" />
     <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\IToolbarItem.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\RemovalList.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarSeparator.cs" />
     <Compile Include="TileControl\TileControl.cs" />

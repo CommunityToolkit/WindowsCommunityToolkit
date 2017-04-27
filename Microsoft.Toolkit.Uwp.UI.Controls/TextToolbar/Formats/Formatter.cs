@@ -79,7 +79,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <summary>
         /// Gets the current Editor Selection
         /// </summary>
-        protected ITextSelection Select { get { return Model.Editor.Document.Selection; } }
+        protected ITextSelection Select
+        {
+            get { return Model.Editor.Document.Selection; }
+        }
 
         /// <summary>
         /// Determines the Position of the Selector, if not at a New Line, it will move the Selector to a new line.

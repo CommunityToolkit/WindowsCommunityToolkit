@@ -222,8 +222,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var bar = obj as TextToolbar;
             if (bar != null)
             {
-                var oldSource = args.OldValue as ObservableCollection<DefaultButton>;
-                var newSource = args.NewValue as ObservableCollection<DefaultButton>;
+                var oldSource = args.OldValue as RemovalList;
+                var newSource = args.NewValue as RemovalList;
                 var root = bar.GetTemplateChild(RootControl) as CommandBar;
 
                 if (oldSource != null)

@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CommonButtons = new CommonButtons(this);
 
             CustomButtons = new ButtonMap();
-            RemoveDefaultButtons = new ObservableCollection<DefaultButton>();
+            RemoveDefaultButtons = new RemovalList();
         }
 
         protected override void OnApplyTemplate()
