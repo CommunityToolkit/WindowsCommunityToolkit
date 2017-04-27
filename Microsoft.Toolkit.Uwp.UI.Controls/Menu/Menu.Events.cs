@@ -46,14 +46,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if ((args.VirtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
                     (args.VirtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
                 {
-                    MoveFocusBackwardAndGetPrevious(menu);
+                    GetNextMenuItem(menu, -1);
                     return true;
                 }
 
                 if ((args.VirtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
                     (args.VirtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
                 {
-                    MoveFocusForwardAndGetNext(menu);
+                    GetNextMenuItem(menu, +1);
                     return true;
                 }
             }
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();
-                    MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                    GetNextMenuItem(menu, -1).ShowMenu();
                     return true;
                 }
 
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (menuFlyoutSubItem.Parent is MenuItem && element == _lastFocusElement)
                     {
                         menu.SelectedHeaderItem.HideMenu();
-                        MoveFocusBackwardAndGetPrevious(menu).ShowMenu();
+                        GetNextMenuItem(menu, -1).ShowMenu();
                         return true;
                     }
                 }
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();
-                    MoveFocusForwardAndGetNext(menu).ShowMenu();
+                    GetNextMenuItem(menu, +1).ShowMenu();
                     return true;
                 }
             }
@@ -93,20 +93,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // this function enables the menu to cycle from start to end and from end to start
-        private static MenuItem MoveFocusForwardAndGetNext(Menu menu)
-        {
-            var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
-            var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
-            var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
-            nextItem?.Focus(FocusState.Keyboard);
-            return nextItem;
-        }
+        //private static MenuItem MoveFocusForwardAndGetNext(Menu menu)
+        //{
+        //    var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
+        //    var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
+        //    var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
+        //    nextItem?.Focus(FocusState.Keyboard);
+        //    return nextItem;
+        //}
 
-        // this function enables the menu to cycle from end to start and from start to end
-        private static MenuItem MoveFocusBackwardAndGetPrevious(Menu menu)
+        //// this function enables the menu to cycle from end to start and from start to end
+        //private static MenuItem MoveFocusBackwardAndGetPrevious(Menu menu)
+        //{
+        //    var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
+        //    var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
+        //    var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
+        //    nextItem?.Focus(FocusState.Keyboard);
+        //    return nextItem;
+        //}
+
+        private static MenuItem GetNextMenuItem(Menu menu, int moveCount)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
-            var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
+            var nextIndex = (currentMenuItemIndex + moveCount + menu.Items.Count) % menu.Items.Count;
             var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
             nextItem?.Focus(FocusState.Keyboard);
             return nextItem;
