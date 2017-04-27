@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Orientation),
                 typeof(Orientation),
                 typeof(Menu),
-                new PropertyMetadata(Orientation.Horizontal));
+                new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
 
         /// <summary>
         /// MenuItem Meny Style
@@ -71,6 +71,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// HeaderButton Menu Style
         /// </summary>
         public static readonly DependencyProperty HeaderButtonStyleProperty = DependencyProperty.Register(nameof(HeaderButtonStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
+
+        private WrapPanel.WrapPanel _wrapPanel;
 
         /// <summary>
         /// Gets or sets the style for HeaderButton

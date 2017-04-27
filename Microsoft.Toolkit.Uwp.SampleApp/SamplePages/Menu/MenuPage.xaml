@@ -15,11 +15,13 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="300" />
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+        <controls:Menu Name="VisualStudioMenu"
+                       HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                        MenuFlyoutStyle="{StaticResource MenuStyle}"
                        Orientation="Horizontal">
 
@@ -154,5 +156,14 @@
             <TextBlock Text="Print shortcut: Ctrl+P" />
             <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
         </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Button Background="{StaticResource Brush-Grey-01}"
+                    Click="SwitchOrientationButton_Click"
+                    Content="Switch Orientation"
+                    Foreground="{StaticResource Brush-Grey-05}" />
+        </Grid>
+
+
     </Grid>
 </Page>

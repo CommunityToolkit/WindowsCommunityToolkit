@@ -16,6 +16,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -154,12 +155,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return gestureKeyBuilder.ToString();
         }
 
+        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = (Menu)d;
+            if (menu._wrapPanel != null)
+            {
+                menu._wrapPanel.Orientation = menu.Orientation;
+                foreach (MenuItem menuItem in menu.Items)
+                {
+                    if (menuItem.FlyoutButton?.Flyout != null)
+                    {
+                        menuItem.FlyoutButton.Flyout.Placement = menu.Orientation == Orientation.Horizontal
+                            ? FlyoutPlacementMode.Bottom
+                        : FlyoutPlacementMode.Right;
+                    }
+                }
+            }
+        }
+
         private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
         {
-            var wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
-            if (wrapPanel != null)
+            _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
+            if (_wrapPanel != null)
             {
-                wrapPanel.Orientation = Orientation;
+                _wrapPanel.Orientation = Orientation;
             }
 
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;

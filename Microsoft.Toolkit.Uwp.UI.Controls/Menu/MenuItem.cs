@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Menu ParentMenu => this.FindAscendant<Menu>();
 
-        private Button _flyoutButton;
+        internal Button FlyoutButton { get; private set; }
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
-            _flyoutButton?.Flyout?.ShowAt(_flyoutButton);
+            FlyoutButton?.Flyout?.ShowAt(FlyoutButton);
         }
 
         /// <summary>
@@ -63,15 +63,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void HideMenu()
         {
-            _flyoutButton?.Flyout?.Hide();
+            FlyoutButton?.Flyout?.Hide();
         }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            _flyoutButton = GetTemplateChild("FlyoutButton") as Button;
+            FlyoutButton = GetTemplateChild("FlyoutButton") as Button;
 
-            if (_flyoutButton != null && Items != null && Items.Any())
+            if (FlyoutButton != null && Items != null && Items.Any())
             {
                 var menuFlyout = new MenuFlyout();
                 menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         : FlyoutPlacementMode.Right;
 
                 menuFlyout.MenuFlyoutPresenterStyle = ParentMenu.MenuFlyoutStyle;
-                _flyoutButton.Style = ParentMenu.HeaderButtonStyle;
+                FlyoutButton.Style = ParentMenu.HeaderButtonStyle;
 
                 foreach (var item in Items)
                 {
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                _flyoutButton.Flyout = menuFlyout;
+                FlyoutButton.Flyout = menuFlyout;
             }
 
             base.OnApplyTemplate();

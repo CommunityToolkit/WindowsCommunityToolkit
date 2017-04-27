@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
