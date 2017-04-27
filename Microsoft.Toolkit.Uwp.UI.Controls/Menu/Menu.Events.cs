@@ -34,25 +34,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
-            if ((args.VirtualKey == VirtualKey.Down && orientation == Orientation.Horizontal) ||
-                (args.VirtualKey == VirtualKey.Right && orientation == Orientation.Vertical))
+            if (element is MenuItem)
             {
-                if (element is MenuItem)
+                if ((args.VirtualKey == VirtualKey.Down && orientation == Orientation.Horizontal) ||
+                    (args.VirtualKey == VirtualKey.Right && orientation == Orientation.Vertical))
                 {
                     menu.SelectedHeaderItem.ShowMenu();
                     return true;
                 }
-            }
 
-            if ((args.VirtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
-               (args.VirtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
-            {
-                if (element is MenuItem)
+                if ((args.VirtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
+                    (args.VirtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
                 {
                     MoveFocusBackwardAndGetPrevious(menu);
                     return true;
                 }
 
+                if ((args.VirtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
+                    (args.VirtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
+                {
+                    MoveFocusForwardAndGetNext(menu);
+                    return true;
+                }
+            }
+
+            if (args.VirtualKey == VirtualKey.Left)
+            {
                 if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();
@@ -72,15 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if ((args.VirtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
-               (args.VirtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
+            if (args.VirtualKey == VirtualKey.Right)
             {
-                if (element is MenuItem)
-                {
-                    MoveFocusForwardAndGetNext(menu);
-                    return true;
-                }
-
                 if (element is MenuFlyoutItem)
                 {
                     menu.SelectedHeaderItem.HideMenu();

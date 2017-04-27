@@ -15,9 +15,8 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300" />
             <RowDefinition Height="auto" />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <controls:Menu Name="VisualStudioMenu"
@@ -145,7 +144,6 @@
 
         </controls:Menu>
 
-
         <StackPanel Grid.Row="1">
             <TextBlock Text="Click Alt to set focus on Classic Menu" />
             <TextBlock Text="To open file menu shortcut: Alt+F" />
@@ -156,13 +154,6 @@
             <TextBlock Text="Print shortcut: Ctrl+P" />
             <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
         </StackPanel>
-
-        <Grid Grid.Row="2">
-            <Button Background="{StaticResource Brush-Grey-01}"
-                    Click="SwitchOrientationButton_Click"
-                    Content="Switch Orientation"
-                    Foreground="{StaticResource Brush-Grey-05}" />
-        </Grid>
 
 
     </Grid>

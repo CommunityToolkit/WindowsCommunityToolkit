@@ -20,12 +20,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
         }
-
-        private void SwitchOrientationButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            VisualStudioMenu.Orientation =
-                VisualStudioMenu.Orientation == Orientation.Horizontal ?
-                Orientation.Vertical : Orientation.Horizontal;
-        }
     }
 }

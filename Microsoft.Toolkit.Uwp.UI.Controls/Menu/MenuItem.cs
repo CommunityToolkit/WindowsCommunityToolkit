@@ -88,6 +88,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         menuFlyout.Items.Add(menuItem);
                     }
+                    else
+                    {
+                        var newMenuItem = new MenuFlyoutItem();
+                        newMenuItem.DataContext = item;
+                        menuFlyout.Items.Add(newMenuItem);
+                    }
                 }
 
                 FlyoutButton.Flyout = menuFlyout;
