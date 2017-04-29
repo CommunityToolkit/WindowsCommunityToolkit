@@ -102,20 +102,6 @@
                                 </VisualState>
                                 <VisualState x:Name="Unloaded" />
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="StrokeStates">
-                                <VisualState x:Name="ShowStroke">
-                                    <Storyboard>
-                                        <DoubleAnimation AutoReverse="False"
-                                                         BeginTime="0"
-                                                         EnableDependentAnimation="True"
-                                                         Storyboard.TargetName="PlaceholderEllipse"
-                                                         Storyboard.TargetProperty="StrokeThickness"
-                                                         From="0"
-                                                         To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="StrokeUnloaded" />
-                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>

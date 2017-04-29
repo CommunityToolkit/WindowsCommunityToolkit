@@ -20,14 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
-    [TemplateVisualState(Name = ShowStrokeState, GroupName = StrokeGroup)]
-    [TemplateVisualState(Name = StrokeUnloaded, GroupName = StrokeGroup)]
     public partial class RoundImageEx : ImageExBase
     {
-        internal const string StrokeGroup = "StrokeStates";
-        internal const string ShowStrokeState = "ShowStroke";
-        internal const string StrokeUnloaded = "StrokeUnloaded";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RoundImageEx"/> class.
         /// </summary>
@@ -39,26 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Changes default Stretching as Uniform doesn't work well for ImageBrush
             Stretch = Stretch.UniformToFill;
             PlaceholderStretch = Stretch.UniformToFill;
-        }
-
-        protected override void OnPlaceholderSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
-            {
-                if (ShowPlaceholderStroke)
-                {
-                    if (e.NewValue != null)
-                    {
-                        VisualStateManager.GoToState(this, ShowStrokeState, true);
-                    }
-                    else
-                    {
-                        VisualStateManager.GoToState(this, StrokeUnloaded, true);
-                    }
-                }
-            }
-
-            base.OnPlaceholderSourceChanged(e);
         }
     }
 }
