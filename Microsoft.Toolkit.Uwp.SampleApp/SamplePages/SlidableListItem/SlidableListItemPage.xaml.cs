@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.Commands;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Navigation;
 

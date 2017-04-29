@@ -14,14 +14,25 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.Commands
 {
+    /// <summary>
+    /// Represents a command that can perform a given action for a particular type.
+    /// </summary>
+    /// <typeparam name="T">The parameter type</typeparam>
+    /// <seealso cref="System.Windows.Input.ICommand" />
     public class DelegateCommand<T> : ICommand
     {
-        private readonly Action<T> commandExecuteAction;
+        private readonly Action<T> _commandExecuteAction;
 
-        private readonly Func<T, bool> commandCanExecute;
+        private readonly Func<T, bool> _commandCanExecute;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelegateCommand{T}"/> class.
+        /// </summary>
+        /// <param name="executeAction">The execute action.</param>
+        /// <param name="canExecute">The can execute.</param>
+        /// <exception cref="System.ArgumentNullException">If executeAction is null</exception>
         public DelegateCommand(Action<T> executeAction, Func<T, bool> canExecute = null)
         {
             if (executeAction == null)
@@ -29,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
                 throw new ArgumentNullException(nameof(executeAction));
             }
 
-            commandExecuteAction = executeAction;
-            commandCanExecute = canExecute ?? (e => true);
+            _commandExecuteAction = executeAction;
+            _commandCanExecute = canExecute ?? (e => true);
         }
 
         /// <summary>
@@ -51,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
         {
             try
             {
-                return commandCanExecute(ConvertParameterValue(parameter));
+                return _commandCanExecute(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -74,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
             try
             {
-                commandExecuteAction(ConvertParameterValue(parameter));
+                _commandExecuteAction(ConvertParameterValue(parameter));
             }
             catch
             {
@@ -82,6 +93,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="CanExecuteChanged"/> event.
+        /// </summary>
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
