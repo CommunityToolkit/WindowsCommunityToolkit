@@ -28,11 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrokeProperty =
-            DependencyProperty.Register(nameof(StrokeProperty), typeof(Brush), typeof(RoundImageEx), new PropertyMetadata(default(Brush)));
-
-        // Using a DependencyProperty as the backing store for ShowPlaceholderStroke.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowPlaceholderStrokeProperty =
-            DependencyProperty.Register(nameof(ShowPlaceholderStroke), typeof(bool), typeof(RoundImageEx), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(Stroke), typeof(Brush), typeof(RoundImageEx), new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// Gets or sets the Stroke Thickness for the Ellipse Mask
@@ -50,15 +46,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Brush)GetValue(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to apply Stroke on Placeholder Images
-        /// </summary>
-        public bool ShowPlaceholderStroke
-        {
-            get { return (bool)GetValue(ShowPlaceholderStrokeProperty); }
-            set { SetValue(ShowPlaceholderStrokeProperty, value); }
         }
     }
 }

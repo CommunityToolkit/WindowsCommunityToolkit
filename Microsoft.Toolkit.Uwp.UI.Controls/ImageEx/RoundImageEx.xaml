@@ -15,8 +15,8 @@
                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                  Opacity="1.0"
-                                 Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
-                                 StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}">
+                                 Stroke="{TemplateBinding Stroke}"
+                                 StrokeThickness="{TemplateBinding StrokeThickness}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="PlaceholderImage"
                                             ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderSource}"
@@ -29,8 +29,8 @@
                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                  Opacity="0.0"
-                                 Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
-                                 StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}">
+                                 Stroke="{TemplateBinding Stroke}"
+                                 StrokeThickness="{TemplateBinding StrokeThickness}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="Image"
                                             Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stretch}" />
