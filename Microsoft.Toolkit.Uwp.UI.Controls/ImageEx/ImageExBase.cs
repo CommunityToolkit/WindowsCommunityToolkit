@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.Foundation;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
 
     /// <summary>
     /// Shared Code for ImageEx and RoundImageEx
@@ -54,37 +55,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected void AttachImageOpened(RoutedEventHandler handler)
         {
-            dynamic image = Image;
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
             if (image != null)
             {
                 image.ImageOpened += handler;
+            }
+            else if (brush != null)
+            {
+                brush.ImageOpened += handler;
             }
         }
 
         protected void RemoveImageOpened(RoutedEventHandler handler)
         {
-            dynamic image = Image;
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
             if (image != null)
             {
                 image.ImageOpened -= handler;
+            }
+            else if (brush != null)
+            {
+                brush.ImageOpened -= handler;
             }
         }
 
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
-            dynamic image = Image;
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
             if (image != null)
             {
                 image.ImageFailed += handler;
+            }
+            else if (brush != null)
+            {
+                brush.ImageFailed += handler;
             }
         }
 
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
-            dynamic image = Image;
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
             if (image != null)
             {
                 image.ImageFailed -= handler;
+            }
+            else if (brush != null)
+            {
+                brush.ImageFailed -= handler;
             }
         }
 
