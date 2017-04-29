@@ -19,8 +19,7 @@
       <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
 
-    <controls:Menu Name="VisualStudioMenu"
-                   HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+    <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                    MenuFlyoutStyle="{StaticResource MenuStyle}"
                    Orientation="Horizontal">
 
