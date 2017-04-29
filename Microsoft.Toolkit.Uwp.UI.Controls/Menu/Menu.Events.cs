@@ -92,26 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        // this function enables the menu to cycle from start to end and from end to start
-        //private static MenuItem MoveFocusForwardAndGetNext(Menu menu)
-        //{
-        //    var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
-        //    var nextIndex = (currentMenuItemIndex + 1) % menu.Items.Count;
-        //    var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
-        //    nextItem?.Focus(FocusState.Keyboard);
-        //    return nextItem;
-        //}
-
-        //// this function enables the menu to cycle from end to start and from start to end
-        //private static MenuItem MoveFocusBackwardAndGetPrevious(Menu menu)
-        //{
-        //    var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);
-        //    var nextIndex = (currentMenuItemIndex - 1 + menu.Items.Count) % menu.Items.Count;
-        //    var nextItem = menu.Items.ElementAt(nextIndex) as MenuItem;
-        //    nextItem?.Focus(FocusState.Keyboard);
-        //    return nextItem;
-        //}
-
         private static MenuItem GetNextMenuItem(Menu menu, int moveCount)
         {
             var currentMenuItemIndex = menu.Items.IndexOf(menu.SelectedHeaderItem);

@@ -33,6 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal Button FlyoutButton { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the menu is opened or not
+        /// </summary>
+        public bool IsOpened { get; private set; }
+
+        /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
         public string Header
@@ -70,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             FlyoutButton = GetTemplateChild("FlyoutButton") as Button;
+            IsOpened = false;
 
             if (FlyoutButton != null && Items != null && Items.Any())
             {
@@ -77,6 +83,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
+
+                menuFlyout.Opened -= MenuFlyout_Opened;
+                menuFlyout.Closed -= MenuFlyout_Closed;
+                FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
+                menuFlyout.Opened += MenuFlyout_Opened;
+                menuFlyout.Closed += MenuFlyout_Closed;
+                FlyoutButton.PointerExited += FlyoutButton_PointerExited;
 
                 menuFlyout.MenuFlyoutPresenterStyle = ParentMenu.MenuFlyoutStyle;
                 FlyoutButton.Style = ParentMenu.HeaderButtonStyle;
@@ -100,6 +113,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void FlyoutButton_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsOpened)
+            {
+                VisualStateManager.GoToState(FlyoutButton, "Opened", true);
+            }
+        }
+
+        private void MenuFlyout_Closed(object sender, object e)
+        {
+            IsOpened = false;
+            VisualStateManager.GoToState(FlyoutButton, "Normal", true);
+        }
+
+        private void MenuFlyout_Opened(object sender, object e)
+        {
+            IsOpened = true;
+            VisualStateManager.GoToState(FlyoutButton, "Opened", true);
         }
 
         /// <inheritdoc />
