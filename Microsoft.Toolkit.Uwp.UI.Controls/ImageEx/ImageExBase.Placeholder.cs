@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Media;
-
     /// <summary>
     /// Shared Code for ImageEx and RoundImageEx
     /// </summary>
@@ -53,25 +53,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void PlaceholderSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ImageExBase;
-
-            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
+            if (control != null)
             {
-                RoundImageEx round = control as RoundImageEx;
-                if (round != null)
-                {
-                    if (round.ShowPlaceholderStroke)
-                    {
-                        if (e.NewValue != null)
-                        {
-                            VisualStateManager.GoToState(round, RoundImageEx.ShowStrokeState, true);
-                        }
-                        else
-                        {
-                            VisualStateManager.GoToState(round, RoundImageEx.StrokeUnloaded, true);
-                        }
-                    }
-                }
+                control.OnPlaceholderSourceChanged(e);
             }
+        }
+
+        protected virtual void OnPlaceholderSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
         }
 
         /// <summary>

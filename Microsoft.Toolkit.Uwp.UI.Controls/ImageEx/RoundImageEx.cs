@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Media;
-
     /// <summary>
     /// The RoundImageEx control extends the default ImageBrush platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
@@ -39,6 +39,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Changes default Stretching as Uniform doesn't work well for ImageBrush
             Stretch = Stretch.UniformToFill;
             PlaceholderStretch = Stretch.UniformToFill;
+        }
+
+        protected override void OnPlaceholderSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
+            {
+                if (ShowPlaceholderStroke)
+                {
+                    if (e.NewValue != null)
+                    {
+                        VisualStateManager.GoToState(this, ShowStrokeState, true);
+                    }
+                    else
+                    {
+                        VisualStateManager.GoToState(this, StrokeUnloaded, true);
+                    }
+                }
+            }
+
+            base.OnPlaceholderSourceChanged(e);
         }
     }
 }

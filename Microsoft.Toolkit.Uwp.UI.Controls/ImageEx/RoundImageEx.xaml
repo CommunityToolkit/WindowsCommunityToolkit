@@ -10,13 +10,13 @@
                 <ControlTemplate TargetType="controls:RoundImageEx">
                     <Grid>
                         <Ellipse x:Name="PlaceholderEllipse"
-                                    Opacity="1.0"
-                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                    Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
-                                    StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}"
-                                    Height="{TemplateBinding Height}"
-                                    Width="{TemplateBinding Width}">
+                                 Width="{TemplateBinding Width}"
+                                 Height="{TemplateBinding Height}"
+                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                 Opacity="1.0"
+                                 Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
+                                 StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="PlaceholderImage"
                                             ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderSource}"
@@ -24,13 +24,13 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <Ellipse x:Name="ImageEllipse"
-                                    Opacity="0.0"
-                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                    Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
-                                    StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}"
-                                    Height="{TemplateBinding Height}"
-                                    Width="{TemplateBinding Width}">
+                                 Width="{TemplateBinding Width}"
+                                 Height="{TemplateBinding Height}"
+                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                 Opacity="0.0"
+                                 Stroke="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stroke}"
+                                 StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}">
                             <Ellipse.Fill>
                                 <ImageBrush x:Name="Image"
                                             Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stretch}" />
@@ -107,9 +107,9 @@
                                     <Storyboard>
                                         <DoubleAnimation AutoReverse="False"
                                                          BeginTime="0"
+                                                         EnableDependentAnimation="True"
                                                          Storyboard.TargetName="PlaceholderEllipse"
                                                          Storyboard.TargetProperty="StrokeThickness"
-                                                         EnableDependentAnimation="True"
                                                          From="0"
                                                          To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=StrokeThickness}" />
                                     </Storyboard>

@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-
     /// <summary>
     /// A delegate for <see cref="ImageEx"/> opened.
     /// </summary>
