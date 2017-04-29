@@ -61,13 +61,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AttachSource(ImageSource source)
         {
-            if (Image is ImageBrush)
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
+            if (image != null)
             {
-                (Image as ImageBrush).ImageSource = source;
+                image.Source = source;
             }
-            else if (Image is Image)
+            else if (brush != null)
             {
-                (Image as Image).Source = source;
+                brush.ImageSource = source;
             }
         }
 
@@ -179,8 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var img = new BitmapImage(_uri);
-                    AttachSource(img);
+                    AttachSource(new BitmapImage(_uri));
                 }
             }
         }
