@@ -23,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = "LoadingOut", GroupName = "CommonStates")]
     public partial class Loading : ContentControl
     {
+        private FrameworkElement _presenter;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Loading"/> class.
         /// </summary>
