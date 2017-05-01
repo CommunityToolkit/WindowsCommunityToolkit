@@ -19,6 +19,27 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
+    /// Stretch direction
+    /// </summary>
+    public enum StretchDirection
+    {
+        /// <summary>
+        /// Horizontal stretch
+        /// </summary>
+        Horizontal,
+
+        /// <summary>
+        /// Vertical stretch
+        /// </summary>
+        Vertical,
+
+        /// <summary>
+        /// Horizontal and Vertical stretch
+        /// </summary>
+        All
+    }
+
+    /// <summary>
     /// Provides attached dependency properties for the <see cref="ListViewBase"/>
     /// </summary>
     public static class ListViewBaseExtensions
@@ -206,6 +227,68 @@ namespace Microsoft.Toolkit.Uwp.UI
             else
             {
                 itemContainer.ContentTemplate = sender.ItemTemplate;
+            }
+        }
+
+        /// <summary>
+        /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="ListViewBase"/>
+        /// </summary>
+        public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached(
+            "StretchItemContainerDirection",
+            typeof(StretchDirection),
+            typeof(ListViewBaseExtensions),
+            new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
+
+        /// <summary>
+        /// Gets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="ListViewBase"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/> to get the associated <see cref="StretchDirection"/> from</param>
+        /// <returns>The <see cref="StretchDirection"/> associated with the <see cref="ListViewBase"/></returns>
+        public static StretchDirection GetStretchItemContainerDirection(ListViewBase obj)
+        {
+            return (StretchDirection)obj.GetValue(StretchItemContainerDirectionProperty);
+        }
+
+        /// <summary>
+        /// Sets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="ListViewBase"/>
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/> to associate the <see cref="StretchDirection"/> with</param>
+        /// <param name="value">The <see cref="StretchDirection"/> for binding to the <see cref="ListViewBase"/></param>
+        public static void SetStretchItemContainerDirection(ListViewBase obj, StretchDirection value)
+        {
+            obj.SetValue(StretchItemContainerDirectionProperty, value);
+        }
+
+        private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+
+            if (StretchItemContainerDirectionProperty != null)
+            {
+                listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
+            }
+        }
+
+        private static void StretchItemContainerDirectionChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var stretchDirection = GetStretchItemContainerDirection(sender);
+
+            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.All)
+            {
+                itemContainer.VerticalContentAlignment = VerticalAlignment.Stretch;
+            }
+
+            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.All)
+            {
+                itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             }
         }
     }
