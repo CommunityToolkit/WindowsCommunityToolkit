@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
                 await LoadingContentControl.Blur(2, 100).StartAsync();
                 await ShowLoadingDialogAsync();
+                await LoadingContentControl.Blur(0, 0).StartAsync();
             });
 
             base.OnNavigatedTo(e);
