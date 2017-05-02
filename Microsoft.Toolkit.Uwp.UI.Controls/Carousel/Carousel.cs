@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
+            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
         /// <summary>
         /// Gets or sets duration of the easing function animation (ms)
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (carouselControl.SelectedItem != item)
                 {
                     carouselControl.SetValue(SelectedItemProperty, item);
-
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, item);
                     return;
                 }
             }
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (carouselControl.SelectedIndex != index)
                 {
                     carouselControl.SetValue(SelectedIndexProperty, index);
-
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, e.NewValue);
                     return;
                 }
             }
@@ -232,6 +232,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 oldElem.IsTabStop = false;
             }
         }
+
+        /// <summary>
+        /// Occurs when the selected item has changed
+        /// </summary>
+        public event EventHandler<object> SelectionChanged = null;
 
         /// <summary>
         /// Return ItemsPanel
