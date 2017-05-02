@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
         private GripperHoverWrapper _hoverWrapper;
+        private TextBlock _gripperDisplay;
 
         /// <summary>
         /// Gets the target parent grid from level
@@ -174,9 +175,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Unhook registered events
             Loaded -= GridSplitter_Loaded;
+            KeyDown -= GridSplitter_KeyDown;
 
             // Register Events
             Loaded += GridSplitter_Loaded;
+            KeyDown += GridSplitter_KeyDown;
 
             _hoverWrapper?.UnhookEvents();
 
