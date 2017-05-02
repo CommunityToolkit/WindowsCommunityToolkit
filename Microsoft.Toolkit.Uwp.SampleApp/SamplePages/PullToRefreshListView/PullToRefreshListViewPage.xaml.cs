@@ -49,10 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         private DelegateCommand RefreshIntentCanceled => _refreshIntentCanceledCommand ?? (_refreshIntentCanceledCommand = new DelegateCommand(
-            () =>
-            {
-                _items.Insert(0, new Item { Title = $"Item {_items.Count} canceled" });
-            }
+            () => { }
         ));
     }
 }
