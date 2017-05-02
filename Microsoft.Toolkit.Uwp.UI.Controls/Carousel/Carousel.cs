@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // Using a DependencyProperty as the backing store for Depth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
+        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
         /// Gets or sets easing function to apply for each Transition
