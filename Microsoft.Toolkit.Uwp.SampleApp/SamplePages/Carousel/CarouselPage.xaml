@@ -8,8 +8,9 @@
       mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <Border Margin="0">
-            <controls:Carousel x:Name="CarouselControl"
+   
+            <Border Margin="0">
+                <controls:Carousel x:Name="CarouselControl"
                                InvertPositive="{Binding InvertPositive.Value, Mode=OneWay}"
                                ItemDepth="{Binding ItemDepth.Value, Mode=OneWay}"
                                ItemMargin="{Binding ItemMargin.Value, Mode=OneWay}"
@@ -18,19 +19,19 @@
                                ItemRotationZ="{Binding ItemRotationZ.Value, Mode=OneWay}"
                                Orientation="{Binding Orientation.Value, Mode=OneWay}"
                                SelectedIndex="{Binding SelectedIndex.Value, Mode=TwoWay}">
-                <controls:Carousel.EasingFunction>
-                    <CubicEase EasingMode="EaseOut" />
-                </controls:Carousel.EasingFunction>
-                <controls:Carousel.ItemTemplate>
-                    <DataTemplate>
-                        <Image Width="200"
+                    <controls:Carousel.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                    </controls:Carousel.EasingFunction>
+                    <controls:Carousel.ItemTemplate>
+                        <DataTemplate>
+                            <Image Width="200"
                                    Height="200"
                                    VerticalAlignment="Bottom"
                                    Source="{Binding Thumbnail}"
                                    Stretch="Uniform" />
-                    </DataTemplate>
-                </controls:Carousel.ItemTemplate>
-            </controls:Carousel>
-        </Border>
-    </Grid>
+                        </DataTemplate>
+                    </controls:Carousel.ItemTemplate>
+                </controls:Carousel>
+            </Border>
+        </Grid>
 </Page>

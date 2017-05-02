@@ -286,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         carouselControl.SetValue(SelectedIndexProperty, index);
                     }
                 }
-                else if (SelectedItem == null && SelectedIndex >= 0)
+                else if (SelectedItem == null && SelectedIndex >= 0 && carouselControl.Items != null && carouselControl.Items.Count > 0)
                 {
                     var item = carouselControl.Items[SelectedIndex];
 
