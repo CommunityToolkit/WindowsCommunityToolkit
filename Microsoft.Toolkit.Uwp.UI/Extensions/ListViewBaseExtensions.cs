@@ -58,9 +58,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="DependencyObject"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> from which to get the associated <see cref="ICommand"/> instance</param>
-        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="DependencyObject"/> or null</returns>
-        public static ICommand GetCommand(DependencyObject obj)
+        /// <param name="obj">The <see cref="ListViewBase"/> from which to get the associated <see cref="ICommand"/> instance</param>
+        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="ListViewBase"/> or null</returns>
+        public static ICommand GetCommand(ListViewBase obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
         }
@@ -68,9 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Sets the <see cref="ICommand"/> instance assocaited with the specified <see cref="DependencyObject"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> to associated the <see cref="ICommand"/> instance to</param>
-        /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="DependencyObject"/></param>
-        public static void SetCommand(DependencyObject obj, ICommand value)
+        /// <param name="obj">The <see cref="ListViewBase"/> to associated the <see cref="ICommand"/> instance to</param>
+        /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="ListViewBase"/></param>
+        public static void SetCommand(ListViewBase obj, ICommand value)
         {
             obj.SetValue(CommandProperty, value);
         }
