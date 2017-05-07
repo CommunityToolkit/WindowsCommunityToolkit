@@ -175,11 +175,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Unhook registered events
             Loaded -= GridSplitter_Loaded;
-            KeyDown -= GridSplitter_KeyDown;
 
             // Register Events
             Loaded += GridSplitter_Loaded;
-            KeyDown += GridSplitter_KeyDown;
 
             _hoverWrapper?.UnhookEvents();
 

@@ -181,11 +181,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
-            var grip = gridSplitter._gripperDisplay;
-            if (grip != null)
+
+            if (gridSplitter._gripperDisplay == null)
             {
-                grip.Foreground = gridSplitter.GripperForeground;
+                return;
             }
+
+            gridSplitter._gripperDisplay.Foreground = gridSplitter.GripperForeground;
         }
 
         private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

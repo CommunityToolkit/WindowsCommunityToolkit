@@ -58,19 +58,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_gripperDisplay == null)
             {
-                var gripperText = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal;
                 _gripperDisplay = new TextBlock
                 {
                     FontFamily = new FontFamily(GripperDisplayFont),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Foreground = GripperForeground,
-                    Text = gripperText
+                    Text = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal
                 };
             }
         }
 
-        private void GridSplitter_KeyDown(object sender, KeyRoutedEventArgs e)
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
@@ -115,6 +114,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 e.Handled = true;
             }
+
+            base.OnKeyDown(e);
         }
 
         /// <inheritdoc />
