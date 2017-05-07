@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style TargetType="local:SpaceView" >
+        <!--<Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>-->
+        <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
+        <Setter Property="AnchorColor" Value="Black"></Setter>
+        <!--<Setter Property="AnchorThickness" Value="4"></Setter>-->
+        <Setter Property="OrbitColor" Value="Black"></Setter>
+        <!--<Setter Property="OrbitThickness" Value="4"></Setter>-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <local:SpaceViewPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SpaceView">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid x:Name="OrbitGrid"></Grid>
+                        <Canvas x:Name="AnchorCanvas"></Canvas>
+                        <ItemsPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></ItemsPresenter>
+                        <ContentPresenter x:Name="CenterContent" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding CenterContent}"></ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -220,6 +220,14 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "SpaceView",
+        "Type": "SpaceViewPage",
+        "About": "TODO",
+        "XamlCodeFile": "SpaceViewXaml.bind",
+        "Icon": "/SamplePages/SpaceView/SpaceView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SpaceView.md"
       }
     ]
   },

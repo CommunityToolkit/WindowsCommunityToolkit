@@ -1,0 +1,58 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SlidableListItemPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+    x:Name="Page"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
+            <controls:SlidableListItem 
+                    HorizontalAlignment="Stretch"
+                    LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
+                    RightIcon="@[RightIcon:Enum:Symbol.Delete]" 
+                    LeftLabel="@[LeftLabel:String:Set Favourite]" 
+                    RightLabel="@[RightLabel:String:Delete]"
+                    LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
+                    RightBackground="@[RightBackground:Brush:OrangeRed]"
+                    LeftForeground ="@[LeftForeground:Brush:White]" 
+                    RightForeground ="@[RightForeground:Brush:White]"
+                    ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
+                    IsLeftCommandEnabled="@[IsLeftCommandEnabled:Bool:true]"
+                    IsRightCommandEnabled="@[IsRightCommandEnabled:Bool:true]"
+                    IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
+                    MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    IsPointerReleasedOnSwipingHandled="@[IsPointerReleasedOnSwipingHandled:Bool:false]"
+                    LeftCommand="{x:Bind ToggleFavorite}"
+                    RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
+                    RightCommandParameter="{Binding}">
+                <Grid Height="110" Background="Gray">
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"/>
+                        <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+                </Grid>
+            </controls:SlidableListItem>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView x:Name="listView" 
+                  ItemTemplate="{StaticResource EmailsItemTemplate}" 
+                  ItemsSource="{x:Bind _items, Mode=OneWay}" 
+                  SelectionMode="None" 
+                  IsItemClickEnabled="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0,1"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>

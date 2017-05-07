@@ -115,6 +115,12 @@
     <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="SpaceView\SpaceView.cs" />
+    <Compile Include="SpaceView\SpaceViewItem.cs" />
+    <Compile Include="SpaceView\SpaceViewItemClickedEventArgs.cs" />
+    <Compile Include="SpaceView\SpaceViewItemCollection.cs" />
+    <Compile Include="SpaceView\SpaceViewPanel.cs" />
+    <Compile Include="SpaceView\SpaceViewPanelItemArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
@@ -196,6 +202,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SpaceView\SpaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
