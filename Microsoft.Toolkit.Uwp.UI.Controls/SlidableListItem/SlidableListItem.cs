@@ -254,6 +254,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
+
+                _contentStoryboard.Completed += (s, a) =>
+                {
+                    _commandContainer.Opacity = 0.0;
+                };
             }
 
             if (_commandContainer == null)
