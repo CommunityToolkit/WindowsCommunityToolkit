@@ -565,7 +565,7 @@ namespace Microsoft.Toolkit.Uwp
                 else
                 {
                     var isString = true;
-                    var buffer = Encoding.UTF8.GetString(_data);
+                    var buffer = GattConvert.ToUTF8String(_rawData);
 
                     // if buffer is only 1 char or 2 char with 0 at end then let's assume it's hex
                     if (buffer.Length == 1)
@@ -648,20 +648,20 @@ namespace Microsoft.Toolkit.Uwp
             // Decode the value into the right display type
             if (DisplayType == DisplayTypes.Hex || DisplayType == DisplayTypes.Unsupported)
             {
-                Value = CryptographicBuffer.EncodeToHexString(_rawData);
+                Value = GattConvert.ToHexString(_rawData);
             }
             else if (DisplayType == DisplayTypes.Decimal)
             {
-                byte[] buf = BytePadder.GetBytes(_data, 8);
-                Value = BitConverter.ToUInt64(buf, 0).ToString();
+                //TODO: if data is larger then int32 this will overflow. Need to fix.
+                Value = GattConvert.ToInt32(_rawData).ToString();
             }
             else if (DisplayType == DisplayTypes.UTF8)
             {
-                Value = Encoding.UTF8.GetString(_data);
+                Value = GattConvert.ToUTF8String(_rawData);
             }
             else if (DisplayType == DisplayTypes.UTF16)
             {
-                Value = Encoding.Unicode.GetString(_data);
+                Value = GattConvert.ToUTF16String(_rawData);
             }
         }
 

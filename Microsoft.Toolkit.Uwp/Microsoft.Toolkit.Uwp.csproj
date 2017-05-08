@@ -53,6 +53,7 @@
     <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\BytePadder.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\DispatcherService.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\GattConvert.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\GattProtocolErrorParser.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\GattUuidsService.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
