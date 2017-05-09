@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -52,13 +53,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async void LV_Devices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LVDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TbDeviceName.Text = "No device selected";
             TbDeviceBtAddr.Text = "No device selected";
 
-            LVServices.Visibility = Visibility.Collapsed;
-            LVServices.ItemsSource = null;
+            CBServices.Visibility = Visibility.Collapsed;
+            CBServices.ItemsSource = null;
 
             if (e.AddedItems.Count > 0)
             {
@@ -74,10 +75,61 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     bool connected = await device.Connect();
                     if (connected)
                     {
-                        LVServices.Visibility = Visibility.Visible;
-                        LVServices.ItemsSource = device.Services;
+                        CBServices.ItemsSource = device.Services;
+                        CBServices.Visibility = Visibility.Visible;
                     }
                 }
+            }
+        }
+
+        private void CBServices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CBCharacteristic.ItemsSource = null;
+            CBCharacteristic.Visibility = Visibility.Collapsed;
+
+            if (e.AddedItems.Count > 0)
+            {
+                ObservableGattDeviceService service = e.AddedItems[0] as ObservableGattDeviceService;
+
+                if (service != null)
+                {
+                    CBCharacteristic.ItemsSource = service.Characteristics;
+                    CBCharacteristic.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void CBCharacteristic_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                ObservableGattCharacteristics characteristic = e.AddedItems[0] as ObservableGattCharacteristics;
+
+                if (characteristic.Characteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read))
+                {
+                    BtReadCharValue.Visibility = Visibility.Visible;
+                    TBCharValue.Text = String.Empty;
+                }
+                else
+                {
+                    TBCharValue.Text = "This characteristic can not be read because the read property is not set";
+                }
+            }
+            else
+            {
+                BtReadCharValue.Visibility = Visibility.Collapsed;
+                TBCharValue.Text = String.Empty;
+            }
+        }
+
+        private void ReadCharValue_Click(object sender, RoutedEventArgs e)
+        {
+            ObservableGattCharacteristics characteristic = CBCharacteristic.SelectedItem as ObservableGattCharacteristics;
+
+            if(characteristic != null)
+            {
+                characteristic.ReadValueAsync();
+                TBCharValue.Text = characteristic.Value;
             }
         }
     }

@@ -10,26 +10,37 @@
 
     <RelativePanel Background="{StaticResource Brush-Grey-05}">
         <Button x:Name="BtEnumeration" Click="Enumeration_Click" Content="Start enumeration" Margin="10"/>
-        <ListView x:Name="LVDevices" Height="200" VerticalAlignment="Top" Margin="10" ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}" Background="White" SelectionChanged="LV_Devices_SelectionChanged" RelativePanel.Below="BtEnumeration" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
+        <ListView x:Name="LVDevices" Height="200" VerticalAlignment="Top" Margin="10" ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}" Background="White" SelectionChanged="LVDevices_SelectionChanged" RelativePanel.Below="BtEnumeration" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
         <StackPanel Name="SPDevice"  Margin="10" RelativePanel.Below="LVDevices">
             <TextBlock x:Name="TbDeviceName" Text="" />
             <TextBlock x:Name="TbDeviceBtAddr" Text="" />
         </StackPanel>
-        <ListView x:Name="LVServices" Height="231" VerticalAlignment="Top" Margin="10,10,10,-95" ItemsSource="{x:Bind bluetoothLEHelper.SelectedBluetoothLEDevice.Services}" Background="White" SelectionChanged="LV_Devices_SelectionChanged" RelativePanel.Below="SPDevice" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" HorizontalContentAlignment="Left" Visibility="Collapsed">
-            <ListView.ItemTemplate>
+        
+        <ComboBox x:Name="CBServices" Margin="10" SelectionChanged="CBServices_SelectionChanged" RelativePanel.Below="SPDevice" Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="bt:ObservableGattDeviceService" >
-                    <StackPanel>
-                        <TextBlock >
+                    <TextBlock >
                             <Run Text="Service Name: " />
                             <Run Text="{x:Bind Name}" />
-                        </TextBlock>
-                        <TextBlock >
-                            <Run Text="Service UUID: " />
-                            <Run Text="{x:Bind UUID}" />
-                        </TextBlock>
-                    </StackPanel>
+                    </TextBlock>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox x:Name="CBCharacteristic" Margin="10" SelectionChanged="CBCharacteristic_SelectionChanged" RelativePanel.Below="CBServices"  Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="bt:ObservableGattCharacteristics" >
+                    <TextBlock >
+                            <Run Text="Service Name: " />
+                            <Run Text="{x:Bind Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button x:Name="BtReadCharValue" Margin="10" Click="ReadCharValue_Click" Content="Read Value" RelativePanel.Below="CBCharacteristic" Visibility="Collapsed"/>
+
+        <TextBlock x:Name="TBCharValue" Margin="10" RelativePanel.Below="BtReadCharValue"/>
+
     </RelativePanel>
 </Page>
