@@ -11,13 +11,13 @@
           Padding="48"
           Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
-            <RowDefinition MinHeight="100" />
+            <RowDefinition MinHeight="100" MaxHeight="200" />
             <RowDefinition Height="11" />
             <RowDefinition />
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition MinWidth="100" MaxWidth="200" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>

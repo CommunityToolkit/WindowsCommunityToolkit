@@ -230,13 +230,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!IsStarColumn(CurrentColumn))
             {
                 // No need to check for the Column Min width because it is automatically respected
-                SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel);
+                if (!SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if sibling column has fixed width then resize it
             else if (!IsStarColumn(SiblingColumn))
             {
-                SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel);
+                if (!SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if both column haven't fixed width (auto *)

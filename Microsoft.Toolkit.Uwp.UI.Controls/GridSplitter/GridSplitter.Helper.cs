@@ -30,24 +30,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
         }
 
-        private void SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
+        private bool SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
         {
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
+
+            var minWidth = columnDefinition.MinWidth;
+            if (minWidth != double.NaN && newWidth < minWidth)
+            {
+                newWidth = minWidth;
+            }
+
+            var maxWidth = columnDefinition.MaxWidth;
+            if (maxWidth != double.NaN && newWidth > maxWidth)
+            {
+                newWidth = maxWidth;
+            }
+
             if (newWidth > ActualWidth)
             {
-                columnDefinition.Width = new GridLength(newWidth, unitType);
+                if (columnDefinition.Width.Value != newWidth)
+                {
+                    columnDefinition.Width = new GridLength(newWidth, unitType);
+                    return true;
+                }
             }
+
+            return false;
         }
 
         private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double horizontalChange)
         {
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
-            if (newWidth > ActualWidth)
+
+            var minWidth = columnDefinition.MinWidth;
+            if (minWidth != double.NaN && newWidth < minWidth)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            var maxWidth = columnDefinition.MaxWidth;
+            if (maxWidth != double.NaN && newWidth > maxWidth)
+            {
+                return false;
+            }
+
+            if (newWidth <= ActualWidth)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
