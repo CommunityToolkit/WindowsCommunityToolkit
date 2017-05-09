@@ -375,7 +375,7 @@
     </Content>
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
-    <Content Include="SamplePages\BluetoothHelper\BluetoothHelperCode.bind" />
+    <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -393,8 +393,8 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\BluetoothHelper\BluetoothHelperPage.xaml.cs">
-      <DependentUpon>BluetoothHelperPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
+      <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
@@ -625,7 +625,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\BluetoothHelper\BluetoothHelperPage.xaml">
+    <Page Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
