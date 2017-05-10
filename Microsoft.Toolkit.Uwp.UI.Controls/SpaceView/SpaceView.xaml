@@ -3,12 +3,12 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:SpaceView" >
-        <!--<Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>-->
+        <Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>
         <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
-        <Setter Property="AnchorColor" Value="Black"></Setter>
-        <!--<Setter Property="AnchorThickness" Value="4"></Setter>-->
-        <Setter Property="OrbitColor" Value="Black"></Setter>
-        <!--<Setter Property="OrbitThickness" Value="4"></Setter>-->
+        <Setter Property="AnchorColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"></Setter>
+        <Setter Property="OrbitColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"></Setter>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

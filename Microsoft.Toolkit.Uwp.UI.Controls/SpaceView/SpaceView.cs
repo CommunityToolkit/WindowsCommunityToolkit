@@ -1,27 +1,20 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    //[TemplatePart(Name = "ItemCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "AnchorCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "OrbitGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "CenterContent", Type = typeof(ContentPresenter))]
@@ -37,14 +30,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _orbits = new Dictionary<object, Ellipse>();
             _anchors = new Dictionary<object, Line>();
 
-            //if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            //{
-            //    var items = new List<SpaceViewItem>();
-            //    items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-            //    items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-            //    items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-            //    ItemsSource = items;
-            //}
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                var items = new List<SpaceViewItem>();
+                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                ItemsSource = items;
+            }
         }
 
         private const double _animationDuration = 200;
@@ -60,33 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public event EventHandler<SpaceViewItemClickedEventArgs> ItemClicked;
 
-        private void SpaceView_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Left)
-            {
-                e.Handled = true;
-                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
-                if (currentEllement != null)
-                {
-                    var index = Items.IndexOf(currentEllement);
-                    var nextIndex = (index + 1) % Items.Count;
-
-                    (Items.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
-                }
-            }
-            else if (e.Key == Windows.System.VirtualKey.Right)
-            {
-                e.Handled = true;
-                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
-                if (currentEllement != null)
-                {
-                    var index = Items.IndexOf(currentEllement);
-                    var nextIndex = index > 0 ? index - 1 : Items.Count - 1;
-
-                    (Items.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
-                }
-            }
-        }
 
         protected override void OnApplyTemplate()
         {
@@ -139,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for MinItemSize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinItemSizeProperty =
-            DependencyProperty.Register("MinItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(20d));
+            DependencyProperty.Register("MinItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
 
         public double MaxItemSize
         {
@@ -149,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for MaxItemSize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxItemSizeProperty =
-            DependencyProperty.Register("MaxItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(50d));
+            DependencyProperty.Register("MaxItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
 
         public Brush AnchorColor
         {
@@ -159,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for AnchorColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnchorColorProperty =
-            DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
 
         public Brush OrbitColor
         {
@@ -169,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for OrbitColor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OrbitColorProperty =
-            DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
 
         public DoubleCollection OrbitDashArray
         {
@@ -179,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for OrbitDashArray.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OrbitDashArrayProperty =
-            DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(SpaceView), new PropertyMetadata(null));
+            DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(SpaceView), new PropertyMetadata(null, OnOrbitPropertyChanged));
 
         public double AnchorThickness
         {
@@ -189,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for AnchorThickness.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnchorThicknessProperty =
-            DependencyProperty.Register("AnchorThickness", typeof(double), typeof(double), new PropertyMetadata(2d));
+            DependencyProperty.Register("AnchorThickness", typeof(double), typeof(double), new PropertyMetadata(1d, OnAnchorPropertyChanged));
 
         public double OrbitThickness
         {
@@ -199,7 +165,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for OrbitThickness.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OrbitThicknessProperty =
-            DependencyProperty.Register("OrbitThickness", typeof(double), typeof(SpaceView), new PropertyMetadata(2d));
+            DependencyProperty.Register("OrbitThickness", typeof(double), typeof(SpaceView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
+
+        private static void OnOrbitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+            if (sv._orbitsContainer == null)
+            {
+                return;
+            }
+
+            foreach (var orbit in sv._orbitsContainer.Children)
+            {
+                sv.SetOrbitProperties(orbit as Ellipse);
+            }
+        }
+
+        private static void OnAnchorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+            if (sv._anchorCanvas == null)
+            {
+                return;
+            }
+
+            foreach (var anchor in sv._anchorCanvas.Children)
+            {
+                sv.SetAnchorProperties(anchor as Line);
+            }
+        }
 
         public object CenterContent
         {
@@ -221,8 +215,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 sv.ClearAnchors();
             }
-
-            //sv.PositionItems();
+            else
+            {
+                sv.ItemsPanelRoot?.InvalidateArrange();
+            }
         }
 
         private static void OnOrbitsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -241,13 +237,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static void OnItemSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+
+            if (sv.ItemsPanelRoot != null)
+            {
+                foreach (var element in sv.ItemsPanelRoot.Children)
+                {
+                    if (element is ContentControl && (element as ContentControl).DataContext is SpaceViewItem)
+                    {
+                        var item = (element as FrameworkElement).DataContext as SpaceViewItem;
+                        if (item.Diameter >= 0)
+                        {
+                            double diameter = Math.Min(item.Diameter, 1d);
+                            var content = (element as ContentControl).Content as FrameworkElement;
+                            content.Width = content.Height = (diameter * (sv.MaxItemSize - sv.MinItemSize)) + sv.MinItemSize;
+                        }
+                    }
+                }
+            }
+
+            sv.ItemsPanelRoot?.InvalidateArrange();
+        }
+
         private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sv = d as SpaceView;
 
             if (sv.Items.Count == 0) return;
 
-            foreach (var control in sv.Items)
+            foreach (var control in sv._panel.Children)
             {
                 if ((bool)e.NewValue)
                 {
@@ -331,8 +351,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        
-
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             base.ClearContainerForItemOverride(element, item);
@@ -376,15 +394,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var anchor = CreateAnchor(element.Element, element.XYFromCenter.X, element.XYFromCenter.Y);
                         _anchorCanvas.Children.Add(anchor);
-
-                        Debug.WriteLine($"anchor created: X={element.XYFromCenter.X} & Y:{element.XYFromCenter.Y}");
-                    }
-                }
-                else
-                {
-                    foreach (var element in e.Elements)
-                    {
-                        Debug.WriteLine($"no anchor created: X={element.XYFromCenter.X} & Y:{element.XYFromCenter.Y}");
+                        _anchors.Add(element, anchor);
                     }
                 }
             }
@@ -487,6 +497,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             item.Scale(1.1f, 1.1f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
         }
 
+        private void SpaceView_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (ItemsPanelRoot == null)
+            {
+                return;
+            }
+
+            if (e.Key == Windows.System.VirtualKey.Left)
+            {
+                e.Handled = true;
+                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
+                if (currentEllement != null)
+                {
+                    var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
+                    var nextIndex = (index + 1) % Items.Count;
+
+                    (ItemsPanelRoot.Children.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
+                }
+            }
+            else if (e.Key == Windows.System.VirtualKey.Right)
+            {
+                e.Handled = true;
+                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
+                if (currentEllement != null)
+                {
+                    var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
+                    var nextIndex = index > 0 ? index - 1 : Items.Count - 1;
+
+                    (ItemsPanelRoot.Children.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
+                }
+            }
+        }
+
         private void ClearOrbits()
         {
             if (_orbitsContainer == null)
@@ -500,27 +543,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Ellipse CreateOrbit()
         {
-            return new Ellipse()
+            var orbit = new Ellipse()
             {
-                StrokeDashArray = OrbitDashArray,
-                Stroke = OrbitColor,
-                StrokeThickness = OrbitThickness,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+
+            SetOrbitProperties(orbit);
+
+            return orbit;
+        }
+
+        private void SetOrbitProperties(Ellipse orbit)
+        {
+            orbit.StrokeDashArray = OrbitDashArray;
+            orbit.Stroke = OrbitColor;
+            orbit.StrokeThickness = OrbitThickness;
+        }
+
+        private void SetAnchorProperties(Line anchor)
+        {
+            anchor.Stroke = AnchorColor;
+            anchor.StrokeThickness = AnchorThickness;
         }
 
         private Line CreateAnchor(UIElement element, double x, double y)
         {
             var anchor = new Line()
             {
-                Stroke = AnchorColor,
-                StrokeThickness = AnchorThickness,
                 X1 = 0,
                 Y1 = 0,
                 X2 = 100,
                 Y2 = 0
             };
+
+            SetAnchorProperties(anchor);
 
             var anchorVisual = ElementCompositionPreview.GetElementVisual(anchor);
             var elementVisual = ElementCompositionPreview.GetElementVisual(element);

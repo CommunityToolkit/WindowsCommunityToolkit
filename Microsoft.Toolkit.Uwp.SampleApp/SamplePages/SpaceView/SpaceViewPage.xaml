@@ -8,14 +8,22 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Pivot>
                 <PivotItem Header="People">
-                    <controls:SpaceView x:Name="people" OrbitsEnabled="True" IsItemClickEnabled="True" MinItemSize="10" MaxItemSize="100">
+                    <controls:SpaceView x:Name="people" 
+                                        OrbitsEnabled="{Binding DataContext.OrbitsEnabled.Value, ElementName=Root, Mode=OneWay}" 
+                                        AnchorsEnabled="{Binding DataContext.AnchorsEnabled.Value, ElementName=Root, Mode=OneWay}"
+                                        IsItemClickEnabled="{Binding DataContext.IsItemClickEnabled.Value, ElementName=Root, Mode=OneWay}" 
+                                        MinItemSize="{Binding DataContext.MinItemSize.Value, ElementName=Root, Mode=OneWay}" 
+                                        MaxItemSize="{Binding DataContext.MaxItemSize.Value, ElementName=Root, Mode=OneWay}"
+                                        AnchorColor="{Binding DataContext.AnchorColor.Value, ElementName=Root, Mode=OneWay}"
+                                        OrbitColor="{Binding DataContext.OrbitColor.Value, ElementName=Root, Mode=OneWay}"
+                                        >
                         <controls:SpaceView.ItemTemplate>
                             <DataTemplate x:DataType="controls:SpaceViewItem">
-                                <controls:DropShadowPanel Height="60" Width="60" Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                     <Ellipse >
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="{x:Bind Image}"></ImageBrush>
@@ -26,10 +34,10 @@
                         </controls:SpaceView.ItemTemplate>
                         <controls:SpaceView.ItemsSource>
                             <controls:SpaceViewItemCollection>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad"></controls:SpaceViewItem>
+                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:SpaceViewItem>
+                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:SpaceViewItem>
+                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:SpaceViewItem>
+                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:SpaceViewItem>
                             </controls:SpaceViewItemCollection>
                         </controls:SpaceView.ItemsSource>
                         <controls:SpaceView.CenterContent>
