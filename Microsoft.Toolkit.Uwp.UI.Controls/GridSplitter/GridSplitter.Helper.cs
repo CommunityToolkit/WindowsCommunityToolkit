@@ -82,21 +82,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
-        private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
+        private bool SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
         {
             var newHeight = rowDefinition.ActualHeight + verticalChange;
+
+            var minHeight = rowDefinition.MinHeight;
+            if (minHeight != double.NaN && newHeight < minHeight)
+            {
+                newHeight = minHeight;
+            }
+
+            var maxWidth = rowDefinition.MaxHeight;
+            if (maxWidth != double.NaN && newHeight > maxWidth)
+            {
+                newHeight = maxWidth;
+            }
+
             if (newHeight > ActualHeight)
             {
-                rowDefinition.Height = new GridLength(newHeight, unitType);
+                if (rowDefinition.Height.Value != newHeight)
+                {
+                    rowDefinition.Height = new GridLength(newHeight, unitType);
+                    return true;
+                }
             }
+
+            return false;
         }
 
         private bool IsValidRowHeight(RowDefinition rowDefinition, double verticalChange)
         {
             var newHeight = rowDefinition.ActualHeight + verticalChange;
-            if (newHeight > ActualHeight)
+
+            var minHeight = rowDefinition.MinHeight;
+            if (minHeight != double.NaN && newHeight < minHeight)
             {
-                return true;
+                return false;
+            }
+
+            var maxHeight = rowDefinition.MaxHeight;
+            if (maxHeight != double.NaN && newHeight > maxHeight)
+            {
+                return false;
+            }
+
+            if (newHeight <= ActualHeight)
+            {
+                return false;
             }
 
             return false;
