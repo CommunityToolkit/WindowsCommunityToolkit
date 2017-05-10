@@ -429,28 +429,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            if (ItemTemplate == null)
+            FrameworkElement contentControl = element as ContentControl;
+
+            if (contentControl == null)
             {
-                return;
+                contentControl = element as FrameworkElement;
+            }
+            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
+            {
+                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
             }
 
-            var contentControl = element as ContentControl;
-
-            // load data templated
-            var contentElement = ItemTemplate.LoadContent() as FrameworkElement;
-
-            if (contentElement == null)
+            if (contentControl == null)
             {
-                return;
+                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
             }
 
             contentControl.DataContext = item;
-            contentControl.Content = contentElement;
             contentControl.Opacity = 1;
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.IsTabStop = Items.IndexOf(item) == SelectedIndex;
-            contentControl.UseSystemFocusVisuals = true;
             contentControl.Tag = "CarouselItem";
+
+            if (contentControl as Control != null)
+            {
+                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
+                ((Control)contentControl).UseSystemFocusVisuals = true;
+            }
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
