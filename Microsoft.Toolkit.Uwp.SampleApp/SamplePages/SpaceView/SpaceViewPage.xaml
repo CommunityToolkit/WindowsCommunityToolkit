@@ -11,43 +11,17 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Pivot>
-                <!--<PivotItem Header="Solar">
-                    <controls:SpaceView Background="Black" x:Name="solar" Foreground="LightGray">
-                        <controls:SpaceView.ItemsSource>
-                            <controls:SpaceViewItemCollection>
-                                <controls:SpaceViewItem  Distance="0" Diameter="0.024619077" Label="Mercury"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.2" Diameter="0.081446786" Label="Earth" ></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.8" Diameter="0" Label="Pluto"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.3" Diameter="0.03835256" Label="Jupiter"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="1" Diameter="0.345288692" Label="Neptune"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.5" Diameter="0.831164889" Label="Saturn"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.6" Diameter="0.327073756" Label="Uranus"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.1" Diameter="0.076835227" Label="Venus"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem  Distance="0.4" Diameter="1" Label="Jupiter" ></controls:SpaceViewItem>
-                            </controls:SpaceViewItemCollection>
-                        </controls:SpaceView.ItemsSource>
-                        <controls:SpaceView.CenterContent>
-                            <Ellipse Height="100" Width="100" Fill="Green">
-                                --><!--<Ellipse.Fill>
-                                    <ImageBrush ImageSource="solar/sun.gif"></ImageBrush>
-                                </Ellipse.Fill>--><!--
-                            </Ellipse>
-                        </controls:SpaceView.CenterContent>
-                    </controls:SpaceView>
-                </PivotItem>-->
-                <!--<PivotItem Header="People">
+                <PivotItem Header="People">
                     <controls:SpaceView x:Name="people" OrbitsEnabled="True" IsItemClickEnabled="True" MinItemSize="10" MaxItemSize="100">
                         <controls:SpaceView.ItemTemplate>
                             <DataTemplate x:DataType="controls:SpaceViewItem">
-                                <Grid Height="60" Width="60">
-                                    <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                                        <Ellipse >
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{x:Bind Image}"></ImageBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                    </controls:DropShadowPanel>
-                                </Grid>
+                                <controls:DropShadowPanel Height="60" Width="60" Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                    <Ellipse >
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{x:Bind Image}"></ImageBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </controls:DropShadowPanel>
                             </DataTemplate>
                         </controls:SpaceView.ItemTemplate>
                         <controls:SpaceView.ItemsSource>
@@ -71,7 +45,7 @@
                             </Grid>
                         </controls:SpaceView.CenterContent>
                     </controls:SpaceView>
-                </PivotItem>-->
+                </PivotItem>
                 <PivotItem Header="Devices">
                     <Grid>
                         <controls:SpaceView x:Name="devices" AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">

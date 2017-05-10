@@ -15,6 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public event EventHandler<SpaceViewPanelItemArrangedArgs> ItemArranged;
 
+        public event EventHandler<SpaceViewPanelItemsArrangedArgs> ItemsArranged;
+
         /// <summary>
         /// Gets the Current SpaceView control
         /// </summary>
@@ -55,6 +57,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var minDistance = 100;
             var maxDistance = Math.Max(minDistance, (Math.Min(finalSize.Width, finalSize.Height) - SpaceView.MaxItemSize) / 2);
 
+            var elementsProperties = new List<SpaceViewElementProperties>();
+
             for (var i = 0; i < Children.Count; i++)
             {
                 var element = Children.ElementAt(i);
@@ -73,23 +77,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var y = distance * Math.Sin((angle * i) + (angle / 2));
 
                 var x_normalized = (finalSize.Width / 2) + x - (element.DesiredSize.Width / 2);
-                var y_normalized = (finalSize.Height / 2) + y - (element.DesiredSize.Height / 2);
+                var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);
                 var point = new Point(x_normalized, y_normalized);
 
                 element.Arrange(new Rect(point, element.DesiredSize));
+
+                var elementProperties = new SpaceViewElementProperties()
+                {
+                    XYFromCenter = new Point(x, y),
+                    DistanceFromCenter = distance,
+                    Element = element
+                };
+                elementsProperties.Add(elementProperties);
 
                 if (ItemArranged != null)
                 {
                     var args = new SpaceViewPanelItemArrangedArgs()
                     {
-                        XYFromCenter = new Point(x, y),
-                        DistanceFromCenter = distance,
-                        Element = element,
+                        ElementProperties = elementProperties,
                         ItemIndex = i
                     };
                     ItemArranged.Invoke(this, args);
                 }
             }
+
+            ItemsArranged?.Invoke(this, new SpaceViewPanelItemsArrangedArgs() { Elements = elementsProperties });
 
             return finalSize;
         }

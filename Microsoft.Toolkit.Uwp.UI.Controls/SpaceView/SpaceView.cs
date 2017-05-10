@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -276,6 +277,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _panel = ItemsPanelRoot as SpaceViewPanel;
                 _panel.ItemArranged += SpaceViewPanel_ItemArranged;
+                _panel.ItemsArranged += SpaceViewPanel_ItemsArranged;
             }
 
             var control = element as ContentControl;
@@ -329,6 +331,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        
+
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             base.ClearContainerForItemOverride(element, item);
@@ -352,12 +356,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void SpaceViewPanel_ItemsArranged(object sender, SpaceViewPanelItemsArrangedArgs e)
+        {
+            if (AnchorsEnabled)
+            {
+                if (_anchorCanvas == null)
+                {
+                    _anchorCanvas = (Canvas)GetTemplateChild("AnchorCanvas");
+                    if (_anchorCanvas == null)
+                    {
+                        return;
+                    }
+                }
+
+                if (_anchorCanvas.Children.Count != e.Elements.Count)
+                {
+                    _anchorCanvas.Children.Clear();
+                    foreach (var element in e.Elements)
+                    {
+                        var anchor = CreateAnchor(element.Element, element.XYFromCenter.X, element.XYFromCenter.Y);
+                        _anchorCanvas.Children.Add(anchor);
+
+                        Debug.WriteLine($"anchor created: X={element.XYFromCenter.X} & Y:{element.XYFromCenter.Y}");
+                    }
+                }
+                else
+                {
+                    foreach (var element in e.Elements)
+                    {
+                        Debug.WriteLine($"no anchor created: X={element.XYFromCenter.X} & Y:{element.XYFromCenter.Y}");
+                    }
+                }
+            }
+        }
+
         private void SpaceViewPanel_ItemArranged(object sender, SpaceViewPanelItemArrangedArgs e)
         {
             if (OrbitsEnabled)
             {
                 Ellipse orbit;
-                _orbits.TryGetValue(e.Element, out orbit);
+                _orbits.TryGetValue(e.ElementProperties.Element, out orbit);
 
                 if (orbit == null)
                 {
@@ -371,39 +409,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     orbit = CreateOrbit();
-                    _orbits.Add(e.Element, orbit);
+                    _orbits.Add(e.ElementProperties.Element, orbit);
                     _orbitsContainer.Children.Add(orbit);
                 }
 
-                orbit.Height = orbit.Width = e.DistanceFromCenter * 2;
-            }
-
-            if (AnchorsEnabled)
-            {
-                Line anchor;
-                _anchors.TryGetValue(e.Element, out anchor);
-
-                //if (anchor != null)
-                //{
-                //    _anchors.Remove(e.Element);
-                //    _anchorCanvas.Children.Remove(anchor);
-                //}
-
-                if (anchor == null)
-                {
-                    if (_anchorCanvas == null)
-                    {
-                        _anchorCanvas = (Canvas)GetTemplateChild("AnchorCanvas");
-                        if (_anchorCanvas == null)
-                        {
-                            return;
-                        }
-                    }
-
-                    anchor = CreateAnchor(e.Element, e.XYFromCenter.X, e.XYFromCenter.Y);
-                    _anchors.Add(e.Element, anchor);
-                    _anchorCanvas.Children.Add(anchor);
-                }
+                orbit.Height = orbit.Width = e.ElementProperties.DistanceFromCenter * 2;
             }
         }
 

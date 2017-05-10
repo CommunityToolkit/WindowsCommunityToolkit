@@ -224,7 +224,7 @@
       {
         "Name": "SpaceView",
         "Type": "SpaceViewPage",
-        "About": "TODO",
+        "About": "The SpaceView Control positions items in a circle around a center element and supports orbits and anchors.",
         "XamlCodeFile": "SpaceViewXaml.bind",
         "Icon": "/SamplePages/SpaceView/SpaceView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SpaceView.md"

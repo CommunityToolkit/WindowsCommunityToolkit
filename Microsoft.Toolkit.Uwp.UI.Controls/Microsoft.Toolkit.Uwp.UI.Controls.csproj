@@ -116,11 +116,13 @@
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="SpaceView\SpaceView.cs" />
+    <Compile Include="SpaceView\SpaceViewElementProperties.cs" />
     <Compile Include="SpaceView\SpaceViewItem.cs" />
     <Compile Include="SpaceView\SpaceViewItemClickedEventArgs.cs" />
     <Compile Include="SpaceView\SpaceViewItemCollection.cs" />
     <Compile Include="SpaceView\SpaceViewPanel.cs" />
     <Compile Include="SpaceView\SpaceViewPanelItemArrangedArgs.cs" />
+    <Compile Include="SpaceView\SpaceViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
