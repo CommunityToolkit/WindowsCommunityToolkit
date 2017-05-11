@@ -3,12 +3,24 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Class used by the <see cref="SpaceViewPanel"/> to store XY and distance values
+    /// </summary>
     public class SpaceViewElementProperties
     {
-        public UIElement Element { get; set; }
+        /// <summary>
+        /// Gets the <see cref="UIElement"/>
+        /// </summary>
+        public UIElement Element { get; internal set; }
 
-        public Point XYFromCenter { get; set; }
+        /// <summary>
+        /// Gets the X and Y point from the center
+        /// </summary>
+        public Point XYFromCenter { get; internal set; }
 
-        public double DistanceFromCenter { get; set; }
+        /// <summary>
+        /// Gets the distance from the center
+        /// </summary>
+        public double DistanceFromCenter { get; internal set; }
     }
 }

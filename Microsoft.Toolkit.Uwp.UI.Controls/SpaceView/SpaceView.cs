@@ -15,11 +15,31 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// ItemsControl that lays out items in a circle with support for odbits and anchors
+    /// </summary>
     [TemplatePart(Name = "AnchorCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "OrbitGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "CenterContent", Type = typeof(ContentPresenter))]
     public sealed class SpaceView : ItemsControl
     {
+        private const double _animationDuration = 200;
+
+        private SpaceViewPanel _panel;
+        private Grid _orbitsContainer;
+        private Canvas _anchorCanvas;
+        private ContentPresenter _centerContent;
+        private Compositor _compositor;
+
+        private Dictionary<object, Ellipse> _orbits;
+        private Dictionary<object, Line> _anchors;
+
+        public event EventHandler<SpaceViewItemClickedEventArgs> ItemClicked;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpaceView"/> class.
+        /// Creates a new instance of <see cref="SpaceView"/>
+        /// </summary>
         public SpaceView()
         {
             DefaultStyleKey = typeof(SpaceView);
@@ -40,20 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private const double _animationDuration = 200;
-
-        private SpaceViewPanel _panel;
-        private Grid _orbitsContainer;
-        private Canvas _anchorCanvas;
-        private ContentPresenter _centerContent;
-        private Compositor _compositor;
-
-        private Dictionary<object, Ellipse> _orbits;
-        private Dictionary<object, Line> _anchors;
-
-        public event EventHandler<SpaceViewItemClickedEventArgs> ItemClicked;
-
-
         protected override void OnApplyTemplate()
         {
             _centerContent = (ContentPresenter)GetTemplateChild("CenterContent");
@@ -67,223 +73,175 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether orbits are enabled or not.
+        /// </summary>
         public bool OrbitsEnabled
         {
             get { return (bool)GetValue(OrbitsEnabledProperty); }
             set { SetValue(OrbitsEnabledProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OrbitsEnabled.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OrbitsEnabledProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty OrbitsEnabledProperty =
             DependencyProperty.Register("OrbitsEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnOrbitsEnabledChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether elements are clickable.
+        /// </summary>
         public bool IsItemClickEnabled
         {
             get { return (bool)GetValue(IsItemClickEnabledProperty); }
             set { SetValue(IsItemClickEnabledProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsItemClickEnabled.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="IsItemClickEnabledProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty IsItemClickEnabledProperty =
             DependencyProperty.Register("IsItemClickEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnItemClickEnabledChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether anchors are enabled.
+        /// </summary>
         public bool AnchorsEnabled
         {
             get { return (bool)GetValue(AnchorsEnabledProperty); }
             set { SetValue(AnchorsEnabledProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnchorsEnabled.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnchorsEnabledProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty AnchorsEnabledProperty =
             DependencyProperty.Register("AnchorsEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnAchorsEnabledChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the minimum size of items
+        /// Note: for this property to work, Data Context must be derived from SpaceViewItems
+        /// and Diameter must be between 0 and 1
+        /// </summary>
         public double MinItemSize
         {
             get { return (double)GetValue(MinItemSizeProperty); }
             set { SetValue(MinItemSizeProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MinItemSize.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="MinItemSizeProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty MinItemSizeProperty =
             DependencyProperty.Register("MinItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the maximum size of items
+        /// Note: for this property to work, Data Context must be derived from SpaceViewItems
+        /// and Diameter must be between 0 and 1
+        /// </summary>
         public double MaxItemSize
         {
             get { return (double)GetValue(MaxItemSizeProperty); }
             set { SetValue(MaxItemSizeProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MaxItemSize.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="MaxItemSizeProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty MaxItemSizeProperty =
             DependencyProperty.Register("MaxItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the color of anchors
+        /// </summary>
         public Brush AnchorColor
         {
             get { return (Brush)GetValue(AnchorColorProperty); }
             set { SetValue(AnchorColorProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnchorColor.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnchorColorProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty AnchorColorProperty =
             DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the color of orbits
+        /// </summary>
         public Brush OrbitColor
         {
             get { return (Brush)GetValue(OrbitColorProperty); }
             set { SetValue(OrbitColorProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OrbitColor.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OrbitColorProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty OrbitColorProperty =
             DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the dash array for the orbit
+        /// </summary>
         public DoubleCollection OrbitDashArray
         {
             get { return (DoubleCollection)GetValue(OrbitDashArrayProperty); }
             set { SetValue(OrbitDashArrayProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OrbitDashArray.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OrbitDashArrayProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty OrbitDashArrayProperty =
             DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(SpaceView), new PropertyMetadata(null, OnOrbitPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the thickness of the anchors
+        /// </summary>
         public double AnchorThickness
         {
             get { return (double)GetValue(AnchorThicknessProperty); }
             set { SetValue(AnchorThicknessProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnchorThickness.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="AnchorThicknessProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty AnchorThicknessProperty =
             DependencyProperty.Register("AnchorThickness", typeof(double), typeof(double), new PropertyMetadata(1d, OnAnchorPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating the thickness of the orbits
+        /// </summary>
         public double OrbitThickness
         {
             get { return (double)GetValue(OrbitThicknessProperty); }
             set { SetValue(OrbitThicknessProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for OrbitThickness.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="OrbitThicknessProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty OrbitThicknessProperty =
             DependencyProperty.Register("OrbitThickness", typeof(double), typeof(SpaceView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
 
-        private static void OnOrbitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-            if (sv._orbitsContainer == null)
-            {
-                return;
-            }
-
-            foreach (var orbit in sv._orbitsContainer.Children)
-            {
-                sv.SetOrbitProperties(orbit as Ellipse);
-            }
-        }
-
-        private static void OnAnchorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-            if (sv._anchorCanvas == null)
-            {
-                return;
-            }
-
-            foreach (var anchor in sv._anchorCanvas.Children)
-            {
-                sv.SetAnchorProperties(anchor as Line);
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets a value representing the center element
+        /// </summary>
         public object CenterContent
         {
             get { return (int)GetValue(CenterContentProperty); }
             set { SetValue(CenterContentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CenterContent.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="CenterContentProperty"/> property
+        /// </summary>
         public static readonly DependencyProperty CenterContentProperty =
             DependencyProperty.Register("CenterContent", typeof(int), typeof(SpaceView), new PropertyMetadata(0));
 
-        private static void OnAchorsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-
-            if (e.NewValue == e.OldValue) return;
-
-            if (!(bool)e.NewValue)
-            {
-                sv.ClearAnchors();
-            }
-            else
-            {
-                sv.ItemsPanelRoot?.InvalidateArrange();
-            }
-        }
-
-        private static void OnOrbitsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-
-            if (e.NewValue == e.OldValue) return;
-
-            if (!(bool)e.NewValue)
-            {
-                sv.ClearOrbits();
-            }
-            else
-            {
-                sv.ItemsPanelRoot?.InvalidateArrange();
-            }
-        }
-
-        private static void OnItemSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-
-            if (sv.ItemsPanelRoot != null)
-            {
-                foreach (var element in sv.ItemsPanelRoot.Children)
-                {
-                    if (element is ContentControl && (element as ContentControl).DataContext is SpaceViewItem)
-                    {
-                        var item = (element as FrameworkElement).DataContext as SpaceViewItem;
-                        if (item.Diameter >= 0)
-                        {
-                            double diameter = Math.Min(item.Diameter, 1d);
-                            var content = (element as ContentControl).Content as FrameworkElement;
-                            content.Width = content.Height = (diameter * (sv.MaxItemSize - sv.MinItemSize)) + sv.MinItemSize;
-                        }
-                    }
-                }
-            }
-
-            sv.ItemsPanelRoot?.InvalidateArrange();
-        }
-
-        private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var sv = d as SpaceView;
-
-            if (sv.Items.Count == 0) return;
-
-            foreach (var control in sv._panel.Children)
-            {
-                if ((bool)e.NewValue)
-                {
-                    sv.EnableItemInteraction(control as ContentControl);
-                }
-                else
-                {
-                    sv.DisableItemInteraction(control as ContentControl);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the container used for each item
-        /// </summary>
-        /// <returns>Returns always a ContentControl</returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
             var element = new ContentControl();
@@ -371,6 +329,118 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _anchors.Remove(element);
                 _anchorCanvas.Children.Remove(anchor);
+            }
+        }
+
+        private static void OnAchorsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+
+            if (e.NewValue == e.OldValue)
+            {
+                return;
+            }
+
+            if (!(bool)e.NewValue)
+            {
+                sv.ClearAnchors();
+            }
+            else
+            {
+                sv.ItemsPanelRoot?.InvalidateArrange();
+            }
+        }
+
+        private static void OnOrbitsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+
+            if (e.NewValue == e.OldValue)
+            {
+                return;
+            }
+
+            if (!(bool)e.NewValue)
+            {
+                sv.ClearOrbits();
+            }
+            else
+            {
+                sv.ItemsPanelRoot?.InvalidateArrange();
+            }
+        }
+
+        private static void OnItemSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+
+            if (sv.ItemsPanelRoot != null)
+            {
+                foreach (var element in sv.ItemsPanelRoot.Children)
+                {
+                    if (element is ContentControl && (element as ContentControl).DataContext is SpaceViewItem)
+                    {
+                        var item = (element as FrameworkElement).DataContext as SpaceViewItem;
+                        if (item.Diameter >= 0)
+                        {
+                            double diameter = Math.Min(item.Diameter, 1d);
+                            var content = (element as ContentControl).Content as FrameworkElement;
+                            content.Width = content.Height = (diameter * (sv.MaxItemSize - sv.MinItemSize)) + sv.MinItemSize;
+                        }
+                    }
+                }
+            }
+
+            sv.ItemsPanelRoot?.InvalidateArrange();
+        }
+
+        private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+
+            if (sv.Items.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var control in sv.ItemsPanelRoot.Children)
+            {
+                if ((bool)e.NewValue)
+                {
+                    sv.EnableItemInteraction(control as ContentControl);
+                }
+                else
+                {
+                    sv.DisableItemInteraction(control as ContentControl);
+                }
+            }
+        }
+
+        private static void OnOrbitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+            if (sv._orbitsContainer == null)
+            {
+                return;
+            }
+
+            foreach (var orbit in sv._orbitsContainer.Children)
+            {
+                sv.SetOrbitProperties(orbit as Ellipse);
+            }
+        }
+
+        private static void OnAnchorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sv = d as SpaceView;
+            if (sv._anchorCanvas == null)
+            {
+                return;
+            }
+
+            foreach (var anchor in sv._anchorCanvas.Children)
+            {
+                sv.SetAnchorProperties(anchor as Line);
             }
         }
 
@@ -583,7 +653,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var elementVisual = ElementCompositionPreview.GetElementVisual(element);
             var centerVisual = ElementCompositionPreview.GetElementVisual(_centerContent);
 
-            string expression = "";
+            string expression = string.Empty;
             var elementY = "(elementVisual.Offset.Y + elementVisual.Size.Y / 2)";
             var centerY = "(centerVisual.Offset.Y + centerVisual.Size.Y / 2)";
             var elementX = "(elementVisual.Offset.X + elementVisual.Size.X / 2)";
@@ -592,13 +662,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var startingAngle = Math.Atan2(y, x);
 
             if (startingAngle > Math.PI / 4 && startingAngle < 3 * Math.PI / 4)
+            {
                 expression = $"Atan((-1 * ({elementX} - {centerX})) / ( {elementY} - {centerY})) - PI / 2";
+            }
             else if (startingAngle >= 3 * Math.PI / 4 || startingAngle < -3 * Math.PI / 4)
+            {
                 expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX})) + PI";
+            }
             else if (startingAngle >= -3 * Math.PI / 4 && startingAngle < Math.PI / -4)
+            {
                 expression = $"Atan(({elementX} - {centerX}) / (-1 * ({elementY} - {centerY}))) + PI  / 2";
+            }
             else
+            {
                 expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX}))";
+            }
 
             anchorVisual.CenterPoint = new Vector3(0);
             var rotationExpression = _compositor.CreateExpressionAnimation();
@@ -635,16 +713,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ApplyImplicitOffsetAnimation(UIElement element, double delay = 0)
         {
             // don't use animations if running in designer
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled) return;
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
 
-            if (_compositor == null) return;
+            if (_compositor == null)
+            {
+                return;
+            }
 
             var easeIn = _compositor.CreateCubicBezierEasingFunction(new Vector2(0.03f, 1.11f), new Vector2(.66f, 1.11f));
 
             var offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.Target = nameof(Visual.Offset);
             offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue", easeIn);
-            offsetAnimation.Duration = TimeSpan.FromMilliseconds(200);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(_animationDuration);
             offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
 
             var implicitAnimations = _compositor.CreateImplicitAnimationCollection();

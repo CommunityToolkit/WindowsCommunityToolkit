@@ -9,16 +9,25 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class SpaceViewPanel : Panel
+    /// <summary>
+    /// A panel used by the <see cref="SpaceView"/> control
+    /// </summary>
+    public class SpaceViewPanel : Panel
     {
         private SpaceView _spaceView;
 
+        /// <summary>
+        /// Event raised when a single element is arranged
+        /// </summary>
         public event EventHandler<SpaceViewPanelItemArrangedArgs> ItemArranged;
 
+        /// <summary>
+        /// Event raised when all elements are arranged
+        /// </summary>
         public event EventHandler<SpaceViewPanelItemsArrangedArgs> ItemsArranged;
 
         /// <summary>
-        /// Gets the Current SpaceView control
+        /// Gets the Current <see cref="SpaceView"/> control
         /// </summary>
         public SpaceView SpaceView
         {

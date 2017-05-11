@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The SpaceViewItemCollection provides typed collection of <see cref="SpaceViewItem"/>.
+    /// </summary>
     public class SpaceViewItemCollection : List<SpaceViewItem>
     {
     }
