@@ -1,4 +1,4 @@
-# SpaceView XAML Control 
+# SpaceView : ItemsControl
 
 The `SpaceView` control provides a new control, inherited from the `ItemsControl`. All items are arranged in circle around a center element
 
@@ -53,27 +53,63 @@ The `SpaceView` control provides a new control, inherited from the `ItemsControl
 ## SpaceView Properties
 
 ### IsItemClickEnabled
+When set to true, the `ItemClicked` event is fired when an item is clicked. This property also enables input interactions including animations
 
 ### OrbitsEnabled
+When set to true, each item will have an orbit drawn
 
 ### OrbitColor
+When Orbits are enabled, this property specifies the orbit color
 
 ### OrbitThickness
+When Orbits are enabled, this property specifies the orbit line thickness
 
 ### OrbitDashArray
+When Orbits are enabled, this property specifies the orbit line dash array
 
 ### AnchorsEnabled
+When set to true, each item will have an anchor line connecting it to the center element
 
 ### AnchorColor
+When Anchors are enabled, this property specifies the anchor color
 
 ### AnchorThickness
+When Anchors are enabled, this property specifies the anchor line thickness
+
+### MinItemSize
+MinItemSize specifies the minimum size for items
+
+> Note: for this property to work, the data context of each item has to be a `SpaceViewItem` and Diameter property set between 0 and 1 
+
+### MaxItemSize
+MinItemSize specifies the maximum size for items
+
+> Note: for this property to work, the data context of each item has to be a `SpaceViewItem` and Diameter property set between 0 and 1 
 
 ## SpaceView Events
 
 ### ItemClicked
+Event is raised when item is clicked
+
+> Note: `IsItemClickedEnabled` should be true for this event to work
 
 ## SpaceViewItem
+SpaceViewItem is a helper class used for specifying size and distance of each item of the `SpaceView`. To work properly, the `ItemSource` of the `SpaceView` should be set to en *IEnumerable< SpaceViewItem >*. Objects extending SpaceViewItem will also work. Alternatively, SpaceViewItem has the `Item` object property that can be used to store additional objects and properties.
 
+### Diameter
+A double value between 0 and 1, 0 indicating `MinItemSize` and 1 indicating `MaxItemSize`
+
+### Distance
+A double value between 0 and 1, 0 indicating closest to center and 1 indication farthest from center
+
+### Label
+A string value used for specifying AutomationProperties
+
+### Image
+ImageSource to be shown when no ItemTemplate is specified
+
+### Item
+Object property useful for adding additional properties
 
 ## Default Template 
 
