@@ -41,41 +41,41 @@ namespace Microsoft.Toolkit.Uwp.UI
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="DependencyObject"/>
+        /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Hyperlink"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> from which to get the associated <see cref="ICommand"/> instance</param>
-        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="DependencyObject"/> or null</returns>
-        public static ICommand GetCommand(DependencyObject obj)
+        /// <param name="obj">The <see cref="Hyperlink"/> from which to get the associated <see cref="ICommand"/> instance</param>
+        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="Hyperlink"/> or null</returns>
+        public static ICommand GetCommand(Hyperlink obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
         }
 
         /// <summary>
-        /// Sets the <see cref="ICommand"/> instance assocaited with the specified <see cref="DependencyObject"/>
+        /// Sets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Hyperlink"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> to associated the <see cref="ICommand"/> instance to</param>
-        /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="DependencyObject"/></param>
-        public static void SetCommand(DependencyObject obj, ICommand value)
+        /// <param name="obj">The <see cref="Hyperlink"/> to associated the <see cref="ICommand"/> instance to</param>
+        /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="Hyperlink"/></param>
+        public static void SetCommand(Hyperlink obj, ICommand value)
         {
             obj.SetValue(CommandProperty, value);
         }
 
         /// <summary>
-        /// Gets the <see cref="CommandProperty"/> instance assocaited with the specified <see cref="DependencyObject"/>
+        /// Gets the <see cref="CommandProperty"/> instance assocaited with the specified <see cref="Hyperlink"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> from which to get the associated <see cref="CommandProperty"/> value</param>
-        /// <returns>The <see cref="CommandProperty"/> value associated with the the <see cref="DependencyObject"/> or null</returns>
-        public static object GetCommandParameter(DependencyObject obj)
+        /// <param name="obj">The <see cref="Hyperlink"/> from which to get the associated <see cref="CommandProperty"/> value</param>
+        /// <returns>The <see cref="CommandProperty"/> value associated with the the <see cref="Hyperlink"/> or null</returns>
+        public static object GetCommandParameter(Hyperlink obj)
         {
             return obj.GetValue(CommandParameterProperty);
         }
 
         /// <summary>
-        /// Sets the <see cref="CommandProperty"/> assocaited with the specified <see cref="DependencyObject"/>
+        /// Sets the <see cref="CommandProperty"/> assocaited with the specified <see cref="Hyperlink"/>
         /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> to associated the <see cref="CommandProperty"/> instance to</param>
+        /// <param name="obj">The <see cref="Hyperlink"/> to associated the <see cref="CommandProperty"/> instance to</param>
         /// <param name="value">The <see cref="object"/> to set the <see cref="CommandProperty"/> to</param>
-        public static void SetCommandParameter(DependencyObject obj, object value)
+        public static void SetCommandParameter(Hyperlink obj, object value)
         {
             obj.SetValue(CommandParameterProperty, value);
         }

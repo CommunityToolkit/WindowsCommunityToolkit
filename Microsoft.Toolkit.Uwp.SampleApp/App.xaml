@@ -2,12 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
-             xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
-             xmlns:toolKitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
              RequestedTheme="Light">
 
     <Application.Resources>
+
         <!--  Colors  -->
         <Color x:Key="Grey-01">#FF333333</Color>
         <Color x:Key="Grey-02">#FF444444</Color>
@@ -66,15 +67,16 @@
                             <WebView Name="webView"
                                      Grid.Row="0"
                                      Visibility="Collapsed" />
-                            <StackPanel Grid.Row="1"
-                                        HorizontalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <Button x:Name="CopyButton"
-                                        Margin="5"
-                                        Content="Copy" />
-                                <Button x:Name="PrintButton"
-                                        Margin="5"
-                                        Content="Print" />
+                            <StackPanel 
+                                    Orientation="Horizontal"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center">
+                                <Button x:Name="CopyButton"                                    
+                                    Margin="5"                                    
+                                    Content="Copy" />
+                                <Button x:Name="PrintButton"                                    
+                                    Margin="5"                                    
+                                    Content="Print" />
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>
@@ -132,28 +134,28 @@
 
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-        <Style TargetType="toolKitControls:HamburgerMenu">
+        <Style x:Key="HamburgerMenuWithSearchTemplate" TargetType="controls1:HamburgerMenu">
             <Setter Property="HamburgerMenuTemplate">
                 <Setter.Value>
                     <DataTemplate>
                         <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  Glyph="&#xE700;" />
+                              Glyph="&#xE700;" />
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="toolKitControls:HamburgerMenu">
+                    <ControlTemplate TargetType="controls1:HamburgerMenu">
                         <Grid>
                             <SplitView x:Name="MainSplitView"
-                                       CompactPaneLength="{TemplateBinding CompactPaneLength}"
-                                       DisplayMode="{TemplateBinding DisplayMode}"
-                                       IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       IsTabStop="False"
-                                       OpenPaneLength="{TemplateBinding OpenPaneLength}"
-                                       PaneBackground="{TemplateBinding PaneBackground}"
-                                       PanePlacement="{TemplateBinding PanePlacement}">
+                                   CompactPaneLength="{TemplateBinding CompactPaneLength}"
+                                   DisplayMode="{TemplateBinding DisplayMode}"
+                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   IsTabStop="False"
+                                   OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                                   PaneBackground="{TemplateBinding PaneBackground}"
+                                   PanePlacement="{TemplateBinding PanePlacement}">
                                 <SplitView.Pane>
                                     <Grid x:Name="PaneGrid">
                                         <Grid.RowDefinitions>
@@ -167,38 +169,39 @@
                                         <Grid Grid.Row="1"
                                               Height="{TemplateBinding HamburgerHeight}">
                                             <Button Name="SearchButton"
-                                                    Width="{TemplateBinding HamburgerWidth}"
-                                                    Height="{TemplateBinding HamburgerHeight}"
-                                                    Padding="0"
-                                                    VerticalAlignment="Top"
-                                                    AutomationProperties.Name="Search button"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    TabIndex="1"
-                                                    Visibility="{Binding ElementName=MainSplitView, Path=IsPaneOpen, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
-                                                <SymbolIcon Foreground="{TemplateBinding Foreground}"
-                                                            Symbol="Find" />
+                                                Width="{TemplateBinding HamburgerWidth}"
+                                                Height="{TemplateBinding HamburgerHeight}"
+                                                Padding="0"
+                                                VerticalAlignment="Top"
+                                                AutomationProperties.Name="Search button"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Visibility="{Binding ElementName=MainSplitView, Path=IsPaneOpen, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"
+                                                TabIndex="1">
+                                                <SymbolIcon Symbol="Find"
+                                                            Foreground="{TemplateBinding Foreground}"/>
                                             </Button>
                                             <AutoSuggestBox x:Name="SearchBox"
-                                                            Margin="5"
-                                                            VerticalAlignment="Center"
-                                                            IsTabStop="True"
-                                                            QueryIcon="Find"
-                                                            TabIndex="1"
-                                                            Visibility="{Binding ElementName=MainSplitView, Path=IsPaneOpen, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                       QueryIcon="Find"
+                                                       Margin="5"
+                                                       IsTabStop="True"
+                                                       TabIndex="1"
+                                                       VerticalAlignment="Center"
+                                                       Visibility="{Binding ElementName=MainSplitView, Path=IsPaneOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            </AutoSuggestBox>
                                         </Grid>
                                         <ListView Name="ButtonsListView"
-                                                  Grid.Row="2"
-                                                  Width="{TemplateBinding OpenPaneLength}"
-                                                  AutomationProperties.Name="Menu items"
-                                                  IsItemClickEnabled="True"
-                                                  ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                  ItemsSource="{TemplateBinding ItemsSource}"
-                                                  SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                  SelectionMode="Single"
-                                                  TabIndex="1">
+                                              Grid.Row="2"
+                                              Width="{TemplateBinding OpenPaneLength}"
+                                              AutomationProperties.Name="Menu items"
+                                              IsItemClickEnabled="True"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              ItemsSource="{TemplateBinding ItemsSource}"
+                                              SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                              SelectionMode="Single"
+                                              TabIndex="1">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="Padding" Value="0" />
@@ -207,24 +210,24 @@
                                         </ListView>
 
                                         <Grid Grid.Row="3"
-                                              Visibility="{TemplateBinding OptionsVisibility}">
+                                          Visibility="{TemplateBinding OptionsVisibility}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <ListView Name="OptionsListView"
-                                                      Grid.Row="1"
-                                                      Width="{TemplateBinding OpenPaneLength}"
-                                                      VerticalAlignment="Bottom"
-                                                      AutomationProperties.Name="Option items"
-                                                      IsItemClickEnabled="True"
-                                                      ItemTemplate="{TemplateBinding OptionsItemTemplate}"
-                                                      ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
-                                                      ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                                      SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      TabIndex="2">
+                                                  Grid.Row="1"
+                                                  Width="{TemplateBinding OpenPaneLength}"
+                                                  VerticalAlignment="Bottom"
+                                                  AutomationProperties.Name="Option items"
+                                                  IsItemClickEnabled="True"
+                                                  ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                                                  ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
+                                                  ItemsSource="{TemplateBinding OptionsItemsSource}"
+                                                  SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  TabIndex="2">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="Padding" Value="0" />
@@ -236,28 +239,30 @@
                                     </Grid>
                                 </SplitView.Pane>
                                 <ContentPresenter x:Name="ContentPart"
-                                                  AutomationProperties.Name="Content"
-                                                  Content="{TemplateBinding Content}" />
+                                              AutomationProperties.Name="Content"
+                                              Content="{TemplateBinding Content}" />
                             </SplitView>
                             <Button Name="HamburgerButton"
-                                    Width="{TemplateBinding HamburgerWidth}"
-                                    Height="{TemplateBinding HamburgerHeight}"
-                                    Padding="0"
-                                    VerticalAlignment="Top"
-                                    AutomationProperties.Name="Main button"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    TabIndex="0">
+                                Width="{TemplateBinding HamburgerWidth}"
+                                Height="{TemplateBinding HamburgerHeight}"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                AutomationProperties.Name="Main button"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                TabIndex="0">
                                 <ContentControl Margin="{TemplateBinding HamburgerMargin}"
-                                                ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                                Foreground="{TemplateBinding Foreground}"
-                                                IsTabStop="False" />
+                                            ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                                            Foreground="{TemplateBinding Foreground}"
+                                            IsTabStop="False" />
                             </Button>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+
     </Application.Resources>
 
 </Application>

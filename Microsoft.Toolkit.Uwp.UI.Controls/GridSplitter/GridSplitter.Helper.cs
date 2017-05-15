@@ -30,44 +30,102 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
         }
 
-        private void SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
+        private bool SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
         {
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
+
+            var minWidth = columnDefinition.MinWidth;
+            if (!double.IsNaN(minWidth) && newWidth < minWidth)
+            {
+                newWidth = minWidth;
+            }
+
+            var maxWidth = columnDefinition.MaxWidth;
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
+            {
+                newWidth = maxWidth;
+            }
+
             if (newWidth > ActualWidth)
             {
                 columnDefinition.Width = new GridLength(newWidth, unitType);
+                return true;
             }
+
+            return false;
         }
 
         private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double horizontalChange)
         {
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
-            if (newWidth > ActualWidth)
+
+            var minWidth = columnDefinition.MinWidth;
+            if (!double.IsNaN(minWidth) && newWidth < minWidth)
             {
+                return false;
+            }
+
+            var maxWidth = columnDefinition.MaxWidth;
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
+            {
+                return false;
+            }
+
+            if (newWidth <= ActualWidth)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
+        {
+            var newHeight = rowDefinition.ActualHeight + verticalChange;
+
+            var minHeight = rowDefinition.MinHeight;
+            if (!double.IsNaN(minHeight) && newHeight < minHeight)
+            {
+                newHeight = minHeight;
+            }
+
+            var maxWidth = rowDefinition.MaxHeight;
+            if (!double.IsNaN(maxWidth) && newHeight > maxWidth)
+            {
+                newHeight = maxWidth;
+            }
+
+            if (newHeight > ActualHeight)
+            {
+                rowDefinition.Height = new GridLength(newHeight, unitType);
                 return true;
             }
 
             return false;
-        }
-
-        private void SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
-        {
-            var newHeight = rowDefinition.ActualHeight + verticalChange;
-            if (newHeight > ActualHeight)
-            {
-                rowDefinition.Height = new GridLength(newHeight, unitType);
-            }
         }
 
         private bool IsValidRowHeight(RowDefinition rowDefinition, double verticalChange)
         {
             var newHeight = rowDefinition.ActualHeight + verticalChange;
-            if (newHeight > ActualHeight)
+
+            var minHeight = rowDefinition.MinHeight;
+            if (!double.IsNaN(minHeight) && newHeight < minHeight)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            var maxHeight = rowDefinition.MaxHeight;
+            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
+            {
+                return false;
+            }
+
+            if (newHeight <= ActualHeight)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         // Return the targeted Column based on the resize behavior

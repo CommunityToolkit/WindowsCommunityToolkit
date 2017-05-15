@@ -234,7 +234,6 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
-    <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
@@ -385,7 +384,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
-    <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\ClipboardHelper\ClipboardHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -403,10 +402,9 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
-      <DependentUpon>MenuPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ClipboardHelper\ClipboardHelperPage.xaml.cs">
+      <DependentUpon>ClipboardHelperPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>
@@ -649,18 +647,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\Menu\MenuPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SamplePages\ClipboardHelper\ClipboardHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Menu\MenuStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
