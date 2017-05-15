@@ -35,13 +35,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
 
             var minWidth = columnDefinition.MinWidth;
-            if (minWidth != double.NaN && newWidth < minWidth)
+            if (!double.IsNaN(minWidth) && newWidth < minWidth)
             {
                 newWidth = minWidth;
             }
 
             var maxWidth = columnDefinition.MaxWidth;
-            if (maxWidth != double.NaN && newWidth > maxWidth)
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
             {
                 newWidth = maxWidth;
             }
@@ -63,13 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newWidth = columnDefinition.ActualWidth + horizontalChange;
 
             var minWidth = columnDefinition.MinWidth;
-            if (minWidth != double.NaN && newWidth < minWidth)
+            if (!double.IsNaN(minWidth) && newWidth < minWidth)
             {
                 return false;
             }
 
             var maxWidth = columnDefinition.MaxWidth;
-            if (maxWidth != double.NaN && newWidth > maxWidth)
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
             {
                 return false;
             }
@@ -87,13 +87,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newHeight = rowDefinition.ActualHeight + verticalChange;
 
             var minHeight = rowDefinition.MinHeight;
-            if (minHeight != double.NaN && newHeight < minHeight)
+            if (!double.IsNaN(minHeight) && newHeight < minHeight)
             {
                 newHeight = minHeight;
             }
 
             var maxWidth = rowDefinition.MaxHeight;
-            if (maxWidth != double.NaN && newHeight > maxWidth)
+            if (!double.IsNaN(maxWidth) && newHeight > maxWidth)
             {
                 newHeight = maxWidth;
             }
@@ -115,13 +115,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newHeight = rowDefinition.ActualHeight + verticalChange;
 
             var minHeight = rowDefinition.MinHeight;
-            if (minHeight != double.NaN && newHeight < minHeight)
+            if (!double.IsNaN(minHeight) && newHeight < minHeight)
             {
                 return false;
             }
 
             var maxHeight = rowDefinition.MaxHeight;
-            if (maxHeight != double.NaN && newHeight > maxHeight)
+            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
             {
                 return false;
             }
