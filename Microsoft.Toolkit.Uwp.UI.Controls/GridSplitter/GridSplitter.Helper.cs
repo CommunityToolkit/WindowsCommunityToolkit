@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            return false;
+            return true;
         }
 
         // Return the targeted Column based on the resize behavior
