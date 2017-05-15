@@ -182,8 +182,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Carousel carouselControl = (Carousel)d;
 
-            if (e.Property == SelectedIndexProperty && (int)e.NewValue < 0)
+            if (e.Property == SelectedIndexProperty)
             {
+                if (carouselControl.Items.Count < (int)e.NewValue + 1)
+                {
+                    return;
+                }
+
                 var item = carouselControl.Items[(int)e.NewValue];
                 carouselControl.FocusContainerFromIndex((int)e.NewValue);
 
