@@ -386,7 +386,7 @@
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
     <Content Include="SamplePages\ClipboardHelper\ClipboardHelperCode.bind" />
-    <None Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\Menu\Menu.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
