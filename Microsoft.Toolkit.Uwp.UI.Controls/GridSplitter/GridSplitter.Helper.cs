@@ -48,11 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newWidth > ActualWidth)
             {
-                if (columnDefinition.Width.Value != newWidth)
-                {
-                    columnDefinition.Width = new GridLength(newWidth, unitType);
-                    return true;
-                }
+                columnDefinition.Width = new GridLength(newWidth, unitType);
+                return true;
             }
 
             return false;
@@ -100,11 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newHeight > ActualHeight)
             {
-                if (rowDefinition.Height.Value != newHeight)
-                {
-                    rowDefinition.Height = new GridLength(newHeight, unitType);
-                    return true;
-                }
+                rowDefinition.Height = new GridLength(newHeight, unitType);
+                return true;
             }
 
             return false;
