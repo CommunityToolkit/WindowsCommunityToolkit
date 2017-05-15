@@ -8,9 +8,17 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <commands:NewProjectCommand x:Key="NewProject" />
-        <commands:NewFileCommand x:Key="NewFile" />
-        <commands:GenericCommand x:Key="GenericCommand" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MenuStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <commands:NewProjectCommand x:Key="NewProject" />
+            <commands:NewFileCommand x:Key="NewFile" />
+            <commands:GenericCommand x:Key="GenericCommand" />
+        </ResourceDictionary>
+
+
     </Page.Resources>
 
     <Grid Background="{StaticResource Brush-Grey-05}">
