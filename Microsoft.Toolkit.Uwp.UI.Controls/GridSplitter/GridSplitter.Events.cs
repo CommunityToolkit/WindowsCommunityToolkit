@@ -69,6 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc />
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             var step = 1;
