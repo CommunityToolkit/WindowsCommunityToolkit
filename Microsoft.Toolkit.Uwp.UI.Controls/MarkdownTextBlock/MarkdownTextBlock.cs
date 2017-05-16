@@ -50,6 +50,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<LinkClickedEventArgs> LinkClicked;
 
         /// <summary>
+        /// Gets the dependency property for <see cref="ImageStretch"/>.
+        /// </summary>
+        public static readonly DependencyProperty ImageStretchProperty = DependencyProperty.Register(
+            nameof(ImageStretch),
+            typeof(Stretch),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(Stretch.None, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch
+        {
+            get { return (Stretch)GetValue(ImageStretchProperty); }
+            set { SetValue(ImageStretchProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the markdown text to display.
         /// </summary>
         public string Text
@@ -291,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Brush Header1Foreground
         {
-            get { return (Brush) GetValue(Header1ForegroundProperty); }
+            get { return (Brush)GetValue(Header1ForegroundProperty); }
             set { SetValue(Header1ForegroundProperty, value); }
         }
 
@@ -1135,7 +1153,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     TableCellPadding = TableCellPadding,
                     TableMargin = TableMargin,
                     TextWrapping = TextWrapping,
-                    LinkForeground = LinkForeground
+                    LinkForeground = LinkForeground,
+                    ImageStretch = ImageStretch
                 };
                 _rootElement.Child = renderer.Render();
             }

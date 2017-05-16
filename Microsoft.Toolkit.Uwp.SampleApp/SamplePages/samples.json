@@ -4,6 +4,14 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
       {
+        "Name": "Carousel",
+        "Type": "CarouselPage",
+        "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
+        "XamlCodeFile": "CarouselCode.bind",
+        "Icon": "/SamplePages/Carousel/Carousel.png"
+      },
+      {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -76,6 +84,14 @@
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialGauge.md"
+      },
+      {
+        "Name": "RadialProgressBar",
+        "Type": "RadialProgressBarPage",
+        "About": "The radial progress bar displays progress as a circle getting filled.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
+        "XamlCodeFile": "RadialProgressBarCode.bind",
+        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png"
       },
       {
         "Name": "SlidableListItem",
@@ -296,6 +312,17 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Blur.md"
       },
       {
+        "Name": "Saturation",
+        "Type": "SaturationBehaviorPage",
+        "About": "Saturate XAML elements using composition",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+        "CodeFile": "SaturationBehaviorCode.bind",
+        "XamlCodeFile": "SaturationBehaviorXaml.bind",
+        "Icon": "/SamplePages/Saturation/saturationBehavior.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/animations/Saturation.md"
+      },
+      {
         "Name": "Light",
         "Type": "LightBehaviorPage",
         "About": "Light XAML elements using composition",
@@ -509,6 +536,15 @@
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
+      },
+      {
+        "Name": "ClipboardHelper",
+        "Type": "ClipboardHelperPage",
+        "About": "The ClipboardHelper can set/get clipboard easier",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ClipboardHelper",
+        "CodeFile": "ClipboardHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ClipboardHelper.md"
       }
     ]
   },

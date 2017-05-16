@@ -13,6 +13,7 @@
       extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       extensions:StatusBar.IsVisible="False"
+      Loaded="Shell_OnLoaded"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
@@ -63,7 +64,8 @@
                             ItemTemplate="{StaticResource ButtonTemplate}"
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource OptionTemplate}"
-                            PaneBackground="{StaticResource Brush-Grey-02}">
+                            PaneBackground="{StaticResource Brush-Grey-02}"
+                            Style="{StaticResource HamburgerMenuWithSearchTemplate}">
         <Grid x:Name="RootGrid"
               Background="{StaticResource Brush-Grey-05}">
             <Grid.ColumnDefinitions>
@@ -221,6 +223,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -241,6 +245,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -261,6 +267,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
 
                 </VisualState>

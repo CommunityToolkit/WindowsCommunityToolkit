@@ -19,7 +19,7 @@ Line color can be defined with `LineBrush` property.
 
 ## Example Image
 
-![AlignmentGrid image](../resources/images/DeveloperTools-Alignment.jpg "AlignmentGrid")
+![AlignmentGrid image](../resources/images/DeveloperTools-AlignmentGrid.JPG "AlignmentGrid")
 
 ## Requirements (Windows 10 Device Family)
 

@@ -68,7 +68,12 @@ namespace Microsoft.Toolkit.Uwp
             ConnectivityLevel = profile.GetNetworkConnectivityLevel();
             ConnectionCost = profile.GetConnectionCost();
             SignalStrength = profile.GetSignalBars();
-            networkNames.AddRange(profile.GetNetworkNames());
+
+            var names = profile.GetNetworkNames();
+            if (names?.Count > 0)
+            {
+                networkNames.AddRange(names);
+            }
 
             switch (ConnectivityLevel)
             {

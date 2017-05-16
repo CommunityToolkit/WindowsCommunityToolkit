@@ -44,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         }
 
         /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch { get; set; }
+
+        /// <summary>
         /// Gets or sets a brush that provides the background of the control.
         /// </summary>
         public Brush Background { get; set; }
@@ -214,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the margin for level 4 headers.
         /// </summary>
         public Thickness Header4Margin { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the foreground brush for level 4 headers.
         /// </summary>
@@ -900,15 +905,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
+            // if url is not absolute we have to return as local images are not supported
+            if (!element.Url.StartsWith("http") && !element.Url.StartsWith("ms-app"))
+            {
+                RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
+                return;
+            }
+
             image.Source = new BitmapImage(new Uri(element.Url));
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = Stretch.None;
+            image.Stretch = ImageStretch;
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 
-            // Add it to the current inlines
-            inlineCollection.Add(imageContainer);
+            // Try to add it to the current inlines
+            // Could fail because some containers like Hyperlink cannot have inlined images
+            try
+            {
+                inlineCollection.Add(imageContainer);
+            }
+            catch
+            {
+                // Ignore error
+            }
         }
 
         /// <summary>

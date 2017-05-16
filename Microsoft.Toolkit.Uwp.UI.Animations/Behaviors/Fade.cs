@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <seealso>
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class Fade : CompositionBehaviorBase
+    public class Fade : CompositionBehaviorBase<UIElement>
     {
         /// <summary>
         /// The Opacity value of the associated object
