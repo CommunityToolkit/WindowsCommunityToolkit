@@ -63,12 +63,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            foreach (var child in Children)
+            var width = availableSize.Width;
+            var height = availableSize.Height;
+
+            if (double.IsInfinity(width))
             {
-                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                width = Window.Current.Bounds.Width;
             }
 
-            return availableSize;
+            if (double.IsInfinity(height))
+            {
+                height = Window.Current.Bounds.Height;
+            }
+
+            var finalSize = new Size(width, height);
+
+            foreach (var child in Children)
+            {
+                child.Measure(finalSize);
+            }
+
+            return finalSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
