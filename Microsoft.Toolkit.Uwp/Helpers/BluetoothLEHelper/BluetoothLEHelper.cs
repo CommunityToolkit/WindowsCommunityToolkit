@@ -11,16 +11,17 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Enumeration;
+using Windows.Foundation.Metadata;
+using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp
 {
@@ -33,11 +34,6 @@ namespace Microsoft.Toolkit.Uwp
         /// AQS search string used to find bluetooth devices.
         /// </summary>
         private const string BluetoothLeDeviceWatcherAqs = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-
-        /// <summary>
-        /// Lock around the <see cref="BluetoothLeDevices"/>. Used in the Add/Removed/Updated callbacks
-        /// </summary>
-        private readonly object _bluetoothLeDevicesLock = new object();
 
         /// <summary>
         /// We need to cache all DeviceInformation objects we get as they may
@@ -62,6 +58,11 @@ namespace Microsoft.Toolkit.Uwp
         private BluetoothAdapter _adapter;
 
         /// <summary>
+        /// Reader/Writer lock for when we are updating the collection.
+        /// </summary>
+        private ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="BluetoothLEHelper" /> class from being created.
         /// </summary>
         private BluetoothLEHelper()
@@ -72,17 +73,12 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the app context
         /// </summary>
-        public static BluetoothLEHelper Context { get; } = new BluetoothLEHelper();
+        public static BluetoothLEHelper Context { get; private set; }
 
         /// <summary>
         /// Gets the list of available bluetooth devices
         /// </summary>
         public ObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; } = new ObservableCollection<ObservableBluetoothLEDevice>();
-
-        /// <summary>
-        /// Gets or sets the selected characteristic
-        /// </summary>
-        public ObservableGattCharacteristics SelectedCharacteristic { get; set; } = null;
 
         /// <summary>
         /// Gets a value indicating whether app is currently enumerating
@@ -109,6 +105,11 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets a value indicating whether central role is supported by this device
         /// </summary>
         public bool IsCentralRoleSupported => _adapter.IsCentralRoleSupported;
+
+        /// <summary>
+        /// Gets a value indicating whether the Bluetooth LE Helper is supported.
+        /// </summary>
+        public bool IsBluetoothLeSupported => ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
 
         /// <summary>
         /// Starts enumeration of bluetooth device
@@ -143,7 +144,6 @@ namespace Microsoft.Toolkit.Uwp
             _deviceWatcher.Added += DeviceWatcher_Added;
             _deviceWatcher.Updated += DeviceWatcher_Updated;
             _deviceWatcher.Removed += DeviceWatcher_Removed;
-            _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
 
             _advertisementWatcher = new BluetoothLEAdvertisementWatcher();
             _advertisementWatcher.Received += AdvertisementWatcher_Received;
@@ -164,7 +164,6 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Added -= DeviceWatcher_Added;
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
-                _deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
 
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;
@@ -179,33 +178,36 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Initializes the app context
+        /// Initializes the app context.
         /// </summary>
         private async void Init()
         {
             _adapter = await BluetoothAdapter.GetDefaultAsync();
+            Context = new BluetoothLEHelper();
         }
 
         /// <summary>
         /// Updates device metadata based on advertisement received
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">The Bluetooth LE Advertisement Watcher.</param>
+        /// <param name="args">The advertisement.</param>
         private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                Windows.UI.Core.CoreDispatcherPriority.Normal,
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
                 () =>
                 {
-                    lock (_bluetoothLeDevicesLock)
+                    if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
                     {
-                        foreach (ObservableBluetoothLEDevice d in BluetoothLeDevices)
+                        foreach (var d in BluetoothLeDevices)
                         {
                             if (d.BluetoothAddressAsUlong == args.BluetoothAddress)
                             {
                                 d.ServiceCount = args.Advertisement.ServiceUuids.Count();
                             }
                         }
+
+                        _readerWriterLockSlim.ExitReadLock();
                     }
                 });
         }
@@ -213,220 +215,118 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Callback when a new device is found
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="deviceInfo"></param>
+        /// <param name="sender">The device watcher.</param>
+        /// <param name="deviceInfo">The update device information.</param>
         private async void DeviceWatcher_Added(DeviceWatcher sender, DeviceInformation deviceInfo)
         {
-            Debug.WriteLine(deviceInfo.Name);
             await AddDeviceToList(deviceInfo);
         }
 
         /// <summary>
         /// Executes when a device is updated
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="deviceInfoUpdate"></param>
+        /// <param name="sender">The device watcher.</param>
+        /// <param name="deviceInfoUpdate">The update device information.</param>
         private async void DeviceWatcher_Updated(DeviceWatcher sender, DeviceInformationUpdate deviceInfoUpdate)
         {
-            var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
-            device?.Update(deviceInfoUpdate);
+            ObservableBluetoothLEDevice device = null;
 
-            if (device != null)
+            if (_readerWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan.FromSeconds(1)))
             {
-                Debug.WriteLine("Updated: " + device.Name);
+                device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
+
+                if (device != null)
+                {
+                    await device.Update(deviceInfoUpdate);
+                }
+
+                _readerWriterLockSlim.ExitUpgradeableReadLock();
             }
 
-            //DeviceInformation di = null;
-            //var addNewDI = false;
+            if (device == null)
+            {
+                if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(2)))
+                {
+                    var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
 
-            //try
-            //{
-            //    // Protect against race condition if the task runs after the app stopped the deviceWatcher.
-            //    if (sender == _deviceWatcher)
-            //    {
-            //        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-            //            Windows.UI.Core.CoreDispatcherPriority.Normal,
-            //            async () =>
-            //            {
-            //                ObservableBluetoothLEDevice dev;
+                    if (unusedDevice != null)
+                    {
+                        _unusedDevices.Remove(unusedDevice);
+                        unusedDevice.Update(deviceInfoUpdate);
+                    }
 
-            //                // Need to lock as another DeviceWatcher might be modifying BluetoothLEDevices 
-            //                lock (_bluetoothLeDevicesLock)
-            //                {
-            //                    dev =
-            //                        BluetoothLeDevices.FirstOrDefault(
-            //                            device => device.DeviceInfo.Id == deviceInfoUpdate.Id);
-            //                    if (dev != null)
-            //                    {
-            //                        // Found a device in the list, updating it
-            //                        Debug.WriteLine("DeviceWatcher_Updated: Updating '{0}' - {1}", dev.Name,
-            //                            dev.DeviceInfo.Id);
-            //                        dev.Update(deviceInfoUpdate);
-            //                    }
-            //                    else
-            //                    {
-            //                        // Need to add this device. Can't do that here as we have the lock
-            //                        Debug.WriteLine("DeviceWatcher_Updated: Need to add {0}", deviceInfoUpdate.Id);
-            //                        addNewDI = true;
-            //                    }
-            //                }
+                    _readerWriterLockSlim.ExitWriteLock();
 
-            //                if (addNewDI)
-            //                {
-            //                    lock (_bluetoothLeDevicesLock)
-            //                    {
-            //                        di = _unusedDevices.FirstOrDefault(device => device.Id == deviceInfoUpdate.Id);
-            //                        if (di != null)
-            //                        {
-            //                            // We found this device before.
-            //                            _unusedDevices.Remove(di);
-            //                            di.Update(deviceInfoUpdate);
-            //                        }
-            //                        else
-            //                        {
-            //                            Debug.WriteLine(
-            //                                "DeviceWatcher_Updated: Received DeviceInfoUpdate for a unknown device, skipping");
-            //                        }
-            //                    }
-
-            //                    if (di != null)
-            //                    {
-            //                        await AddDeviceToList(di);
-            //                    }
-            //                }
-            //            });
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine("DeviceWatcher_Updated: " + ex.Message);
-            //}
+                    // The update to the unknown device means we should move it to the Bluetooth LE Device collection.
+                    await AddDeviceToList(unusedDevice);
+                }
+            }
         }
 
         /// <summary>
         /// Executes when a device is removed from enumeration
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="deviceInfoUpdate"></param>
+        /// <param name="sender">The device watcher.</param>
+        /// <param name="deviceInfoUpdate">An update of the device.</param>
         private async void DeviceWatcher_Removed(DeviceWatcher sender, DeviceInformationUpdate deviceInfoUpdate)
         {
-            var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
-            BluetoothLeDevices?.Remove(device);
-
-            if (device != null)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Debug.WriteLine("Removed: " + device.Name);
-            }
+                if (_readerWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan.FromSeconds(1)))
+                {
+                    var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
+                    BluetoothLeDevices?.Remove(device);
 
-            //await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-            //    Windows.UI.Core.CoreDispatcherPriority.Normal,
-            //    () =>
-            //    {
-            //        ObservableBluetoothLEDevice dev;
-
-            //            // Need to lock as another DeviceWatcher might be modifying BluetoothLEDevices 
-            //            lock (_bluetoothLeDevicesLock)
-            //        {
-            //                // Find the corresponding DeviceInformation in the collection and remove it.
-            //                dev =
-            //                BluetoothLeDevices.FirstOrDefault(
-            //                    device => device.DeviceInfo.Id == deviceInfoUpdate.Id);
-            //            if (dev != null)
-            //            {
-            //                    // Found it in our displayed devices
-            //                    Debug.WriteLine("DeviceWatcher_Removed: Removing '{0}' - '{1}'", dev.Name,
-            //                    dev.DeviceInfo.Id);
-            //                Debug.Assert(BluetoothLeDevices.Remove(dev),
-            //                    "DeviceWatcher_Removed: Failed to remove device from list");
-            //            }
-            //            else
-            //            {
-            //                    // Did not find in diplayed list, let's check the unused list
-            //                    var di = _unusedDevices.FirstOrDefault(device => device.Id == deviceInfoUpdate.Id);
-
-            //                if (di != null)
-            //                {
-            //                        // Found in unused devices, remove it
-            //                        Debug.WriteLine(
-            //                        "DeviceWatcher_Removed: Removing from used devices '{0}' - '{1}'", di.Name,
-            //                        di.Id);
-            //                    Debug.Assert(_unusedDevices.Remove(di),
-            //                        "DeviceWatcher_Removed: Failed to remove device from unused");
-            //                }
-            //            }
-            //        }
-            //    });
-        }
-
-        /// <summary>
-        /// Executes when Enumeration has finished
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object e)
-        {
-            //StopEnumeration();
+                    var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
+                    _unusedDevices?.Remove(unusedDevice);
+                }
+            });
         }
 
         /// <summary>
         /// Adds the new or updated device to the displayed or unused list
         /// </summary>
-        /// <param name="deviceInfo"></param>
-        /// <returns></returns>
+        /// <param name="deviceInfo">The device to add</param>
+        /// <returns>The task being used to add a device to a list</returns>
         private async Task AddDeviceToList(DeviceInformation deviceInfo)
         {
             // Make sure device name isn't blank or already present in the list.
-            if (deviceInfo.Name != string.Empty)
+            if (string.IsNullOrEmpty(deviceInfo?.Name))
             {
-                ObservableBluetoothLEDevice dev = new ObservableBluetoothLEDevice(deviceInfo);
-
-                // Let's make it connectable by default, we have error handles in case it doesn't work
+                var device = new ObservableBluetoothLEDevice(deviceInfo);
                 var connectable = true;
 
-                // If the connectable key exists then let's read it
-                if (dev.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.Bluetooth.Le.IsConnectable"))
+                if (device.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.Bluetooth.Le.IsConnectable"))
                 {
-                    connectable = (bool)dev.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"];
+                    connectable = (bool)device.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"];
                 }
 
                 if (connectable)
                 {
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                        Windows.UI.Core.CoreDispatcherPriority.Normal,
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                        CoreDispatcherPriority.Normal,
                         () =>
                         {
-                            // Need to lock as another DeviceWatcher might be modifying BluetoothLEDevices 
-                            lock (_bluetoothLeDevicesLock)
+                            if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
                             {
-                                if (BluetoothLeDevices.Contains(dev) == false)
+                                if (!BluetoothLeDevices.Contains(device))
                                 {
-                                    Debug.WriteLine("AddDeviceToList: Adding '{0}' - connectable: {1}", dev.Name,
-                                        connectable);
-                                    BluetoothLeDevices.Add(dev);
+                                    BluetoothLeDevices.Add(device);
                                 }
+
+                                _readerWriterLockSlim.ExitWriteLock();
                             }
                         });
-                }
-                else
-                {
-                    lock (_bluetoothLeDevicesLock)
-                    {
-                        _unusedDevices.Add(deviceInfo);
-                    }
-                    Debug.WriteLine(
-                        "AddDeviceToList: Found but not adding because it's not connectable '{0}' - connectable: {1}, deviceID: {2}",
-                        dev.Name, dev.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"],
-                        dev.DeviceInfo.Id);
+
+                    return;
                 }
             }
-            else
-            {
-                lock (_bluetoothLeDevicesLock)
-                {
-                    _unusedDevices.Add(deviceInfo);
-                }
 
-                Debug.WriteLine($"AddDeviceToList: Found device {deviceInfo.Id} without a name. Not displaying.");
+            if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
+            {
+                _unusedDevices.Add(deviceInfo);
+
+                _readerWriterLockSlim.ExitWriteLock();
             }
         }
     }

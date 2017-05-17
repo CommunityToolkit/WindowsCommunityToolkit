@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="e"></param>
         private void SelectedCharacteristic_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            BluetoothLEHelper.Context.SelectedCharacteristic = SelectedCharacteristic;
+            //BluetoothLEHelper.Context.SelectedCharacteristic = SelectedCharacteristic;
         }
 
         /// <summary>
