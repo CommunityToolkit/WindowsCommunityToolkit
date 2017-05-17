@@ -17,8 +17,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public BluetoothLEHelperPage()
         {
             this.InitializeComponent();
-
-            bluetoothLEHelper.PropertyChanged += BluetoothLEHelper_PropertyChanged;
         }
 
         private async void BluetoothLEHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

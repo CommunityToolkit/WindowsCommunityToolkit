@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Enumeration;
 
@@ -25,23 +26,22 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Context for the entire app. This is where all app wide variables are stored
     /// </summary>
-    public class BluetoothLEHelper : INotifyPropertyChanged
+    public class BluetoothLEHelper
     {
         /// <summary>
-        /// AQS search string used to find bluetooth devices
+        /// AQS search string used to find bluetooth devices.
         /// </summary>
-        private const string BTLEDeviceWatcherAQSString =
-            "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-
-        /// <summary>
-        /// Advertisement watcher used to find bluetooth devices
-        /// </summary>
-        private BluetoothLEAdvertisementWatcher _advertisementWatcher;
+        private const string BluetoothLeDeviceWatcherAqs = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
 
         /// <summary>
         /// Lock around the <see cref="BluetoothLeDevices"/>. Used in the Add/Removed/Updated callbacks
         /// </summary>
         private readonly object _bluetoothLeDevicesLock = new object();
+
+        /// <summary>
+        /// Advertisement watcher used to find bluetooth devices.
+        /// </summary>
+        private BluetoothLEAdvertisementWatcher _advertisementWatcher;
 
         /// <summary>
         /// Device watcher used to find bluetooth devices
@@ -76,6 +76,11 @@ namespace Microsoft.Toolkit.Uwp
         private readonly List<DeviceInformation> _unusedDevices = new List<DeviceInformation>();
 
         /// <summary>
+        /// The Bluetooth adapter.
+        /// </summary>
+        private BluetoothAdapter _adapter;
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="BluetoothLEHelper" /> class from being created.
         /// </summary>
         private BluetoothLEHelper()
@@ -91,8 +96,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets the list of available bluetooth devices
         /// </summary>
-        public ObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; set; } =
-            new ObservableCollection<ObservableBluetoothLEDevice>();
+        public ObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; set; } = new ObservableCollection<ObservableBluetoothLEDevice>();
 
         /// <summary>
         /// Gets or sets the selected bluetooth device
@@ -103,19 +107,6 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets or sets the selected characteristic
         /// </summary>
         public ObservableGattCharacteristics SelectedCharacteristic { get; set; } = null;
-
-        /// <summary>
-        /// Gets or sets the list of created service
-        /// </summary>
-        // TODO: fix this
-        //public ObservableCollection<GenericGattServiceViewModel> CreatedServices { get; set; } =
-        //    new ObservableCollection<GenericGattServiceViewModel>();
-
-        /// <summary>
-        /// Gets or sets the currently selected gatt server service
-        /// </summary>
-        // TODO: fix this
-        //public GenericGattServiceViewModel SelectedGattServerService { get; set; } = null;
 
         /// <summary>
         /// Gets a value indicating whether app is currently enumerating
@@ -129,7 +120,6 @@ namespace Microsoft.Toolkit.Uwp
                 if (_isEnumerating != value)
                 {
                     _isEnumerating = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsEnumerating"));
                 }
             }
         }
@@ -146,7 +136,6 @@ namespace Microsoft.Toolkit.Uwp
                 if (_enumorationFinished != value)
                 {
                     _enumorationFinished = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("EnumerationFinished"));
                 }
             }
         }
@@ -154,52 +143,19 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets a value indicating whether peripheral mode is supported by this device
         /// </summary>
-        public bool IsPeripheralRoleSupported
-        {
-            get { return _isPeripheralRoleSupported; }
-
-            private set
-            {
-                if (_isPeripheralRoleSupported != value)
-                {
-                    _isPeripheralRoleSupported = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsPeripheralRoleSupported"));
-                }
-            }
-        }
+        public bool IsPeripheralRoleSupported => _adapter.IsPeripheralRoleSupported;
 
         /// <summary>
         /// Gets a value indicating whether central role is supported by this device
         /// </summary>
-        public bool IsCentralRoleSupported
-        {
-            get { return _isCentralRoleSupported; }
-
-            private set
-            {
-                if (_isCentralRoleSupported != value)
-                {
-                    _isCentralRoleSupported = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsCentralRoleSupported"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Event to notify when this object has changed
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        public bool IsCentralRoleSupported => _adapter.IsCentralRoleSupported;
+        
         /// <summary>
         /// Initializes the app context
         /// </summary>
         private async void Init()
         {
-            Windows.Devices.Bluetooth.BluetoothAdapter adapter =
-                await Windows.Devices.Bluetooth.BluetoothAdapter.GetDefaultAsync();
-
-            IsPeripheralRoleSupported = adapter.IsPeripheralRoleSupported;
-            IsCentralRoleSupported = adapter.IsCentralRoleSupported;
+            _adapter = await BluetoothAdapter.GetDefaultAsync();
         }
 
         /// <summary>
@@ -218,22 +174,19 @@ namespace Microsoft.Toolkit.Uwp
                 "System.Devices.Aep.IsPresent",
                 "System.Devices.Aep.ProtocolId",
                 "System.Devices.Aep.Bluetooth.Le.IsConnectable"
-                ////"System.Devices.Aep.SignalStrength" //remove Sig strength for now. Might bring it back for sorting/filtering
             };
 
             // BT_Code: Currently Bluetooth APIs don't provide a selector to get ALL devices that are both paired and non-paired.
-            _deviceWatcher =
-                DeviceInformation.CreateWatcher(
-                    BTLEDeviceWatcherAQSString,
-                    requestedProperties,
-                    DeviceInformationKind.AssociationEndpoint);
+            _deviceWatcher = DeviceInformation.CreateWatcher(
+                BluetoothLeDeviceWatcherAqs,
+                requestedProperties,
+                DeviceInformationKind.AssociationEndpoint);
 
             // Register event handlers before starting the watcher.
             _deviceWatcher.Added += DeviceWatcher_Added;
             _deviceWatcher.Updated += DeviceWatcher_Updated;
             _deviceWatcher.Removed += DeviceWatcher_Removed;
             _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
-            _deviceWatcher.Stopped += DeviceWatcher_Stopped;
 
             _advertisementWatcher = new BluetoothLEAdvertisementWatcher();
             _advertisementWatcher.Received += AdvertisementWatcher_Received;
@@ -258,7 +211,6 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
                 _deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
-                _deviceWatcher.Stopped -= DeviceWatcher_Stopped;
 
                 _advertisementWatcher.Received += AdvertisementWatcher_Received;
 
@@ -278,8 +230,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender,
-            BluetoothLEAdvertisementReceivedEventArgs args)
+        private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
             try
             {
@@ -490,9 +441,9 @@ namespace Microsoft.Toolkit.Uwp
                 var connectable = true;
 
                 // If the connectable key exists then let's read it
-                if (dev.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.Bluetooth.Le.IsConnectable") == true)
+                if (dev.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.Bluetooth.Le.IsConnectable"))
                 {
-                    connectable = (bool) dev.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"];
+                    connectable = (bool)dev.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"];
                 }
 
                 if (connectable)
@@ -531,29 +482,8 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     _unusedDevices.Add(deviceInfo);
                 }
+
                 Debug.WriteLine($"AddDeviceToList: Found device {deviceInfo.Id} without a name. Not displaying.");
-            }
-        }
-
-        /// <summary>
-        /// Executes when device watcher has stopped
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeviceWatcher_Stopped(DeviceWatcher sender, object e)
-        {
-            // Implimented for completeness
-        }
-
-        /// <summary>
-        /// Executes when a property has changed
-        /// </summary>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
             }
         }
     }
