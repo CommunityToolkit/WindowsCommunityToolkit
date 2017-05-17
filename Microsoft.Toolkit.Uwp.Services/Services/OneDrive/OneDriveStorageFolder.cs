@@ -27,6 +27,8 @@ using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using OneDriveSdk = Microsoft.OneDrive.Sdk;
 using OneDriveSdkHelper = Microsoft.OneDrive.Sdk.Helpers;
+using Windows.Networking.BackgroundTransfer;
+using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -104,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// a file with the specified desiredNewName already exists in the destination folder.
         /// Default : Fail
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
-        public async Task<OneDriveStorageFile> CreateFileAsync(string desiredName,  CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<OneDriveStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Stream streamContent = null;
             if (string.IsNullOrEmpty(desiredName))
@@ -379,7 +381,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="maxChunkSize">Max chunk size must be a multiple of 320 KiB (ie: 320*1024)</param>
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
-        public async Task<OneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists,   int maxChunkSize = -1)
+        public async Task<OneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists, int maxChunkSize = -1)
         {
             int currentChunkSize = maxChunkSize < 0 ? OneDriveUploadConstants.DefaultMaxChunkSizeForUploadSession : maxChunkSize;
 
@@ -423,6 +425,81 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var item = await _uploadProvider.UploadAsync().ConfigureAwait(false);
             IsUploadCompleted = true;
             return InitializeOneDriveStorageFile(item);
+        }
+
+        /// <summary>
+        /// Download the <see cref="OneDrive.OneDriveStorageFolder"/> in the background
+        /// </summary>
+        /// <param name="destinationFolder">Destination <see cref="StorageFolder"/></param>
+        /// <param name="filter">Filters the response based on a set of criteria.</param>
+        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to be used with <see cref="BackgroundDownloader"/></param>
+        /// <param name="successToast">The <see cref="ToastNotification"/> to be shown when download is completed</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>Task to support await of async call.</returns>
+        public async Task BackgroundDownloadAsync(StorageFolder destinationFolder, string filter = null, BackgroundTransferCompletionGroup completionGroup = null, ToastNotification successToast = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
+            var requestMessage = Provider.Drive.Items[OneDriveItem.Id].Request().GetHttpRequestMessage();
+            await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken).ConfigureAwait(false);
+            var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
+            downloader.TransferGroup = BackgroundTransferGroup.CreateGroup(Guid.NewGuid().ToString());
+            downloader.TransferGroup.TransferBehavior = BackgroundTransferBehavior.Serialized;
+            foreach (var item in requestMessage.Headers)
+            {
+                downloader.SetRequestHeader(item.Key, item.Value.First());
+            }
+
+            if (successToast != null)
+            {
+                downloader.SuccessToastNotification = successToast;
+            }
+
+            await Task.Run(async () => await RetriveFolderAsync(this, destinationFolder, downloader, filter, cancellationToken), cancellationToken);
+        }
+
+        /// <summary>
+        /// Method creates folder structure and starts background download for each file in given <see cref="OneDrive.OneDriveStorageFolder"/>
+        /// </summary>
+        /// <param name="onedriveFolder">OneDrive folder that will be downloaded</param>
+        /// <param name="destinationFolder">Destination <see cref="StorageFolder"/></param>
+        /// <param name="downloader"><see cref="BackgroundDownloader"/> which will be used</param>
+        /// <param name="filter">Filters the response based on a set of criteria.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>Task to support await of async call.</returns>
+        private async Task RetriveFolderAsync(OneDriveStorageFolder onedriveFolder, StorageFolder destinationFolder, BackgroundDownloader downloader, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var subfolders = await onedriveFolder.GetFoldersAsync(999, OrderBy.None, filter, cancellationToken).ConfigureAwait(false);
+            var nextSubfolders = await onedriveFolder.NextFoldersAsync(cancellationToken).ConfigureAwait(false);
+            while (nextSubfolders != null && nextSubfolders.Count > 0)
+            {
+                subfolders.AddRange(nextSubfolders);
+            }
+
+            foreach (var oFolder in subfolders)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                StorageFolder destinationSubfolder = await destinationFolder.CreateFolderAsync(oFolder.Name, CreationCollisionOption.OpenIfExists);
+                await RetriveFolderAsync(oFolder, destinationSubfolder, downloader, filter, cancellationToken).ConfigureAwait(false);
+            }
+
+            var files = await onedriveFolder.GetFilesAsync(999, OrderBy.None, filter, cancellationToken).ConfigureAwait(false);
+            var nextfiles = await onedriveFolder.NextFilesAsync(cancellationToken).ConfigureAwait(false);
+            while (nextfiles != null && nextfiles.Count > 0)
+            {
+                files.AddRange(nextfiles);
+            }
+
+            foreach (var oFile in files)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var destinationFile = await destinationFolder.CreateFileAsync(oFile.Name, CreationCollisionOption.ReplaceExisting);
+                var requestMessage = Provider.Drive.Items[oFile.OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
+                await downloader.CreateDownload(requestMessage.RequestUri, destinationFile).StartAsync().AsTask(cancellationToken).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
