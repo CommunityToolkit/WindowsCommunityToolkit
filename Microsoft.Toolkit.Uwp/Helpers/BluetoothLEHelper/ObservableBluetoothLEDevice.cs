@@ -498,11 +498,20 @@ namespace Microsoft.Toolkit.Uwp
         /// Updates this device's deviceInformation
         /// </summary>
         /// <param name="deviceUpdate"></param>
-        public void Update(DeviceInformationUpdate deviceUpdate)
+        public async Task Update(DeviceInformationUpdate deviceUpdate)
         {
-            DeviceInfo.Update(deviceUpdate);
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    DeviceInfo.Update(deviceUpdate);
+                    Name = DeviceInfo.Name;
 
-            OnPropertyChanged(new PropertyChangedEventArgs("DeviceInfo"));
+                    IsPaired = DeviceInfo.Pairing.IsPaired;
+
+                    LoadGlyph();
+                    OnPropertyChanged(new PropertyChangedEventArgs("DeviceInfo"));
+                });
         }
     }
 }

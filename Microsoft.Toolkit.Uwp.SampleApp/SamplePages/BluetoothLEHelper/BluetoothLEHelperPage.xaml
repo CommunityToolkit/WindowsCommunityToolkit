@@ -10,12 +10,20 @@
 
     <RelativePanel Background="{StaticResource Brush-Grey-05}">
         <Button x:Name="BtEnumeration" Click="Enumeration_Click" Content="Start enumeration" Margin="10"/>
-        <ListView x:Name="LVDevices" Height="200" VerticalAlignment="Top" Margin="10" ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}" Background="White" SelectionChanged="LVDevices_SelectionChanged" RelativePanel.Below="BtEnumeration" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
+        <ListView x:Name="LVDevices" Height="200" VerticalAlignment="Top" Margin="10" ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}" Background="White" SelectionChanged="LVDevices_SelectionChanged" RelativePanel.Below="BtEnumeration" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="bt:ObservableBluetoothLEDevice">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <StackPanel Name="SPDevice"  Margin="10" RelativePanel.Below="LVDevices">
             <TextBlock x:Name="TbDeviceName" Text="" />
             <TextBlock x:Name="TbDeviceBtAddr" Text="" />
         </StackPanel>
-        
+
         <ComboBox x:Name="CBServices" Margin="10" SelectionChanged="CBServices_SelectionChanged" RelativePanel.Below="SPDevice" Visibility="Collapsed">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="bt:ObservableGattDeviceService" >
