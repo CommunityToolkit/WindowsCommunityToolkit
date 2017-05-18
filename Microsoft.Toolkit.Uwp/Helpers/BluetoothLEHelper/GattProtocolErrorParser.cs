@@ -16,13 +16,13 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="errorValue"> the byte error value.</param>
         /// <returns>String representation of the error</returns>
-        public static string GetErrorString(byte? errorValue)
+        public static string GetErrorString(this byte? errorValue)
         {
-            var ret = "Protocol Error";
+            var errorString = "Protocol Error";
 
             if (errorValue.HasValue == false)
             {
-                return ret;
+                return errorString;
             }
 
             if (errorValue == GattProtocolError.AttributeNotFound)
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp
                 return "Write Not Permitted";
             }
 
-            return ret;
+            return errorString;
         }
     }
 }

@@ -14,19 +14,18 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Helper function to convert a UUID to a name
         /// </summary>
-        /// <param name="uuid"></param>
+        /// <param name="uuid">The UUID guid.</param>
         /// <returns>Name of the UUID</returns>
         public static string ConvertUuidToName(Guid uuid)
         {
             GattNativeUuid name;
-            if (Enum.TryParse(ConvertUuidToShortId(uuid).ToString(), out name) == true)
+
+            if (Enum.TryParse(ConvertUuidToShortId(uuid).ToString(), out name))
             {
                 return name.ToString();
             }
-            else
-            {
-                return uuid.ToString();
-            }
+
+            return uuid.ToString();
         }
 
         /// <summary>
@@ -37,9 +36,9 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>32bit version of the input UUID</returns>
         public static ushort ConvertUuidToShortId(Guid uuid)
         {
-            // Get the short Uuid
             var bytes = uuid.ToByteArray();
             var shortUuid = (ushort)(bytes[0] | (bytes[1] << 8));
+
             return shortUuid;
         }
     }
@@ -92,12 +91,6 @@ namespace Microsoft.Toolkit.Uwp
         TxPower = 0x1804,
         UserData = 0x181C,
         WeightScale = 0x181D,
-
-
-
-
-
-
         /// <summary>
         ///     This enum is nice for finding a string representation of a BT SIG assigned value for Characteristic UUIDs
         ///     Reference: https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicsHome.aspx
