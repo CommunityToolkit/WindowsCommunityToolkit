@@ -481,6 +481,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased += RadialGauge_PointerReleased;
             OnScaleChanged(this);
 
             base.OnApplyTemplate();
@@ -688,6 +689,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetGaugeValueFromPoint(e.GetPosition(this));
         }
 
+        private void RadialGauge_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsInteractive)
+            {
+                e.Handled = true;
+            }
+        }
+        
         private void UpdateNormalizedAngles()
         {
             var result = Mod(MinAngle, 360);
