@@ -70,12 +70,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                     // Make sure the Bluetooth capability is set else this will fail
                     bluetoothLEHelper.StopEnumeration();
-                    bool connected = await device.Connect();
-                    if (connected)
-                    {
-                        CBServices.ItemsSource = device.Services;
-                        CBServices.Visibility = Visibility.Visible;
-                    }
+                    await device.Connect();
+                    CBServices.ItemsSource = device.Services;
+                    CBServices.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -124,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             ObservableGattCharacteristics characteristic = CBCharacteristic.SelectedItem as ObservableGattCharacteristics;
 
-            if(characteristic != null)
+            if (characteristic != null)
             {
                 characteristic.ReadValueAsync();
                 TBCharValue.Text = characteristic.Value;

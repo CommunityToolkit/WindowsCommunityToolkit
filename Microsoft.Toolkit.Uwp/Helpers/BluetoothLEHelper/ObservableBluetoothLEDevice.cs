@@ -102,7 +102,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public BluetoothLEDevice BluetoothLEDevice
         {
-            get => _bluetoothLeDevice;
+            get
+            {
+                return _bluetoothLeDevice;
+            }
+
             private set
             {
                 _bluetoothLeDevice = value;
@@ -115,7 +119,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public BitmapImage Glyph
         {
-            get => _glyph;
+            get
+            {
+                return _glyph;
+            }
+
             set
             {
                 _glyph = value;
@@ -128,7 +136,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public DeviceInformation DeviceInfo
         {
-            get => _deviceInfo;
+            get
+            {
+                return _deviceInfo;
+            }
+
             private set
             {
                 _deviceInfo = value;
@@ -141,7 +153,11 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public bool IsConnected
         {
-            get => _isConnected;
+            get
+            {
+                return _isConnected;
+            }
+
             set
             {
                 if (_isConnected != value)
@@ -157,7 +173,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public bool IsPaired
         {
-            get { return _isPaired; }
+            get
+            {
+                return _isPaired;
+            }
 
             set
             {
@@ -174,7 +193,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public ObservableCollection<ObservableGattDeviceService> Services
         {
-            get { return _services; }
+            get
+            {
+                return _services;
+            }
 
             private set
             {
@@ -188,7 +210,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public int ServiceCount
         {
-            get { return _serviceCount; }
+            get
+            {
+                return _serviceCount;
+            }
 
             set
             {
@@ -205,7 +230,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
 
             private set
             {
@@ -222,7 +250,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string ErrorText
         {
-            get { return _errorText; }
+            get
+            {
+                return _errorText;
+            }
 
             private set
             {
@@ -386,7 +417,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Updates this device's deviceInformation
         /// </summary>
-        /// <param name="deviceUpdate"></param>
+        /// <param name="deviceUpdate">The device information which has been updated.</param>
+        /// <returns>The task of the update.</returns>
         public async Task Update(DeviceInformationUpdate deviceUpdate)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
@@ -399,7 +431,7 @@ namespace Microsoft.Toolkit.Uwp
                     IsPaired = DeviceInfo.Pairing.IsPaired;
 
                     LoadGlyph();
-                    OnPropertyChanged(new PropertyChangedEventArgs("DeviceInfo"));
+                    OnPropertyChanged("DeviceInfo");
                 });
         }
     }
