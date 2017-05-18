@@ -12,8 +12,8 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
@@ -28,16 +28,43 @@ namespace Microsoft.Toolkit.Uwp
     public class ObservableGattCharacteristics : INotifyPropertyChanged
     {
         /// <summary>
-        /// Enum used to determine how the <see cref="Value"/> should be displayed
+        /// Enum used to determine how the <see cref="Value" /> should be displayed
         /// </summary>
         public enum DisplayTypes
         {
+            /// <summary>
+            /// Not set
+            /// </summary>
             NotSet,
+
+            /// <summary>
+            /// Bool
+            /// </summary>
             Bool,
+
+            /// <summary>
+            /// Decimal
+            /// </summary>
             Decimal,
+
+            /// <summary>
+            /// Hexadecimal
+            /// </summary>
             Hex,
-            UTF8,
-            UTF16,
+
+            /// <summary>
+            /// UTF8
+            /// </summary>
+            Utf8,
+
+            /// <summary>
+            /// UTF16
+            /// </summary>
+            Utf16,
+
+            /// <summary>
+            /// Unsupported
+            /// </summary>
             Unsupported
         }
 
@@ -47,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp
         private GattCharacteristic _characteristic;
 
         /// <summary>
-        /// byte array representation of the characteristic value
+        /// A byte array representation of the characteristic value
         /// </summary>
         private byte[] _data;
 
@@ -92,10 +119,10 @@ namespace Microsoft.Toolkit.Uwp
         private string _value;
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="ObservableGattCharacteristics" /> class.
+        /// Initializes a new instance of the <see cref="ObservableGattCharacteristics"/> class.
         /// </summary>
-        /// <param name="characteristic">Characteristic this class wraps</param>
-        /// <param name="parent">The parent service that wraps this characteristic</param>
+        /// <param name="characteristic">The characteristic.</param>
+        /// <param name="parent">The parent.</param>
         public ObservableGattCharacteristics(GattCharacteristic characteristic, ObservableGattDeviceService parent)
         {
             Characteristic = characteristic;
@@ -106,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp
             ReadValueAsync();
 
             characteristic.ValueChanged += Characteristic_ValueChanged;
-
             PropertyChanged += ObservableGattCharacteristics_PropertyChanged;
         }
 
@@ -122,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_characteristic != value)
                 {
                     _characteristic = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Characteristic"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -139,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_isIndicateSet != value)
                 {
                     _isIndicateSet = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsIndicateSet"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -156,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_isNotifySet != value)
                 {
                     _isNotifySet = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsNotifySet"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -173,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_parent != value)
                 {
                     _parent = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Parent"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -190,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Name"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -207,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_uuid != value)
                 {
                     _uuid = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("UUID"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -224,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_value != value)
                 {
                     _value = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Value"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -238,15 +264,10 @@ namespace Microsoft.Toolkit.Uwp
 
             set
             {
-                if (value == DisplayTypes.NotSet)
-                {
-                    return;
-                }
-
                 if (_displayType != value)
                 {
                     _displayType = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DisplayType"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -256,45 +277,25 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Executes when this characteristic changes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ObservableGattCharacteristics_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "DisplayType")
-            {
-                SetValue();
-            }
-        }
 
         /// <summary>
         /// Reads the value of the Characteristic
         /// </summary>
         public async void ReadValueAsync()
         {
-            try
-            {
-                var result = await Characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+            var result = await Characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
 
-                if (result.Status == GattCommunicationStatus.Success)
-                {
-                    SetValue(result.Value);
-                }
-                else if (result.Status == GattCommunicationStatus.ProtocolError)
-                {
-                    Value = GattProtocolErrorParser.GetErrorString(result.ProtocolError);
-                }
-                else
-                {
-                    Value = "Unreachable";
-                }
-            }
-            catch (Exception ex)
+            if (result.Status == GattCommunicationStatus.Success)
             {
-                Debug.WriteLine("Exception: " + ex.Message);
-                Value = "Exception!";
+                SetValue(result.Value);
+            }
+            else if (result.Status == GattCommunicationStatus.ProtocolError)
+            {
+                Value = GattProtocolErrorParser.GetErrorString(result.ProtocolError);
+            }
+            else
+            {
+                Value = "Unreachable";
             }
         }
 
@@ -306,53 +307,30 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (IsIndicateSet)
             {
-                // already set
-                return true;
+                return IsIndicateSet;
             }
 
-            try
+            // BT_Code: Must write the CCCD in order for server to send indications.
+            // We receive them in the ValueChanged event handler.
+            // Note that this sample configures either Indicate or Notify, but not both.
+            var result = await
+                Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                    GattClientCharacteristicConfigurationDescriptorValue.Indicate);
+
+            if (result == GattCommunicationStatus.Success)
             {
-                // BT_Code: Must write the CCCD in order for server to send indications.
-                // We receive them in the ValueChanged event handler.
-                // Note that this sample configures either Indicate or Notify, but not both.
-                var result = await
-                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                        GattClientCharacteristicConfigurationDescriptorValue.Indicate);
-                if (result == GattCommunicationStatus.Success)
-                {
-                    Debug.WriteLine("Successfully registered for indications");
-                    IsIndicateSet = true;
-                    return true;
-                }
-                if (result == GattCommunicationStatus.ProtocolError)
-                {
-                    Debug.WriteLine("Error registering for indications: Protocol Error");
-                    IsIndicateSet = false;
-                    return false;
-                }
-                if (result == GattCommunicationStatus.Unreachable)
-                {
-                    Debug.WriteLine("Error registering for indications: Unreachable");
-                    IsIndicateSet = false;
-                    return false;
-                }
+                IsIndicateSet = true;
             }
-            catch (UnauthorizedAccessException ex)
+            else if (result == GattCommunicationStatus.ProtocolError)
             {
-                // This usually happens when a device reports that it support indicate, but it actually doesn't.
-                Debug.WriteLine("Unauthorized Exception: " + ex.Message);
                 IsIndicateSet = false;
-                return false;
             }
-            catch (Exception ex)
+            else if (result == GattCommunicationStatus.Unreachable)
             {
-                Debug.WriteLine("Generic Exception: " + ex.Message);
                 IsIndicateSet = false;
-                return false;
             }
 
-            IsIndicateSet = false;
-            return false;
+            return IsIndicateSet;
         }
 
         /// <summary>
@@ -363,46 +341,30 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (IsIndicateSet == false)
             {
-                // indicate is not set, can skip this
-                return true;
+                return !IsIndicateSet;
             }
 
-            try
+            // BT_Code: Must write the CCCD in order for server to send indications.
+            // We receive them in the ValueChanged event handler.
+            // Note that this sample configures either Indicate or Notify, but not both.
+            var result = await
+                Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                    GattClientCharacteristicConfigurationDescriptorValue.None);
+
+            if (result == GattCommunicationStatus.Success)
             {
-                // BT_Code: Must write the CCCD in order for server to send indications.
-                // We receive them in the ValueChanged event handler.
-                // Note that this sample configures either Indicate or Notify, but not both.
-                var result = await
-                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                        GattClientCharacteristicConfigurationDescriptorValue.None);
-                if (result == GattCommunicationStatus.Success)
-                {
-                    Debug.WriteLine("Successfully un-registered for indications");
-                    IsIndicateSet = false;
-                    return true;
-                }
-                if (result == GattCommunicationStatus.ProtocolError)
-                {
-                    Debug.WriteLine("Error un-registering for indications: Protocol Error");
-                    IsIndicateSet = true;
-                    return false;
-                }
-                if (result == GattCommunicationStatus.Unreachable)
-                {
-                    Debug.WriteLine("Error un-registering for indications: Unreachable");
-                    IsIndicateSet = true;
-                    return false;
-                }
+                IsIndicateSet = false;
             }
-            catch (UnauthorizedAccessException ex)
+            else if (result == GattCommunicationStatus.ProtocolError)
             {
-                // This usually happens when a device reports that it support indicate, but it actually doesn't.
-                Debug.WriteLine("Exception: " + ex.Message);
                 IsIndicateSet = true;
-                return false;
+            }
+            else if (result == GattCommunicationStatus.Unreachable)
+            {
+                IsIndicateSet = true;
             }
 
-            return false;
+            return !IsIndicateSet;
         }
 
         /// <summary>
@@ -413,53 +375,30 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (IsNotifySet)
             {
-                // already set
-                return true;
+                return IsNotifySet;
             }
 
-            try
+            // BT_Code: Must write the CCCD in order for server to send indications.
+            // We receive them in the ValueChanged event handler.
+            // Note that this sample configures either Indicate or Notify, but not both.
+            var result = await
+                Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                    GattClientCharacteristicConfigurationDescriptorValue.Notify);
+
+            if (result == GattCommunicationStatus.Success)
             {
-                // BT_Code: Must write the CCCD in order for server to send indications.
-                // We receive them in the ValueChanged event handler.
-                // Note that this sample configures either Indicate or Notify, but not both.
-                var result = await
-                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                        GattClientCharacteristicConfigurationDescriptorValue.Notify);
-                if (result == GattCommunicationStatus.Success)
-                {
-                    Debug.WriteLine("Successfully registered for notifications");
-                    IsNotifySet = true;
-                    return true;
-                }
-                if (result == GattCommunicationStatus.ProtocolError)
-                {
-                    Debug.WriteLine("Error registering for notifications: Protocol Error");
-                    IsNotifySet = false;
-                    return false;
-                }
-                if (result == GattCommunicationStatus.Unreachable)
-                {
-                    Debug.WriteLine("Error registering for notifications: Unreachable");
-                    IsNotifySet = false;
-                    return false;
-                }
+                IsNotifySet = true;
             }
-            catch (UnauthorizedAccessException ex)
+            else if (result == GattCommunicationStatus.ProtocolError)
             {
-                // This usually happens when a device reports that it support indicate, but it actually doesn't.
-                Debug.WriteLine("Unauthorized Exception: " + ex.Message);
                 IsNotifySet = false;
-                return false;
             }
-            catch (Exception ex)
+            else if (result == GattCommunicationStatus.Unreachable)
             {
-                Debug.WriteLine("Generic Exception: " + ex.Message);
                 IsNotifySet = false;
-                return false;
             }
 
-            IsNotifySet = false;
-            return false;
+            return IsNotifySet;
         }
 
         /// <summary>
@@ -471,52 +410,50 @@ namespace Microsoft.Toolkit.Uwp
             if (IsNotifySet == false)
             {
                 // indicate is not set, can skip this
-                return true;
+                return IsNotifySet;
             }
 
-            try
+            // BT_Code: Must write the CCCD in order for server to send indications.
+            // We receive them in the ValueChanged event handler.
+            // Note that this sample configures either Indicate or Notify, but not both.
+            var result = await
+                Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                    GattClientCharacteristicConfigurationDescriptorValue.None);
+
+            if (result == GattCommunicationStatus.Success)
             {
-                // BT_Code: Must write the CCCD in order for server to send indications.
-                // We receive them in the ValueChanged event handler.
-                // Note that this sample configures either Indicate or Notify, but not both.
-                var result = await
-                    Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                        GattClientCharacteristicConfigurationDescriptorValue.None);
-                if (result == GattCommunicationStatus.Success)
-                {
-                    Debug.WriteLine("Successfully un-registered for notifications");
-                    IsNotifySet = false;
-                    return true;
-                }
-                if (result == GattCommunicationStatus.ProtocolError)
-                {
-                    Debug.WriteLine("Error un-registering for notifications: Protocol Error");
-                    IsNotifySet = true;
-                    return false;
-                }
-                if (result == GattCommunicationStatus.Unreachable)
-                {
-                    Debug.WriteLine("Error un-registering for notifications: Unreachable");
-                    IsNotifySet = true;
-                    return false;
-                }
+                IsNotifySet = false;
             }
-            catch (UnauthorizedAccessException ex)
+            else if (result == GattCommunicationStatus.ProtocolError)
             {
-                // This usually happens when a device reports that it support indicate, but it actually doesn't.
-                Debug.WriteLine("Exception: " + ex.Message);
                 IsNotifySet = true;
-                return false;
+            }
+            else if (result == GattCommunicationStatus.Unreachable)
+            {
+                IsNotifySet = true;
             }
 
-            return false;
+            return !IsNotifySet;
         }
 
         /// <summary>
-        /// Executes when value changes
+        /// Handles the PropertyChanged event of the ObservableGattCharacteristics control.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
+        private void ObservableGattCharacteristics_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "DisplayType")
+            {
+                SetValue();
+            }
+        }
+
+        /// <summary>
+        /// When the Characteristics value changes.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GattValueChangedEventArgs"/> instance containing the event data.</param>
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
@@ -549,7 +486,7 @@ namespace Microsoft.Toolkit.Uwp
 
             GattPresentationFormat format = null;
 
-            if (Characteristic.PresentationFormats.Count > 0)
+            if (Characteristic.PresentationFormats.Any())
             {
                 format = Characteristic.PresentationFormats[0];
             }
@@ -560,7 +497,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (Name == "DeviceName")
                 {
                     // All devices have DeviceName so this is a special case. 
-                    DisplayType = DisplayTypes.UTF8;
+                    DisplayType = DisplayTypes.Utf8;
                 }
                 else
                 {
@@ -589,15 +526,7 @@ namespace Microsoft.Toolkit.Uwp
                         }
                     }
 
-                    if (isString)
-                    {
-                        DisplayType = DisplayTypes.UTF8;
-                    }
-                    else
-                    {
-                        // By default, display as Hex
-                        DisplayType = DisplayTypes.Hex;
-                    }
+                    DisplayType = isString ? DisplayTypes.Utf8 : DisplayTypes.Hex;
                 }
             }
             else if (format != null && DisplayType == DisplayTypes.NotSet)
@@ -622,11 +551,11 @@ namespace Microsoft.Toolkit.Uwp
                 }
                 else if (format.FormatType == GattPresentationFormatTypes.Utf8)
                 {
-                    DisplayType = DisplayTypes.UTF8;
+                    DisplayType = DisplayTypes.Utf8;
                 }
                 else if (format.FormatType == GattPresentationFormatTypes.Utf16)
                 {
-                    DisplayType = DisplayTypes.UTF16;
+                    DisplayType = DisplayTypes.Utf16;
                 }
                 else if (format.FormatType == GattPresentationFormatTypes.UInt128 ||
                          format.FormatType == GattPresentationFormatTypes.SInt128 ||
@@ -655,28 +584,23 @@ namespace Microsoft.Toolkit.Uwp
                 //TODO: if data is larger then int32 this will overflow. Need to fix.
                 Value = GattConvert.ToInt32(_rawData).ToString();
             }
-            else if (DisplayType == DisplayTypes.UTF8)
+            else if (DisplayType == DisplayTypes.Utf8)
             {
                 Value = GattConvert.ToUTF8String(_rawData);
             }
-            else if (DisplayType == DisplayTypes.UTF16)
+            else if (DisplayType == DisplayTypes.Utf16)
             {
                 Value = GattConvert.ToUTF16String(_rawData);
             }
         }
 
         /// <summary>
-        /// Executes when this class changes
+        /// Property changed event invoker
         /// </summary>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(PropertyChangedEventArgs e)
+        /// <param name="propertyName">name of the property that changed</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (e.PropertyName == "DisplayType")
-            {
-                Debug.WriteLine($"{Name} - DisplayType set: {DisplayType}");
-            }
-
-            PropertyChanged?.Invoke(this, e);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

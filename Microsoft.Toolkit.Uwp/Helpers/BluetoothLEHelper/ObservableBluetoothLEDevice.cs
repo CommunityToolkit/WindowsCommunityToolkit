@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Compares this device to other bluetooth devices by checking the id
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="other">The device to compare with.</param>
         /// <returns>true for equal</returns>
         bool IEquatable<ObservableBluetoothLEDevice>.Equals(ObservableBluetoothLEDevice other)
         {

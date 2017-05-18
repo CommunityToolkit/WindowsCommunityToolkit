@@ -13,8 +13,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
@@ -41,11 +40,6 @@ namespace Microsoft.Toolkit.Uwp
         /// Source for <see cref="Name"/>
         /// </summary>
         private string _name;
-
-        /// <summary>
-        /// Source for <see cref="SelectedCharacteristic"/>
-        /// </summary>
-        private ObservableGattCharacteristics _selectedCharacteristic;
 
         /// <summary>
         /// Source for <see cref="Service"/>
@@ -76,12 +70,12 @@ namespace Microsoft.Toolkit.Uwp
         {
             get { return _service; }
 
-            set
+            private set
             {
                 if (_service != value)
                 {
                     _service = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Service"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -93,33 +87,12 @@ namespace Microsoft.Toolkit.Uwp
         {
             get { return _characteristics; }
 
-            set
+            private set
             {
                 if (_characteristics != value)
                 {
                     _characteristics = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Characteristics"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the currently selected characteristic
-        /// </summary>
-        public ObservableGattCharacteristics SelectedCharacteristic
-        {
-            get { return _selectedCharacteristic; }
-
-            set
-            {
-                if (_selectedCharacteristic != value)
-                {
-                    _selectedCharacteristic = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("SelectedCharacteristic"));
-
-                    // The SelectedProperty doesn't exist when this object is first created. This takes
-                    // care of adding the correct event handler after the first time it's changed. 
-                    SelectedCharacteristic_PropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -136,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Name"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -153,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_uuid != value)
                 {
                     _uuid = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("UUID"));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -164,100 +137,37 @@ namespace Microsoft.Toolkit.Uwp
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Adds the SelectedCharacteristic_PropertyChanged event handler
-        /// </summary>
-        private void SelectedCharacteristic_PropertyChanged()
-        {
-            if (_hasSelectedCharacteristicPropertyChangedHandler == false)
-            {
-                SelectedCharacteristic.PropertyChanged += SelectedCharacteristic_PropertyChanged;
-                _hasSelectedCharacteristicPropertyChangedHandler = true;
-            }
-        }
-
-        /// <summary>
-        /// Updates the selected characteristic in the app context
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SelectedCharacteristic_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //BluetoothLEHelper.Context.SelectedCharacteristic = SelectedCharacteristic;
-        }
-
-        /// <summary>
         /// Gets all the characteristics of this service
         /// </summary>
-        private async void GetAllCharacteristics()
+        /// <returns>The status of the communication with the GATT device.</returns>
+        private async Task<GattCommunicationStatus> GetAllCharacteristics()
         {
-            var sb = new StringBuilder();
-            sb.Append("ObservableGattDeviceService::getAllCharacteristics: ");
-            sb.Append(Name);
+            var tokenSource = new CancellationTokenSource(5000);
+            var getCharacteristicsTask = await Task.Run(
+                    () => Service.GetCharacteristicsAsync(Windows.Devices.Bluetooth.BluetoothCacheMode.Uncached),
+                    tokenSource.Token);
 
-            try
-            {
-                var tokenSource = new CancellationTokenSource(5000);
-                var t =
-                    Task.Run(
-                        () => Service.GetCharacteristicsAsync(Windows.Devices.Bluetooth.BluetoothCacheMode.Uncached),
-                        tokenSource.Token);
+            GattCharacteristicsResult result = null;
+            result = await getCharacteristicsTask;
 
-                GattCharacteristicsResult result = null;
-                result = await t.Result;
+            if (result.Status == GattCommunicationStatus.Success)
+            {
+                foreach (GattCharacteristic gattchar in result.Characteristics)
+                {
+                    Characteristics.Add(new ObservableGattCharacteristics(gattchar, this));
+                }
+            }
 
-                if (result.Status == GattCommunicationStatus.Success)
-                {
-                    sb.Append(" - getAllCharacteristics found ");
-                    sb.Append(result.Characteristics.Count);
-                    sb.Append(" characteristics");
-                    Debug.WriteLine(sb);
-                    foreach (GattCharacteristic gattchar in result.Characteristics)
-                    {
-                        Characteristics.Add(new ObservableGattCharacteristics(gattchar, this));
-                    }
-                }
-                else if (result.Status == GattCommunicationStatus.Unreachable)
-                {
-                    sb.Append(" - getAllCharacteristics failed with Unreachable");
-                    Debug.WriteLine(sb.ToString());
-                }
-                else if (result.Status == GattCommunicationStatus.ProtocolError)
-                {
-                    sb.Append(" - getAllCharacteristics failed with Unreachable");
-                    Debug.WriteLine(sb.ToString());
-                }
-            }
-            catch (AggregateException ae)
-            {
-                foreach (var ex in ae.InnerExceptions)
-                {
-                    if (ex is TaskCanceledException)
-                    {
-                        Debug.WriteLine("Getting characteristics took too long.");
-                        Name += " - Timed out getting some characteristics";
-                        return;
-                    }
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // Bug 9145823:GetCharacteristicsAsync throw System.UnauthorizedAccessException when querying GenericAccess Service Characteristics
-                Name += " - Unauthorized Access";
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("getAllCharacteristics: Exception - {0}" + ex.Message);
-                throw;
-            }
+            return result.Status;
         }
 
         /// <summary>
-        /// Property changed
+        /// Property changed event invoker
         /// </summary>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(PropertyChangedEventArgs e)
+        /// <param name="propertyName">name of the property that changed</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, e);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
