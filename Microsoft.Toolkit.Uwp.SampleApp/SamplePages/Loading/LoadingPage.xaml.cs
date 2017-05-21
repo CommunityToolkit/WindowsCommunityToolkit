@@ -43,8 +43,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Loading control with logo and bluring when requested", async (sender, args) =>
             {
                 LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
-                await LoadingContentControl.Blur(10, 100).StartAsync();
+                await LoadingContentControl.Blur(2, 100).StartAsync();
                 await ShowLoadingDialogAsync();
+                await LoadingContentControl.Blur(0, 0).StartAsync();
             });
 
             base.OnNavigatedTo(e);
