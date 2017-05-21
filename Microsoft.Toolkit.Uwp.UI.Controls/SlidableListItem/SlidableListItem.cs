@@ -178,6 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _contentStoryboard;
         private AnimationSet _leftCommandAnimationSet;
         private AnimationSet _rightCommandAnimationSet;
+        private bool _contentStoryboardCompletedIsSubscribed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -254,11 +255,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
+            }
 
-                _contentStoryboard.Completed += (s, a) =>
-                {
-                    _commandContainer.Opacity = 0.0;
-                };
+            if (!_contentStoryboardCompletedIsSubscribed)
+            {
+                _contentStoryboard.Completed += ContentStoryboard_Completed;
+                _contentStoryboardCompletedIsSubscribed = true;
             }
 
             if (_commandContainer == null)
@@ -525,6 +527,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _transform.TranslateX = newTranslationX;
             SwipeStatus = newSwipeStatus;
+        }
+
+        private void ContentStoryboard_Completed(object sender, object e)
+        {
+            _commandContainer.Opacity = 0.0;
+
+            var storyBoard = sender as Storyboard;
+            if (storyBoard != null)
+            {
+                storyBoard.Completed -= ContentStoryboard_Completed;
+                _contentStoryboardCompletedIsSubscribed = false;
+            }
         }
 
         /// <summary>
