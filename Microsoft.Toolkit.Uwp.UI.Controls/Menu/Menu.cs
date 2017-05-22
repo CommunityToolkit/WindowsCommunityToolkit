@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu : ItemsControl
     {
+        private WrapPanel.WrapPanel _wrapPanel;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
         /// </summary>
@@ -54,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
 
         /// <summary>
-        /// MenuItem Meny Style
+        /// Identifies the <see cref="MenuFlyoutStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MenuFlyoutStyleProperty = DependencyProperty.Register(nameof(MenuFlyoutStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
 
@@ -68,11 +70,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// HeaderButton Menu Style
+        /// Identifies the <see cref="HeaderButtonStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderButtonStyleProperty = DependencyProperty.Register(nameof(HeaderButtonStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
-
-        private WrapPanel.WrapPanel _wrapPanel;
 
         /// <summary>
         /// Gets or sets the style for HeaderButton
