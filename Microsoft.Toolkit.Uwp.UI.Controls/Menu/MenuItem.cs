@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Linq;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,19 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class MenuItem : ItemsControl
     {
-        /// <summary>
-        /// MenuItem header text
-        /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
-
-        private Menu ParentMenu => this.FindAscendant<Menu>();
+        private Menu _parentMenu;
+        private bool _isOpened;
 
         internal Button FlyoutButton { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the menu is opened or not
+        /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public bool IsOpened { get; private set; }
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -44,6 +41,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the menu is opened or not
+        /// </summary>
+        public bool IsOpened
+        {
+            get
+            {
+                return _isOpened;
+            }
+
+            private set
+            {
+                _parentMenu.IsOpened = _isOpened = value;
+            }
         }
 
         /// <summary>
@@ -75,24 +88,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             FlyoutButton = GetTemplateChild("FlyoutButton") as Button;
+            _parentMenu = this.FindAscendant<Menu>();
             IsOpened = false;
 
             if (FlyoutButton != null && Items != null && Items.Any())
             {
                 var menuFlyout = new MenuFlyout();
-                menuFlyout.Placement = ParentMenu.Orientation == Orientation.Horizontal
+                menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
 
                 menuFlyout.Opened -= MenuFlyout_Opened;
                 menuFlyout.Closed -= MenuFlyout_Closed;
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
+                Items.VectorChanged -= Items_VectorChanged;
+
                 menuFlyout.Opened += MenuFlyout_Opened;
                 menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
+                Items.VectorChanged += Items_VectorChanged;
 
-                menuFlyout.MenuFlyoutPresenterStyle = ParentMenu.MenuFlyoutStyle;
-                FlyoutButton.Style = ParentMenu.HeaderButtonStyle;
+                menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
+                FlyoutButton.Style = _parentMenu.HeaderButtonStyle;
 
                 foreach (var item in Items)
                 {
@@ -115,6 +132,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private void Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+        {
+            switch (e.CollectionChange)
+            {
+                case CollectionChange.Reset:
+                    break;
+                case CollectionChange.ItemInserted:
+                    break;
+                case CollectionChange.ItemRemoved:
+                    break;
+                case CollectionChange.ItemChanged:
+                    break;
+            }
+        }
+
         private void FlyoutButton_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             if (IsOpened)
@@ -133,19 +165,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             IsOpened = true;
             VisualStateManager.GoToState(FlyoutButton, "Opened", true);
+            _parentMenu.IsInTransitionState = false;
         }
 
         /// <inheritdoc />
         protected override void OnTapped(TappedRoutedEventArgs e)
         {
-            ParentMenu.SelectedHeaderItem = this;
+            _parentMenu.SelectedHeaderItem = this;
             base.OnTapped(e);
         }
 
         /// <inheritdoc />
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            ParentMenu.SelectedHeaderItem = this;
+            _parentMenu.SelectedHeaderItem = this;
             base.OnGotFocus(e);
         }
     }

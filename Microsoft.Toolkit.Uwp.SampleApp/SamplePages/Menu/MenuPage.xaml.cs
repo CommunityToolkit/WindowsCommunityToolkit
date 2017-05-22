@@ -11,14 +11,27 @@
 // ******************************************************************
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class MenuPage : Page
+    public sealed partial class MenuPage
     {
         public MenuPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            //Shell.Current.RegisterNewCommand("Change Orientation", (sender, args) =>
+            //{
+            //    VisualStudioMenu.Orientation = VisualStudioMenu.Orientation == Orientation.Horizontal
+            //        ? Orientation.Vertical
+            //        : Orientation.Horizontal;
+            //});
         }
     }
 }

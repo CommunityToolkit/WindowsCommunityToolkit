@@ -74,6 +74,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty HeaderButtonStyleProperty = DependencyProperty.Register(nameof(HeaderButtonStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
 
+        internal bool IsInTransitionState { get; set; }
+
         /// <summary>
         /// Gets or sets the style for HeaderButton
         /// </summary>
@@ -87,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the current selected menu header item
         /// </summary>
         public MenuItem SelectedHeaderItem { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the menu is opened or not
+        /// </summary>
+        public bool IsOpened { get; internal set; }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()

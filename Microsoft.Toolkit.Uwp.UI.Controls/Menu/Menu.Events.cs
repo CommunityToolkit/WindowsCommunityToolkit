@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
-            if (element is MenuItem)
+            if (!menu.IsOpened && element is MenuItem)
             {
                 if ((args.VirtualKey == VirtualKey.Down && orientation == Orientation.Horizontal) ||
                     (args.VirtualKey == VirtualKey.Right && orientation == Orientation.Vertical))
@@ -62,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (element is MenuFlyoutItem)
                 {
+                    menu.IsInTransitionState = true;
                     menu.SelectedHeaderItem.HideMenu();
                     GetNextMenuItem(menu, -1).ShowMenu();
                     return true;
@@ -72,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var menuFlyoutSubItem = (MenuFlyoutSubItem)element;
                     if (menuFlyoutSubItem.Parent is MenuItem && element == _lastFocusElement)
                     {
+                        menu.IsInTransitionState = true;
                         menu.SelectedHeaderItem.HideMenu();
                         GetNextMenuItem(menu, -1).ShowMenu();
                         return true;
@@ -83,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (element is MenuFlyoutItem)
                 {
+                    menu.IsInTransitionState = true;
                     menu.SelectedHeaderItem.HideMenu();
                     GetNextMenuItem(menu, +1).ShowMenu();
                     return true;
@@ -184,6 +187,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
+            if (IsInTransitionState)
+            {
+                return;
+            }
+
             var element = FocusManager.GetFocusedElement();
 
             if (NavigateUsingKeyboard(element, args, this, Orientation))
