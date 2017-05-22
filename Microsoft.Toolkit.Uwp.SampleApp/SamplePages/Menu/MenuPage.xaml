@@ -28,7 +28,8 @@
                        HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}">
 
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
+            <controls:MenuItem Name="FileMenu"
+                               controls:Menu.InputGestureText="Alt+F"
                                Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"

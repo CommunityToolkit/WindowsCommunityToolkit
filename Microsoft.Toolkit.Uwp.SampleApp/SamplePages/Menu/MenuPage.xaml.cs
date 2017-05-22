@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -26,12 +25,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            //Shell.Current.RegisterNewCommand("Change Orientation", (sender, args) =>
-            //{
-            //    VisualStudioMenu.Orientation = VisualStudioMenu.Orientation == Orientation.Horizontal
-            //        ? Orientation.Vertical
-            //        : Orientation.Horizontal;
-            //});
+            Shell.Current.RegisterNewCommand("Add Item to file menu", (sender, args) =>
+            {
+                FileMenu.Items.Add(new object());
+            });
         }
     }
 }

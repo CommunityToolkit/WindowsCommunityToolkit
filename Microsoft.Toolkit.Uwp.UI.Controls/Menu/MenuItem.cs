@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private Menu _parentMenu;
         private bool _isOpened;
+        private MenuFlyout _menuFlyout;
 
         internal Button FlyoutButton { get; private set; }
 
@@ -93,56 +94,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (FlyoutButton != null && Items != null && Items.Any())
             {
-                var menuFlyout = new MenuFlyout();
-                menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
+                _menuFlyout = new MenuFlyout();
+                _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
 
-                menuFlyout.Opened -= MenuFlyout_Opened;
-                menuFlyout.Closed -= MenuFlyout_Closed;
+                _menuFlyout.Opened -= MenuFlyout_Opened;
+                _menuFlyout.Closed -= MenuFlyout_Closed;
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged -= Items_VectorChanged;
 
-                menuFlyout.Opened += MenuFlyout_Opened;
-                menuFlyout.Closed += MenuFlyout_Closed;
+                _menuFlyout.Opened += MenuFlyout_Opened;
+                _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
+                _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 FlyoutButton.Style = _parentMenu.HeaderButtonStyle;
+                ReAddItemsToFlyout();
 
-                foreach (var item in Items)
-                {
-                    var menuItem = item as MenuFlyoutItemBase;
-                    if (menuItem != null)
-                    {
-                        menuFlyout.Items.Add(menuItem);
-                    }
-                    else
-                    {
-                        var newMenuItem = new MenuFlyoutItem();
-                        newMenuItem.DataContext = item;
-                        menuFlyout.Items.Add(newMenuItem);
-                    }
-                }
-
-                FlyoutButton.Flyout = menuFlyout;
+                FlyoutButton.Flyout = _menuFlyout;
             }
 
             base.OnApplyTemplate();
         }
 
+        private void ReAddItemsToFlyout()
+        {
+            if (_menuFlyout == null)
+            {
+                return;
+            }
+
+            _menuFlyout.Items.Clear();
+            for (var index = 0; index < Items.Count; index++)
+            {
+                var item = Items[index];
+                AddItemToFlyout(item, index);
+            }
+        }
+
+        private void AddItemToFlyout(object item, int index)
+        {
+            var menuItem = item as MenuFlyoutItemBase;
+            if (menuItem != null)
+            {
+                _menuFlyout.Items.Insert(index, menuItem);
+            }
+            else
+            {
+                var newMenuItem = new MenuFlyoutItem();
+                newMenuItem.DataContext = item;
+                _menuFlyout.Items.Insert(index, newMenuItem);
+            }
+        }
+
         private void Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
         {
+            var index = (int)e.Index;
             switch (e.CollectionChange)
             {
                 case CollectionChange.Reset:
+                    ReAddItemsToFlyout();
                     break;
                 case CollectionChange.ItemInserted:
+                    AddItemToFlyout(sender.ElementAt(index), index);
                     break;
                 case CollectionChange.ItemRemoved:
+                    _menuFlyout.Items.RemoveAt(index);
                     break;
                 case CollectionChange.ItemChanged:
+                    _menuFlyout.Items.RemoveAt(index);
+                    AddItemToFlyout(sender.ElementAt(index), index);
                     break;
             }
         }
