@@ -78,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await LoadDataAsync();
 
             AddImage(false, true);
+            AddImage(false, true, true);
         }
 
         private async Task LoadDataAsync()
@@ -93,7 +94,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 newImage = new RoundImageEx
                 {
                     Height = 200,
-                    Width = 200
+                    Width = 200,
+                    CornerRadius = new CornerRadius(999)
                 };
             }
             else

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -22,30 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RoundImageEx
     {
-        // Using a DependencyProperty as the backing store for StrokeThickness.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty StrokeThicknessProperty =
-            DependencyProperty.Register(nameof(StrokeThickness), typeof(double), typeof(RoundImageEx), new PropertyMetadata(default(double)));
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty StrokeProperty =
-            DependencyProperty.Register(nameof(Stroke), typeof(Brush), typeof(RoundImageEx), new PropertyMetadata(default(Brush)));
-
-        /// <summary>
-        /// Gets or sets the Stroke Thickness for the Ellipse Mask
-        /// </summary>
-        public double StrokeThickness
+        public CornerRadius CornerRadius
         {
-            get { return (double)GetValue(StrokeThicknessProperty); }
-            set { SetValue(StrokeThicknessProperty, value); }
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the Stroke for the Ellipse Mask
-        /// </summary>
-        public Brush Stroke
-        {
-            get { return (Brush)GetValue(StrokeProperty); }
-            set { SetValue(StrokeProperty, value); }
-        }
+        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(RoundImageEx), new PropertyMetadata(0));
     }
 }

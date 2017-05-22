@@ -9,33 +9,35 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RoundImageEx">
                     <Grid>
-                        <Ellipse x:Name="PlaceholderEllipse"
+                        <Border x:Name="PlaceholderEllipse"
                                  Width="{TemplateBinding Width}"
                                  Height="{TemplateBinding Height}"
                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                  Opacity="1.0"
-                                 Stroke="{TemplateBinding Stroke}"
-                                 StrokeThickness="{TemplateBinding StrokeThickness}">
-                            <Ellipse.Fill>
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border.Background>
                                 <ImageBrush x:Name="PlaceholderImage"
                                             ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderSource}"
                                             Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderStretch}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <Ellipse x:Name="ImageEllipse"
+                            </Border.Background>
+                        </Border>
+                        <Border x:Name="ImageEllipse"
                                  Width="{TemplateBinding Width}"
                                  Height="{TemplateBinding Height}"
                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                  Opacity="0.0"
-                                 Stroke="{TemplateBinding Stroke}"
-                                 StrokeThickness="{TemplateBinding StrokeThickness}">
-                            <Ellipse.Fill>
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border.Background>
                                 <ImageBrush x:Name="Image"
                                             Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stretch}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
+                            </Border.Background>
+                        </Border>
                         <ProgressRing Name="Progress"
                                       Margin="16"
                                       HorizontalAlignment="Center"
