@@ -2,25 +2,42 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="controls:ImageEx">
+    <Style TargetType="controls:RoundImageEx">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:ImageEx">
-                    <Grid Background="{TemplateBinding Background}">
-                        <Image Name="PlaceholderImage"
-                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                               Opacity="1.0"
-                               Source="{TemplateBinding PlaceholderSource}"
-                               Stretch="{TemplateBinding PlaceholderStretch}" />
-                        <Image Name="Image"
-                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                               NineGrid="{TemplateBinding NineGrid}"
-                               Opacity="0.0"
-                               Stretch="{TemplateBinding Stretch}" />
+                <ControlTemplate TargetType="controls:RoundImageEx">
+                    <Grid>
+                        <Border x:Name="PlaceholderEllipse"
+                                 Width="{TemplateBinding Width}"
+                                 Height="{TemplateBinding Height}"
+                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                 Opacity="1.0"
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border.Background>
+                                <ImageBrush x:Name="PlaceholderImage"
+                                            ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderSource}"
+                                            Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PlaceholderStretch}" />
+                            </Border.Background>
+                        </Border>
+                        <Border x:Name="ImageEllipse"
+                                 Width="{TemplateBinding Width}"
+                                 Height="{TemplateBinding Height}"
+                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                 Opacity="0.0"
+                                 CornerRadius="{TemplateBinding CornerRadius}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border.Background>
+                                <ImageBrush x:Name="Image"
+                                            Stretch="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Stretch}" />
+                            </Border.Background>
+                        </Border>
                         <ProgressRing Name="Progress"
                                       Margin="16"
                                       HorizontalAlignment="Center"
@@ -28,16 +45,17 @@
                                       Background="Transparent"
                                       Foreground="{TemplateBinding Foreground}"
                                       IsActive="False" />
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Failed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Image"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ImageEllipse"
                                                                        Storyboard.TargetProperty="Opacity">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="0" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderImage"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderEllipse"
                                                                        Storyboard.TargetProperty="Opacity">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="1" />
@@ -51,12 +69,12 @@
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="True" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Image"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ImageEllipse"
                                                                        Storyboard.TargetProperty="Opacity">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="0" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderImage"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderEllipse"
                                                                        Storyboard.TargetProperty="Opacity">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="1" />
@@ -72,13 +90,13 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation AutoReverse="False"
                                                          BeginTime="0"
-                                                         Storyboard.TargetName="Image"
+                                                         Storyboard.TargetName="ImageEllipse"
                                                          Storyboard.TargetProperty="Opacity"
                                                          From="0"
                                                          To="1" />
                                         <DoubleAnimation AutoReverse="False"
                                                          BeginTime="0"
-                                                         Storyboard.TargetName="PlaceholderImage"
+                                                         Storyboard.TargetName="PlaceholderEllipse"
                                                          Storyboard.TargetProperty="Opacity"
                                                          From="1"
                                                          To="0" />
