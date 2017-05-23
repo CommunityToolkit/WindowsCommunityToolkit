@@ -227,7 +227,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
             }
 
+            Unloaded += SlidableListItem_Unloaded;
+
             base.OnApplyTemplate();
+        }
+
+        private void SlidableListItem_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_contentStoryboard != null && _contentStoryboardCompletedIsSubscribed)
+            {
+                _contentStoryboard.Completed -= ContentStoryboard_Completed;
+                _contentStoryboardCompletedIsSubscribed = false;
+            }
         }
 
         private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -532,13 +543,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ContentStoryboard_Completed(object sender, object e)
         {
             _commandContainer.Opacity = 0.0;
-
-            var storyBoard = sender as Storyboard;
-            if (storyBoard != null)
-            {
-                storyBoard.Completed -= ContentStoryboard_Completed;
-                _contentStoryboardCompletedIsSubscribed = false;
-            }
         }
 
         /// <summary>
