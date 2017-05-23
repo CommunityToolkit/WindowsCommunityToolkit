@@ -28,10 +28,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add Item to file menu", (sender, args) =>
             {
-                FileMenu.Items.Add(new MenuFlyoutItem
+                var flyoutItem = new MenuFlyoutItem
                 {
                     Text = "new item"
-                });
+                };
+
+                flyoutItem.Click += (a, b) =>
+                {
+                    FileMenu.Items.Remove(flyoutItem);
+                };
+
+                FileMenu.Items.Add(flyoutItem);
             });
         }
     }
