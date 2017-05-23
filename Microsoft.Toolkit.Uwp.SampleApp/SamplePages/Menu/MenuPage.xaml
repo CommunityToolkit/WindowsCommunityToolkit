@@ -30,7 +30,8 @@
 
             <controls:MenuItem Name="FileMenu"
                                controls:Menu.InputGestureText="Alt+F"
-                               Header="File">
+                               Header="File"
+                               ToolTipService.ToolTip="a7a">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"

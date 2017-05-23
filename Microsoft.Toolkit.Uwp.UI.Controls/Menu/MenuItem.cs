@@ -92,36 +92,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _parentMenu = this.FindAscendant<Menu>();
             IsOpened = false;
 
-            if (FlyoutButton != null && Items != null && Items.Any())
+            if (_menuFlyout != null)
             {
-                _menuFlyout = new MenuFlyout();
-                _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
-                    ? FlyoutPlacementMode.Bottom
-                        : FlyoutPlacementMode.Right;
-
                 _menuFlyout.Opened -= MenuFlyout_Opened;
                 _menuFlyout.Closed -= MenuFlyout_Closed;
-                FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
-                Items.VectorChanged -= Items_VectorChanged;
-
-                _menuFlyout.Opened += MenuFlyout_Opened;
-                _menuFlyout.Closed += MenuFlyout_Closed;
-                FlyoutButton.PointerExited += FlyoutButton_PointerExited;
-                Items.VectorChanged += Items_VectorChanged;
-
-                _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
-                FlyoutButton.Style = _parentMenu.HeaderButtonStyle;
-                ReAddItemsToFlyout();
-
-                FlyoutButton.Flyout = _menuFlyout;
             }
+
+            if (Items != null)
+            {
+                Items.VectorChanged -= Items_VectorChanged;
+                Items.VectorChanged += Items_VectorChanged;
+            }
+
+            if (FlyoutButton == null)
+            {
+                return;
+            }
+
+            FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
+
+            _menuFlyout = new MenuFlyout
+            {
+                Placement = _parentMenu.Orientation == Orientation.Horizontal
+                    ? FlyoutPlacementMode.Bottom
+                    : FlyoutPlacementMode.Right
+            };
+
+            _menuFlyout.Opened += MenuFlyout_Opened;
+            _menuFlyout.Closed += MenuFlyout_Closed;
+            FlyoutButton.PointerExited += FlyoutButton_PointerExited;
+
+            _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
+            FlyoutButton.Style = _parentMenu.HeaderButtonStyle;
+            ReAddItemsToFlyout();
+
+            FlyoutButton.Flyout = _menuFlyout;
 
             base.OnApplyTemplate();
         }
 
         private void ReAddItemsToFlyout()
         {
-            if (_menuFlyout == null)
+            if (_menuFlyout == null || Items == null)
             {
                 return;
             }

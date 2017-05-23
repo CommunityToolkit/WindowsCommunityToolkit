@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -27,7 +28,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add Item to file menu", (sender, args) =>
             {
-                FileMenu.Items.Add(new object());
+                FileMenu.Items.Add(new MenuFlyoutItem
+                {
+                    Text = "new item"
+                });
             });
         }
     }
