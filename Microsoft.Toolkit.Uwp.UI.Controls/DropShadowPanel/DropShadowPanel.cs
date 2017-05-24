@@ -10,7 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -135,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void UpdateShadowMask()
+        private async void UpdateShadowMask()
         {
             if (!IsSupported)
             {
@@ -145,6 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Content != null)
             {
                 CompositionBrush mask = null;
+
                 if (Content is Image)
                 {
                     mask = ((Image)Content).GetAlphaMask();
@@ -156,6 +159,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (Content is TextBlock)
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
+                }
+                else if (Content is ImageExBase)
+                {
+                    var imageExBase = (ImageExBase)Content;
+
+                    while (!imageExBase.IsInitialized)
+                    {
+                        await Task.Delay(10);
+                    }
+
+                    mask = ((ImageExBase)Content).GetAlphaMask();
                 }
 
                 _dropShadow.Mask = mask;
