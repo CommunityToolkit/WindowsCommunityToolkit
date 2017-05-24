@@ -23,14 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RoundImageEx
     {
-        public CornerRadius CornerRadius
+        public double CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            get { return (double)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(RoundImageEx), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(double), typeof(RoundImageEx), new PropertyMetadata(0));
     }
 }
