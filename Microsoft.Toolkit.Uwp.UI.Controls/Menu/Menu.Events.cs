@@ -29,8 +29,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
         private const string AltValue = "ALT";
-        private static object _lastFocusElement;
+        private Control _lastFocusElement;
         private bool _altHandled;
+        private bool _isLostFocus = true;
+        private Control _lastFocusElementBeforeMenu;
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
@@ -71,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (element is MenuFlyoutSubItem)
                 {
                     var menuFlyoutSubItem = (MenuFlyoutSubItem)element;
-                    if (menuFlyoutSubItem.Parent is MenuItem && element == _lastFocusElement)
+                    if (menuFlyoutSubItem.Parent is MenuItem && element == menu._lastFocusElement)
                     {
                         menu.IsInTransitionState = true;
                         menu.SelectedHeaderItem.HideMenu();
@@ -217,16 +219,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc />
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            _isLostFocus = true;
+            base.OnLostFocus(e);
+        }
+
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
-            _lastFocusElement = FocusManager.GetFocusedElement();
+            _lastFocusElement = FocusManager.GetFocusedElement() as Control;
             if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
             {
                 _altHandled = false;
             }
             else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
             {
-                Focus(FocusState.Keyboard);
+                if (!IsOpened)
+                {
+                    if (_isLostFocus)
+                    {
+                        _lastFocusElementBeforeMenu = _lastFocusElement;
+                        Focus(FocusState.Keyboard);
+                        _isLostFocus = false;
+                    }
+                    else
+                    {
+                        _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
+                    }
+                }
             }
             else if (args.KeyStatus.IsMenuKeyDown && args.KeyStatus.IsKeyReleased)
             {

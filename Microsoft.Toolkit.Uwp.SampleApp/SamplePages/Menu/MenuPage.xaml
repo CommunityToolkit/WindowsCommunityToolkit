@@ -24,14 +24,12 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <controls:Menu Name="VisualStudioMenu"
-                       HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+        <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"
                                controls:Menu.InputGestureText="Alt+F"
-                               Header="File"
-                               ToolTipService.ToolTip="a7a">
+                               Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
