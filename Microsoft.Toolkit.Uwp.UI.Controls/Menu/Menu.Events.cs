@@ -10,8 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.System;
@@ -35,12 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
-
-        internal delegate void GenericMenuMenuItemEventHandler(Menu sender);
-
-        internal event GenericMenuMenuItemEventHandler AltKeyRequested;
-
-        internal event GenericMenuMenuItemEventHandler AllowTooltipChanged;
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
@@ -175,12 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void AllowTooltipPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var menu = (Menu)d;
-            menu.AllowTooltipChanged?.Invoke(menu);
-        }
-
         private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
@@ -189,6 +175,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _wrapPanel.Orientation = Orientation;
             }
 
+            LostFocus -= Menu_LostFocus;
+            LostFocus += Menu_LostFocus;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
@@ -233,11 +221,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <inheritdoc />
-        protected override void OnLostFocus(RoutedEventArgs e)
+        private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
-            _isLostFocus = true;
-            base.OnLostFocus(e);
+            HideSubItemTooltips();
         }
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
@@ -253,11 +239,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_isLostFocus)
                     {
-                        Focus(FocusState.Keyboard);
+                        LostFocus -= Menu_LostFocus;
+                        Focus(FocusState.Programmatic);
                         _lastFocusElementBeforeMenu = _lastFocusElement;
-                        Debug.WriteLine("show tooltip");
                         _isLostFocus = false;
-                        AltKeyRequested?.Invoke(this);
+                        ShowSubItemToolTips();
+
+                        LostFocus += Menu_LostFocus;
                     }
                     else
                     {
@@ -285,6 +273,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         menuItem.ShowMenu();
                     }
                 }
+            }
+        }
+
+        private void ShowSubItemToolTips()
+        {
+            foreach (var item in Items)
+            {
+                var i = item as MenuItem;
+                i?.ShowTooltip();
+            }
+        }
+
+        private void HideSubItemTooltips()
+        {
+            _isLostFocus = true;
+            foreach (var item in Items)
+            {
+                var i = item as MenuItem;
+                i?.HideTooltip();
             }
         }
     }

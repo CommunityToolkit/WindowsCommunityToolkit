@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -110,17 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                _parentMenu.AllowTooltipChanged -= ParentMenu_AllowTooltipChanged;
-                _parentMenu.AllowTooltipChanged += ParentMenu_AllowTooltipChanged;
-
-                if (_parentMenu.AllowTooltip)
-                {
-                    _parentMenu.AltKeyRequested -= ParentMenu_AltKeyRequested;
-                    _parentMenu.LostFocus -= ParentMenu_LostFocus;
-                    _parentMenu.AltKeyRequested += ParentMenu_AltKeyRequested;
-                    _parentMenu.LostFocus += ParentMenu_LostFocus;
-                }
-
                 _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                     : FlyoutPlacementMode.Right;
@@ -139,19 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void ParentMenu_AllowTooltipChanged(Menu sender)
-        {
-            _parentMenu.AltKeyRequested -= ParentMenu_AltKeyRequested;
-            _parentMenu.LostFocus -= ParentMenu_LostFocus;
-
-            if (_parentMenu.AllowTooltip)
-            {
-                _parentMenu.AltKeyRequested += ParentMenu_AltKeyRequested;
-                _parentMenu.LostFocus += ParentMenu_LostFocus;
-            }
-        }
-
-        private void ParentMenu_AltKeyRequested(Menu sender)
+        internal void ShowTooltip()
         {
             var tooltip = ToolTipService.GetToolTip(FlyoutButton) as ToolTip;
             if (tooltip == null)
@@ -163,10 +139,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             tooltip.Content = "Hopa";
-            tooltip.IsOpen = true;
+            tooltip.IsOpen = !tooltip.IsOpen;
         }
 
-        private void ParentMenu_LostFocus(object sender, RoutedEventArgs e)
+        internal void HideTooltip()
         {
             var tooltip = ToolTipService.GetToolTip(FlyoutButton) as ToolTip;
             if (tooltip != null)

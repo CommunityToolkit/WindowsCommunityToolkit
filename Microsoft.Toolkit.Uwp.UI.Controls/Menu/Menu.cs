@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="AllowTooltip"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AllowTooltipProperty = DependencyProperty.Register(nameof(AllowTooltip), typeof(bool), typeof(Menu), new PropertyMetadata(false, AllowTooltipPropertyChanged));
+        public static readonly DependencyProperty AllowTooltipProperty = DependencyProperty.Register(nameof(AllowTooltip), typeof(bool), typeof(Menu), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets a value indicating whether to allow tooltip on alt or not
