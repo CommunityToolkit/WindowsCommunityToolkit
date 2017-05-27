@@ -27,8 +27,8 @@
       <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
 
-    <controls:Menu Name="VisualStudioMenu"
-                   HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+    <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+                   AllowTooltip="@[AllowTooltip:Bool:True]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]">
 
       <controls:MenuItem controls:Menu.InputGestureText="Alt+F"

@@ -24,7 +24,8 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+        <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
+                       HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"

@@ -70,6 +70,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Identifies the <see cref="AllowTooltip"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AllowTooltipProperty = DependencyProperty.Register(nameof(AllowTooltip), typeof(bool), typeof(Menu), new PropertyMetadata(false, AllowTooltipPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to allow tooltip on alt or not
+        /// </summary>
+        public bool AllowTooltip
+        {
+            get { return (bool)GetValue(AllowTooltipProperty); }
+            set { SetValue(AllowTooltipProperty, value); }
+        }
+
+        /// <summary>
         /// Identifies the <see cref="HeaderButtonStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderButtonStyleProperty = DependencyProperty.Register(nameof(HeaderButtonStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));

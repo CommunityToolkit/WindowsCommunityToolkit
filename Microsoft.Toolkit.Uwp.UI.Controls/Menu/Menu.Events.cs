@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.System;
@@ -33,6 +35,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
+
+        internal delegate void GenericMenuMenuItemEventHandler(Menu sender);
+
+        internal event GenericMenuMenuItemEventHandler AltKeyRequested;
+
+        internal event GenericMenuMenuItemEventHandler AllowTooltipChanged;
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
@@ -167,6 +175,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static void AllowTooltipPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = (Menu)d;
+            menu.AllowTooltipChanged?.Invoke(menu);
+        }
+
         private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
@@ -239,9 +253,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_isLostFocus)
                     {
-                        _lastFocusElementBeforeMenu = _lastFocusElement;
                         Focus(FocusState.Keyboard);
+                        _lastFocusElementBeforeMenu = _lastFocusElement;
+                        Debug.WriteLine("show tooltip");
                         _isLostFocus = false;
+                        AltKeyRequested?.Invoke(this);
                     }
                     else
                     {
