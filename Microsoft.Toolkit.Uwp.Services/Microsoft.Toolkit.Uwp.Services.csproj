@@ -51,6 +51,7 @@
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />
     <Compile Include="Services\Bing\BingLanguage.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
     <Compile Include="Services\Bing\BingResult.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="Services\Facebook\FacebookPhoto.cs" />
     <Compile Include="Services\Facebook\FacebookPictureData.cs" />
     <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ErrorResponse.cs" />
+    <Compile Include="Services\MicrosoftTranslator\TranslatorServiceException.cs" />
     <Compile Include="Services\OneDrive\DiscoverySettings.cs" />
     <Compile Include="Services\OneDrive\OneDriveAuthenticationHelper.cs" />
     <Compile Include="Services\OneDrive\OneDriveConflictItem.cs" />
@@ -114,8 +117,16 @@
     <Compile Include="Services\OneDrive\OneDriveThumbnailSet.cs" />
     <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
     <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamDeletedEvent.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamEventType.cs" />
+    <Compile Include="Services\Twitter\TwitterStreamEvent.cs" />
+    <Compile Include="Services\Twitter\TwitterDirectMessage.cs" />
+    <Compile Include="Services\Twitter\ITwitterResult.cs" />
+    <Compile Include="Services\Twitter\TwitterUserStreamParser.cs" />
+    <Compile Include="Services\Twitter\TwitterEntities.cs" />
     <Compile Include="Services\Twitter\TwitterErrors.cs" />
     <Compile Include="Services\Twitter\TwitterException.cs" />
+    <Compile Include="Services\Twitter\TwitterMedia.cs" />
     <Compile Include="Services\Twitter\TwitterGeoData.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
     <Compile Include="Services\Facebook\FacebookPermissions.cs" />
@@ -162,6 +173,7 @@
     <Compile Include="Services\Twitter\Tweet.cs" />
     <Compile Include="Services\Twitter\TwitterError.cs" />
     <Compile Include="Services\Twitter\TwitterStatus.cs" />
+    <Compile Include="Services\Twitter\TwitterUrl.cs" />
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>

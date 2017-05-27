@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies how the pane and content areas are shown.
+        /// Gets or sets a value that specifies how the pane and content areas are shown.
         /// </summary>
         public SplitViewDisplayMode DisplayMode
         {

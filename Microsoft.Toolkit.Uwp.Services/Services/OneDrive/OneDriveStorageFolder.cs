@@ -265,8 +265,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="startIndex">The zero-based index of the first item in the range to get</param>
         /// <param name="maxItemsToRetrieve">The maximum number of items to get</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        public async Task<OneDriveStorageItemsCollection> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
+        public async Task<OneDriveStorageItemsCollection> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve, CancellationToken cancellationToken = default(CancellationToken))
         {
             IItemChildrenCollectionRequest oneDriveitemsRequest = null;
             var request = RequestBuilder.Children.Request();
@@ -275,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // oneDriveitemsRequest = request.Top((int)maxItemsToRetrieve).Skip((int)startIndex);
             int maxToRetrieve = (int)(maxItemsToRetrieve + startIndex);
             oneDriveitemsRequest = request.Top(maxToRetrieve);
-            var tempo = await oneDriveitemsRequest.GetAsync().ConfigureAwait(false);
+            var tempo = await oneDriveitemsRequest.GetAsync(cancellationToken).ConfigureAwait(false);
 
             List<OneDriveStorageItem> items = new List<OneDriveStorageItem>();
 

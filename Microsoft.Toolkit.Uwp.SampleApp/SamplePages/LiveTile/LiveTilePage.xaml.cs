@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Initialize()
         {
             // Generate the tile notification content
-            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.png");
+            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
 
             // Prepare and update the preview tiles
             var previewTiles = new PreviewTile[] { MediumPreviewTile, WidePreviewTile, LargePreviewTile };

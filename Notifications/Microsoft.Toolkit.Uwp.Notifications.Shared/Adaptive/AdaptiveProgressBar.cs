@@ -13,6 +13,7 @@
 #if WINRT
 using System.Collections.Generic;
 #endif
+using System;
 using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
@@ -63,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             ValueStringOverride { get; set; }
 
         /// <summary>
-        /// Gets or sets an optional status string, which is displayed underneath the progress bar. If provided, this string should reflect the status of the download, like "Downloading..." or "Installing..."
+        /// Required. Gets or sets a status string, which is displayed underneath the progress bar. This string should reflect the status of the operation, like "Downloading..." or "Installing..."
         /// </summary>
         public
 #if WINRT
@@ -95,6 +96,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             answer.ValueStringOverride = ValueStringOverride?.ToXmlString();
             answer.Status = Status?.ToXmlString();
 #endif
+
+            if (answer.Status == null)
+            {
+                throw new NullReferenceException("Status property is required.");
+            }
 
             return answer;
         }

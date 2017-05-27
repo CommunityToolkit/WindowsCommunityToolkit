@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _wrapPanelCollection.Add(new PhotoDataItemWithDimension
             {
                 Category = "Remove",
-                Thumbnail = "ms-appx:///Assets/Photos/BigFourSummerHeat.png",
+                Thumbnail = "ms-appx:///Assets/Photos/BigFourSummerHeat.jpg",
                 Width = Rand.Next(120, 180),
                 Height = Rand.Next(80, 130)
             });

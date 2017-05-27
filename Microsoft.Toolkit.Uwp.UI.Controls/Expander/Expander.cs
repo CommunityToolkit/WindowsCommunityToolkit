@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -40,6 +41,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, StateContentExpanded, false);
             }
+
+            var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
+
+            if (button != null)
+            {
+                button.KeyDown -= ExpanderToggleButtonPart_KeyDown;
+                button.KeyDown += ExpanderToggleButtonPart_KeyDown;
+            }
+        }
+
+        private void ExpanderToggleButtonPart_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key != VirtualKey.Enter)
+            {
+                return;
+            }
+
+            var button = sender as ToggleButton;
+
+            if (button == null)
+            {
+                return;
+            }
+
+            IsExpanded = !IsExpanded;
+
+            e.Handled = true;
         }
 
         private void ExpandControl()
