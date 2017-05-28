@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 var flyoutItem = new MenuFlyoutItem
                 {
-                    Text = "new item"
+                    Text = "Click to remove"
                 };
 
                 flyoutItem.Click += (a, b) =>

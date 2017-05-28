@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -67,6 +68,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Style)GetValue(MenuFlyoutStyleProperty); }
             set { SetValue(MenuFlyoutStyleProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TooltipStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TooltipStyleProperty = DependencyProperty.Register(nameof(TooltipStyle), typeof(Style), typeof(Menu), new PropertyMetadata(default(Style)));
+
+        /// <summary>
+        /// Gets or sets the tooltip styles for menu
+        /// </summary>
+        public Style TooltipStyle
+        {
+            get { return (Style)GetValue(TooltipStyleProperty); }
+            set { SetValue(TooltipStyleProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TooltipPlacement"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TooltipPlacementProperty = DependencyProperty.Register(nameof(TooltipPlacement), typeof(PlacementMode), typeof(Menu), new PropertyMetadata(default(PlacementMode)));
+
+        /// <summary>
+        /// Gets or sets the tooltip placement on menu
+        /// </summary>
+        public PlacementMode TooltipPlacement
+        {
+            get { return (PlacementMode)GetValue(TooltipPlacementProperty); }
+            set { SetValue(TooltipPlacementProperty, value); }
         }
 
         /// <summary>

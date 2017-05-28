@@ -26,7 +26,8 @@
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
                        HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
-                       Orientation="{Binding Orientation.Value, Mode=TwoWay}">
+                       Orientation="{Binding Orientation.Value, Mode=TwoWay}"
+                       TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"
                                controls:Menu.InputGestureText="Alt+F"

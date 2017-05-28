@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class MenuItem : ItemsControl
     {
+        private const string FlyoutButtonName = "FlyoutButton";
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
@@ -88,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            FlyoutButton = GetTemplateChild("FlyoutButton") as Button;
+            FlyoutButton = GetTemplateChild(FlyoutButtonName) as Button;
             _parentMenu = this.FindAscendant<Menu>();
             IsOpened = false;
 
@@ -129,16 +130,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ShowTooltip()
         {
+            var inputGestureText = GetValue(Menu.InputGestureTextProperty) as string;
+            if (string.IsNullOrEmpty(inputGestureText))
+            {
+                return;
+            }
+
             var tooltip = ToolTipService.GetToolTip(FlyoutButton) as ToolTip;
             if (tooltip == null)
             {
                 tooltip = new ToolTip();
-                tooltip.Padding = new Thickness(4, 4, 4, 4);
-                tooltip.Placement = PlacementMode.Bottom;
+                tooltip.Style = _parentMenu.TooltipStyle;
                 ToolTipService.SetToolTip(FlyoutButton, tooltip);
             }
 
-            tooltip.Content = "Hopa";
+            tooltip.Placement = _parentMenu.TooltipPlacement;
+            tooltip.Content = inputGestureText;
             tooltip.IsOpen = !tooltip.IsOpen;
         }
 

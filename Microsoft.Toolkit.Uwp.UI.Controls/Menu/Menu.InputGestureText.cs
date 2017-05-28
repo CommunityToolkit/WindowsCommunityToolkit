@@ -19,10 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu
     {
+        internal const string InputGestureTextName = "InputGestureText";
+
         /// <summary>
         /// Sets the text describing an input gesture that will call the command tied to the specified item.
         /// </summary>
-        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached("InputGestureText", typeof(string), typeof(DependencyObject), new PropertyMetadata(null, InputGestureTextChanged));
+        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached(InputGestureTextName, typeof(string), typeof(DependencyObject), new PropertyMetadata(null, InputGestureTextChanged));
 
         private static void InputGestureTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {

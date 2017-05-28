@@ -29,7 +29,8 @@
 
     <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
                    AllowTooltip="@[AllowTooltip:Bool:True]"
-                   Orientation="@[Orientation:Enum:Orientation.Horizontal]">
+                   Orientation="@[Orientation:Enum:Orientation.Horizontal]"
+                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
 
       <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
                          Header="File">
