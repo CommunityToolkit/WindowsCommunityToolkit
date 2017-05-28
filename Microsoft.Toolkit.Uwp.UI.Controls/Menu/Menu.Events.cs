@@ -223,7 +223,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
-            HideSubItemTooltips();
+            _isLostFocus = true;
+
+            if (AllowTooltip)
+            {
+                HideSubItemTooltips();
+            }
         }
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
@@ -243,7 +248,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         Focus(FocusState.Programmatic);
                         _lastFocusElementBeforeMenu = _lastFocusElement;
                         _isLostFocus = false;
-                        ShowSubItemToolTips();
+
+                        if (AllowTooltip)
+                        {
+                            ShowSubItemToolTips();
+                        }
 
                         LostFocus += Menu_LostFocus;
                     }
@@ -287,7 +296,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void HideSubItemTooltips()
         {
-            _isLostFocus = true;
             foreach (var item in Items)
             {
                 var i = item as MenuItem;
