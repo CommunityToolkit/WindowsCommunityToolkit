@@ -1068,7 +1068,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RenderMarkdown()
         {
             // Make sure we have something to parse.
-            if (Text == null)
+            if (string.IsNullOrWhiteSpace(Text))
             {
                 return;
             }

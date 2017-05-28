@@ -9,12 +9,12 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Windows.Foundation.Metadata;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -986,24 +986,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="context"> Persistent state. </param>
         private void RenderStrikethroughRun(InlineCollection inlineCollection, StrikethroughTextInline element, RenderContext context)
         {
-            Span span = new Span
+            Span span = new Span();
+
+            if (ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations"))
             {
-                FontFamily = new FontFamily("Consolas")
-            };
+                span.TextDecorations = TextDecorations.Strikethrough;
+            }
+            else
+            {
+                span.FontFamily = new FontFamily("Consolas");
+            }
 
             // Render the children into the inline.
             RenderInlineChildren(span.Inlines, element.Inlines, span, context);
 
             AlterChildRuns(span, (parentSpan, run) =>
             {
-                var text = run.Text;
-                var builder = new StringBuilder(text.Length * 2);
-                foreach (var c in text)
+                if (!ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations"))
                 {
-                    builder.Append((char)0x0336);
-                    builder.Append(c);
+                    var text = run.Text;
+                    var builder = new StringBuilder(text.Length * 2);
+                    foreach (var c in text)
+                    {
+                        builder.Append((char)0x0336);
+                        builder.Append(c);
+                    }
+                    run.Text = builder.ToString();
                 }
-                run.Text = builder.ToString();
             });
 
             // Add it to the current inlines
