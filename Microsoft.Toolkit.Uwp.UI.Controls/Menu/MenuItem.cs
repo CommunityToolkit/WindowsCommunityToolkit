@@ -12,6 +12,7 @@
 
 using System.Linq;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +29,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
+
+        private bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
 
         internal Button FlyoutButton { get; private set; }
 
@@ -123,6 +126,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReAddItemsToFlyout();
 
                 FlyoutButton.Flyout = _menuFlyout;
+
+                if (_isAccessKeySupported)
+                {
+                    FlyoutButton.AccessKey = AccessKey;
+                    AccessKey = string.Empty;
+                }
             }
 
             base.OnApplyTemplate();
