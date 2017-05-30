@@ -146,19 +146,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             BladeItem bladeItem = (BladeItem)dependencyObject;
 
-            bladeItem.Width = bladeItem.BladeItemMode == BladeItemMode.Small
-                ? 70
-                : bladeItem._normalModeWidth;
-
-            ContentPresenter content = bladeItem.GetTemplateChild("ContentPresenter") as ContentPresenter;
-            if (content == null)
-                return;
-
-            if (bladeItem.BladeItemMode == BladeItemMode.Small && content.Visibility == Visibility.Visible)
-                content.Visibility = Visibility.Collapsed;
-
-            if (bladeItem.BladeItemMode == BladeItemMode.Normal && content.Visibility == Visibility.Collapsed)
-                content.Visibility = Visibility.Visible;
+            if (bladeItem.BladeItemMode == BladeItemMode.Normal)
+            {
+                VisualStateManager.GoToState(bladeItem, "Expanded", true);
+                bladeItem.Width = bladeItem._normalModeWidth;
+            }
+            else
+            {
+                VisualStateManager.GoToState(bladeItem, "Collapsed", true);
+                bladeItem.Width = double.NaN;
+            }
         }
     }
 }
