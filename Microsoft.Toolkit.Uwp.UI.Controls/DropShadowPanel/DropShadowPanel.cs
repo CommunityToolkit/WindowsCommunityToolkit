@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private async void UpdateShadowMask()
+        private void UpdateShadowMask()
         {
             if (!IsSupported)
             {
@@ -164,12 +164,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var imageExBase = (ImageExBase)Content;
 
-                    while (!imageExBase.IsInitialized)
-                    {
-                        await Task.Delay(10);
-                    }
+                    imageExBase.ImageExInitialized += ImageExInitialized;
 
-                    mask = ((ImageExBase)Content).GetAlphaMask();
+                    if (imageExBase.IsInitialized)
+                    {
+                        imageExBase.ImageExInitialized -= ImageExInitialized;
+
+                        mask = ((ImageExBase)Content).GetAlphaMask();
+                    }
                 }
 
                 _dropShadow.Mask = mask;
@@ -178,6 +180,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dropShadow.Mask = null;
             }
+        }
+
+        private void ImageExInitialized(object sender, EventArgs e)
+        {
+            var imageExBase = (ImageExBase)Content;
+
+            imageExBase.ImageExInitialized -= ImageExInitialized;
+
+            CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
+
+            _dropShadow.Mask = mask;
         }
 
         private void UpdateShadowOffset(float x, float y, float z)

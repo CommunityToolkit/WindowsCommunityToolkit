@@ -124,6 +124,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsInitialized = true;
 
+            ImageExInitialized?.Invoke(this, new EventArgs());
+
             SetSource(Source);
 
             AttachImageOpened(OnImageOpened);

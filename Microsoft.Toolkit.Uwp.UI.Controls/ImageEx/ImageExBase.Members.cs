@@ -72,6 +72,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event ImageExOpenedEventHandler ImageExOpened;
 
         /// <summary>
+        /// Event raised when the control is initialized.
+        /// </summary>
+        public event EventHandler ImageExInitialized;
+
+        /// <summary>
         /// Gets a value indicating whether control has been initialized.
         /// </summary>
         public bool IsInitialized { get; private set; }
