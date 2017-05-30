@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Loading;
+            if (control._presenter == null)
+            {
+                control._presenter = control.GetTemplateChild("ContentGrid") as FrameworkElement;
+            }
+
             control?.Update();
         }
     }

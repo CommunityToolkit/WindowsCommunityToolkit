@@ -177,13 +177,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!IsStarRow(CurrentRow))
             {
                 // No need to check for the row Min height because it is automatically respected
-                SetRowHeight(CurrentRow, verticalChange, GridUnitType.Pixel);
+                if (!SetRowHeight(CurrentRow, verticalChange, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if sibling row has fixed width then resize it
             else if (!IsStarRow(SiblingRow))
             {
-                SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel);
+                if (!SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if both row haven't fixed height (auto *)
@@ -194,7 +200,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // respect the other star row height by setting it's height to it's actual height with stars
 
                 // We need to validate current and sibling height to not cause any un expected behavior
-                if (!IsValidRowHeight(CurrentRow, verticalChange) || !IsValidRowHeight(SiblingRow, verticalChange * -1))
+                if (!IsValidRowHeight(CurrentRow, verticalChange) || 
+                    !IsValidRowHeight(SiblingRow, verticalChange * -1))
                 {
                     return true;
                 }
@@ -230,13 +237,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!IsStarColumn(CurrentColumn))
             {
                 // No need to check for the Column Min width because it is automatically respected
-                SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel);
+                if (!SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if sibling column has fixed width then resize it
             else if (!IsStarColumn(SiblingColumn))
             {
-                SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel);
+                if (!SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel))
+                {
+                    return true;
+                }
             }
 
             // if both column haven't fixed width (auto *)

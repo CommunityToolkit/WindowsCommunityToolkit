@@ -10,14 +10,15 @@
 
   <Grid Background="{StaticResource Brush-Grey-05}" Padding="48">
     <Grid.RowDefinitions>
-      <RowDefinition MinHeight="100"></RowDefinition>
-      <RowDefinition Height="11"></RowDefinition>
-      <RowDefinition></RowDefinition>
+      <RowDefinition MinHeight="100" MaxHeight="300" />
+      <RowDefinition Height="11" />
+      <RowDefinition />
+      <RowDefinition Height="200" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
+      <ColumnDefinition MinWidth="100" MaxWidth="300" />
+      <ColumnDefinition />
+      <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
     <Rectangle Grid.Column="0"

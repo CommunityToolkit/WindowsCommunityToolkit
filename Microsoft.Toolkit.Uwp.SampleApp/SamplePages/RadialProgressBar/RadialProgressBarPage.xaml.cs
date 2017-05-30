@@ -10,22 +10,30 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
-    /// Source images are downloaded asynchronously showing a load indicator while in progress.
-    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
-    /// </summary>
-    public partial class ImageEx : ImageExBase
+    public sealed partial class RadialProgressBarPage : Page
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageEx"/> class.
-        /// </summary>
-        public ImageEx()
-            : base()
+        public RadialProgressBarPage()
         {
-            DefaultStyleKey = typeof(ImageEx);
+            InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var propertyDesc = e.Parameter as PropertyDescriptor;
+
+            if (propertyDesc != null)
+            {
+                DataContext = propertyDesc.Expando;
+            }
         }
     }
 }

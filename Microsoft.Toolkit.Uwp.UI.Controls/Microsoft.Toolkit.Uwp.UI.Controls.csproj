@@ -75,6 +75,12 @@
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="ImageEx\ImageExBase.Placeholder.cs" />
+    <Compile Include="ImageEx\ImageExBase.Source.cs" />
+    <Compile Include="ImageEx\ImageExBase.cs" />
+    <Compile Include="ImageEx\ImageExBase.Members.cs" />
+    <Compile Include="ImageEx\RoundImageEx.cs" />
+    <Compile Include="ImageEx\RoundImageEx.Members.cs" />
     <Compile Include="MarkdownTextBlock\Display\ILinkRegister.cs" />
     <Compile Include="MarkdownTextBlock\Display\MarkdownTable.cs" />
     <Compile Include="MarkdownTextBlock\Display\XamlRenderer.cs" />
@@ -113,6 +119,7 @@
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
     <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
+    <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
@@ -137,8 +144,6 @@
     <Compile Include="ControlHelpers.Math.cs" />
     <Compile Include="ImageEx\ImageEx.cs" />
     <Compile Include="ImageEx\ImageEx.Members.cs" />
-    <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
-    <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="ScrollHeader\ScrollHeader.cs" />
     <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
     <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
@@ -195,11 +200,20 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="ImageEx\RoundImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TileControl\TileControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialProgressBar\RadialProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

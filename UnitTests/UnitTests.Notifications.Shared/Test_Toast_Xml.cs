@@ -941,6 +941,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_Image()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                ImageUri = "Assets/Snooze.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' imageUri='Assets/Snooze.png'/>", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_SelectionId()
         {
             ToastButtonSnooze button = new ToastButtonSnooze()
@@ -966,7 +977,18 @@ namespace UnitTests.Notifications
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
-        
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_Image()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                ImageUri = "Assets/Dismiss.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' imageUri='Assets/Dismiss.png'/>", button);
+        }
+
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
