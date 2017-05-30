@@ -116,7 +116,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (openBlades?.Count > AutoCollapseCountThreshold)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
+                    {
                         openBlades[i].BladeItemMode = BladeItemMode.Small;
+                    }
                 }
             }
         }
@@ -128,7 +130,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (visibility == Visibility.Visible)
             {
                 if (Items == null)
+                {
                     return;
+                }
 
                 Items.Remove(blade);
                 Items.Add(blade);
@@ -150,7 +154,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var lastBlade = ActiveBlades.LastOrDefault();
             if (lastBlade != null && lastBlade.TitleBarVisibility == Visibility.Visible)
+            {
                 lastBlade.BladeItemMode = BladeItemMode.Normal;
+            }
         }
 
         private ScrollViewer GetScrollViewer()

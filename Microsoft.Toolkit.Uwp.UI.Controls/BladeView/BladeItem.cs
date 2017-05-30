@@ -56,17 +56,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _closeButton.Click += CloseButton_Click;
 
             if (_enlargeButton == null)
+            {
                 return;
+            }
 
             _enlargeButton.Click -= EnlargeButton_Click;
             _enlargeButton.Click += EnlargeButton_Click;
-
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
         {
-            if(BladeItemMode == BladeItemMode.Normal)
+            if (BladeItemMode == BladeItemMode.Normal)
+            {
                 _normalModeWidth = Width;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
