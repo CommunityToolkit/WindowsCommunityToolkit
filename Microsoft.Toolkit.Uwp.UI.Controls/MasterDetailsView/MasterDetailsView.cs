@@ -189,6 +189,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     frame.Navigating -= OnFrameNavigating;
                 }
             }
+
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
+                _stateGroup = null;
+            }
         }
 
         /// <summary>
