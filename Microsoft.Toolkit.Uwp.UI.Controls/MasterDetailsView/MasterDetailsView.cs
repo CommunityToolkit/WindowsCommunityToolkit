@@ -50,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
+        private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -77,6 +78,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetMasterHeaderVisibility();
             OnDetailsCommandBarChanged();
             OnMasterCommandBarChanged();
+
+            if (_loaded && _stateGroup == null)
+            {
+                _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
+                if (_stateGroup != null)
+                {
+                    _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                    _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                    UpdateView(true);
+                }
+            }
         }
 
         /// <summary>
@@ -156,11 +168,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                UpdateView(true);
+            }
 
-            _narrowState = GetTemplateChild(NarrowState) as VisualState;
-
-            UpdateView(true);
+            _loaded = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -173,6 +188,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     frame.Navigating -= OnFrameNavigating;
                 }
+            }
+
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
+                _stateGroup = null;
             }
         }
 
