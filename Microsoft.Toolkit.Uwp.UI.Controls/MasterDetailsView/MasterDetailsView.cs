@@ -329,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
-                    : MapDetails(SelectedItem);
+                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
             }
         }
 
