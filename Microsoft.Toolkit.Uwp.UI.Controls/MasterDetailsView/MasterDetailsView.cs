@@ -325,11 +325,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetDetailsContent()
         {
-            if ((SelectedItem != null) && (_detailsPresenter != null))
+            if (_detailsPresenter != null)
             {
                 _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
-                    : MapDetails(SelectedItem);
+                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
             }
         }
 
