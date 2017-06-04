@@ -44,7 +44,8 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
-        <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
+        <controls:HamburgerMenu AccentColor="@[AccentColor:Brush:Black]"
+                                PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
                                 Foreground="White"
                                 ItemTemplate="{StaticResource ButtonTemplate}"
                                 OptionsItemTemplate="{StaticResource OptionTemplate}"
