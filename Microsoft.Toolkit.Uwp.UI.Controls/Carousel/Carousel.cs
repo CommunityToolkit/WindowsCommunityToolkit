@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Carousel carouselControl = (Carousel)d;
 
-            if (e.Property == SelectedIndexProperty && carouselControl.Items.Count > (int)e.NewValue)
+            if (e.Property == SelectedIndexProperty && (int)e.NewValue >= 0 && carouselControl.Items.Count > (int)e.NewValue)
             {
                 var item = carouselControl.Items[(int)e.NewValue];
                 carouselControl.FocusContainerFromIndex((int)e.NewValue);
@@ -276,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var itemsPanel = carouselControl.GetItemsPanel();
 
                 // Prioritize the SelectedItem over the SelectedIndex
-                if (SelectedItem != null && Items[carouselControl.SelectedIndex] != SelectedItem)
+                if (SelectedItem != null && carouselControl.SelectedIndex >= 0 && Items[carouselControl.SelectedIndex] != SelectedItem)
                 {
                     var index = carouselControl.Items.IndexOf(SelectedItem);
 
@@ -286,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         carouselControl.SetValue(SelectedIndexProperty, index);
                     }
                 }
-                else if (SelectedItem == null && carouselControl.Items.Count > SelectedIndex)
+                else if (SelectedItem == null && SelectedIndex >= 0 && carouselControl.Items.Count > SelectedIndex)
                 {
                     var item = carouselControl.Items[SelectedIndex];
 
