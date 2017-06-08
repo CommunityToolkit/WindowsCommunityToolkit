@@ -178,7 +178,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _contentStoryboard;
         private AnimationSet _leftCommandAnimationSet;
         private AnimationSet _rightCommandAnimationSet;
-        private bool _contentStoryboardCompletedIsSubscribed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -227,17 +226,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
             }
 
+            Loaded += SlidableListItem_Loaded;
             Unloaded += SlidableListItem_Unloaded;
 
             base.OnApplyTemplate();
         }
 
+        private void SlidableListItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_contentStoryboard != null)
+            {
+                _contentStoryboard.Completed += ContentStoryboard_Completed;
+            }
+        }
+
         private void SlidableListItem_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (_contentStoryboard != null && _contentStoryboardCompletedIsSubscribed)
+            if (_contentStoryboard != null)
             {
                 _contentStoryboard.Completed -= ContentStoryboard_Completed;
-                _contentStoryboardCompletedIsSubscribed = false;
             }
         }
 
@@ -266,12 +273,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
-            }
 
-            if (!_contentStoryboardCompletedIsSubscribed)
-            {
                 _contentStoryboard.Completed += ContentStoryboard_Completed;
-                _contentStoryboardCompletedIsSubscribed = true;
             }
 
             if (_commandContainer == null)
