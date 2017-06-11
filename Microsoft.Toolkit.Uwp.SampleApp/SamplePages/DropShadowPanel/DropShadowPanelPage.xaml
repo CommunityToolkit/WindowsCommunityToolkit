@@ -43,9 +43,7 @@
                 <TextBlock Style="{StaticResource TitleText}">TextBlock</TextBlock>
                 <Border Style="{StaticResource DividingBorder}" />
 
-                <controls:DropShadowPanel HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
+                <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
                                           OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
                                           OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
                                           ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
@@ -119,8 +117,22 @@
                                               OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
                                               ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
                                               Color="Black">
-                        <Image Source="Trex.png"
-                               Stretch="Uniform" />
+                        <controls:ImageEx Source="/SamplePages/DropShadowPanel/Trex.png"
+                                          Stretch="Uniform" />
+
+                    </controls:DropShadowPanel>
+
+                    <controls:DropShadowPanel HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
+                                              OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
+                                              OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+                                              ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
+                                              Color="Black">
+                        <controls:RoundImageEx CornerRadius="999"
+                                               Source="/SamplePages/DropShadowPanel/Trex.png"
+                                               Stretch="Uniform" />
+
                     </controls:DropShadowPanel>
                 </StackPanel>
             </StackPanel>

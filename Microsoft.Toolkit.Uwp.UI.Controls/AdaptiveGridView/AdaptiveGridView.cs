@@ -222,6 +222,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RecalculateLayout(double containerWidth)
         {
+            // width should be the displayable width
+            containerWidth = containerWidth - Padding.Left - Padding.Top;
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);

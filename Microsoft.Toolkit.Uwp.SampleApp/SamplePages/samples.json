@@ -3,7 +3,7 @@
     "Name": "Controls",
     "Icon": "Icons/Foundation.png",
     "Samples": [
-     {
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -84,6 +84,14 @@
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialGauge.md"
+      },
+      {
+        "Name": "RadialProgressBar",
+        "Type": "RadialProgressBarPage",
+        "About": "The radial progress bar displays progress as a circle getting filled.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
+        "XamlCodeFile": "RadialProgressBarCode.bind",
+        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png"
       },
       {
         "Name": "SlidableListItem",
@@ -519,6 +527,15 @@
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
+      },
+      {
+        "Name": "ClipboardHelper",
+        "Type": "ClipboardHelperPage",
+        "About": "The ClipboardHelper can set/get clipboard easier",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/ClipboardHelper",
+        "CodeFile": "ClipboardHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ClipboardHelper.md"
       }
     ]
   },

@@ -941,6 +941,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_Image()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                ImageUri = "Assets/Snooze.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' imageUri='Assets/Snooze.png'/>", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_SelectionId()
         {
             ToastButtonSnooze button = new ToastButtonSnooze()
@@ -966,7 +977,18 @@ namespace UnitTests.Notifications
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
-        
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_Image()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                ImageUri = "Assets/Dismiss.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' imageUri='Assets/Dismiss.png'/>", button);
+        }
+
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
@@ -1309,6 +1331,15 @@ namespace UnitTests.Notifications
             AssertPayload("<toast displayTimestamp='2016-10-19T09:00:00-08:00' />", new ToastContent()
             {
                 DisplayTimestamp = new DateTimeOffset(2016, 10, 19, 9, 0, 0, TimeSpan.FromHours(-8))
+            });
+
+            // If devs use DateTime.Now, or directly use ticks (like this code), they can actually end up with a seconds decimal
+            // value that is more than 3 decimal places. The platform notification parser will fail if there are
+            // more than three decimal places. Hence this test normally would produce "2017-04-04T10:28:34.7047925Z"
+            // but we've added code to ensure it strips to only at most 3 decimal places.
+            AssertPayload("<toast displayTimestamp='2017-04-04T10:28:34.704Z' />", new ToastContent()
+            {
+                DisplayTimestamp = new DateTimeOffset(636268985147047925, TimeSpan.FromHours(0))
             });
         }
 

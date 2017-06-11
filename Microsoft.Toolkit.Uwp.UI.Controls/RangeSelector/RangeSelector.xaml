@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RangeSelector">
-                    <Grid x:Name="ControlGrid" Height="{TemplateBinding Height}">
+                    <Grid x:Name="ControlGrid" Height="24" >
                         <Grid.Resources>
                             <Style x:Key="SliderThumbStyle"
                                    TargetType="Thumb">
@@ -18,9 +18,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Grid Width="{TemplateBinding Width}" 
-                                                  Height="{TemplateBinding Height}" 
-                                                  Background="Transparent">
+                                            <Grid Background="Transparent">
                                                 <Border Width="8"
                                                     Height="24"                                                    
                                                     HorizontalAlignment="Center"
@@ -47,6 +45,7 @@
                                 Background="Transparent">
                             <Rectangle x:Name="ActiveRectangle"                                                                     
                                        Height="2"
+                                       VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
