@@ -44,12 +44,12 @@
 
                     <Button Name="ApplyFullMaskButton"
                             Click="ApplyFullMaskButton_Click"
-                            Content="Set Mask to 7b1y--x4a5"
+                            Content="Set Textbox value to 7b1y--x4a5"
                             Style="{StaticResource ApplyMaskButtons}" />
 
                     <Button Name="ApplyPartialMaskButton"
                             Click="ApplyPartialMaskButton_Click"
-                            Content="Set Mask to 7b1yZW"
+                            Content="Set Textbox value to 7b1yZW"
                             Style="{StaticResource ApplyMaskButtons}" />
 
                 </StackPanel>

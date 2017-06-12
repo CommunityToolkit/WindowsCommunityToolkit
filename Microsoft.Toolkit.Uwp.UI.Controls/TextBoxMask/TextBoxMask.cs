@@ -290,72 +290,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
 
-            if (!isDeleteOrBackspace)
+            // Case change due to Text property is assigned a value (Ex Textbox.Text="value")
+            if (textbox.SelectionStart == 0 && textbox.FocusState == FocusState.Unfocused)
             {
-                // Case change due to Text property is assigned a value (Ex Textbox.Text="value")
-                if (textbox.SelectionStart == 0)
+                var displayText = textbox.GetValue(DefaultDisplayTextProperty) as string ?? string.Empty;
+                if (string.IsNullOrEmpty(textbox.Text))
                 {
-                    var displayText = textbox.GetValue(DefaultDisplayTextProperty) as string ?? string.Empty;
-                    if (string.IsNullOrEmpty(textbox.Text))
-                    {
-                        textbox.Text = displayText;
-                    }
-                    else
-                    {
-                        var textboxInitialValue = textbox.Text;
-                        textbox.Text = displayText;
-                        SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolderValue[0], 0);
-                        textbox.SetValue(OldTextProperty, textbox.Text);
-                        return;
-                    }
+                    textbox.Text = displayText;
                 }
-
-                // Case change happended due to user input
                 else
                 {
-                    var selectedChar = textbox.SelectionStart > 0 ?
-                                        textbox.Text[textbox.SelectionStart - 1] :
-                                        placeHolder;
+                    var textboxInitialValue = textbox.Text;
+                    textbox.Text = displayText;
+                    SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolderValue[0], 0);
+                    textbox.SetValue(OldTextProperty, textbox.Text);
+                    return;
+                }
+            }
 
-                    var maskChar = mask[newSelectionIndex];
+            if (!isDeleteOrBackspace)
+            {
+                // Case change happended due to user input
+                var selectedChar = textbox.SelectionStart > 0 ?
+                                    textbox.Text[textbox.SelectionStart - 1] :
+                                    placeHolder;
 
-                    // If dynamic character a,9,* or custom
-                    if (representationDictionary.ContainsKey(maskChar))
+                var maskChar = mask[newSelectionIndex];
+
+                // If dynamic character a,9,* or custom
+                if (representationDictionary.ContainsKey(maskChar))
+                {
+                    var pattern = representationDictionary[maskChar];
+                    if (Regex.IsMatch(selectedChar.ToString(), pattern))
                     {
-                        var pattern = representationDictionary[maskChar];
-                        if (Regex.IsMatch(selectedChar.ToString(), pattern))
-                        {
-                            textArray[newSelectionIndex] = selectedChar;
-
-                            // updating text box new index
-                            newSelectionIndex++;
-                        }
-
-                        // character doesn't match the pattern get the old character
-                        else
-                        {
-                            // if single press don't change
-                            if (oldSelectionLength == 0)
-                            {
-                                textArray[newSelectionIndex] = oldText[newSelectionIndex];
-                            }
-
-                            // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
-                            else
-                            {
-                                textArray[newSelectionIndex] = placeHolder;
-                            }
-                        }
-                    }
-
-                    // if fixed character
-                    else
-                    {
-                        textArray[newSelectionIndex] = oldText[newSelectionIndex];
+                        textArray[newSelectionIndex] = selectedChar;
 
                         // updating text box new index
                         newSelectionIndex++;
                     }
+
+                    // character doesn't match the pattern get the old character
+                    else
+                    {
+                        // if single press don't change
+                        if (oldSelectionLength == 0)
+                        {
+                            textArray[newSelectionIndex] = oldText[newSelectionIndex];
+                        }
+
+                        // if change in selection reset to default place holder instead of keeping the old valid to be clear for the user
+                        else
+                        {
+                            textArray[newSelectionIndex] = placeHolder;
+                        }
+                    }
+                }
+
+                // if fixed character
+                else
+                {
+                    textArray[newSelectionIndex] = oldText[newSelectionIndex];
+
+                    // updating text box new index
+                    newSelectionIndex++;
                 }
             }
 
