@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Windows.Media.Casting;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -35,6 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Thickness)GetValue(NineGridProperty); }
             set { SetValue(NineGridProperty, value); }
+        }
+
+        public override CompositionBrush GetAlphaMask()
+        {
+            return IsInitialized ? (Image as Image).GetAlphaMask() : null;
         }
 
         /// <summary>

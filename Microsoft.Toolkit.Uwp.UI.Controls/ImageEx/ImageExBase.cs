@@ -41,8 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected ProgressRing Progress { get; private set; }
 
-        protected bool IsInitialized { get; private set; }
-
         protected object LockObj { get; private set; }
 
         /// <summary>
@@ -125,6 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Progress = GetTemplateChild(PartProgress) as ProgressRing;
 
             IsInitialized = true;
+
+            ImageExInitialized?.Invoke(this, new EventArgs());
 
             SetSource(Source);
 

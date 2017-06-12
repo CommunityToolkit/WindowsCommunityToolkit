@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -43,6 +44,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DecodePixelWidthProperty = DependencyProperty.Register(nameof(DecodePixelWidth), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
 
         /// <summary>
+        /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
+        /// </summary>
+        /// <returns><see cref="CompositionBrush"/></returns>
+        public abstract CompositionBrush GetAlphaMask();
+
+        /// <summary>
         /// Event raised if the image failed loading.
         /// </summary>
         [Obsolete("This event is obsolete; use ImageExFailed event instead")]
@@ -63,6 +70,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event raised when the image is successfully loaded and opened.
         /// </summary>
         public event ImageExOpenedEventHandler ImageExOpened;
+
+        /// <summary>
+        /// Event raised when the control is initialized.
+        /// </summary>
+        public event EventHandler ImageExInitialized;
+
+        /// <summary>
+        /// Gets a value indicating whether control has been initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Gets or sets DecodePixelHeight for underlying bitmap

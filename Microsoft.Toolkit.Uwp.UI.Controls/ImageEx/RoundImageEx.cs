@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -20,8 +21,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
+    [TemplatePart(Name = PartImageRectangle, Type = typeof(Rectangle))]
     public partial class RoundImageEx : ImageExBase
     {
+        protected const string PartImageRectangle = "ImageRectangle";
+
+        protected Rectangle ImageRectangle { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RoundImageEx"/> class.
         /// </summary>
@@ -33,6 +39,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Changes default Stretching as Uniform doesn't work well for ImageBrush
             Stretch = Stretch.UniformToFill;
             PlaceholderStretch = Stretch.UniformToFill;
+        }
+
+        /// <summary>
+        /// Update the visual state of the control when its template is changed.
+        /// </summary>
+        protected override void OnApplyTemplate()
+        {
+            ImageRectangle = GetTemplateChild(PartImageRectangle) as Rectangle;
+
+            base.OnApplyTemplate();
         }
     }
 }
