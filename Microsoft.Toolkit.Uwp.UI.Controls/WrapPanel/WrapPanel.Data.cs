@@ -23,12 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
         private struct UvMeasure
         {
-            private const double FACTOR = 10000;
-
             private double u, v;
-            internal double U { get { return u ; } set { u = Math.Floor(value * FACTOR) / FACTOR; } }
+            internal double U { get { return u; } set { u = Math.Floor(value); } }
 
-            internal double V { get { return v ; } set { v = Math.Floor(value * FACTOR) / FACTOR; } }
+            internal double V { get { return v; } set { v = Math.Floor(value); } }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
