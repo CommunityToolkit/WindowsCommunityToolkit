@@ -31,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
+                this.u = 0;
+                this.v = 0;
                 if (orientation == Orientation.Horizontal)
                 {
                     U = width;
