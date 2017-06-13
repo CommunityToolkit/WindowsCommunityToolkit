@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -25,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             internal const double FACTOR = 10000;
 
             private int u, v;
-            internal double U { get => u / FACTOR; set => u = (int)(value * FACTOR); }
+            internal double U { get { return u / FACTOR; } set { u = (int)(value * FACTOR); } }
 
-            internal double V { get => v / FACTOR; set => v = (int)(value * FACTOR); }
+            internal double V { get { return v / FACTOR; } set { v = (int)(value * FACTOR); } }
 
             public UvMeasure()
             {
