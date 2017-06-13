@@ -20,19 +20,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
     public partial class WrapPanel
     {
         [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
-        internal struct UvMeasure
+        private struct UvMeasure
         {
-            internal const double FACTOR = 10000;
+            private const double FACTOR = 10000;
 
-            private int u, v;
-            internal double U { get { return u / FACTOR; } set { u = (int)(value * FACTOR); } }
+            private double u, v;
+            internal double U { get { return u / FACTOR; } set { u = Math.Floor(value * FACTOR); } }
 
-            internal double V { get { return v / FACTOR; } set { v = (int)(value * FACTOR); } }
+            internal double V { get { return v / FACTOR; } set { v = Math.Floor(value * FACTOR); } }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
-                this.u = 0;
-                this.v = 0;
+                this.u = 0.0;
+                this.v = 0.0;
                 if (orientation == Orientation.Horizontal)
                 {
                     U = width;
@@ -40,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 }
                 else
                 {
-                    V = width;
                     U = height;
+                    V = width;
                 }
             }
         }
