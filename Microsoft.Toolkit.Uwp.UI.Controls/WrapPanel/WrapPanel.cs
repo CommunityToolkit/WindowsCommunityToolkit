@@ -100,6 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
             totalMeasure.V += lineMeasure.V;
 
+            totalMeasure.U = Math.Ceiling(totalMeasure.U);
+
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
 

@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
@@ -25,26 +24,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         {
             internal static readonly UvMeasure Zero = default(UvMeasure);
 
-            private double _u;
+            internal double U { get; set; }
 
-            private double _v;
-
-            internal double U
-            {
-                get { return _u; }
-                set { _u = Math.Floor(value); }
-            }
-
-            internal double V
-            {
-                get { return _v; }
-                set { _v = Math.Floor(value); }
-            }
+            internal double V { get; set; }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
-                _u = 0.0;
-                _v = 0.0;
                 if (orientation == Orientation.Horizontal)
                 {
                     U = width;
