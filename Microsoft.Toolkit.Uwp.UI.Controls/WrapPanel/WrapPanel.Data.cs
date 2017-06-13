@@ -19,11 +19,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
     /// </summary>
     public partial class WrapPanel
     {
-        internal class UvMeasure
+        [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
+        internal struct UvMeasure
         {
-            internal double U { get; set; }
+            internal const double FACTOR = 10000;
 
-            internal double V { get; set; }
+            private int u, v;
+            internal double U { get => u / FACTOR; set => u = (int)(value * FACTOR); }
+
+            internal double V { get => v / FACTOR; set => v = (int)(value * FACTOR); }
 
             public UvMeasure()
             {
@@ -40,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 }
                 else
                 {
-                    U = height;
                     V = width;
+                    U = height;
                 }
             }
         }
