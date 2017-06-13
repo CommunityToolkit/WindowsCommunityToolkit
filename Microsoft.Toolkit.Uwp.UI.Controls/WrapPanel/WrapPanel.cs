@@ -51,9 +51,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            var totalMeasure = new UvMeasure();
+            var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
-            var lineMeasure = new UvMeasure();
+            var lineMeasure = UvMeasure.Zero;
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                         totalMeasure.V += currentMeasure.V;
 
                         // add new empty line
-                        lineMeasure = new UvMeasure();
+                        lineMeasure = UvMeasure.Zero;
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         protected override Size ArrangeOverride(Size finalSize)
         {
             var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var position = new UvMeasure();
+            var position = UvMeasure.Zero;
 
             double currentV = 0;
             foreach (var child in Children)

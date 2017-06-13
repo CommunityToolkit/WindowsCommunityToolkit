@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -23,15 +23,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
         private struct UvMeasure
         {
-            private double u, v;
-            internal double U { get { return u; } set { u = Math.Floor(value); } }
+            internal static readonly UvMeasure Zero = default(UvMeasure);
 
-            internal double V { get { return v; } set { v = Math.Floor(value); } }
+            private double _u;
+
+            private double _v;
+
+            internal double U
+            {
+                get { return _u; }
+                set { _u = Math.Floor(value); }
+            }
+
+            internal double V
+            {
+                get { return _v; }
+                set { _v = Math.Floor(value); }
+            }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
-                this.u = 0.0;
-                this.v = 0.0;
+                _u = 0.0;
+                _v = 0.0;
                 if (orientation == Orientation.Horizontal)
                 {
                     U = width;
