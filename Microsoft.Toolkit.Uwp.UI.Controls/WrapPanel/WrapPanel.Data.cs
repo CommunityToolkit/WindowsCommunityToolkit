@@ -29,12 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
 
             internal double V { get { return v / FACTOR; } set { v = (int)(value * FACTOR); } }
 
-            public UvMeasure()
-            {
-                U = 0.0;
-                V = 0.0;
-            }
-
             public UvMeasure(Orientation orientation, double width, double height)
             {
                 if (orientation == Orientation.Horizontal)
