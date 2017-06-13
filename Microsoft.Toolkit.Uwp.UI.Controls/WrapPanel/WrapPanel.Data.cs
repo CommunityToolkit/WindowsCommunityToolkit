@@ -26,9 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             private const double FACTOR = 10000;
 
             private double u, v;
-            internal double U { get { return u / FACTOR; } set { u = Math.Floor(value * FACTOR); } }
+            internal double U { get { return u ; } set { u = Math.Floor(value * FACTOR) / FACTOR; } }
 
-            internal double V { get { return v / FACTOR; } set { v = Math.Floor(value * FACTOR); } }
+            internal double V { get { return v ; } set { v = Math.Floor(value * FACTOR) / FACTOR; } }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {
