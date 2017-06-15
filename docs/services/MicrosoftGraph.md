@@ -114,12 +114,12 @@ messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
-MicrosoftGraphMessageProperties[] selectedFields = 
+MicrosoftGraphMessageFields[] selectedFields = 
 { 
- MicrosoftGraphMessageProperties.Id,
- MicrosoftGraphMessageProperties.From,
- MicrosoftGraphMessageProperties.Subject,
- MicrosoftGraphMessageProperties.BodyPreview
+ MicrosoftGraphMessageFields.Id,
+ MicrosoftGraphMessageFields.From,
+ MicrosoftGraphMessageFields.Subject,
+ MicrosoftGraphMessageFields.BodyPreview
 };
 
 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10,selectedFields);
@@ -141,7 +141,38 @@ await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, conten
 
 // You can also send a message in html format
 string content = GetHtmlMessage();
-await MicrosoftGraphService.Instance.UseR.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+
+
+```
+
+### Retrieve calendar events
+
+```csharp
+// Get the top 10 events
+events = await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(10);
+EventsList.ItemsSource = events;
+
+// You can also select any fields you want in the response
+MicrosoftGraphEventFields[] selectedFields = 
+{ 
+ MicrosoftGraphEventFields.Id,
+ MicrosoftGraphEventFields.Attendees,
+ MicrosoftGraphEventFields.Start,
+ MicrosoftGraphEventFields.HasAttachments,
+ MicrosoftGraphEventFields.Subject,
+ MicrosoftGraphEventFields.BodyPreview
+};
+
+events = await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(10,selectedFields);
+EventsList.ItemsSource = events;
+
+// Request the next 10 events
+events = await MicrosoftGraphService.Instance.User.Event.NextPageEventsAsync();
+if (events == null)
+{
+	// no more events
+}
 
 
 ```

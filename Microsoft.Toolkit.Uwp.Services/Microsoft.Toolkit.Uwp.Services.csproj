@@ -78,6 +78,8 @@
     <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
     <Compile Include="Services\MicrosoftGraph\JWToken.cs" />
+    <Compile Include="Services\MicrosoftGraph\Events\MicrosoftGraphEventFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\Events\MicrosoftGraphServiceEvent.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphEnums.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
