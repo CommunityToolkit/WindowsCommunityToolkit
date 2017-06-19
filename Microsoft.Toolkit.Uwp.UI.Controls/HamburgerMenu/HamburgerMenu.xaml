@@ -40,6 +40,7 @@
                                     <ListView x:Name="ButtonsListView"
                                               Grid.Row="1"
                                               Width="{TemplateBinding OpenPaneLength}"
+                                              AutomationProperties.Name="Menu items"
                                               IsItemClickEnabled="True"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -61,6 +62,7 @@
                                               IsItemClickEnabled="True"
                                               Margin="0,20,0,8"
                                               VerticalAlignment="Bottom"
+                                              AutomationProperties.Name="Option items"
                                               ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding OptionsItemsSource}"
@@ -84,13 +86,14 @@
                         <Button x:Name="HamburgerButton"
                                 Width="{TemplateBinding HamburgerWidth}"
                                 Height="{TemplateBinding HamburgerHeight}"
+                                Visibility="{TemplateBinding HamburgerVisibility}"
                                 Margin="0,8"
                                 Padding="0"
                                 VerticalAlignment="Top"
+                                AutomationProperties.Name="Main button"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                TabIndex="0"
-                                Visibility="{TemplateBinding HamburgerVisibility}">
+                                TabIndex="0">
                             <ContentControl ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Foreground="{TemplateBinding PaneForeground}"
                                             IsTabStop="False" />
