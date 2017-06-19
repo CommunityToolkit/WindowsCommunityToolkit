@@ -26,7 +26,7 @@
                                    PaneBackground="{TemplateBinding PaneBackground}"
                                    PanePlacement="{TemplateBinding PanePlacement}">
                             <SplitView.Pane>
-                                <Grid x:Name="PaneGrid" 
+                                <Grid x:Name="PaneGrid"
                                       FlowDirection="LeftToRight">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
