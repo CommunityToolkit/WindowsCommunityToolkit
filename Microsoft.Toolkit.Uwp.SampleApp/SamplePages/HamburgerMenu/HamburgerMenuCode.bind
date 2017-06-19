@@ -46,8 +46,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
         <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
                                 Foreground="White"
-                                ItemTemplate="{StaticResource ButtonTemplate}"
-                                OptionsItemTemplate="{StaticResource OptionTemplate}"
+                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+                                OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
                                 ItemClick="HamburgerMenu_OnItemClick"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
