@@ -40,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            if (PaneForeground == null)
+            {
+                PaneForeground = Foreground;
+            }
+
             if (_hamburgerButton != null)
             {
                 _hamburgerButton.Click -= HamburgerButton_Click;

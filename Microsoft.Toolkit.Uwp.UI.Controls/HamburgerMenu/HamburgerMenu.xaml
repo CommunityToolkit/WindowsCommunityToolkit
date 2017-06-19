@@ -100,7 +100,7 @@
                                 TabIndex="0">
                             <ContentControl Margin="{TemplateBinding HamburgerMargin}"
                                             ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                            Foreground="{TemplateBinding Foreground}"
+                                            Foreground="{TemplateBinding PaneForeground}"
                                             IsTabStop="False" />
                         </Button>
                     </Grid>
