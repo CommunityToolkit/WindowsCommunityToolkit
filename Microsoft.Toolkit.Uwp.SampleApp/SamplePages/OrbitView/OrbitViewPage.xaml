@@ -56,7 +56,7 @@
                 </PivotItem>
                 <PivotItem Header="Devices">
                     <Grid>
-                        <controls:OrbitView x:Name="devices" AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
+                        <controls:OrbitView x:Name="devices" AnchorsEnabled="True" IsItemClickEnabled="True" ItemInvoked="itemInvoked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
                             <controls:OrbitView.ItemTemplate>
                                 <DataTemplate x:DataType="local:DeviceItem">
                                     <Grid Height="60" Width="60" Background="White">

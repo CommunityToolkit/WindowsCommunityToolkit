@@ -111,6 +111,7 @@
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="OrbitView\OrbitViewItemControl.cs" />
     <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
     <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />

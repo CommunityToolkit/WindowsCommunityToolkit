@@ -46,7 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Dictionary<object, Ellipse> _orbits;
         private Dictionary<object, Line> _anchors;
 
-        public event EventHandler<OrbitViewItemClickedEventArgs> ItemClicked;
+        /// <summary>
+        /// Raised when an item has been clicked or activated with keyboard/controller 
+        /// </summary>
+        public event EventHandler<OrbitViewItemClickedEventArgs> ItemInvoked;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrbitView"/> class.
@@ -256,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            var element = new ContentControl();
+            var element = new OrbitViewItemControl();
             ApplyImplicitOffsetAnimation(element);
             return element;
         }
@@ -270,49 +273,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _panel.ItemsArranged += OrbitViewPanel_ItemsArranged;
             }
 
-            var control = element as ContentControl;
-            var OrbitViewItem = item as OrbitViewItem;
-            FrameworkElement OrbitViewElement = null;
+            var control = element as OrbitViewItemControl;
+            var orbitViewItem = item as OrbitViewItem;
+            FrameworkElement orbitViewElement = null;
 
             if (control != null)
             {
-                OrbitViewElement = ItemTemplate?.LoadContent() as FrameworkElement;
-                if (OrbitViewElement == null)
+                orbitViewElement = ItemTemplate?.LoadContent() as FrameworkElement;
+                if (orbitViewElement == null)
                 {
                     var itemEllipse = new Ellipse()
                     {
                         Fill = Foreground,
                     };
 
-                    if (OrbitViewItem != null && OrbitViewItem.Image != null)
+                    if (orbitViewItem != null && orbitViewItem.Image != null)
                     {
-                        itemEllipse.Fill = new ImageBrush() { ImageSource = OrbitViewItem.Image };
+                        itemEllipse.Fill = new ImageBrush() { ImageSource = orbitViewItem.Image };
                     }
 
-                    OrbitViewElement = itemEllipse;
+                    orbitViewElement = itemEllipse;
                 }
 
-                control.Content = OrbitViewElement;
+                control.Content = orbitViewElement;
                 control.DataContext = item;
+                control.Invoked += OrbitViewItemControl_Clicked;
 
-                if (IsItemClickEnabled)
-                {
-                    EnableItemInteraction(control);
-                }
+                control.IsClickEnabled = IsItemClickEnabled;
             }
             else if (element is FrameworkElement && (element as FrameworkElement).DataContext is OrbitViewItem)
             {
-                OrbitViewElement = element as FrameworkElement;
-                OrbitViewItem = OrbitViewElement.DataContext as OrbitViewItem;
+                orbitViewElement = element as FrameworkElement;
+                orbitViewItem = orbitViewElement.DataContext as OrbitViewItem;
             }
 
-            if (OrbitViewItem != null)
+            if (orbitViewItem != null)
             {
-                element.SetValue(AutomationProperties.NameProperty, OrbitViewItem.Label);
-                if (OrbitViewItem.Diameter >= 0)
+                element.SetValue(AutomationProperties.NameProperty, orbitViewItem.Label);
+                if (orbitViewItem.Diameter >= 0)
                 {
-                    double diameter = Math.Min(OrbitViewItem.Diameter, 1d);
-                    OrbitViewElement.Width = OrbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
+                    double diameter = Math.Min(orbitViewItem.Diameter, 1d);
+                    orbitViewElement.Width = orbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
                 }
             }
             else
@@ -341,6 +342,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _anchors.Remove(element);
                 _anchorCanvas.Children.Remove(anchor);
+            }
+
+            var control = element as OrbitViewItemControl;
+            if (control != null)
+            {
+                control.Invoked -= OrbitViewItemControl_Clicked;
             }
         }
 
@@ -417,14 +424,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             foreach (var control in sv.ItemsPanelRoot.Children)
             {
-                if ((bool)e.NewValue)
-                {
-                    sv.EnableItemInteraction(control as ContentControl);
-                }
-                else
-                {
-                    sv.DisableItemInteraction(control as ContentControl);
-                }
+                (control as OrbitViewItemControl).IsClickEnabled = (bool)e.NewValue;
             }
         }
 
@@ -509,76 +509,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void EnableItemInteraction(ContentControl control)
-        {
-            DisableItemInteraction(control);
-
-            control.IsTabStop = true;
-            control.UseSystemFocusVisuals = true;
-            control.PointerEntered += Control_PointerEntered;
-            control.PointerExited += Control_PointerExited;
-            control.PointerPressed += Control_PointerPressed;
-            control.PointerReleased += Control_PointerReleased;
-            control.KeyDown += Control_KeyDown;
-            control.KeyUp += Control_KeyUp;
-        }
-
-        private void DisableItemInteraction(ContentControl control)
-        {
-            control.IsTabStop = false;
-            control.UseSystemFocusVisuals = false;
-            control.PointerEntered -= Control_PointerEntered;
-            control.PointerExited -= Control_PointerExited;
-            control.PointerPressed -= Control_PointerPressed;
-            control.PointerReleased -= Control_PointerReleased;
-            control.KeyDown -= Control_KeyDown;
-            control.KeyUp -= Control_KeyUp;
-        }
-
-        private void Control_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
-            {
-                var item = sender as ContentControl;
-                item.Scale(1, 1, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-            }
-        }
-
-        private void Control_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
-            {
-                var item = sender as ContentControl;
-                item.Scale(0.9f, 0.9f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-                ItemClicked?.Invoke(this, new OrbitViewItemClickedEventArgs(item, item.DataContext));
-            }
-        }
-
-        private void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            var item = sender as ContentControl;
-            item.Scale(1, 1, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-            ItemClicked?.Invoke(this, new OrbitViewItemClickedEventArgs(item, item.DataContext));
-        }
-
-        private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var item = sender as ContentControl;
-            item.Scale(0.9f, 0.9f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-        }
-
-        private void Control_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            var item = sender as ContentControl;
-            item.Scale(1, 1, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-        }
-
-        private void Control_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            var item = sender as ContentControl;
-            item.Scale(1.1f, 1.1f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-        }
-
         private void OrbitView_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (ItemsPanelRoot == null)
@@ -610,6 +540,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     (ItemsPanelRoot.Children.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
                 }
             }
+        }
+
+        private void OrbitViewItemControl_Clicked(object sender, OrbitViewItemClickedEventArgs e)
+        {
+            ItemInvoked?.Invoke(this, e);
         }
 
         private void ClearOrbits()
