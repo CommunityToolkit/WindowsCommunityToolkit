@@ -10,29 +10,35 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.Foundation;
-using Windows.UI.Xaml;
+using System;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Class used by the <see cref="SpaceViewPanel"/> to store XY and distance values
+    /// A class used by the <see cref="OrbitView"/> ItemClicked Event
     /// </summary>
-    public class SpaceViewElementProperties
+    public class OrbitViewItemClickedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the <see cref="UIElement"/>
+        /// Initializes a new instance of the <see cref="OrbitViewItemClickedEventArgs"/> class.
         /// </summary>
-        public UIElement Element { get; internal set; }
+        /// <param name="container">element clicked</param>
+        /// <param name="item">data context of element clicked</param>
+        public OrbitViewItemClickedEventArgs(ContentControl container, object item)
+        {
+            Container = container;
+            Item = item;
+        }
 
         /// <summary>
-        /// Gets the X and Y point from the center
+        /// Gets or sets the container of the clicked item
         /// </summary>
-        public Point XYFromCenter { get; internal set; }
+        public ContentControl Container { get; set; }
 
         /// <summary>
-        /// Gets the distance from the center
+        /// Gets or sets the Item/Data Context of the clicked item
         /// </summary>
-        public double DistanceFromCenter { get; internal set; }
+        public object Item { get; set; }
     }
 }

@@ -22,42 +22,42 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A panel used by the <see cref="SpaceView"/> control
+    /// A panel used by the <see cref="OrbitView"/> control
     /// </summary>
-    public class SpaceViewPanel : Panel
+    public class OrbitViewPanel : Panel
     {
-        private SpaceView _spaceView;
+        private OrbitView _OrbitView;
 
         /// <summary>
         /// Event raised when a single element is arranged
         /// </summary>
-        public event EventHandler<SpaceViewPanelItemArrangedArgs> ItemArranged;
+        public event EventHandler<OrbitViewPanelItemArrangedArgs> ItemArranged;
 
         /// <summary>
         /// Event raised when all elements are arranged
         /// </summary>
-        public event EventHandler<SpaceViewPanelItemsArrangedArgs> ItemsArranged;
+        public event EventHandler<OrbitViewPanelItemsArrangedArgs> ItemsArranged;
 
         /// <summary>
-        /// Gets the Current <see cref="SpaceView"/> control
+        /// Gets the Current <see cref="OrbitView"/> control
         /// </summary>
-        public SpaceView SpaceView
+        public OrbitView OrbitView
         {
             get
             {
-                if (_spaceView != null)
+                if (_OrbitView != null)
                 {
-                    return _spaceView;
+                    return _OrbitView;
                 }
 
-                _spaceView = this.FindVisualAscendant<SpaceView>();
+                _OrbitView = this.FindVisualAscendant<OrbitView>();
 
-                if (_spaceView == null)
+                if (_OrbitView == null)
                 {
-                    throw new Exception("This SpaceViewPanel must be used as an ItemsPanel in a SpaceView control");
+                    throw new Exception("This OrbitViewPanel must be used as an ItemsPanel in a OrbitView control");
                 }
 
-                return _spaceView;
+                return _OrbitView;
             }
         }
 
@@ -91,21 +91,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var angle = 2 * Math.PI / Children.Count;
 
             var minDistance = 100;
-            var maxDistance = Math.Max(minDistance, (Math.Min(finalSize.Width, finalSize.Height) - SpaceView.MaxItemSize) / 2);
+            var maxDistance = Math.Max(minDistance, (Math.Min(finalSize.Width, finalSize.Height) - OrbitView.MaxItemSize) / 2);
 
-            var elementsProperties = new List<SpaceViewElementProperties>();
+            var elementsProperties = new List<OrbitViewElementProperties>();
 
             for (var i = 0; i < Children.Count; i++)
             {
                 var element = Children.ElementAt(i);
 
-                SpaceViewItem spaceViewItem = null;
+                OrbitViewItem OrbitViewItem = null;
                 if (element is FrameworkElement)
                 {
-                    spaceViewItem = (element as FrameworkElement).DataContext as SpaceViewItem;
+                    OrbitViewItem = (element as FrameworkElement).DataContext as OrbitViewItem;
                 }
 
-                var d = spaceViewItem != null && spaceViewItem.Distance >= 0 ? spaceViewItem.Distance : 0.5;
+                var d = OrbitViewItem != null && OrbitViewItem.Distance >= 0 ? OrbitViewItem.Distance : 0.5;
                 d = Math.Min(d, 1d);
 
                 var distance = (d * (maxDistance - minDistance)) + minDistance;
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 element.Arrange(new Rect(point, element.DesiredSize));
 
-                var elementProperties = new SpaceViewElementProperties()
+                var elementProperties = new OrbitViewElementProperties()
                 {
                     XYFromCenter = new Point(x, y),
                     DistanceFromCenter = distance,
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (ItemArranged != null)
                 {
-                    var args = new SpaceViewPanelItemArrangedArgs()
+                    var args = new OrbitViewPanelItemArrangedArgs()
                     {
                         ElementProperties = elementProperties,
                         ItemIndex = i
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            ItemsArranged?.Invoke(this, new SpaceViewPanelItemsArrangedArgs() { Elements = elementsProperties });
+            ItemsArranged?.Invoke(this, new OrbitViewPanelItemsArrangedArgs() { Elements = elementsProperties });
 
             return finalSize;
         }

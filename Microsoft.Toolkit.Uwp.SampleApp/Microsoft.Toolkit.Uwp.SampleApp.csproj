@@ -274,7 +274,7 @@
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
-    <Content Include="SamplePages\SpaceView\SpaceView.png" />
+    <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
@@ -395,7 +395,7 @@
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
     <Content Include="SamplePages\ClipboardHelper\ClipboardHelperCode.bind" />
-    <Content Include="SamplePages\SpaceView\SpaceViewXaml.bind" />
+    <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -423,8 +423,8 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
-    <Compile Include="SamplePages\SpaceView\SpaceViewPage.xaml.cs">
-      <DependentUpon>SpaceViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\OrbitView\OrbitViewPage.xaml.cs">
+      <DependentUpon>OrbitViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
       <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
@@ -669,7 +669,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\SpaceView\SpaceViewPage.xaml">
+    <Page Include="SamplePages\OrbitView\OrbitViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

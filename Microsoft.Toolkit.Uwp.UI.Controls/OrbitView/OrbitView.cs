@@ -33,11 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "AnchorCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "OrbitGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "CenterContent", Type = typeof(ContentPresenter))]
-    public sealed class SpaceView : ItemsControl
+    public sealed class OrbitView : ItemsControl
     {
         private const double _animationDuration = 200;
 
-        private SpaceViewPanel _panel;
+        private OrbitViewPanel _panel;
         private Grid _orbitsContainer;
         private Canvas _anchorCanvas;
         private ContentPresenter _centerContent;
@@ -46,28 +46,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Dictionary<object, Ellipse> _orbits;
         private Dictionary<object, Line> _anchors;
 
-        public event EventHandler<SpaceViewItemClickedEventArgs> ItemClicked;
+        public event EventHandler<OrbitViewItemClickedEventArgs> ItemClicked;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpaceView"/> class.
-        /// Creates a new instance of <see cref="SpaceView"/>
+        /// Initializes a new instance of the <see cref="OrbitView"/> class.
+        /// Creates a new instance of <see cref="OrbitView"/>
         /// </summary>
-        public SpaceView()
+        public OrbitView()
         {
-            DefaultStyleKey = typeof(SpaceView);
+            DefaultStyleKey = typeof(OrbitView);
 
             IsTabStop = false;
             TabNavigation = KeyboardNavigationMode.Once;
-            KeyDown += SpaceView_KeyDown;
+            KeyDown += OrbitView_KeyDown;
             _orbits = new Dictionary<object, Ellipse>();
             _anchors = new Dictionary<object, Line>();
 
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                var items = new List<SpaceViewItem>();
-                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new SpaceViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                var items = new List<OrbitViewItem>();
+                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
                 ItemsSource = items;
             }
         }
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OrbitsEnabledProperty"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitsEnabledProperty =
-            DependencyProperty.Register("OrbitsEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnOrbitsEnabledChanged));
+            DependencyProperty.Register("OrbitsEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnOrbitsEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether elements are clickable.
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="IsItemClickEnabledProperty"/> property
         /// </summary>
         public static readonly DependencyProperty IsItemClickEnabledProperty =
-            DependencyProperty.Register("IsItemClickEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnItemClickEnabledChanged));
+            DependencyProperty.Register("IsItemClickEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnItemClickEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether anchors are enabled.
@@ -128,11 +128,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AnchorsEnabledProperty"/> property
         /// </summary>
         public static readonly DependencyProperty AnchorsEnabledProperty =
-            DependencyProperty.Register("AnchorsEnabled", typeof(bool), typeof(SpaceView), new PropertyMetadata(false, OnAchorsEnabledChanged));
+            DependencyProperty.Register("AnchorsEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnAchorsEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the minimum size of items
-        /// Note: for this property to work, Data Context must be derived from SpaceViewItems
+        /// Note: for this property to work, Data Context must be derived from OrbitViewItems
         /// and Diameter must be between 0 and 1
         /// </summary>
         public double MinItemSize
@@ -145,11 +145,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MinItemSizeProperty"/> property
         /// </summary>
         public static readonly DependencyProperty MinItemSizeProperty =
-            DependencyProperty.Register("MinItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
+            DependencyProperty.Register("MinItemSize", typeof(double), typeof(OrbitView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the maximum size of items
-        /// Note: for this property to work, Data Context must be derived from SpaceViewItems
+        /// Note: for this property to work, Data Context must be derived from OrbitViewItems
         /// and Diameter must be between 0 and 1
         /// </summary>
         public double MaxItemSize
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MaxItemSizeProperty"/> property
         /// </summary>
         public static readonly DependencyProperty MaxItemSizeProperty =
-            DependencyProperty.Register("MaxItemSize", typeof(double), typeof(SpaceView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
+            DependencyProperty.Register("MaxItemSize", typeof(double), typeof(OrbitView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the color of anchors
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AnchorColorProperty"/> property
         /// </summary>
         public static readonly DependencyProperty AnchorColorProperty =
-            DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
+            DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the color of orbits
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OrbitColorProperty"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitColorProperty =
-            DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(SpaceView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
+            DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the dash array for the orbit
@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OrbitDashArrayProperty"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitDashArrayProperty =
-            DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(SpaceView), new PropertyMetadata(null, OnOrbitPropertyChanged));
+            DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(OrbitView), new PropertyMetadata(null, OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the thickness of the anchors
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OrbitThicknessProperty"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitThicknessProperty =
-            DependencyProperty.Register("OrbitThickness", typeof(double), typeof(SpaceView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
+            DependencyProperty.Register("OrbitThickness", typeof(double), typeof(OrbitView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value representing the center element
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="CenterContentProperty"/> property
         /// </summary>
         public static readonly DependencyProperty CenterContentProperty =
-            DependencyProperty.Register("CenterContent", typeof(int), typeof(SpaceView), new PropertyMetadata(0));
+            DependencyProperty.Register("CenterContent", typeof(int), typeof(OrbitView), new PropertyMetadata(0));
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -265,34 +265,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_panel == null && ItemsPanelRoot != null)
             {
-                _panel = ItemsPanelRoot as SpaceViewPanel;
-                _panel.ItemArranged += SpaceViewPanel_ItemArranged;
-                _panel.ItemsArranged += SpaceViewPanel_ItemsArranged;
+                _panel = ItemsPanelRoot as OrbitViewPanel;
+                _panel.ItemArranged += OrbitViewPanel_ItemArranged;
+                _panel.ItemsArranged += OrbitViewPanel_ItemsArranged;
             }
 
             var control = element as ContentControl;
-            var spaceViewItem = item as SpaceViewItem;
-            FrameworkElement spaceViewElement = null;
+            var OrbitViewItem = item as OrbitViewItem;
+            FrameworkElement OrbitViewElement = null;
 
             if (control != null)
             {
-                spaceViewElement = ItemTemplate?.LoadContent() as FrameworkElement;
-                if (spaceViewElement == null)
+                OrbitViewElement = ItemTemplate?.LoadContent() as FrameworkElement;
+                if (OrbitViewElement == null)
                 {
                     var itemEllipse = new Ellipse()
                     {
                         Fill = Foreground,
                     };
 
-                    if (spaceViewItem != null && spaceViewItem.Image != null)
+                    if (OrbitViewItem != null && OrbitViewItem.Image != null)
                     {
-                        itemEllipse.Fill = new ImageBrush() { ImageSource = spaceViewItem.Image };
+                        itemEllipse.Fill = new ImageBrush() { ImageSource = OrbitViewItem.Image };
                     }
 
-                    spaceViewElement = itemEllipse;
+                    OrbitViewElement = itemEllipse;
                 }
 
-                control.Content = spaceViewElement;
+                control.Content = OrbitViewElement;
                 control.DataContext = item;
 
                 if (IsItemClickEnabled)
@@ -300,19 +300,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     EnableItemInteraction(control);
                 }
             }
-            else if (element is FrameworkElement && (element as FrameworkElement).DataContext is SpaceViewItem)
+            else if (element is FrameworkElement && (element as FrameworkElement).DataContext is OrbitViewItem)
             {
-                spaceViewElement = element as FrameworkElement;
-                spaceViewItem = spaceViewElement.DataContext as SpaceViewItem;
+                OrbitViewElement = element as FrameworkElement;
+                OrbitViewItem = OrbitViewElement.DataContext as OrbitViewItem;
             }
 
-            if (spaceViewItem != null)
+            if (OrbitViewItem != null)
             {
-                element.SetValue(AutomationProperties.NameProperty, spaceViewItem.Label);
-                if (spaceViewItem.Diameter >= 0)
+                element.SetValue(AutomationProperties.NameProperty, OrbitViewItem.Label);
+                if (OrbitViewItem.Diameter >= 0)
                 {
-                    double diameter = Math.Min(spaceViewItem.Diameter, 1d);
-                    spaceViewElement.Width = spaceViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
+                    double diameter = Math.Min(OrbitViewItem.Diameter, 1d);
+                    OrbitViewElement.Width = OrbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
                 }
             }
             else
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAchorsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
 
             if (e.NewValue == e.OldValue)
             {
@@ -365,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOrbitsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
 
             if (e.NewValue == e.OldValue)
             {
@@ -384,15 +384,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnItemSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
 
             if (sv.ItemsPanelRoot != null)
             {
                 foreach (var element in sv.ItemsPanelRoot.Children)
                 {
-                    if (element is ContentControl && (element as ContentControl).DataContext is SpaceViewItem)
+                    if (element is ContentControl && (element as ContentControl).DataContext is OrbitViewItem)
                     {
-                        var item = (element as FrameworkElement).DataContext as SpaceViewItem;
+                        var item = (element as FrameworkElement).DataContext as OrbitViewItem;
                         if (item.Diameter >= 0)
                         {
                             double diameter = Math.Min(item.Diameter, 1d);
@@ -408,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
 
             if (sv.Items.Count == 0)
             {
@@ -430,7 +430,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOrbitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
             if (sv._orbitsContainer == null)
             {
                 return;
@@ -444,7 +444,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAnchorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as SpaceView;
+            var sv = d as OrbitView;
             if (sv._anchorCanvas == null)
             {
                 return;
@@ -456,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SpaceViewPanel_ItemsArranged(object sender, SpaceViewPanelItemsArrangedArgs e)
+        private void OrbitViewPanel_ItemsArranged(object sender, OrbitViewPanelItemsArrangedArgs e)
         {
             if (AnchorsEnabled)
             {
@@ -482,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SpaceViewPanel_ItemArranged(object sender, SpaceViewPanelItemArrangedArgs e)
+        private void OrbitViewPanel_ItemArranged(object sender, OrbitViewPanelItemArrangedArgs e)
         {
             if (OrbitsEnabled)
             {
@@ -550,7 +550,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var item = sender as ContentControl;
                 item.Scale(0.9f, 0.9f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-                ItemClicked?.Invoke(this, new SpaceViewItemClickedEventArgs(item, item.DataContext));
+                ItemClicked?.Invoke(this, new OrbitViewItemClickedEventArgs(item, item.DataContext));
             }
         }
 
@@ -558,7 +558,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var item = sender as ContentControl;
             item.Scale(1, 1, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
-            ItemClicked?.Invoke(this, new SpaceViewItemClickedEventArgs(item, item.DataContext));
+            ItemClicked?.Invoke(this, new OrbitViewItemClickedEventArgs(item, item.DataContext));
         }
 
         private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -579,7 +579,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             item.Scale(1.1f, 1.1f, (float)item.ActualWidth / 2, (float)item.ActualHeight / 2, _animationDuration).Start();
         }
 
-        private void SpaceView_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void OrbitView_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (ItemsPanelRoot == null)
             {

@@ -34,12 +34,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SpaceViewPage : Page
+    public sealed partial class OrbitViewPage : Page
     {
         ObservableCollection<DeviceItem> Devices = new ObservableCollection<DeviceItem>();
         Random random = new Random();
 
-        public SpaceViewPage()
+        public OrbitViewPage()
         {
             this.InitializeComponent();
 
@@ -51,13 +51,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Devices.Add(new DeviceItem() { Distance = random.Next(1, 10) / 10f, Label = "My Phone", Symbol = Symbol.CellPhone });
         }
 
-        private void itemClicked(object sender, SpaceViewItemClickedEventArgs e)
+        private void itemClicked(object sender, OrbitViewItemClickedEventArgs e)
         {
             Devices.Remove(e.Item as DeviceItem);
         }
     }
 
-    public class DeviceItem : SpaceViewItem
+    public class DeviceItem : OrbitViewItem
     {
         public Symbol Symbol { get; set; }
     }

@@ -10,23 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event args used by the <see cref="SpaceViewPanel"/> ItemArranged event
+    /// Event args used by the <see cref="OrbitViewPanel"/> ItemsArranged event
     /// </summary>
-    public class SpaceViewPanelItemArrangedArgs : EventArgs
+    public class OrbitViewPanelItemsArrangedArgs
     {
         /// <summary>
-        /// Gets or sets the <see cref="ElementProperties"/> or arranged item
+        /// Gets or sets a collection of all elements that were arranged.
         /// </summary>
-        public SpaceViewElementProperties ElementProperties { get; set; }
-
-        /// <summary>
-        /// Gets or sets the index of the item that was arranged
-        /// </summary>
-        public int ItemIndex { get; set; }
+        public List<OrbitViewElementProperties> Elements { get; set; }
     }
 }

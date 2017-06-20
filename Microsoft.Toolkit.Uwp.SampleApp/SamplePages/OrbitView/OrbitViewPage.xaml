@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SpaceViewPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OrbitViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
@@ -12,7 +12,7 @@
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Pivot>
                 <PivotItem Header="People">
-                    <controls:SpaceView x:Name="people" 
+                    <controls:OrbitView x:Name="people" 
                                         OrbitsEnabled="{Binding DataContext.OrbitsEnabled.Value, ElementName=Root, Mode=OneWay}" 
                                         AnchorsEnabled="{Binding DataContext.AnchorsEnabled.Value, ElementName=Root, Mode=OneWay}"
                                         IsItemClickEnabled="{Binding DataContext.IsItemClickEnabled.Value, ElementName=Root, Mode=OneWay}" 
@@ -21,8 +21,8 @@
                                         AnchorColor="{Binding DataContext.AnchorColor.Value, ElementName=Root, Mode=OneWay}"
                                         OrbitColor="{Binding DataContext.OrbitColor.Value, ElementName=Root, Mode=OneWay}"
                                         >
-                        <controls:SpaceView.ItemTemplate>
-                            <DataTemplate x:DataType="controls:SpaceViewItem">
+                        <controls:OrbitView.ItemTemplate>
+                            <DataTemplate x:DataType="controls:OrbitViewItem">
                                 <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                     <Ellipse >
                                         <Ellipse.Fill>
@@ -31,16 +31,16 @@
                                     </Ellipse>
                                 </controls:DropShadowPanel>
                             </DataTemplate>
-                        </controls:SpaceView.ItemTemplate>
-                        <controls:SpaceView.ItemsSource>
-                            <controls:SpaceViewItemCollection>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:SpaceViewItem>
-                                <controls:SpaceViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:SpaceViewItem>
-                            </controls:SpaceViewItemCollection>
-                        </controls:SpaceView.ItemsSource>
-                        <controls:SpaceView.CenterContent>
+                        </controls:OrbitView.ItemTemplate>
+                        <controls:OrbitView.ItemsSource>
+                            <controls:OrbitViewItemCollection>
+                                <controls:OrbitViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:OrbitViewItem>
+                                <controls:OrbitViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:OrbitViewItem>
+                                <controls:OrbitViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:OrbitViewItem>
+                                <controls:OrbitViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:OrbitViewItem>
+                            </controls:OrbitViewItemCollection>
+                        </controls:OrbitView.ItemsSource>
+                        <controls:OrbitView.CenterContent>
                             <Grid>
                                 <controls:DropShadowPanel>
                                     <Ellipse Fill="White" Height="105" Width="105" Stroke="Black" StrokeThickness="2"></Ellipse>
@@ -51,13 +51,13 @@
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Grid>
-                        </controls:SpaceView.CenterContent>
-                    </controls:SpaceView>
+                        </controls:OrbitView.CenterContent>
+                    </controls:OrbitView>
                 </PivotItem>
                 <PivotItem Header="Devices">
                     <Grid>
-                        <controls:SpaceView x:Name="devices" AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
-                            <controls:SpaceView.ItemTemplate>
+                        <controls:OrbitView x:Name="devices" AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
+                            <controls:OrbitView.ItemTemplate>
                                 <DataTemplate x:DataType="local:DeviceItem">
                                     <Grid Height="60" Width="60" Background="White">
                                         <StackPanel>
@@ -66,8 +66,8 @@
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
-                            </controls:SpaceView.ItemTemplate>
-                            <controls:SpaceView.CenterContent>
+                            </controls:OrbitView.ItemTemplate>
+                            <controls:OrbitView.CenterContent>
                                 <Grid>
                                     <controls:DropShadowPanel>
                                         <Ellipse Fill="White" Height="105" Width="105" Stroke="Black" StrokeThickness="2"></Ellipse>
@@ -78,8 +78,8 @@
                                         </Ellipse.Fill>
                                     </Ellipse>
                                 </Grid>
-                            </controls:SpaceView.CenterContent>
-                        </controls:SpaceView>
+                            </controls:OrbitView.CenterContent>
+                        </controls:OrbitView>
 
                         <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="AddDeviceClick">Add Device</Button>
                     </Grid>

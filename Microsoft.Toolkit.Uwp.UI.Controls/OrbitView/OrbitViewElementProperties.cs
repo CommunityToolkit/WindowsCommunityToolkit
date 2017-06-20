@@ -10,14 +10,29 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The SpaceViewItemCollection provides typed collection of <see cref="SpaceViewItem"/>.
+    /// Class used by the <see cref="OrbitViewPanel"/> to store XY and distance values
     /// </summary>
-    public class SpaceViewItemCollection : List<SpaceViewItem>
+    public class OrbitViewElementProperties
     {
+        /// <summary>
+        /// Gets the <see cref="UIElement"/>
+        /// </summary>
+        public UIElement Element { get; internal set; }
+
+        /// <summary>
+        /// Gets the X and Y point from the center
+        /// </summary>
+        public Point XYFromCenter { get; internal set; }
+
+        /// <summary>
+        /// Gets the distance from the center
+        /// </summary>
+        public double DistanceFromCenter { get; internal set; }
     }
 }

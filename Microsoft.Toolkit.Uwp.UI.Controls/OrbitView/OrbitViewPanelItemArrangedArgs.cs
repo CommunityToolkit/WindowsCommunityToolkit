@@ -11,34 +11,22 @@
 // ******************************************************************
 
 using System;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A class used by the <see cref="SpaceView"/> ItemClicked Event
+    /// Event args used by the <see cref="OrbitViewPanel"/> ItemArranged event
     /// </summary>
-    public class SpaceViewItemClickedEventArgs : EventArgs
+    public class OrbitViewPanelItemArrangedArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpaceViewItemClickedEventArgs"/> class.
+        /// Gets or sets the <see cref="ElementProperties"/> or arranged item
         /// </summary>
-        /// <param name="container">element clicked</param>
-        /// <param name="item">data context of element clicked</param>
-        public SpaceViewItemClickedEventArgs(ContentControl container, object item)
-        {
-            Container = container;
-            Item = item;
-        }
+        public OrbitViewElementProperties ElementProperties { get; set; }
 
         /// <summary>
-        /// Gets or sets the container of the clicked item
+        /// Gets or sets the index of the item that was arranged
         /// </summary>
-        public ContentControl Container { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Item/Data Context of the clicked item
-        /// </summary>
-        public object Item { get; set; }
+        public int ItemIndex { get; set; }
     }
 }

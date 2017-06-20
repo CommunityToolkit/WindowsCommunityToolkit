@@ -1,13 +1,13 @@
 <!-- People -->
-<controls:SpaceView OrbitsEnabled="@[OrbitsEnabled:Bool:true]" 
+<controls:OrbitView OrbitsEnabled="@[OrbitsEnabled:Bool:true]" 
                     AnchorsEnabled="@[AnchorsEnabled:Bool:false]" 
                     IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]" 
                     MinItemSize="@[MinItemSize:Slider:20:10-50]" 
                     MaxItemSize="@[MaxItemSize:Slider:60:50-100]"
                     AnchorColor="@[AnchorColor:Brush:Gray]"
                     OrbitColor="@[OrbitColor:Brush:Gray]">
-  <controls:SpaceView.ItemTemplate>
-    <DataTemplate x:DataType="controls:SpaceViewItem">
+  <controls:OrbitView.ItemTemplate>
+    <DataTemplate x:DataType="controls:OrbitViewItem">
       <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
         <Ellipse >
           <Ellipse.Fill>
@@ -16,16 +16,16 @@
         </Ellipse>
       </controls:DropShadowPanel>
     </DataTemplate>
-  </controls:SpaceView.ItemTemplate>
-  <controls:SpaceView.ItemsSource>
-    <controls:SpaceViewItemCollection>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:SpaceViewItem>
-    </controls:SpaceViewItemCollection>
-  </controls:SpaceView.ItemsSource>
-  <controls:SpaceView.CenterContent>
+  </controls:OrbitView.ItemTemplate>
+  <controls:OrbitView.ItemsSource>
+    <controls:OrbitViewItemCollection>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:OrbitViewItem>
+    </controls:OrbitViewItemCollection>
+  </controls:OrbitView.ItemsSource>
+  <controls:OrbitView.CenterContent>
     <Grid>
       <controls:DropShadowPanel>
         <Ellipse Fill="White" Height="105" Width="105" Stroke="Black" StrokeThickness="2"></Ellipse>
@@ -36,13 +36,13 @@
         </Ellipse.Fill>
       </Ellipse>
     </Grid>
-  </controls:SpaceView.CenterContent>
-</controls:SpaceView>
+  </controls:OrbitView.CenterContent>
+</controls:OrbitView>
 
 
 <!-- Devices -->
-<controls:SpaceView  AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
-  <controls:SpaceView.ItemTemplate>
+<controls:OrbitView  AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
+  <controls:OrbitView.ItemTemplate>
     <DataTemplate x:DataType="local:DeviceItem">
       <Grid Height="60" Width="60" Background="White">
         <StackPanel>
@@ -51,8 +51,8 @@
         </StackPanel>
       </Grid>
     </DataTemplate>
-  </controls:SpaceView.ItemTemplate>
-  <controls:SpaceView.CenterContent>
+  </controls:OrbitView.ItemTemplate>
+  <controls:OrbitView.CenterContent>
     <Grid>
       <controls:DropShadowPanel>
         <Ellipse Fill="White" Height="105" Width="105" Stroke="Black" StrokeThickness="2"></Ellipse>
@@ -63,5 +63,5 @@
         </Ellipse.Fill>
       </Ellipse>
     </Grid>
-  </controls:SpaceView.CenterContent>
-</controls:SpaceView>
+  </controls:OrbitView.CenterContent>
+</controls:OrbitView>

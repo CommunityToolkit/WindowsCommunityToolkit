@@ -115,14 +115,14 @@
     <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
-    <Compile Include="SpaceView\SpaceView.cs" />
-    <Compile Include="SpaceView\SpaceViewElementProperties.cs" />
-    <Compile Include="SpaceView\SpaceViewItem.cs" />
-    <Compile Include="SpaceView\SpaceViewItemClickedEventArgs.cs" />
-    <Compile Include="SpaceView\SpaceViewItemCollection.cs" />
-    <Compile Include="SpaceView\SpaceViewPanel.cs" />
-    <Compile Include="SpaceView\SpaceViewPanelItemArrangedArgs.cs" />
-    <Compile Include="SpaceView\SpaceViewPanelItemsArrangedArgs.cs" />
+    <Compile Include="OrbitView\OrbitView.cs" />
+    <Compile Include="OrbitView\OrbitViewElementProperties.cs" />
+    <Compile Include="OrbitView\OrbitViewItem.cs" />
+    <Compile Include="OrbitView\OrbitViewItemClickedEventArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewItemCollection.cs" />
+    <Compile Include="OrbitView\OrbitViewPanel.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemArrangedArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
@@ -207,7 +207,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SpaceView\SpaceView.xaml">
+    <Page Include="OrbitView\OrbitView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -15,13 +15,9 @@ using System.Collections.Generic;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event args used by the <see cref="SpaceViewPanel"/> ItemsArranged event
+    /// The OrbitViewItemCollection provides typed collection of <see cref="OrbitViewItem"/>.
     /// </summary>
-    public class SpaceViewPanelItemsArrangedArgs
+    public class OrbitViewItemCollection : List<OrbitViewItem>
     {
-        /// <summary>
-        /// Gets or sets a collection of all elements that were arranged.
-        /// </summary>
-        public List<SpaceViewElementProperties> Elements { get; set; }
     }
 }

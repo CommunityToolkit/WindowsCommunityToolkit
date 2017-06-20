@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A class that can be used to provide data context for <see cref="SpaceView"></see> items by providing distance and diameter values
+    /// A class that can be used to provide data context for <see cref="OrbitView"></see> items by providing distance and diameter values
     /// </summary>
-    public class SpaceViewItem : DependencyObject
+    public class OrbitViewItem : DependencyObject
     {
         /// <summary>
         /// Gets or sets a value indicating the distance from the center.
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="DistanceProperty"/> property
         /// </summary>
         public static readonly DependencyProperty DistanceProperty =
-            DependencyProperty.Register("Distance", typeof(double), typeof(SpaceViewItem), new PropertyMetadata(0.5));
+            DependencyProperty.Register("Distance", typeof(double), typeof(OrbitViewItem), new PropertyMetadata(0.5));
 
         /// <summary>
         /// Gets or sets a value indicating the name of the item.
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="LabelProperty"/> property
         /// </summary>
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(SpaceViewItem), new PropertyMetadata("SpaceViewItem"));
+            DependencyProperty.Register("Label", typeof(string), typeof(OrbitViewItem), new PropertyMetadata("OrbitViewItem"));
 
         /// <summary>
         /// Gets or sets a value indicating the diameter of the item.
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="DiameterProperty"/> property
         /// </summary>
         public static readonly DependencyProperty DiameterProperty =
-            DependencyProperty.Register("Diameter", typeof(double), typeof(SpaceViewItem), new PropertyMetadata(-1d));
+            DependencyProperty.Register("Diameter", typeof(double), typeof(OrbitViewItem), new PropertyMetadata(-1d));
 
         /// <summary>
         /// Gets or sets a value indicating the image of the item.
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ImageProperty"/> property
         /// </summary>
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(ImageSource), typeof(SpaceViewItem), new PropertyMetadata(null));
+            DependencyProperty.Register("Image", typeof(ImageSource), typeof(OrbitViewItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value of an object that can be used to store model data.
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ItemProperty"/> property
         /// </summary>
         public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register("Item", typeof(object), typeof(SpaceViewItem), new PropertyMetadata(null));
+            DependencyProperty.Register("Item", typeof(object), typeof(OrbitViewItem), new PropertyMetadata(null));
 
 
     }
