@@ -1,22 +1,22 @@
-# SpaceView : ItemsControl
+# OrbitView : ItemsControl
 
-The `SpaceView` control provides a new control, inherited from the `ItemsControl`. All items are arranged in circle around a center element
+The `OrbitView` control provides a new control, inherited from the `ItemsControl`. All items are arranged in circle around a center element
 
-![SpaceView Overview](../resources/images/SpaceView.gif "SpaceView")  
+![OrbitView Overview](../resources/images/OrbitView.gif "OrbitView")  
 
 ## Syntax
 
 ```xaml
 
-<controls:SpaceView OrbitsEnabled="True" 
+<controls:OrbitView OrbitsEnabled="True" 
                     AnchorsEnabled="False" 
                     IsItemClickEnabled="True" 
                     MinItemSize="20" 
                     MaxItemSize="60"
                     AnchorColor="Gray"
                     OrbitColor="Gray">
-  <controls:SpaceView.ItemTemplate>
-    <DataTemplate x:DataType="controls:SpaceViewItem">
+  <controls:OrbitView.ItemTemplate>
+    <DataTemplate x:DataType="controls:OrbitViewItem">
       <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
         <Ellipse >
           <Ellipse.Fill>
@@ -25,16 +25,16 @@ The `SpaceView` control provides a new control, inherited from the `ItemsControl
         </Ellipse>
       </controls:DropShadowPanel>
     </DataTemplate>
-  </controls:SpaceView.ItemTemplate>
-  <controls:SpaceView.ItemsSource>
-    <controls:SpaceViewItemCollection>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:SpaceViewItem>
-      <controls:SpaceViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:SpaceViewItem>
-    </controls:SpaceViewItemCollection>
-  </controls:SpaceView.ItemsSource>
-  <controls:SpaceView.CenterContent>
+  </controls:OrbitView.ItemTemplate>
+  <controls:OrbitView.ItemsSource>
+    <controls:OrbitViewItemCollection>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/david.png" Distance="0.2" Label="David" Diameter="0.5"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/petri.png" Distance="0.4" Label="Petri" Diameter="0.6"></controls:OrbitViewItem>
+      <controls:OrbitViewItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:OrbitViewItem>
+    </controls:OrbitViewItemCollection>
+  </controls:OrbitView.ItemsSource>
+  <controls:OrbitView.CenterContent>
     <Grid>
       <controls:DropShadowPanel>
         <Ellipse Fill="White" Height="105" Width="105" Stroke="Black" StrokeThickness="2"></Ellipse>
@@ -45,12 +45,12 @@ The `SpaceView` control provides a new control, inherited from the `ItemsControl
         </Ellipse.Fill>
       </Ellipse>
     </Grid>
-  </controls:SpaceView.CenterContent>
-</controls:SpaceView>
+  </controls:OrbitView.CenterContent>
+</controls:OrbitView>
 
 ```
 
-## SpaceView Properties
+## OrbitView Properties
 
 ### IsItemClickEnabled
 When set to true, the `ItemClicked` event is fired when an item is clicked. This property also enables input interactions including animations
@@ -79,22 +79,22 @@ When Anchors are enabled, this property specifies the anchor line thickness
 ### MinItemSize
 MinItemSize specifies the minimum size for items
 
-> Note: for this property to work, the data context of each item has to be a `SpaceViewItem` and Diameter property set between 0 and 1 
+> Note: for this property to work, the data context of each item has to be a `OrbitViewItem` and Diameter property set between 0 and 1 
 
 ### MaxItemSize
 MinItemSize specifies the maximum size for items
 
-> Note: for this property to work, the data context of each item has to be a `SpaceViewItem` and Diameter property set between 0 and 1 
+> Note: for this property to work, the data context of each item has to be a `OrbitViewItem` and Diameter property set between 0 and 1 
 
-## SpaceView Events
+## OrbitView Events
 
-### ItemClicked
-Event is raised when item is clicked
+### ItemInvoked
+Event is raised when item is invoked with mouse or keyboard/controller
 
 > Note: `IsItemClickedEnabled` should be true for this event to work
 
-## SpaceViewItem
-SpaceViewItem is a helper class used for specifying size and distance of each item of the `SpaceView`. To work properly, the `ItemSource` of the `SpaceView` should be set to en *IEnumerable< SpaceViewItem >*. Objects extending SpaceViewItem will also work. Alternatively, SpaceViewItem has the `Item` object property that can be used to store additional objects and properties.
+## OrbitViewItem
+OrbitViewItem is a helper class used for specifying size and distance of each item of the `OrbitView`. To work properly, the `ItemSource` of the `OrbitView` should be set to en *IEnumerable< OrbitViewItem >*. Objects extending OrbitViewItem will also work. Alternatively, OrbitViewItem has the `Item` object property that can be used to store additional objects and properties.
 
 ### Diameter
 A double value between 0 and 1, 0 indicating `MinItemSize` and 1 indicating `MaxItemSize`
@@ -113,7 +113,7 @@ Object property useful for adding additional properties
 
 ## Default Template 
 
-[SpaceView XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/SpaceView/SpaceView.xaml) is the XAML template used in the toolkit for the default styling.
+[OrbitView XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView/OrbitView.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -123,5 +123,5 @@ Object property useful for adding additional properties
 
 ## API
 
-* [Carousel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SpaceView)
+* [OrbitView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView)
 
