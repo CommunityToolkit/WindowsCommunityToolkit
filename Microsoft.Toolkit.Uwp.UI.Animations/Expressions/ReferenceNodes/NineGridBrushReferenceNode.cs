@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal static NineGridBrushReferenceNode CreateTargetReference()
         {
             var node = new NineGridBrushReferenceNode(null);
-            node._nodeType = ExpressionNodeType.TargetReference;
+            node.NodeType = ExpressionNodeType.TargetReference;
 
             return node;
         }

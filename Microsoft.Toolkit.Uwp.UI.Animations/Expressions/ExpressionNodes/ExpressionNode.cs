@@ -14,6 +14,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     ///---------------------------------------------------------------------------------------------------------------------
     public abstract class ExpressionNode
     {
+        private List<ReferenceInfo> _objRefList = null;
+        private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
+        private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
+
         internal ExpressionNode()
         {
         }
@@ -115,17 +119,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _objRefList = null;
             _compObjToParamNameMap = null;
             _constParamMap = null;
-            _subchannels = null;
-            _propertyName = null;
-            _nodeType = ExpressionNodeType.Count;
+            Subchannels = null;
+            PropertyName = null;
+            NodeType = ExpressionNodeType.Count;
 
             // Note: we don't recursively dispose all child nodes, as those nodes could be in use by a different Expression
-            _children = null;
+            Children = null;
 
-            if (_expressionAnimation != null)
+            if (ExpressionAnimation != null)
             {
-                _expressionAnimation.Dispose();
-                _expressionAnimation = null;
+                ExpressionAnimation.Dispose();
+                ExpressionAnimation = null;
             }
         }
 
@@ -241,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     }
 
                     _objRefList.Add(new ReferenceInfo(paramName, refNode.Reference));
-                    refNode._paramName = paramName;
+                    refNode.ParamName = paramName;
                 }
             }
         }
@@ -306,16 +310,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             T node = CreateExpressionNode<T>();
 
-            (node as ExpressionNode)._paramName = null;
+            (node as ExpressionNode).ParamName = null;
 
             switch (keywordKind)
             {
                 case ValueKeywordKind.CurrentValue:
-                    (node as ExpressionNode)._nodeType = ExpressionNodeType.CurrentValueProperty;
+                    (node as ExpressionNode).NodeType = ExpressionNodeType.CurrentValueProperty;
                     break;
 
                 case ValueKeywordKind.StartingValue:
-                    (node as ExpressionNode)._nodeType = ExpressionNodeType.StartingValueProperty;
+                    (node as ExpressionNode).NodeType = ExpressionNodeType.StartingValueProperty;
                     break;
 
                 default:
@@ -363,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     throw new Exception($"Invalid subchannel count ({subchannels.GetLength(0)})");
             }
 
-            (newNode as ExpressionNode)._subchannels = subchannels;
+            (newNode as ExpressionNode).Subchannels = subchannels;
 
             return newNode;
         }
@@ -371,7 +375,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         protected internal void PopulateParameterNodes(ref Dictionary<string, object> constParamMap, ref HashSet<ReferenceNode> referenceNodes)
         {
             var refNode = (this as ReferenceNode);
-            if ((refNode != null) && (refNode._nodeType != ExpressionNodeType.TargetReference))
+            if ((refNode != null) && (refNode.NodeType != ExpressionNodeType.TargetReference))
             {
                 referenceNodes.Add(refNode);
             }
@@ -388,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 }
             }
 
-            foreach (var child in _children)
+            foreach (var child in Children)
             {
                 child.PopulateParameterNodes(ref constParamMap, ref referenceNodes);
             }
@@ -396,12 +400,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
         private OperationType GetOperationKind()
         {
-            return ExpressionFunctions.GetNodeInfoFromType(_nodeType).NodeOperationKind;
+            return ExpressionFunctions.GetNodeInfoFromType(NodeType).NodeOperationKind;
         }
 
         private string GetOperationString()
         {
-            return ExpressionFunctions.GetNodeInfoFromType(_nodeType).OperationString;
+            return ExpressionFunctions.GetNodeInfoFromType(NodeType).OperationString;
         }
 
         private string ToExpressionStringInternal()
@@ -412,33 +416,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             switch (GetOperationKind())
             {
                 case OperationType.Function:
-                    if (_children.Count == 0)
+                    if (Children.Count == 0)
                     {
                         throw new Exception("Can't have an expression function with no params");
                     }
 
-                    ret = $"{GetOperationString()}({_children[0].ToExpressionStringInternal()}";
-                    for (int i = 1; i < _children.Count; i++)
+                    ret = $"{GetOperationString()}({Children[0].ToExpressionStringInternal()}";
+                    for (int i = 1; i < Children.Count; i++)
                     {
-                        ret += "," + _children[i].ToExpressionStringInternal();
+                        ret += "," + Children[i].ToExpressionStringInternal();
                     }
                     ret += ")";
                     break;
 
                 case OperationType.Operator:
-                    if (_children.Count != 2)
+                    if (Children.Count != 2)
                     {
                         throw new Exception("Can't have an operator that doesn't have 2 exactly params");
                     }
 
-                    ret = $"({_children[0].ToExpressionStringInternal()} {GetOperationString()} {_children[1].ToExpressionStringInternal()})";
+                    ret = $"({Children[0].ToExpressionStringInternal()} {GetOperationString()} {Children[1].ToExpressionStringInternal()})";
                     break;
 
                 case OperationType.Constant:
-                    if (_children.Count == 0)
+                    if (Children.Count == 0)
                     {
                         // If a parameterName was specified, use it. Otherwise write the value.
-                        ret = _paramName ?? GetValue();
+                        ret = ParamName ?? GetValue();
                     }
                     else
                     {
@@ -448,61 +452,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     break;
 
                 case OperationType.Swizzle:
-                    if (_children.Count != 1)
+                    if (Children.Count != 1)
                     {
                         throw new Exception("Swizzles should have exactly 1 child");
                     }
 
                     string swizzleString = "";
-                    foreach (var sub in _subchannels)
+                    foreach (var sub in Subchannels)
                     {
                         swizzleString += sub;
                     }
 
-                    ret = $"{_children[0].ToExpressionStringInternal()}.{swizzleString}";
+                    ret = $"{Children[0].ToExpressionStringInternal()}.{swizzleString}";
                     break;
 
                 case OperationType.Reference:
-                    if ((_nodeType == ExpressionNodeType.Reference) ||
-                        (_nodeType == ExpressionNodeType.TargetReference))
+                    if ((NodeType == ExpressionNodeType.Reference) ||
+                        (NodeType == ExpressionNodeType.TargetReference))
                     {
                         // This is the reference node itself
-                        if (_children.Count != 0)
+                        if (Children.Count != 0)
                         {
                             throw new Exception("References cannot have children");
                         }
 
                         ret = (this as ReferenceNode).GetReferenceParamString();
                     }
-                    else if (_nodeType == ExpressionNodeType.ReferenceProperty)
+                    else if (NodeType == ExpressionNodeType.ReferenceProperty)
                     {
                         // This is the property node of the reference
-                        if (_children.Count != 1)
+                        if (Children.Count != 1)
                         {
                             throw new Exception("Reference properties must have exactly one child");
                         }
 
-                        if (_propertyName == null)
+                        if (PropertyName == null)
                         {
                             throw new Exception("Reference properties must have a property name");
                         }
 
-                        ret = $"{_children[0].ToExpressionStringInternal()}.{_propertyName}";
+                        ret = $"{Children[0].ToExpressionStringInternal()}.{PropertyName}";
                     }
-                    else if (_nodeType == ExpressionNodeType.StartingValueProperty)
+                    else if (NodeType == ExpressionNodeType.StartingValueProperty)
                     {
                         // This is a "this.StartingValue" node
-                        if (_children.Count != 0)
+                        if (Children.Count != 0)
                         {
                             throw new Exception("StartingValue references Cannot have children");
                         }
 
                         ret = "this.StartingValue";
                     }
-                    else if (_nodeType == ExpressionNodeType.CurrentValueProperty)
+                    else if (NodeType == ExpressionNodeType.CurrentValueProperty)
                     {
                         // This is a "this.CurrentValue" node
-                        if (_children.Count != 0)
+                        if (Children.Count != 0)
                         {
                             throw new Exception("CurrentValue references Cannot have children");
                         }
@@ -517,16 +521,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     break;
 
                 case OperationType.Conditional:
-                    if (_children.Count != 3)
+                    if (Children.Count != 3)
                     {
                         throw new Exception("Conditionals must have exactly 3 children");
                     }
 
-                    ret = $"(({_children[0].ToExpressionStringInternal()}) ? ({_children[1].ToExpressionStringInternal()}) : ({_children[2].ToExpressionStringInternal()}))";
+                    ret = $"(({Children[0].ToExpressionStringInternal()}) ? ({Children[1].ToExpressionStringInternal()}) : ({Children[2].ToExpressionStringInternal()}))";
                     break;
 
                 default:
-                    throw new Exception($"Unexpected operation type ({GetOperationKind()}), nodeType = {_nodeType}");
+                    throw new Exception($"Unexpected operation type ({GetOperationKind()}), nodeType = {NodeType}");
             }
 
             return ret;
@@ -543,24 +547,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 CompObject = compObj;
             }
 
-            public string ParameterName;
-            public CompositionObject CompObject;
+            public string ParameterName { get; set; }
+
+            public CompositionObject CompObject { get; set; }
         }
 
-        //
-        // Data
-        //
-        private List<ReferenceInfo> _objRefList = null;
-        private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
-        private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
+        internal string PropertyName { get; set; }
 
-        protected internal string[] _subchannels = null;
-        internal string _propertyName = null;
+        internal ExpressionNodeType NodeType { get; set; }
 
-        internal ExpressionNodeType _nodeType;
-        internal List<ExpressionNode> _children = new List<ExpressionNode>();
-        internal string _paramName = null;
+        internal List<ExpressionNode> Children { get; set; } = new List<ExpressionNode>();
 
-        internal ExpressionAnimation _expressionAnimation = null;
+        internal string ParamName { get; set; }
+
+        internal ExpressionAnimation ExpressionAnimation { get; set; }
+
+        protected internal string[] Subchannels { get; set; }
     }
 }

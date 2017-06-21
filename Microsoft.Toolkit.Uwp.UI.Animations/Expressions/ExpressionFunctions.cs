@@ -678,10 +678,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 
-            (newNode as ExpressionNode)._nodeType = nodeType;
+            (newNode as ExpressionNode).NodeType = nodeType;
             foreach (var param in expressionFunctionParams)
             {
-                (newNode as ExpressionNode)._children.Add(param);
+                (newNode as ExpressionNode).Children.Add(param);
             }
 
             return newNode;

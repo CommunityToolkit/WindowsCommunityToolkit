@@ -13,20 +13,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal Vector4Node(Vector4 value)
         {
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantValue;
+            NodeType = ExpressionNodeType.ConstantValue;
         }
 
         internal Vector4Node(string paramName)
         {
-            _paramName = paramName;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            ParamName = paramName;
+            NodeType = ExpressionNodeType.ConstantParameter;
         }
 
         internal Vector4Node(string paramName, Vector4 value)
         {
-            _paramName = paramName;
+            ParamName = paramName;
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            NodeType = ExpressionNodeType.ConstantParameter;
 
             SetVector4Parameter(paramName, value);
         }

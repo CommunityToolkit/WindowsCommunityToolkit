@@ -13,20 +13,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal Matrix4x4Node(Matrix4x4 value)
         {
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantValue;
+            NodeType = ExpressionNodeType.ConstantValue;
         }
 
         internal Matrix4x4Node(string paramName)
         {
-            _paramName = paramName;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            ParamName = paramName;
+            NodeType = ExpressionNodeType.ConstantParameter;
         }
 
         internal Matrix4x4Node(string paramName, Matrix4x4 value)
         {
-            _paramName = paramName;
+            ParamName = paramName;
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            NodeType = ExpressionNodeType.ConstantParameter;
 
             SetMatrix4x4Parameter(paramName, value);
         }

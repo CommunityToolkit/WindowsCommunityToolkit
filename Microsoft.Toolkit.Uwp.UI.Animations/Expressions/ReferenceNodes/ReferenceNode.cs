@@ -14,8 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal ReferenceNode(string paramName, CompositionObject compObj = null)
         {
             _reference = compObj;
-            _nodeType = ExpressionNodeType.Reference;
-            _paramName = paramName;
+            NodeType = ExpressionNodeType.Reference;
+            ParamName = paramName;
         }
 
         //
@@ -93,22 +93,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 
-            (newNode as ExpressionNode)._nodeType = ExpressionNodeType.ReferenceProperty;
-            (newNode as ExpressionNode)._children.Add(this);
-            (newNode as ExpressionNode)._propertyName = propertyName;
+            (newNode as ExpressionNode).NodeType = ExpressionNodeType.ReferenceProperty;
+            (newNode as ExpressionNode).Children.Add(this);
+            (newNode as ExpressionNode).PropertyName = propertyName;
 
             return newNode;
         }
 
         internal string GetReferenceParamString()
         {
-            if (_nodeType == ExpressionNodeType.TargetReference)
+            if (NodeType == ExpressionNodeType.TargetReference)
             {
                 return "this.target";
             }
             else
             {
-                return _paramName;
+                return ParamName;
             }
         }
 

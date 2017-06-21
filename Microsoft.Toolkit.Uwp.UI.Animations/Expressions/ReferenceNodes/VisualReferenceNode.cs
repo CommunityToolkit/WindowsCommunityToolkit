@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal static VisualReferenceNode CreateTargetReference()
         {
             var node = new VisualReferenceNode(null);
-            node._nodeType = ExpressionNodeType.TargetReference;
+            node.NodeType = ExpressionNodeType.TargetReference;
 
             return node;
         }

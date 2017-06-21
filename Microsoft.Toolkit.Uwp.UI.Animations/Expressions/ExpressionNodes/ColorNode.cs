@@ -13,20 +13,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal ColorNode(Color value)
         {
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantValue;
+            NodeType = ExpressionNodeType.ConstantValue;
         }
 
         internal ColorNode(string paramName)
         {
-            _paramName = paramName;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            ParamName = paramName;
+            NodeType = ExpressionNodeType.ConstantParameter;
         }
 
         internal ColorNode(string paramName, Color value)
         {
-            _paramName = paramName;
+            ParamName = paramName;
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            NodeType = ExpressionNodeType.ConstantParameter;
 
             SetColorParameter(paramName, value);
         }

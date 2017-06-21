@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal static SpotLightReferenceNode CreateTargetReference()
         {
             var node = new SpotLightReferenceNode(null);
-            node._nodeType = ExpressionNodeType.TargetReference;
+            node.NodeType = ExpressionNodeType.TargetReference;
 
             return node;
         }

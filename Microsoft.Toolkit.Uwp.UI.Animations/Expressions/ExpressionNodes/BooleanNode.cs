@@ -11,20 +11,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal BooleanNode(bool value)
         {
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantValue;
+            NodeType = ExpressionNodeType.ConstantValue;
         }
 
         internal BooleanNode(string paramName)
         {
-            _paramName = paramName;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            ParamName = paramName;
+            NodeType = ExpressionNodeType.ConstantParameter;
         }
 
         internal BooleanNode(string paramName, bool value)
         {
-            _paramName = paramName;
+            ParamName = paramName;
             _value = value;
-            _nodeType = ExpressionNodeType.ConstantParameter;
+            NodeType = ExpressionNodeType.ConstantParameter;
 
             SetBooleanParameter(paramName, value);
         }

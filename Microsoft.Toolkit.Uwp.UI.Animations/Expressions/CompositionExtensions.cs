@@ -141,15 +141,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         private static ExpressionAnimation CreateExpressionAnimationFromNode(Compositor compositor, ExpressionNode expressionNode)
         {
             // Only create a new animation if this node hasn't already generated one before, so we don't have to re-parse the expression string.
-            if (expressionNode._expressionAnimation == null)
+            if (expressionNode.ExpressionAnimation == null)
             {
-                expressionNode._expressionAnimation = compositor.CreateExpressionAnimation(expressionNode.ToExpressionString());
+                expressionNode.ExpressionAnimation = compositor.CreateExpressionAnimation(expressionNode.ToExpressionString());
             }
 
             // We need to make sure all parameters are up to date, even if the animation already existed.
-            expressionNode.SetAllParameters(expressionNode._expressionAnimation);
+            expressionNode.SetAllParameters(expressionNode.ExpressionAnimation);
 
-            return expressionNode._expressionAnimation;
+            return expressionNode.ExpressionAnimation;
         }
     }
 }

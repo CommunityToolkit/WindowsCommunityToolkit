@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal static PropertySetReferenceNode CreateTargetReference()
         {
             var node = new PropertySetReferenceNode(null);
-            node._nodeType = ExpressionNodeType.TargetReference;
+            node.NodeType = ExpressionNodeType.TargetReference;
 
             return node;
         }
