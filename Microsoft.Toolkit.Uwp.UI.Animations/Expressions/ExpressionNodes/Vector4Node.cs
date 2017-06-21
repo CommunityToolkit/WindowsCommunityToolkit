@@ -34,7 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Operator overloads
         //
-
         public static implicit operator Vector4Node(Vector4 value)
         {
             return new Vector4Node(value);

@@ -34,8 +34,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Operator overloads
         //
-
-        public static implicit operator QuaternionNode(Quaternion value) { return new QuaternionNode(value); }
+        public static implicit operator QuaternionNode(Quaternion value)
+        {
+            return new QuaternionNode(value);
+        }
 
         public static QuaternionNode operator *(QuaternionNode left, ScalarNode right)
         {

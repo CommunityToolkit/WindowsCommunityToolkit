@@ -74,11 +74,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-
         //
         // Subchannels
         //
-
         public enum Subchannel
         {
             _11, _12, _13, _14,
@@ -125,13 +123,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         public Vector3Node _41_42_43 { get { return GetSubchannels(Subchannel._41, Subchannel._42, Subchannel._43); } }
 
         /// <summary> Create a new type by re-arranging the Matrix subchannels. </summary>
-        public ScalarNode GetSubchannels(Subchannel s) { return SubchannelsInternal<ScalarNode>(s.ToString()); }
+        public ScalarNode GetSubchannels(Subchannel s)
+        {
+            return SubchannelsInternal<ScalarNode>(s.ToString());
+        }
 
-        public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2) { return SubchannelsInternal<Vector2Node>(s1.ToString(), s2.ToString()); }
+        public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2)
+        {
+            return SubchannelsInternal<Vector2Node>(s1.ToString(), s2.ToString());
+        }
 
-        public Vector3Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3) { return SubchannelsInternal<Vector3Node>(s1.ToString(), s2.ToString(), s3.ToString()); }
+        public Vector3Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3)
+        {
+            return SubchannelsInternal<Vector3Node>(s1.ToString(), s2.ToString(), s3.ToString());
+        }
 
-        public Vector4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4) { return SubchannelsInternal<Vector4Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString()); }
+        public Vector4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4)
+        {
+            return SubchannelsInternal<Vector4Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString());
+        }
 
         public Matrix3x2Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4, Subchannel s5, Subchannel s6)
         {

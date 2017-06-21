@@ -35,7 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Operator overloads
         //
-
         public static implicit operator Matrix3x2Node(Matrix3x2 value)
         {
             return new Matrix3x2Node(value);

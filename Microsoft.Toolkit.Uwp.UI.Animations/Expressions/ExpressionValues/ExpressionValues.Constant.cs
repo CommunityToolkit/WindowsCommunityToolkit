@@ -83,7 +83,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 return new Matrix4x4Node(paramName);
             }
 
-
             //
             // Constant parameters with a default value
             //

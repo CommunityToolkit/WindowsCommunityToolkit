@@ -12,10 +12,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     ///    ToDo: Add description after docs written
     /// 
     ///---------------------------------------------------------------------------------------------------------------------
-
     public abstract class ExpressionNode
     {
-        internal ExpressionNode() { }
+        internal ExpressionNode()
+        {
+        }
 
         /// <summary> Resolve a named reference parameter to the CompositionObject it will refer to. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
@@ -131,8 +132,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Helper functions
         //
-
-        internal static T CreateExpressionNode<T>() where T : class
+        internal static T CreateExpressionNode<T>()
+            where T : class
         {
             T newNode;
 
@@ -221,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     _compObjToParamNameMap.Add(compObj, paramName);
                 }
 
-                // Go through all reference nodes again to create our full list of referenceInfo. This time, if 
+                // Go through all reference nodes again to create our full list of referenceInfo. This time, if
                 // the param name is null, look it up from our new map and store it.
                 _objRefList = new List<ReferenceInfo>();
                 foreach (var refNode in referenceNodes)
@@ -300,7 +301,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
-        internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind) where T : class
+        internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
+            where T : class
         {
             T node = CreateExpressionNode<T>();
 
@@ -325,7 +327,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
         protected internal abstract string GetValue();
 
-        protected internal T SubchannelsInternal<T>(params string[] subchannels) where T : class
+        protected internal T SubchannelsInternal<T>(params string[] subchannels)
+            where T : class
         {
             ExpressionNodeType swizzleNodeType = ExpressionNodeType.Swizzle;
             T newNode;
@@ -441,6 +444,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     {
                         throw new Exception("Constants must have 0 children");
                     }
+
                     break;
 
                 case OperationType.Swizzle:
@@ -509,6 +513,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     {
                         throw new Exception("Unexpected NodeType for OperationType.Reference");
                     }
+
                     break;
 
                 case OperationType.Conditional:
@@ -530,7 +535,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Structs
         //
-
         internal struct ReferenceInfo
         {
             public ReferenceInfo(string paramName, CompositionObject compObj)
@@ -543,11 +547,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             public CompositionObject CompObject;
         }
 
-
         //
         // Data
         //
-
         private List<ReferenceInfo> _objRefList = null;
         private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
         private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);

@@ -32,7 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Operator overloads
         //
-
         public static implicit operator ScalarNode(float value)
         {
             return new ScalarNode(value);

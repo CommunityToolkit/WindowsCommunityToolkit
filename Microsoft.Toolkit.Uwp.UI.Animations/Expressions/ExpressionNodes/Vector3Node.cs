@@ -85,11 +85,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-
         //
         // Subchannels
         //
-
         public enum Subchannel
         {
             X,

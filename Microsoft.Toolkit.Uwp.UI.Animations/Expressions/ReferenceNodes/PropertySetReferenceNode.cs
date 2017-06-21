@@ -2,14 +2,12 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-
     public class PropertySetReferenceNode : ReferenceNode
     {
         internal PropertySetReferenceNode(string paramName, CompositionPropertySet ps = null)
             : base(paramName, ps)
         {
         }
-
 
         // Needed for GetSpecializedReference<>()
         internal PropertySetReferenceNode()

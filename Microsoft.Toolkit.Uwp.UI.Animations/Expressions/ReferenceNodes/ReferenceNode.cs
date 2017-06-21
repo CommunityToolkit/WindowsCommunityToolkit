@@ -9,7 +9,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     ///    ToDo: Add description after docs written
     /// 
     ///---------------------------------------------------------------------------------------------------------------------
-
     public abstract class ReferenceNode : ExpressionNode
     {
         internal ReferenceNode(string paramName, CompositionObject compObj = null)
@@ -18,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _nodeType = ExpressionNodeType.Reference;
             _paramName = paramName;
         }
-
 
         //
         // Property set accessor functions
@@ -87,11 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ReferenceProperty<Matrix4x4Node>(propertyName);
         }
 
-
         //
         // Helper functions
         //
-        internal protected T ReferenceProperty<T>(string propertyName) where T : class
+        protected internal T ReferenceProperty<T>(string propertyName)
+            where T : class
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 
@@ -114,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");
         }

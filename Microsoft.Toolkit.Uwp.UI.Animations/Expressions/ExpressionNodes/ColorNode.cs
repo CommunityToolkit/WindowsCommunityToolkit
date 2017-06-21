@@ -31,12 +31,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetColorParameter(paramName, value);
         }
 
-
         //
         // Operator overloads
         //
-
-        public static implicit operator ColorNode(Color value) { return new ColorNode(value); }
+        public static implicit operator ColorNode(Color value)
+        {
+            return new ColorNode(value);
+        }
 
         public static BooleanNode operator ==(ColorNode left, ColorNode right)
         {

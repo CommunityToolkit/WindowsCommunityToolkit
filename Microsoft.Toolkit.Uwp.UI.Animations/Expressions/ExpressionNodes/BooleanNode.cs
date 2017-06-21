@@ -33,7 +33,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         // Operator overloads
         //
 
-        public static implicit operator BooleanNode(bool value) { return new BooleanNode(value); }
+        public static implicit operator BooleanNode(bool value)
+        {
+            return new BooleanNode(value);
+        }
 
         public static BooleanNode operator ==(BooleanNode left, BooleanNode right)
         {
