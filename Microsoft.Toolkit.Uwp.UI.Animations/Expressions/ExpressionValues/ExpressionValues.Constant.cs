@@ -1,8 +1,8 @@
+using System.Numerics;
+using Windows.UI;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using System.Numerics;
-    using Windows.UI;
-
     ///---------------------------------------------------------------------------------------------------------------------
     /// 
     /// class ExpressionValues.Constant

@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class SpotLightReferenceNode : ReferenceNode
     {
         internal SpotLightReferenceNode(string paramName, SpotLight light = null) : base(paramName, light) { }

@@ -1,10 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+using Windows.UI;
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Numerics;
-    using Windows.UI;
-    using Windows.UI.Composition;
 
     internal enum ExpressionNodeType
     {

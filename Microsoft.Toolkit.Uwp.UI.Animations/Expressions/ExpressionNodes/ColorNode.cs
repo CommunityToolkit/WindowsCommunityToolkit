@@ -1,6 +1,7 @@
+using Windows.UI;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI;
 
 // Ignore warning: 'ColorNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661

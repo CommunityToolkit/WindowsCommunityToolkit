@@ -1,7 +1,5 @@
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI;
-
     ///---------------------------------------------------------------------------------------------------------------------
     /// 
     /// class ExpressionValues

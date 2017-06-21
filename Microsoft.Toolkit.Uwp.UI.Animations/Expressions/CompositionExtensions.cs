@@ -1,8 +1,8 @@
+using Windows.UI.Composition;
+using Windows.UI.Composition.Interactions;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-    using Windows.UI.Composition.Interactions;
-
     ///---------------------------------------------------------------------------------------------------------------------
     /// 
     /// class CompositionExtensions

@@ -1,7 +1,7 @@
+using Windows.UI.Composition.Interactions;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition.Interactions;
-
     public sealed class InteractionTrackerReferenceNode : ReferenceNode
     {
         internal InteractionTrackerReferenceNode(string paramName, InteractionTracker it = null) : base(paramName, it) { }

@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class DropShadowReferenceNode : ReferenceNode
     {
         internal DropShadowReferenceNode(string paramName, DropShadow source = null) : base(paramName, source) { }

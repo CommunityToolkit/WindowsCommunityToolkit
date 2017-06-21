@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class SurfaceBrushReferenceNode : ReferenceNode
     {
         internal SurfaceBrushReferenceNode(string paramName, CompositionSurfaceBrush brush = null) : base(paramName, brush) { }

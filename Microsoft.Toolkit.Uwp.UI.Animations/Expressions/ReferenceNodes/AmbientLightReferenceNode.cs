@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class AmbientLightReferenceNode : ReferenceNode
     {
         internal AmbientLightReferenceNode(string paramName, AmbientLight light = null) : base(paramName, light) { }

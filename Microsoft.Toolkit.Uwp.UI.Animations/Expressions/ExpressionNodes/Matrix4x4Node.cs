@@ -1,7 +1,7 @@
+using System.Numerics;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using System.Numerics;
-
 // Ignore warning: 'Matrix4x4Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
     public sealed class Matrix4x4Node : ExpressionNode

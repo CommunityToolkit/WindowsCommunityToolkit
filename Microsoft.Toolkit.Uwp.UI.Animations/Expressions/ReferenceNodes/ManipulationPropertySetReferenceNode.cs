@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class ManipulationPropertySetReferenceNode : PropertySetReferenceNode
     {
         internal ManipulationPropertySetReferenceNode(string paramName, CompositionPropertySet ps = null) : base(paramName, ps) { }

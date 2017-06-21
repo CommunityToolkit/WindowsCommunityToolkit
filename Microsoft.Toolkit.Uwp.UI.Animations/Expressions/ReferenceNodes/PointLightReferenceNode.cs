@@ -1,7 +1,7 @@
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using Windows.UI.Composition;
-
     public sealed class PointLightReferenceNode : ReferenceNode
     {
         internal PointLightReferenceNode(string paramName, PointLight light = null) : base(paramName, light) { }

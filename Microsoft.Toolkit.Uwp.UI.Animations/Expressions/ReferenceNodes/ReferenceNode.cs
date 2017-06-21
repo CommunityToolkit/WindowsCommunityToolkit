@@ -1,8 +1,8 @@
+using System;
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using System;
-    using Windows.UI.Composition;
-
     ///---------------------------------------------------------------------------------------------------------------------
     /// 
     /// class ReferenceNode
