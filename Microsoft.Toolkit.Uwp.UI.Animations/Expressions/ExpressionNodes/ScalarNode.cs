@@ -1,9 +1,3 @@
-///---------------------------------------------------------------------------------------------------------------------
-/// <copyright company="Microsoft">
-///     Copyright (c) Microsoft Corporation.  All rights reserved.
-/// </copyright>
-///---------------------------------------------------------------------------------------------------------------------
-
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
 // Ignore warning: 'ScalarNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
