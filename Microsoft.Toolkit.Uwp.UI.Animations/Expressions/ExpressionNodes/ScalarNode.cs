@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.GreaterThan, left, right);
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return _value.ToString();
         }

@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return $"Quaternion({_value.X},{_value.Y},{_value.Z},{_value.W})";
         }

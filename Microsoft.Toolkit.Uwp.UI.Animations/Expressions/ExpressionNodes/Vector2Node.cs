@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                                                       s13.ToString(), s14.ToString(), s15.ToString(), s16.ToString());
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return $"Vector2({_value.X},{_value.Y})";
         }

@@ -410,9 +410,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return node;
         }
 
-        internal protected abstract string GetValue();
+        protected internal abstract string GetValue();
 
-        internal protected T SubchannelsInternal<T>(params string[] subchannels) where T : class
+        protected internal T SubchannelsInternal<T>(params string[] subchannels) where T : class
         {
             ExpressionNodeType swizzleNodeType = ExpressionNodeType.Swizzle;
             T newNode;
@@ -452,7 +452,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return newNode;
         }
 
-        internal protected void PopulateParameterNodes(ref Dictionary<string, object> constParamMap, ref HashSet<ReferenceNode> referenceNodes)
+        protected internal void PopulateParameterNodes(ref Dictionary<string, object> constParamMap, ref HashSet<ReferenceNode> referenceNodes)
         {
             var refNode = (this as ReferenceNode);
             if ((refNode != null) && (refNode._nodeType != ExpressionNodeType.TargetReference))
@@ -639,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
         private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
 
-        internal protected string[] _subchannels = null;
+        protected internal string[] _subchannels = null;
         internal string _propertyName = null;
 
         internal ExpressionNodeType _nodeType;

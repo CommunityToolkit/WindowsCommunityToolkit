@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.Not, value);
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return _value ? "true" : "false";
         }

@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return $"ColorRgb({_value.A},{_value.R},{_value.G},{_value.B})";
         }

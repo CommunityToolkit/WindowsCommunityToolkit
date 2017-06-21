@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                                                       s13.ToString(), s14.ToString(), s15.ToString(), s16.ToString());
         }
 
-        internal protected override string GetValue()
+        protected internal override string GetValue()
         {
             return $"Matrix3x2({_value.M11},{_value.M12},{_value.M21},{_value.M22},{_value.M31},{_value.M32})";
         }
