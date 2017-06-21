@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -45,6 +46,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            CarouselControl.SelectionChanged += CarouselControl_SelectionChanged;
+        }
+
+        private void CarouselControl_SelectionChanged(object sender, object e)
+        {
+            Debug.WriteLine(e);
         }
     }
 }
