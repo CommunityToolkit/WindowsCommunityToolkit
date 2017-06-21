@@ -78,10 +78,12 @@
     <Compile Include="Expressions\ExpressionNodes\BooleanNode.cs" />
     <Compile Include="Expressions\ExpressionNodes\ColorNode.cs" />
     <Compile Include="Expressions\ExpressionNodes\ExpressionNode.cs" />
+    <Compile Include="Expressions\ExpressionNodes\ExpressionNodeType.cs" />
     <Compile Include="Expressions\ExpressionNodes\Matrix3x2Node.cs" />
     <Compile Include="Expressions\ExpressionNodes\Matrix4x4Node.cs" />
     <Compile Include="Expressions\ExpressionNodes\QuaternionNode.cs" />
     <Compile Include="Expressions\ExpressionNodes\ScalarNode.cs" />
+    <Compile Include="Expressions\ExpressionNodes\ValueKeywordKind.cs" />
     <Compile Include="Expressions\ExpressionNodes\Vector2Node.cs" />
     <Compile Include="Expressions\ExpressionNodes\Vector3Node.cs" />
     <Compile Include="Expressions\ExpressionNodes\Vector4Node.cs" />
