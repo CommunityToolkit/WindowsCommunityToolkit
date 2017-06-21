@@ -79,23 +79,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         public enum Subchannel
         {
-            _11, _12,
-            _21, _22,
-            _31, _32,
+            Channel11, Channel12,
+            Channel21, Channel22,
+            Channel31, Channel32,
         }
 
         // Commonly accessed subchannels
-        public ScalarNode _11 { get { return GetSubchannels(Subchannel._11); } }
+        public ScalarNode Channel11 { get { return GetSubchannels(Subchannel.Channel11); } }
 
-        public ScalarNode _12 { get { return GetSubchannels(Subchannel._12); } }
+        public ScalarNode Channel12 { get { return GetSubchannels(Subchannel.Channel12); } }
 
-        public ScalarNode _21 { get { return GetSubchannels(Subchannel._21); } }
+        public ScalarNode Channel21 { get { return GetSubchannels(Subchannel.Channel21); } }
 
-        public ScalarNode _22 { get { return GetSubchannels(Subchannel._22); } }
+        public ScalarNode Channel22 { get { return GetSubchannels(Subchannel.Channel22); } }
 
-        public ScalarNode _31 { get { return GetSubchannels(Subchannel._31); } }
+        public ScalarNode Channel31 { get { return GetSubchannels(Subchannel.Channel31); } }
 
-        public ScalarNode _32 { get { return GetSubchannels(Subchannel._32); } }
+        public ScalarNode Channel32 { get { return GetSubchannels(Subchannel.Channel32); } }
 
         /// <summary> Create a new type by re-arranging the Matrix subchannels. </summary>
         public ScalarNode GetSubchannels(Subchannel s)

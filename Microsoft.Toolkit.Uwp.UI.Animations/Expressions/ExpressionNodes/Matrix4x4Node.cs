@@ -79,48 +79,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         public enum Subchannel
         {
-            _11, _12, _13, _14,
-            _21, _22, _23, _24,
-            _31, _32, _33, _34,
-            _41, _42, _43, _44,
+            Channel11, Channel12, Channel13, Channel14,
+            Channel21, Channel22, Channel23, Channel24,
+            Channel31, Channel32, Channel33, Channel34,
+            Channel41, Channel42, Channel43, Channel44,
         }
 
         // Commonly accessed subchannels
-        public ScalarNode _11 { get { return GetSubchannels(Subchannel._11); } }
+        public ScalarNode Channel11 { get { return GetSubchannels(Subchannel.Channel11); } }
 
-        public ScalarNode _12 { get { return GetSubchannels(Subchannel._12); } }
+        public ScalarNode Channel12 { get { return GetSubchannels(Subchannel.Channel12); } }
 
-        public ScalarNode _13 { get { return GetSubchannels(Subchannel._13); } }
+        public ScalarNode Channel13 { get { return GetSubchannels(Subchannel.Channel13); } }
 
-        public ScalarNode _14 { get { return GetSubchannels(Subchannel._14); } }
+        public ScalarNode Channel14 { get { return GetSubchannels(Subchannel.Channel14); } }
 
-        public ScalarNode _21 { get { return GetSubchannels(Subchannel._21); } }
+        public ScalarNode Channel21 { get { return GetSubchannels(Subchannel.Channel21); } }
 
-        public ScalarNode _22 { get { return GetSubchannels(Subchannel._22); } }
+        public ScalarNode Channel22 { get { return GetSubchannels(Subchannel.Channel22); } }
 
-        public ScalarNode _23 { get { return GetSubchannels(Subchannel._23); } }
+        public ScalarNode Channel23 { get { return GetSubchannels(Subchannel.Channel23); } }
 
-        public ScalarNode _24 { get { return GetSubchannels(Subchannel._24); } }
+        public ScalarNode Channel24 { get { return GetSubchannels(Subchannel.Channel24); } }
 
-        public ScalarNode _31 { get { return GetSubchannels(Subchannel._31); } }
+        public ScalarNode Channel31 { get { return GetSubchannels(Subchannel.Channel31); } }
 
-        public ScalarNode _32 { get { return GetSubchannels(Subchannel._32); } }
+        public ScalarNode Channel32 { get { return GetSubchannels(Subchannel.Channel32); } }
 
-        public ScalarNode _33 { get { return GetSubchannels(Subchannel._33); } }
+        public ScalarNode Channel33 { get { return GetSubchannels(Subchannel.Channel33); } }
 
-        public ScalarNode _34 { get { return GetSubchannels(Subchannel._34); } }
+        public ScalarNode Channel34 { get { return GetSubchannels(Subchannel.Channel34); } }
 
-        public ScalarNode _41 { get { return GetSubchannels(Subchannel._41); } }
+        public ScalarNode Channel41 { get { return GetSubchannels(Subchannel.Channel41); } }
 
-        public ScalarNode _42 { get { return GetSubchannels(Subchannel._42); } }
+        public ScalarNode Channel42 { get { return GetSubchannels(Subchannel.Channel42); } }
 
-        public ScalarNode _43 { get { return GetSubchannels(Subchannel._43); } }
+        public ScalarNode Channel43 { get { return GetSubchannels(Subchannel.Channel43); } }
 
-        public ScalarNode _44 { get { return GetSubchannels(Subchannel._44); } }
+        public ScalarNode Channel44 { get { return GetSubchannels(Subchannel.Channel44); } }
 
-        public Vector3Node _11_22_33 { get { return GetSubchannels(Subchannel._11, Subchannel._22, Subchannel._33); } }
+        public Vector3Node Channel11Channel22Channel33 { get { return GetSubchannels(Subchannel.Channel11, Subchannel.Channel22, Subchannel.Channel33); } }
 
-        public Vector3Node _41_42_43 { get { return GetSubchannels(Subchannel._41, Subchannel._42, Subchannel._43); } }
+        public Vector3Node Channel41Channel42Channel43 { get { return GetSubchannels(Subchannel.Channel41, Subchannel.Channel42, Subchannel.Channel43); } }
 
         /// <summary> Create a new type by re-arranging the Matrix subchannels. </summary>
         public ScalarNode GetSubchannels(Subchannel s)

@@ -529,18 +529,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary> Creates a matrix whose subchannels have the specified values. </summary>
-        public static Matrix3x2Node Matrix3x2(ScalarNode _11, ScalarNode _12, ScalarNode _21, ScalarNode _22, ScalarNode _31, ScalarNode _32)
+        public static Matrix3x2Node Matrix3x2(ScalarNode Channel11, ScalarNode Channel12, ScalarNode Channel21, ScalarNode Channel22, ScalarNode Channel31, ScalarNode Channel32)
         {
-            return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2, _11, _12, _21, _22, _31, _32);
+            return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2, Channel11, Channel12, Channel21, Channel22, Channel31, Channel32);
         }
 
         /// <summary> Creates a matrix whose subchannels have the specified values. </summary>
-        public static Matrix4x4Node Matrix4x4(ScalarNode _11, ScalarNode _12, ScalarNode _13, ScalarNode _14,
-                                              ScalarNode _21, ScalarNode _22, ScalarNode _23, ScalarNode _24,
-                                              ScalarNode _31, ScalarNode _32, ScalarNode _33, ScalarNode _34,
-                                              ScalarNode _41, ScalarNode _42, ScalarNode _43, ScalarNode _44)
+        public static Matrix4x4Node Matrix4x4(ScalarNode Channel11, ScalarNode Channel12, ScalarNode Channel13, ScalarNode Channel14,
+                                              ScalarNode Channel21, ScalarNode Channel22, ScalarNode Channel23, ScalarNode Channel24,
+                                              ScalarNode Channel31, ScalarNode Channel32, ScalarNode Channel33, ScalarNode Channel34,
+                                              ScalarNode Channel41, ScalarNode Channel42, ScalarNode Channel43, ScalarNode Channel44)
         {
-            return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4, _11, _12, _13, _14, _21, _22, _23, _24, _31, _32, _33, _34, _41, _42, _43, _44);
+            return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4, Channel11, Channel12, Channel13, Channel14, Channel21, Channel22, Channel23, Channel24, Channel31, Channel32, Channel33, Channel34, Channel41, Channel42, Channel43, Channel44);
         }
 
         /// <summary> Creates a 4x4 matrix from a 3x2 matrix. </summary>
@@ -548,10 +548,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             return Function<Matrix4x4Node>(
                 ExpressionNodeType.Matrix4x4,
-                val._11, val._12, (ScalarNode)0, (ScalarNode)0,
-                val._21, val._22, (ScalarNode)0, (ScalarNode)0,
+                val.Channel11, val.Channel12, (ScalarNode)0, (ScalarNode)0,
+                val.Channel21, val.Channel22, (ScalarNode)0, (ScalarNode)0,
                 (ScalarNode)0, (ScalarNode)0, (ScalarNode)1, (ScalarNode)0,
-                val._31, val._32, (ScalarNode)0, (ScalarNode)1);
+                val.Channel31, val.Channel32, (ScalarNode)0, (ScalarNode)1);
         }
 
         /// <summary> Creates a translation matrix from the specified vector.</summary>
