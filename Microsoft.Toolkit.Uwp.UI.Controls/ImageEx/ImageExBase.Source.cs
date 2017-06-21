@@ -12,26 +12,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
-    /// Source images are downloaded asynchronously showing a load indicator while in progress.
-    /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
+    /// Shared Code for ImageEx and RoundImageEx
     /// </summary>
-    public partial class ImageEx
+    public partial class ImageExBase
     {
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageEx), new PropertyMetadata(null, SourceChanged));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageExBase), new PropertyMetadata(null, SourceChanged));
 
         private Uri _uri;
         private bool _isHttpSource;
@@ -48,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ImageEx;
+            var control = d as ImageExBase;
 
             if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
             {
@@ -61,9 +59,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
 
+        private void AttachSource(ImageSource source)
+        {
+            var image = Image as Image;
+            var brush = Image as ImageBrush;
+
+            if (image != null)
+            {
+                image.Source = source;
+            }
+            else if (brush != null)
+            {
+                brush.ImageSource = source;
+            }
+        }
+
         private async void SetSource(object source)
         {
-            if (!_isInitialized)
+            if (!IsInitialized)
             {
                 return;
             }
@@ -72,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this._tokenSource = new CancellationTokenSource();
 
-            _image.Source = null;
+            AttachSource(null);
 
             if (source == null)
             {
@@ -85,7 +98,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var imageSource = source as ImageSource;
             if (imageSource != null)
             {
-                _image.Source = imageSource;
+                AttachSource(imageSource);
+
                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                 VisualStateManager.GoToState(this, LoadedState, true);
                 return;
@@ -138,13 +152,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
 
-                        lock (_lockObj)
+                        lock (LockObj)
                         {
                             // If you have many imageEx in a virtualized listview for instance
                             // controls will be recycled and the uri will change while waiting for the previous one to load
                             if (_uri == imageUri)
                             {
-                                _image.Source = img;
+                                AttachSource(img);
                                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
                                 VisualStateManager.GoToState(this, LoadedState, true);
                             }
@@ -156,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (Exception e)
                     {
-                        lock (_lockObj)
+                        lock (LockObj)
                         {
                             if (_uri == imageUri)
                             {
@@ -168,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    _image.Source = new BitmapImage(_uri);
+                    AttachSource(new BitmapImage(_uri));
                 }
             }
         }

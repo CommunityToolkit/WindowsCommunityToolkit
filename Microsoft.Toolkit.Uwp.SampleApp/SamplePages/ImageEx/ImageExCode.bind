@@ -16,5 +16,15 @@
           PlaceholderStretch="UniformToFill"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"/>
+      
+      <controls:RoundImageEx x:Name="RoundImageExControl1"
+          IsCacheEnabled="True"
+          Source="{Binding Thumbnail}"
+          Stretch="UniformToFill"
+          CornerRadius="999"
+          PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+          PlaceholderStretch="UniformToFill"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"/>
     </Grid>
 </Page>

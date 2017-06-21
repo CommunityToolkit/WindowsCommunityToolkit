@@ -1,6 +1,6 @@
 # ImageEx XAML Control
 
-The **ImageEx Control** downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* Platform control to improve performance through caching. 
+The **ImageEx Control** and **RoundImageEx Control** downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* and *ImageBrush* Platform controls respectively to improve performance through caching. 
 You can also use a placeholder image that will be displayed will loading the main image.
  
 ## Syntax
@@ -11,6 +11,13 @@ You can also use a placeholder image that will be displayed will loading the mai
 	IsCacheEnabled="True"
 	PlaceholderSource="/assets/thumbnails/thumbnails.png"
 	Source="/assets/bigPicture.png"
+/> 
+
+<controls:RoundImageEx Name="RoundImageExControl"
+	IsCacheEnabled="True"
+	PlaceholderSource="/assets/thumbnails/thumbnails.png"
+	Source="/assets/bigPicture.png"
+	CornerRadius="999"
 /> 
 
 ```
@@ -25,7 +32,8 @@ You can also use a placeholder image that will be displayed will loading the mai
 
 ## Default Template 
 
-[ImageExControl XAML File](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx) is the XAML template used in the toolkit for the default styling.
+[ImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling.
+[RoundImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling of the Control that has Corner Rounding.
 
 ## Requirements (Windows 10 Device Family)
 
