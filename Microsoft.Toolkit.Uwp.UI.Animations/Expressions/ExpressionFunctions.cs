@@ -341,7 +341,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return Function<Vector4Node>(ExpressionNodeType.Lerp, val1, val2, progress);
         }
 
-
         /// <summary> Returns the maximum of two values. For vectors, the max of each subchannel is returned. </summary>
         /// <param name="val1">Source value 1.</param>
         /// <param name="val2">Source value 2.</param>
