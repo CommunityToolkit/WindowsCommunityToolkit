@@ -3,13 +3,6 @@ using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    ///---------------------------------------------------------------------------------------------------------------------
-    /// 
-    /// class ExpressionValues.Constant
-    ///    ToDo: Add description after docs written
-    /// 
-    ///---------------------------------------------------------------------------------------------------------------------
-
     // ExpressionValues is a static class instead of a namespace to improve intellisense discoverablity and consistency with the other helper classes.
     public static partial class ExpressionValues
     {

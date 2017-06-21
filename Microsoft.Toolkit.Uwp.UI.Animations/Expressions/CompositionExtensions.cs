@@ -3,13 +3,6 @@ using Windows.UI.Composition.Interactions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    ///---------------------------------------------------------------------------------------------------------------------
-    /// 
-    /// class CompositionExtensions
-    ///    ToDo: Add description after docs written
-    /// 
-    ///---------------------------------------------------------------------------------------------------------------------
-
     public static class CompositionExtensions
     {
         /// <summary> Create an ExpressionNode reference to this CompositionObject. </summary>

@@ -3,12 +3,6 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    ///---------------------------------------------------------------------------------------------------------------------
-    /// 
-    /// class ReferenceNode
-    ///    ToDo: Add description after docs written
-    /// 
-    ///---------------------------------------------------------------------------------------------------------------------
     public abstract class ReferenceNode : ExpressionNode
     {
         internal ReferenceNode(string paramName, CompositionObject compObj = null)

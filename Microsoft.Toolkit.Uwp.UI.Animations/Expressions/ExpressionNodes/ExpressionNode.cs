@@ -6,12 +6,6 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    ///---------------------------------------------------------------------------------------------------------------------
-    /// 
-    /// class ExpressionNode
-    ///    ToDo: Add description after docs written
-    /// 
-    ///---------------------------------------------------------------------------------------------------------------------
     public abstract class ExpressionNode
     {
         private List<ReferenceInfo> _objRefList = null;
