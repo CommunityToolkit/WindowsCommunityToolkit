@@ -20,7 +20,7 @@
                         <SplitView x:Name="MainSplitView"
                                    CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                    DisplayMode="{TemplateBinding DisplayMode}"
-                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                   IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                    IsTabStop="False"
                                    OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                    PaneBackground="{TemplateBinding PaneBackground}"
@@ -48,7 +48,7 @@
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                              SelectionMode="None"
+                                              SelectionMode="Single"
                                               TabIndex="1">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
@@ -64,12 +64,12 @@
                                               VerticalAlignment="Bottom"
                                               AutomationProperties.Name="Option items"
                                               ItemTemplate="{TemplateBinding OptionsItemTemplate}"
-                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding OptionsItemsSource}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                               SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                               SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                              SelectionMode="None"
+                                              SelectionMode="Single"
                                               TabIndex="2">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
@@ -94,7 +94,8 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 TabIndex="0">
-                            <ContentControl ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                            <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                                            ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                             Foreground="{TemplateBinding PaneForeground}"
                                             IsTabStop="False" />
                         </Button>
