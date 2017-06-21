@@ -88,18 +88,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Helper functions
         //
-        protected internal T ReferenceProperty<T>(string propertyName)
-            where T : class
-        {
-            T newNode = ExpressionNode.CreateExpressionNode<T>();
-
-            (newNode as ExpressionNode).NodeType = ExpressionNodeType.ReferenceProperty;
-            (newNode as ExpressionNode).Children.Add(this);
-            (newNode as ExpressionNode).PropertyName = propertyName;
-
-            return newNode;
-        }
-
         internal string GetReferenceParamString()
         {
             if (NodeType == ExpressionNodeType.TargetReference)
@@ -110,6 +98,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             {
                 return ParamName;
             }
+        }
+
+        protected internal T ReferenceProperty<T>(string propertyName)
+            where T : class
+        {
+            T newNode = ExpressionNode.CreateExpressionNode<T>();
+
+            (newNode as ExpressionNode).NodeType = ExpressionNodeType.ReferenceProperty;
+            (newNode as ExpressionNode).Children.Add(this);
+            (newNode as ExpressionNode).PropertyName = propertyName;
+
+            return newNode;
         }
 
         protected internal override string GetValue()
