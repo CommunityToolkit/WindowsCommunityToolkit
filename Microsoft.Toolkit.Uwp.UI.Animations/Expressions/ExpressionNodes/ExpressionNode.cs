@@ -426,6 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     {
                         ret += "," + Children[i].ToExpressionStringInternal();
                     }
+
                     ret += ")";
                     break;
 

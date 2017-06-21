@@ -497,10 +497,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             return Function<Vector2Node>(ExpressionNodeType.Vector2, x, y);
         }
+
         public static Vector3Node Vector3(ScalarNode x, ScalarNode y, ScalarNode z)
         {
             return Function<Vector3Node>(ExpressionNodeType.Vector3, x, y, z);
         }
+
         public static Vector4Node Vector4(ScalarNode x, ScalarNode y, ScalarNode z, ScalarNode w)
         {
             return Function<Vector4Node>(ExpressionNodeType.Vector4, x, y, z, w);
@@ -559,6 +561,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2FromTranslation, val);
         }
+
         public static Matrix4x4Node CreateTranslation(Vector3Node val)
         {
             return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4FromTranslation, val);
@@ -570,6 +573,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2FromScale, val);
         }
+
         public static Matrix4x4Node CreateScale(Vector3Node val)
         {
             return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4FromScale, val);
