@@ -1,23 +1,7 @@
-///---------------------------------------------------------------------------------------------------------------------
-/// <copyright company="Microsoft">
-///     Copyright (c) Microsoft Corporation.  All rights reserved.
-/// </copyright>
-///---------------------------------------------------------------------------------------------------------------------
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    using System.Collections.Generic;
-
-    internal enum OperationType
-    {
-        Function,
-        Operator,
-        Constant,
-        Reference,
-        Conditional,
-        Swizzle,
-    }
-
     ///---------------------------------------------------------------------------------------------------------------------
     /// 
     /// class ExpressionFunctions

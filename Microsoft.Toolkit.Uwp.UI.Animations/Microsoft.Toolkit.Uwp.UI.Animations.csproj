@@ -47,6 +47,7 @@
     <None Include="Microsoft.Toolkit.Uwp.UI.Animations.ruleset" />
     <None Include="project.json" />
     <None Include="stylecop.json" />
+    <None Include="stylecop1.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSetCompletedEventArgs.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Expressions\ExpressionValues\ExpressionValues.Reference.cs" />
     <Compile Include="Expressions\ExpressionValues\ExpressionValues.StartingValue.cs" />
     <Compile Include="Expressions\ExpressionValues\ExpressionValues.Target.cs" />
+    <Compile Include="Expressions\OperationType.cs" />
     <Compile Include="Expressions\ReferenceNodes\AmbientLightReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\ColorBrushReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\DistantLightReferenceNode.cs" />
