@@ -2,26 +2,26 @@ using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-// Ignore warning: 'Matrix4x4Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
+    // Ignore warning: 'Matrix4x4Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
     public sealed class Matrix4x4Node : ExpressionNode
     {
-        internal Matrix4x4Node() 
+        internal Matrix4x4Node()
         {
         }
-        
+
         internal Matrix4x4Node(Matrix4x4 value)
         {
             _value = value;
             _nodeType = ExpressionNodeType.ConstantValue;
         }
-        
+
         internal Matrix4x4Node(string paramName)
         {
             _paramName = paramName;
             _nodeType = ExpressionNodeType.ConstantParameter;
         }
-        
+
         internal Matrix4x4Node(string paramName, Matrix4x4 value)
         {
             _paramName = paramName;
@@ -30,25 +30,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
             SetMatrix4x4Parameter(paramName, value);
         }
-        
-        
+
         //
         // Operator overloads
         //
+        public static implicit operator Matrix4x4Node(Matrix4x4 value)
+        {
+            return new Matrix4x4Node(value);
+        }
 
-        public static implicit operator Matrix4x4Node(Matrix4x4 value) { return new Matrix4x4Node(value); }
+        public static Matrix4x4Node operator +(Matrix4x4Node left, Matrix4x4Node right)
+        {
+            return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Add, left, right);
+        }
 
-        public static Matrix4x4Node operator +(Matrix4x4Node left, Matrix4x4Node right) { return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Add, left, right);      }
-        public static Matrix4x4Node operator -(Matrix4x4Node left, Matrix4x4Node right) { return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Subtract, left, right); }
-        public static Matrix4x4Node operator -(Matrix4x4Node value)                     { return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Negate, value);         }
+        public static Matrix4x4Node operator -(Matrix4x4Node left, Matrix4x4Node right)
+        {
+            return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Subtract, left, right);
+        }
 
-        public static Matrix4x4Node operator *(Matrix4x4Node left, ScalarNode right)    { return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Multiply, left, right); }
-        public static Matrix4x4Node operator *(Matrix4x4Node left, Matrix4x4Node right) { return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Multiply, left, right); }
+        public static Matrix4x4Node operator -(Matrix4x4Node value)
+        {
+            return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Negate, value);
+        }
 
-        public static BooleanNode operator ==(Matrix4x4Node left, Matrix4x4Node right) { return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.Equals, left, right);    }
-        public static BooleanNode operator !=(Matrix4x4Node left, Matrix4x4Node right) { return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right); }
+        public static Matrix4x4Node operator *(Matrix4x4Node left, ScalarNode right)
+        {
+            return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Multiply, left, right);
+        }
 
-        
+        public static Matrix4x4Node operator *(Matrix4x4Node left, Matrix4x4Node right)
+        {
+            return ExpressionFunctions.Function<Matrix4x4Node>(ExpressionNodeType.Multiply, left, right);
+        }
+
+        public static BooleanNode operator ==(Matrix4x4Node left, Matrix4x4Node right)
+        {
+            return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.Equals, left, right);
+        }
+
+        public static BooleanNode operator !=(Matrix4x4Node left, Matrix4x4Node right)
+        {
+            return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
+        }
+
+
         //
         // Subchannels
         //
@@ -62,34 +88,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Commonly accessed subchannels
-        public ScalarNode  _11       { get { return GetSubchannels(Subchannel._11); } }
-        public ScalarNode  _12       { get { return GetSubchannels(Subchannel._12); } }
-        public ScalarNode  _13       { get { return GetSubchannels(Subchannel._13); } }
-        public ScalarNode  _14       { get { return GetSubchannels(Subchannel._14); } }
-        public ScalarNode  _21       { get { return GetSubchannels(Subchannel._21); } }
-        public ScalarNode  _22       { get { return GetSubchannels(Subchannel._22); } }
-        public ScalarNode  _23       { get { return GetSubchannels(Subchannel._23); } }
-        public ScalarNode  _24       { get { return GetSubchannels(Subchannel._24); } }
-        public ScalarNode  _31       { get { return GetSubchannels(Subchannel._31); } }
-        public ScalarNode  _32       { get { return GetSubchannels(Subchannel._32); } }
-        public ScalarNode  _33       { get { return GetSubchannels(Subchannel._33); } }
-        public ScalarNode  _34       { get { return GetSubchannels(Subchannel._34); } }
-        public ScalarNode  _41       { get { return GetSubchannels(Subchannel._41); } }
-        public ScalarNode  _42       { get { return GetSubchannels(Subchannel._42); } }
-        public ScalarNode  _43       { get { return GetSubchannels(Subchannel._43); } }
-        public ScalarNode  _44       { get { return GetSubchannels(Subchannel._44); } }
+        public ScalarNode _11 { get { return GetSubchannels(Subchannel._11); } }
+
+        public ScalarNode _12 { get { return GetSubchannels(Subchannel._12); } }
+
+        public ScalarNode _13 { get { return GetSubchannels(Subchannel._13); } }
+
+        public ScalarNode _14 { get { return GetSubchannels(Subchannel._14); } }
+
+        public ScalarNode _21 { get { return GetSubchannels(Subchannel._21); } }
+
+        public ScalarNode _22 { get { return GetSubchannels(Subchannel._22); } }
+
+        public ScalarNode _23 { get { return GetSubchannels(Subchannel._23); } }
+
+        public ScalarNode _24 { get { return GetSubchannels(Subchannel._24); } }
+
+        public ScalarNode _31 { get { return GetSubchannels(Subchannel._31); } }
+
+        public ScalarNode _32 { get { return GetSubchannels(Subchannel._32); } }
+
+        public ScalarNode _33 { get { return GetSubchannels(Subchannel._33); } }
+
+        public ScalarNode _34 { get { return GetSubchannels(Subchannel._34); } }
+
+        public ScalarNode _41 { get { return GetSubchannels(Subchannel._41); } }
+
+        public ScalarNode _42 { get { return GetSubchannels(Subchannel._42); } }
+
+        public ScalarNode _43 { get { return GetSubchannels(Subchannel._43); } }
+
+        public ScalarNode _44 { get { return GetSubchannels(Subchannel._44); } }
+
         public Vector3Node _11_22_33 { get { return GetSubchannels(Subchannel._11, Subchannel._22, Subchannel._33); } }
+
         public Vector3Node _41_42_43 { get { return GetSubchannels(Subchannel._41, Subchannel._42, Subchannel._43); } }
 
         /// <summary> Create a new type by re-arranging the Matrix subchannels. </summary>
-        public ScalarNode  GetSubchannels(Subchannel s) { return SubchannelsInternal<ScalarNode>(s.ToString()); }
+        public ScalarNode GetSubchannels(Subchannel s) { return SubchannelsInternal<ScalarNode>(s.ToString()); }
+
         public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2) { return SubchannelsInternal<Vector2Node>(s1.ToString(), s2.ToString()); }
+
         public Vector3Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3) { return SubchannelsInternal<Vector3Node>(s1.ToString(), s2.ToString(), s3.ToString()); }
+
         public Vector4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4) { return SubchannelsInternal<Vector4Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString()); }
 
         public Matrix3x2Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4, Subchannel s5, Subchannel s6)
-        { 
-            return SubchannelsInternal<Matrix3x2Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString(), s5.ToString(), s6.ToString()); 
+        {
+            return SubchannelsInternal<Matrix3x2Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString(), s5.ToString(), s6.ToString());
         }
 
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,

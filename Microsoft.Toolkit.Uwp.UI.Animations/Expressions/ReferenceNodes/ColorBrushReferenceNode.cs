@@ -4,8 +4,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     public sealed class ColorBrushReferenceNode : ReferenceNode
     {
-        internal ColorBrushReferenceNode(string paramName, CompositionColorBrush brush = null) : base(paramName, brush) { }
-        
+        internal ColorBrushReferenceNode(string paramName, CompositionColorBrush brush = null)
+            : base(paramName, brush)
+        {
+        }
+
         internal static ColorBrushReferenceNode CreateTargetReference()
         {
             var node = new ColorBrushReferenceNode(null);

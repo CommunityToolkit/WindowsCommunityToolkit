@@ -13,18 +13,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     public static class CompositionExtensions
     {
         /// <summary> Create an ExpressionNode reference to this CompositionObject. </summary>
-        public static AmbientLightReferenceNode       GetReference(this AmbientLight compObj)              { return new AmbientLightReferenceNode(null, compObj);        }
-        public static ColorBrushReferenceNode         GetReference(this CompositionColorBrush compObj)     { return new ColorBrushReferenceNode(null, compObj);          }
-        public static DistantLightReferenceNode       GetReference(this DistantLight compObj)              { return new DistantLightReferenceNode(null, compObj);        }
-        public static DropShadowReferenceNode         GetReference(this DropShadow compObj)                { return new DropShadowReferenceNode(null, compObj);          }
-        public static InsetClipReferenceNode          GetReference(this InsetClip compObj)                 { return new InsetClipReferenceNode(null, compObj);           }
-        public static InteractionTrackerReferenceNode GetReference(this InteractionTracker compObj)        { return new InteractionTrackerReferenceNode(null, compObj);  }
-        public static NineGridBrushReferenceNode      GetReference(this CompositionNineGridBrush compObj)  { return new NineGridBrushReferenceNode(null, compObj);       }
-        public static PointLightReferenceNode         GetReference(this PointLight compObj)                { return new PointLightReferenceNode(null, compObj);          }
-        public static PropertySetReferenceNode        GetReference(this CompositionPropertySet compObj)    { return new PropertySetReferenceNode(null, compObj);         }
-        public static SpotLightReferenceNode          GetReference(this SpotLight compObj)                 { return new SpotLightReferenceNode(null, compObj);           }
-        public static SurfaceBrushReferenceNode       GetReference(this CompositionSurfaceBrush compObj)   { return new SurfaceBrushReferenceNode(null, compObj);        }
-        public static VisualReferenceNode             GetReference(this Visual compObj)                    { return new VisualReferenceNode(null, compObj);              }
+        public static AmbientLightReferenceNode GetReference(this AmbientLight compObj)
+        {
+            return new AmbientLightReferenceNode(null, compObj);
+        }
+
+        public static ColorBrushReferenceNode GetReference(this CompositionColorBrush compObj)
+        {
+            return new ColorBrushReferenceNode(null, compObj);
+        }
+
+        public static DistantLightReferenceNode GetReference(this DistantLight compObj)
+        {
+            return new DistantLightReferenceNode(null, compObj);
+        }
+
+        public static DropShadowReferenceNode GetReference(this DropShadow compObj)
+        {
+            return new DropShadowReferenceNode(null, compObj);
+        }
+
+        public static InsetClipReferenceNode GetReference(this InsetClip compObj)
+        {
+            return new InsetClipReferenceNode(null, compObj);
+        }
+
+        public static InteractionTrackerReferenceNode GetReference(this InteractionTracker compObj)
+        {
+            return new InteractionTrackerReferenceNode(null, compObj);
+        }
+
+        public static NineGridBrushReferenceNode GetReference(this CompositionNineGridBrush compObj)
+        {
+            return new NineGridBrushReferenceNode(null, compObj);
+        }
+
+        public static PointLightReferenceNode GetReference(this PointLight compObj)
+        {
+            return new PointLightReferenceNode(null, compObj);
+        }
+
+        public static PropertySetReferenceNode GetReference(this CompositionPropertySet compObj)
+        {
+            return new PropertySetReferenceNode(null, compObj);
+        }
+
+        public static SpotLightReferenceNode GetReference(this SpotLight compObj)
+        {
+            return new SpotLightReferenceNode(null, compObj);
+        }
+
+        public static SurfaceBrushReferenceNode GetReference(this CompositionSurfaceBrush compObj)
+        {
+            return new SurfaceBrushReferenceNode(null, compObj);
+        }
+
+        public static VisualReferenceNode GetReference(this Visual compObj)
+        {
+            return new VisualReferenceNode(null, compObj);
+        }
 
         /// <summary> Create an ExpressionNode reference to this specialized PropertySet. </summary>
         public static T GetSpecializedReference<T>(this CompositionPropertySet ps) where T : PropertySetReferenceNode
@@ -90,11 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             modifier.Motion = CreateExpressionAnimationFromNode(modifier.Compositor, expressionNode);
         }
 
-        
-        //
         // Helper functions
-        //
-        
         private static ExpressionAnimation CreateExpressionAnimationFromNode(Compositor compositor, ExpressionNode expressionNode)
         {
             // Only create a new animation if this node hasn't already generated one before, so we don't have to re-parse the expression string.

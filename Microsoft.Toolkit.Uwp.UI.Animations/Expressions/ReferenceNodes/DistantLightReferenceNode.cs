@@ -4,8 +4,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     public sealed class DistantLightReferenceNode : ReferenceNode
     {
-        internal DistantLightReferenceNode(string paramName, DistantLight light = null) : base(paramName, light) { }
-        
+        internal DistantLightReferenceNode(string paramName, DistantLight light = null)
+            : base(paramName, light)
+        {
+        }
+
         internal static DistantLightReferenceNode CreateTargetReference()
         {
             var node = new DistantLightReferenceNode(null);
@@ -15,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public ColorNode   Color     { get { return ReferenceProperty<ColorNode>("Color");       } }
+        public ColorNode Color { get { return ReferenceProperty<ColorNode>("Color"); } }
         public Vector3Node Direction { get { return ReferenceProperty<Vector3Node>("Direction"); } }
     }
 }

@@ -126,48 +126,75 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary> Resolve a named parameter to the boolean value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetBooleanParameter(string parameterName, bool value)          { _constParamMap[parameterName] = value; }
+        public void SetBooleanParameter(string parameterName, bool value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the float value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetScalarParameter(string parameterName, float value)          { _constParamMap[parameterName] = value; }
+        public void SetScalarParameter(string parameterName, float value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Vector2 value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetVector2Parameter(string parameterName, Vector2 value)       { _constParamMap[parameterName] = value; }
+        public void SetVector2Parameter(string parameterName, Vector2 value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Vector3 value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetVector3Parameter(string parameterName, Vector3 value)       { _constParamMap[parameterName] = value; }
+        public void SetVector3Parameter(string parameterName, Vector3 value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Vector4 value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetVector4Parameter(string parameterName, Vector4 value)       { _constParamMap[parameterName] = value; }
+        public void SetVector4Parameter(string parameterName, Vector4 value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Color value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetColorParameter(string parameterName, Color value)           { _constParamMap[parameterName] = value; }
+        public void SetColorParameter(string parameterName, Color value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Quaternion value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetQuaternionParameter(string parameterName, Quaternion value) { _constParamMap[parameterName] = value; }
+        public void SetQuaternionParameter(string parameterName, Quaternion value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Matrix3x2 value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetMatrix3x2Parameter(string parameterName, Matrix3x2 value)   { _constParamMap[parameterName] = value; }
+        public void SetMatrix3x2Parameter(string parameterName, Matrix3x2 value)
+        {
+            _constParamMap[parameterName] = value;
+        }
 
         /// <summary> Resolve a named parameter to the Matrix4x4 value it will use. </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetMatrix4x4Parameter(string parameterName, Matrix4x4 value)   { _constParamMap[parameterName] = value; }
-        
+        public void SetMatrix4x4Parameter(string parameterName, Matrix4x4 value)
+        {
+            _constParamMap[parameterName] = value;
+        }
+
         /// <summary> Releases all resources used by this ExpressionNode. </summary>
         public void Dispose()
         {
@@ -180,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
             // Note: we don't recursively dispose all child nodes, as those nodes could be in use by a different Expression
             _children = null;
-            
+
             if (_expressionAnimation != null)
             {
                 _expressionAnimation.Dispose();
@@ -191,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Helper functions
         //
-        
+
         internal static T CreateExpressionNode<T>() where T : class
         {
             T newNode;
@@ -384,7 +411,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         internal protected abstract string GetValue();
-        
+
         internal protected T SubchannelsInternal<T>(params string[] subchannels) where T : class
         {
             ExpressionNodeType swizzleNodeType = ExpressionNodeType.Swizzle;
@@ -450,12 +477,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 child.PopulateParameterNodes(ref constParamMap, ref referenceNodes);
             }
         }
-        
 
-        private OperationType GetOperationKind()   { return ExpressionFunctions.GetNodeInfoFromType(_nodeType).NodeOperationKind; }
-        private string        GetOperationString() { return ExpressionFunctions.GetNodeInfoFromType(_nodeType).OperationString;   }
+        private OperationType GetOperationKind()
+        {
+            return ExpressionFunctions.GetNodeInfoFromType(_nodeType).NodeOperationKind;
+        }
 
-        
+        private string GetOperationString()
+        {
+            return ExpressionFunctions.GetNodeInfoFromType(_nodeType).OperationString;
+        }
+
         private string ToExpressionStringInternal()
         {
             string ret = "";
@@ -482,7 +514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     {
                         throw new Exception("Can't have an operator that doesn't have 2 exactly params");
                     }
-                    
+
                     ret = $"({_children[0].ToExpressionStringInternal()} {GetOperationString()} {_children[1].ToExpressionStringInternal()})";
                     break;
 
@@ -585,7 +617,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         //
         // Structs
         //
-        
+
         internal struct ReferenceInfo
         {
             public ReferenceInfo(string paramName, CompositionObject compObj)
@@ -598,11 +630,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             public CompositionObject CompObject;
         }
 
-        
+
         //
         // Data
         //
-        
+
         private List<ReferenceInfo> _objRefList = null;
         private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
         private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
@@ -613,7 +645,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal ExpressionNodeType _nodeType;
         internal List<ExpressionNode> _children = new List<ExpressionNode>();
         internal string _paramName = null;
-        
+
         internal ExpressionAnimation _expressionAnimation = null;
     }
 }
