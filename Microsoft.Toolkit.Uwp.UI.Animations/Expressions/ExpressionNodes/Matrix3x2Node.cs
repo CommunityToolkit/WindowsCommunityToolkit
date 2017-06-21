@@ -2,7 +2,6 @@ using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-
     // Ignore warning: 'Matrix3x2Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
     public sealed class Matrix3x2Node : ExpressionNode
