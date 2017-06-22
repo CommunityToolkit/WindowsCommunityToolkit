@@ -101,7 +101,7 @@
     <Compile Include="Expressions\ReferenceNodes\InteractionTrackerReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\ManipulationPropertySetReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\NineGridBrushReferenceNode.cs" />
-    <Compile Include="Expressions\ReferenceNodes\PointerPositionPropertySet.cs" />
+    <Compile Include="Expressions\ReferenceNodes\PointerPositionPropertySetReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\PointLightReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\PropertySetReferenceNode.cs" />
     <Compile Include="Expressions\ReferenceNodes\ReferenceNode.cs" />
