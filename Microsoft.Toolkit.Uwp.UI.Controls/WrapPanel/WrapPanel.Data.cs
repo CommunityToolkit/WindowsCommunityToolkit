@@ -19,17 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
     /// </summary>
     public partial class WrapPanel
     {
-        internal class UvMeasure
+        [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
+        private struct UvMeasure
         {
+            internal static readonly UvMeasure Zero = default(UvMeasure);
+
             internal double U { get; set; }
 
             internal double V { get; set; }
-
-            public UvMeasure()
-            {
-                U = 0.0;
-                V = 0.0;
-            }
 
             public UvMeasure(Orientation orientation, double width, double height)
             {

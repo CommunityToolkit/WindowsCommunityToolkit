@@ -12,6 +12,7 @@
 
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -180,11 +181,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
-            var grip = gridSplitter.Element as GridSplitterGripper;
-            if (grip != null)
+
+            if (gridSplitter._gripperDisplay == null)
             {
-                grip.GripperForeground = gridSplitter.GripperForeground;
+                return;
             }
+
+            gridSplitter._gripperDisplay.Foreground = gridSplitter.GripperForeground;
         }
 
         private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
