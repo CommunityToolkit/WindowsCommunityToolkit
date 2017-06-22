@@ -12,9 +12,7 @@
 
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

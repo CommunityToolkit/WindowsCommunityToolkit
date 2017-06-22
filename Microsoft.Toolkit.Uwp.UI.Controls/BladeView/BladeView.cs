@@ -19,7 +19,6 @@ using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Graphics.Canvas;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -106,14 +105,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var blade in Items.OfType<BladeItem>())
             {
                 if (blade.IsOpen)
+                {
                     ActiveBlades.Add(blade);
+                }
             }
 
             // For now we skip this feature when blade mode is set to fullscreen
             if (AutoCollapseCountThreshold > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
             {
                 var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
-                if (openBlades?.Count > AutoCollapseCountThreshold)
+                if (openBlades.Count > AutoCollapseCountThreshold)
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
                     {
