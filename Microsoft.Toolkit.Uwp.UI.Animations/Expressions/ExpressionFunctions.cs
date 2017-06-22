@@ -1,3 +1,15 @@
+Ôªø// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED ‚ÄúAS IS‚Äù, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
 using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
@@ -9,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Returns the angle (in radians) whose cosine is the specified number.
         /// </summary>
-        /// <param name="val">Value between ñ1 and 1, for which to calculate the arccosine (the inverse cosine).</param>
+        /// <param name="val">Value between ÔøΩ1 and 1, for which to calculate the arccosine (the inverse cosine).</param>
         /// <returns></returns>
         public static ScalarNode ACos(ScalarNode val)
         {
@@ -19,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Returns the angle (in radians) whose sine is the specified number.
         /// </summary>
-        /// <param name="val">Value between ñ1 and 1, for which to calculate the arcsine (the inverse sine).</param>
+        /// <param name="val">Value between ÔøΩ1 and 1, for which to calculate the arcsine (the inverse sine).</param>
         /// <returns></returns>
         public static ScalarNode ASin(ScalarNode val)
         {
