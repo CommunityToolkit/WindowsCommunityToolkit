@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="IsCacheEnabled"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageEx), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageEx), new PropertyMetadata(false));
 
         /// <summary>
         /// Event raised if the image failed loading.
