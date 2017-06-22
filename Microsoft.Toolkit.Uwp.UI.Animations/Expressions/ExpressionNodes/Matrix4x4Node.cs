@@ -173,31 +173,84 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public ScalarNode GetSubchannels(Subchannel s)
         {
             return SubchannelsInternal<ScalarNode>(s.ToString());
         }
 
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
         public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2)
         {
             return SubchannelsInternal<Vector2Node>(s1.ToString(), s2.ToString());
         }
 
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <param name="s3"></param>
+        /// <returns></returns>
         public Vector3Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3)
         {
             return SubchannelsInternal<Vector3Node>(s1.ToString(), s2.ToString(), s3.ToString());
         }
 
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <param name="s3"></param>
+        /// <param name="s4"></param>
+        /// <returns></returns>
         public Vector4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4)
         {
             return SubchannelsInternal<Vector4Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString());
         }
 
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <param name="s3"></param>
+        /// <param name="s4"></param>
+        /// <param name="s5"></param>
+        /// <param name="s6"></param>
+        /// <returns></returns>
         public Matrix3x2Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4, Subchannel s5, Subchannel s6)
         {
             return SubchannelsInternal<Matrix3x2Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString(), s5.ToString(), s6.ToString());
         }
 
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <param name="s3"></param>
+        /// <param name="s4"></param>
+        /// <param name="s5"></param>
+        /// <param name="s6"></param>
+        /// <param name="s7"></param>
+        /// <param name="s8"></param>
+        /// <param name="s9"></param>
+        /// <param name="s10"></param>
+        /// <param name="s11"></param>
+        /// <param name="s12"></param>
+        /// <param name="s13"></param>
+        /// <param name="s14"></param>
+        /// <param name="s15"></param>
+        /// <param name="s16"></param>
+        /// <returns></returns>
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,
                                          Subchannel s5, Subchannel s6, Subchannel s7, Subchannel s8,
                                          Subchannel s9, Subchannel s10, Subchannel s11, Subchannel s12,
