@@ -9,9 +9,6 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="MenuStyles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <commands:NewProjectCommand x:Key="NewProject" />
             <commands:NewFileCommand x:Key="NewFile" />
             <commands:GenericCommand x:Key="GenericCommand" />
@@ -25,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
-                       HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+                       RequestedTheme="Light"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
@@ -68,7 +65,7 @@
             </controls:MenuItem>
 
 
-            <controls:MenuItem Header="Edit">
+            <controls:MenuItem Header="Edit" controls:Menu.InputGestureText="Alt+E">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Text="Go To Line" />
                     <MenuFlyoutItem Text="Go To All" />
@@ -80,7 +77,7 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="View">
+            <controls:MenuItem Header="View" controls:Menu.InputGestureText="Alt+V">
                 <MenuFlyoutSubItem Text="Designer">
                     <MenuFlyoutItem Text="VS Designer" />
                     <MenuFlyoutItem Text="Blend" />
@@ -92,7 +89,7 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Project">
+            <controls:MenuItem Header="Project" controls:Menu.InputGestureText="Alt+P">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Text="Class" />
                     <MenuFlyoutItem Text="Interface" />
@@ -104,12 +101,12 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Build">
+            <controls:MenuItem Header="Build" controls:Menu.InputGestureText="Alt+B">
                 <MenuFlyoutItem Text="Build Solution" />
                 <MenuFlyoutItem Text="Rebuild Solution" />
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Debug">
+            <controls:MenuItem Header="Debug" controls:Menu.InputGestureText="Alt+D">
                 <MenuFlyoutSubItem Text="Windows">
                     <MenuFlyoutItem Text="Windows 8" />
                     <MenuFlyoutItem Text="Windows 10" />
@@ -125,7 +122,7 @@
 
         <StackPanel Grid.Row="1">
             <TextBlock Text="Click Alt to set focus on Classic Menu" />
-            <TextBlock Text="To open file menu shortcut: Alt+F" />
+            <TextBlock Text="Any menu shortcut is Alt + (The first character of the menu name), ex to open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
             <TextBlock Text="Create new file shortcut: Ctrl+N" />
             <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
@@ -133,7 +130,6 @@
             <TextBlock Text="Print shortcut: Ctrl+P" />
             <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
         </StackPanel>
-
 
     </Grid>
 </Page>

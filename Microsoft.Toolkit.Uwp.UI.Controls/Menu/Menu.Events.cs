@@ -34,12 +34,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
 
+        private bool AllowTooltip => (bool)GetValue(AllowTooltipProperty);
+
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
             if (!menu.IsOpened && element is MenuItem)
             {
-                if ((args.VirtualKey == VirtualKey.Down && orientation == Orientation.Horizontal) ||
-                    (args.VirtualKey == VirtualKey.Right && orientation == Orientation.Vertical))
+                if (((args.VirtualKey == VirtualKey.Down || args.VirtualKey == VirtualKey.Enter) && orientation == Orientation.Horizontal) ||
+                    ((args.VirtualKey == VirtualKey.Right || args.VirtualKey == VirtualKey.Enter) && orientation == Orientation.Vertical))
                 {
                     menu.SelectedHeaderItem.ShowMenu();
                     return true;

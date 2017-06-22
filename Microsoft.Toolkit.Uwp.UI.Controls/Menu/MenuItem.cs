@@ -26,11 +26,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class MenuItem : ItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
+        private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
-
-        private bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
 
         internal Button FlyoutButton { get; private set; }
 
@@ -122,7 +121,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
 
                 _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
-                FlyoutButton.Style = _parentMenu.HeaderButtonStyle;
                 ReAddItemsToFlyout();
 
                 FlyoutButton.Flyout = _menuFlyout;
@@ -154,8 +152,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             tooltip.Placement = _parentMenu.TooltipPlacement;
-            tooltip.Content = inputGestureText;
+            tooltip.Content = RemoveAlt(inputGestureText);
             tooltip.IsOpen = !tooltip.IsOpen;
+        }
+
+        private string RemoveAlt(string inputGesture)
+        {
+            if (string.IsNullOrEmpty(inputGesture)) return "";
+
+            return inputGesture.Replace("Alt+", "");
         }
 
         internal void HideTooltip()
@@ -236,20 +241,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsOpened)
             {
-                VisualStateManager.GoToState(FlyoutButton, "Opened", true);
+                VisualStateManager.GoToState(this, "Opened", true);
             }
         }
 
         private void MenuFlyout_Closed(object sender, object e)
         {
             IsOpened = false;
-            VisualStateManager.GoToState(FlyoutButton, "Normal", true);
+            VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private void MenuFlyout_Opened(object sender, object e)
         {
             IsOpened = true;
-            VisualStateManager.GoToState(FlyoutButton, "Opened", true);
+            VisualStateManager.GoToState(this, "Opened", true);
             _parentMenu.IsInTransitionState = false;
         }
 

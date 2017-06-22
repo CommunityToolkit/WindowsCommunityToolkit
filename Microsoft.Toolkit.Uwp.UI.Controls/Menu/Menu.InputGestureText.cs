@@ -19,7 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu
     {
-        internal const string InputGestureTextName = "InputGestureText";
+        private const string InputGestureTextName = "InputGestureText";
+        private const string AllowTooltipName = "AllowTooltip";
 
         /// <summary>
         /// Sets the text describing an input gesture that will call the command tied to the specified item.
@@ -62,6 +63,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static void SetInputGestureText(DependencyObject obj, string value)
         {
             obj.SetValue(InputGestureTextProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to allow tooltip on alt or not
+        /// </summary>
+        public static readonly DependencyProperty AllowTooltipProperty = DependencyProperty.RegisterAttached(AllowTooltipName, typeof(bool), typeof(Menu), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets InputGestureText attached property
+        /// </summary>
+        /// <param name="obj">Target MenuFlyoutItem</param>
+        /// <returns>Input gesture text</returns>
+        public static bool GetAllowTooltip(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(AllowTooltipProperty);
+        }
+
+        /// <summary>
+        /// Sets InputGestureText attached property
+        /// </summary>
+        /// <param name="obj">Target MenuFlyoutItem</param>
+        /// <param name="value">Input gesture text</param>
+        public static void SetAllowTooltip(DependencyObject obj, bool value)
+        {
+            obj.SetValue(AllowTooltipProperty, value);
         }
     }
 }
