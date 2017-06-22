@@ -44,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DecodePixelWidthProperty = DependencyProperty.Register(nameof(DecodePixelWidth), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
 
         /// <summary>
+        /// Identifies the <see cref="IsCachedEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsCachedEnabledProperty = DependencyProperty.Register("IsCachedEnabled", typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
+
+        /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
         /// </summary>
         /// <returns><see cref="CompositionBrush"/></returns>
@@ -117,9 +122,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets cache state
         /// </summary>
-        public bool IsCacheEnabled
+        public bool IsCachedEnabled
         {
-            get; set;
+            get { return (bool)GetValue(IsCachedEnabledProperty); }
+            set { SetValue(IsCachedEnabledProperty, value); }
         }
     }
 }
