@@ -384,6 +384,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
+    <Content Include="SamplePages\ClipboardHelper\ClipboardHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -401,6 +402,9 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ClipboardHelper\ClipboardHelperPage.xaml.cs">
+      <DependentUpon>ClipboardHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>
@@ -410,7 +414,7 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
       <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
-      </Compile>
+    </Compile>
     <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
       <DependentUpon>CarouselPage.xaml</DependentUpon>
     </Compile>
@@ -642,6 +646,10 @@
     <Page Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ClipboardHelper\ClipboardHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>

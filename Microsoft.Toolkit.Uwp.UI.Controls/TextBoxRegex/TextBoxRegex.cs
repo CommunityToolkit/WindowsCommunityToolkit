@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TextBoxRegex
     {
         private const string DecimalRegex = "^-?[0-9]{1,28}([.,][0-9]{1,28})?$";
-        private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+        private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$";
         private const string NumberRegex = "^-?[0-9]{1,9}$";
         private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
         private const string CharactersRegex = "^[A-Za-z]+$";

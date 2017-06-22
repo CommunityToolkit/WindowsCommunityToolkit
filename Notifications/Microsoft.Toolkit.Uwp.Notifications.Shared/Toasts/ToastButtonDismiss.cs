@@ -25,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string CustomContent { get; private set; }
 
         /// <summary>
+        /// An optional image icon for the button to display.
+        /// </summary>
+        public string ImageUri { get; set; }
+
+        /// <summary>
         /// Initializes a system-handled dismiss button that displays localized "Dismiss" text on the button.
         /// </summary>
         public ToastButtonDismiss()
@@ -51,9 +56,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                        {
                            Content = this.CustomContent == null ? string.Empty : this.CustomContent, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
                            Arguments = "dismiss",
-                           ActivationType = Element_ToastActivationType.System
+                           ActivationType = Element_ToastActivationType.System,
+                           ImageUri = ImageUri
 
-                           // ImageUri is useless since Shell doesn't display it for system buttons
                            // InputId is useless since dismiss button can't be placed to the right of text box (shell doesn't display it)
                        };
         }

@@ -134,7 +134,7 @@
 
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-        <Style TargetType="controls1:HamburgerMenu">
+        <Style x:Key="HamburgerMenuWithSearchTemplate" TargetType="controls1:HamburgerMenu">
             <Setter Property="HamburgerMenuTemplate">
                 <Setter.Value>
                     <DataTemplate>

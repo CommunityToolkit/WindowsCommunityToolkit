@@ -25,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string CustomContent { get; private set; }
 
         /// <summary>
+        /// An optional image icon for the button to display.
+        /// </summary>
+        public string ImageUri { get; set; }
+
+        /// <summary>
         /// Optionally specify the ID of an existing <see cref="ToastSelectionBox"/> in order to allow the user to pick a custom snooze time. The ID's of the <see cref="ToastSelectionBoxItem"/>s inside the selection box must represent the snooze interval in minutes. For example, if the user selects an item that has an ID of "120", then the notification will be snoozed for 2 hours. When the user clicks this button, if you specified a SelectionBoxId, the system will parse the ID of the selected item and snooze by that amount of minutes. If you didn't specify a SelectionBoxId, the system will snooze by the default system snooze time.
         /// </summary>
         public string SelectionBoxId { get; set; }
@@ -57,9 +62,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                            Content = CustomContent ?? string.Empty, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
                            Arguments = "snooze",
                            ActivationType = Element_ToastActivationType.System,
-                           InputId = SelectionBoxId
-
-                           // ImageUri is useless since Shell doesn't display it for system buttons
+                           InputId = SelectionBoxId,
+                           ImageUri = ImageUri
                        };
         }
     }

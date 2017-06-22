@@ -10,22 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The ImageEx control extends the default Image platform control improving the performance and responsiveness of your Apps.
+    /// The RoundImageEx control extends the default ImageBrush platform control improving the performance and responsiveness of your Apps.
     /// Source images are downloaded asynchronously showing a load indicator while in progress.
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
-    public partial class ImageEx : ImageExBase
+    public partial class RoundImageEx
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageEx"/> class.
-        /// </summary>
-        public ImageEx()
-            : base()
+        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(double), typeof(RoundImageEx), new PropertyMetadata(0));
+
+        public double CornerRadius
         {
-            DefaultStyleKey = typeof(ImageEx);
+            get { return (double)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        public override CompositionBrush GetAlphaMask()
+        {
+            return IsInitialized ? ImageRectangle.GetAlphaMask() : null;
         }
     }
 }

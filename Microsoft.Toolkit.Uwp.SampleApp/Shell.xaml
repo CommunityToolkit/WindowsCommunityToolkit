@@ -64,7 +64,8 @@
                             ItemTemplate="{StaticResource ButtonTemplate}"
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource OptionTemplate}"
-                            PaneBackground="{StaticResource Brush-Grey-02}">
+                            PaneBackground="{StaticResource Brush-Grey-02}"
+                            Style="{StaticResource HamburgerMenuWithSearchTemplate}">
         <Grid x:Name="RootGrid"
               Background="{StaticResource Brush-Grey-05}">
             <Grid.ColumnDefinitions>
