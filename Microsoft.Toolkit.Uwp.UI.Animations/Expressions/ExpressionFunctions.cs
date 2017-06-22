@@ -911,44 +911,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Creates a matrix whose subchannels have the specified values.
         /// </summary>
-        /// <param name="Channel11"></param>
-        /// <param name="Channel12"></param>
-        /// <param name="Channel21"></param>
-        /// <param name="Channel22"></param>
-        /// <param name="Channel31"></param>
-        /// <param name="Channel32"></param>
+        /// <param name="channel11"></param>
+        /// <param name="channel12"></param>
+        /// <param name="channel21"></param>
+        /// <param name="channel22"></param>
+        /// <param name="channel31"></param>
+        /// <param name="channel32"></param>
         /// <returns></returns>
-        public static Matrix3x2Node Matrix3x2(ScalarNode Channel11, ScalarNode Channel12, ScalarNode Channel21, ScalarNode Channel22, ScalarNode Channel31, ScalarNode Channel32)
+        public static Matrix3x2Node Matrix3x2(ScalarNode channel11, ScalarNode channel12, ScalarNode channel21, ScalarNode channel22, ScalarNode channel31, ScalarNode channel32)
         {
-            return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2, Channel11, Channel12, Channel21, Channel22, Channel31, Channel32);
+            return Function<Matrix3x2Node>(ExpressionNodeType.Matrix3x2, channel11, channel12, channel21, channel22, channel31, channel32);
         }
 
         /// <summary>
         /// Creates a matrix whose subchannels have the specified values.
         /// </summary>
-        /// <param name="Channel11"></param>
-        /// <param name="Channel12"></param>
-        /// <param name="Channel13"></param>
-        /// <param name="Channel14"></param>
-        /// <param name="Channel21"></param>
-        /// <param name="Channel22"></param>
-        /// <param name="Channel23"></param>
-        /// <param name="Channel24"></param>
-        /// <param name="Channel31"></param>
-        /// <param name="Channel32"></param>
-        /// <param name="Channel33"></param>
-        /// <param name="Channel34"></param>
-        /// <param name="Channel41"></param>
-        /// <param name="Channel42"></param>
-        /// <param name="Channel43"></param>
-        /// <param name="Channel44"></param>
+        /// <param name="channel11"></param>
+        /// <param name="channel12"></param>
+        /// <param name="channel13"></param>
+        /// <param name="channel14"></param>
+        /// <param name="channel21"></param>
+        /// <param name="channel22"></param>
+        /// <param name="channel23"></param>
+        /// <param name="channel24"></param>
+        /// <param name="channel31"></param>
+        /// <param name="channel32"></param>
+        /// <param name="channel33"></param>
+        /// <param name="channel34"></param>
+        /// <param name="channel41"></param>
+        /// <param name="channel42"></param>
+        /// <param name="channel43"></param>
+        /// <param name="channel44"></param>
         /// <returns></returns>
-        public static Matrix4x4Node Matrix4x4(ScalarNode Channel11, ScalarNode Channel12, ScalarNode Channel13, ScalarNode Channel14,
-                                              ScalarNode Channel21, ScalarNode Channel22, ScalarNode Channel23, ScalarNode Channel24,
-                                              ScalarNode Channel31, ScalarNode Channel32, ScalarNode Channel33, ScalarNode Channel34,
-                                              ScalarNode Channel41, ScalarNode Channel42, ScalarNode Channel43, ScalarNode Channel44)
+        public static Matrix4x4Node Matrix4x4(ScalarNode channel11, ScalarNode channel12, ScalarNode channel13, ScalarNode channel14,
+                                              ScalarNode channel21, ScalarNode channel22, ScalarNode channel23, ScalarNode channel24,
+                                              ScalarNode channel31, ScalarNode channel32, ScalarNode channel33, ScalarNode channel34,
+                                              ScalarNode channel41, ScalarNode channel42, ScalarNode channel43, ScalarNode channel44)
         {
-            return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4, Channel11, Channel12, Channel13, Channel14, Channel21, Channel22, Channel23, Channel24, Channel31, Channel32, Channel33, Channel34, Channel41, Channel42, Channel43, Channel44);
+            return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4, channel11, channel12, channel13, channel14, channel21, channel22, channel23, channel24, channel31, channel32, channel33, channel34, channel41, channel42, channel43, channel44);
         }
 
         /// <summary>
