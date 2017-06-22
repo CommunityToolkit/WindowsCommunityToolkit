@@ -423,7 +423,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
         private string ToExpressionStringInternal()
         {
-            string ret = "";
+            string ret = string.Empty;
 
             // Do a recursive depth-first traversal of the node tree to print out the full expression string
             switch (GetOperationKind())
@@ -471,7 +471,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                         throw new Exception("Swizzles should have exactly 1 child");
                     }
 
-                    string swizzleString = "";
+                    string swizzleString = string.Empty;
                     foreach (var sub in Subchannels)
                     {
                         swizzleString += sub;
