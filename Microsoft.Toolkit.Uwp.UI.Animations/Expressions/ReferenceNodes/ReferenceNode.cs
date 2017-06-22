@@ -12,6 +12,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             ParamName = paramName;
         }
 
+        public CompositionObject Reference { get; private set; }
+
         // Property set accessor functions
 
         /// <summary> Create a reference to the specified boolean property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
@@ -105,7 +107,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");
         }
-
-        public CompositionObject Reference { get; private set; }
     }
 }
