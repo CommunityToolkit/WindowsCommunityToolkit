@@ -27,7 +27,7 @@
       <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
 
-    <controls:Menu HeaderButtonStyle="{StaticResource MenuHeaderButtonStyle}"
+    <controls:Menu RequestedTheme="Light"
                    AllowTooltip="@[AllowTooltip:Bool:True]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">

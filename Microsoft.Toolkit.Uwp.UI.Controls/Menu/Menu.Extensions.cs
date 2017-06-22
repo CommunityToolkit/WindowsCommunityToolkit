@@ -71,20 +71,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AllowTooltipProperty = DependencyProperty.RegisterAttached(AllowTooltipName, typeof(bool), typeof(Menu), new PropertyMetadata(false));
 
         /// <summary>
-        /// Gets InputGestureText attached property
+        /// Gets AllowTooltip attached property
         /// </summary>
-        /// <param name="obj">Target MenuFlyoutItem</param>
-        /// <returns>Input gesture text</returns>
+        /// <param name="obj">Target Menu</param>
+        /// <returns>AllowTooltip</returns>
         public static bool GetAllowTooltip(DependencyObject obj)
         {
             return (bool)obj.GetValue(AllowTooltipProperty);
         }
 
         /// <summary>
-        /// Sets InputGestureText attached property
+        /// Sets AllowTooltip attached property
         /// </summary>
-        /// <param name="obj">Target MenuFlyoutItem</param>
-        /// <param name="value">Input gesture text</param>
+        /// <param name="obj">Target Menu</param>
+        /// <param name="value">AllowTooltip</param>
         public static void SetAllowTooltip(DependencyObject obj, bool value)
         {
             obj.SetValue(AllowTooltipProperty, value);
