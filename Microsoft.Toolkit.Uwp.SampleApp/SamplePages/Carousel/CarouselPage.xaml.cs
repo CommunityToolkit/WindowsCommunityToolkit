@@ -46,12 +46,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-            CarouselControl.SelectionChanged += CarouselControl_SelectionChanged;
-        }
-
-        private void CarouselControl_SelectionChanged(object sender, object e)
-        {
-            Debug.WriteLine(e);
         }
     }
 }
