@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetMatrix4x4Parameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
         public static implicit operator Matrix4x4Node(Matrix4x4 value)
         {
             return new Matrix4x4Node(value);
@@ -74,9 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-        //
-        // Subchannels
-        //
         public enum Subchannel
         {
             Channel11, Channel12, Channel13, Channel14,

@@ -9,9 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary> Create a constant parameter whose value can be changed without recreating the expression. </summary>
         public static class Constant
         {
-            //
             // Constant parameters with no default value
-            //
 
             /// <summary> Creates a named constant parameter of type bool. </summary>
             /// <param name="paramName">The name that will be used to refer to the parameter at a later time.</param>
@@ -76,9 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 return new Matrix4x4Node(paramName);
             }
 
-            //
             // Constant parameters with a default value
-            //
 
             /// <summary> Creates a named constant parameter of type bool, initialized with the specified value. </summary>
             /// <param name="paramName">The name that will be used to refer to the parameter at a later time.</param>

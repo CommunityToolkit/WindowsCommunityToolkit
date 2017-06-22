@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetQuaternionParameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
         public static implicit operator QuaternionNode(Quaternion value)
         {
             return new QuaternionNode(value);

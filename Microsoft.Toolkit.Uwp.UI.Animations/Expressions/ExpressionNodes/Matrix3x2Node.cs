@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetMatrix3x2Parameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
         public static implicit operator Matrix3x2Node(Matrix3x2 value)
         {
             return new Matrix3x2Node(value);
@@ -74,9 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-        //
-        // Subchannels
-        //
         public enum Subchannel
         {
             Channel11, Channel12,

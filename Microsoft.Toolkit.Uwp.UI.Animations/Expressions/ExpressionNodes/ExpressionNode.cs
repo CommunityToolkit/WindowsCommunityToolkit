@@ -127,9 +127,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
-        //
-        // Helper functions
-        //
         internal static T CreateExpressionNode<T>()
             where T : class
         {
@@ -531,9 +528,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ret;
         }
 
-        //
-        // Structs
-        //
         internal struct ReferenceInfo
         {
             public ReferenceInfo(string paramName, CompositionObject compObj)

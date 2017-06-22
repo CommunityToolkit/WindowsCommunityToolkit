@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetVector4Parameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
         public static implicit operator Vector4Node(Vector4 value)
         {
             return new Vector4Node(value);
@@ -84,9 +81,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
-        //
-        // Subchannels
-        //
         public enum Subchannel
         {
             X,

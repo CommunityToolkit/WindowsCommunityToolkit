@@ -12,9 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             ParamName = paramName;
         }
 
-        //
         // Property set accessor functions
-        //
 
         /// <summary> Create a reference to the specified boolean property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
@@ -79,9 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ReferenceProperty<Matrix4x4Node>(propertyName);
         }
 
-        //
-        // Helper functions
-        //
         internal string GetReferenceParamString()
         {
             if (NodeType == ExpressionNodeType.TargetReference)
@@ -116,9 +111,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             get { return _reference; }
         }
 
-        //
-        // Data
-        //
         private CompositionObject _reference;
     }
 }

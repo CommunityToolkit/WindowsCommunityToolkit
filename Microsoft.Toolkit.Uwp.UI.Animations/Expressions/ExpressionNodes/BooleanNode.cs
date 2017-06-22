@@ -29,10 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetBooleanParameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
-
         public static implicit operator BooleanNode(bool value)
         {
             return new BooleanNode(value);

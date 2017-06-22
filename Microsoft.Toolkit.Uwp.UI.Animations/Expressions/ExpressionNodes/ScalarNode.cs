@@ -29,9 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetScalarParameter(paramName, value);
         }
 
-        //
-        // Operator overloads
-        //
         public static implicit operator ScalarNode(float value)
         {
             return new ScalarNode(value);

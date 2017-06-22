@@ -120,9 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return Function<ScalarNode>(ExpressionNodeType.ToRadians, val);
         }
 
-        //
         // System.Numerics functions
-        //        
 
         /// <summary> Returns the absolute value of the specified input. For vectors, the absolute value of each subchannel is returned. </summary>
         /// <param name="val">The input value.</param>
@@ -487,9 +485,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return Function<Vector4Node>(ExpressionNodeType.Transform, val1, val2);
         }
 
-        //
         // System.Numerics Type Constructors
-        //
 
         /// <summary> Creates a vector whose subchannels have the specified values. </summary>
         public static Vector2Node Vector2(ScalarNode x, ScalarNode y)
@@ -627,10 +623,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             return Function<BooleanNode>(ExpressionNodeType.Not, val);
         }
-
-        //
-        // Conditional
-        //
 
         /// <summary> Returns one of two values, depending on the value of the boolean condition. </summary>
         /// <param name="condition">Boolean value used to determine whether to return the value represented by 'trueCase' or 'falseCase'.</param>
