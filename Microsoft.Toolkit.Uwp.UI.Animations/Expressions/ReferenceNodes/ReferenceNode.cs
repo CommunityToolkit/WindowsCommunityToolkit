@@ -3,8 +3,16 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class ReferenceNode : ExpressionNode
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paramName"></param>
+        /// <param name="compObj"></param>
         internal ReferenceNode(string paramName, CompositionObject compObj = null)
         {
             Reference = compObj;
@@ -12,68 +20,98 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             ParamName = paramName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CompositionObject Reference { get; private set; }
 
         // Property set accessor functions
 
-        /// <summary> Create a reference to the specified boolean property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified boolean property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public BooleanNode GetBooleanProperty(string propertyName)
         {
             return ReferenceProperty<BooleanNode>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified float property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified float property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public ScalarNode GetScalarProperty(string propertyName)
         {
             return ReferenceProperty<ScalarNode>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Vector2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Vector2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public Vector2Node GetVector2Property(string propertyName)
         {
             return ReferenceProperty<Vector2Node>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Vector3 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Vector3 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public Vector3Node GetVector3Property(string propertyName)
         {
             return ReferenceProperty<Vector3Node>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Vector4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Vector4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public Vector4Node GetVector4Property(string propertyName)
         {
             return ReferenceProperty<Vector4Node>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Color property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Color property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public ColorNode GetColorProperty(string propertyName)
         {
             return ReferenceProperty<ColorNode>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Quaternion property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Quaternion property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public QuaternionNode GetQuaternionProperty(string propertyName)
         {
             return ReferenceProperty<QuaternionNode>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Matrix3x2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Matrix3x2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public Matrix3x2Node GetMatrix3x2Property(string propertyName)
         {
             return ReferenceProperty<Matrix3x2Node>(propertyName);
         }
 
-        /// <summary> Create a reference to the specified Matrix4x4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet. </summary>
+        /// <summary>
+        /// Create a reference to the specified Matrix4x4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
+        /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
+        /// <returns></returns>
         public Matrix4x4Node GetMatrix4x4Property(string propertyName)
         {
             return ReferenceProperty<Matrix4x4Node>(propertyName);
