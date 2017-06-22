@@ -1051,7 +1051,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// Performs a logical AND operation on two boolean values as: val1 && val2.
+        /// Performs a logical AND operation on two boolean values as: val1 &amp;&amp; val2.
         /// </summary>
         /// <param name="val1"></param>
         /// <param name="val2"></param>
