@@ -109,7 +109,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             get { return GetSubchannels(Subchannel.Channel32); }
         }
 
-        /// <summary> Create a new type by re-arranging the Matrix subchannels. </summary>
+        /// <summary>
+        /// Create a new type by re-arranging the Matrix subchannels.
+        /// </summary>
         public ScalarNode GetSubchannels(Subchannel s)
         {
             return SubchannelsInternal<ScalarNode>(s.ToString());

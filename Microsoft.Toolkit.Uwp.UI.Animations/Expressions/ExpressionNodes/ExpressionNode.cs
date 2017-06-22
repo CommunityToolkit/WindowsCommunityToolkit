@@ -16,7 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
         }
 
-        /// <summary> Resolve a named reference parameter to the CompositionObject it will refer to. </summary>
+        /// <summary>
+        /// Resolve a named reference parameter to the CompositionObject it will refer to.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="compObj">The composition object that the parameter should resolve to.</param>
         public void SetReferenceParameter(string parameterName, CompositionObject compObj)
@@ -35,7 +37,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
-        /// <summary> Resolve a named parameter to the boolean value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the boolean value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetBooleanParameter(string parameterName, bool value)
@@ -43,7 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the float value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the float value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetScalarParameter(string parameterName, float value)
@@ -51,7 +57,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Vector2 value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Vector2 value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetVector2Parameter(string parameterName, Vector2 value)
@@ -59,7 +67,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Vector3 value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Vector3 value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetVector3Parameter(string parameterName, Vector3 value)
@@ -67,7 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Vector4 value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Vector4 value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetVector4Parameter(string parameterName, Vector4 value)
@@ -75,7 +87,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Color value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Color value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetColorParameter(string parameterName, Color value)
@@ -83,7 +97,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Quaternion value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Quaternion value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetQuaternionParameter(string parameterName, Quaternion value)
@@ -91,7 +107,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Matrix3x2 value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Matrix3x2 value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetMatrix3x2Parameter(string parameterName, Matrix3x2 value)
@@ -99,7 +117,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Resolve a named parameter to the Matrix4x4 value it will use. </summary>
+        /// <summary>
+        /// Resolve a named parameter to the Matrix4x4 value it will use.
+        /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
         public void SetMatrix4x4Parameter(string parameterName, Matrix4x4 value)
@@ -107,7 +127,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary> Releases all resources used by this ExpressionNode. </summary>
+        /// <summary>
+        /// Releases all resources used by this ExpressionNode.
+        /// </summary>
         public void Dispose()
         {
             _objRefList = null;
