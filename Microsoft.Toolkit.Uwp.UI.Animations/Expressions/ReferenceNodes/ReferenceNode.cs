@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     {
         internal ReferenceNode(string paramName, CompositionObject compObj = null)
         {
-            _reference = compObj;
+            Reference = compObj;
             NodeType = ExpressionNodeType.Reference;
             ParamName = paramName;
         }
@@ -106,11 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");
         }
 
-        public CompositionObject Reference
-        {
-            get { return _reference; }
-        }
-
-        private CompositionObject _reference;
+        public CompositionObject Reference { get; private set; }
     }
 }
