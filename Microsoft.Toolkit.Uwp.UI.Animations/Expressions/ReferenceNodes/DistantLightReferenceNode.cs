@@ -18,7 +18,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public ColorNode Color { get { return ReferenceProperty<ColorNode>("Color"); } }
-        public Vector3Node Direction { get { return ReferenceProperty<Vector3Node>("Direction"); } }
+        public ColorNode Color
+        {
+            get { return ReferenceProperty<ColorNode>("Color"); }
+        }
+
+        public Vector3Node Direction
+        {
+            get { return ReferenceProperty<Vector3Node>("Direction"); }
+        }
     }
 }

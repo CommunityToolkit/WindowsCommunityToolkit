@@ -18,16 +18,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public ScalarNode ConstantAttenuation { get { return ReferenceProperty<ScalarNode>("ConstantAttenuation"); } }
+        public ScalarNode ConstantAttenuation
+        {
+            get { return ReferenceProperty<ScalarNode>("ConstantAttenuation"); }
+        }
 
-        public ScalarNode LinearAttenuation { get { return ReferenceProperty<ScalarNode>("LinearAttenuation"); } }
+        public ScalarNode LinearAttenuation
+        {
+            get { return ReferenceProperty<ScalarNode>("LinearAttenuation"); }
+        }
 
-        public ScalarNode QuadraticAttentuation { get { return ReferenceProperty<ScalarNode>("QuadraticAttentuation"); } }
+        public ScalarNode QuadraticAttentuation
+        {
+            get { return ReferenceProperty<ScalarNode>("QuadraticAttentuation"); }
+        }
 
-        public ColorNode Color { get { return ReferenceProperty<ColorNode>("Color"); } }
+        public ColorNode Color
+        {
+            get { return ReferenceProperty<ColorNode>("Color"); }
+        }
 
-        public Vector3Node Direction { get { return ReferenceProperty<Vector3Node>("Direction"); } }
+        public Vector3Node Direction
+        {
+            get { return ReferenceProperty<Vector3Node>("Direction"); }
+        }
 
-        public Vector3Node Offset { get { return ReferenceProperty<Vector3Node>("Offset"); } }
+        public Vector3Node Offset
+        {
+            get { return ReferenceProperty<Vector3Node>("Offset"); }
+        }
     }
 }

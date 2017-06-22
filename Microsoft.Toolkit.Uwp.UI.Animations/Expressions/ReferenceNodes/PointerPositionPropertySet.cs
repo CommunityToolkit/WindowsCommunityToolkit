@@ -16,6 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public Vector3Node Position { get { return ReferenceProperty<Vector3Node>("Position"); } }
+        public Vector3Node Position
+        {
+            get { return ReferenceProperty<Vector3Node>("Position"); }
+        }
     }
 }

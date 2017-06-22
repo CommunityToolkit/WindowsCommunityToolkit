@@ -16,14 +16,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public Vector3Node CenterPoint { get { return ReferenceProperty<Vector3Node>("CenterPoint"); } }
+        public Vector3Node CenterPoint
+        {
+            get { return ReferenceProperty<Vector3Node>("CenterPoint"); }
+        }
 
-        public Vector3Node Pan { get { return ReferenceProperty<Vector3Node>("Pan"); } }
+        public Vector3Node Pan
+        {
+            get { return ReferenceProperty<Vector3Node>("Pan"); }
+        }
 
-        public Vector3Node Scale { get { return ReferenceProperty<Vector3Node>("Scale"); } }
+        public Vector3Node Scale
+        {
+            get { return ReferenceProperty<Vector3Node>("Scale"); }
+        }
 
-        public Vector3Node Translation { get { return ReferenceProperty<Vector3Node>("Translation"); } }
+        public Vector3Node Translation
+        {
+            get { return ReferenceProperty<Vector3Node>("Translation"); }
+        }
 
-        public Matrix4x4Node Matrix { get { return ReferenceProperty<Matrix4x4Node>("Matrix"); } }
+        public Matrix4x4Node Matrix
+        {
+            get { return ReferenceProperty<Matrix4x4Node>("Matrix"); }
+        }
     }
 }

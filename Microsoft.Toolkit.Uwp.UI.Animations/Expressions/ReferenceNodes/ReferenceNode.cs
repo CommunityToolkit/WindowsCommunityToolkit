@@ -111,7 +111,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");
         }
 
-        public CompositionObject Reference { get { return _reference; } }
+        public CompositionObject Reference
+        {
+            get { return _reference; }
+        }
 
         //
         // Data

@@ -95,9 +95,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Commonly accessed subchannels
-        public ScalarNode X { get { return GetSubchannels(Subchannel.X); } }
+        public ScalarNode X
+        {
+            get { return GetSubchannels(Subchannel.X); }
+        }
 
-        public ScalarNode Y { get { return GetSubchannels(Subchannel.Y); } }
+        public ScalarNode Y
+        {
+            get { return GetSubchannels(Subchannel.Y); }
+        }
 
         /// <summary> Create a new type by re-arranging the Vector subchannels. </summary>
         public ScalarNode GetSubchannels(Subchannel s)

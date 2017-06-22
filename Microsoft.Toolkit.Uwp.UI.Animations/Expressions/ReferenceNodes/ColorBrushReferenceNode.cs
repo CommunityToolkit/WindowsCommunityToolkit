@@ -18,6 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public ColorNode Color { get { return ReferenceProperty<ColorNode>("Color"); } }
+        public ColorNode Color
+        {
+            get { return ReferenceProperty<ColorNode>("Color"); }
+        }
     }
 }

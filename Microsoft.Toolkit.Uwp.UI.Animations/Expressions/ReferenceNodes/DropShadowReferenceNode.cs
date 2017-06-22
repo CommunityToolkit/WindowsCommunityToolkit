@@ -18,9 +18,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Animatable properties
-        public ScalarNode BlurRadius { get { return ReferenceProperty<ScalarNode>("BlurRadius"); } }
-        public ScalarNode Opacity { get { return ReferenceProperty<ScalarNode>("Opacity"); } }
-        public Vector3Node Offset { get { return ReferenceProperty<Vector3Node>("Offset"); } }
-        public ColorNode Color { get { return ReferenceProperty<ColorNode>("Color"); } }
+        public ScalarNode BlurRadius
+        {
+            get { return ReferenceProperty<ScalarNode>("BlurRadius"); }
+        }
+
+        public ScalarNode Opacity
+        {
+            get { return ReferenceProperty<ScalarNode>("Opacity"); }
+        }
+
+        public Vector3Node Offset
+        {
+            get { return ReferenceProperty<Vector3Node>("Offset"); }
+        }
+
+        public ColorNode Color
+        {
+            get { return ReferenceProperty<ColorNode>("Color"); }
+        }
     }
 }
