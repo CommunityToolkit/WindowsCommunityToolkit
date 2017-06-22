@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Returns the angle (in radians) whose cosine is the specified number.
         /// </summary>
-        /// <param name="val">Value between �1 and 1, for which to calculate the arccosine (the inverse cosine).</param>
+        /// <param name="val">Value between -1 and 1, for which to calculate the arccosine (the inverse cosine).</param>
         /// <returns></returns>
         public static ScalarNode ACos(ScalarNode val)
         {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Returns the angle (in radians) whose sine is the specified number.
         /// </summary>
-        /// <param name="val">Value between �1 and 1, for which to calculate the arcsine (the inverse sine).</param>
+        /// <param name="val">Value between -1 and 1, for which to calculate the arcsine (the inverse sine).</param>
         /// <returns></returns>
         public static ScalarNode ASin(ScalarNode val)
         {
