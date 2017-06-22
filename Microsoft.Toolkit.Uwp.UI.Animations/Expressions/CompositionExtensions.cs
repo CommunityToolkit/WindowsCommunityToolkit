@@ -134,7 +134,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <typeparam name="T"></typeparam>
         /// <param name="ps"></param>
         /// <returns></returns>
-        public static T GetSpecializedReference<T>(this CompositionPropertySet ps) where T : PropertySetReferenceNode
+        public static T GetSpecializedReference<T>(this CompositionPropertySet ps)
+            where T : PropertySetReferenceNode
         {
             if (typeof(T) == typeof(ManipulationPropertySetReferenceNode))
             {

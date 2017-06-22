@@ -1179,7 +1179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         // Helper functions
-        internal static T Function<T>(ExpressionNodeType nodeType, params ExpressionNode[] expressionFunctionParams) where T : class
+        internal static T Function<T>(ExpressionNodeType nodeType, params ExpressionNode[] expressionFunctionParams)
+            where T : class
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 
