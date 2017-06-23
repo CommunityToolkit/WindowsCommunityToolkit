@@ -28,6 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     internal class XamlRenderer
     {
+        private static bool? _textDecorationsSupported = null;
+
+        private static bool TextDecorationsSupported => (bool)(_textDecorationsSupported ??
+                        (_textDecorationsSupported = ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations")));
+
         /// <summary>
         /// The markdown document that will be rendered.
         /// </summary>
@@ -989,7 +994,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             Span span = new Span();
 
-            if (ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations"))
+            if (TextDecorationsSupported)
             {
                 span.TextDecorations = TextDecorations.Strikethrough;
             }
@@ -1003,7 +1008,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             AlterChildRuns(span, (parentSpan, run) =>
             {
-                if (!ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations"))
+                if (!TextDecorationsSupported)
                 {
                     var text = run.Text;
                     var builder = new StringBuilder(text.Length * 2);
