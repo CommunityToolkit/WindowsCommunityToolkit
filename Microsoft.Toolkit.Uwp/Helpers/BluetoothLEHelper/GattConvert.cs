@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Text;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
@@ -51,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="data">A 32 bit integer.</param>
         /// <returns>An IBuffer.</returns>
-        public static IBuffer ToIBuffer(Int32 data)
+        public static IBuffer ToIBuffer(int data)
         {
             var writer = new DataWriter();
             writer.WriteInt32(data);
@@ -112,14 +124,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>A byte array with more zeros in front"/></returns>
         private static byte[] GetBytes(byte[] input, int length)
         {
-            byte[] result = new byte[length];
+            var result = new byte[length];
 
             if (input.Length >= length)
             {
                 result = input;
             }
 
-            int offset = length - input.Length;
+            var offset = length - input.Length;
             for (var i = 0; i < input.Length; i++)
             {
                 result[offset + i] = input[i];

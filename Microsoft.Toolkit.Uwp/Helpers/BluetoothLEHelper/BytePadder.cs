@@ -1,7 +1,14 @@
-﻿// <copyright file="BytePadder.cs" company="Microsoft Corporation">
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//----------------------------------------------------------------------------------------------
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 namespace Microsoft.Toolkit.Uwp
 {
@@ -18,19 +25,19 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>A byte array with more zeros in front"/></returns>
         public static byte[] GetBytes(byte[] input, int length)
         {
-            byte[] ret = new byte[length];
+            var bytes = new byte[length];
 
             if (input.Length >= length)
             {
                 return input;
             }
 
-            for (int i = 0; i < input.Length; i++)
+            for (var i = 0; i < input.Length; i++)
             {
-                ret[i] = input[i];
+                bytes[i] = input[i];
             }
 
-            return ret;
+            return bytes;
         }
     }
 }
