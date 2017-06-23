@@ -29,6 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(ScrollHeader);
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            IsTabStop = false;
         }
 
         /// <summary>
