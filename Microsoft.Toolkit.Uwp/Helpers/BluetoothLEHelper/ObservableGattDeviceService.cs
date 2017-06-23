@@ -16,17 +16,18 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// Wrapper around <see cref="GattDeviceService"/> to make it easier to use
+    /// Wrapper around <see cref="GattDeviceService" /> to make it easier to use
     /// </summary>
     public class ObservableGattDeviceService : INotifyPropertyChanged
     {
         /// <summary>
-        /// Source for <see cref="Characteristics"/>
+        /// Source for <see cref="Characteristics" />
         /// </summary>
         private ObservableCollection<ObservableGattCharacteristics> _characteristics =
             new ObservableCollection<ObservableGattCharacteristics>();
@@ -37,17 +38,17 @@ namespace Microsoft.Toolkit.Uwp
         private bool _hasSelectedCharacteristicPropertyChangedHandler;
 
         /// <summary>
-        /// Source for <see cref="Name"/>
+        /// Source for <see cref="Name" />
         /// </summary>
         private string _name;
 
         /// <summary>
-        /// Source for <see cref="Service"/>
+        /// Source for <see cref="Service" />
         /// </summary>
         private GattDeviceService _service;
 
         /// <summary>
-        /// Source for <see cref="UUID"/>
+        /// Source for <see cref="UUID" />
         /// </summary>
         private string _uuid;
 
@@ -81,8 +82,9 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets all the characteristics of this service
+        /// Gets all the characteristics of this service
         /// </summary>
+        /// <value>The characteristics.</value>
         public ObservableCollection<ObservableGattCharacteristics> Characteristics
         {
             get { return _characteristics; }
@@ -144,17 +146,17 @@ namespace Microsoft.Toolkit.Uwp
         {
             var tokenSource = new CancellationTokenSource(5000);
             var getCharacteristicsTask = await Task.Run(
-                    () => Service.GetCharacteristicsAsync(Windows.Devices.Bluetooth.BluetoothCacheMode.Uncached),
-                    tokenSource.Token);
+                () => Service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached),
+                tokenSource.Token);
 
             GattCharacteristicsResult result = null;
             result = await getCharacteristicsTask;
 
             if (result.Status == GattCommunicationStatus.Success)
             {
-                foreach (GattCharacteristic gattchar in result.Characteristics)
+                foreach (var gattCharacteristic in result.Characteristics)
                 {
-                    Characteristics.Add(new ObservableGattCharacteristics(gattchar, this));
+                    Characteristics.Add(new ObservableGattCharacteristics(gattCharacteristic, this));
                 }
             }
 

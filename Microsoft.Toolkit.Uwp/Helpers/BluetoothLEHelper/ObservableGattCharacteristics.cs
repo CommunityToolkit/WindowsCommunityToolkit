@@ -133,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp
             ReadValueAsync();
 
             characteristic.ValueChanged += Characteristic_ValueChanged;
-            PropertyChanged += ObservableGattCharacteristics_PropertyChanged;
         }
 
         /// <summary>
@@ -267,6 +266,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_displayType != value)
                 {
                     _displayType = value;
+                    SetValue();
                     OnPropertyChanged();
                 }
             }
@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp
             }
             else if (result.Status == GattCommunicationStatus.ProtocolError)
             {
-                Value = GattProtocolErrorParser.GetErrorString(result.ProtocolError);
+                Value = result.ProtocolError.GetErrorString();
             }
             else
             {
@@ -310,9 +310,6 @@ namespace Microsoft.Toolkit.Uwp
                 return IsIndicateSet;
             }
 
-            // BT_Code: Must write the CCCD in order for server to send indications.
-            // We receive them in the ValueChanged event handler.
-            // Note that this sample configures either Indicate or Notify, but not both.
             var result = await
                 Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
                     GattClientCharacteristicConfigurationDescriptorValue.Indicate);
@@ -334,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Unsets the indicate descriptor
+        /// Unset the indicate descriptor
         /// </summary>
         /// <returns>Unset indicate task</returns>
         public async Task<bool> StopIndicate()
@@ -344,9 +341,6 @@ namespace Microsoft.Toolkit.Uwp
                 return !IsIndicateSet;
             }
 
-            // BT_Code: Must write the CCCD in order for server to send indications.
-            // We receive them in the ValueChanged event handler.
-            // Note that this sample configures either Indicate or Notify, but not both.
             var result = await
                 Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
                     GattClientCharacteristicConfigurationDescriptorValue.None);
@@ -378,9 +372,6 @@ namespace Microsoft.Toolkit.Uwp
                 return IsNotifySet;
             }
 
-            // BT_Code: Must write the CCCD in order for server to send indications.
-            // We receive them in the ValueChanged event handler.
-            // Note that this sample configures either Indicate or Notify, but not both.
             var result = await
                 Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
                     GattClientCharacteristicConfigurationDescriptorValue.Notify);
@@ -409,13 +400,9 @@ namespace Microsoft.Toolkit.Uwp
         {
             if (IsNotifySet == false)
             {
-                // indicate is not set, can skip this
                 return IsNotifySet;
             }
 
-            // BT_Code: Must write the CCCD in order for server to send indications.
-            // We receive them in the ValueChanged event handler.
-            // Note that this sample configures either Indicate or Notify, but not both.
             var result = await
                 Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
                     GattClientCharacteristicConfigurationDescriptorValue.None);
@@ -434,19 +421,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return !IsNotifySet;
-        }
-
-        /// <summary>
-        /// Handles the PropertyChanged event of the ObservableGattCharacteristics control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
-        private void ObservableGattCharacteristics_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "DisplayType")
-            {
-                SetValue();
-            }
         }
 
         /// <summary>
@@ -581,7 +555,6 @@ namespace Microsoft.Toolkit.Uwp
             }
             else if (DisplayType == DisplayTypes.Decimal)
             {
-                //TODO: if data is larger then int32 this will overflow. Need to fix.
                 Value = GattConvert.ToInt32(_rawData).ToString();
             }
             else if (DisplayType == DisplayTypes.Utf8)

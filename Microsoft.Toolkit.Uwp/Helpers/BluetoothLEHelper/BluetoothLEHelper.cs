@@ -43,6 +43,11 @@ namespace Microsoft.Toolkit.Uwp
         private readonly List<DeviceInformation> _unusedDevices = new List<DeviceInformation>();
 
         /// <summary>
+        /// Reader/Writer lock for when we are updating the collection.
+        /// </summary>
+        private readonly ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
+
+        /// <summary>
         /// Advertisement watcher used to find bluetooth devices.
         /// </summary>
         private BluetoothLEAdvertisementWatcher _advertisementWatcher;
@@ -56,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp
         /// The Bluetooth adapter.
         /// </summary>
         private BluetoothAdapter _adapter;
-
-        /// <summary>
-        /// Reader/Writer lock for when we are updating the collection.
-        /// </summary>
-        private ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
 
         /// <summary>
         /// Prevents a default instance of the <see cref="BluetoothLEHelper" /> class from being created.
@@ -199,11 +199,11 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
                     {
-                        foreach (var d in BluetoothLeDevices)
+                        foreach (var device in BluetoothLeDevices)
                         {
-                            if (d.BluetoothAddressAsUlong == args.BluetoothAddress)
+                            if (device.BluetoothAddressAsUlong == args.BluetoothAddress)
                             {
-                                d.ServiceCount = args.Advertisement.ServiceUuids.Count();
+                                device.ServiceCount = args.Advertisement.ServiceUuids.Count();
                             }
                         }
 
@@ -325,7 +325,6 @@ namespace Microsoft.Toolkit.Uwp
             if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
             {
                 _unusedDevices.Add(deviceInfo);
-
                 _readerWriterLockSlim.ExitWriteLock();
             }
         }
