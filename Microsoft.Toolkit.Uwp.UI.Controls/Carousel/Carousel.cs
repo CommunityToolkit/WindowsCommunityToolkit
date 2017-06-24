@@ -11,6 +11,9 @@
 // ******************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -184,14 +187,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (e.Property == SelectedIndexProperty)
             {
-                var item = carouselControl.Items[(int)e.NewValue];
+                var newValue = carouselControl.Items[(int)e.NewValue];
+                var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
                 carouselControl.FocusContainerFromIndex((int)e.NewValue);
 
                 // double check
-                if (carouselControl.SelectedItem != item)
+                if (carouselControl.SelectedItem != newValue)
                 {
-                    carouselControl.SetValue(SelectedItemProperty, item);
-                    carouselControl.SelectionChanged?.Invoke(carouselControl, item);
+                    carouselControl.SetValue(SelectedItemProperty, newValue);
+                    var newValues = new List<object>() { newValue };
+                    var oldValues = oldValue == null ? new List<object>() : new List<object>() { oldValue };
+
+                    var args = new SelectionChangedEventArgs(oldValues, newValues);
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, args);
                     return;
                 }
             }
@@ -203,7 +211,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (carouselControl.SelectedIndex != index)
                 {
                     carouselControl.SetValue(SelectedIndexProperty, index);
-                    carouselControl.SelectionChanged?.Invoke(carouselControl, e.NewValue);
+                    var newValues = new List<object>() { e.NewValue };
+                    var oldValues = e.OldValue == null ? new List<object>() : new List<object>() { e.OldValue };
+
+                    var args = new SelectionChangedEventArgs(oldValues, newValues);
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, args);
                     return;
                 }
             }
@@ -236,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Occurs when the selected item has changed
         /// </summary>
-        public event EventHandler<object> SelectionChanged = null;
+        public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
         /// Return ItemsPanel
