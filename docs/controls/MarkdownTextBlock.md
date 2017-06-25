@@ -80,15 +80,15 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ## Events
 
-### ResolveImage
+### ImageResolving
 
 Use this event to customize how images in the markdown document are resolved.  
 
-Set the ResolveImageEventArgs.Image property to the image that should be shown in the rendered markdown document.  
-Also don't forget to set the ResolveImageEventArgs.Handled flag to true, otherwise your own image will not be used.
+Set the ImageResolvingEventArgs.Image property to the image that should be shown in the rendered markdown document.  
+Also don't forget to set the ImageResolvingEventArgs.Handled flag to true, otherwise your custom image will not be used.
 
 ```c#
-private void MarkdownText_OnResolveImage(object sender, ResolveImageEventArgs e)
+private void MarkdownText_OnImageResolving(object sender, ImageResolvingEventArgs e)
 {
     // This is basically the default implementation
     e.Image = new BitmapImage(new Uri(e.Url));
@@ -100,7 +100,7 @@ This event also supports loading the image in an asynchronous way.
 Just request a Deferral which you complete when you're done.
 
 ```c#
-private async void MarkdownText_OnResolveImage(object sender, ResolveImageEventArgs e)
+private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEventArgs e)
 {
     var deferral = e.GetDeferral();
 

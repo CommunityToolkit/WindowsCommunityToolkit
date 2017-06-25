@@ -20,13 +20,13 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Arguments for the <see cref="MarkdownTextBlock.ResolveImage"/> event which is called when a url needs to be resolved to a <see cref="ImageSource"/>.
+    /// Arguments for the <see cref="MarkdownTextBlock.ImageResolving"/> event which is called when a url needs to be resolved to a <see cref="ImageSource"/>.
     /// </summary>
-    public class ResolveImageEventArgs : EventArgs
+    public class ImageResolveEventArgs : EventArgs
     {
         private readonly IList<TaskCompletionSource<object>> _deferrals;
 
-        internal ResolveImageEventArgs(string url, string tooltip)
+        internal ImageResolveEventArgs(string url, string tooltip)
         {
             this._deferrals = new List<TaskCompletionSource<object>>();
             this.Url = url;

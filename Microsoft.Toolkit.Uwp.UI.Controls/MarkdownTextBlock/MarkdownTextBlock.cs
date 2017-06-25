@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when an image from the markdown document needs to be resolved.
         /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
         /// </summary>
-        public event EventHandler<ResolveImageEventArgs> ResolveImage;
+        public event EventHandler<ImageResolveEventArgs> ImageResolving;
 
         /// <summary>
         /// Gets the dependency property for <see cref="ImageStretch"/>.
@@ -1242,8 +1242,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
         {
-            var eventArgs = new ResolveImageEventArgs(url, tooltip);
-            ResolveImage?.Invoke(this, eventArgs);
+            var eventArgs = new ImageResolveEventArgs(url, tooltip);
+            this.ImageResolving?.Invoke(this, eventArgs);
 
             await eventArgs.WaitForDeferrals();
 
