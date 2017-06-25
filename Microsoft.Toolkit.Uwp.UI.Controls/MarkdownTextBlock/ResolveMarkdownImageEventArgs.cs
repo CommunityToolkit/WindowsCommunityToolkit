@@ -22,15 +22,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Arguments for the <see cref="MarkdownTextBlock.ImageResolving"/> event which is called when a url needs to be resolved to a <see cref="ImageSource"/>.
     /// </summary>
-    public class ImageResolveEventArgs : EventArgs
+    public class ImageResolvingEventArgs : EventArgs
     {
         private readonly IList<TaskCompletionSource<object>> _deferrals;
 
-        internal ImageResolveEventArgs(string url, string tooltip)
+        internal ImageResolvingEventArgs(string url, string tooltip)
         {
-            this._deferrals = new List<TaskCompletionSource<object>>();
-            this.Url = url;
-            this.Tooltip = tooltip;
+            _deferrals = new List<TaskCompletionSource<object>>();
+            Url = url;
+            Tooltip = tooltip;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public Deferral GetDeferral()
         {
             var task = new TaskCompletionSource<object>();
-            this._deferrals.Add(task);
+            _deferrals.Add(task);
 
             return new Deferral(() =>
             {
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal Task WaitForDeferrals()
         {
-            return Task.WhenAll(this._deferrals.Select(f => f.Task));
+            return Task.WhenAll(_deferrals.Select(f => f.Task));
         }
     }
 }

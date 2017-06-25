@@ -912,7 +912,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             var placeholder = RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
 
-            var resolvedImage = await this._imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await _imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
