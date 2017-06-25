@@ -78,6 +78,40 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 * TableMargin
 * TextWrapping
 
+## Events
+
+### ResolveImage
+
+Use this event to customize how images in the markdown document are resolved.  
+
+Set the ResolveImageEventArgs.Image property to the image that should be shown in the rendered markdown document.  
+Also don't forget to set the ResolveImageEventArgs.Handled flag to true, otherwise your own image will not be used.
+
+```c#
+private void MarkdownText_OnResolveImage(object sender, ResolveImageEventArgs e)
+{
+    // This is basically the default implementation
+    e.Image = new BitmapImage(new Uri(e.Url));
+    e.Handled = true;
+}
+```
+
+This event also supports loading the image in an asynchronous way.  
+Just request a Deferral which you complete when you're done.
+
+```c#
+private async void MarkdownText_OnResolveImage(object sender, ResolveImageEventArgs e)
+{
+    var deferral = e.GetDeferral();
+
+    e.Image = await GetImageFromDatabaseAsync(e.Url);
+    e.Handled = true;
+
+    deferral.Complete();
+}
+```
+
+
 ## Example Code
 
 [MarkdownTextBlock Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
