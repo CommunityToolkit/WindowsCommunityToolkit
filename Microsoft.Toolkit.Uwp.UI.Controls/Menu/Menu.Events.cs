@@ -240,8 +240,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _altHandled = false;
             }
+            else if (args.KeyStatus.IsMenuKeyDown && args.KeyStatus.IsKeyReleased && !_altHandled)
+            {
+                _altHandled = true;
+                string gestureKey = MapInputToGestureKey(args.VirtualKey);
+
+                if (gestureKey == null)
+                {
+                    return;
+                }
+
+                if (MenuItemInputGestureCache.ContainsKey(gestureKey))
+                {
+                    var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
+                    if (cachedMenuItem is MenuItem)
+                    {
+                        var menuItem = (MenuItem)cachedMenuItem;
+                        SelectedHeaderItem = menuItem;
+                        menuItem.ShowMenu();
+                    }
+                }
+            }
             else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
             {
+                _altHandled = true;
                 if (!IsOpened)
                 {
                     if (_isLostFocus)
@@ -261,27 +283,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else
                     {
                         _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
-                    }
-                }
-            }
-            else if (args.KeyStatus.IsMenuKeyDown && args.KeyStatus.IsKeyReleased)
-            {
-                _altHandled = true;
-                string gestureKey = MapInputToGestureKey(args.VirtualKey);
-
-                if (gestureKey == null)
-                {
-                    return;
-                }
-
-                if (MenuItemInputGestureCache.ContainsKey(gestureKey))
-                {
-                    var cachedMenuItem = MenuItemInputGestureCache[gestureKey];
-                    if (cachedMenuItem is MenuItem)
-                    {
-                        var menuItem = (MenuItem)cachedMenuItem;
-                        SelectedHeaderItem = menuItem;
-                        menuItem.ShowMenu();
                     }
                 }
             }
