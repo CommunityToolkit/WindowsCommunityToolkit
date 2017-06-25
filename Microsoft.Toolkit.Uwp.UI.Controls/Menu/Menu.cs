@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Menu : ItemsControl
     {
         private WrapPanel.WrapPanel _wrapPanel;
+        private MenuItem _selectedHeaderItem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
@@ -101,7 +103,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the current selected menu header item
         /// </summary>
-        public MenuItem SelectedHeaderItem { get; internal set; }
+        public MenuItem SelectedHeaderItem
+        {
+            get { return _selectedHeaderItem; }
+            internal set
+            {
+                Debug.WriteLine(value.Header);
+                _selectedHeaderItem = value;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the menu is opened or not
@@ -116,6 +126,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            Loaded -= ClassicMenu_Loaded;
+            Unloaded += ClassicMenu_Unloaded;
+
             Loaded += ClassicMenu_Loaded;
             Unloaded += ClassicMenu_Unloaded;
 

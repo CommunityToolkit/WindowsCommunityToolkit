@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.System;
@@ -257,6 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var menuItem = (MenuItem)cachedMenuItem;
                         SelectedHeaderItem = menuItem;
+                        menuItem.Focus(FocusState.Keyboard);
                         menuItem.ShowMenu();
                     }
                 }

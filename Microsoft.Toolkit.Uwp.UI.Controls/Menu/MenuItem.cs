@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -268,6 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnGotFocus(RoutedEventArgs e)
         {
+            Debug.WriteLine(this.Header + "Focus");
             _parentMenu.SelectedHeaderItem = this;
             base.OnGotFocus(e);
         }

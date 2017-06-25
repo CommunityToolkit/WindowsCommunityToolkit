@@ -22,8 +22,8 @@
         </Grid.RowDefinitions>
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
-                       RequestedTheme="Light"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
+                       RequestedTheme="Light"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"
@@ -58,14 +58,15 @@
                     <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
                     <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
                 </MenuFlyoutSubItem>
-                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shit+E"
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+E"
                                 Command="{StaticResource GenericCommand}"
                                 CommandParameter="Solution closed"
                                 Text="Exit" />
             </controls:MenuItem>
 
 
-            <controls:MenuItem Header="Edit" controls:Menu.InputGestureText="Alt+E">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+E"
+                               Header="Edit">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Text="Go To Line" />
                     <MenuFlyoutItem Text="Go To All" />
@@ -77,7 +78,8 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="View" controls:Menu.InputGestureText="Alt+V">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
+                               Header="View">
                 <MenuFlyoutSubItem Text="Designer">
                     <MenuFlyoutItem Text="VS Designer" />
                     <MenuFlyoutItem Text="Blend" />
@@ -89,7 +91,8 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Project" controls:Menu.InputGestureText="Alt+P">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
+                               Header="Project">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Text="Class" />
                     <MenuFlyoutItem Text="Interface" />
@@ -101,12 +104,14 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Build" controls:Menu.InputGestureText="Alt+B">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
+                               Header="Build">
                 <MenuFlyoutItem Text="Build Solution" />
                 <MenuFlyoutItem Text="Rebuild Solution" />
             </controls:MenuItem>
 
-            <controls:MenuItem Header="Debug" controls:Menu.InputGestureText="Alt+D">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+D"
+                               Header="Debug">
                 <MenuFlyoutSubItem Text="Windows">
                     <MenuFlyoutItem Text="Windows 8" />
                     <MenuFlyoutItem Text="Windows 10" />

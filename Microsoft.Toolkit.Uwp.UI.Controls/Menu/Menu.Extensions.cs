@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -25,10 +26,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the text describing an input gesture that will call the command tied to the specified item.
         /// </summary>
-        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached(InputGestureTextName, typeof(string), typeof(DependencyObject), new PropertyMetadata(null, InputGestureTextChanged));
+        public static readonly DependencyProperty InputGestureTextProperty = DependencyProperty.RegisterAttached(InputGestureTextName, typeof(string), typeof(Control), new PropertyMetadata(null, InputGestureTextChanged));
 
         private static void InputGestureTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+            var element = obj as Control;
+            if (element == null)
+            {
+                return;
+            }
+
             var inputGestureValue = e.NewValue as string;
             if (string.IsNullOrEmpty(inputGestureValue))
             {
@@ -39,10 +46,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (MenuItemInputGestureCache.ContainsKey(inputGestureValue))
             {
+                MenuItemInputGestureCache[inputGestureValue] = element;
                 return;
             }
 
-            MenuItemInputGestureCache.Add(inputGestureValue.ToUpper(), obj);
+            MenuItemInputGestureCache.Add(inputGestureValue.ToUpper(), element);
+            element.Unloaded += Element_Unloaded;
+        }
+
+        private static void Element_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var element = sender as Control;
+            if (element == null)
+            {
+                return;
+            }
+
+            var inputGestureText = element.GetValue(InputGestureTextProperty).ToString().ToUpper();
+            if (!MenuItemInputGestureCache.ContainsKey(inputGestureText))
+            {
+                return;
+            }
+
+            var cachedMenuItem = MenuItemInputGestureCache[inputGestureText];
+            if (cachedMenuItem == element)
+            {
+                MenuItemInputGestureCache.Remove(inputGestureText);
+            }
         }
 
         /// <summary>
@@ -50,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target MenuFlyoutItem</param>
         /// <returns>Input gesture text</returns>
-        public static string GetInputGestureText(DependencyObject obj)
+        public static string GetInputGestureText(UIElement obj)
         {
             return (string)obj.GetValue(InputGestureTextProperty);
         }
@@ -60,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target MenuFlyoutItem</param>
         /// <param name="value">Input gesture text</param>
-        public static void SetInputGestureText(DependencyObject obj, string value)
+        public static void SetInputGestureText(UIElement obj, string value)
         {
             obj.SetValue(InputGestureTextProperty, value);
         }
