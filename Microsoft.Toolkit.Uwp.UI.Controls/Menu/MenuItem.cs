@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -159,9 +158,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private string RemoveAlt(string inputGesture)
         {
-            if (string.IsNullOrEmpty(inputGesture)) return "";
+            if (string.IsNullOrEmpty(inputGesture))
+            {
+                return string.Empty;
+            }
 
-            return inputGesture.Replace("Alt+", "");
+            return inputGesture.Replace("Alt+", string.Empty);
         }
 
         internal void HideTooltip()
@@ -269,7 +271,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            Debug.WriteLine(this.Header + "Focus");
             _parentMenu.SelectedHeaderItem = this;
             base.OnGotFocus(e);
         }
