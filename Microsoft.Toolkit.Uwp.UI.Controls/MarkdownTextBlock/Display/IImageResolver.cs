@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
@@ -19,6 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// </summary>
     internal interface IImageResolver
     {
-        ImageSource ResolveImage(string url, string tooltip);
+        Task<ImageSource> ResolveImageAsync(string url, string tooltip);
     }
 }

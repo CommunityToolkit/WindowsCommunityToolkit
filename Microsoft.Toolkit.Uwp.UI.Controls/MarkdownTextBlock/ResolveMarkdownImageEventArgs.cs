@@ -11,6 +11,10 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -20,8 +24,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ResolveImageEventArgs : EventArgs
     {
+        private readonly IList<TaskCompletionSource<object>> _deferrals;
+
         internal ResolveImageEventArgs(string url, string tooltip)
         {
+            this._deferrals = new List<TaskCompletionSource<object>>();
             this.Url = url;
             this.Tooltip = tooltip;
         }
@@ -45,5 +52,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the image to display in the <see cref="MarkdownTextBlock"/>.
         /// </summary>
         public ImageSource Image { get; set; }
+
+        /// <summary>
+        /// Informs the <see cref="MarkdownTextBlock"/> that the event handler might run asynchronously.
+        /// </summary>
+        public Deferral GetDeferral()
+        {
+            var task = new TaskCompletionSource<object>();
+            this._deferrals.Add(task);
+
+            return new Deferral(() =>
+            {
+                task.SetResult(null);
+            });
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Task"/> that completes when all <see cref="Deferral"/>s have completed.
+        /// </summary>
+        internal Task WaitForDeferrals()
+        {
+            return Task.WhenAll(this._deferrals.Select(f => f.Task));
+        }
     }
 }

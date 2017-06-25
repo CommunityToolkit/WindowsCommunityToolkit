@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
@@ -1239,13 +1240,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when the renderer needs to display a image.
         /// </summary>
-        ImageSource IImageResolver.ResolveImage(string url, string tooltip)
+        async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
         {
             var eventArgs = new ResolveImageEventArgs(url, tooltip);
             ResolveImage?.Invoke(this, eventArgs);
 
-            return eventArgs.Handled 
-                ? eventArgs.Image 
+            await eventArgs.WaitForDeferrals();
+
+            return eventArgs.Handled
+                ? eventArgs.Image
                 : new BitmapImage(new Uri(url));
         }
     }

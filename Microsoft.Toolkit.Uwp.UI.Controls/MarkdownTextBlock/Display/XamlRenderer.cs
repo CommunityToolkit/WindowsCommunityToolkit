@@ -793,7 +793,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
+        private Run RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
         {
             // Create the text run
             Run textRun = new Run
@@ -803,6 +803,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             // Add it
             inlineCollection.Add(textRun);
+
+            return textRun;
         }
 
         /// <summary>
@@ -906,19 +908,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
+        private async void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
         {
-            var image = new Image();
-            var imageContainer = new InlineUIContainer() { Child = image };
+            var placeholder = RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
 
-            var resolvedImage = this._imageResolver.ResolveImage(element.Url, element.Tooltip);
+            var resolvedImage = await this._imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
             {
-                RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
                 return;
             }
+
+            var image = new Image();
+            var imageContainer = new InlineUIContainer() { Child = image };
 
             image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
@@ -931,7 +934,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Could fail because some containers like Hyperlink cannot have inlined images
             try
             {
-                inlineCollection.Add(imageContainer);
+                var placeholderIndex = inlineCollection.IndexOf(placeholder);
+                inlineCollection.Remove(placeholder);
+                inlineCollection.Insert(placeholderIndex, imageContainer);
             }
             catch
             {
