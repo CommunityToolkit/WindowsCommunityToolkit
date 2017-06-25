@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ClassicMenu_Loaded(object sender, RoutedEventArgs e)
+        private void Menu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
             if (_wrapPanel != null)
@@ -185,10 +185,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
 
-        private void ClassicMenu_Unloaded(object sender, RoutedEventArgs e)
+        private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+
+            // remove current menu's descendant item that has inputGesture from MenuItemInputGestureCache
+            if (_descendantsWithInputGesture != null)
+            {
+                foreach (var descendant in _descendantsWithInputGesture)
+                {
+                    var inputGestureText = descendant.GetValue(InputGestureTextProperty).ToString().ToUpper();
+                    if (!MenuItemInputGestureCache.ContainsKey(inputGestureText))
+                    {
+                        return;
+                    }
+
+                    var cachedMenuItem = MenuItemInputGestureCache[inputGestureText];
+                    if (cachedMenuItem == descendant)
+                    {
+                        MenuItemInputGestureCache.Remove(inputGestureText);
+                    }
+                }
+            }
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)

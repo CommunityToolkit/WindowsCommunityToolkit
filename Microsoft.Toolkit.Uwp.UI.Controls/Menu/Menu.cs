@@ -113,14 +113,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal bool IsInTransitionState { get; set; }
 
+        private List<FrameworkElement> _descendantsWithInputGesture;
+
+        internal List<FrameworkElement> DescendantsWithInputGesture
+        {
+            get
+            {
+                if (_descendantsWithInputGesture == null)
+                {
+                    _descendantsWithInputGesture = new List<FrameworkElement>();
+                }
+
+                return _descendantsWithInputGesture;
+            }
+        }
+
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            Loaded -= ClassicMenu_Loaded;
-            Unloaded += ClassicMenu_Unloaded;
+            Loaded -= Menu_Loaded;
+            Unloaded -= Menu_Unloaded;
 
-            Loaded += ClassicMenu_Loaded;
-            Unloaded += ClassicMenu_Unloaded;
+            Loaded += Menu_Loaded;
+            Unloaded += Menu_Unloaded;
 
             base.OnApplyTemplate();
         }
