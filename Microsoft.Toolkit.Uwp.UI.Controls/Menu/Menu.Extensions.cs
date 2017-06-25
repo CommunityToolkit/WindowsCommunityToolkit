@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target Menu</param>
         /// <returns>AllowTooltip</returns>
-        public static bool GetAllowTooltip(DependencyObject obj)
+        public static bool GetAllowTooltip(Menu obj)
         {
             return (bool)obj.GetValue(AllowTooltipProperty);
         }
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">Target Menu</param>
         /// <param name="value">AllowTooltip</param>
-        public static void SetAllowTooltip(DependencyObject obj, bool value)
+        public static void SetAllowTooltip(Menu obj, bool value)
         {
             obj.SetValue(AllowTooltipProperty, value);
         }
