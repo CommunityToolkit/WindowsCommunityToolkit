@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsLeftCommandEnabled && !IsRightCommandEnabled))
+            if (SwipeStatus == SwipeStatus.Idle)
             {
                 return;
             }
