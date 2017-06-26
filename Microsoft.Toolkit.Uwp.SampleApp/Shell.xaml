@@ -19,7 +19,7 @@
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate"
                       x:DataType="local:SampleCategory">
-            <Grid Width="240">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
@@ -37,8 +37,7 @@
 
         <DataTemplate x:Key="OptionTemplate"
                       x:DataType="local:Option">
-            <Grid Width="240"
-                  Height="48">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />

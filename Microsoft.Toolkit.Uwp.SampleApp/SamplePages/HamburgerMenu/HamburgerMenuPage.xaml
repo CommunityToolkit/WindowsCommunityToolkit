@@ -8,7 +8,7 @@
     <Page.Resources>
         <DataTemplate x:Key="HamburgerMenuItem"
                       x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
@@ -29,7 +29,7 @@
 
         <DataTemplate x:Key="HamburgerMenuImageItem"
                       x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
