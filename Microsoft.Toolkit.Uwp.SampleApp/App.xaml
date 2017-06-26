@@ -141,6 +141,7 @@
             <Setter Property="MinHeight" Value="0"/>
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
