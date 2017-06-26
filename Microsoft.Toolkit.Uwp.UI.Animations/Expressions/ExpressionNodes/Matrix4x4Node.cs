@@ -392,6 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="s15">The fifteenth subchannel.</param>
         /// <param name="s16">The sixteenth subchannel.</param>        
         /// <returns>Matrix4x4Node</returns>
+#pragma warning disable SA1117 // Parameters must be on same line or separate lines
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,
                                          Subchannel s5, Subchannel s6, Subchannel s7, Subchannel s8,
                                          Subchannel s9, Subchannel s10, Subchannel s11, Subchannel s12,
@@ -402,6 +403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                                                       s9.ToString(), s10.ToString(), s11.ToString(), s12.ToString(),
                                                       s13.ToString(), s14.ToString(), s15.ToString(), s16.ToString());
         }
+#pragma warning restore SA1117 // Parameters must be on same line or separate lines
 
         /// <summary>
         /// Gets the value.

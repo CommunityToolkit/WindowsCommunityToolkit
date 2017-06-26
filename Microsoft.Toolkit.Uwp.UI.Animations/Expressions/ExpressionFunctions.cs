@@ -957,10 +957,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="channel43">The channel43.</param>
         /// <param name="channel44">The channel44.</param>
         /// <returns>Matrix4x4Node.</returns>
+#pragma warning disable SA1117 // Parameters must be on same line or separate lines
         public static Matrix4x4Node Matrix4x4(ScalarNode channel11, ScalarNode channel12, ScalarNode channel13, ScalarNode channel14,
                                               ScalarNode channel21, ScalarNode channel22, ScalarNode channel23, ScalarNode channel24,
                                               ScalarNode channel31, ScalarNode channel32, ScalarNode channel33, ScalarNode channel34,
                                               ScalarNode channel41, ScalarNode channel42, ScalarNode channel43, ScalarNode channel44)
+#pragma warning restore SA1117 // Parameters must be on same line or separate lines
         {
             return Function<Matrix4x4Node>(ExpressionNodeType.Matrix4x4, channel11, channel12, channel13, channel14, channel21, channel22, channel23, channel24, channel31, channel32, channel33, channel34, channel41, channel42, channel43, channel44);
         }
@@ -972,12 +974,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <returns>Matrix4x4Node.</returns>
         public static Matrix4x4Node Matrix4x4(Matrix3x2Node val)
         {
+#pragma warning disable SA1117 // Parameters must be on same line or separate lines
             return Function<Matrix4x4Node>(
                 ExpressionNodeType.Matrix4x4,
                 val.Channel11, val.Channel12, (ScalarNode)0, (ScalarNode)0,
                 val.Channel21, val.Channel22, (ScalarNode)0, (ScalarNode)0,
                 (ScalarNode)0, (ScalarNode)0, (ScalarNode)1, (ScalarNode)0,
                 val.Channel31, val.Channel32, (ScalarNode)0, (ScalarNode)1);
+#pragma warning restore SA1117 // Parameters must be on same line or separate lines
         }
 
         /// <summary>
