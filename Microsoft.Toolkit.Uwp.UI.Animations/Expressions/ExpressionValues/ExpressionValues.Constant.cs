@@ -15,7 +15,8 @@ using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
-    // ExpressionValues is a static class instead of a namespace to improve intellisense discoverablity and consistency with the other helper classes.    
+    // ExpressionValues is a static class instead of a namespace to improve intellisense discoverablity and consistency with the other helper classes.
+
     /// <summary>
     /// Class ExpressionValues.
     /// </summary>
