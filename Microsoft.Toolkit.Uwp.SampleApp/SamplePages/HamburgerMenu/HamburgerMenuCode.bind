@@ -9,14 +9,15 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240" Height="48">
+            <Grid Width="240">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" 
-                          Margin="12,12,11,12" 
+                          Margin="16,12" 
                           FontFamily="Segoe MDL2 Assets" 
+                          FontSize="16"
                           Glyph="{Binding Glyph}" 
                           Foreground="White" />
                 <TextBlock Grid.Column="1" 
@@ -28,12 +29,12 @@
         </DataTemplate>
 
         <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240" Height="48">
+            <Grid Width="240">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Glyph}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <Image Source="{Binding Glyph}" Stretch="UniformToFill" Margin="16,12" />
                 <TextBlock Grid.Column="1" 
                            Text="{x:Bind Label}" 
                            Foreground="White" 
