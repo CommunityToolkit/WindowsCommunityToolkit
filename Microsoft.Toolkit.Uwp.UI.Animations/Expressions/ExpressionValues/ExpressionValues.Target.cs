@@ -13,6 +13,10 @@
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     // ExpressionValues is a static class instead of a namespace to improve intellisense discoverablity and consistency with the other helper classes.
+
+    /// <summary>
+    /// Class ExpressionValues.
+    /// </summary>
     public static partial class ExpressionValues
     {
         /// <summary>
@@ -23,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the AmbientLight target that this expression will be connected to.
             /// </summary>
+            /// <returns>AmbientLightReferenceNode.</returns>
             public static AmbientLightReferenceNode CreateAmbientLightTarget()
             {
                 return AmbientLightReferenceNode.CreateTargetReference();
@@ -31,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the ColorBrush target that this expression will be connected to.
             /// </summary>
+            /// <returns>ColorBrushReferenceNode.</returns>
             public static ColorBrushReferenceNode CreateColorBrushTarget()
             {
                 return ColorBrushReferenceNode.CreateTargetReference();
@@ -39,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the DistantLight target that this expression will be connected to.
             /// </summary>
+            /// <returns>DistantLightReferenceNode.</returns>
             public static DistantLightReferenceNode CreateDistantLightTarget()
             {
                 return DistantLightReferenceNode.CreateTargetReference();
@@ -47,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the DropShadow target that this expression will be connected to.
             /// </summary>
+            /// <returns>DropShadowReferenceNode.</returns>
             public static DropShadowReferenceNode CreateDropShadowTarget()
             {
                 return DropShadowReferenceNode.CreateTargetReference();
@@ -55,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the InsetClip target that this expression will be connected to.
             /// </summary>
+            /// <returns>InsetClipReferenceNode.</returns>
             public static InsetClipReferenceNode CreateInsetClipTarget()
             {
                 return InsetClipReferenceNode.CreateTargetReference();
@@ -63,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the InteractionTracker target that this expression will be connected to.
             /// </summary>
+            /// <returns>InteractionTrackerReferenceNode.</returns>
             public static InteractionTrackerReferenceNode CreateInteractionTrackerTarget()
             {
                 return InteractionTrackerReferenceNode.CreateTargetReference();
@@ -71,6 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the NineGridBrush target that this expression will be connected to.
             /// </summary>
+            /// <returns>NineGridBrushReferenceNode.</returns>
             public static NineGridBrushReferenceNode CreateNineGridBrushTarget()
             {
                 return NineGridBrushReferenceNode.CreateTargetReference();
@@ -79,6 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the PointLight target that this expression will be connected to.
             /// </summary>
+            /// <returns>PointLightReferenceNode.</returns>
             public static PointLightReferenceNode CreatePointLightTarget()
             {
                 return PointLightReferenceNode.CreateTargetReference();
@@ -87,6 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the PropertySet target that this expression will be connected to.
             /// </summary>
+            /// <returns>PropertySetReferenceNode.</returns>
             public static PropertySetReferenceNode CreatePropertySetTarget()
             {
                 return PropertySetReferenceNode.CreateTargetReference();
@@ -95,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the SpotLight target that this expression will be connected to.
             /// </summary>
+            /// <returns>SpotLightReferenceNode.</returns>
             public static SpotLightReferenceNode CreateSpotLightTarget()
             {
                 return SpotLightReferenceNode.CreateTargetReference();
@@ -103,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the SurfaceBrush target that this expression will be connected to.
             /// </summary>
+            /// <returns>SurfaceBrushReferenceNode.</returns>
             public static SurfaceBrushReferenceNode CreateSurfaceBrushTarget()
             {
                 return SurfaceBrushReferenceNode.CreateTargetReference();
@@ -111,6 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <summary>
             /// Create a reference to the Visual target that this expression will be connected to.
             /// </summary>
+            /// <returns>VisualReferenceNode.</returns>
             public static VisualReferenceNode CreateVisualTarget()
             {
                 return VisualReferenceNode.CreateTargetReference();

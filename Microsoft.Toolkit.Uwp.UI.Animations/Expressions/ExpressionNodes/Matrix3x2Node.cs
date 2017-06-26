@@ -16,24 +16,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     // Ignore warning: 'Matrix3x2Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
+
+    /// <summary>
+    /// Class Matrix3x2Node. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionNode" />
     public sealed class Matrix3x2Node : ExpressionNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Matrix3x2Node"/> class.
+        /// </summary>
         internal Matrix3x2Node()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Matrix3x2Node"/> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
         internal Matrix3x2Node(Matrix3x2 value)
         {
             _value = value;
             NodeType = ExpressionNodeType.ConstantValue;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Matrix3x2Node"/> class.
+        /// </summary>
+        /// <param name="paramName">Name of the parameter.</param>
         internal Matrix3x2Node(string paramName)
         {
             ParamName = paramName;
             NodeType = ExpressionNodeType.ConstantParameter;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Matrix3x2Node"/> class.
+        /// </summary>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="value">The value.</param>
         internal Matrix3x2Node(string paramName, Matrix3x2 value)
         {
             ParamName = paramName;
@@ -43,46 +64,95 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             SetMatrix3x2Parameter(paramName, value);
         }
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Matrix3x2"/> to <see cref="Matrix3x2Node"/>.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the conversion.</returns>
         public static implicit operator Matrix3x2Node(Matrix3x2 value)
         {
             return new Matrix3x2Node(value);
         }
 
+        /// <summary>
+        /// Implements the + operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static Matrix3x2Node operator +(Matrix3x2Node left, Matrix3x2Node right)
         {
             return ExpressionFunctions.Function<Matrix3x2Node>(ExpressionNodeType.Add, left, right);
         }
 
+        /// <summary>
+        /// Implements the - operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static Matrix3x2Node operator -(Matrix3x2Node left, Matrix3x2Node right)
         {
             return ExpressionFunctions.Function<Matrix3x2Node>(ExpressionNodeType.Subtract, left, right);
         }
 
+        /// <summary>
+        /// Implements the - operator.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the operator.</returns>
         public static Matrix3x2Node operator -(Matrix3x2Node value)
         {
             return ExpressionFunctions.Function<Matrix3x2Node>(ExpressionNodeType.Negate, value);
         }
 
+        /// <summary>
+        /// Implements the * operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static Matrix3x2Node operator *(Matrix3x2Node left, ScalarNode right)
         {
             return ExpressionFunctions.Function<Matrix3x2Node>(ExpressionNodeType.Multiply, left, right);
         }
 
+        /// <summary>
+        /// Implements the * operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static Matrix3x2Node operator *(Matrix3x2Node left, Matrix3x2Node right)
         {
             return ExpressionFunctions.Function<Matrix3x2Node>(ExpressionNodeType.Multiply, left, right);
         }
 
+        /// <summary>
+        /// Implements the == operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static BooleanNode operator ==(Matrix3x2Node left, Matrix3x2Node right)
         {
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.Equals, left, right);
         }
 
+        /// <summary>
+        /// Implements the != operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static BooleanNode operator !=(Matrix3x2Node left, Matrix3x2Node right)
         {
             return ExpressionFunctions.Function<BooleanNode>(ExpressionNodeType.NotEquals, left, right);
         }
 
+        /// <summary>
+        /// Enum Subchannel
+        /// </summary>
         public enum Subchannel
         {
             Channel11, Channel12,
@@ -90,32 +160,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             Channel31, Channel32,
         }
 
-        // Commonly accessed subchannels
+        /// <summary>
+        /// Gets the channel11.
+        /// </summary>
+        /// <value>The channel11.</value>
         public ScalarNode Channel11
         {
             get { return GetSubchannels(Subchannel.Channel11); }
         }
 
+        /// <summary>
+        /// Gets the channel12.
+        /// </summary>
+        /// <value>The channel12.</value>
         public ScalarNode Channel12
         {
             get { return GetSubchannels(Subchannel.Channel12); }
         }
 
+        /// <summary>
+        /// Gets the channel21.
+        /// </summary>
+        /// <value>The channel21.</value>
         public ScalarNode Channel21
         {
             get { return GetSubchannels(Subchannel.Channel21); }
         }
 
+        /// <summary>
+        /// Gets the channel22.
+        /// </summary>
+        /// <value>The channel22.</value>
         public ScalarNode Channel22
         {
             get { return GetSubchannels(Subchannel.Channel22); }
         }
 
+        /// <summary>
+        /// Gets the channel31.
+        /// </summary>
+        /// <value>The channel31.</value>
         public ScalarNode Channel31
         {
             get { return GetSubchannels(Subchannel.Channel31); }
         }
 
+        /// <summary>
+        /// Gets the channel32.
+        /// </summary>
+        /// <value>The channel32.</value>
         public ScalarNode Channel32
         {
             get { return GetSubchannels(Subchannel.Channel32); }
@@ -124,8 +217,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        /// <param name="s">The subchanel.</param>
+        /// <returns>ScalarNode</returns>
         public ScalarNode GetSubchannels(Subchannel s)
         {
             return SubchannelsInternal<ScalarNode>(s.ToString());
@@ -134,9 +227,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s2">The second subchannel.</param>
+        /// <returns>Vector2Node</returns>
         public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2)
         {
             return SubchannelsInternal<Vector2Node>(s1.ToString(), s2.ToString());
@@ -145,10 +238,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <param name="s3"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s2">The second subchannel.</param>
+        /// <param name="s3">The third subchannel.</param>
+        /// <returns>Vector3Node</returns>
         public Vector3Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3)
         {
             return SubchannelsInternal<Vector3Node>(s1.ToString(), s2.ToString(), s3.ToString());
@@ -157,11 +250,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <param name="s3"></param>
-        /// <param name="s4"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s2">The second subchannel.</param>
+        /// <param name="s3">The third subchannel.</param>
+        /// <param name="s4">The fourth subchannel.</param>
+        /// <returns>Vector4Node</returns>
         public Vector4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4)
         {
             return SubchannelsInternal<Vector4Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString());
@@ -170,13 +263,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <param name="s3"></param>
-        /// <param name="s4"></param>
-        /// <param name="s5"></param>
-        /// <param name="s6"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s2">The second subchannel.</param>
+        /// <param name="s3">The third subchannel.</param>
+        /// <param name="s4">The fourth subchannel.</param>
+        /// <param name="s5">The fifth subchannel.</param>
+        /// <param name="s6">The sixth subchannel.</param>
+        /// <returns>Matrix3x2Node</returns>
         public Matrix3x2Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4, Subchannel s5, Subchannel s6)
         {
             return SubchannelsInternal<Matrix3x2Node>(s1.ToString(), s2.ToString(), s3.ToString(), s4.ToString(), s5.ToString(), s6.ToString());
@@ -201,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="s14"></param>
         /// <param name="s15"></param>
         /// <param name="s16"></param>
-        /// <returns></returns>
+        /// <returns>Matrix4x4Node</returns>
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,
                                          Subchannel s5, Subchannel s6, Subchannel s7, Subchannel s8,
                                          Subchannel s9, Subchannel s10, Subchannel s11, Subchannel s12,
@@ -213,6 +306,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                                                       s13.ToString(), s14.ToString(), s15.ToString(), s16.ToString());
         }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
             return $"Matrix3x2({_value.M11},{_value.M12},{_value.M21},{_value.M22},{_value.M31},{_value.M32})";

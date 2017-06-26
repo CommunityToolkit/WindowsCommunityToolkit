@@ -14,13 +14,26 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
+    /// <summary>
+    /// Class VisualReferenceNode. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ReferenceNode" />
     public sealed class VisualReferenceNode : ReferenceNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisualReferenceNode"/> class.
+        /// </summary>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="v">The v.</param>
         internal VisualReferenceNode(string paramName, Visual v = null)
             : base(paramName, v)
         {
         }
 
+        /// <summary>
+        /// Creates the target reference.
+        /// </summary>
+        /// <returns>VisualReferenceNode.</returns>
         internal static VisualReferenceNode CreateTargetReference()
         {
             var node = new VisualReferenceNode(null);
@@ -29,7 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return node;
         }
 
-        // Animatable properties
+        /// <summary>
+        /// Gets the opacity.
+        /// </summary>
+        /// <value>The opacity.</value>
         public ScalarNode Opacity
         {
             get { return ReferenceProperty<ScalarNode>("Opacity"); }

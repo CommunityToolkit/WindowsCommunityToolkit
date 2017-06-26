@@ -16,15 +16,16 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     /// <summary>
-    /// 
+    /// Class ReferenceNode.
     /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionNode" />
     public abstract class ReferenceNode : ExpressionNode
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ReferenceNode"/> class.
         /// </summary>
-        /// <param name="paramName"></param>
-        /// <param name="compObj"></param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="compObj">The comp object.</param>
         internal ReferenceNode(string paramName, CompositionObject compObj = null)
         {
             Reference = compObj;
@@ -33,17 +34,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// 
+        /// Gets the reference.
         /// </summary>
+        /// <value>The reference.</value>
         public CompositionObject Reference { get; private set; }
-
-        // Property set accessor functions
 
         /// <summary>
         /// Create a reference to the specified boolean property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>BooleanNode.</returns>
         public BooleanNode GetBooleanProperty(string propertyName)
         {
             return ReferenceProperty<BooleanNode>(propertyName);
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified float property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>ScalarNode</returns>
         public ScalarNode GetScalarProperty(string propertyName)
         {
             return ReferenceProperty<ScalarNode>(propertyName);
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Vector2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>Vector2Node</returns>
         public Vector2Node GetVector2Property(string propertyName)
         {
             return ReferenceProperty<Vector2Node>(propertyName);
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Vector3 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>Vector3Node</returns>
         public Vector3Node GetVector3Property(string propertyName)
         {
             return ReferenceProperty<Vector3Node>(propertyName);
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Vector4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>Vector4Node</returns>
         public Vector4Node GetVector4Property(string propertyName)
         {
             return ReferenceProperty<Vector4Node>(propertyName);
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Color property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>ColorNode</returns>
         public ColorNode GetColorProperty(string propertyName)
         {
             return ReferenceProperty<ColorNode>(propertyName);
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Quaternion property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>QuaternionNode</returns>
         public QuaternionNode GetQuaternionProperty(string propertyName)
         {
             return ReferenceProperty<QuaternionNode>(propertyName);
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Matrix3x2 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>Matrix3x2Node</returns>
         public Matrix3x2Node GetMatrix3x2Property(string propertyName)
         {
             return ReferenceProperty<Matrix3x2Node>(propertyName);
@@ -123,12 +123,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Create a reference to the specified Matrix4x4 property. This maybe be a property on the CompositionObject directly, or on the its PropertySet.
         /// </summary>
         /// <param name="propertyName">The name of the property to reference.</param>
-        /// <returns></returns>
+        /// <returns>Matrix4x4Node</returns>
         public Matrix4x4Node GetMatrix4x4Property(string propertyName)
         {
             return ReferenceProperty<Matrix4x4Node>(propertyName);
         }
 
+        /// <summary>
+        /// Gets the reference parameter string.
+        /// </summary>
+        /// <returns>System.String.</returns>
         internal string GetReferenceParamString()
         {
             if (NodeType == ExpressionNodeType.TargetReference)
@@ -141,6 +145,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
+        /// <summary>
+        /// References the property.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>T.</returns>
         protected internal T ReferenceProperty<T>(string propertyName)
             where T : class
         {
@@ -153,6 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return newNode;
         }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <returns>System.String.</returns>
+        /// <exception cref="System.NotImplementedException">GetValue is not implemented for ReferenceNode and shouldn't be called</exception>
         protected internal override string GetValue()
         {
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");

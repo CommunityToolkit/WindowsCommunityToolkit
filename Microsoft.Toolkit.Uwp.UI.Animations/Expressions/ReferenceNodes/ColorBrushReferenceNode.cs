@@ -14,13 +14,26 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
+    /// <summary>
+    /// Class ColorBrushReferenceNode. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ReferenceNode" />
     public sealed class ColorBrushReferenceNode : ReferenceNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorBrushReferenceNode"/> class.
+        /// </summary>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="brush">The brush.</param>
         internal ColorBrushReferenceNode(string paramName, CompositionColorBrush brush = null)
             : base(paramName, brush)
         {
         }
 
+        /// <summary>
+        /// Creates the target reference.
+        /// </summary>
+        /// <returns>ColorBrushReferenceNode.</returns>
         internal static ColorBrushReferenceNode CreateTargetReference()
         {
             var node = new ColorBrushReferenceNode(null);
@@ -29,7 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return node;
         }
 
-        // Animatable properties
+        /// <summary>
+        /// Gets the color.
+        /// </summary>
+        /// <value>The color.</value>
         public ColorNode Color
         {
             get { return ReferenceProperty<ColorNode>("Color"); }

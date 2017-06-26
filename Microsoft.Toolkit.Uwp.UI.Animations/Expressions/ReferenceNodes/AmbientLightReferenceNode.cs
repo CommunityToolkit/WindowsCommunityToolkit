@@ -14,13 +14,26 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
+    /// <summary>
+    /// Class AmbientLightReferenceNode. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ReferenceNode" />
     public sealed class AmbientLightReferenceNode : ReferenceNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AmbientLightReferenceNode"/> class.
+        /// </summary>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="light">The light.</param>
         internal AmbientLightReferenceNode(string paramName, AmbientLight light = null)
             : base(paramName, light)
         {
         }
 
+        /// <summary>
+        /// Creates the target reference.
+        /// </summary>
+        /// <returns>AmbientLightReferenceNode.</returns>
         internal static AmbientLightReferenceNode CreateTargetReference()
         {
             var node = new AmbientLightReferenceNode(null);
@@ -29,7 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return node;
         }
 
-        // Animatable properties
+        /// <summary>
+        /// Gets the color.
+        /// </summary>
+        /// <value>The color.</value>
         public ColorNode Color
         {
             get { return ReferenceProperty<ColorNode>("Color"); }

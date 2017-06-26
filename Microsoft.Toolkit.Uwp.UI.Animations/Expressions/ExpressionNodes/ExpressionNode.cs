@@ -18,12 +18,18 @@ using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
+    /// <summary>
+    /// Class ExpressionNode.
+    /// </summary>
     public abstract class ExpressionNode
     {
         private List<ReferenceInfo> _objRefList = null;
         private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
         private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionNode"/> class.
+        /// </summary>
         internal ExpressionNode()
         {
         }
@@ -161,6 +167,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
+        /// <summary>
+        /// Creates the expression node.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>T.</returns>
+        /// <exception cref="System.Exception">unexpected type</exception>
         internal static T CreateExpressionNode<T>()
             where T : class
         {
@@ -210,6 +222,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return newNode;
         }
 
+        /// <summary>
+        /// To the expression string.
+        /// </summary>
+        /// <returns>System.String.</returns>
         internal string ToExpressionString()
         {
             if (_objRefList == null)
@@ -220,6 +236,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ToExpressionStringInternal();
         }
 
+        /// <summary>
+        /// Ensures the reference information.
+        /// </summary>
+        /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
         internal void EnsureReferenceInfo()
         {
             if (_objRefList == null)
@@ -275,53 +295,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
-        internal void SetAllParameters(CompositionAnimation anim)
+        /// <summary>
+        /// Sets all parameters.
+        /// </summary>
+        /// <param name="animation">The animation.</param>
+        /// <exception cref="System.Exception"></exception>
+        internal void SetAllParameters(CompositionAnimation animation)
         {
             // Make sure the list is populated
             EnsureReferenceInfo();
 
             foreach (var refInfo in _objRefList)
             {
-                anim.SetReferenceParameter(refInfo.ParameterName, refInfo.CompObject);
+                animation.SetReferenceParameter(refInfo.ParameterName, refInfo.CompObject);
             }
 
             foreach (var constParam in _constParamMap)
             {
                 if (constParam.Value.GetType() == typeof(bool))
                 {
-                    anim.SetBooleanParameter(constParam.Key, (bool)constParam.Value);
+                    animation.SetBooleanParameter(constParam.Key, (bool)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(float))
                 {
-                    anim.SetScalarParameter(constParam.Key, (float)constParam.Value);
+                    animation.SetScalarParameter(constParam.Key, (float)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Vector2))
                 {
-                    anim.SetVector2Parameter(constParam.Key, (Vector2)constParam.Value);
+                    animation.SetVector2Parameter(constParam.Key, (Vector2)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Vector3))
                 {
-                    anim.SetVector3Parameter(constParam.Key, (Vector3)constParam.Value);
+                    animation.SetVector3Parameter(constParam.Key, (Vector3)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Vector4))
                 {
-                    anim.SetVector4Parameter(constParam.Key, (Vector4)constParam.Value);
+                    animation.SetVector4Parameter(constParam.Key, (Vector4)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Color))
                 {
-                    anim.SetColorParameter(constParam.Key, (Color)constParam.Value);
+                    animation.SetColorParameter(constParam.Key, (Color)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Quaternion))
                 {
-                    anim.SetQuaternionParameter(constParam.Key, (Quaternion)constParam.Value);
+                    animation.SetQuaternionParameter(constParam.Key, (Quaternion)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Matrix3x2))
                 {
-                    anim.SetMatrix3x2Parameter(constParam.Key, (Matrix3x2)constParam.Value);
+                    animation.SetMatrix3x2Parameter(constParam.Key, (Matrix3x2)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Matrix4x4))
                 {
-                    anim.SetMatrix4x4Parameter(constParam.Key, (Matrix4x4)constParam.Value);
+                    animation.SetMatrix4x4Parameter(constParam.Key, (Matrix4x4)constParam.Value);
                 }
                 else
                 {
@@ -330,6 +355,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
         }
 
+        /// <summary>
+        /// Creates the value keyword.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keywordKind">Kind of the keyword.</param>
+        /// <returns>T.</returns>
+        /// <exception cref="System.Exception">Invalid ValueKeywordKind</exception>
         internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
             where T : class
         {
@@ -354,8 +386,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return node;
         }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <returns>System.String.</returns>
         protected internal abstract string GetValue();
 
+        /// <summary>
+        /// Subchannelses the internal.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="subchannels">The subchannels.</param>
+        /// <returns>T.</returns>
+        /// <exception cref="System.Exception"></exception>
         protected internal T SubchannelsInternal<T>(params string[] subchannels)
             where T : class
         {
@@ -397,6 +440,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return newNode;
         }
 
+        /// <summary>
+        /// Populates the parameter nodes.
+        /// </summary>
+        /// <param name="constParamMap">The constant parameter map.</param>
+        /// <param name="referenceNodes">The reference nodes.</param>
         protected internal void PopulateParameterNodes(ref Dictionary<string, object> constParamMap, ref HashSet<ReferenceNode> referenceNodes)
         {
             var refNode = (this as ReferenceNode);
@@ -562,29 +610,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return ret;
         }
 
+        /// <summary>
+        /// Struct ReferenceInfo
+        /// </summary>
         internal struct ReferenceInfo
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ReferenceInfo"/> struct.
+            /// </summary>
+            /// <param name="paramName">Name of the parameter.</param>
+            /// <param name="compObj">The comp object.</param>
             public ReferenceInfo(string paramName, CompositionObject compObj)
             {
                 ParameterName = paramName;
                 CompObject = compObj;
             }
 
+            /// <summary>
+            /// Gets or sets the name of the parameter.
+            /// </summary>
+            /// <value>The name of the parameter.</value>
             public string ParameterName { get; set; }
 
+            /// <summary>
+            /// Gets or sets the comp object.
+            /// </summary>
+            /// <value>The comp object.</value>
             public CompositionObject CompObject { get; set; }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the property.
+        /// </summary>
+        /// <value>The name of the property.</value>
         internal string PropertyName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the node.
+        /// </summary>
+        /// <value>The type of the node.</value>
         internal ExpressionNodeType NodeType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the children.
+        /// </summary>
+        /// <value>The children.</value>
         internal List<ExpressionNode> Children { get; set; } = new List<ExpressionNode>();
 
+        /// <summary>
+        /// Gets or sets the name of the parameter.
+        /// </summary>
+        /// <value>The name of the parameter.</value>
         internal string ParamName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the expression animation.
+        /// </summary>
+        /// <value>The expression animation.</value>
         internal ExpressionAnimation ExpressionAnimation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the subchannels.
+        /// </summary>
+        /// <value>The subchannels.</value>
         protected internal string[] Subchannels { get; set; }
     }
 }
