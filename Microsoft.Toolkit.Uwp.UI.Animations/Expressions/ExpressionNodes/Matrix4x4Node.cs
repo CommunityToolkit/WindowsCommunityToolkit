@@ -390,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="s13">The thirteenth subchannel.</param>
         /// <param name="s14">The fourteenth subchannel.</param>
         /// <param name="s15">The fifteenth subchannel.</param>
-        /// <param name="s16">The sixteenth subchannel.</param>        
+        /// <param name="s16">The sixteenth subchannel.</param>
         /// <returns>Matrix4x4Node</returns>
 #pragma warning disable SA1117 // Parameters must be on same line or separate lines
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,
