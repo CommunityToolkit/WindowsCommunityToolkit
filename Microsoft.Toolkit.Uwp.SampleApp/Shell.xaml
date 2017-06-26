@@ -43,7 +43,8 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0"
+                <FontIcon FontSize="16"
+                          Grid.Column="0"
                           Margin="12"
                           FontFamily="Segoe MDL2 Assets"
                           Foreground="White"
