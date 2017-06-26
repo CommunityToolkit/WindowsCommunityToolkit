@@ -201,16 +201,14 @@
                                            Opacity="0.0"
                                            Width="6"/>
                             </Grid>
-                            <Grid Height="40" HorizontalAlignment="Left">
-                                <ContentPresenter x:Name="ContentPresenter"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Grid.Column="1"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Grid>
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              Grid.Column="1"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
