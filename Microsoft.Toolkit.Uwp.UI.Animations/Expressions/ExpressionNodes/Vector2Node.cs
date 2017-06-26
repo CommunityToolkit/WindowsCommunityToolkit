@@ -269,23 +269,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Vector subchannels.
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <param name="s3"></param>
-        /// <param name="s4"></param>
-        /// <param name="s5"></param>
-        /// <param name="s6"></param>
-        /// <param name="s7"></param>
-        /// <param name="s8"></param>
-        /// <param name="s9"></param>
-        /// <param name="s10"></param>
-        /// <param name="s11"></param>
-        /// <param name="s12"></param>
-        /// <param name="s13"></param>
-        /// <param name="s14"></param>
-        /// <param name="s15"></param>
-        /// <param name="s16"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s2">The second subchannel.</param>
+        /// <param name="s3">The third subchannel.</param>
+        /// <param name="s4">The fourth subchannel.</param>
+        /// <param name="s5">The fifth subchannel.</param>
+        /// <param name="s6">The sixth subchannel.</param>
+        /// <param name="s7">The seventh subchannel.</param>
+        /// <param name="s8">The eighth subchannel.</param>
+        /// <param name="s9">The ninth subchannel.</param>
+        /// <param name="s10">The tenth subchannel.</param>
+        /// <param name="s11">The eleventh subchannel.</param>
+        /// <param name="s12">The twelfth subchannel.</param>
+        /// <param name="s13">The thirteenth subchannel.</param>
+        /// <param name="s14">The fourteenth subchannel.</param>
+        /// <param name="s15">The fifteenth subchannel.</param>
+        /// <param name="s16">The sixteenth subchannel.</param>
+        /// <returns>Matrix4x4Node</returns>
         public Matrix4x4Node GetSubchannels(Subchannel s1, Subchannel s2, Subchannel s3, Subchannel s4,
                                          Subchannel s5, Subchannel s6, Subchannel s7, Subchannel s8,
                                          Subchannel s9, Subchannel s10, Subchannel s11, Subchannel s12,
