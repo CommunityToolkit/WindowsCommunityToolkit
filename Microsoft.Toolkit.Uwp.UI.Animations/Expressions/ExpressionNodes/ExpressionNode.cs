@@ -223,6 +223,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
+        /// Creates the value keyword.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keywordKind">Kind of the keyword.</param>
+        /// <returns>T.</returns>
+        /// <exception cref="System.Exception">Invalid ValueKeywordKind</exception>
+        internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
+            where T : class
+        {
+            T node = CreateExpressionNode<T>();
+
+            (node as ExpressionNode).ParamName = null;
+
+            switch (keywordKind)
+            {
+                case ValueKeywordKind.CurrentValue:
+                    (node as ExpressionNode).NodeType = ExpressionNodeType.CurrentValueProperty;
+                    break;
+
+                case ValueKeywordKind.StartingValue:
+                    (node as ExpressionNode).NodeType = ExpressionNodeType.StartingValueProperty;
+                    break;
+
+                default:
+                    throw new Exception("Invalid ValueKeywordKind");
+            }
+
+            return node;
+        }
+
+        /// <summary>
         /// To the expression string.
         /// </summary>
         /// <returns>System.String.</returns>
@@ -353,37 +384,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     throw new Exception($"Unexpected constant parameter datatype ({constParam.Value.GetType()})");
                 }
             }
-        }
-
-        /// <summary>
-        /// Creates the value keyword.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="keywordKind">Kind of the keyword.</param>
-        /// <returns>T.</returns>
-        /// <exception cref="System.Exception">Invalid ValueKeywordKind</exception>
-        internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
-            where T : class
-        {
-            T node = CreateExpressionNode<T>();
-
-            (node as ExpressionNode).ParamName = null;
-
-            switch (keywordKind)
-            {
-                case ValueKeywordKind.CurrentValue:
-                    (node as ExpressionNode).NodeType = ExpressionNodeType.CurrentValueProperty;
-                    break;
-
-                case ValueKeywordKind.StartingValue:
-                    (node as ExpressionNode).NodeType = ExpressionNodeType.StartingValueProperty;
-                    break;
-
-                default:
-                    throw new Exception("Invalid ValueKeywordKind");
-            }
-
-            return node;
         }
 
         /// <summary>
