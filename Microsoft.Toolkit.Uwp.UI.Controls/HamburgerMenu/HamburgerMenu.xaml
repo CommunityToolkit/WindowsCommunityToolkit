@@ -160,7 +160,7 @@
                                 Width="{TemplateBinding HamburgerWidth}"
                                 Height="{TemplateBinding HamburgerHeight}"
                                 Visibility="{TemplateBinding HamburgerVisibility}"
-                                Margin="0,8"
+                                Margin="0,0,0,8"
                                 Padding="0"
                                 VerticalAlignment="Top"
                                 AutomationProperties.Name="Main button"
