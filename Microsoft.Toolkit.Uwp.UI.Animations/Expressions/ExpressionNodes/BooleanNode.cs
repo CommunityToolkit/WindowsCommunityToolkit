@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.Boolean"/> to <see cref="BooleanNode"/>.
+        /// Performs an implicit conversion from <see cref="bool"/> to <see cref="BooleanNode"/>.
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns>The result of the conversion.</returns>
