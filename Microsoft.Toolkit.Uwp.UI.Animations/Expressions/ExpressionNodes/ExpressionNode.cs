@@ -447,7 +447,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="referenceNodes">The reference nodes.</param>
         protected internal void PopulateParameterNodes(ref Dictionary<string, object> constParamMap, ref HashSet<ReferenceNode> referenceNodes)
         {
-            var refNode = (this as ReferenceNode);
+            var refNode = this as ReferenceNode;
             if ((refNode != null) && (refNode.NodeType != ExpressionNodeType.TargetReference))
             {
                 referenceNodes.Add(refNode);
