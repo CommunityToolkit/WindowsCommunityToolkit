@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -133,6 +134,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()
+        {
+            var allItems = new List<MenuFlyoutItemBase>();
+            var menuFlyout = FlyoutButton.Flyout as MenuFlyout;
+            if (menuFlyout != null)
+            {
+                GetMenuFlyoutItemItems(menuFlyout.Items, allItems);
+            }
+
+            return allItems;
+        }
+
+        private void GetMenuFlyoutItemItems(IList<MenuFlyoutItemBase> menuFlyoutItems, List<MenuFlyoutItemBase> allItems)
+        {
+            foreach (var menuFlyoutItem in menuFlyoutItems)
+            {
+                allItems.Add(menuFlyoutItem);
+
+                if (menuFlyoutItem is MenuFlyoutSubItem)
+                {
+                    var menuItem = (MenuFlyoutSubItem)menuFlyoutItem;
+                    GetMenuFlyoutItemItems(menuItem.Items, allItems);
+                }
+            }
         }
 
         internal void ShowTooltip()

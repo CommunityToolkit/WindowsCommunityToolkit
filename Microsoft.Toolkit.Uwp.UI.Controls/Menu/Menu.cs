@@ -113,21 +113,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal bool IsInTransitionState { get; set; }
 
-        private List<FrameworkElement> _descendantsWithInputGesture;
-
-        internal List<FrameworkElement> DescendantsWithInputGesture
-        {
-            get
-            {
-                if (_descendantsWithInputGesture == null)
-                {
-                    _descendantsWithInputGesture = new List<FrameworkElement>();
-                }
-
-                return _descendantsWithInputGesture;
-            }
-        }
-
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {

@@ -23,7 +23,6 @@
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
-                       RequestedTheme="Light"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"

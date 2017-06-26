@@ -169,6 +169,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static void RemoveElementFromCache(FrameworkElement descendant)
+        {
+            var value = descendant.GetValue(InputGestureTextProperty);
+            if (value == null)
+            {
+                return;
+            }
+
+            var inputGestureText = value.ToString().ToUpper();
+            if (!MenuItemInputGestureCache.ContainsKey(inputGestureText))
+            {
+                return;
+            }
+
+            var cachedMenuItem = MenuItemInputGestureCache[inputGestureText];
+            if (cachedMenuItem == descendant)
+            {
+                MenuItemInputGestureCache.Remove(inputGestureText);
+            }
+        }
+
         private void Menu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
@@ -190,23 +211,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
 
-            // remove current menu's descendant item that has inputGesture from MenuItemInputGestureCache
-            if (_descendantsWithInputGesture != null)
+            // Clear Cache
+            foreach (MenuItem menuItem in Items)
             {
-                foreach (var descendant in _descendantsWithInputGesture)
+                var menuFlyoutItems = menuItem.GetMenuFlyoutItems();
+                foreach (var flyoutItem in menuFlyoutItems)
                 {
-                    var inputGestureText = descendant.GetValue(InputGestureTextProperty).ToString().ToUpper();
-                    if (!MenuItemInputGestureCache.ContainsKey(inputGestureText))
-                    {
-                        return;
-                    }
-
-                    var cachedMenuItem = MenuItemInputGestureCache[inputGestureText];
-                    if (cachedMenuItem == descendant)
-                    {
-                        MenuItemInputGestureCache.Remove(inputGestureText);
-                    }
+                    RemoveElementFromCache(flyoutItem);
                 }
+
+                RemoveElementFromCache(menuItem);
             }
         }
 

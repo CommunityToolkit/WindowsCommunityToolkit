@@ -45,10 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             MenuItemInputGestureCache.Add(inputGestureValue.ToUpper(), element);
-
-            // TODO: fix adding element to parentmenu, parentMenu is always null in this method
-            var parentMenu = element.FindAscendant<Menu>();
-            parentMenu?.DescendantsWithInputGesture.Add(element);
         }
 
         /// <summary>
