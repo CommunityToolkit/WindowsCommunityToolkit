@@ -66,7 +66,6 @@
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
     <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
     <Compile Include="GridSplitter\GridSplitter.Options.cs" />
-    <Compile Include="GridSplitter\GridSplitterGripper.cs" />
     <Compile Include="GridSplitter\GripperHoverWrapper.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="MarkdownTextBlock\Display\IImageResolver.cs" />
     <Compile Include="ImageEx\ImageExBase.Placeholder.cs" />
     <Compile Include="ImageEx\ImageExBase.Source.cs" />
     <Compile Include="ImageEx\ImageExBase.cs" />
@@ -112,6 +112,7 @@
     <Compile Include="MarkdownTextBlock\Parse\MarkdownDocument.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownElement.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownInline.cs" />
+    <Compile Include="MarkdownTextBlock\ResolveMarkdownImageEventArgs.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />

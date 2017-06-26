@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     Height = 200,
                     Width = 200,
-                    CornerRadius = new CornerRadius(999)
+                    CornerRadius = 999
                 };
             }
             else

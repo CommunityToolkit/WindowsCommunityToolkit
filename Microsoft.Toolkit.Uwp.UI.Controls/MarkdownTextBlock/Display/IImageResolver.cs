@@ -10,28 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     /// <summary>
-    /// Textbox Mask sample page
+    /// An internal interface used to resolve images in the markdown.
     /// </summary>
-    public sealed partial class TextBoxMaskPage : Page
+    internal interface IImageResolver
     {
-        public TextBoxMaskPage()
-        {
-            InitializeComponent();
-        }
-
-        private void ApplyFullMaskButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            AlphaTextBox.Text = "7b1y--x4a5";
-        }
-
-        private void ApplyPartialMaskButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            AlphaTextBox.Text = "7b1yZW";
-        }
+        Task<ImageSource> ResolveImageAsync(string url, string tooltip);
     }
 }

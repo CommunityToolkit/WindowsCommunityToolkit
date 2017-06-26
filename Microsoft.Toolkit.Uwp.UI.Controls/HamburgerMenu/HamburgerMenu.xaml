@@ -7,6 +7,7 @@
             <Setter.Value>
                 <DataTemplate>
                     <FontIcon FontFamily="Segoe MDL2 Assets"
+                              FontSize="16"
                               Glyph="&#xE700;" />
                 </DataTemplate>
             </Setter.Value>
@@ -29,69 +30,63 @@
                                       FlowDirection="LeftToRight">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0"
-                                          Height="{TemplateBinding HamburgerHeight}" />
-                                    <ScrollViewer Grid.Row="1"
-                                                  HorizontalAlignment="Stretch"
-                                                  VerticalAlignment="Stretch"
-                                                  FlowDirection="RightToLeft"
-                                                  VerticalScrollBarVisibility="Auto">
-                                        <Grid FlowDirection="LeftToRight">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition />
-                                                <RowDefinition Height="Auto " />
-                                            </Grid.RowDefinitions>
-                                            <ListView Name="ButtonsListView"
-                                                      Grid.Row="0"
-                                                      Width="{TemplateBinding OpenPaneLength}"
-                                                      AutomationProperties.Name="Menu items"
-                                                      IsItemClickEnabled="True"
-                                                      ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                      ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                      ItemsSource="{TemplateBinding ItemsSource}"
-                                                      SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      SelectionMode="Single"
-                                                      TabIndex="1">
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="Padding" Value="0" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                            </ListView>
-                                            <ListView Name="OptionsListView"
-                                                      Grid.Row="2"
-                                                      Width="{TemplateBinding OpenPaneLength}"
-                                                      VerticalAlignment="Bottom"
-                                                      AutomationProperties.Name="Option items"
-                                                      IsItemClickEnabled="True"
-                                                      ItemTemplate="{TemplateBinding OptionsItemTemplate}"
-                                                      ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
-                                                      ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                                      SelectedIndex="{Binding SelectedOptionsIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      SelectedItem="{Binding SelectedOptionsItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                      TabIndex="2">
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="Padding" Value="0" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                            </ListView>
-                                        </Grid>
-                                    </ScrollViewer>
+                                          Height="{TemplateBinding HamburgerHeight}"
+                                          Margin="0,0,0,8" />
+                                    <ListView x:Name="ButtonsListView"
+                                              Grid.Row="1"
+                                              Width="{TemplateBinding OpenPaneLength}"
+                                              AutomationProperties.Name="Menu items"
+                                              IsItemClickEnabled="True"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              ItemsSource="{TemplateBinding ItemsSource}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                              SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SelectionMode="Single"
+                                              TabIndex="1">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Padding" Value="0" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                    <ListView x:Name="OptionsListView"
+                                              Grid.Row="2"
+                                              Width="{TemplateBinding OpenPaneLength}"
+                                              VerticalAlignment="Bottom"
+                                              AutomationProperties.Name="Option items"
+                                              IsItemClickEnabled="True"
+                                              ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
+                                              ItemsSource="{TemplateBinding OptionsItemsSource}"
+                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                              SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SelectionMode="Single"
+                                              TabIndex="2"
+                                              Margin="0,20,0,8">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Padding" Value="0" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
                                 </Grid>
                             </SplitView.Pane>
                             <ContentPresenter x:Name="ContentPart"
                                               AutomationProperties.Name="Content"
                                               Content="{TemplateBinding Content}" />
                         </SplitView>
-                        <Button Name="HamburgerButton"
+                        <Button x:Name="HamburgerButton"
                                 Width="{TemplateBinding HamburgerWidth}"
                                 Height="{TemplateBinding HamburgerHeight}"
                                 Visibility="{TemplateBinding HamburgerVisibility}"
+                                Margin="0,8"
                                 Padding="0"
                                 VerticalAlignment="Top"
                                 AutomationProperties.Name="Main button"
@@ -100,7 +95,7 @@
                                 TabIndex="0">
                             <ContentControl Margin="{TemplateBinding HamburgerMargin}"
                                             ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                            Foreground="{TemplateBinding Foreground}"
+                                            Foreground="{TemplateBinding PaneForeground}"
                                             IsTabStop="False" />
                         </Button>
                     </Grid>
