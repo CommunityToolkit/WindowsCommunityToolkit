@@ -291,14 +291,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnTapped(TappedRoutedEventArgs e)
         {
-            _parentMenu.SelectedHeaderItem = this;
+            _parentMenu.SelectedMenuItem = this;
             base.OnTapped(e);
         }
 
         /// <inheritdoc />
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            _parentMenu.SelectedHeaderItem = this;
+            _parentMenu.SelectedMenuItem = this;
             base.OnGotFocus(e);
         }
     }

@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the current selected menu header item
         /// </summary>
-        public MenuItem SelectedHeaderItem { get; internal set; }
+        public MenuItem SelectedMenuItem { get; internal set; }
 
         /// <summary>
         /// Gets a value indicating whether the menu is opened or not
