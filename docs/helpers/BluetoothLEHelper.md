@@ -7,9 +7,6 @@ The BluetoothLEHelper class provides functionality to easily enumerate, connect 
 // Get a local copy of the context for easier reading
 BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
 
-// Subscribe to the PropertyChanged Event
-bluetoothLEHelper.PropertyChanged += BluetoothLEHelper_PropertyChanged;
-
 // Start the Enumeration
 bluetoothLEHelper.StartEnumeration();
 
@@ -18,21 +15,9 @@ ObservableBluetoothLEDevice device =
 	bluetoothLEHelper.BluetoothLeDevices[<Device you choose>].Connect()
 
 // See all the services
-device.Services
+var services = device.Services
 
-// The PropertyChanged event so your UI can be updated with enumeration completed
-private async void BluetoothLEHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-{
-    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-        Windows.UI.Core.CoreDispatcherPriority.Normal,
-        () =>
-        {
-            if (e.PropertyName == "IsEnumerating")
-            {
-			// Update UI
-            }
-        });
-}
+
 ```
 
 ## Requirements (Windows 10 Device Family)

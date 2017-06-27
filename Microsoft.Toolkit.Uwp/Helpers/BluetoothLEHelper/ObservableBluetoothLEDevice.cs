@@ -13,57 +13,57 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// Wrapper around <see cref="BluetoothLEDevice"/> to make it easier to use
+    /// Wrapper around <see cref="BluetoothLEDevice" /> to make it bindable.
     /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    /// <seealso cref="System.IEquatable{Microsoft.Toolkit.Uwp.ObservableBluetoothLEDevice}" />
     public class ObservableBluetoothLEDevice : INotifyPropertyChanged, IEquatable<ObservableBluetoothLEDevice>
     {
         /// <summary>
-        /// Source for <see cref="BluetoothLEDevice"/>
+        /// Source for <see cref="BluetoothLEDevice" />
         /// </summary>
         private BluetoothLEDevice _bluetoothLeDevice;
 
         /// <summary>
-        /// Source for <see cref="DeviceInfo"/>
+        /// Source for <see cref="DeviceInfo" />
         /// </summary>
         private DeviceInformation _deviceInfo;
 
         /// <summary>
-        /// Source for <see cref="ErrorText"/>
+        /// Source for <see cref="ErrorText" />
         /// </summary>
         private string _errorText;
 
         /// <summary>
-        /// Source for <see cref="Glyph"/>
+        /// Source for <see cref="Glyph" />
         /// </summary>
         private BitmapImage _glyph;
 
         /// <summary>
-        /// Source for <see cref="IsConnected"/>
+        /// Source for <see cref="IsConnected" />
         /// </summary>
         private bool _isConnected;
 
         /// <summary>
-        /// Source for <see cref="IsPaired"/>
+        /// Source for <see cref="IsPaired" />
         /// </summary>
         private bool _isPaired;
 
         /// <summary>
-        /// Source for <see cref="Name"/>
+        /// Source for <see cref="Name" />
         /// </summary>
         private string _name;
 
@@ -73,20 +73,20 @@ namespace Microsoft.Toolkit.Uwp
         private GattDeviceServicesResult _result;
 
         /// <summary>
-        /// Source for <see cref="ServiceCount"/>
+        /// Source for <see cref="ServiceCount" />
         /// </summary>
         private int _serviceCount;
 
         /// <summary>
-        /// Source for <see cref="Services"/>
+        /// Source for <see cref="Services" />
         /// </summary>
         private ObservableCollection<ObservableGattDeviceService> _services =
             new ObservableCollection<ObservableGattDeviceService>();
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="ObservableBluetoothLEDevice" /> class.
+        /// Initializes a new instance of the <see cref="ObservableBluetoothLEDevice"/> class.
         /// </summary>
-        /// <param name="deviceInfo">The device info that describes this bluetooth device"/></param>
+        /// <param name="deviceInfo">The device information.</param>
         public ObservableBluetoothLEDevice(DeviceInformation deviceInfo)
         {
             DeviceInfo = deviceInfo;
@@ -100,12 +100,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the bluetooth device this class wraps
         /// </summary>
+        /// <value>The bluetooth le device.</value>
         public BluetoothLEDevice BluetoothLEDevice
         {
-            get
-            {
-                return _bluetoothLeDevice;
-            }
+            get { return _bluetoothLeDevice; }
 
             private set
             {
@@ -117,12 +115,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets the glyph of this bluetooth device
         /// </summary>
+        /// <value>The glyph.</value>
         public BitmapImage Glyph
         {
-            get
-            {
-                return _glyph;
-            }
+            get { return _glyph; }
 
             set
             {
@@ -134,12 +130,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the device information for the device this class wraps
         /// </summary>
+        /// <value>The device information.</value>
         public DeviceInformation DeviceInfo
         {
-            get
-            {
-                return _deviceInfo;
-            }
+            get { return _deviceInfo; }
 
             private set
             {
@@ -151,12 +145,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets a value indicating whether this device is connected
         /// </summary>
+        /// <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
         public bool IsConnected
         {
-            get
-            {
-                return _isConnected;
-            }
+            get { return _isConnected; }
 
             set
             {
@@ -171,12 +163,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets a value indicating whether this device is paired
         /// </summary>
+        /// <value><c>true</c> if this instance is paired; otherwise, <c>false</c>.</value>
         public bool IsPaired
         {
-            get
-            {
-                return _isPaired;
-            }
+            get { return _isPaired; }
 
             set
             {
@@ -191,12 +181,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the services this device supports
         /// </summary>
+        /// <value>The services.</value>
         public ObservableCollection<ObservableGattDeviceService> Services
         {
-            get
-            {
-                return _services;
-            }
+            get { return _services; }
 
             private set
             {
@@ -208,12 +196,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets or sets the number of services this device has
         /// </summary>
+        /// <value>The service count.</value>
         public int ServiceCount
         {
-            get
-            {
-                return _serviceCount;
-            }
+            get { return _serviceCount; }
 
             set
             {
@@ -228,12 +214,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the name of this device
         /// </summary>
+        /// <value>The name.</value>
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
 
             private set
             {
@@ -248,12 +232,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the error text when connecting to this device fails
         /// </summary>
+        /// <value>The error text.</value>
         public string ErrorText
         {
-            get
-            {
-                return _errorText;
-            }
+            get { return _errorText; }
 
             private set
             {
@@ -265,12 +247,15 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the bluetooth address of this device as a string
         /// </summary>
+        /// <value>The bluetooth address as string.</value>
         public string BluetoothAddressAsString => DeviceInfo.Properties["System.Devices.Aep.DeviceAddress"].ToString();
 
         /// <summary>
         /// Gets the bluetooth address of this device
         /// </summary>
-        public ulong BluetoothAddressAsUlong => Convert.ToUInt64(BluetoothAddressAsString.Replace(":", string.Empty), 16);
+        /// <value>The bluetooth address as ulong.</value>
+        public ulong BluetoothAddressAsUlong => Convert.ToUInt64(BluetoothAddressAsString.Replace(":", string.Empty),
+            16);
 
         /// <summary>
         /// Compares this device to other bluetooth devices by checking the id
@@ -279,31 +264,26 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>true for equal</returns>
         bool IEquatable<ObservableBluetoothLEDevice>.Equals(ObservableBluetoothLEDevice other)
         {
-            return other?.DeviceInfo.Id != null && (DeviceInfo.Id == other.DeviceInfo.Id);
+            return other?.DeviceInfo.Id != null && DeviceInfo.Id == other.DeviceInfo.Id;
         }
-
-        /// <summary>
-        /// Event to notify when this object has changed
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Connect to this bluetooth device
         /// </summary>
-        /// <exception cref="Exception"></exception>
         /// <returns>Connection task</returns>
+        /// <exception cref="Exception"></exception>
         public async Task Connect()
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 if (BluetoothLEDevice == null)
                 {
                     BluetoothLEDevice = await BluetoothLEDevice.FromIdAsync(DeviceInfo.Id);
-                }
 
-                if (BluetoothLEDevice == null)
-                {
-                    throw new Exception("Connection error, no permission to access device");
+                    if (BluetoothLEDevice == null)
+                    {
+                        throw new Exception("Connection error, no permission to access device");
+                    }
                 }
 
                 BluetoothLEDevice.ConnectionStatusChanged += BluetoothLEDevice_ConnectionStatusChanged;
@@ -341,6 +321,11 @@ namespace Microsoft.Toolkit.Uwp
             });
         }
 
+        /// <summary>
+        /// Does the in application pairing.
+        /// </summary>
+        /// <returns>Task.</returns>
+        /// <exception cref="Exception">The status of the pairing.</exception>
         public async Task DoInAppPairing()
         {
             var result = await DeviceInfo.Pairing.PairAsync();
@@ -353,13 +338,57 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Updates this device's deviceInformation
+        /// </summary>
+        /// <param name="deviceUpdate">The device information which has been updated.</param>
+        /// <returns>The task of the update.</returns>
+        public async Task Update(DeviceInformationUpdate deviceUpdate)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    DeviceInfo.Update(deviceUpdate);
+                    Name = DeviceInfo.Name;
+
+                    IsPaired = DeviceInfo.Pairing.IsPaired;
+
+                    LoadGlyph();
+                    OnPropertyChanged("DeviceInfo");
+                });
+        }
+
+        /// <summary>
+        /// Overrides the ToString function to return the name of the device
+        /// </summary>
+        /// <returns>Name of this characteristic</returns>
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        /// <summary>
+        /// Event to notify when this object has changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Property changed event invoker
+        /// </summary>
+        /// <param name="propertyName">name of the property that changed</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
         /// Executes when the name of this devices changes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_NameChanged(BluetoothLEDevice sender, object args)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,
                 () => { Name = BluetoothLEDevice.Name; });
         }
@@ -367,11 +396,11 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Executes when the connection state changes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_ConnectionStatusChanged(BluetoothLEDevice sender, object args)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,
                 () =>
                 {
@@ -385,7 +414,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         private async void LoadGlyph()
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,
                 async () =>
                 {
@@ -393,45 +422,6 @@ namespace Microsoft.Toolkit.Uwp
                     var glyphBitmapImage = new BitmapImage();
                     await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
                     Glyph = glyphBitmapImage;
-                });
-        }
-
-        /// <summary>
-        /// Property changed event invoker
-        /// </summary>
-        /// <param name="propertyName">name of the property that changed</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Overrides the ToString function to return the name of the device
-        /// </summary>
-        /// <returns>Name of this characteristic</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        /// <summary>
-        /// Updates this device's deviceInformation
-        /// </summary>
-        /// <param name="deviceUpdate">The device information which has been updated.</param>
-        /// <returns>The task of the update.</returns>
-        public async Task Update(DeviceInformationUpdate deviceUpdate)
-        {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    DeviceInfo.Update(deviceUpdate);
-                    Name = DeviceInfo.Name;
-
-                    IsPaired = DeviceInfo.Pairing.IsPaired;
-
-                    LoadGlyph();
-                    OnPropertyChanged("DeviceInfo");
                 });
         }
     }

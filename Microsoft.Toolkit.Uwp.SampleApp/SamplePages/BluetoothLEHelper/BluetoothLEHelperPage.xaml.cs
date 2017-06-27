@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,37 +18,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public BluetoothLEHelperPage()
         {
             this.InitializeComponent();
+            bluetoothLEHelper.EnumerationCompleted += BluetoothLEHelper_EnumerationCompleted;
         }
 
-        private async void BluetoothLEHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void BluetoothLEHelper_EnumerationCompleted(object sender, EventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                Windows.UI.Core.CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    if (e.PropertyName == "IsEnumerating")
-                    {
-                        if (bluetoothLEHelper.IsEnumerating)
-                        {
-                            BtEnumeration.Content = "Stop Enumerating";
-                        }
-                        else
-                        {
-                            BtEnumeration.Content = "Start Enumerating";
-                        }
-                    }
-                });
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                bluetoothLEHelper.StopEnumeration();
+                BtEnumeration.Content = "Start Enumerating";
+            });
         }
 
         private void Enumeration_Click(object sender, RoutedEventArgs e)
         {
-            if (bluetoothLEHelper.IsEnumerating == false)
+            if (!bluetoothLEHelper.IsEnumerating)
             {
                 bluetoothLEHelper.StartEnumeration();
+                BtEnumeration.Content = "Stop Enumerating";
             }
             else
             {
                 bluetoothLEHelper.StopEnumeration();
+                BtEnumeration.Content = "Start Enumerating";
             }
         }
 

@@ -43,6 +43,11 @@ namespace Microsoft.Toolkit.Uwp
         private readonly List<DeviceInformation> _unusedDevices = new List<DeviceInformation>();
 
         /// <summary>
+        /// Reader/Writer lock for when we are updating the collection.
+        /// </summary>
+        private readonly ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
+
+        /// <summary>
         /// Advertisement watcher used to find bluetooth devices.
         /// </summary>
         private BluetoothLEAdvertisementWatcher _advertisementWatcher;
@@ -58,11 +63,6 @@ namespace Microsoft.Toolkit.Uwp
         private BluetoothAdapter _adapter;
 
         /// <summary>
-        /// Reader/Writer lock for when we are updating the collection.
-        /// </summary>
-        private ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
-
-        /// <summary>
         /// Prevents a default instance of the <see cref="BluetoothLEHelper" /> class from being created.
         /// </summary>
         private BluetoothLEHelper()
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets the app context
         /// </summary>
-        public static BluetoothLEHelper Context { get; private set; }
+        public static BluetoothLEHelper Context { get; private set; } = new BluetoothLEHelper();
 
         /// <summary>
         /// Gets the list of available bluetooth devices
@@ -112,6 +112,11 @@ namespace Microsoft.Toolkit.Uwp
         public bool IsBluetoothLeSupported => ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
 
         /// <summary>
+        /// An event for when the enumeration is complete.
+        /// </summary>
+        public event EventHandler<EventArgs> EnumerationCompleted;
+
+        /// <summary>
         /// Starts enumeration of bluetooth device
         /// </summary>
         public void StartEnumeration()
@@ -144,6 +149,7 @@ namespace Microsoft.Toolkit.Uwp
             _deviceWatcher.Added += DeviceWatcher_Added;
             _deviceWatcher.Updated += DeviceWatcher_Updated;
             _deviceWatcher.Removed += DeviceWatcher_Removed;
+            _deviceWatcher.EnumerationCompleted += _deviceWatcher_EnumerationCompleted;
 
             _advertisementWatcher = new BluetoothLEAdvertisementWatcher();
             _advertisementWatcher.Received += AdvertisementWatcher_Received;
@@ -165,6 +171,11 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
 
+                if (EnumerationCompleted != null)
+                {
+                    _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
+                }
+
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;
             }
@@ -175,6 +186,16 @@ namespace Microsoft.Toolkit.Uwp
                 _advertisementWatcher.Stop();
                 _advertisementWatcher = null;
             }
+        }
+
+        /// <summary>
+        /// An event for when the enumeration is completed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        private void _deviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        {
+            EnumerationCompleted?.Invoke(sender, EventArgs.Empty);
         }
 
         /// <summary>
@@ -199,11 +220,11 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
                     {
-                        foreach (var d in BluetoothLeDevices)
+                        foreach (var device in BluetoothLeDevices)
                         {
-                            if (d.BluetoothAddressAsUlong == args.BluetoothAddress)
+                            if (device.BluetoothAddressAsUlong == args.BluetoothAddress)
                             {
-                                d.ServiceCount = args.Advertisement.ServiceUuids.Count();
+                                device.ServiceCount = args.Advertisement.ServiceUuids.Count();
                             }
                         }
 
@@ -231,16 +252,11 @@ namespace Microsoft.Toolkit.Uwp
         {
             ObservableBluetoothLEDevice device = null;
 
-            if (_readerWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan.FromSeconds(1)))
+            device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
+
+            if (device != null)
             {
-                device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
-
-                if (device != null)
-                {
-                    await device.Update(deviceInfoUpdate);
-                }
-
-                _readerWriterLockSlim.ExitUpgradeableReadLock();
+                await device.Update(deviceInfoUpdate);
             }
 
             if (device == null)
@@ -272,13 +288,15 @@ namespace Microsoft.Toolkit.Uwp
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (_readerWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan.FromSeconds(1)))
+                if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
                 {
                     var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
                     BluetoothLeDevices?.Remove(device);
 
                     var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
                     _unusedDevices?.Remove(unusedDevice);
+
+                    _readerWriterLockSlim.ExitWriteLock();
                 }
             });
         }
@@ -291,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp
         private async Task AddDeviceToList(DeviceInformation deviceInfo)
         {
             // Make sure device name isn't blank or already present in the list.
-            if (string.IsNullOrEmpty(deviceInfo?.Name))
+            if (!string.IsNullOrEmpty(deviceInfo?.Name))
             {
                 var device = new ObservableBluetoothLEDevice(deviceInfo);
                 var connectable = true;
@@ -325,7 +343,6 @@ namespace Microsoft.Toolkit.Uwp
             if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
             {
                 _unusedDevices.Add(deviceInfo);
-
                 _readerWriterLockSlim.ExitWriteLock();
             }
         }
