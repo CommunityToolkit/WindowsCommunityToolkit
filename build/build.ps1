@@ -7,6 +7,7 @@ param(
 
 $path = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
+Import-Module .\tools\VSSetup\VSSetup.psd1
 Import-Module "$path\tools\psake\psake.psm1"
 
 try
