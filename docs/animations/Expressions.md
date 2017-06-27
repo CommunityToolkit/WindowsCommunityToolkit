@@ -1,14 +1,14 @@
 # ExpressionBuilder 
-Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. For complete documentation and walkthroughs, please see the Word Document in the project folder titled "ExpressionBuilder_Documentation.docx".
+Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. For complete documentation and walkthroughs, please see the [Word Document](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder/Docs) from the composition team.
 
 ## Setting up the ExpressionBuilder classes with your app
-To use the ExpressionBuilder in your app, download a copy of the source, add the project into your solution and update the references for your app project. Next, within your app project, make sure to add the using statement to leverage the ExpressionBuilder classes:
+To use the ExpressionBuilder in your app, add the Microsoft.Toolkit.Uwp.UI.Animations nuget package to your project. Next, within your app project, make sure to add the using statement to leverage the ExpressionBuilder classes:
 
 ```
-using  ExpressionBuilder;
+using  Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 ``` 
 
-Once you have the classes added to your solution and referenced in your project, you are all set to start using the ExpressionBuilder classes!
+Once you have the nuget package added to your project, you are all set to start using the ExpressionBuilder classes!
 
 ## Getting started with ExpressionBuilder classes
 ### ExpressionAnimation Overview
@@ -21,7 +21,7 @@ ExpressionAnimations can create some very powerful and unique experiences, but c
 
 ```
 _parallaxExpression = compositor.CreateExpressionAnimation(
-	"(ScrollManipulation.Translation.Y + StartOffset - (0.5 * ItemHeight)) * ParallaxValue - 	(ScrollManipulation.Translation.Y + StartOffset - (0.5 * ItemHeight))");
+	"(ScrollManipulation.Translation.Y + StartOffset) * ParallaxValue - 	(ScrollManipulation.Translation.Y + StartOffset)");
 ``` 
 This creates a series of challenges when authoring Expressions in this manner:
 - No type safety checks
@@ -31,7 +31,7 @@ This creates a series of challenges when authoring Expressions in this manner:
 Thus, the ExpressionBuilder classes were created to help alleviate these challenges and present an alternative way to create ExpressionAnimations.
 
 ## Using the ExpressionBuilder classes
-For full documentation on how to use the ExpressionBuilder classes, please refer to the Word document that is included within the project folder.
+For full documentation on how to use the ExpressionBuilder classes, please refer to the [Word document](https://github.com/Microsoft/WindowsUIDevLabs/tree/master/ExpressionBuilder/Docs) from the composition team.
 
 Before we highlight how to use the classes, let's reiterate the core components that make up an Expression:
 - Parameters: These are key-value pairs that can either be references to a CompositionObject or constant values. The values to these keys can be changed later on.
@@ -93,8 +93,8 @@ _propertySet.StartAnimation("progress", progressExp);
 ```
 
 ### Things to Note
-If you are familiar with how Expressions were built with Strings, there are a few things to note:
-- The ternary operator (condition ? ifTrue : ifFalse) is now represented by ExpressionFunctions..Conditional(condition, ifTrue, ifFalse)
+If you are familiar with how Expressions were built with strings, there are a few things to note:
+- The ternary operator (condition ? ifTrue : ifFalse) is now represented by ExpressionFunctions.Conditional(condition, ifTrue, ifFalse)
 - The "And" and "Or" operators (“&&” and “||”) are now represented by the & and | operators.
 - If using ExpressionBuilder to create expressions for use with InteractionTracker’s InertiaModifiers, the following extensions methods are available:
 	
