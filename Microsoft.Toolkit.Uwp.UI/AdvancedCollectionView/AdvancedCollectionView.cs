@@ -375,12 +375,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (!_sortProperties.Any())
             {
-                var typeInfo = x.GetType().GetTypeInfo();
+                var type = x.GetType();
                 foreach (var sd in _sortDescriptions)
                 {
                     if (!string.IsNullOrEmpty(sd.PropertyName))
                     {
-                        _sortProperties[sd.PropertyName] = typeInfo.GetDeclaredProperty(sd.PropertyName);
+                        _sortProperties[sd.PropertyName] = type.GetProperty(sd.PropertyName);
                     }
                 }
             }

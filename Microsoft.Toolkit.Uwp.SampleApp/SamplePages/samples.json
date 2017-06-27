@@ -220,6 +220,14 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "OrbitView",
+        "Type": "OrbitViewPage",
+        "About": "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
+        "XamlCodeFile": "OrbitViewXaml.bind",
+        "Icon": "/SamplePages/OrbitView/OrbitView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/OrbitView.md"
       }
     ]
   },
