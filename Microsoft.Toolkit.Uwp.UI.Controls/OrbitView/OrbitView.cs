@@ -432,8 +432,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var orbitView = d as OrbitView;
-
-            if (orbitView.Items.Count == 0)
+            if ((orbitView.Items == null) || (orbitView.Items.Count == 0))
             {
                 return;
             }
