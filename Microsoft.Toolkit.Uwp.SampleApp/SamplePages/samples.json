@@ -222,13 +222,12 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
       },
       {
-        "Name": "Menu",
-        "Type": "MenuPage",
-        "About": "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
-        "XamlCodeFile": "Menu.bind",
-        "Icon": "/SamplePages/Menu/Menu.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Menu.md"
+        "Name": "OrbitView",
+        "Type": "OrbitViewPage",
+        "About": "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
+        "XamlCodeFile": "OrbitViewXaml.bind",
+        "Icon": "/SamplePages/OrbitView/OrbitView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/OrbitView.md"
       }
     ]
   },

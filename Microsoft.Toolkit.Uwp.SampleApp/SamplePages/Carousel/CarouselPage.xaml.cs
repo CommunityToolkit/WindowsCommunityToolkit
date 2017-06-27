@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
