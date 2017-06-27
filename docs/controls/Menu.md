@@ -8,7 +8,7 @@ The **Menu Control** positions it's items the way the WrapPanel does based on th
 
 **MenuItem** is inheriting from `ItemsControl` and the allowed controls must be derived from `MenuFlyoutItemBase` like `MenuFlyoutSubItem`, `MenuFlyoutItem`, etc...
 
-To invoke any command on any Menu, MenuItem or MenuFlyoutItem you must use property `InputGestureText` or `AccessKey`
+To invoke any command on any Menu, MenuItem or MenuFlyoutItem you must use property `InputGestureText`
 
 If the tooltip is allowed on the Menu control when clicking Alt a tooltip with the input gesture text will show\hide.
 
@@ -31,18 +31,6 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
                                     Text="File" />
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
-             <controls:MenuItem Name="FileMenu"
-                               AccessKey="F"
-                               Header="File">
-                <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+X"
-                                    Command="{StaticResource NewProject}"
-                                    Text="Project" />
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+W"
-                                    Command="{StaticResource NewFile}"
-                                    Text="File" />
-                </MenuFlyoutSubItem>
-            </controls:MenuItem>
 </controls:Menu>
 
 ```
@@ -51,15 +39,11 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 
 ### InputGestureText
 Sets the text describing an input gesture that will call the command tied to the specified item or to open the MenuItem FlyoutMenu. ex (Alt+F)
-This property can be replaced by AccessKey if the target OS version is Windows 10 Creater Update or higher.
 
 `Note`: InputGestureText supports Ctrl, Alt or Shift.
 
 ### AllowTooltip
 Specify whether to allow tooltip on Alt click or not.
-
-### AccessKey
-Access keys can improve both the usability and the accessibility of your Windows app by providing an intuitive way for users to quickly navigate and interact with an app's visible UI through a keyboard instead of a pointer device (such as touch or mouse).
 
 ## Menu Properties
 
