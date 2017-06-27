@@ -59,26 +59,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Languages.ItemsSource = null;
 
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguagesAsync();
+            var languages = await _translatorClient.GetLanguageNamesAsync();
 
-            var dictionary = new Dictionary<string, string>();
-            languages.ToList().ForEach(lang =>
-            {
-                try
-                {
-                    var culture = new CultureInfo(lang);
-                    if (!culture.EnglishName.StartsWith("Unknown"))
-                    {
-                        dictionary.Add(lang, culture.EnglishName);
-                    }
-                }
-                catch
-                {
-                }
-            });
-
-            Languages.ItemsSource = dictionary.OrderBy(d => d.Key);
-            Languages.SelectedValue = dictionary.Keys.FirstOrDefault();
+            Languages.ItemsSource = languages.OrderBy(d => d.Name);
+            Languages.SelectedIndex = 0;
 
             Shell.Current.DisplayWaitRing = false;
         }
