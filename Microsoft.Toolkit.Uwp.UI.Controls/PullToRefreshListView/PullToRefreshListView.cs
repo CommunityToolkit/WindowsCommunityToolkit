@@ -365,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_refreshActivated)
             {
-                RefreshRequested?.Invoke(this, new EventArgs());
+                RefreshRequested?.Invoke(this, EventArgs.Empty);
                 if (RefreshCommand != null && RefreshCommand.CanExecute(null))
                 {
                     RefreshCommand.Execute(null);
@@ -373,7 +373,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (_refreshIntentCanceled)
             {
-                RefreshIntentCanceled?.Invoke(this, new EventArgs());
+                RefreshIntentCanceled?.Invoke(this, EventArgs.Empty);
                 if (RefreshIntentCanceledCommand != null && RefreshIntentCanceledCommand.CanExecute(null))
                 {
                     RefreshIntentCanceledCommand.Execute(null);
