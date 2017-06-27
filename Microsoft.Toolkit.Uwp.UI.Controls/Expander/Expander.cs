@@ -73,13 +73,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ExpandControl()
         {
             VisualStateManager.GoToState(this, StateContentExpanded, true);
-            Expanded?.Invoke(this, new EventArgs());
+            Expanded?.Invoke(this, EventArgs.Empty);
         }
 
         private void CollapseControl()
         {
             VisualStateManager.GoToState(this, StateContentCollapsed, true);
-            Collapsed?.Invoke(this, new EventArgs());
+            Collapsed?.Invoke(this, EventArgs.Empty);
         }
     }
 }
