@@ -75,6 +75,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxRegex/)
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
+* [Menu](http://docs.uwpcommunitytoolkit.com/en/master/controls/Menu/)
 
 ### Code Helpers
 
