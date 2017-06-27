@@ -34,11 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private const string _transformName = "Transform";
         private CompositeTransform _transform;
-
-        /// <summary>
-        /// Raised when an item has been clicked or activated with keyboard/controller
-        /// </summary>
-        public event EventHandler<OrbitViewItemClickedEventArgs> Invoked;
+        private bool _isClickEnabled;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrbitViewItem"/> class.
@@ -52,29 +48,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether item is invokable.
         /// </summary>
-        public bool IsClickEnabled
+        internal bool IsClickEnabled
         {
-            get { return (bool)GetValue(IsClickEnabledProperty); }
-            set { SetValue(IsClickEnabledProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="IsClickEnabled"/> property
-        /// </summary>
-        public static readonly DependencyProperty IsClickEnabledProperty =
-            DependencyProperty.Register(nameof(IsClickEnabled), typeof(bool), typeof(OrbitViewItem), new PropertyMetadata(false, OnClickEnabledChanged));
-
-        private static void OnClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as OrbitViewItem;
-
-            if ((bool)e.NewValue)
+            get
             {
-                control.EnableItemInteraction();
+                return _isClickEnabled;
             }
-            else
+
+            set
             {
-                control.DisableItemInteraction();
+                if (value != _isClickEnabled)
+                {
+                    _isClickEnabled = value;
+                    if (value)
+                    {
+                        EnableItemInteraction();
+                    }
+                    else
+                    {
+                        DisableItemInteraction();
+                    }
+                }
             }
         }
 
@@ -138,7 +132,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
             {
                 VisualStateManager.GoToState(this, VsNormal, true);
-                Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
             }
         }
 
@@ -153,7 +146,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, VsNormal, true);
-            Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
         }
 
         private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)

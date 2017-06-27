@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Raised when an item has been clicked or activated with keyboard/controller
         /// </summary>
-        public event EventHandler<OrbitViewItemClickedEventArgs> ItemInvoked;
+        public event EventHandler<OrbitViewItemClickedEventArgs> ItemClick;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrbitView"/> class.
@@ -306,7 +306,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 control.Content = orbitViewElement;
                 control.DataContext = item;
-                control.Invoked += OrbitViewItemControl_Clicked;
+                control.KeyUp += OrbitViewItem_KeyUp;
+                control.PointerReleased += OrbitViewItem_PointerReleased;
 
                 control.IsClickEnabled = IsItemClickEnabled;
             }
@@ -360,13 +361,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var control = element as OrbitViewItem;
             if (control != null)
             {
-                control.Invoked -= OrbitViewItemControl_Clicked;
+                control.KeyUp -= OrbitViewItem_KeyUp;
+                control.PointerReleased -= OrbitViewItem_PointerReleased;
             }
         }
 
         private static void OnAchorsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
+            var orbitView = d as OrbitView;
 
             if (e.NewValue == e.OldValue)
             {
@@ -375,17 +377,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!(bool)e.NewValue)
             {
-                sv.ClearAnchors();
+                orbitView.ClearAnchors();
             }
             else
             {
-                sv.ItemsPanelRoot?.InvalidateArrange();
+                orbitView.ItemsPanelRoot?.InvalidateArrange();
             }
         }
 
         private static void OnOrbitsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
+            var orbitView = d as OrbitView;
 
             if (e.NewValue == e.OldValue)
             {
@@ -394,21 +396,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!(bool)e.NewValue)
             {
-                sv.ClearOrbits();
+                orbitView.ClearOrbits();
             }
             else
             {
-                sv.ItemsPanelRoot?.InvalidateArrange();
+                orbitView.ItemsPanelRoot?.InvalidateArrange();
             }
         }
 
         private static void OnItemSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
+            var orbitView = d as OrbitView;
 
-            if (sv.ItemsPanelRoot != null)
+            if (orbitView.ItemsPanelRoot != null)
             {
-                foreach (var element in sv.ItemsPanelRoot.Children)
+                foreach (var element in orbitView.ItemsPanelRoot.Children)
                 {
                     var control = element as ContentControl;
                     if (control != null && control.DataContext is OrbitViewDataItem)
@@ -418,25 +420,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             double diameter = Math.Min(item.Diameter, 1d);
                             var content = (FrameworkElement)control.Content;
-                            content.Width = content.Height = (diameter * (sv.MaxItemSize - sv.MinItemSize)) + sv.MinItemSize;
+                            content.Width = content.Height = (diameter * (orbitView.MaxItemSize - orbitView.MinItemSize)) + orbitView.MinItemSize;
                         }
                     }
                 }
             }
 
-            sv.ItemsPanelRoot?.InvalidateArrange();
+            orbitView.ItemsPanelRoot?.InvalidateArrange();
         }
 
         private static void OnItemClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
-
-            if (sv.Items.Count == 0)
+            var orbitView = d as OrbitView;
+            if ((orbitView.Items == null) || (orbitView.Items.Count == 0))
             {
                 return;
             }
 
-            foreach (var control in sv.ItemsPanelRoot.Children)
+            foreach (var control in orbitView.ItemsPanelRoot.Children)
             {
                 (control as OrbitViewItem).IsClickEnabled = (bool)e.NewValue;
             }
@@ -444,29 +445,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnOrbitPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
-            if (sv._orbitsContainer == null)
+            var orbitView = d as OrbitView;
+            if (orbitView._orbitsContainer == null)
             {
                 return;
             }
 
-            foreach (var orbit in sv._orbitsContainer.Children)
+            foreach (var orbit in orbitView._orbitsContainer.Children)
             {
-                sv.SetOrbitProperties(orbit as Ellipse);
+                orbitView.SetOrbitProperties(orbit as Ellipse);
             }
         }
 
         private static void OnAnchorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sv = d as OrbitView;
-            if (sv._anchorCanvas == null)
+            var orbitView = d as OrbitView;
+            if (orbitView._anchorCanvas == null)
             {
                 return;
             }
 
-            foreach (var anchor in sv._anchorCanvas.Children)
+            foreach (var anchor in orbitView._anchorCanvas.Children)
             {
-                sv.SetAnchorProperties(anchor as Line);
+                orbitView.SetAnchorProperties(anchor as Line);
+            }
+        }
+
+        private void OrbitViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            OnItemClicked((OrbitViewItem)sender);
+        }
+
+        private void OrbitViewItem_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+            {
+                OnItemClicked((OrbitViewItem)sender);
             }
         }
 
@@ -556,9 +570,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OrbitViewItemControl_Clicked(object sender, OrbitViewItemClickedEventArgs e)
+        private void OnItemClicked(OrbitViewItem item)
         {
-            ItemInvoked?.Invoke(this, e);
+            if (IsItemClickEnabled)
+            {
+                ItemClick?.Invoke(this, new OrbitViewItemClickedEventArgs(item.DataContext));
+            }
         }
 
         private void ClearOrbits()

@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _devices.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "My Phone", Symbol = Symbol.CellPhone });
         }
 
-        private void ItemInvoked(object sender, OrbitViewItemClickedEventArgs e)
+        private void OnItemClicked(object sender, OrbitViewItemClickedEventArgs e)
         {
             _devices.Remove(e.Item as DeviceItem);
         }
