@@ -171,6 +171,11 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
 
+                if (EnumerationCompleted != null)
+                {
+                    _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
+                }
+
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;
             }
