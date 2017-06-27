@@ -20,6 +20,15 @@
 
 #Requires -Version 2.0
 
+if ($PSVersionTable.PSVersion.Major -ge 3)
+{
+    $script:IgnoreError = 'Ignore'
+}
+else
+{
+    $script:IgnoreError = 'SilentlyContinue'
+}
+
 #-- Public Module Functions --#
 
 # .ExternalHelp  psake.psm1-help.xml
@@ -200,9 +209,7 @@ function Task
         [Parameter(Position=7,Mandatory=0)][string[]]$depends = @(),
         [Parameter(Position=8,Mandatory=0)][string[]]$requiredVariables = @(),
         [Parameter(Position=9,Mandatory=0)][string]$description = $null,
-        [Parameter(Position=10,Mandatory=0)][string]$alias = $null,
-        [Parameter(Position=11,Mandatory=0)][string]$maxRetries = 0,
-        [Parameter(Position=12,Mandatory=0)][string]$retryTriggerErrorPattern = $null
+        [Parameter(Position=10,Mandatory=0)][string]$alias = $null
     )
     if ($name -eq 'default') {
         Assert (!$action) ($msgs.error_default_task_cannot_have_action)
@@ -221,8 +228,6 @@ function Task
         Duration = [System.TimeSpan]::Zero
         RequiredVariables = $requiredVariables
         Alias = $alias
-        MaxRetries = $maxRetries
-        RetryTriggerErrorPattern = $retryTriggerErrorPattern
     }
 
     $taskKey = $name.ToLower()
@@ -300,6 +305,30 @@ function Framework {
 }
 
 # .ExternalHelp  psake.psm1-help.xml
+function Get-PSakeScriptTasks {
+    [CmdletBinding()]
+    param(
+        [Parameter(Position = 0, Mandatory = 0)][string] $buildFile
+    )
+
+    if (!$buildFile) {
+        $buildFile = $psake.config_default.buildFileName
+    }
+
+    try
+    {
+        ExecuteInBuildFileScope $buildFile $MyInvocation.MyCommand.Module {
+            param($currentContext, $module)
+            return GetTasksFromContext $currentContext
+        }
+
+    } finally {
+
+        CleanupEnvironment
+    }
+}
+
+# .ExternalHelp  psake.psm1-help.xml
 function Invoke-psake {
     [CmdletBinding()]
     param(
@@ -311,7 +340,8 @@ function Invoke-psake {
         [Parameter(Position = 5, Mandatory = 0)][hashtable] $properties = @{},
         [Parameter(Position = 6, Mandatory = 0)][alias("init")][scriptblock] $initialization = {},
         [Parameter(Position = 7, Mandatory = 0)][switch] $nologo = $false,
-        [Parameter(Position = 8, Mandatory = 0)][switch] $detailedDocs = $false
+        [Parameter(Position = 8, Mandatory = 0)][switch] $detailedDocs = $false,
+        [Parameter(Position = 9, Mandatory = 0)][switch] $notr = $false # disable time report
     )
     try {
         if (-not $nologo) {
@@ -322,104 +352,66 @@ function Invoke-psake {
           $buildFile = $psake.config_default.buildFileName
         }
         elseif (!(test-path $buildFile -pathType Leaf) -and (test-path $psake.config_default.buildFileName -pathType Leaf)) {
-            # If the $config.buildFileName file exists and the given "buildfile" isn 't found assume that the given
+            # If the $config.buildFileName file exists and the given "buildfile" isn't found assume that the given
             # $buildFile is actually the target Tasks to execute in the $config.buildFileName script.
             $taskList = $buildFile.Split(', ')
             $buildFile = $psake.config_default.buildFileName
         }
 
-        # Execute the build file to set up the tasks and defaults
-        Assert (test-path $buildFile -pathType Leaf) ($msgs.error_build_file_not_found -f $buildFile)
+        ExecuteInBuildFileScope $buildFile $MyInvocation.MyCommand.Module {
+            param($currentContext, $module)            
 
-        $psake.build_script_file = get-item $buildFile
-        $psake.build_script_dir = $psake.build_script_file.DirectoryName
-        $psake.build_success = $false
-
-        $psake.context.push(@{
-            "taskSetupScriptBlock" = {};
-            "taskTearDownScriptBlock" = {};
-            "executedTasks" = new-object System.Collections.Stack;
-            "callStack" = new-object System.Collections.Stack;
-            "originalEnvPath" = $env:path;
-            "originalDirectory" = get-location;
-            "originalErrorActionPreference" = $global:ErrorActionPreference;
-            "tasks" = @{};
-            "aliases" = @{};
-            "properties" = @();
-            "includes" = new-object System.Collections.Queue;
-            "config" = CreateConfigurationForNewContext $buildFile $framework
-        })
-
-        LoadConfiguration $psake.build_script_dir
-
-        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-
-        set-location $psake.build_script_dir
-
-        LoadModules
-
-        $frameworkOldValue = $framework
-        . $psake.build_script_file.FullName
-
-        $currentContext = $psake.context.Peek()
-
-        if ($framework -ne $frameworkOldValue) {
-            writecoloredoutput $msgs.warning_deprecated_framework_variable -foregroundcolor Yellow
-            $currentContext.config.framework = $framework
-        }
-
-        ConfigureBuildEnvironment
-
-        while ($currentContext.includes.Count -gt 0) {
-            $includeFilename = $currentContext.includes.Dequeue()
-            . $includeFilename
-        }
-
-        if ($docs -or $detailedDocs) {
-            WriteDocumentation($detailedDocs)
-            CleanupEnvironment
-            return
-        }
-
-        foreach ($key in $parameters.keys) {
-            if (test-path "variable:\$key") {
-                set-item -path "variable:\$key" -value $parameters.$key -WhatIf:$false -Confirm:$false | out-null
+            $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+            
+            if ($docs -or $detailedDocs) {
+                WriteDocumentation($detailedDocs)
+                return
+            }
+            
+            foreach ($key in $parameters.keys) {
+                if (test-path "variable:\$key") {
+                    set-item -path "variable:\$key" -value $parameters.$key -WhatIf:$false -Confirm:$false | out-null
+                } else {
+                    new-item -path "variable:\$key" -value $parameters.$key -WhatIf:$false -Confirm:$false | out-null
+                }
+            }
+            
+            # The initial dot (.) indicates that variables initialized/modified in the propertyBlock are available in the parent scope.
+            foreach ($propertyBlock in $currentContext.properties) {
+                . $propertyBlock
+            }
+            
+            foreach ($key in $properties.keys) {
+                if (test-path "variable:\$key") {
+                    set-item -path "variable:\$key" -value $properties.$key -WhatIf:$false -Confirm:$false | out-null
+                }
+            }
+            
+            # Simple dot sourcing will not work. We have to force the script block into our
+            # module's scope in order to initialize variables properly.
+            . $module $initialization
+            
+            # Execute the list of tasks or the default task
+            if ($taskList) {
+                foreach ($task in $taskList) {
+                    invoke-task $task
+                }
+            } elseif ($currentContext.tasks.default) {
+                invoke-task default
             } else {
-                new-item -path "variable:\$key" -value $parameters.$key -WhatIf:$false -Confirm:$false | out-null
+                throw $msgs.error_no_default_task
+            }
+            
+            WriteColoredOutput ("`n" + $msgs.build_success + "`n") -foregroundcolor Green
+            
+            $stopwatch.Stop()
+            if (-not $notr) {
+                WriteTaskTimeSummary $stopwatch.Elapsed
             }
         }
-
-        # The initial dot (.) indicates that variables initialized/modified in the propertyBlock are available in the parent scope.
-        foreach ($propertyBlock in $currentContext.properties) {
-            . $propertyBlock
-        }
-
-        foreach ($key in $properties.keys) {
-            if (test-path "variable:\$key") {
-                set-item -path "variable:\$key" -value $properties.$key -WhatIf:$false -Confirm:$false | out-null
-            }
-        }
-
-        # Simple dot sourcing will not work. We have to force the script block into our
-        # module's scope in order to initialize variables properly.
-        . $MyInvocation.MyCommand.Module $initialization
-
-        # Execute the list of tasks or the default task
-        if ($taskList) {
-            foreach ($task in $taskList) {
-                invoke-task $task
-            }
-        } elseif ($currentContext.tasks.default) {
-            invoke-task default
-        } else {
-            throw $msgs.error_no_default_task
-        }
-
-        WriteColoredOutput ("`n" + $msgs.build_success + "`n") -foregroundcolor Green
-
-        WriteTaskTimeSummary $stopwatch.Elapsed
 
         $psake.build_success = $true
+
     } catch {
         $currentConfig = GetCurrentConfigurationOrDefault
         if ($currentConfig.verboseError) {
@@ -582,11 +574,15 @@ function ConfigureBuildEnvironment {
         }
         {($_ -eq '4.5.1') -or ($_ -eq '4.5.2')} {
             $versions = @('v4.0.30319')
-            $buildToolsVersions = @('14.0', '12.0')
+            $buildToolsVersions = @('15.0', '14.0', '12.0')
         }
-        '4.6' {
+        {($_ -eq '4.6') -or ($_ -eq '4.6.1') -or ($_ -eq '4.6.2')} {
             $versions = @('v4.0.30319')
-            $buildToolsVersions = @('14.0')
+            $buildToolsVersions = @('15.0', '14.0')
+        }
+        {($_ -eq '4.7')} {
+            $versions = @('v4.0.30319')
+            $buildToolsVersions = @('15.0')
         }
 
         default {
@@ -629,7 +625,44 @@ function ConfigureBuildEnvironment {
     $frameworkDirs = @()
     if ($buildToolsVersions -ne $null) {
         foreach($ver in $buildToolsVersions) {
-            if (Test-Path "HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\$ver") {
+            if ($ver -eq "15.0") {
+                # borrowed from nightroman https://github.com/nightroman/Invoke-Build
+                if ($vsInstances = Get-VSSetupInstance) {
+                    $vs = @($vsInstances | Select-VSSetupInstance -Version 15.0 -Require Microsoft.Component.MSBuild)
+                    if ($vs) {
+                        if ($buildToolsKey -eq 'MSBuildToolsPath32') {
+                            $frameworkDirs += Join-Path ($vs[0].InstallationPath) MSBuild\15.0\Bin
+                        }
+                        else {
+                            $frameworkDirs += Join-Path ($vs[0].InstallationPath) MSBuild\15.0\Bin\amd64
+                        }
+                    }
+                    $vs = @($vsInstances | Select-VSSetupInstance -Version 15.0 -Product Microsoft.VisualStudio.Product.BuildTools)
+                    if ($vs) {
+                        if ($buildToolsKey -eq 'MSBuildToolsPath32') {
+                            $frameworkDirs += Join-Path ($vs[0].InstallationPath) MSBuild\15.0\Bin
+                        }
+                        else {
+                            $frameworkDirs += Join-Path ($vs[0].InstallationPath) MSBuild\15.0\Bin\amd64
+                        }
+                    }
+                }
+                else {
+                    if (!($root = ${env:ProgramFiles(x86)})) {$root = $env:ProgramFiles}
+                    if (Test-Path -LiteralPath "$root\Microsoft Visual Studio\2017") {
+                        if ($buildToolsKey -eq 'MSBuildToolsPath32') {
+                            $rp = @(Resolve-Path "$root\Microsoft Visual Studio\2017\*\MSBuild\15.0\Bin" -ErrorAction 0)
+                        }
+                        else {
+                            $rp = @(Resolve-Path "$root\Microsoft Visual Studio\2017\*\MSBuild\15.0\Bin\amd64" -ErrorAction 0)
+                        }
+                        if ($rp) {
+                            $frameworkDirs += $rp[-1].ProviderPath
+                        }
+                    }
+                }
+            }
+            elseif (Test-Path "HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\$ver") {
                 $frameworkDirs += (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\$ver" -Name $buildToolsKey).$buildToolsKey
             }
         }
@@ -652,6 +685,57 @@ function ConfigureBuildEnvironment {
     # if any error occurs in a PS function then "stop" processing immediately
     # this does not effect any external programs that return a non-zero exit code
     $global:ErrorActionPreference = "Stop"
+}
+
+function ExecuteInBuildFileScope {    
+    param([string]$buildFile, $module, [scriptblock]$sb)
+    
+    # Execute the build file to set up the tasks and defaults
+    Assert (test-path $buildFile -pathType Leaf) ($msgs.error_build_file_not_found -f $buildFile)
+
+    $psake.build_script_file = get-item $buildFile
+    $psake.build_script_dir = $psake.build_script_file.DirectoryName
+    $psake.build_success = $false
+
+    $psake.context.push(@{
+        "taskSetupScriptBlock" = {};
+        "taskTearDownScriptBlock" = {};
+        "executedTasks" = new-object System.Collections.Stack;
+        "callStack" = new-object System.Collections.Stack;
+        "originalEnvPath" = $env:path;
+        "originalDirectory" = get-location;
+        "originalErrorActionPreference" = $global:ErrorActionPreference;
+        "tasks" = @{};
+        "aliases" = @{};
+        "properties" = @();
+        "includes" = new-object System.Collections.Queue;
+        "config" = CreateConfigurationForNewContext $buildFile $framework
+    })
+
+    LoadConfiguration $psake.build_script_dir
+
+    set-location $psake.build_script_dir
+
+    LoadModules
+
+    $frameworkOldValue = $framework
+    . $psake.build_script_file.FullName
+
+    $currentContext = $psake.context.Peek()
+
+    if ($framework -ne $frameworkOldValue) {
+        writecoloredoutput $msgs.warning_deprecated_framework_variable -foregroundcolor Yellow
+        $currentContext.config.framework = $framework
+    }
+
+    ConfigureBuildEnvironment
+
+    while ($currentContext.includes.Count -gt 0) {
+        $includeFilename = $currentContext.includes.Dequeue()
+        . $includeFilename
+    }
+
+    & $sb $currentContext $module
 }
 
 function CleanupEnvironment {
@@ -752,7 +836,24 @@ function ResolveError
     }
 }
 
+function GetTasksFromContext($currentContext) {    
+
+    $docs = $currentContext.tasks.Keys | foreach-object {
+
+        $task = $currentContext.tasks.$_
+        new-object PSObject -property @{
+            Name = $task.Name;
+            Alias = $task.Alias;
+            Description = $task.Description;
+            DependsOn = $task.DependsOn;
+        }
+    }
+
+    return $docs
+}
+
 function WriteDocumentation($showDetailed) {
+
     $currentContext = $psake.context.Peek()
 
     if ($currentContext.tasks.default) {
@@ -760,27 +861,22 @@ function WriteDocumentation($showDetailed) {
     } else {
         $defaultTaskDependencies = @()
     }
+    
+    $docs = GetTasksFromContext $currentContext | 
+                Where   {$_.Name -ne 'default'} | 
+                ForEach {
+                    $isDefault = $null
+                    if ($defaultTaskDependencies -contains $_.Name) { 
+                        $isDefault = $true 
+                    }
+                    return Add-Member -InputObject $_ 'Default' $isDefault -PassThru
+                }
 
-    $docs = $currentContext.tasks.Keys | foreach-object {
-        if ($_ -eq "default") {
-            return
-        }
-
-        $task = $currentContext.tasks.$_
-        new-object PSObject -property @{
-            Name = $task.Name;
-            Alias = $task.Alias;
-            Description = $task.Description;
-            "Depends On" = $task.DependsOn -join ", "
-            Default = if ($defaultTaskDependencies -contains $task.Name) { $true }
-        }
-    }
     if ($showDetailed) {
-        $docs | sort 'Name' | format-list -property Name,Alias,Description,"Depends On",Default
+        $docs | sort 'Name' | format-list -property Name,Alias,Description,@{Label="Depends On";Expression={$_.DependsOn -join ', '}},Default
     } else {
-        $docs | sort 'Name' | format-table -autoSize -wrap -property Name,Alias,"Depends On",Default,Description
+        $docs | sort 'Name' | format-table -autoSize -wrap -property Name,Alias,@{Label="Depends On";Expression={$_.DependsOn -join ', '}},Default,Description
     }
-
 }
 
 function WriteTaskTimeSummary($invokePsakeDuration) {
@@ -840,10 +936,15 @@ convertfrom-stringdata @'
 '@
 }
 
-import-localizeddata -bindingvariable msgs -erroraction silentlycontinue
+Import-LocalizedData -BindingVariable msgs -FileName messages.psd1 -ErrorAction $script:IgnoreError
+
+$scriptDir = Split-Path $MyInvocation.MyCommand.Path
+$manifestPath = Join-Path $scriptDir psake.psd1
+$manifest = Test-ModuleManifest -Path $manifestPath -WarningAction SilentlyContinue
 
 $script:psake = @{}
-$psake.version = "4.4.1" # contains the current version of psake
+
+$psake.version = $manifest.Version.ToString()
 $psake.context = new-object system.collections.stack # holds onto the current state of all variables
 $psake.run_by_psake_build_tester = $false # indicates that build is being run by psake-BuildTester
 $psake.config_default = new-object psobject -property @{
@@ -854,7 +955,7 @@ $psake.config_default = new-object psobject -property @{
     coloredOutput = $true;
     modules = $null;
     moduleScope = "";
-} # contains default configuration, can be overriden in psake-config.ps1 in directory with psake.psm1 or in directory with current build script
+} # contains default configuration, can be overridden in psake-config.ps1 in directory with psake.psm1 or in directory with current build script
 
 $psake.build_success = $false # indicates that the current build was successful
 $psake.build_script_file = $null # contains a System.IO.FileInfo for the current build script
@@ -862,4 +963,4 @@ $psake.build_script_dir = "" # contains a string with fully-qualified path to cu
 
 LoadConfiguration
 
-export-modulemember -function Invoke-psake, Invoke-Task, Task, Properties, Include, FormatTaskName, TaskSetup, TaskTearDown, Framework, Assert, Exec -variable psake
+export-modulemember -function Invoke-psake, Invoke-Task, Get-PSakeScriptTasks, Task, Properties, Include, FormatTaskName, TaskSetup, TaskTearDown, Framework, Assert, Exec -variable psake
