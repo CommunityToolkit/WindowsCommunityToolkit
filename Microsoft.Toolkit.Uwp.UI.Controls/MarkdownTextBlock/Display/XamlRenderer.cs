@@ -799,6 +799,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
+        /// <returns><see cref="Run"/></returns>
         private Run RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
         {
             // Create the text run
@@ -1019,9 +1020,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Render the children into the inline.
             RenderInlineChildren(span.Inlines, element.Inlines, span, context);
 
-            AlterChildRuns(span, (parentSpan, run) =>
+            if (!TextDecorationsSupported)
             {
-                if (!TextDecorationsSupported)
+                AlterChildRuns(span, (parentSpan, run) =>
                 {
                     var text = run.Text;
                     var builder = new StringBuilder(text.Length * 2);
@@ -1031,8 +1032,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                         builder.Append(c);
                     }
                     run.Text = builder.ToString();
-                }
-            });
+                });
+            }
 
             // Add it to the current inlines
             inlineCollection.Add(span);
