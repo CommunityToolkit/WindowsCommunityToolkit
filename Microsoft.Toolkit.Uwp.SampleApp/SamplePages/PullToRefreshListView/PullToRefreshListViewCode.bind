@@ -17,7 +17,9 @@
                 PullThreshold="@[PullThreshold:Slider:100:50-300]"
                 IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]"
                 RefreshRequested="ListView_RefreshCommand"
-                PullProgressChanged="ListView_PullProgressChanged">
+                PullProgressChanged="ListView_PullProgressChanged"
+                RefreshIntentCanceled="ListView_RefreshIntentCanceled"
+                RefreshIntentCanceledCommand="{x:Bind RefreshIntentCanceled}">
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate  x:DataType="data:Item">
                     <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>

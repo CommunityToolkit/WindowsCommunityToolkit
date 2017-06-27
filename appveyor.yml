@@ -1,10 +1,11 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 branches:
   only:
   - dev
   - master
   - build
+  - buildtest
 
 environment:
   SignClientSecret:

@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,9 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The Blade is used as a child in the BladeView
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
+    [TemplatePart(Name = "EnlargeButton", Type = typeof(Button))]
     public partial class BladeItem : ContentControl
     {
         private Button _closeButton;
+        private Button _enlargeButton;
+        private double _normalModeWidth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeItem"/> class.
@@ -29,6 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public BladeItem()
         {
             DefaultStyleKey = typeof(BladeItem);
+
+            SizeChanged += OnSizeChanged;
         }
 
         /// <summary>
@@ -39,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _closeButton = GetTemplateChild("CloseButton") as Button;
+            _enlargeButton = GetTemplateChild("EnlargeButton") as Button;
 
             if (_closeButton == null)
             {
@@ -47,11 +54,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _closeButton.Click -= CloseButton_Click;
             _closeButton.Click += CloseButton_Click;
+
+            if (_enlargeButton == null)
+            {
+                return;
+            }
+
+            _enlargeButton.Click -= EnlargeButton_Click;
+            _enlargeButton.Click += EnlargeButton_Click;
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            if (BladeItemMode == BladeItemMode.Normal)
+            {
+                _normalModeWidth = Width;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             IsOpen = false;
+        }
+
+        private void EnlargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            BladeItemMode = BladeItemMode == BladeItemMode.Normal ? BladeItemMode.Small : BladeItemMode.Normal;
         }
     }
 }

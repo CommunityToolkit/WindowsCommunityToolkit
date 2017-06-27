@@ -269,6 +269,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
+    <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
@@ -397,6 +398,7 @@
     <Content Include="SamplePages\ClipboardHelper\ClipboardHelperCode.bind" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
+    <Content Include="SamplePages\Menu\Menu.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -419,6 +421,10 @@
     </Compile>
     <Compile Include="SamplePages\ClipboardHelper\ClipboardHelperPage.xaml.cs">
       <DependentUpon>ClipboardHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
+    <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
@@ -674,6 +680,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Menu\MenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
