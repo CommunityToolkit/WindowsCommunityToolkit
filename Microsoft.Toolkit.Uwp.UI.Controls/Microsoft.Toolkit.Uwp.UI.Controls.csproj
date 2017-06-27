@@ -73,6 +73,7 @@
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="MarkdownTextBlock\Display\IImageResolver.cs" />
     <Compile Include="ImageEx\ImageExBase.Placeholder.cs" />
     <Compile Include="ImageEx\ImageExBase.Source.cs" />
     <Compile Include="ImageEx\ImageExBase.cs" />
@@ -111,15 +112,25 @@
     <Compile Include="MarkdownTextBlock\Parse\MarkdownDocument.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownElement.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownInline.cs" />
+    <Compile Include="MarkdownTextBlock\ResolveMarkdownImageEventArgs.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="OrbitView\OrbitViewItem.cs" />
     <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
     <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="OrbitView\OrbitView.cs" />
+    <Compile Include="OrbitView\OrbitViewElementProperties.cs" />
+    <Compile Include="OrbitView\OrbitViewDataItem.cs" />
+    <Compile Include="OrbitView\OrbitViewItemClickedEventArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewDataItemCollection.cs" />
+    <Compile Include="OrbitView\OrbitViewPanel.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemArrangedArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
@@ -204,6 +215,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OrbitView\OrbitView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="OpenPaneLength"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(240.0));
+        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(320));
 
         /// <summary>
         /// Identifies the <see cref="PanePlacement"/> dependency property.
@@ -41,6 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="CompactPaneLength"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CompactPaneLengthProperty = DependencyProperty.Register(nameof(CompactPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
+
+        /// <summary>
+        /// Identifies the <see cref="PaneForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PaneForegroundProperty = DependencyProperty.Register(nameof(PaneForeground), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="PaneBackground"/> dependency property.
@@ -111,6 +116,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(CompactPaneLengthProperty); }
             set { SetValue(CompactPaneLengthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Brush to apply to the foreground of the Pane area of the control
+        /// (specifically, the hamburger button foreground).
+        /// </summary>
+        public Brush PaneForeground
+        {
+            get { return (Brush)GetValue(PaneForegroundProperty); }
+            set { SetValue(PaneForegroundProperty, value); }
         }
 
         /// <summary>
