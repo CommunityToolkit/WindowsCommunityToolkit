@@ -46,7 +46,6 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.UI.Animations.ruleset" />
     <None Include="project.json" />
-    <None Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSetCompletedEventArgs.cs" />
