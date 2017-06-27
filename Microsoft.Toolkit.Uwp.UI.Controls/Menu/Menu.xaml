@@ -27,7 +27,6 @@
 
     <Style TargetType="local:MenuItem">
         <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
