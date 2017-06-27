@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="IsClickEnabledProperty"/> property
+        /// Identifies the <see cref="IsClickEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsClickEnabledProperty =
             DependencyProperty.Register(nameof(IsClickEnabled), typeof(bool), typeof(OrbitViewItemControl), new PropertyMetadata(false, OnClickEnabledChanged));
