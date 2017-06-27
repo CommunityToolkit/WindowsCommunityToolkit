@@ -36,11 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private CompositeTransform _transform;
 
         /// <summary>
-        /// Raised when an item has been clicked or activated with keyboard/controller
-        /// </summary>
-        public event EventHandler<OrbitViewItemClickedEventArgs> Invoked;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="OrbitViewItem"/> class.
         /// Creates a new instance of <see cref="OrbitViewItem"/>
         /// </summary>
@@ -138,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
             {
                 VisualStateManager.GoToState(this, VsNormal, true);
-                Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
             }
         }
 
@@ -153,7 +147,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, VsNormal, true);
-            Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
         }
 
         private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)

@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Raised when an item has been clicked or activated with keyboard/controller
         /// </summary>
-        public event EventHandler<OrbitViewItemClickedEventArgs> ItemInvoked;
+        public event EventHandler<OrbitViewItemClickedEventArgs> ItemClick;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrbitView"/> class.
@@ -306,7 +306,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 control.Content = orbitViewElement;
                 control.DataContext = item;
-                control.Invoked += OrbitViewItemControl_Clicked;
+                control.KeyUp += OrbitViewItem_KeyUp;
+                control.PointerReleased += OrbitViewItem_PointerReleased;
 
                 control.IsClickEnabled = IsItemClickEnabled;
             }
@@ -360,7 +361,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var control = element as OrbitViewItem;
             if (control != null)
             {
-                control.Invoked -= OrbitViewItemControl_Clicked;
+                control.KeyUp -= OrbitViewItem_KeyUp;
+                control.PointerReleased -= OrbitViewItem_PointerReleased;
+            }
+        }
+
+        private void OrbitViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            OnItemClicked((OrbitViewItem)sender);
+        }
+
+        private void OrbitViewItem_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+            {
+                OnItemClicked((OrbitViewItem)sender);
             }
         }
 
@@ -556,9 +571,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OrbitViewItemControl_Clicked(object sender, OrbitViewItemClickedEventArgs e)
+        private void OnItemClicked(OrbitViewItem item)
         {
-            ItemInvoked?.Invoke(this, e);
+            if (IsItemClickEnabled)
+            {
+                ItemClick?.Invoke(this, new OrbitViewItemClickedEventArgs(item.DataContext));
+            }
         }
 
         private void ClearOrbits()
