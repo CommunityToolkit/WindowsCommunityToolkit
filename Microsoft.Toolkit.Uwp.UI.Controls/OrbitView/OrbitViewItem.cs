@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private const string _transformName = "Transform";
         private CompositeTransform _transform;
+        private bool _isClickEnabled;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrbitViewItem"/> class.
@@ -47,29 +48,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether item is invokable.
         /// </summary>
-        public bool IsClickEnabled
+        internal bool IsClickEnabled
         {
-            get { return (bool)GetValue(IsClickEnabledProperty); }
-            set { SetValue(IsClickEnabledProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="IsClickEnabled"/> property
-        /// </summary>
-        public static readonly DependencyProperty IsClickEnabledProperty =
-            DependencyProperty.Register(nameof(IsClickEnabled), typeof(bool), typeof(OrbitViewItem), new PropertyMetadata(false, OnClickEnabledChanged));
-
-        private static void OnClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as OrbitViewItem;
-
-            if ((bool)e.NewValue)
+            get
             {
-                control.EnableItemInteraction();
+                return _isClickEnabled;
             }
-            else
+
+            set
             {
-                control.DisableItemInteraction();
+                if (value != _isClickEnabled)
+                {
+                    _isClickEnabled = value;
+                    if (value)
+                    {
+                        EnableItemInteraction();
+                    }
+                    else
+                    {
+                        DisableItemInteraction();
+                    }
+                }
             }
         }
 
