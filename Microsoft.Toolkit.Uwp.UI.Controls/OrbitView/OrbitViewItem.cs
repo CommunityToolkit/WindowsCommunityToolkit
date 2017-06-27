@@ -32,10 +32,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="DistanceProperty"/> property
+        /// Identifies the <see cref="Distance"/> property
         /// </summary>
         public static readonly DependencyProperty DistanceProperty =
-            DependencyProperty.Register("Distance", typeof(double), typeof(OrbitViewItem), new PropertyMetadata(0.5));
+            DependencyProperty.Register(nameof(Distance), typeof(double), typeof(OrbitViewItem), new PropertyMetadata(0.5));
 
         /// <summary>
         /// Gets or sets a value indicating the name of the item.
@@ -48,10 +48,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="LabelProperty"/> property
+        /// Identifies the <see cref="Label"/> property
         /// </summary>
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(OrbitViewItem), new PropertyMetadata("OrbitViewItem"));
+            DependencyProperty.Register(nameof(Label), typeof(string), typeof(OrbitViewItem), new PropertyMetadata("OrbitViewItem"));
 
         /// <summary>
         /// Gets or sets a value indicating the diameter of the item.
@@ -64,10 +64,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="DiameterProperty"/> property
+        /// Identifies the <see cref="Diameter"/> property
         /// </summary>
         public static readonly DependencyProperty DiameterProperty =
-            DependencyProperty.Register("Diameter", typeof(double), typeof(OrbitViewItem), new PropertyMetadata(-1d));
+            DependencyProperty.Register(nameof(Diameter), typeof(double), typeof(OrbitViewItem), new PropertyMetadata(-1d));
 
         /// <summary>
         /// Gets or sets a value indicating the image of the item.
@@ -79,10 +79,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="ImageProperty"/> property
+        /// Identifies the <see cref="Image"/> property
         /// </summary>
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(ImageSource), typeof(OrbitViewItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Image), typeof(ImageSource), typeof(OrbitViewItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value of an object that can be used to store model data.
@@ -94,10 +94,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="ItemProperty"/> property
+        /// Identifies the <see cref="Item"/> property
         /// </summary>
         public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register("Item", typeof(object), typeof(OrbitViewItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Item), typeof(object), typeof(OrbitViewItem), new PropertyMetadata(null));
 
 
     }

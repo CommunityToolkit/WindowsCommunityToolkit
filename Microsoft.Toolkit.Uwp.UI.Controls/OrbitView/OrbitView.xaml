@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="local:OrbitView" >
-        <Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>
-        <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
-        <Setter Property="AnchorColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"></Setter>
-        <Setter Property="OrbitColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"></Setter>
+    <Style TargetType="local:OrbitView">
+        <Setter Property="IsFocusEngagementEnabled" Value="True" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="AnchorColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="OrbitColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
         <Setter Property="ItemsPanel">
@@ -20,34 +20,46 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:OrbitView">
                     <Grid Background="{TemplateBinding Background}">
-                        <Grid x:Name="OrbitGrid"></Grid>
-                        <Canvas x:Name="AnchorCanvas"></Canvas>
-                        <ItemsPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></ItemsPresenter>
-                        <ContentPresenter x:Name="CenterContent" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding CenterContent}"></ContentPresenter>
+                        <Grid x:Name="OrbitGrid" />
+                        <Canvas x:Name="AnchorCanvas" />
+                        <ItemsPresenter HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch" />
+                        <ContentPresenter x:Name="CenterContent"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding CenterContent}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style TargetType="local:OrbitViewItemControl" >
+    <Style TargetType="local:OrbitViewItemControl">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:OrbitViewItemControl">
                     <Grid x:Name="RootGrid">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}">
+                            <ContentPresenter.RenderTransform>
+                                <CompositeTransform x:Name="Transform" />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleX">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                                                       Storyboard.TargetProperty="ScaleX">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleY">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                                                       Storyboard.TargetProperty="ScaleY">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -55,12 +67,14 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleX">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1.1" />
+                                                                       Storyboard.TargetProperty="ScaleX">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1.1" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleY">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1.1" />
+                                                                       Storyboard.TargetProperty="ScaleY">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1.1" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -69,12 +83,14 @@
                                     <Storyboard>
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.8" />
+                                                                           Storyboard.TargetProperty="ScaleX">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="0.8" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Transform"
-                                                   Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.8" />
+                                                                           Storyboard.TargetProperty="ScaleY">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="0.8" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
@@ -82,11 +98,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}">
-                            <ContentPresenter.RenderTransform>
-                                <CompositeTransform x:Name="Transform" ></CompositeTransform>
-                            </ContentPresenter.RenderTransform>
-                        </ContentPresenter>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

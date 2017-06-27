@@ -11,8 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -24,21 +22,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// ContentControl used as the container for OrbitView items
     /// </summary>
     [TemplatePart(Name = _transformName, Type = typeof(CompositeTransform))]
-    [TemplateVisualState(Name = _vsNormal, GroupName = _commonStateGroup)]
-    [TemplateVisualState(Name = _vsPressed, GroupName = _commonStateGroup)]
-    [TemplateVisualState(Name = _vsPointerOver, GroupName = _commonStateGroup)]
+    [TemplateVisualState(Name = VsNormal, GroupName = CommonStateGroup)]
+    [TemplateVisualState(Name = VsPressed, GroupName = CommonStateGroup)]
+    [TemplateVisualState(Name = VsPointerOver, GroupName = CommonStateGroup)]
     public class OrbitViewItemControl : ContentControl
     {
-        private const string _commonStateGroup = "CommonStates";
-        private const string _vsNormal = "Normal";
-        private const string _vsPressed = "Pressed";
-        private const string _vsPointerOver = "PointerOver";
+        private const string CommonStateGroup = "CommonStates";
+        private const string VsNormal = "Normal";
+        private const string VsPressed = "Pressed";
+        private const string VsPointerOver = "PointerOver";
 
         private const string _transformName = "Transform";
         private CompositeTransform _transform;
 
         /// <summary>
-        /// Raised when an item has been clicked or activated with keyboard/controller 
+        /// Raised when an item has been clicked or activated with keyboard/controller
         /// </summary>
         public event EventHandler<OrbitViewItemClickedEventArgs> Invoked;
 
@@ -64,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="IsClickEnabledProperty"/> property
         /// </summary>
         public static readonly DependencyProperty IsClickEnabledProperty =
-            DependencyProperty.Register("IsClickEnabled", typeof(bool), typeof(OrbitViewItemControl), new PropertyMetadata(false, OnClickEnabledChanged));
+            DependencyProperty.Register(nameof(IsClickEnabled), typeof(bool), typeof(OrbitViewItemControl), new PropertyMetadata(false, OnClickEnabledChanged));
 
         private static void OnClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -80,6 +78,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Invoked whenever application code or internal processes call ApplyTemplate
+        /// </summary>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -136,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
             {
-                VisualStateManager.GoToState(this, _vsNormal, true);
+                VisualStateManager.GoToState(this, VsNormal, true);
                 Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
             }
         }
@@ -145,29 +146,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
             {
-                VisualStateManager.GoToState(this, _vsPressed, true);
+                VisualStateManager.GoToState(this, VsPressed, true);
             }
         }
 
         private void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, _vsNormal, true);
+            VisualStateManager.GoToState(this, VsNormal, true);
             Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
         }
 
         private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, _vsPressed, true);
+            VisualStateManager.GoToState(this, VsPressed, true);
         }
 
         private void Control_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, _vsNormal, true);
+            VisualStateManager.GoToState(this, VsNormal, true);
         }
 
         private void Control_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, _vsPointerOver, true);
+            VisualStateManager.GoToState(this, VsPointerOver, true);
         }
     }
 }

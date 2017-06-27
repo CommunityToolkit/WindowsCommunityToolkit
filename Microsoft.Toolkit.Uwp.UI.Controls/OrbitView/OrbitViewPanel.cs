@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class OrbitViewPanel : Panel
     {
-        private OrbitView _OrbitView;
+        private OrbitView _orbitView;
 
         /// <summary>
         /// Event raised when a single element is arranged
@@ -45,22 +43,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                if (_OrbitView != null)
+                if (_orbitView != null)
                 {
-                    return _OrbitView;
+                    return _orbitView;
                 }
 
-                _OrbitView = this.FindVisualAscendant<OrbitView>();
+                _orbitView = this.FindVisualAscendant<OrbitView>();
 
-                if (_OrbitView == null)
+                if (_orbitView == null)
                 {
                     throw new Exception("This OrbitViewPanel must be used as an ItemsPanel in a OrbitView control");
                 }
 
-                return _OrbitView;
+                return _orbitView;
             }
         }
 
+        /// <summary>
+        /// Provides the behavior for the "Measure" pass of the layout cycle.
+        /// </summary>
+        /// <param name="availableSize">The available size that this object can give to child objects.</param>
+        /// <returns>The size that this object determines it needs during layout</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
             var width = availableSize.Width;
@@ -86,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return finalSize;
         }
 
+        /// <summary>
+        /// Provides the behavior for the "Arrange" pass of layout
+        /// </summary>
+        /// <param name="finalSize">The final area within the parent that this object should use to arrange itself and its children</param>
+        /// <returns>The actual size that is used after the element is arranged in layout.</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
             var angle = 2 * Math.PI / Children.Count;
@@ -99,13 +107,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var element = Children.ElementAt(i);
 
-                OrbitViewItem OrbitViewItem = null;
+                OrbitViewItem orbitViewItem = null;
                 if (element is FrameworkElement)
                 {
-                    OrbitViewItem = (element as FrameworkElement).DataContext as OrbitViewItem;
+                    orbitViewItem = (element as FrameworkElement).DataContext as OrbitViewItem;
                 }
 
-                var d = OrbitViewItem != null && OrbitViewItem.Distance >= 0 ? OrbitViewItem.Distance : 0.5;
+                var d = orbitViewItem != null && orbitViewItem.Distance >= 0 ? orbitViewItem.Distance : 0.5;
                 d = Math.Min(d, 1d);
 
                 var distance = (d * (maxDistance - minDistance)) + minDistance;

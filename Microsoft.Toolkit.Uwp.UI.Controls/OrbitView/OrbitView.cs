@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -35,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "CenterContent", Type = typeof(ContentPresenter))]
     public sealed class OrbitView : ItemsControl
     {
-        private const double _animationDuration = 200;
+        private const double AnimationDuration = 200;
 
         private OrbitViewPanel _panel;
         private Grid _orbitsContainer;
@@ -47,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Dictionary<object, Line> _anchors;
 
         /// <summary>
-        /// Raised when an item has been clicked or activated with keyboard/controller 
+        /// Raised when an item has been clicked or activated with keyboard/controller
         /// </summary>
         public event EventHandler<OrbitViewItemClickedEventArgs> ItemInvoked;
 
@@ -75,9 +74,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Invoked whenever application code or internal processes call ApplyTemplate
+        /// </summary>
         protected override void OnApplyTemplate()
         {
-            _centerContent = (ContentPresenter)GetTemplateChild("CenterContent");
+            _centerContent = GetTemplateChild("CenterContent") as ContentPresenter;
             if (_centerContent == null)
             {
                 return;
@@ -98,10 +100,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="OrbitsEnabledProperty"/> property
+        /// Identifies the <see cref="OrbitsEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitsEnabledProperty =
-            DependencyProperty.Register("OrbitsEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnOrbitsEnabledChanged));
+            DependencyProperty.Register(nameof(OrbitsEnabled), typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnOrbitsEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether elements are clickable.
@@ -113,10 +115,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="IsItemClickEnabledProperty"/> property
+        /// Identifies the <see cref="IsItemClickEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsItemClickEnabledProperty =
-            DependencyProperty.Register("IsItemClickEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnItemClickEnabledChanged));
+            DependencyProperty.Register(nameof(IsItemClickEnabled), typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnItemClickEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether anchors are enabled.
@@ -128,10 +130,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="AnchorsEnabledProperty"/> property
+        /// Identifies the <see cref="AnchorsEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty AnchorsEnabledProperty =
-            DependencyProperty.Register("AnchorsEnabled", typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnAchorsEnabledChanged));
+            DependencyProperty.Register(nameof(AnchorsEnabled), typeof(bool), typeof(OrbitView), new PropertyMetadata(false, OnAchorsEnabledChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the minimum size of items
@@ -145,10 +147,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="MinItemSizeProperty"/> property
+        /// Identifies the <see cref="MinItemSize"/> property
         /// </summary>
         public static readonly DependencyProperty MinItemSizeProperty =
-            DependencyProperty.Register("MinItemSize", typeof(double), typeof(OrbitView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
+            DependencyProperty.Register(nameof(MinItemSize), typeof(double), typeof(OrbitView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the maximum size of items
@@ -162,10 +164,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="MaxItemSizeProperty"/> property
+        /// Identifies the <see cref="MaxItemSize"/> property
         /// </summary>
         public static readonly DependencyProperty MaxItemSizeProperty =
-            DependencyProperty.Register("MaxItemSize", typeof(double), typeof(OrbitView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
+            DependencyProperty.Register(nameof(MaxItemSize), typeof(double), typeof(OrbitView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the color of anchors
@@ -177,10 +179,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="AnchorColorProperty"/> property
+        /// Identifies the <see cref="AnchorColor"/> property
         /// </summary>
         public static readonly DependencyProperty AnchorColorProperty =
-            DependencyProperty.Register("AnchorColor", typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
+            DependencyProperty.Register(nameof(AnchorColor), typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnAnchorPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the color of orbits
@@ -192,10 +194,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="OrbitColorProperty"/> property
+        /// Identifies the <see cref="OrbitColor"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitColorProperty =
-            DependencyProperty.Register("OrbitColor", typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
+            DependencyProperty.Register(nameof(OrbitColor), typeof(Brush), typeof(OrbitView), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the dash array for the orbit
@@ -207,10 +209,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="OrbitDashArrayProperty"/> property
+        /// Identifies the <see cref="OrbitDashArray"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitDashArrayProperty =
-            DependencyProperty.Register("OrbitDashArray", typeof(DoubleCollection), typeof(OrbitView), new PropertyMetadata(null, OnOrbitPropertyChanged));
+            DependencyProperty.Register(nameof(OrbitDashArray), typeof(DoubleCollection), typeof(OrbitView), new PropertyMetadata(null, OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the thickness of the anchors
@@ -222,10 +224,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="AnchorThicknessProperty"/> property
+        /// Identifies the <see cref="AnchorThickness"/> property
         /// </summary>
         public static readonly DependencyProperty AnchorThicknessProperty =
-            DependencyProperty.Register("AnchorThickness", typeof(double), typeof(double), new PropertyMetadata(1d, OnAnchorPropertyChanged));
+            DependencyProperty.Register(nameof(AnchorThickness), typeof(double), typeof(double), new PropertyMetadata(1d, OnAnchorPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the thickness of the orbits
@@ -237,25 +239,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="OrbitThicknessProperty"/> property
+        /// Identifies the <see cref="OrbitThickness"/> property
         /// </summary>
         public static readonly DependencyProperty OrbitThicknessProperty =
-            DependencyProperty.Register("OrbitThickness", typeof(double), typeof(OrbitView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
+            DependencyProperty.Register(nameof(OrbitThickness), typeof(double), typeof(OrbitView), new PropertyMetadata(1d, OnOrbitPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value representing the center element
         /// </summary>
         public object CenterContent
         {
-            get { return (int)GetValue(CenterContentProperty); }
+            get { return (object)GetValue(CenterContentProperty); }
             set { SetValue(CenterContentProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="CenterContentProperty"/> property
+        /// Identifies the <see cref="CenterContent"/> property
         /// </summary>
         public static readonly DependencyProperty CenterContentProperty =
-            DependencyProperty.Register("CenterContent", typeof(int), typeof(OrbitView), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(CenterContent), typeof(object), typeof(OrbitView), new PropertyMetadata(null));
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -264,11 +266,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return element;
         }
 
+        /// <summary>
+        /// Prepares the specified element to display the specified item
+        /// </summary>
+        /// <param name="element">Element used to display the specified item.</param>
+        /// <param name="item">Specified item</param>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             if (_panel == null && ItemsPanelRoot != null)
             {
                 _panel = ItemsPanelRoot as OrbitViewPanel;
+                _panel.ItemArranged -= OrbitViewPanel_ItemArranged;
+                _panel.ItemsArranged -= OrbitViewPanel_ItemsArranged;
                 _panel.ItemArranged += OrbitViewPanel_ItemArranged;
                 _panel.ItemsArranged += OrbitViewPanel_ItemsArranged;
             }
@@ -303,7 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (element is FrameworkElement && (element as FrameworkElement).DataContext is OrbitViewItem)
             {
-                orbitViewElement = element as FrameworkElement;
+                orbitViewElement = (FrameworkElement)element;
                 orbitViewItem = orbitViewElement.DataContext as OrbitViewItem;
             }
 
@@ -322,6 +331,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Undoes the effects of the PrepareContainerForItemOverride method
+        /// </summary>
+        /// <param name="element">The container element</param>
+        /// <param name="item">The item</param>
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             base.ClearContainerForItemOverride(element, item);
@@ -675,7 +689,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.Target = nameof(Visual.Offset);
             offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue", easeIn);
-            offsetAnimation.Duration = TimeSpan.FromMilliseconds(_animationDuration);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDuration);
             offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
 
             var implicitAnimations = _compositor.CreateImplicitAnimationCollection();
