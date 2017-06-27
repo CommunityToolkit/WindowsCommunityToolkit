@@ -31,6 +31,18 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
                                     Text="File" />
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
+             <controls:MenuItem Name="FileMenu"
+                               AccessKey="F"
+                               Header="File">
+                <MenuFlyoutSubItem Text="New">
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+X"
+                                    Command="{StaticResource NewProject}"
+                                    Text="Project" />
+                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+W"
+                                    Command="{StaticResource NewFile}"
+                                    Text="File" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
 </controls:Menu>
 
 ```
@@ -40,6 +52,8 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 ### InputGestureText
 Sets the text describing an input gesture that will call the command tied to the specified item or to open the MenuItem FlyoutMenu. ex (Alt+F)
 This property can be replaced by AccessKey if the target OS version is Windows 10 Creater Update or higher.
+
+`Note`: InputGestureText supports Ctrl, Alt or Shift.
 
 ### AllowTooltip
 Specify whether to allow tooltip on Alt click or not.
