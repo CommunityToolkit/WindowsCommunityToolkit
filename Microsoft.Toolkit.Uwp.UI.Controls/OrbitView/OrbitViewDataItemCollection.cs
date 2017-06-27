@@ -15,9 +15,9 @@ using System.Collections.Generic;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The OrbitViewItemCollection provides typed collection of <see cref="OrbitViewItem"/>.
+    /// The OrbitViewDataItemCollection provides typed collection of <see cref="OrbitViewDataItem"/>.
     /// </summary>
-    public class OrbitViewItemCollection : List<OrbitViewItem>
+    public class OrbitViewDataItemCollection : List<OrbitViewDataItem>
     {
     }
 }

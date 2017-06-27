@@ -10,95 +10,165 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A class that can be used to provide data context for <see cref="OrbitView"></see> items by providing distance and diameter values
+    /// ContentControl used as the container for OrbitView items
     /// </summary>
-    public class OrbitViewItem : DependencyObject
+    [TemplatePart(Name = _transformName, Type = typeof(CompositeTransform))]
+    [TemplateVisualState(Name = VsNormal, GroupName = CommonStateGroup)]
+    [TemplateVisualState(Name = VsPressed, GroupName = CommonStateGroup)]
+    [TemplateVisualState(Name = VsPointerOver, GroupName = CommonStateGroup)]
+    public class OrbitViewItem : ContentControl
     {
+        private const string CommonStateGroup = "CommonStates";
+        private const string VsNormal = "Normal";
+        private const string VsPressed = "Pressed";
+        private const string VsPointerOver = "PointerOver";
+
+        private const string _transformName = "Transform";
+        private CompositeTransform _transform;
+
         /// <summary>
-        /// Gets or sets a value indicating the distance from the center.
-        /// Expected value betweeen 0 and 1
+        /// Raised when an item has been clicked or activated with keyboard/controller
         /// </summary>
-        public double Distance
+        public event EventHandler<OrbitViewItemClickedEventArgs> Invoked;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrbitViewItem"/> class.
+        /// Creates a new instance of <see cref="OrbitViewItem"/>
+        /// </summary>
+        public OrbitViewItem()
         {
-            get { return (double)GetValue(DistanceProperty); }
-            set { SetValue(DistanceProperty, value); }
+            DefaultStyleKey = typeof(OrbitViewItem);
         }
 
         /// <summary>
-        /// Identifies the <see cref="Distance"/> property
+        /// Gets or sets a value indicating whether item is invokable.
         /// </summary>
-        public static readonly DependencyProperty DistanceProperty =
-            DependencyProperty.Register(nameof(Distance), typeof(double), typeof(OrbitViewItem), new PropertyMetadata(0.5));
-
-        /// <summary>
-        /// Gets or sets a value indicating the name of the item.
-        /// Used for <see cref="AutomationProperties"/>
-        /// </summary>
-        public string Label
+        public bool IsClickEnabled
         {
-            get { return (string)GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value); }
+            get { return (bool)GetValue(IsClickEnabledProperty); }
+            set { SetValue(IsClickEnabledProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="Label"/> property
+        /// Identifies the <see cref="IsClickEnabled"/> property
         /// </summary>
-        public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register(nameof(Label), typeof(string), typeof(OrbitViewItem), new PropertyMetadata("OrbitViewItem"));
+        public static readonly DependencyProperty IsClickEnabledProperty =
+            DependencyProperty.Register(nameof(IsClickEnabled), typeof(bool), typeof(OrbitViewItem), new PropertyMetadata(false, OnClickEnabledChanged));
 
-        /// <summary>
-        /// Gets or sets a value indicating the diameter of the item.
-        /// Expected value betweeen 0 and 1
-        /// </summary>
-        public double Diameter
+        private static void OnClickEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return (double)GetValue(DiameterProperty); }
-            set { SetValue(DiameterProperty, value); }
+            var control = d as OrbitViewItem;
+
+            if ((bool)e.NewValue)
+            {
+                control.EnableItemInteraction();
+            }
+            else
+            {
+                control.DisableItemInteraction();
+            }
         }
 
         /// <summary>
-        /// Identifies the <see cref="Diameter"/> property
+        /// Invoked whenever application code or internal processes call ApplyTemplate
         /// </summary>
-        public static readonly DependencyProperty DiameterProperty =
-            DependencyProperty.Register(nameof(Diameter), typeof(double), typeof(OrbitViewItem), new PropertyMetadata(-1d));
-
-        /// <summary>
-        /// Gets or sets a value indicating the image of the item.
-        /// </summary>
-        public ImageSource Image
+        protected override void OnApplyTemplate()
         {
-            get { return (ImageSource)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            base.OnApplyTemplate();
+            SizeChanged -= OrbitViewItemControl_SizeChanged;
+
+            if (IsClickEnabled)
+            {
+                EnableItemInteraction();
+            }
+
+            _transform = GetTemplateChild(_transformName) as CompositeTransform;
+            if (_transform != null)
+            {
+                SizeChanged += OrbitViewItemControl_SizeChanged;
+            }
         }
 
-        /// <summary>
-        /// Identifies the <see cref="Image"/> property
-        /// </summary>
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register(nameof(Image), typeof(ImageSource), typeof(OrbitViewItem), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets a value of an object that can be used to store model data.
-        /// </summary>
-        public object Item
+        private void OrbitViewItemControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            get { return (object)GetValue(ItemProperty); }
-            set { SetValue(ItemProperty, value); }
+            if (_transform != null)
+            {
+                _transform.CenterX = e.NewSize.Width / 2;
+                _transform.CenterY = e.NewSize.Height / 2;
+            }
         }
 
-        /// <summary>
-        /// Identifies the <see cref="Item"/> property
-        /// </summary>
-        public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register(nameof(Item), typeof(object), typeof(OrbitViewItem), new PropertyMetadata(null));
+        private void EnableItemInteraction()
+        {
+            DisableItemInteraction();
 
+            IsTabStop = true;
+            UseSystemFocusVisuals = true;
+            PointerEntered += Control_PointerEntered;
+            PointerExited += Control_PointerExited;
+            PointerPressed += Control_PointerPressed;
+            PointerReleased += Control_PointerReleased;
+            KeyDown += Control_KeyDown;
+            KeyUp += Control_KeyUp;
+        }
 
+        private void DisableItemInteraction()
+        {
+            IsTabStop = false;
+            UseSystemFocusVisuals = false;
+            PointerEntered -= Control_PointerEntered;
+            PointerExited -= Control_PointerExited;
+            PointerPressed -= Control_PointerPressed;
+            PointerReleased -= Control_PointerReleased;
+            KeyDown -= Control_KeyDown;
+            KeyUp -= Control_KeyUp;
+        }
+
+        private void Control_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+            {
+                VisualStateManager.GoToState(this, VsNormal, true);
+                Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
+            }
+        }
+
+        private void Control_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+            {
+                VisualStateManager.GoToState(this, VsPressed, true);
+            }
+        }
+
+        private void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, VsNormal, true);
+            Invoked?.Invoke(this, new OrbitViewItemClickedEventArgs(this, this.DataContext));
+        }
+
+        private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, VsPressed, true);
+        }
+
+        private void Control_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, VsNormal, true);
+        }
+
+        private void Control_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, VsPointerOver, true);
+        }
     }
 }

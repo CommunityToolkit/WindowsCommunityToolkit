@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     }
 
 #pragma warning disable SA1402 // File may only contain a single class
-    public class DeviceItem : OrbitViewItem
+    public class DeviceItem : OrbitViewDataItem
 #pragma warning restore SA1402 // File may only contain a single class
     {
         public Symbol Symbol { get; set; }

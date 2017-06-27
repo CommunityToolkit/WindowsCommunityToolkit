@@ -21,7 +21,7 @@
                                         OrbitColor="{Binding DataContext.OrbitColor.Value, ElementName=Root, Mode=OneWay}"
                                         OrbitsEnabled="{Binding DataContext.OrbitsEnabled.Value, ElementName=Root, Mode=OneWay}">
                         <controls:OrbitView.ItemTemplate>
-                            <DataTemplate x:DataType="controls:OrbitViewItem">
+                            <DataTemplate x:DataType="controls:OrbitViewDataItem">
                                 <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Stretch"
                                                           BlurRadius="20"
@@ -35,24 +35,24 @@
                             </DataTemplate>
                         </controls:OrbitView.ItemTemplate>
                         <controls:OrbitView.ItemsSource>
-                            <controls:OrbitViewItemCollection>
-                                <controls:OrbitViewItem Diameter="0.2"
-                                                        Distance="0.1"
-                                                        Image="ms-appx:///Assets/People/shen.png"
-                                                        Label="Shen" />
-                                <controls:OrbitViewItem Diameter="0.5"
-                                                        Distance="0.2"
-                                                        Image="ms-appx:///Assets/People/david.png"
-                                                        Label="David" />
-                                <controls:OrbitViewItem Diameter="0.6"
-                                                        Distance="0.4"
-                                                        Image="ms-appx:///Assets/People/petri.png"
-                                                        Label="Petri" />
-                                <controls:OrbitViewItem Diameter="0.8"
-                                                        Distance="0.8"
-                                                        Image="ms-appx:///Assets/People/vlad.png"
-                                                        Label="Vlad" />
-                            </controls:OrbitViewItemCollection>
+                            <controls:OrbitViewDataItemCollection>
+                                <controls:OrbitViewDataItem Diameter="0.2"
+                                                            Distance="0.1"
+                                                            Image="ms-appx:///Assets/People/shen.png"
+                                                            Label="Shen" />
+                                <controls:OrbitViewDataItem Diameter="0.5"
+                                                            Distance="0.2"
+                                                            Image="ms-appx:///Assets/People/david.png"
+                                                            Label="David" />
+                                <controls:OrbitViewDataItem Diameter="0.6"
+                                                            Distance="0.4"
+                                                            Image="ms-appx:///Assets/People/petri.png"
+                                                            Label="Petri" />
+                                <controls:OrbitViewDataItem Diameter="0.8"
+                                                            Distance="0.8"
+                                                            Image="ms-appx:///Assets/People/vlad.png"
+                                                            Label="Vlad" />
+                            </controls:OrbitViewDataItemCollection>
                         </controls:OrbitView.ItemsSource>
                         <controls:OrbitView.CenterContent>
                             <Grid>

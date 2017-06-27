@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="container">element clicked</param>
         /// <param name="item">data context of element clicked</param>
-        public OrbitViewItemClickedEventArgs(OrbitViewItemControl container, object item)
+        public OrbitViewItemClickedEventArgs(OrbitViewItem container, object item)
         {
             Container = container;
             Item = item;
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the container of the clicked item
         /// </summary>
-        public OrbitViewItemControl Container { get; set; }
+        public OrbitViewItem Container { get; set; }
 
         /// <summary>
         /// Gets or sets the Item/Data Context of the clicked item

@@ -34,12 +34,12 @@
         </Setter>
     </Style>
 
-    <Style TargetType="local:OrbitViewItemControl">
+    <Style TargetType="local:OrbitViewItem">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:OrbitViewItemControl">
+                <ControlTemplate TargetType="local:OrbitViewItem">
                     <Grid x:Name="RootGrid">
                         <ContentPresenter x:Name="ContentPresenter"
                                           Content="{TemplateBinding Content}">

@@ -66,10 +66,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                var items = new List<OrbitViewItem>();
-                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new OrbitViewItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                var items = new List<OrbitViewDataItem>();
+                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
                 ItemsSource = items;
             }
         }
@@ -261,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            var element = new OrbitViewItemControl();
+            var element = new OrbitViewItem();
             ApplyImplicitOffsetAnimation(element);
             return element;
         }
@@ -282,8 +282,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _panel.ItemsArranged += OrbitViewPanel_ItemsArranged;
             }
 
-            var control = element as OrbitViewItemControl;
-            var orbitViewItem = item as OrbitViewItem;
+            var control = element as OrbitViewItem;
+            var orbitViewDataItem = item as OrbitViewDataItem;
             var orbitViewElement = element as FrameworkElement;
 
             if (control != null)
@@ -296,9 +296,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         Fill = Foreground,
                     };
 
-                    if (orbitViewItem != null && orbitViewItem.Image != null)
+                    if (orbitViewDataItem != null && orbitViewDataItem.Image != null)
                     {
-                        itemEllipse.Fill = new ImageBrush() { ImageSource = orbitViewItem.Image };
+                        itemEllipse.Fill = new ImageBrush() { ImageSource = orbitViewDataItem.Image };
                     }
 
                     orbitViewElement = itemEllipse;
@@ -310,17 +310,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 control.IsClickEnabled = IsItemClickEnabled;
             }
-            else if (orbitViewElement != null && orbitViewElement.DataContext is OrbitViewItem)
+            else if (orbitViewElement != null && orbitViewElement.DataContext is OrbitViewDataItem)
             {
-                orbitViewItem = (OrbitViewItem)orbitViewElement.DataContext;
+                orbitViewDataItem = (OrbitViewDataItem)orbitViewElement.DataContext;
             }
 
-            if (orbitViewItem != null)
+            if (orbitViewDataItem != null)
             {
-                element.SetValue(AutomationProperties.NameProperty, orbitViewItem.Label);
-                if (orbitViewItem.Diameter >= 0)
+                element.SetValue(AutomationProperties.NameProperty, orbitViewDataItem.Label);
+                if (orbitViewDataItem.Diameter >= 0)
                 {
-                    double diameter = Math.Min(orbitViewItem.Diameter, 1d);
+                    double diameter = Math.Min(orbitViewDataItem.Diameter, 1d);
                     orbitViewElement.Width = orbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
                 }
             }
@@ -357,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _anchorCanvas.Children.Remove(anchor);
             }
 
-            var control = element as OrbitViewItemControl;
+            var control = element as OrbitViewItem;
             if (control != null)
             {
                 control.Invoked -= OrbitViewItemControl_Clicked;
@@ -411,9 +411,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 foreach (var element in sv.ItemsPanelRoot.Children)
                 {
                     var control = element as ContentControl;
-                    if (control != null && control.DataContext is OrbitViewItem)
+                    if (control != null && control.DataContext is OrbitViewDataItem)
                     {
-                        var item = (OrbitViewItem)control.DataContext;
+                        var item = (OrbitViewDataItem)control.DataContext;
                         if (item.Diameter >= 0)
                         {
                             double diameter = Math.Min(item.Diameter, 1d);
@@ -438,7 +438,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             foreach (var control in sv.ItemsPanelRoot.Children)
             {
-                (control as OrbitViewItemControl).IsClickEnabled = (bool)e.NewValue;
+                (control as OrbitViewItem).IsClickEnabled = (bool)e.NewValue;
             }
         }
 
