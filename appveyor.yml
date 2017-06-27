@@ -5,6 +5,7 @@ branches:
   - dev
   - master
   - build
+  - buildtest
 
 environment:
   SignClientSecret:
