@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var control = element as OrbitViewItemControl;
             var orbitViewItem = item as OrbitViewItem;
-            FrameworkElement orbitViewElement = null;
+            var orbitViewElement = element as FrameworkElement;
 
             if (control != null)
             {
@@ -310,10 +310,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 control.IsClickEnabled = IsItemClickEnabled;
             }
-            else if (element is FrameworkElement && (element as FrameworkElement).DataContext is OrbitViewItem)
+            else if (orbitViewElement != null && orbitViewElement.DataContext is OrbitViewItem)
             {
-                orbitViewElement = (FrameworkElement)element;
-                orbitViewItem = orbitViewElement.DataContext as OrbitViewItem;
+                orbitViewItem = (OrbitViewItem)orbitViewElement.DataContext;
             }
 
             if (orbitViewItem != null)
@@ -411,13 +410,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 foreach (var element in sv.ItemsPanelRoot.Children)
                 {
-                    if (element is ContentControl && (element as ContentControl).DataContext is OrbitViewItem)
+                    var control = element as ContentControl;
+                    if (control != null && control.DataContext is OrbitViewItem)
                     {
-                        var item = (element as FrameworkElement).DataContext as OrbitViewItem;
+                        var item = (OrbitViewItem)control.DataContext;
                         if (item.Diameter >= 0)
                         {
                             double diameter = Math.Min(item.Diameter, 1d);
-                            var content = (element as ContentControl).Content as FrameworkElement;
+                            var content = (FrameworkElement)control.Content;
                             content.Width = content.Height = (diameter * (sv.MaxItemSize - sv.MinItemSize)) + sv.MinItemSize;
                         }
                     }
