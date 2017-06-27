@@ -11,7 +11,8 @@
         <controls:BladeView Margin="0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            BladeMode="@[BladeMode:Enum:BladeMode.Normal]">
+                            BladeMode="@[BladeMode:Enum:BladeMode.Normal]"
+                            AutoCollapseCountThreshold="@[AutoCollapseCountThreshold:String:4]">
             <controls:BladeItem Title="Test"
                                 IsOpen="True"
                                 TitleBarVisibility="Collapsed">
