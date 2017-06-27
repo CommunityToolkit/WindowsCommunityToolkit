@@ -57,6 +57,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
+        /// Identifies the <see cref="BladeItemMode"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty BladeItemModeProperty = DependencyProperty.RegisterAttached(nameof(BladeItemMode), typeof(BladeItemMode), typeof(BladeItem), new PropertyMetadata(BladeItemMode.Normal, OnBladeItemModeChanged));
+
+        /// <summary>
         /// Gets or sets the foreground color of the close button
         /// </summary>
         public Brush CloseButtonForeground
@@ -119,11 +124,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsOpenProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating in what mode the blade should be presented, normal or small
+        /// </summary>
+        public BladeItemMode BladeItemMode
+        {
+            get { return (BladeItemMode)GetValue(BladeItemModeProperty); }
+            set { SetValue(BladeItemModeProperty, value); }
+        }
+
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             BladeItem bladeItem = (BladeItem)dependencyObject;
             bladeItem.Visibility = bladeItem.IsOpen ? Visibility.Visible : Visibility.Collapsed;
             bladeItem.VisibilityChanged?.Invoke(bladeItem, bladeItem.Visibility);
+        }
+
+        private static void OnBladeItemModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            BladeItem bladeItem = (BladeItem)dependencyObject;
+
+            if (bladeItem.BladeItemMode == BladeItemMode.Normal)
+            {
+                VisualStateManager.GoToState(bladeItem, "Expanded", true);
+                bladeItem.Width = bladeItem._normalModeWidth;
+            }
+            else
+            {
+                VisualStateManager.GoToState(bladeItem, "Collapsed", true);
+                bladeItem.Width = double.NaN;
+            }
         }
     }
 }

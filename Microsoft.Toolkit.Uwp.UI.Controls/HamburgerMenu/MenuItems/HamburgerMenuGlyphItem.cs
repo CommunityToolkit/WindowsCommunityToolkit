@@ -25,6 +25,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="HamburgerMenuGlyphItem"/> class.
+        /// </summary>
+        public HamburgerMenuGlyphItem()
+        {
+            DefaultStyleKey = typeof(HamburgerMenuGlyphItem);
+        }
+
+        /// <summary>
         /// Gets or sets a value that specifies the glyph to use from Segoe MDL2 Assets font.
         /// </summary>
         public string Glyph

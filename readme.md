@@ -63,6 +63,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Loading](http://docs.uwpcommunitytoolkit.com/en/master/controls/Loading/)
 * [MarkdownTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/MarkdownTextBlock/)
 * [MasterDetailsView](http://docs.uwpcommunitytoolkit.com/en/master/controls/MasterDetailsView/)
+* [OrbitView](http://docs.uwpcommunitytoolkit.com/en/master/controls/OrbitView/)
 * [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
 * [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
@@ -74,6 +75,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxRegex/)
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
+* [Menu](http://docs.uwpcommunitytoolkit.com/en/master/controls/Menu/)
 
 ### Code Helpers
 
