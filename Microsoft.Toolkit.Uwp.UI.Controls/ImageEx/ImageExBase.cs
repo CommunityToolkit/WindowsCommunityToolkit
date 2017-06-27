@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsInitialized = true;
 
-            ImageExInitialized?.Invoke(this, new EventArgs());
+            ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
             SetSource(Source);
 

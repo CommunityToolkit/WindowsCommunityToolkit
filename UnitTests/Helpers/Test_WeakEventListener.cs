@@ -30,7 +30,7 @@ namespace UnitTests.Helpers
 
             protected virtual void OnRaiseEvent()
             {
-                Raisevent?.Invoke(this, new EventArgs());
+                Raisevent?.Invoke(this, EventArgs.Empty);
             }
         }
 
