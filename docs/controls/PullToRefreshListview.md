@@ -10,19 +10,24 @@ If you want more than a text to display, you can then use *PullToRefreshContent*
 
 The *RefreshIndicatorContent* can be used with the *PullProgressChanged* event to provide a custom visual for the user.
 
+To cancel a refresh request just slide back to a position prior to the *PullThreshold* position. Upon release the *RefreshIntentCanceled* event will
+be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
+
 ## Syntax
 
 ```xml
 
 <controls:PullToRefreshListView Name="PullToRefreshListViewControl"
-	ItemsSource="{x:Bind _items}"	
-	OverscrollLimit="0.4"
-	PullThreshold="100"
-	RefreshRequested="ListView_RefreshCommand" 
-	PullProgressChanged="ListView_PullProgressChanged">
-	<controls:PullToRefreshListView.RefreshIndicatorContent>
-		<Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
-	</controls:PullToRefreshListView.RefreshIndicatorContent>
+    ItemsSource="{x:Bind _items}"	
+    OverscrollLimit="0.4"
+    PullThreshold="100"
+    RefreshRequested="ListView_RefreshCommand"
+    RefreshIntentCanceled="ListView_RefreshIntentCanceled"
+    RefreshIntentCanceledCommand="{x:Bind RefreshIntentCanceled}"
+    PullProgressChanged="ListView_PullProgressChanged">
+    <controls:PullToRefreshListView.RefreshIndicatorContent>
+        <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
+    </controls:PullToRefreshListView.RefreshIndicatorContent>
 </controls:PullToRefreshListView>
 
 ```

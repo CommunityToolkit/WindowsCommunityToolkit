@@ -2,7 +2,7 @@
 
 The `OrbitView` control provides a new control, inherited from the `ItemsControl`. All items are arranged in circle around a center element
 
-![OrbitView Overview](../resources/images/OrbitView.gif "OrbitView")  
+![OrbitView Overview](../resources/images/Controls-OrbitView.gif "OrbitView")  
 
 ## Syntax
 
