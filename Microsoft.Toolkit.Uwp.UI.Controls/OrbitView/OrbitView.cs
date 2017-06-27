@@ -366,19 +366,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OrbitViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            OnItemClicked((OrbitViewItem)sender);
-        }
-
-        private void OrbitViewItem_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
-            {
-                OnItemClicked((OrbitViewItem)sender);
-            }
-        }
-
         private static void OnAchorsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sv = d as OrbitView;
@@ -482,6 +469,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var anchor in sv._anchorCanvas.Children)
             {
                 sv.SetAnchorProperties(anchor as Line);
+            }
+        }
+
+        private void OrbitViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            OnItemClicked((OrbitViewItem)sender);
+        }
+
+        private void OrbitViewItem_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+            {
+                OnItemClicked((OrbitViewItem)sender);
             }
         }
 
