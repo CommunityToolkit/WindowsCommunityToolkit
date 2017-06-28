@@ -17,7 +17,6 @@ ObservableBluetoothLEDevice device =
 // See all the services
 var services = device.Services
 
-
 ```
 
 ## Requirements (Windows 10 Device Family)
@@ -28,5 +27,6 @@ var services = device.Services
 
 ## API
 
-TODO: * [BluetoothLEHelper source code]()
+* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/BluetoothLEHelper/)
+
 

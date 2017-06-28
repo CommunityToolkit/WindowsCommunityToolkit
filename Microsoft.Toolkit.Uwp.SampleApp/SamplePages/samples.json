@@ -504,10 +504,10 @@
         "Name": "BluetoothLEHelper",
         "Type": "BluetoothLEHelperPage",
         "About": "The Bluetooth LE helper class is used to connect and interact with bluetooth LE devices.",
-        //"CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Network/NetworkHelper",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
-        "Icon": "/Assets/Helpers.png",
-        //"DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/NetworkHelper.md"
+        "Icon": "/Assets/Helpers.png"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BluetoothLEHelper.md"
       },
       {
         "Name": "SystemInformation",

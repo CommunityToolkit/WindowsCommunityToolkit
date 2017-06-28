@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets a value indicating whether the Bluetooth LE Helper is supported.
         /// </summary>
-        public bool IsBluetoothLeSupported => ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
+        public bool IsBluetoothLESupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
 
         /// <summary>
         /// An event for when the enumeration is complete.
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public void StartEnumeration()
         {
-            if (_advertisementWatcher?.Status == BluetoothLEAdvertisementWatcherStatus.Started)
+            if (_advertisementWatcher?.Status == BluetoothLEAdvertisementWatcherStatus.Started || _deviceWatcher != null)
             {
                 return;
             }
@@ -170,11 +170,7 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Added -= DeviceWatcher_Added;
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
-
-                if (EnumerationCompleted != null)
-                {
-                    _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
-                }
+                _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
 
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;
@@ -189,22 +185,11 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// An event for when the enumeration is completed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        private void _deviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
-        {
-            EnumerationCompleted?.Invoke(sender, EventArgs.Empty);
-        }
-
-        /// <summary>
         /// Initializes the app context.
         /// </summary>
         private async void Init()
         {
             _adapter = await BluetoothAdapter.GetDefaultAsync();
-            Context = new BluetoothLEHelper();
         }
 
         /// <summary>
@@ -299,6 +284,18 @@ namespace Microsoft.Toolkit.Uwp
                     _readerWriterLockSlim.ExitWriteLock();
                 }
             });
+        }
+
+        /// <summary>
+        /// An event for when the enumeration is completed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        {
+            StopEnumeration();
+
+            EnumerationCompleted?.Invoke(sender, EventArgs.Empty);
         }
 
         /// <summary>
