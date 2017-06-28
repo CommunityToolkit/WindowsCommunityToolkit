@@ -1,4 +1,4 @@
-﻿// Get a local copy of the context for easier reading
+// Get a local copy of the context for easier reading
 BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
 
 // Start the Enumeration
