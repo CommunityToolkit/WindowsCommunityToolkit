@@ -28,16 +28,24 @@ namespace Microsoft.Toolkit.Uwp
     public static class StreamHelper
     {
         /// <summary>
+        /// Definition of a method for manipulating requests.
+        /// </summary>
+        /// <param name="request">HttpHelperRequest to be handled.</param>
+        /// <returns>HttpHelperRequest after being handled</returns>
+        public delegate HttpHelperRequest HttpHelperRequestHandlerDelegate(HttpHelperRequest request);
+
+        /// <summary>
         /// Get the response stream returned by a HTTP get request.
         /// </summary>
         /// <param name="uri">Uri to request.</param>
+        /// <param name="handler">A method which has the same signature as <see cref="HttpHelperRequestHandlerDelegate"/></param>
         /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Response stream</returns>
-        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, HttpHelperRequestHandlerDelegate handler, CancellationToken cancellationToken = default(CancellationToken))
         {
             var outputStream = new InMemoryRandomAccessStream();
 
-            using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
+            using (var request = handler?.Invoke(new HttpHelperRequest(uri, HttpMethod.Get)) ?? new HttpHelperRequest(uri, HttpMethod.Get))
             {
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
                 {
