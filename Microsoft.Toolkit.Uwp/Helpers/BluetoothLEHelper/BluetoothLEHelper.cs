@@ -36,6 +36,11 @@ namespace Microsoft.Toolkit.Uwp
         private const string BluetoothLeDeviceWatcherAqs = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
 
         /// <summary>
+        /// Gets a value indicating whether the Bluetooth LE Helper is supported
+        /// </summary>
+        private static bool? _isBluetoothLESupported = null;
+
+        /// <summary>
         /// We need to cache all DeviceInformation objects we get as they may
         /// get updated in the future. The update may make them eligible to be put on
         /// the displayed list.
@@ -76,6 +81,12 @@ namespace Microsoft.Toolkit.Uwp
         public static BluetoothLEHelper Context { get; private set; } = new BluetoothLEHelper();
 
         /// <summary>
+        /// Gets a value indicating whether the Bluetooth LE Helper is supported.
+        /// </summary>
+        public static bool IsBluetoothLESupported => (bool)(_isBluetoothLESupported ??
+            (_isBluetoothLESupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
+
+        /// <summary>
         /// Gets the list of available bluetooth devices
         /// </summary>
         public ObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; } = new ObservableCollection<ObservableBluetoothLEDevice>();
@@ -105,11 +116,6 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets a value indicating whether central role is supported by this device
         /// </summary>
         public bool IsCentralRoleSupported => _adapter.IsCentralRoleSupported;
-
-        /// <summary>
-        /// Gets a value indicating whether the Bluetooth LE Helper is supported.
-        /// </summary>
-        public bool IsBluetoothLESupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
 
         /// <summary>
         /// An event for when the enumeration is complete.
@@ -149,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp
             _deviceWatcher.Added += DeviceWatcher_Added;
             _deviceWatcher.Updated += DeviceWatcher_Updated;
             _deviceWatcher.Removed += DeviceWatcher_Removed;
-            _deviceWatcher.EnumerationCompleted += _deviceWatcher_EnumerationCompleted;
+            _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
 
             _advertisementWatcher = new BluetoothLEAdvertisementWatcher();
             _advertisementWatcher.Received += AdvertisementWatcher_Received;
@@ -170,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Added -= DeviceWatcher_Added;
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
-                _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
+                _deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
 
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;

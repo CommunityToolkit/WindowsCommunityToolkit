@@ -140,7 +140,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public GattCharacteristic Characteristic
         {
-            get { return _characteristic; }
+            get
+            {
+                return _characteristic;
+            }
 
             set
             {
@@ -157,7 +160,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public bool IsIndicateSet
         {
-            get { return _isIndicateSet; }
+            get
+            {
+                return _isIndicateSet;
+            }
 
             set
             {
@@ -174,7 +180,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public bool IsNotifySet
         {
-            get { return _isNotifySet; }
+            get
+            {
+                return _isNotifySet;
+            }
 
             set
             {
@@ -191,7 +200,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public ObservableGattDeviceService Parent
         {
-            get { return _parent; }
+            get
+            {
+                return _parent;
+            }
 
             set
             {
@@ -208,7 +220,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
 
             set
             {
@@ -225,7 +240,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string UUID
         {
-            get { return _uuid; }
+            get
+            {
+                return _uuid;
+            }
 
             set
             {
@@ -242,7 +260,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string Value
         {
-            get { return _value; }
+            get
+            {
+                return _value;
+            }
 
             private set
             {
@@ -259,7 +280,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public DisplayTypes DisplayType
         {
-            get { return _displayType; }
+            get
+            {
+                return _displayType;
+            }
 
             set
             {
@@ -276,7 +300,6 @@ namespace Microsoft.Toolkit.Uwp
         /// Event to notify when this object has changed
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         /// <summary>
         /// Reads the value of the Characteristic
@@ -424,6 +447,15 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
+        /// Property changed event invoker
+        /// </summary>
+        /// <param name="propertyName">name of the property that changed</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
         /// When the Characteristics value changes.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -470,7 +502,7 @@ namespace Microsoft.Toolkit.Uwp
             {
                 if (Name == "DeviceName")
                 {
-                    // All devices have DeviceName so this is a special case. 
+                    // All devices have DeviceName so this is a special case.
                     DisplayType = DisplayTypes.Utf8;
                 }
                 else
@@ -565,15 +597,6 @@ namespace Microsoft.Toolkit.Uwp
             {
                 Value = GattConvert.ToUTF16String(_rawData);
             }
-        }
-
-        /// <summary>
-        /// Property changed event invoker
-        /// </summary>
-        /// <param name="propertyName">name of the property that changed</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

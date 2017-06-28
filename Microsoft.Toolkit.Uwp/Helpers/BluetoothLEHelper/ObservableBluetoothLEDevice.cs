@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp
     /// Wrapper around <see cref="BluetoothLEDevice" /> to make it bindable.
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-    /// <seealso cref="System.IEquatable{Microsoft.Toolkit.Uwp.ObservableBluetoothLEDevice}" />
+    /// <seealso cref="System.IEquatable{ObservableBluetoothLEDevice}" />
     public class ObservableBluetoothLEDevice : INotifyPropertyChanged, IEquatable<ObservableBluetoothLEDevice>
     {
         /// <summary>
@@ -103,7 +103,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The bluetooth le device.</value>
         public BluetoothLEDevice BluetoothLEDevice
         {
-            get { return _bluetoothLeDevice; }
+            get
+            {
+                return _bluetoothLeDevice;
+            }
 
             private set
             {
@@ -118,7 +121,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The glyph.</value>
         public BitmapImage Glyph
         {
-            get { return _glyph; }
+            get
+            {
+                return _glyph;
+            }
 
             set
             {
@@ -133,7 +139,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The device information.</value>
         public DeviceInformation DeviceInfo
         {
-            get { return _deviceInfo; }
+            get
+            {
+                return _deviceInfo;
+            }
 
             private set
             {
@@ -148,7 +157,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
         public bool IsConnected
         {
-            get { return _isConnected; }
+            get
+            {
+                return _isConnected;
+            }
 
             set
             {
@@ -166,7 +178,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value><c>true</c> if this instance is paired; otherwise, <c>false</c>.</value>
         public bool IsPaired
         {
-            get { return _isPaired; }
+            get
+            {
+                return _isPaired;
+            }
 
             set
             {
@@ -184,7 +199,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The services.</value>
         public ObservableCollection<ObservableGattDeviceService> Services
         {
-            get { return _services; }
+            get
+            {
+                return _services;
+            }
 
             private set
             {
@@ -199,7 +217,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The service count.</value>
         public int ServiceCount
         {
-            get { return _serviceCount; }
+            get
+            {
+                return _serviceCount;
+            }
 
             set
             {
@@ -217,7 +238,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The name.</value>
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
 
             private set
             {
@@ -235,7 +259,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The error text.</value>
         public string ErrorText
         {
-            get { return _errorText; }
+            get
+            {
+                return _errorText;
+            }
 
             private set
             {
@@ -254,7 +281,8 @@ namespace Microsoft.Toolkit.Uwp
         /// Gets the bluetooth address of this device
         /// </summary>
         /// <value>The bluetooth address as ulong.</value>
-        public ulong BluetoothAddressAsUlong => Convert.ToUInt64(BluetoothAddressAsString.Replace(":", string.Empty),
+        public ulong BluetoothAddressAsUlong => Convert.ToUInt64(
+            BluetoothAddressAsString.Replace(":", string.Empty),
             16);
 
         /// <summary>
@@ -271,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Connect to this bluetooth device
         /// </summary>
         /// <returns>Connection task</returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">Thorws Exception when no permission to access device</exception>
         public async Task Connect()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
