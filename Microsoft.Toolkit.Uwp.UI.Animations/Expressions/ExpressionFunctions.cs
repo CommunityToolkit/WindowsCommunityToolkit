@@ -1199,12 +1199,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Functions the specified node type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from ExpressionNode.</typeparam>
         /// <param name="nodeType">Type of the node.</param>
         /// <param name="expressionFunctionParams">The expression function parameters.</param>
         /// <returns>T.</returns>
         internal static T Function<T>(ExpressionNodeType nodeType, params ExpressionNode[] expressionFunctionParams)
-            where T : class
+            where T : ExpressionNode
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 

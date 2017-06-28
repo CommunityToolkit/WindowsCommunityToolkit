@@ -148,11 +148,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// References the property.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from ExpressionNode.</typeparam>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns>T.</returns>
         protected internal T ReferenceProperty<T>(string propertyName)
-            where T : class
+            where T : ExpressionNode
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
 
