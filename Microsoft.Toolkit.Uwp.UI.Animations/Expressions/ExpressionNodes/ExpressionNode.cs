@@ -330,7 +330,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Sets all parameters.
         /// </summary>
         /// <param name="animation">The animation.</param>
-        /// <exception cref="System.Exception"></exception>
         internal void SetAllParameters(CompositionAnimation animation)
         {
             // Make sure the list is populated
@@ -398,7 +397,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <typeparam name="T">A class that derives from ExpressionNode.</typeparam>
         /// <param name="subchannels">The subchannels.</param>
         /// <returns>T.</returns>
-        /// <exception cref="System.Exception"></exception>
         protected internal T SubchannelsInternal<T>(params string[] subchannels)
             where T : ExpressionNode
         {
