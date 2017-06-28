@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _isConnected;
             }
 
-            set
+            private set
             {
                 if (_isConnected != value)
                 {
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this device is paired
+        /// Gets a value indicating whether this device is paired
         /// </summary>
         /// <value><c>true</c> if this instance is paired; otherwise, <c>false</c>.</value>
         public bool IsPaired
@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _isPaired;
             }
 
-            set
+            private set
             {
                 if (_isPaired != value)
                 {
@@ -350,7 +350,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Does the in application pairing.
+        /// Does the in application pairing
         /// </summary>
         /// <returns>Task.</returns>
         /// <exception cref="Exception">The status of the pairing.</exception>

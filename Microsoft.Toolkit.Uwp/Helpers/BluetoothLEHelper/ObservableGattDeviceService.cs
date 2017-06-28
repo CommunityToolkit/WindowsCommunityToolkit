@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets the name of this service
+        /// Gets the name of this service
         /// </summary>
         public string Name
         {
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _name;
             }
 
-            set
+            private set
             {
                 if (_name != value)
                 {
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets the UUID of this service
+        /// Gets the UUID of this service
         /// </summary>
         public string UUID
         {
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _uuid;
             }
 
-            set
+            private set
             {
                 if (_uuid != value)
                 {

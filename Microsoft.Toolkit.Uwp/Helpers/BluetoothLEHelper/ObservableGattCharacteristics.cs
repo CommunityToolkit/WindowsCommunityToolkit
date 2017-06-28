@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether indicate is set
+        /// Gets a value indicating whether indicate is set
         /// </summary>
         public bool IsIndicateSet
         {
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _isIndicateSet;
             }
 
-            set
+            private set
             {
                 if (_isIndicateSet != value)
                 {
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether notify is set
+        /// Gets a value indicating whether notify is set
         /// </summary>
         public bool IsNotifySet
         {
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp
                 return _isNotifySet;
             }
 
-            set
+            private set
             {
                 if (_isNotifySet != value)
                 {
