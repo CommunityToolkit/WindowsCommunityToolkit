@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this device is connected
+        /// Gets a value indicating whether this device is connected
         /// </summary>
         /// <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
         public bool IsConnected

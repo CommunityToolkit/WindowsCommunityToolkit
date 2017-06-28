@@ -33,11 +33,6 @@ namespace Microsoft.Toolkit.Uwp
             new ObservableCollection<ObservableGattCharacteristics>();
 
         /// <summary>
-        /// Determines if the SelectedCharacteristic_PropertyChanged has been added
-        /// </summary>
-        private bool _hasSelectedCharacteristicPropertyChangedHandler;
-
-        /// <summary>
         /// Source for <see cref="Name" />
         /// </summary>
         private string _name;
