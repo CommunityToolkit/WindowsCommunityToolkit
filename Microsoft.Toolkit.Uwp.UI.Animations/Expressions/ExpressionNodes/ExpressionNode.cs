@@ -170,11 +170,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Creates the expression node.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from ExpressionNode</typeparam>
         /// <returns>T.</returns>
         /// <exception cref="System.Exception">unexpected type</exception>
         internal static T CreateExpressionNode<T>()
-            where T : class
+            where T : ExpressionNode
         {
             T newNode;
 
@@ -225,12 +225,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Creates the value keyword.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from ExpressionNode</typeparam>
         /// <param name="keywordKind">Kind of the keyword.</param>
         /// <returns>T.</returns>
         /// <exception cref="System.Exception">Invalid ValueKeywordKind</exception>
         internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
-            where T : class
+            where T : ExpressionNode
         {
             T node = CreateExpressionNode<T>();
 
