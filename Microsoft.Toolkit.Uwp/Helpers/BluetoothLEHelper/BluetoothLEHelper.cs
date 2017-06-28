@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp
             _deviceWatcher.Added += DeviceWatcher_Added;
             _deviceWatcher.Updated += DeviceWatcher_Updated;
             _deviceWatcher.Removed += DeviceWatcher_Removed;
-            _deviceWatcher.EnumerationCompleted += _deviceWatcher_EnumerationCompleted;
+            _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
 
             _advertisementWatcher = new BluetoothLEAdvertisementWatcher();
             _advertisementWatcher.Received += AdvertisementWatcher_Received;
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp
                 _deviceWatcher.Added -= DeviceWatcher_Added;
                 _deviceWatcher.Updated -= DeviceWatcher_Updated;
                 _deviceWatcher.Removed -= DeviceWatcher_Removed;
-                _deviceWatcher.EnumerationCompleted -= _deviceWatcher_EnumerationCompleted;
+                _deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
 
                 _deviceWatcher.Stop();
                 _deviceWatcher = null;
