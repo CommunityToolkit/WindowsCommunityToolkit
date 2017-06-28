@@ -61,15 +61,18 @@ namespace Microsoft.Toolkit.Uwp
             Service = service;
             Name = GattUuidsService.ConvertUuidToName(service.Uuid);
             UUID = Service.Uuid.ToString();
-            GetAllCharacteristics();
+            var t = GetAllCharacteristics();
         }
 
         /// <summary>
-        /// Gets or sets the service this class wraps
+        /// Gets the service this class wraps
         /// </summary>
         public GattDeviceService Service
         {
-            get { return _service; }
+            get
+            {
+                return _service;
+            }
 
             private set
             {
@@ -87,7 +90,10 @@ namespace Microsoft.Toolkit.Uwp
         /// <value>The characteristics.</value>
         public ObservableCollection<ObservableGattCharacteristics> Characteristics
         {
-            get { return _characteristics; }
+            get
+            {
+                return _characteristics;
+            }
 
             private set
             {
@@ -104,7 +110,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
 
             set
             {
@@ -121,7 +130,10 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public string UUID
         {
-            get { return _uuid; }
+            get
+            {
+                return _uuid;
+            }
 
             set
             {
@@ -137,6 +149,15 @@ namespace Microsoft.Toolkit.Uwp
         /// Event to notify when this object has changed
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Property changed event invoker
+        /// </summary>
+        /// <param name="propertyName">name of the property that changed</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Gets all the characteristics of this service
@@ -161,15 +182,6 @@ namespace Microsoft.Toolkit.Uwp
             }
 
             return result.Status;
-        }
-
-        /// <summary>
-        /// Property changed event invoker
-        /// </summary>
-        /// <param name="propertyName">name of the property that changed</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

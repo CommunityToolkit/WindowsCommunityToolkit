@@ -423,7 +423,6 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// The record access control point
         /// </summary>
-
         RecordAccessControlPoint = 0x2A52,
 
         /// <summary>
