@@ -32,7 +32,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StreamHelper_GetHttpStream()
         {
-            using (var stream = await new Uri("http://dev.windows.com").GetHttpStreamAsync(default(CancellationToken)))
+            using (var stream = await new Uri("http://dev.windows.com").GetHttpStreamAsync(default(StreamHelper.HttpHelperRequestHandlerDelegate), default(CancellationToken)))
             {
                 Assert.IsNotNull(stream);
             }
