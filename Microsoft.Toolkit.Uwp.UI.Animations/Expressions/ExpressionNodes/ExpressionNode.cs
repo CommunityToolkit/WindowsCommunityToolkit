@@ -395,12 +395,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Subchannelses the internal.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from ExpressionNode.</typeparam>
         /// <param name="subchannels">The subchannels.</param>
         /// <returns>T.</returns>
         /// <exception cref="System.Exception"></exception>
         protected internal T SubchannelsInternal<T>(params string[] subchannels)
-            where T : class
+            where T : ExpressionNode
         {
             ExpressionNodeType swizzleNodeType = ExpressionNodeType.Swizzle;
             T newNode;
