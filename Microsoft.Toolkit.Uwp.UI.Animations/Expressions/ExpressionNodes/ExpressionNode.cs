@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     /// <summary>
     /// Class ExpressionNode.
     /// </summary>
-    public abstract class ExpressionNode
+    public abstract class ExpressionNode : IDisposable
     {
         private List<ReferenceInfo> _objRefList = null;
         private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
