@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create an ExpressionNode reference to this specialized PropertySet.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">A class that derives from PropertySetReferenceNode.</typeparam>
         /// <param name="ps">The ps.</param>
         /// <returns>T.</returns>
         /// <exception cref="System.Exception">Invalid property set specialization</exception>
