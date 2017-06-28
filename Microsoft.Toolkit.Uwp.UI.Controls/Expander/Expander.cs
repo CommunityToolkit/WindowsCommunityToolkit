@@ -51,6 +51,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        protected virtual void OnExpanded(EventArgs args)
+        {
+            Expanded?.Invoke(this, args);
+        }
+
+        protected virtual void OnCollapsed(EventArgs args)
+        {
+            Collapsed?.Invoke(this, args);
+        }
+
         private void ExpanderToggleButtonPart_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key != VirtualKey.Enter)
@@ -73,13 +83,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ExpandControl()
         {
             VisualStateManager.GoToState(this, StateContentExpanded, true);
-            Expanded?.Invoke(this, EventArgs.Empty);
+            OnExpanded(EventArgs.Empty);
         }
 
         private void CollapseControl()
         {
             VisualStateManager.GoToState(this, StateContentCollapsed, true);
-            Collapsed?.Invoke(this, EventArgs.Empty);
+            OnCollapsed(EventArgs.Empty);
         }
     }
 }
