@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,7 +50,15 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\BluetoothLEHelper\GattNativeUuid.cs" />
     <Compile Include="Helpers\ClipboardHelper.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\GattConvert.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\GattProtocolErrorParser.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\GattUuidsService.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattCharacteristics.cs" />
+    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattDeviceService.cs" />
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
