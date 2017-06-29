@@ -40,11 +40,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var html = await ClipboardHelper.GetHtmlAsync();
             if (string.IsNullOrEmpty(html))
             {
-                PasteHtmlTextBlock.Text = html;
+                await new MessageDialog("no html in clipboard").ShowAsync();
             }
             else
             {
-                await new MessageDialog("no html in clipboard").ShowAsync();
+                PasteHtmlTextBlock.Text = html;
             }
         }
 
@@ -53,11 +53,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var text = await ClipboardHelper.GetTextAsync();
             if (string.IsNullOrEmpty(text))
             {
-                PasteTextTextBlock.Text = text;
+                await new MessageDialog("no text in clipboard").ShowAsync();
             }
             else
             {
-                await new MessageDialog("no text in clipboard").ShowAsync();
+                PasteTextTextBlock.Text = text;
             }
         }
     }
