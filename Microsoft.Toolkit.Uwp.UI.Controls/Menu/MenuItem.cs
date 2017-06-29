@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void HideMenu()
         {
-            FlyoutButton?.Flyout?.Hide();
+            _menuFlyout?.Hide();
         }
 
         /// <inheritdoc />
