@@ -78,7 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
-            _menuFlyout.ShowAt(FlyoutButton, new Windows.Foundation.Point(0, FlyoutButton.ActualHeight));
+            Windows.Foundation.Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
+                ? new Windows.Foundation.Point(0, FlyoutButton.ActualHeight)
+                : new Windows.Foundation.Point(FlyoutButton.ActualWidth, 0);
+            _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
         /// <summary>
