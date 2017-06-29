@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
-            FlyoutButton?.Flyout?.ShowAt(FlyoutButton);
+            _menuFlyout.ShowAt(FlyoutButton, new Windows.Foundation.Point(0, FlyoutButton.ActualHeight));
         }
 
         /// <summary>
@@ -123,8 +123,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
-
-                FlyoutButton.Flyout = _menuFlyout;
 
                 if (_isAccessKeySupported)
                 {
@@ -292,6 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnTapped(TappedRoutedEventArgs e)
         {
             _parentMenu.SelectedMenuItem = this;
+            ShowMenu();
             base.OnTapped(e);
         }
 
