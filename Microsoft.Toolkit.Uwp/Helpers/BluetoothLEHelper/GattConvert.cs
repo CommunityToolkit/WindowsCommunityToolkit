@@ -23,55 +23,6 @@ namespace Microsoft.Toolkit.Uwp
     public static class GattConvert
     {
         /// <summary>
-        /// Convert the string to an IBuffer
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <returns>An IBuffer of data.</returns>
-        public static IBuffer ToIBuffer(string data)
-        {
-            var writer = new DataWriter();
-            writer.WriteString(data);
-
-            return writer.DetachBuffer();
-        }
-
-        /// <summary>
-        /// Convert a hex to an IBuffer
-        /// </summary>
-        /// <param name="hex">A hex value.</param>
-        /// <returns>An IBuffer</returns>
-        public static IBuffer ToIBufferFromHexString(string hex)
-        {
-            hex = hex.Replace("-", string.Empty);
-
-            var numberChars = hex.Length;
-            var bytes = new byte[numberChars / 2];
-
-            for (var i = 0; i < numberChars; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-            }
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            return writer.DetachBuffer();
-        }
-
-        /// <summary>
-        /// Convert a 32 bit integer to an IBuffer
-        /// </summary>
-        /// <param name="data">A 32 bit integer.</param>
-        /// <returns>An IBuffer.</returns>
-        public static IBuffer ToIBuffer(int data)
-        {
-            var writer = new DataWriter();
-            writer.WriteInt32(data);
-
-            return writer.DetachBuffer();
-        }
-
-        /// <summary>
         /// Convert an IBuffer to a UTF8 string.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
