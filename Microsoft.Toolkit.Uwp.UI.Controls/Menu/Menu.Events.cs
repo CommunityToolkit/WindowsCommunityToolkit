@@ -35,6 +35,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
+        private double _x1;
+        private double _y1;
+        private double _x2;
+        private double _y2;
 
         private bool AllowTooltip => (bool)GetValue(AllowTooltipProperty);
 
@@ -200,32 +204,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _wrapPanel.Orientation = Orientation;
             }
 
+            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-
             Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+
+            var ttv = TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+            _x1 = screenCoords.X;
+            _y1 = screenCoords.Y;
+            _x2 = _x1 + ActualWidth;
+            _y2 = _y1 + ActualHeight;
         }
 
         private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
-            var ttv = this.TransformToVisual(Window.Current.Content);
-            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
-
-            var left = screenCoords.X;
-            var top = screenCoords.Y;
-
-
-
-            Debug.WriteLine(args.CurrentPoint.Position.X + " " + args.CurrentPoint.Position.Y);
-            Debug.WriteLine(left + " " + top);
+            if (IsOpened && _x1 < args.CurrentPoint.Position.X && args.CurrentPoint.Position.X < _x2 &&
+                _y1 < args.CurrentPoint.Position.Y && _y2 < args.CurrentPoint.Position.Y)
+            {
+                Debug.WriteLine("Inside");
+            }
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
 
