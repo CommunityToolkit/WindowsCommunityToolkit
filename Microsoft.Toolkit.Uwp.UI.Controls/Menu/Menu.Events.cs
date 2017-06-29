@@ -223,11 +223,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
-            if (IsOpened && _x1 < args.CurrentPoint.Position.X && args.CurrentPoint.Position.X < _x2 &&
-                _y1 < args.CurrentPoint.Position.Y && _y2 < args.CurrentPoint.Position.Y)
+            if (IsOpened && WithinRange(_x1, _x2, _y1, _y2, args.CurrentPoint.Position.X, args.CurrentPoint.Position.Y))
             {
-                Debug.WriteLine("Inside");
+                // TODO to be replaced with Range tree or any faster datastructure
+                foreach (MenuItem menuItem in Items)
+                {
+                    if (WithinRange(
+                        menuItem.X1,
+                        menuItem.X2,
+                        menuItem.Y1,
+                        menuItem.Y2,
+                        args.CurrentPoint.Position.X,
+                        args.CurrentPoint.Position.Y))
+                    {
+                        if (menuItem == SelectedMenuItem)
+                        {
+                            break;
+                        }
+
+                        SelectedMenuItem.HideMenu();
+                        menuItem.Focus(FocusState.Keyboard);
+                        menuItem.ShowMenu();
+                    }
+                }
             }
+        }
+
+        private static bool WithinRange(double x1, double x2, double y1, double y2, double cursorX, double cursorY)
+        {
+            if (x1 < cursorX && cursorX < x2 &&
+                y1 < cursorY && cursorY < y2)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)

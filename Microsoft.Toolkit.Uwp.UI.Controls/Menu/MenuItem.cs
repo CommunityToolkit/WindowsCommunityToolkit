@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
@@ -38,6 +39,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
+
+        internal double X1 { get; private set; }
+
+        internal double Y1 { get; private set; }
+
+        internal double X2 { get; private set; }
+
+        internal double Y2 { get; private set; }
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -97,6 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
+            Loaded -= MenuItem_Loaded;
 
             if (_menuFlyout == null)
             {
@@ -116,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                     : FlyoutPlacementMode.Right;
-
+                Loaded += MenuItem_Loaded;
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
@@ -134,6 +144,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void MenuItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            var ttv = TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+            X1 = screenCoords.X;
+            Y1 = screenCoords.Y;
+            X2 = X1 + ActualWidth;
+            Y2 = Y1 + ActualHeight;
         }
 
         internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()
