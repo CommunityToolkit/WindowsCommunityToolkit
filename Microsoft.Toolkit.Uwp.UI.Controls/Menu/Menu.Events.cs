@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -204,6 +206,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+
+            Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+        }
+
+        private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
+        {
+            var ttv = this.TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+
+            var left = screenCoords.X;
+            var top = screenCoords.Y;
+
+
+
+            Debug.WriteLine(args.CurrentPoint.Position.X + " " + args.CurrentPoint.Position.Y);
+            Debug.WriteLine(left + " " + top);
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
