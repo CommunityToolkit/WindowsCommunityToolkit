@@ -15,6 +15,7 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -28,6 +29,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             bluetoothLEHelper.EnumerationCompleted += BluetoothLEHelper_EnumerationCompleted;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (BluetoothLEHelper.IsBluetoothLESupported)
+            {
+                Content.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NotAvailableMessage.Visibility = Visibility.Visible;
+            }
+        }
+
         private async void BluetoothLEHelper_EnumerationCompleted(object sender, EventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -39,6 +53,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Enumeration_Click(object sender, RoutedEventArgs e)
         {
+            if (!BluetoothLEHelper.IsBluetoothLESupported)
+            {
+                return;
+            }
+
             if (!bluetoothLEHelper.IsEnumerating)
             {
                 bluetoothLEHelper.StartEnumeration();

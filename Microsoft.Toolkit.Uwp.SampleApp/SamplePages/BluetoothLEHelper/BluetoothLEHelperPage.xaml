@@ -7,7 +7,8 @@
     xmlns:bt="using:Microsoft.Toolkit.Uwp"
     mc:Ignorable="d">
 
-    <RelativePanel Background="{StaticResource Brush-Grey-05}">
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <RelativePanel x:Name="Content" Visibility="Collapsed" >
         <Button x:Name="BtEnumeration" Click="Enumeration_Click" Content="Start enumeration" Margin="10"/>
         <ListView x:Name="LVDevices" Height="200" VerticalAlignment="Top" Margin="10" ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}" Background="White" SelectionChanged="LVDevices_SelectionChanged" RelativePanel.Below="BtEnumeration" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
             <ListView.ItemTemplate>
@@ -50,4 +51,12 @@
         <TextBlock x:Name="TBCharValue" Margin="10" RelativePanel.Below="BtReadCharValue"/>
 
     </RelativePanel>
+        <TextBlock x:Name="NotAvailableMessage" Text="BluetoothLE requires the Windows 10 Creators Update" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                   FontSize="20"
+                   TextWrapping="WrapWholeWords"
+                   TextAlignment="Center" Margin="40"
+                   Visibility="Collapsed"></TextBlock>
+    </Grid>
 </Page>
