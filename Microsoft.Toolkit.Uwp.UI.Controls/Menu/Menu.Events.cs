@@ -196,6 +196,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static bool WithinRange(double x1, double x2, double y1, double y2, double cursorX, double cursorY)
+        {
+            if (x1 < cursorX && cursorX < x2 &&
+                y1 < cursorY && cursorY < y2)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void Menu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
@@ -223,10 +234,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
+            // if contained with the whole Menu control
             if (IsOpened && WithinRange(_x1, _x2, _y1, _y2, args.CurrentPoint.Position.X, args.CurrentPoint.Position.Y))
             {
+                // if hover over current opened item
+                if (WithinRange(
+                    SelectedMenuItem.X1,
+                    SelectedMenuItem.X2,
+                    SelectedMenuItem.Y1,
+                    SelectedMenuItem.Y2,
+                    args.CurrentPoint.Position.X,
+                    args.CurrentPoint.Position.Y))
+                {
+                    return;
+                }
+
                 // TODO to be replaced with Range tree or any faster datastructure
-                foreach (MenuItem menuItem in Items)
+                    foreach (MenuItem menuItem in Items)
                 {
                     if (WithinRange(
                         menuItem.X1,
@@ -238,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (menuItem == SelectedMenuItem)
                         {
-                            break;
+                            continue;
                         }
 
                         SelectedMenuItem.HideMenu();
@@ -247,17 +271,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-        }
-
-        private static bool WithinRange(double x1, double x2, double y1, double y2, double cursorX, double cursorY)
-        {
-            if (x1 < cursorX && cursorX < x2 &&
-                y1 < cursorY && cursorY < y2)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
