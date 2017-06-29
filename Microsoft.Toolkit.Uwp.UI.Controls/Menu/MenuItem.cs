@@ -117,6 +117,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ? FlyoutPlacementMode.Bottom
                     : FlyoutPlacementMode.Right;
 
+                FlyoutButton.Flyout = _menuFlyout;
+
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
