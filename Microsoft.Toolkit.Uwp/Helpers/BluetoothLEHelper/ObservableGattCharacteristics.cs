@@ -304,7 +304,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Reads the value of the Characteristic
         /// </summary>
-        public async void ReadValueAsync()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<string> ReadValueAsync()
         {
             var result = await Characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
 
@@ -320,13 +321,15 @@ namespace Microsoft.Toolkit.Uwp
             {
                 Value = "Unreachable";
             }
+
+            return Value;
         }
 
         /// <summary>
         /// Set's the indicate descriptor
         /// </summary>
         /// <returns>Set indicate task</returns>
-        public async Task<bool> SetIndicate()
+        public async Task<bool> SetIndicateAsync()
         {
             if (IsIndicateSet)
             {
@@ -357,7 +360,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Unset the indicate descriptor
         /// </summary>
         /// <returns>Unset indicate task</returns>
-        public async Task<bool> StopIndicate()
+        public async Task<bool> StopIndicateAsync()
         {
             if (IsIndicateSet == false)
             {
@@ -388,7 +391,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Sets the notify characteristic
         /// </summary>
         /// <returns>Set notify task</returns>
-        public async Task<bool> SetNotify()
+        public async Task<bool> SetNotifyAsync()
         {
             if (IsNotifySet)
             {
@@ -419,7 +422,7 @@ namespace Microsoft.Toolkit.Uwp
         /// Unsets the notify descriptor
         /// </summary>
         /// <returns>Unset notify task</returns>
-        public async Task<bool> StopNotify()
+        public async Task<bool> StopNotifyAsync()
         {
             if (IsNotifySet == false)
             {

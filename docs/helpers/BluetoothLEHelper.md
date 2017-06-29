@@ -64,13 +64,13 @@ Gets the bluetooth address of this device as a string
 Gets the bluetooth address of this device
 
 ### Methods
-#### Connect
+#### ConnectAsync
 Connects to this bluetooth device
 
-#### DoInAppPairing
+#### DoInAppPairingAsync
 Does the in application pairing
 
-#### Update
+#### UpdateAsync
 Updates this device's deviceInformation
 
 #### ToString
@@ -120,16 +120,16 @@ Gets or sets how this characteristic's value should be displayed
 #### ReadValueAsync
 Reads the value of the Characteristic
 
-#### SetIndicate
+#### SetIndicateAsync
 Set's the indicate descriptor
 
-#### StopIndicate
+#### StopIndicateAsync
 Unset the indicate descriptor
 
-#### SetNotify
+#### SetNotifyAsync
 Sets the notify characteristic
 
-#### StopNotify
+#### StopNotifyAsync
 Unsets the notify descriptor
 
 ## Example
@@ -141,12 +141,18 @@ BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
 // Start the Enumeration
 bluetoothLEHelper.StartEnumeration();
 
+// At this point the user needs to select a device they want to connect to. This can be done by
+// creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found, 
+// the Connect() method can be called to connect to the device and start interacting with its services
+
 // Connect to a device if your choice
-ObservableBluetoothLEDevice device = 
-	bluetoothLEHelper.BluetoothLeDevices[<Device you choose>].Connect()
+ObservableBluetoothLEDevice device = bluetoothLEHelper.BluetoothLeDevices[<Device you choose>];
+await device.ConnectAsync();
+
+// At this point the device is connected and the Services property is populated.
 
 // See all the services
-var services = device.Services
+var services = device.Services;
 
 ```
 

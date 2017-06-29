@@ -203,12 +203,6 @@ namespace Microsoft.Toolkit.Uwp
             {
                 return _services;
             }
-
-            private set
-            {
-                _services = value;
-                OnPropertyChanged();
-            }
         }
 
         /// <summary>
@@ -296,11 +290,11 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Connect to this bluetooth device
+        /// ConnectAsync to this bluetooth device
         /// </summary>
         /// <returns>Connection task</returns>
         /// <exception cref="Exception">Thorws Exception when no permission to access device</exception>
-        public async Task Connect()
+        public async Task ConnectAsync()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
@@ -354,7 +348,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <returns>Task.</returns>
         /// <exception cref="Exception">The status of the pairing.</exception>
-        public async Task DoInAppPairing()
+        public async Task DoInAppPairingAsync()
         {
             var result = await DeviceInfo.Pairing.PairAsync();
 
@@ -370,7 +364,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         /// <param name="deviceUpdate">The device information which has been updated.</param>
         /// <returns>The task of the update.</returns>
-        public async Task Update(DeviceInformationUpdate deviceUpdate)
+        public async Task UpdateAsync(DeviceInformationUpdate deviceUpdate)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,

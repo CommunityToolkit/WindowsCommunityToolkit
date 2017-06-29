@@ -16,13 +16,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class BluetoothLEHelperPage : Page
     {
         private BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
@@ -75,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                     // Make sure the Bluetooth capability is set else this will fail
                     bluetoothLEHelper.StopEnumeration();
-                    await device.Connect();
+                    await device.ConnectAsync();
                     CBServices.ItemsSource = device.Services;
                     CBServices.Visibility = Visibility.Visible;
                 }
@@ -108,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if (characteristic.Characteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read))
                 {
                     BtReadCharValue.Visibility = Visibility.Visible;
-                    TBCharValue.Text = String.Empty;
+                    TBCharValue.Text = string.Empty;
                 }
                 else
                 {
@@ -118,19 +113,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             else
             {
                 BtReadCharValue.Visibility = Visibility.Collapsed;
-                TBCharValue.Text = String.Empty;
+                TBCharValue.Text = string.Empty;
             }
         }
 
-        private void ReadCharValue_Click(object sender, RoutedEventArgs e)
+        private async void ReadCharValue_Click(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
+            button.IsEnabled = false;
+
             ObservableGattCharacteristics characteristic = CBCharacteristic.SelectedItem as ObservableGattCharacteristics;
 
             if (characteristic != null)
             {
-                characteristic.ReadValueAsync();
-                TBCharValue.Text = characteristic.Value;
+                TBCharValue.Text = await characteristic.ReadValueAsync();
             }
+
+            button.IsEnabled = true;
         }
     }
 }

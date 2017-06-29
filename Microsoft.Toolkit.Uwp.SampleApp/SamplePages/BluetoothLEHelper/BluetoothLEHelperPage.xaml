@@ -38,7 +38,7 @@
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="bt:ObservableGattCharacteristics" >
                     <TextBlock >
-                            <Run Text="Service Name: " />
+                            <Run Text="Characteristic Name: " />
                             <Run Text="{x:Bind Name}" />
                     </TextBlock>
                 </DataTemplate>

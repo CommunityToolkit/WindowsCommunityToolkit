@@ -9,8 +9,8 @@ bluetoothLEHelper.StartEnumeration();
 // the Connect() method can be called to connect to the device and start interacting with its services
 
 // Connect to a device if your choice
-ObservableBluetoothLEDevice device = 
-bluetoothLEHelper.BluetoothLeDevices[<Device you choose>].Connect()
+ObservableBluetoothLEDevice device = bluetoothLEHelper.BluetoothLeDevices[<Device you choose>];
+await device.ConnectAsync();
 
 // At this point the device is connected and the Services property is populated.
 

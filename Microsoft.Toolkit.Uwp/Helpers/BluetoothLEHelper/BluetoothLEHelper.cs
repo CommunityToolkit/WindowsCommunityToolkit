@@ -72,13 +72,15 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         private BluetoothLEHelper()
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Init();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         /// <summary>
         /// Gets the app context
         /// </summary>
-        public static BluetoothLEHelper Context { get; private set; } = new BluetoothLEHelper();
+        public static BluetoothLEHelper Context { get; } = new BluetoothLEHelper();
 
         /// <summary>
         /// Gets a value indicating whether the Bluetooth LE Helper is supported.
@@ -193,7 +195,8 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Initializes the app context.
         /// </summary>
-        private async void Init()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task Init()
         {
             _adapter = await BluetoothAdapter.GetDefaultAsync();
         }
@@ -247,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp
 
             if (device != null)
             {
-                await device.Update(deviceInfoUpdate);
+                await device.UpdateAsync(deviceInfoUpdate);
             }
 
             if (device == null)
@@ -282,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
                 {
                     var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
-                    BluetoothLeDevices?.Remove(device);
+                    BluetoothLeDevices.Remove(device);
 
                     var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
                     _unusedDevices?.Remove(unusedDevice);
