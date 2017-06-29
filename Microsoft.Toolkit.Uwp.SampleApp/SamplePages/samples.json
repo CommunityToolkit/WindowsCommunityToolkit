@@ -501,6 +501,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/NetworkHelper.md"
       },
       {
+        "Name": "BluetoothLEHelper",
+        "Type": "BluetoothLEHelperPage",
+        "About": "The Bluetooth LE helper class is used to connect and interact with bluetooth LE devices.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/BluetoothLEHelper",
+        "CodeFile": "BluetoothLEHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BluetoothLEHelper.md",
+        "BadgeUpdateVersionRequired": "Creators Update required"
+      },
+      {
         "Name": "SystemInformation",
         "Type": "SystemInformationPage",
         "About": "The SystemInformation class provides easy access to some of system/app/device information",
