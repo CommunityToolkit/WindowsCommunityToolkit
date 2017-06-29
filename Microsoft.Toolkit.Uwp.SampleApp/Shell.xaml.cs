@@ -482,7 +482,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _searchBox.QuerySubmitted += (sender, args) =>
             {
-                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+                var sample = args.ChosenSuggestion as Sample;
+                if (sample != null)
+                {
+                    NavigateToSample(sample);
+                }
+                else
+                {
+                    NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+                }
             };
 
             _searchBox.TextChanged += (sender, args) =>
