@@ -91,7 +91,8 @@
         "About": "The radial progress bar displays progress as a circle getting filled.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
         "XamlCodeFile": "RadialProgressBarCode.bind",
-        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png"
+        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialProgressBar.md"
       },
       {
         "Name": "SlidableListItem",
