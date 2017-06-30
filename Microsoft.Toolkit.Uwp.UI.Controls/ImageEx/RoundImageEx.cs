@@ -35,10 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             : base()
         {
             DefaultStyleKey = typeof(RoundImageEx);
-
-            // Changes default Stretching as Uniform doesn't work well for ImageBrush
-            Stretch = Stretch.UniformToFill;
-            PlaceholderStretch = Stretch.UniformToFill;
         }
 
         /// <summary>
