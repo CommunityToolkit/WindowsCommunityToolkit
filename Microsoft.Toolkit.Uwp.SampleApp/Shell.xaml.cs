@@ -21,6 +21,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -428,6 +429,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
+        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        {
+            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
+            e.Handled = true;
+        }
+
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (DataContext == null)
@@ -509,5 +516,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Connect to search UI
             ConnectToSearch();
         }
+
+        
     }
 }

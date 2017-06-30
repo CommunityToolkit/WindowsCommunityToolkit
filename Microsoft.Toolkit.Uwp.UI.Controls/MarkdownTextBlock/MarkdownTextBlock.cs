@@ -1247,9 +1247,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             await eventArgs.WaitForDeferrals();
 
-            return eventArgs.Handled
-                ? eventArgs.Image
-                : new BitmapImage(new Uri(url));
+            try
+            {
+                return eventArgs.Handled
+                                ? eventArgs.Image
+                                : new BitmapImage(new Uri(url));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

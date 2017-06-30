@@ -147,6 +147,7 @@
                                       Background="{StaticResource Brush-White}">
                             <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                         Foreground="{StaticResource Brush-Grey-01}"
+                                                        ImageResolving="DocumentationTextblock_ImageResolving"
                                                         LinkClicked="DocumentationTextblock_OnLinkClicked" />
                         </ScrollViewer>
                     </PivotItem>
