@@ -56,6 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Informs the <see cref="MarkdownTextBlock"/> that the event handler might run asynchronously.
         /// </summary>
+        /// <returns>Deferral</returns>
         public Deferral GetDeferral()
         {
             var task = new TaskCompletionSource<object>();
@@ -70,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Returns a <see cref="Task"/> that completes when all <see cref="Deferral"/>s have completed.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         internal Task WaitForDeferrals()
         {
             return Task.WhenAll(_deferrals.Select(f => f.Task));

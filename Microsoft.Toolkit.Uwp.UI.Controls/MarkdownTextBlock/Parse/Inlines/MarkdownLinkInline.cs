@@ -147,6 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                     {
                         openParenthesis++;
                     }
+
                     pos++;
                 }
 
