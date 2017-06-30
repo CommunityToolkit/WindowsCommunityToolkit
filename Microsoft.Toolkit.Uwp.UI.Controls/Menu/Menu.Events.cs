@@ -263,11 +263,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         args.CurrentPoint.Position.X,
                         args.CurrentPoint.Position.Y))
                     {
-                        if (menuItem == SelectedMenuItem)
-                        {
-                            continue;
-                        }
-
                         SelectedMenuItem.HideMenu();
                         menuItem.Focus(FocusState.Keyboard);
                         menuItem.ShowMenu();
