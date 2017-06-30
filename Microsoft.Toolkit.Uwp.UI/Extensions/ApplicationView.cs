@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="bool"/> for <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
+        /// Gets <see cref="bool"/> CoreApplicationView.TitleBar.ExtendViewIntoTitleBar
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="bool"/> to <see cref="CoreApplicationView.TitleBar.ExtendViewIntoTitleBar"/>
+        /// Sets <see cref="bool"/> to CoreApplicationView.TitleBar.ExtendViewIntoTitleBar
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="bool"/></param>

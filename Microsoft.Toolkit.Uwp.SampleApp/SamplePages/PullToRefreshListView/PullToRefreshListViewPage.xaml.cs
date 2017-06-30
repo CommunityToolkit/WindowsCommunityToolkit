@@ -45,11 +45,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ListView_RefreshIntentCanceled(object sender, EventArgs e)
         {
-
         }
 
         private DelegateCommand RefreshIntentCanceled => _refreshIntentCanceledCommand ?? (_refreshIntentCanceledCommand = new DelegateCommand(
-            () => { }
-        ));
+            () => { }));
     }
 }

@@ -20,8 +20,8 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -516,7 +516,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Connect to search UI
             ConnectToSearch();
         }
-
-        
     }
 }

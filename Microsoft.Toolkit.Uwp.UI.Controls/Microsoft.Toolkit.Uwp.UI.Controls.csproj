@@ -116,7 +116,7 @@
     <Compile Include="MarkdownTextBlock\Parse\MarkdownDocument.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownElement.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownInline.cs" />
-    <Compile Include="MarkdownTextBlock\ResolveMarkdownImageEventArgs.cs" />
+    <Compile Include="MarkdownTextBlock\ImageResolvingEventArgs.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />

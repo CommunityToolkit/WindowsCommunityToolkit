@@ -696,7 +696,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 e.Handled = true;
             }
         }
-        
+
         private void UpdateNormalizedAngles()
         {
             var result = Mod(MinAngle, 360);
