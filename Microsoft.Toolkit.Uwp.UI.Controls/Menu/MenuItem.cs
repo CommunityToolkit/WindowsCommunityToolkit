@@ -40,13 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
 
-        internal double X1 { get; private set; }
-
-        internal double Y1 { get; private set; }
-
-        internal double X2 { get; private set; }
-
-        internal double Y2 { get; private set; }
+        private Rect _bounds;
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -80,6 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(MenuItem);
             IsFocusEngagementEnabled = true;
+        }
+
+        internal bool ContainsPoint(Point point)
+        {
+            return _bounds.Contains(point);
         }
 
         /// <summary>
@@ -154,10 +153,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var ttv = TransformToVisual(Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
-            X1 = screenCoords.X;
-            Y1 = screenCoords.Y;
-            X2 = X1 + ActualWidth;
-            Y2 = Y1 + ActualHeight;
+            _bounds.X = screenCoords.X;
+            _bounds.Y = screenCoords.Y;
+            _bounds.Width = ActualWidth;
+            _bounds.Height = ActualHeight;
         }
 
         internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()

@@ -35,10 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
-        private double _x1;
-        private double _y1;
-        private double _x2;
-        private double _y2;
+        private Rect _bounds;
 
         private bool AllowTooltip => (bool)GetValue(AllowTooltipProperty);
 
@@ -196,17 +193,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static bool WithinRange(double x1, double x2, double y1, double y2, double cursorX, double cursorY)
-        {
-            if (x1 < cursorX && cursorX < x2 &&
-                y1 < cursorY && cursorY < y2)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         private void Menu_Loaded(object sender, RoutedEventArgs e)
         {
             _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
@@ -229,39 +215,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var ttv = TransformToVisual(Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
-            _x1 = screenCoords.X;
-            _y1 = screenCoords.Y;
-            _x2 = _x1 + ActualWidth;
-            _y2 = _y1 + ActualHeight;
+            _bounds.X = screenCoords.X;
+            _bounds.Y = screenCoords.Y;
+            _bounds.Width = ActualWidth;
+            _bounds.Height = ActualHeight;
         }
 
         private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
             // if contained with the whole Menu control
-            if (IsOpened && WithinRange(_x1, _x2, _y1, _y2, args.CurrentPoint.Position.X, args.CurrentPoint.Position.Y))
+            if (IsOpened && _bounds.Contains(args.CurrentPoint.Position))
             {
                 // if hover over current opened item
-                if (WithinRange(
-                    SelectedMenuItem.X1,
-                    SelectedMenuItem.X2,
-                    SelectedMenuItem.Y1,
-                    SelectedMenuItem.Y2,
-                    args.CurrentPoint.Position.X,
-                    args.CurrentPoint.Position.Y))
+                if (SelectedMenuItem.ContainsPoint(args.CurrentPoint.Position))
                 {
                     return;
                 }
 
-                // TODO to be replaced with Range tree or any faster datastructure
-                    foreach (MenuItem menuItem in Items)
+                foreach (MenuItem menuItem in Items)
                 {
-                    if (WithinRange(
-                        menuItem.X1,
-                        menuItem.X2,
-                        menuItem.Y1,
-                        menuItem.Y2,
-                        args.CurrentPoint.Position.X,
-                        args.CurrentPoint.Position.Y))
+                    if (menuItem.ContainsPoint(args.CurrentPoint.Position))
                     {
                         SelectedMenuItem.HideMenu();
                         menuItem.Focus(FocusState.Keyboard);
