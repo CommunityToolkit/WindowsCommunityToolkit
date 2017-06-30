@@ -98,7 +98,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemProperty =
             DependencyProperty.Register(nameof(Item), typeof(object), typeof(OrbitViewDataItem), new PropertyMetadata(null));
-
-
     }
 }

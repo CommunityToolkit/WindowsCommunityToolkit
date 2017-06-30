@@ -87,7 +87,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
-            FlyoutButton?.Flyout?.ShowAt(FlyoutButton);
+            Windows.Foundation.Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
+                ? new Windows.Foundation.Point(0, FlyoutButton.ActualHeight)
+                : new Windows.Foundation.Point(FlyoutButton.ActualWidth, 0);
+            _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void HideMenu()
         {
-            FlyoutButton?.Flyout?.Hide();
+            _menuFlyout?.Hide();
         }
 
         /// <inheritdoc />
@@ -126,15 +129,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
                     ? FlyoutPlacementMode.Bottom
                     : FlyoutPlacementMode.Right;
+                    
                 Loaded += MenuItem_Loaded;
+                
+                FlyoutButton.Flyout = _menuFlyout;
+                
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
 
                 _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
-
-                FlyoutButton.Flyout = _menuFlyout;
 
                 if (_isAccessKeySupported)
                 {
@@ -312,6 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnTapped(TappedRoutedEventArgs e)
         {
             _parentMenu.SelectedMenuItem = this;
+            ShowMenu();
             base.OnTapped(e);
         }
 

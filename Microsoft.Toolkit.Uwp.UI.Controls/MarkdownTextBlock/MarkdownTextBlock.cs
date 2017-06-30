@@ -1076,7 +1076,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RenderMarkdown()
         {
             // Make sure we have something to parse.
-            if (Text == null)
+            if (string.IsNullOrWhiteSpace(Text))
             {
                 return;
             }
@@ -1247,9 +1247,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             await eventArgs.WaitForDeferrals();
 
-            return eventArgs.Handled
-                ? eventArgs.Image
-                : new BitmapImage(new Uri(url));
+            try
+            {
+                return eventArgs.Handled
+                                ? eventArgs.Image
+                                : new BitmapImage(new Uri(url));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

@@ -80,7 +80,7 @@
                         <controls:OrbitView x:Name="devices"
                                             AnchorsEnabled="True"
                                             IsItemClickEnabled="True"
-                                            ItemInvoked="ItemInvoked"
+                                            ItemClick="OnItemClicked"
                                             ItemsSource="{x:Bind _devices}"
                                             MaxItemSize="100"
                                             MinItemSize="10">
