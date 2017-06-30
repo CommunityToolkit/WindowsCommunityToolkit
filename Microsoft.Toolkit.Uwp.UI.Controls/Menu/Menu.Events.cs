@@ -12,6 +12,7 @@
 
 using System.Linq;
 using System.Text;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -33,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
+        private Rect _bounds;
 
         private bool AllowTooltip => (bool)GetValue(AllowTooltipProperty);
 
@@ -198,16 +200,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _wrapPanel.Orientation = Orientation;
             }
 
+            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+        }
+
+        private void Menu_LayoutUpdated(object sender, object e)
+        {
+            var ttv = TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+            _bounds.X = screenCoords.X;
+            _bounds.Y = screenCoords.Y;
+            _bounds.Width = ActualWidth;
+            _bounds.Height = ActualHeight;
+        }
+
+        private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
+        {
+            // if contained with the whole Menu control
+            if (IsOpened && _bounds.Contains(args.CurrentPoint.Position))
+            {
+                // if hover over current opened item
+                if (SelectedMenuItem.ContainsPoint(args.CurrentPoint.Position))
+                {
+                    return;
+                }
+
+                foreach (MenuItem menuItem in Items)
+                {
+                    if (menuItem.ContainsPoint(args.CurrentPoint.Position))
+                    {
+                        SelectedMenuItem.HideMenu();
+                        menuItem.Focus(FocusState.Keyboard);
+                        menuItem.ShowMenu();
+                    }
+                }
+            }
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
+            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
 

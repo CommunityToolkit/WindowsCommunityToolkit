@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
@@ -38,6 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
+
+        private Rect _bounds;
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -73,14 +76,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsFocusEngagementEnabled = true;
         }
 
+        internal bool ContainsPoint(Point point)
+        {
+            return _bounds.Contains(point);
+        }
+
         /// <summary>
         /// This method is used to show the menu for current item
         /// </summary>
         public void ShowMenu()
         {
-            Windows.Foundation.Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
-                ? new Windows.Foundation.Point(0, FlyoutButton.ActualHeight)
-                : new Windows.Foundation.Point(FlyoutButton.ActualWidth, 0);
+            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
+                ? new Point(0, FlyoutButton.ActualHeight)
+                : new Point(FlyoutButton.ActualWidth, 0);
             _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
@@ -100,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
+            LayoutUpdated -= MenuItem_LayoutUpdated;
 
             if (_menuFlyout == null)
             {
@@ -122,6 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 FlyoutButton.Flyout = _menuFlyout;
 
+                LayoutUpdated += MenuItem_LayoutUpdated;
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
@@ -137,6 +147,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void MenuItem_LayoutUpdated(object sender, object e)
+        {
+            var ttv = TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+            _bounds.X = screenCoords.X;
+            _bounds.Y = screenCoords.Y;
+            _bounds.Width = ActualWidth;
+            _bounds.Height = ActualHeight;
         }
 
         internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()
