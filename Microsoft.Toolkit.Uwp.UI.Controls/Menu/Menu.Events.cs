@@ -223,7 +223,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+        }
 
+        private void Menu_LayoutUpdated(object sender, object e)
+        {
             var ttv = TransformToVisual(Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _x1 = screenCoords.X;
