@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     for (int i = 0; i < openBlades.Count - 1; i++)
                     {
-                        openBlades[i].BladeItemMode = BladeItemMode.Small;
+                        openBlades[i].IsExpanded = false;
                     }
                 }
             }
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var lastBlade = ActiveBlades.LastOrDefault();
             if (lastBlade != null && lastBlade.TitleBarVisibility == Visibility.Visible)
             {
-                lastBlade.BladeItemMode = BladeItemMode.Normal;
+                lastBlade.IsExpanded = true;
             }
         }
 

@@ -21,11 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
     [TemplatePart(Name = "EnlargeButton", Type = typeof(Button))]
-    public partial class BladeItem : ContentControl
+    public partial class BladeItem : Expander
     {
         private Button _closeButton;
         private Button _enlargeButton;
         private double _normalModeWidth;
+        private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BladeItem"/> class.
@@ -42,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            _loaded = true;
             base.OnApplyTemplate();
 
             _closeButton = GetTemplateChild("CloseButton") as Button;
@@ -64,9 +66,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _enlargeButton.Click += EnlargeButton_Click;
         }
 
+        protected override void OnExpanded(EventArgs args)
+        {
+            base.OnExpanded(args);
+            if (_loaded)
+            {
+                Width = _normalModeWidth;
+            }
+        }
+
+        protected override void OnCollapsed(EventArgs args)
+        {
+            base.OnCollapsed(args);
+            if (_loaded)
+            {
+                Width = double.NaN;
+            }
+        }
+
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
         {
-            if (BladeItemMode == BladeItemMode.Normal)
+            if (IsExpanded)
             {
                 _normalModeWidth = Width;
             }
@@ -79,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnlargeButton_Click(object sender, RoutedEventArgs e)
         {
-            BladeItemMode = BladeItemMode == BladeItemMode.Normal ? BladeItemMode.Small : BladeItemMode.Normal;
+            IsExpanded = !IsExpanded;
         }
     }
 }

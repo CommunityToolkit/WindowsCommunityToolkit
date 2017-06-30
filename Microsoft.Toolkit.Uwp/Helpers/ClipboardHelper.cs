@@ -130,6 +130,7 @@ namespace Microsoft.Toolkit.Uwp
             {
                 throw new ArgumentNullException(nameof(html));
             }
+
             if (html.Length < 4)
             {
                 throw new ArgumentException("html length is not valid.", nameof(html));
@@ -175,6 +176,7 @@ namespace Microsoft.Toolkit.Uwp
             {
                 throw new ArgumentNullException(nameof(rtf));
             }
+
             if (rtf.Length <= 0)
             {
                 throw new ArgumentException("rtf is empty string.", nameof(rtf));
@@ -198,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp
             {
                 throw new ArgumentNullException(nameof(text));
             }
+
             if (text.Length <= 0)
             {
                 throw new ArgumentException("text is empty string.", nameof(text));

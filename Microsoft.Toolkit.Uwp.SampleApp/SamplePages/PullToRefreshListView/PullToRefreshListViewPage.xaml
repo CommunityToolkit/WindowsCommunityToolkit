@@ -17,6 +17,8 @@
                                         ItemsSource="{x:Bind _items}"
                                         OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
                                         PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
+                                        RefreshIntentCanceled="ListView_RefreshIntentCanceled"
+                                        RefreshIntentCanceledCommand="{x:Bind RefreshIntentCanceled}"
                                         RefreshRequested="ListView_RefreshCommand">
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Item">

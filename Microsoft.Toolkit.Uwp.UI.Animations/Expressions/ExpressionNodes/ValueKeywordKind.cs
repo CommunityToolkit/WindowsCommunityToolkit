@@ -10,21 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     /// <summary>
-    /// Blade item mode
+    /// Enum ValueKeywordKind
     /// </summary>
-    public enum BladeItemMode
+    internal enum ValueKeywordKind
     {
         /// <summary>
-        /// Normal mode
+        /// The current value
         /// </summary>
-        Normal,
+        CurrentValue,
 
         /// <summary>
-        /// Small mode
+        /// The starting value
         /// </summary>
-        Small
+        StartingValue,
     }
 }
