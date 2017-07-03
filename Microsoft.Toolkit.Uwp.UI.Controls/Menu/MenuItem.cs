@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
+        private bool _menuFlyoutRepositioned = false;
 
         internal Button FlyoutButton { get; private set; }
 
@@ -89,6 +90,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
                 ? new Point(0, FlyoutButton.ActualHeight)
                 : new Point(FlyoutButton.ActualWidth, 0);
+            _menuFlyout.ShowAt(FlyoutButton, location);
+        }
+
+        private void ShowMenu(double menuWidth, double menuHeight)
+        {
+            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
+                ? new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight)
+                : new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
+            _menuFlyoutRepositioned = true;
             _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
@@ -301,6 +311,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MenuFlyout_Closed(object sender, object e)
         {
             IsOpened = false;
+            _menuFlyoutRepositioned = false;
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
@@ -309,6 +320,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = true;
             VisualStateManager.GoToState(this, "Opened", true);
             _parentMenu.IsInTransitionState = false;
+
+            if (!_menuFlyoutRepositioned)
+            {
+                var item = _menuFlyout.Items.First();
+                var parent = item?.FindVisualAscendant<MenuFlyoutPresenter>();
+
+                double width = parent != null && parent.ActualWidth != 0 ? parent.ActualWidth : _menuFlyout.Items.Max(i => i.ActualWidth);
+                double height = parent != null && parent.ActualHeight != 0 ? parent.ActualHeight : _menuFlyout.Items.Sum(i => i.ActualHeight);
+
+                var button = _menuFlyout.Target;
+                var point = button.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
+
+                if (width > Window.Current.Bounds.Width - point.X ||
+                    height > Window.Current.Bounds.Height - point.Y)
+                {
+                    ShowMenu(width, height);
+                }
+            }
         }
 
         /// <inheritdoc />
