@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="WebView"/> that has the content</param>
         /// <returns>HTML content</returns>
-        public static string GetContent(WebView obj)
+        public static string GetContent(DependencyObject obj)
         {
             return (string)obj.GetValue(ContentProperty);
         }
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="WebView"/> that content is being set to.</param>
         /// <param name="value">HTML content</param>
-        public static void SetContent(WebView obj, string value)
+        public static void SetContent(DependencyObject obj, string value)
         {
             obj.SetValue(ContentProperty, value);
         }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="WebView"/> that has the content uri.</param>
         /// <returns>HTML content</returns>
-        public static Uri GetContentUri(WebView obj)
+        public static Uri GetContentUri(DependencyObject obj)
         {
             return (Uri)obj.GetValue(ContentUriProperty);
         }
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="WebView"/> that content uri is being set to.</param>
         /// <param name="value">HTML content</param>
-        public static void SetContentUri(WebView obj, Uri value)
+        public static void SetContentUri(DependencyObject obj, Uri value)
         {
             obj.SetValue(ContentUriProperty, value);
         }
