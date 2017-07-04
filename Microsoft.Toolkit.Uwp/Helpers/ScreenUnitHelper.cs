@@ -19,6 +19,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class ScreenUnitHelper
     {
+        private const float PixelToCentimeterRatio = 37.79527559055f;
+        private const float PixelToInchRatio = 96;
+        private const float CentimeterToInchRatio = 2.54f;
+
         /// <summary>
         /// Convert a value from a screen unit to another one (ex: 1cm => 37.7953px)
         /// </summary>
@@ -38,12 +42,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 case ScreenUnit.Pixel:
                     if (to == ScreenUnit.Centimeter)
                     {
-                        return value / 37.79527559055f;
+                        return value / PixelToCentimeterRatio;
                     }
 
                     if (to == ScreenUnit.Inch)
                     {
-                        return value / 96;
+                        return value / PixelToInchRatio;
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));
@@ -51,12 +55,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 case ScreenUnit.Centimeter:
                     if (to == ScreenUnit.Pixel)
                     {
-                        return value * 37.79527559055f;
+                        return value * PixelToCentimeterRatio;
                     }
 
                     if (to == ScreenUnit.Inch)
                     {
-                        return value / 2.54f;
+                        return value / CentimeterToInchRatio;
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));
@@ -64,12 +68,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 case ScreenUnit.Inch:
                     if (to == ScreenUnit.Pixel)
                     {
-                        return value * 96;
+                        return value * PixelToInchRatio;
                     }
 
                     if (to == ScreenUnit.Centimeter)
                     {
-                        return value * 2.54f;
+                        return value * CentimeterToInchRatio;
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));
