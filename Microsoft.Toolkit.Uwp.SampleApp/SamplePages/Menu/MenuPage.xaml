@@ -122,6 +122,141 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                <MenuFlyoutSubItem Text="Windows">
+                    <MenuFlyoutItem Text="Windows 8" />
+                    <MenuFlyoutItem Text="Windows 10" />
+                </MenuFlyoutSubItem>
+
+                <MenuFlyoutSubItem Text="Graphics">
+                    <MenuFlyoutItem Text="Canvas" />
+                    <MenuFlyoutItem Text="Grid" />
+                </MenuFlyoutSubItem>
+            </controls:MenuItem>
+
+            <controls:MenuItem Header="Debug">
+                
+            </controls:MenuItem>
+
         </controls:Menu>
 
         <StackPanel Grid.Row="1">
