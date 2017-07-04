@@ -92,7 +92,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
 * [BluetoothLEHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)
-* [ClipboardHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/ClipboardHelper/)
 * [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
 * [Converters](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Converters/)
 * [DeepLinkParsers](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DeepLinkParsers/)
