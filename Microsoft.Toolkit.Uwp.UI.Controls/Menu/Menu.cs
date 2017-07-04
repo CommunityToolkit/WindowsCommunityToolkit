@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public MenuFlyoutPlacement FlyoutPlacement
         {
             get { return (MenuFlyoutPlacement)GetValue(FlyoutPlacementProperty); }
-            set { SetValue(OrientationProperty, value); }
+            set { SetValue(FlyoutPlacementProperty, value); }
         }
 
         /// <summary>

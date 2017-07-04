@@ -16,12 +16,10 @@
     </Page.Resources>
 
     <Grid Background="{StaticResource Brush-Grey-05}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
 
-        <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
+        <controls:Menu HorizontalAlignment="{Binding HorizontalAlignment.Value, Mode=TwoWay}"
+                       VerticalAlignment="{Binding VerticalAlignment.Value, Mode=TwoWay}"
+                       AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
                        FlyoutPlacement="{Binding FlyoutPlacement.Value, Mode=TwoWay}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
@@ -125,7 +123,7 @@
 
         </controls:Menu>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Margin="0,50,0,0">
             <TextBlock Text="Click Alt to set focus on Classic Menu" />
             <TextBlock Text="Any menu shortcut is Alt + (The first character of the menu name), ex to open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
