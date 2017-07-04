@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -323,19 +324,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!_menuFlyoutRepositioned)
             {
-                var item = _menuFlyout.Items.First();
-                var parent = item?.FindVisualAscendant<MenuFlyoutPresenter>();
-
-                double width = parent != null && parent.ActualWidth != 0 ? parent.ActualWidth : _menuFlyout.Items.Max(i => i.ActualWidth);
-                double height = parent != null && parent.ActualHeight != 0 ? parent.ActualHeight : _menuFlyout.Items.Sum(i => i.ActualHeight);
-
-                var button = _menuFlyout.Target;
-                var point = button.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
-
-                if (width > Window.Current.Bounds.Width - point.X ||
-                    height > Window.Current.Bounds.Height - point.Y)
+                var popups = VisualTreeHelper.GetOpenPopups(Window.Current).Where(p => p.Child is MenuFlyoutPresenter);
+                if (popups.Count() > 0 && popups.First().Child is MenuFlyoutPresenter mfp)
                 {
-                    ShowMenuRepositioned(width, height);
+                    var popup = popups.First();
+                    var height = mfp.ActualHeight;
+                    var width = mfp.ActualWidth;
+
+                    var button = _menuFlyout.Target;
+                    var point = button.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
+
+                    if (width > Window.Current.Bounds.Width - point.X ||
+                        height > Window.Current.Bounds.Height - point.Y)
+                    {
+                        ShowMenuRepositioned(width, height);
+                    }
                 }
             }
         }
