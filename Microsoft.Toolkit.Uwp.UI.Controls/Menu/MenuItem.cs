@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
-        private void ShowMenu(double menuWidth, double menuHeight)
+        private void ShowMenuRepositioned(double menuWidth, double menuHeight)
         {
             Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
                 ? new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight)
@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (width > Window.Current.Bounds.Width - point.X ||
                     height > Window.Current.Bounds.Height - point.Y)
                 {
-                    ShowMenu(width, height);
+                    ShowMenuRepositioned(width, height);
                 }
             }
         }
