@@ -327,7 +327,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var popups = VisualTreeHelper.GetOpenPopups(Window.Current).Where(p => p.Child is MenuFlyoutPresenter);
                 if (popups.Count() > 0 && popups.First().Child is MenuFlyoutPresenter mfp)
                 {
-                    var popup = popups.First();
                     var height = mfp.ActualHeight;
                     var width = mfp.ActualWidth;
 
