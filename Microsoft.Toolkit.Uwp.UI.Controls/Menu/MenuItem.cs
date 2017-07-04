@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -32,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
+        private bool _menuFlyoutRepositioned = false;
 
         internal Button FlyoutButton { get; private set; }
 
@@ -89,6 +91,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
                 ? new Point(0, FlyoutButton.ActualHeight)
                 : new Point(FlyoutButton.ActualWidth, 0);
+            _menuFlyout.ShowAt(FlyoutButton, location);
+        }
+
+        private void ShowMenuRepositioned(double menuWidth, double menuHeight)
+        {
+            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
+                ? new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight)
+                : new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
+            _menuFlyoutRepositioned = true;
             _menuFlyout.ShowAt(FlyoutButton, location);
         }
 
@@ -301,6 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MenuFlyout_Closed(object sender, object e)
         {
             IsOpened = false;
+            _menuFlyoutRepositioned = false;
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
@@ -309,6 +321,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = true;
             VisualStateManager.GoToState(this, "Opened", true);
             _parentMenu.IsInTransitionState = false;
+
+            if (!_menuFlyoutRepositioned)
+            {
+                var popups = VisualTreeHelper.GetOpenPopups(Window.Current).Where(p => p.Child is MenuFlyoutPresenter);
+                if (popups.Count() > 0 && popups.First().Child is MenuFlyoutPresenter mfp)
+                {
+                    var height = mfp.ActualHeight;
+                    var width = mfp.ActualWidth;
+
+                    var button = _menuFlyout.Target;
+                    var point = button.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
+
+                    if (width > Window.Current.Bounds.Width - point.X ||
+                        height > Window.Current.Bounds.Height - point.Y)
+                    {
+                        ShowMenuRepositioned(width, height);
+                    }
+                }
+            }
         }
 
         /// <inheritdoc />
