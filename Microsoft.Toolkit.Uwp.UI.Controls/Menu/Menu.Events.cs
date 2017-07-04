@@ -153,20 +153,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return gestureKeyBuilder.ToString();
         }
 
+        private static void FlyoutPlacementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = (Menu)d;
+            var placementMode = GetMenuFlyoutPlacementMode(menu);
+            foreach (MenuItem menuItem in menu.Items)
+            {
+                if (menuItem.FlyoutButton?.Flyout != null)
+                {
+                    menuItem.FlyoutButton.Flyout.Placement = placementMode;
+                }
+            }
+        }
+
+        internal static FlyoutPlacementMode GetMenuFlyoutPlacementMode(Menu menu)
+        {
+            switch (menu.FlyoutPlacement)
+            {
+                case MenuFlyoutPlacement.Auto:
+                    return menu.Orientation == Orientation.Horizontal
+                        ? FlyoutPlacementMode.Bottom
+                        : FlyoutPlacementMode.Right;
+                case MenuFlyoutPlacement.Top:
+                    return FlyoutPlacementMode.Top;
+                case MenuFlyoutPlacement.Bottom:
+                    return FlyoutPlacementMode.Bottom;
+                case MenuFlyoutPlacement.Left:
+                    return FlyoutPlacementMode.Left;
+                case MenuFlyoutPlacement.Right:
+                    return FlyoutPlacementMode.Right;
+                case MenuFlyoutPlacement.Full:
+                    return FlyoutPlacementMode.Full;
+                default:
+                    return FlyoutPlacementMode.Bottom;
+            }
+        }
+
         private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = (Menu)d;
             if (menu._wrapPanel != null)
             {
                 menu._wrapPanel.Orientation = menu.Orientation;
-                foreach (MenuItem menuItem in menu.Items)
+            }
+
+            var placementMode = GetMenuFlyoutPlacementMode(menu);
+            foreach (MenuItem menuItem in menu.Items)
+            {
+                if (menuItem.FlyoutButton?.Flyout != null)
                 {
-                    if (menuItem.FlyoutButton?.Flyout != null)
-                    {
-                        menuItem.FlyoutButton.Flyout.Placement = menu.Orientation == Orientation.Horizontal
-                            ? FlyoutPlacementMode.Bottom
-                        : FlyoutPlacementMode.Right;
-                    }
+                    menuItem.FlyoutButton.Flyout.Placement = placementMode;
                 }
             }
         }

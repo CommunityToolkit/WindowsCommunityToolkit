@@ -24,6 +24,7 @@
     </Grid.RowDefinitions>
 
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:True]"
+                   FlyoutPlacement="@[FlyoutPlacement:Enum:MenuFlyoutPlacement.Auto]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
 

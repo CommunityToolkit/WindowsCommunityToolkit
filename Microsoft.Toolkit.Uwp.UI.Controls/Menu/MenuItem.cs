@@ -136,9 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
-                    ? FlyoutPlacementMode.Bottom
-                    : FlyoutPlacementMode.Right;
+                _menuFlyout.Placement = Menu.GetMenuFlyoutPlacementMode(_parentMenu);
 
                 FlyoutButton.Flyout = _menuFlyout;
 
