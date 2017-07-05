@@ -38,16 +38,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null));
 
         private Rect _bounds;
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
-        public string Header
+        public object Header
         {
-            get { return (string)GetValue(HeaderProperty); }
+            get { return (object)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
