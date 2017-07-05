@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             nameof(HeaderElement), typeof(UIElement), typeof(QuickReturnHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
         private ScrollViewer _scrollViewer;
-        private double _previousVerticalScrollOffset;
+        private double _headerPosition;
         private CompositionPropertySet _scrollProperties;
         private CompositionPropertySet _animationProperties;
         private Visual _headerVisual;
@@ -83,8 +83,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (_headerVisual != null && _scrollViewer != null)
             {
-                _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
                 _animationProperties.InsertScalar("OffsetY", 0.0f);
             }
         }
@@ -183,9 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 _animationProperties.InsertScalar("OffsetY", 0.0f);
             }
 
-            _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-            var expressionAnimation = compositor.CreateExpressionAnimation($"max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0)");
+            var expressionAnimation = compositor.CreateExpressionAnimation($"max(min(animationProperties.OffsetY, -ScrollingProperties.Translation.Y), 0)");
             expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
             expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
 
@@ -239,22 +235,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (_animationProperties != null)
             {
-                float oldOffsetY;
-                _animationProperties.TryGetScalar("OffsetY", out oldOffsetY);
-
-                var delta = _scrollViewer.VerticalOffset - _previousVerticalScrollOffset;
-                _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-                var newOffsetY = oldOffsetY - (float)delta;
-
-                // Keep values within negative header size and 0
                 FrameworkElement header = (FrameworkElement)HeaderElement;
-                newOffsetY = Math.Max((float)-header.ActualHeight, newOffsetY);
-                newOffsetY = Math.Min(0, newOffsetY);
-
-                if (oldOffsetY != newOffsetY)
+                var headerHeight = header.ActualHeight;
+                if (_headerPosition + headerHeight < _scrollViewer.VerticalOffset)
                 {
-                    _animationProperties.InsertScalar("OffsetY", newOffsetY);
+                    // scrolling down: move header down, so it is just above screen
+                    _headerPosition = _scrollViewer.VerticalOffset - headerHeight;
+                    _animationProperties.InsertScalar("OffsetY", (float)_headerPosition);
+                }
+                else if (_headerPosition > _scrollViewer.VerticalOffset)
+                {
+                    // scrolling up: move header up, align with top border.
+                    // the expression animation makes sure it never relly is shown below border, so no lag effect!
+                    _headerPosition = _scrollViewer.VerticalOffset;
+                    _animationProperties.InsertScalar("OffsetY", (float)_headerPosition);
                 }
             }
         }

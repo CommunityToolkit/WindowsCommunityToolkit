@@ -23,5 +23,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
         }
+
+        private void ApplyFullMaskButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            AlphaTextBox.Text = "7b1y--x4a5";
+        }
+
+        private void ApplyPartialMaskButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            AlphaTextBox.Text = "7b1yZW";
+        }
     }
 }

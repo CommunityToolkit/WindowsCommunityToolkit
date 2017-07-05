@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
     <Style TargetType="controls:ScrollHeader">
+        <Setter Property="IsTabStop" Value="False"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ScrollHeader">
-                    <ScrollViewer>
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
                         <ContentPresenter />
                     </ScrollViewer>
                 </ControlTemplate>
