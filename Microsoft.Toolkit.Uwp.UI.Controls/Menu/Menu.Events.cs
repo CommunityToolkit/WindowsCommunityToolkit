@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void FlyoutPlacementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = (Menu)d;
-            var placementMode = GetMenuFlyoutPlacementMode(menu);
+            var placementMode = menu.GetMenuFlyoutPlacementMode();
             foreach (MenuItem menuItem in menu.Items)
             {
                 if (menuItem.FlyoutButton?.Flyout != null)
@@ -166,12 +166,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal static FlyoutPlacementMode GetMenuFlyoutPlacementMode(Menu menu)
+        internal FlyoutPlacementMode GetMenuFlyoutPlacementMode()
         {
-            switch (menu.FlyoutPlacement)
+            switch (FlyoutPlacement)
             {
                 case MenuFlyoutPlacement.Auto:
-                    return menu.Orientation == Orientation.Horizontal
+                    return Orientation == Orientation.Horizontal
                         ? FlyoutPlacementMode.Bottom
                         : FlyoutPlacementMode.Right;
                 case MenuFlyoutPlacement.Top:
@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menu._wrapPanel.Orientation = menu.Orientation;
             }
 
-            var placementMode = GetMenuFlyoutPlacementMode(menu);
+            var placementMode = menu.GetMenuFlyoutPlacementMode();
             foreach (MenuItem menuItem in menu.Items)
             {
                 if (menuItem.FlyoutButton?.Flyout != null)

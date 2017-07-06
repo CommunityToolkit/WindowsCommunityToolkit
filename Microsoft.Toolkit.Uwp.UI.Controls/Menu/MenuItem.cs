@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                _menuFlyout.Placement = Menu.GetMenuFlyoutPlacementMode(_parentMenu);
+                _menuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
 
                 FlyoutButton.Flyout = _menuFlyout;
 
