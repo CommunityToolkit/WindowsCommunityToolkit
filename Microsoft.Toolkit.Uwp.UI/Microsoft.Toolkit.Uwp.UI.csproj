@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -76,6 +76,12 @@
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Extensions\ApplicationView.cs" />
+    <Compile Include="Extensions\SurfaceDialTextboxHelper.cs" />
+    <Compile Include="Extensions\TextBoxMask.cs" />
+    <Compile Include="Extensions\TextBoxMask.Properties.cs" />
+    <Compile Include="Extensions\TextBoxRegex.cs" />
+    <Compile Include="Extensions\TextBoxRegex.Data.cs" />
+    <Compile Include="Extensions\TextBoxRegex.Properties.cs" />
     <Compile Include="Extensions\TitleBar.cs" />
     <Compile Include="Extensions\StatusBar.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
@@ -94,10 +100,10 @@
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>

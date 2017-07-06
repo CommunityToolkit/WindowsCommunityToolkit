@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Helper class that provides attached properties to enable any TextBox with the Surface Dial. Rotate to change the value by StepValue between MinValue and MaxValue, and tap to go to the Next focus element from a TextBox
