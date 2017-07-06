@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Compile Include="Extensions\ListViewBaseExtensions.Data.cs" />
+    <Compile Include="Extensions\ListViewBaseExtensions\ListViewBaseExtensions.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -72,22 +72,22 @@
     <Compile Include="Converters\EmptyStringToObjectConverter.cs" />
     <Compile Include="Converters\FormatStringConverter.cs" />
     <Compile Include="Converters\ResourceNameToResourceStringConverter.cs" />
-    <Compile Include="Extensions\ListViewBaseExtensions.cs" />
-    <Compile Include="Extensions\HyperlinkExtensions.cs" />
+    <Compile Include="Extensions\ListViewBaseExtensions\ListViewBaseExtensions.cs" />
+    <Compile Include="Extensions\HyperlinkExtensions\HyperlinkExtensions.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="Extensions\ApplicationView.cs" />
-    <Compile Include="Extensions\ListViewBaseExtensions.Properties.cs" />
-    <Compile Include="Extensions\SurfaceDialTextboxHelper.cs" />
-    <Compile Include="Extensions\TextBoxMask.cs" />
-    <Compile Include="Extensions\TextBoxMask.Properties.cs" />
-    <Compile Include="Extensions\TextBoxRegex.cs" />
-    <Compile Include="Extensions\TextBoxRegex.Data.cs" />
-    <Compile Include="Extensions\TextBoxRegex.Properties.cs" />
-    <Compile Include="Extensions\TitleBar.cs" />
-    <Compile Include="Extensions\StatusBar.cs" />
+    <Compile Include="Extensions\ApplicationView\ApplicationView.cs" />
+    <Compile Include="Extensions\ListViewBaseExtensions\ListViewBaseExtensions.Properties.cs" />
+    <Compile Include="Extensions\SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
+    <Compile Include="Extensions\TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="Extensions\TextBoxMask\TextBoxMask.Properties.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Data.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Properties.cs" />
+    <Compile Include="Extensions\TitleBar\TitleBar.cs" />
+    <Compile Include="Extensions\StatusBar\StatusBar.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
-    <Compile Include="Extensions\WebViewExtensions.cs" />
+    <Compile Include="Extensions\WebViewExtensions\WebViewExtensions.cs" />
     <Compile Include="Helpers\BindableValueHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,6 +109,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
