@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -47,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox control</param>
         /// <returns>mask value</returns>
-        public static string GetMask(DependencyObject obj)
+        public static string GetMask(TextBox obj)
         {
             return (string)obj.GetValue(MaskProperty);
         }
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">Mask Value</param>
-        public static void SetMask(DependencyObject obj, string value)
+        public static void SetMask(TextBox obj, string value)
         {
             obj.SetValue(MaskProperty, value);
         }
@@ -67,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox control</param>
         /// <returns>placeholder value</returns>
-        public static string GetPlaceHolder(DependencyObject obj)
+        public static string GetPlaceHolder(TextBox obj)
         {
             return (string)obj.GetValue(PlaceHolderProperty);
         }
@@ -77,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">placeholder Value</param>
-        public static void SetPlaceHolder(DependencyObject obj, string value)
+        public static void SetPlaceHolder(TextBox obj, string value)
         {
             obj.SetValue(PlaceHolderProperty, value);
         }
@@ -87,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox control</param>
         /// <returns>CustomMask value</returns>
-        public static string GetCustomMask(DependencyObject obj)
+        public static string GetCustomMask(TextBox obj)
         {
             return (string)obj.GetValue(CustomMaskProperty);
         }
@@ -97,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">CustomMask Value</param>
-        public static void SetCustomMask(DependencyObject obj, string value)
+        public static void SetCustomMask(TextBox obj, string value)
         {
             obj.SetValue(CustomMaskProperty, value);
         }
