@@ -14,7 +14,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="WebView"/> that allows attaching HTML string content/>.
