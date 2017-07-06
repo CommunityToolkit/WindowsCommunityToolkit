@@ -45,6 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Extensions\ListViewBaseExtensions.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -76,6 +77,7 @@
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Extensions\ApplicationView.cs" />
+    <Compile Include="Extensions\ListViewBaseExtensions.Properties.cs" />
     <Compile Include="Extensions\SurfaceDialTextboxHelper.cs" />
     <Compile Include="Extensions\TextBoxMask.cs" />
     <Compile Include="Extensions\TextBoxMask.Properties.cs" />
