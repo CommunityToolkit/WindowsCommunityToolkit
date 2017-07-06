@@ -1,14 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel">
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:Menu">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <wrapPanel:WrapPanel />
+                    <local:WrapPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
