@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.Foundation;
@@ -258,6 +259,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
             // if contained with the whole Menu control
             if (IsOpened && _bounds.Contains(args.CurrentPoint.Position))
             {
@@ -277,6 +281,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
+
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedTicks);
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
