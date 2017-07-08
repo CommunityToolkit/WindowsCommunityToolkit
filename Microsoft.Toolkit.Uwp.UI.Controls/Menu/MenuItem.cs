@@ -138,8 +138,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _menuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
 
-                FlyoutButton.Flyout = _menuFlyout;
-
                 LayoutUpdated += MenuItem_LayoutUpdated;
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
