@@ -10,16 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Hyperlink"/> content element that allows
     /// it to invoke a <see cref="ICommand"/> when clicked
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.HyperLink instead")]
     public static class HyperlinkExtensions
     {
         /// <summary>

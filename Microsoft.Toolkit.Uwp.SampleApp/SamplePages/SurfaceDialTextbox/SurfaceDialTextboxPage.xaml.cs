@@ -12,33 +12,13 @@
 
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// Provides attached dependency properties for the <see cref="ListViewBase"/>
-    /// </summary>
-    public partial class ListViewBaseExtensions
+    public sealed partial class SurfaceDialTextboxPage : Page
     {
-        /// <summary>
-        /// Stretch direction
-        /// </summary>
-        public enum StretchDirection
+        public SurfaceDialTextboxPage()
         {
-            /// <summary>
-            /// Horizontal stretch
-            /// </summary>
-            Horizontal,
-
-            /// <summary>
-            /// Vertical stretch
-            /// </summary>
-            Vertical,
-
-            /// <summary>
-            /// Horizontal and Vertical stretch
-            /// </summary>
-            All
+            InitializeComponent();
         }
-
     }
 }

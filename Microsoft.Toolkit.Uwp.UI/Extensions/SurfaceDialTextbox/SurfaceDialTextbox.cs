@@ -22,55 +22,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Helper class that provides attached properties to enable any TextBox with the Surface Dial. Rotate to change the value by StepValue between MinValue and MaxValue, and tap to go to the Next focus element from a TextBox
     /// </summary>
-    public static class SurfaceDialTextboxHelper
+    public static class SurfaceDialTextbox
     {
        /// <summary>
         /// If you provide the Controller yourself, set this to true so you won't add new menu items.
         /// </summary>
         public static readonly DependencyProperty ForceMenuItemProperty =
-            DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(false));
 
         /// <summary>
         /// Set the default icon of the menu item that gets added. A user will most likely not see this. Defaults to the Ruler icon.
         /// </summary>
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));
+            DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(SurfaceDialTextbox), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));
 
         /// <summary>
         /// The amount the TextBox will be modified for each rotation step on the Surface Dial. This can be any double value.
         /// </summary>
         public static readonly DependencyProperty StepValueProperty =
-            DependencyProperty.RegisterAttached("StepValue", typeof(double), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(0d, new PropertyChangedCallback(StepValueChanged)));
+            DependencyProperty.RegisterAttached("StepValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(0d, new PropertyChangedCallback(StepValueChanged)));
 
         /// <summary>
         /// A flag to enable or disable haptic feedback when rotating the dial for the give TextBox. This is enabled by default.
         /// </summary>
         public static readonly DependencyProperty EnableHapticFeedbackProperty =
-            DependencyProperty.RegisterAttached("EnableHapticFeedback", typeof(bool), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(true));
+            DependencyProperty.RegisterAttached("EnableHapticFeedback", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(true));
 
         /// <summary>
         /// Sets the minimum value the TextBox can have when modifying it using a Surface Dial. Default is -100.0
         /// </summary>
         public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.RegisterAttached("MinValue", typeof(double), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(-100d));
+            DependencyProperty.RegisterAttached("MinValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(-100d));
 
         /// <summary>
         /// Sets the maxium value the TextBox can have when modifying it using a Surface Dial. Default is 100.0
         /// </summary>
         public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.RegisterAttached("MaxValue", typeof(double), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(100d));
+            DependencyProperty.RegisterAttached("MaxValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(100d));
 
         /// <summary>
         /// TapToNext is a feature you can set to automatically try to focus the next focusable element from the Surface Dial enabled TextBox. This is on dy default.
         /// </summary>
         public static readonly DependencyProperty EnableTapToNextControlProperty =
-            DependencyProperty.RegisterAttached("EnableTapToNextControl", typeof(bool), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(true));
+            DependencyProperty.RegisterAttached("EnableTapToNextControl", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(true));
 
         /// <summary>
         /// EnableMinMax limits the value in the textbox to your spesificed Min and Max values, see the other properties.
         /// </summary>
         public static readonly DependencyProperty EnableMinMaxValueProperty =
-            DependencyProperty.RegisterAttached("EnableMinMaxValue", typeof(bool), typeof(SurfaceDialTextboxHelper), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("EnableMinMaxValue", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(false));
 
         /// <summary>
         /// Getter of the EnableMinMax property

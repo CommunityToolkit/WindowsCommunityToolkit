@@ -10,18 +10,42 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="ListViewBase"/>
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewBase instead")]
     public partial class ListViewBaseExtensions
     {
+        /// <summary>
+        /// Stretch direction
+        /// </summary>
+        public enum StretchDirection
+        {
+            /// <summary>
+            /// Horizontal stretch
+            /// </summary>
+            Horizontal,
+
+            /// <summary>
+            /// Vertical stretch
+            /// </summary>
+            Vertical,
+
+            /// <summary>
+            /// Horizontal and Vertical stretch
+            /// </summary>
+            All
+        }
+
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding an <see cref="ICommand"/> instance to a <see cref="ListViewBase"/>
         /// This ICommand is executed when ListViewBase Item receives interaction by means of ItemClick. This requires IsItemClickEnabled to set to true.
@@ -124,5 +148,134 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             obj.SetValue(StretchItemContainerDirectionProperty, value);
         }
 
+        private static void OnCommandPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase != null)
+            {
+                listViewBase.ItemClick -= OnItemClicked;
+
+                ICommand command = args.NewValue as ICommand;
+
+                if (command != null)
+                {
+                    listViewBase.ItemClick += OnItemClicked;
+                }
+            }
+        }
+
+        private static void OnItemClicked(object sender, ItemClickEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            ICommand command = GetCommand(listViewBase);
+            if (command != null && command.CanExecute(args.ClickedItem))
+            {
+                command.Execute(args.ClickedItem);
+            }
+        }
+
+        private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
+
+            if (AlternateColorProperty != null)
+            {
+                listViewBase.ContainerContentChanging += ColorContainerContentChanging;
+            }
+        }
+
+        private static void ColorContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var itemIndex = sender.IndexFromContainer(itemContainer);
+
+            if (itemIndex % 2 == 0)
+            {
+                itemContainer.Background = GetAlternateColor(sender);
+            }
+            else
+            {
+                itemContainer.Background = null;
+            }
+        }
+
+        private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
+
+            if (AlternateItemTemplateProperty != null)
+            {
+                listViewBase.ContainerContentChanging += ItemTemplateContainerContentChanging;
+            }
+        }
+
+        private static void ItemTemplateContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var itemIndex = sender.IndexFromContainer(itemContainer);
+
+            if (itemIndex % 2 == 0)
+            {
+                itemContainer.ContentTemplate = GetAlternateItemTemplate(sender);
+            }
+            else
+            {
+                itemContainer.ContentTemplate = sender.ItemTemplate;
+            }
+        }
+
+        private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            ListViewBase listViewBase = sender as ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+
+            if (StretchItemContainerDirectionProperty != null)
+            {
+                listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
+            }
+        }
+
+        private static void StretchItemContainerDirectionChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var stretchDirection = GetStretchItemContainerDirection(sender);
+
+            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.All)
+            {
+                itemContainer.VerticalContentAlignment = VerticalAlignment.Stretch;
+            }
+
+            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.All)
+            {
+                itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            }
+        }
     }
 }

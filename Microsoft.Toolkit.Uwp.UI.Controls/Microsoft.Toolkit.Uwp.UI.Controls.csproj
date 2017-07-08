@@ -135,6 +135,12 @@
     <Compile Include="OrbitView\OrbitViewPanel.cs" />
     <Compile Include="OrbitView\OrbitViewPanelItemArrangedArgs.cs" />
     <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
+    <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
+    <Compile Include="TextBoxRegEx\TextBoxRegex.cs" />
+    <Compile Include="TextBoxRegEx\TextBoxRegex.Data.cs" />
+    <Compile Include="TextBoxRegEx\TextBoxRegex.Properties.cs" />
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />

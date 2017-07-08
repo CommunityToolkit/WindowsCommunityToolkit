@@ -195,14 +195,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TileControl.md"
       },
       {
-        "Name": "SurfaceDialTextboxHelper",
-        "Type": "SurfaceDialTextboxHelperPage",
+        "Name": "SurfaceDialTextbox",
+        "Type": "SurfaceDialTextboxPage",
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
-        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
-        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextbox",
+        "XamlCodeFile": "SurfaceDialTextboxCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SurfaceDialTextboxHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SurfaceDialTextbox.md"
       },
       {
         "Name": "WrapPanel",

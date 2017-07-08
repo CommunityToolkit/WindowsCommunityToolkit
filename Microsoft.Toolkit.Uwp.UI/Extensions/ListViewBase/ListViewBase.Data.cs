@@ -10,17 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
-    public sealed partial class SurfaceDialTextboxHelperPage : Page
+    /// <summary>
+    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+    /// </summary>
+    public partial class ListViewBase
     {
-        public SurfaceDialTextboxHelperPage()
+        /// <summary>
+        /// Stretch direction
+        /// </summary>
+        public enum StretchDirection
         {
-            InitializeComponent();
+            /// <summary>
+            /// Horizontal stretch
+            /// </summary>
+            Horizontal,
+
+            /// <summary>
+            /// Vertical stretch
+            /// </summary>
+            Vertical,
+
+            /// <summary>
+            /// Horizontal and Vertical stretch
+            /// </summary>
+            All
         }
     }
 }

@@ -49,7 +49,7 @@ The following sample demonstrates how to add TextBoxRegex property.
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Extenions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -144,14 +144,14 @@ The following sample demonstrates how to add TextBoxRegex property.
 
 ## Default Template 
 
-[TextBoxRegex XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex/TextBoxRegexPage.xaml) is the XAML template used in the toolkit for the default styling.
+[TextBoxRegex XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxRegex/TextBoxRegex/TextBoxRegexPage.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [TextBoxRegex source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex)
+* [TextBoxRegex source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxRegEx)

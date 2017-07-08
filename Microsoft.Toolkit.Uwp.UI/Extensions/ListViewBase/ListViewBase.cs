@@ -14,18 +14,17 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ListViewBase"/>
+    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
-    public partial class ListViewBaseExtensions
+    public partial class ListViewBase
     {
         private static void OnCommandPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ListViewBase listViewBase = sender as ListViewBase;
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase != null)
             {
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnItemClicked(object sender, ItemClickEventArgs args)
         {
-            ListViewBase listViewBase = sender as ListViewBase;
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -58,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ListViewBase listViewBase = sender as ListViewBase;
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -73,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ColorContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
             var itemIndex = sender.IndexFromContainer(itemContainer);
@@ -90,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ListViewBase listViewBase = sender as ListViewBase;
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -105,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ItemTemplateContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void ItemTemplateContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
             var itemIndex = sender.IndexFromContainer(itemContainer);
@@ -122,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ListViewBase listViewBase = sender as ListViewBase;
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -137,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void StretchItemContainerDirectionChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void StretchItemContainerDirectionChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
             var stretchDirection = GetStretchItemContainerDirection(sender);
