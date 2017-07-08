@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Menu_Loaded(object sender, RoutedEventArgs e)
         {
-            _wrapPanel = ItemsPanelRoot as WrapPanel;
+            _wrapPanel = ItemsPanelRoot as WrapPanel.WrapPanel;
             if (_wrapPanel != null)
             {
                 _wrapPanel.Orientation = Orientation;

@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu : ItemsControl
     {
-        private WrapPanel _wrapPanel;
+        private WrapPanel.WrapPanel _wrapPanel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
