@@ -119,7 +119,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
-            LayoutUpdated -= MenuItem_LayoutUpdated;
 
             if (_menuFlyout == null)
             {
@@ -138,7 +137,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _menuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
 
-                LayoutUpdated += MenuItem_LayoutUpdated;
                 _menuFlyout.Opened += MenuFlyout_Opened;
                 _menuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
@@ -156,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void MenuItem_LayoutUpdated(object sender, object e)
+        internal void CalculateBounds()
         {
             var ttv = TransformToVisual(Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
@@ -314,6 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MenuFlyout_Opened(object sender, object e)
         {
+            _parentMenu.CalculateBounds();
             IsOpened = true;
             VisualStateManager.GoToState(this, "Opened", true);
             _parentMenu.IsInTransitionState = false;

@@ -137,11 +137,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Loaded -= Menu_Loaded;
             Unloaded -= Menu_Unloaded;
-            LayoutUpdated -= Menu_LayoutUpdated;
 
             Loaded += Menu_Loaded;
             Unloaded += Menu_Unloaded;
-            LayoutUpdated += Menu_LayoutUpdated;
 
             base.OnApplyTemplate();
         }
