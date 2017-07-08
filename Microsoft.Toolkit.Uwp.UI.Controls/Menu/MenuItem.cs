@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -32,8 +33,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
         private Menu _parentMenu;
         private bool _isOpened;
-        private MenuFlyout _menuFlyout;
-        private bool _menuFlyoutRepositioned = false;
+        private bool _menuFlyoutRepositioned;
+
+        internal MenuFlyout MenuFlyout { get; set; }
 
         internal Button FlyoutButton { get; private set; }
 
@@ -84,31 +86,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// This method is used to show the menu for current item
-        /// </summary>
-        public void ShowMenu()
-        {
-            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
-                ? new Point(0, FlyoutButton.ActualHeight)
-                : new Point(FlyoutButton.ActualWidth, 0);
-            _menuFlyout.ShowAt(FlyoutButton, location);
-        }
-
-        private void ShowMenuRepositioned(double menuWidth, double menuHeight)
-        {
-            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
-                ? new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight)
-                : new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
-            _menuFlyoutRepositioned = true;
-            _menuFlyout.ShowAt(FlyoutButton, location);
-        }
-
-        /// <summary>
         /// This method is used to hide the menu for current item
         /// </summary>
         public void HideMenu()
         {
-            _menuFlyout?.Hide();
+            MenuFlyout?.Hide();
         }
 
         /// <inheritdoc />
@@ -120,14 +102,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Items.VectorChanged -= Items_VectorChanged;
 
-            if (_menuFlyout == null)
+            if (MenuFlyout == null)
             {
-                _menuFlyout = new MenuFlyout();
+                MenuFlyout = new MenuFlyout();
             }
             else
             {
-                _menuFlyout.Opened -= MenuFlyout_Opened;
-                _menuFlyout.Closed -= MenuFlyout_Closed;
+                MenuFlyout.Opened -= MenuFlyout_Opened;
+                MenuFlyout.Closed -= MenuFlyout_Closed;
             }
 
             if (FlyoutButton != null)
@@ -135,13 +117,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                _menuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
+                MenuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
 
-                _menuFlyout.Opened += MenuFlyout_Opened;
-                _menuFlyout.Closed += MenuFlyout_Closed;
+                MenuFlyout.Opened += MenuFlyout_Opened;
+                MenuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
 
-                _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
+                MenuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
 
                 if (_isAccessKeySupported)
@@ -232,12 +214,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ReAddItemsToFlyout()
         {
-            if (_menuFlyout == null)
+            if (MenuFlyout == null)
             {
                 return;
             }
 
-            _menuFlyout.Items.Clear();
+            MenuFlyout.Items.Clear();
             foreach (var item in Items)
             {
                 AddItemToFlyout(item);
@@ -249,13 +231,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuItem = item as MenuFlyoutItemBase;
             if (menuItem != null)
             {
-                _menuFlyout.Items.Add(menuItem);
+                MenuFlyout.Items.Add(menuItem);
             }
             else
             {
                 var newMenuItem = new MenuFlyoutItem();
                 newMenuItem.DataContext = item;
-                _menuFlyout.Items.Add(newMenuItem);
+                MenuFlyout.Items.Add(newMenuItem);
             }
         }
 
@@ -264,13 +246,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuItem = item as MenuFlyoutItemBase;
             if (menuItem != null)
             {
-                _menuFlyout.Items.Insert(index, menuItem);
+                MenuFlyout.Items.Insert(index, menuItem);
             }
             else
             {
                 var newMenuItem = new MenuFlyoutItem();
                 newMenuItem.DataContext = item;
-                _menuFlyout.Items.Insert(index, newMenuItem);
+                MenuFlyout.Items.Insert(index, newMenuItem);
             }
         }
 
@@ -286,10 +268,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     AddItemToFlyout(sender.ElementAt(index));
                     break;
                 case CollectionChange.ItemRemoved:
-                    _menuFlyout.Items.RemoveAt(index);
+                    MenuFlyout.Items.RemoveAt(index);
                     break;
                 case CollectionChange.ItemChanged:
-                    _menuFlyout.Items.RemoveAt(index);
+                    MenuFlyout.Items.RemoveAt(index);
                     InsertItemToFlyout(sender.ElementAt(index), index);
                     break;
             }
@@ -319,22 +301,83 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!_menuFlyoutRepositioned)
             {
-                var popups = VisualTreeHelper.GetOpenPopups(Window.Current).Where(p => p.Child is MenuFlyoutPresenter);
-                if (popups.Any() && popups.First().Child is MenuFlyoutPresenter mfp)
+                var popup = VisualTreeHelper.GetOpenPopups(Window.Current).FirstOrDefault(p => p.Child is MenuFlyoutPresenter);
+
+                if (popup != null)
                 {
+                    var mfp = (MenuFlyoutPresenter)popup.Child;
                     var height = mfp.ActualHeight;
                     var width = mfp.ActualWidth;
 
-                    var button = _menuFlyout.Target;
-                    var point = button.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
+                    var flytoutButtonPoint = FlyoutButton.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
 
-                    if (width > Window.Current.Bounds.Width - point.X ||
-                        height > Window.Current.Bounds.Height - point.Y)
+                    if ((width > Window.Current.Bounds.Width - flytoutButtonPoint.X &&
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Top ||
+                        MenuFlyout.Placement == FlyoutPlacementMode.Bottom)) ||
+                        (height > Window.Current.Bounds.Height - flytoutButtonPoint.Y &&
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Right ||
+                        MenuFlyout.Placement == FlyoutPlacementMode.Left)))
                     {
                         ShowMenuRepositioned(width, height);
                     }
                 }
             }
+        }
+
+        private void ShowMenuRepositioned(double menuWidth, double menuHeight)
+        {
+            Point location;
+            if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
+            {
+                location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Top)
+            {
+                location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
+            {
+                
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Left)
+            {
+                
+            }
+
+            _menuFlyoutRepositioned = true;
+            MenuFlyout.ShowAt(FlyoutButton, location);
+        }
+
+        /// <summary>
+        /// This method is used to show the menu for current item
+        /// </summary>
+        public void ShowMenu()
+        {
+            Point location;
+            if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
+            {
+                location = new Point(0, FlyoutButton.ActualHeight);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Top)
+            {
+                location = new Point(0, 0);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
+            {
+                location = new Point(FlyoutButton.ActualWidth, 0);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Left)
+            {
+                location = new Point(FlyoutButton.ActualWidth * -1, 0);
+            }
+            else
+            {
+                // let the flyout decide where to show
+                MenuFlyout.ShowAt(FlyoutButton);
+                return;
+            }
+
+            MenuFlyout.ShowAt(FlyoutButton, location);
         }
 
         /// <inheritdoc />

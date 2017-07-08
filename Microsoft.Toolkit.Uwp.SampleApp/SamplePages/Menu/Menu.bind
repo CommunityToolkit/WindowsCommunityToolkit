@@ -24,10 +24,10 @@
     </Grid.RowDefinitions>
 
     <controls:Menu
-                  HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Left]"
-                  VerticalAlignment="@[VerticalAlignment:Enum:VerticalAlignment.Top]"
+                  HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Right]"
+                  VerticalAlignment="@[VerticalAlignment:Enum:VerticalAlignment.Bottom]"
                   AllowTooltip="@[AllowTooltip:Bool:True]"
-                   FlyoutPlacement="@[FlyoutPlacement:Enum:MenuFlyoutPlacement.Auto]"
+                   FlyoutPlacement="@[FlyoutPlacement:Enum:MenuFlyoutPlacement.Top]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
 
