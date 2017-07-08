@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BluetoothLEHelper\GattNativeUuid.cs" />
-    <Compile Include="Helpers\ClipboardHelper.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\GattConvert.cs" />
     <Compile Include="Helpers\BluetoothLEHelper\GattProtocolErrorParser.cs" />
