@@ -32,7 +32,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cancellationToken, pageSize);
                 }
-                else
+
+                if (typeof(T) == typeof(Event))
                 {
                     items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(cancellationToken, pageSize);
                 }
@@ -50,7 +51,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync(cancellationToken);
                 }
-                else
+
+                if (typeof(T) == typeof(Event))
                 {
                     items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Event.NextPageEventsAsync(cancellationToken);
                 }
