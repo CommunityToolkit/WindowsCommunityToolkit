@@ -76,7 +76,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
-* [SurfaceDialTextboxHelper](http://docs.uwpcommunitytoolkit.com/en/master/controls/SurfaceDialTextboxHelper/)
+* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/controls/SurfaceDialTextbox/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxRegex/)
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
@@ -97,10 +97,10 @@ Once you search you should see a list similar to the one below (versions may be 
 * [DeepLinkParsers](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DeepLinkParsers/)
 * [DispatcherHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DispatcherHelper/)
 * [HttpHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HttpHelper/)
-* [HyperlinkExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HyperlinkExtensions/)
+* [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Hyperlink/)
 * [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
 * [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
-* [ListViewBaseExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ListViewBaseExtensions/)
+* [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ListViewBase/)
 * [NetworkHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
 * [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
 * [PrinterHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrinterHelper/)
@@ -110,7 +110,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ViewExtensions](http://www.uwpcommunitytoolkit.com/en/master/helpers/ViewExtensions/)
 * [VisualTreeExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/VisualTreeExtensions/)
 * [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
-* [WebViewExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WebViewExtensions/)
+* [WebView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WebView/)
 
 ### Services
 
