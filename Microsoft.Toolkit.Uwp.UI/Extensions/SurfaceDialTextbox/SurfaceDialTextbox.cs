@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using Windows.Foundation.Metadata;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -22,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Helper class that provides attached properties to enable any TextBox with the Surface Dial. Rotate to change the value by StepValue between MinValue and MaxValue, and tap to go to the Next focus element from a TextBox
     /// </summary>
-    public static class SurfaceDialTextbox
+    public class SurfaceDialTextbox
     {
        /// <summary>
         /// If you provide the Controller yourself, set this to true so you won't add new menu items.
