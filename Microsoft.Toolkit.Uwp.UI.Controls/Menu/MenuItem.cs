@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -326,25 +325,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ShowMenuRepositioned(double menuWidth, double menuHeight)
         {
+            _menuFlyoutRepositioned = true;
             Point location;
             if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
             {
                 location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
             }
-            else if (MenuFlyout.Placement == FlyoutPlacementMode.Top)
-            {
-                location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
-            }
             else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
             {
-                
+                location = new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
             }
-            else if (MenuFlyout.Placement == FlyoutPlacementMode.Left)
+            else
             {
-                
+                // let the flyout decide where to show
+                MenuFlyout.ShowAt(FlyoutButton);
+                return;
             }
 
-            _menuFlyoutRepositioned = true;
             MenuFlyout.ShowAt(FlyoutButton, location);
         }
 
@@ -358,17 +355,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 location = new Point(0, FlyoutButton.ActualHeight);
             }
-            else if (MenuFlyout.Placement == FlyoutPlacementMode.Top)
-            {
-                location = new Point(0, 0);
-            }
             else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
             {
                 location = new Point(FlyoutButton.ActualWidth, 0);
-            }
-            else if (MenuFlyout.Placement == FlyoutPlacementMode.Left)
-            {
-                location = new Point(FlyoutButton.ActualWidth * -1, 0);
             }
             else
             {

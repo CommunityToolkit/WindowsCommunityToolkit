@@ -17,9 +17,7 @@
 
     <Grid Background="{StaticResource Brush-Grey-05}">
 
-        <controls:Menu HorizontalAlignment="{Binding HorizontalAlignment.Value, Mode=TwoWay}"
-                       VerticalAlignment="{Binding VerticalAlignment.Value, Mode=TwoWay}"
-                       AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
+        <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
                        FlyoutPlacement="{Binding FlyoutPlacement.Value, Mode=TwoWay}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
