@@ -26,7 +26,9 @@ namespace UnitTests.Helpers
         {
             using (var request = new HttpHelperRequest(new Uri("http://dev.windows.com")))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                HttpHelper httpHelper = new HttpHelper(1, null);
+
+                using (var response = await httpHelper.SendRequestAsync(request))
                 {
                     Assert.IsTrue(response.Success);
                     Assert.IsNotNull(response.Content);
