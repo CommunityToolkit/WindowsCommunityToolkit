@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
 
     <Grid x:Name="Root"
@@ -15,14 +15,14 @@
                      Margin="0,0,0,10"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     controls:SurfaceDialTextbox.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
-                     controls:SurfaceDialTextbox.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
+                     extensions:SurfaceDialTextbox.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
                      Text="0" />
         </StackPanel>
     </Grid>

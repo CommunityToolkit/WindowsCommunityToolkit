@@ -1,7 +1,7 @@
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SurfaceDialTextboxPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,14 +16,14 @@
                VerticalAlignment="Top" 
                Text="0" 
                Width="106"
-               controls:SurfaceDialTextbox.StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
-               controls:SurfaceDialTextbox.ForceMenuItem="@[ForceMenuItem:Bool:true]"
-               controls:SurfaceDialTextbox.EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
-               controls:SurfaceDialTextbox.EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
-               controls:SurfaceDialTextbox.MinValue="@[MinValue:DoubleSlider:0:0-100]"
-               controls:SurfaceDialTextbox.MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
-               controls:SurfaceDialTextbox.Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
-               controls:SurfaceDialTextbox.EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
+               extensions:SurfaceDialTextbox.StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
+               extensions:SurfaceDialTextbox.ForceMenuItem="@[ForceMenuItem:Bool:true]"
+               extensions:SurfaceDialTextbox.EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
+               extensions:SurfaceDialTextbox.EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
+               extensions:SurfaceDialTextbox.MinValue="@[MinValue:DoubleSlider:0:0-100]"
+               extensions:SurfaceDialTextbox.MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
+               extensions:SurfaceDialTextbox.Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
+               extensions:SurfaceDialTextbox.EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
     </StackPanel>
   </Grid>
 </Page>
