@@ -56,6 +56,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// </summary>
         public static TranslatorService Instance => instance ?? (instance = new TranslatorService());
 
+        private static HttpHelper _httpHelper = null;
+
+        static TranslatorService()
+        {
+            _httpHelper = new HttpHelper(1, null);
+        }
+
         private AzureAuthToken _authToken;
         private string _authorizationHeaderValue = string.Empty;
 
@@ -124,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);
@@ -151,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{LanguagesUri}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 XNamespace ns = ArrayNamespace;
@@ -191,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 request.Content = new HttpStringContent(xmlRequest.ToString());
                 request.Content.Headers.ContentType = new HttpMediaTypeHeaderValue(XmlContentType);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
                 var xmlContent = XDocument.Parse(content);
 
@@ -260,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);

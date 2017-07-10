@@ -51,13 +51,14 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
+        [Obsolete("Please create an instance using constructor")]
         public static HttpHelper Instance => _instance ?? (_instance = new HttpHelper());
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelper"/> class.
         /// </summary>
         public HttpHelper()
-            : this(DefaultPoolSize, GetDefaultFilter())
+            : this(DefaultPoolSize, null)
         {
         }
 
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <param name="httpFilter">HttpFilter to use when instances of HttpClient are created</param>
         public HttpHelper(int poolSize, IHttpFilter httpFilter)
         {
-            _httpFilter = httpFilter;
+            _httpFilter = httpFilter ?? GetDefaultFilter();
             _semaphore = new SemaphoreSlim(poolSize);
             _httpClientQueue = new ConcurrentQueue<HttpClient>();
         }

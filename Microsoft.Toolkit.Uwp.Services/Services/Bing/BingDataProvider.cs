@@ -31,6 +31,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// </summary>
         private const string BaseUrl = "http://www.bing.com";
 
+        private static HttpHelper _httpHelper = null;
+
+        static BingDataProvider()
+        {
+            _httpHelper = new HttpHelper(1, null);
+        }
+
         /// <summary>
         /// Wrapper around REST API for making data request.
         /// </summary>
@@ -75,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
 
             using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.GetTextResultAsync().ConfigureAwait(false);
 

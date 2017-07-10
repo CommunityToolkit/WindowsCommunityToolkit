@@ -38,6 +38,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// </summary>
         private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 8, 0);
 
+        private static HttpHelper _httpHelper = null;
+
+        static AzureAuthToken()
+        {
+            _httpHelper = new HttpHelper(1, null);
+        }
+
         private string _storedTokenValue = string.Empty;
         private DateTime _storedTokenTime = DateTime.MinValue;
         private string _subscriptionKey;
@@ -100,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
             {
                 request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 if (!response.Success)

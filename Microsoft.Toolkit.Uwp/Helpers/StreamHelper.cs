@@ -27,6 +27,13 @@ namespace Microsoft.Toolkit.Uwp
     /// </summary>
     public static class StreamHelper
     {
+        private static HttpHelper _httpHelper = null;
+
+        static StreamHelper()
+        {
+            _httpHelper = new HttpHelper();
+        }
+
         /// <summary>
         /// Get the response stream returned by a HTTP get request.
         /// </summary>
@@ -39,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp
 
             using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
+                using (var response = await _httpHelper.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
                 {
                     if (response.Success)
                     {
@@ -67,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp
             {
                 using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
                     {
                         if (response.Success)
                         {
