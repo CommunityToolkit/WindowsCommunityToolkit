@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         static Sample()
         {
-            _httpHelper = new HttpHelper(1, null);
+            _httpHelper = new HttpHelper(1);
         }
 
         internal static async Task<Sample> FindAsync(string category, string name)

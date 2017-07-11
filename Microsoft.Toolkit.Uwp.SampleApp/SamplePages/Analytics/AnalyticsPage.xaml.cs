@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         static AnalyticsPage()
         {
-            _httpHelper = new HttpHelper(1, null);
+            _httpHelper = new HttpHelper(1);
         }
 
         public AnalyticsPage()

@@ -24,15 +24,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// OAuth request.
     /// </summary>
-    internal class TwitterOAuthRequest
+    internal class TwitterOAuthRequest : HttpDataProviderBase
     {
-        private static HttpHelper _httpHelper = null;
-
-        static TwitterOAuthRequest()
-        {
-            _httpHelper = new HttpHelper(1, null);
-        }
-
         private bool _abort;
 
         /// <summary>
@@ -49,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
                 }
@@ -71,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await _httpHelper.GetInputStreamAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.GetInputStreamAsync(request).ConfigureAwait(false))
                 {
                     var responseStream = await response.GetStreamResultAsync().ConfigureAwait(false);
 
@@ -113,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
                 }
@@ -148,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                             request.Content = multipartFormDataContent;
 
-                            using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
+                            using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                             {
                                 string jsonResult = await response.GetTextResultAsync().ConfigureAwait(false);
 

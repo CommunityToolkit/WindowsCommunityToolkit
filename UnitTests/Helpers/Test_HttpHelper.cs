@@ -26,7 +26,7 @@ namespace UnitTests.Helpers
         {
             using (var request = new HttpHelperRequest(new Uri("http://dev.windows.com")))
             {
-                HttpHelper httpHelper = new HttpHelper(1, null);
+                HttpHelper httpHelper = new HttpHelper(1);
 
                 using (var response = await httpHelper.SendRequestAsync(request))
                 {

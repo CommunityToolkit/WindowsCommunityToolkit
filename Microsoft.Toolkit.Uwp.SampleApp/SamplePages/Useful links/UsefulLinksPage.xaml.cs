@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         static UsefulLinksPage()
         {
-            _httpHelper = new HttpHelper(1, null);
+            _httpHelper = new HttpHelper(1);
         }
 
         public UsefulLinksPage()

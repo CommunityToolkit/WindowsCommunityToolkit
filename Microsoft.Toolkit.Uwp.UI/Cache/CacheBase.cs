@@ -18,6 +18,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -27,10 +29,17 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
     public abstract class CacheBase<T>
     {
+        private HttpHelper _httpHelper = null;
+
         /// <summary>
         /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
         /// </summary>
         protected bool MaintainContext { get; set; }
+
+        /// <summary>
+        /// Gets the instance of HttpHelper for use by CacheBase and derived classes
+        /// </summary>
+        protected HttpHelper HttpHelperInstance => _httpHelper ?? (_httpHelper = new HttpHelper());
 
         private class ConcurrentRequest
         {
@@ -83,11 +92,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
+        /// <param name="httpFilter"><see cref="IHttpFilter"/> instance</param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitializeAsync(StorageFolder folder, string folderName)
+        public virtual async Task InitializeAsync(StorageFolder folder, string folderName, IHttpFilter httpFilter)
         {
             _baseFolder = folder;
             _cacheFolderName = folderName;
+
+            _httpHelper = new HttpHelper(HttpHelper.DefaultPoolSize, httpFilter);
 
             _cacheFolder = await GetCacheFolderAsync().ConfigureAwait(false);
         }
@@ -414,8 +426,21 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, cancellationToken).ConfigureAwait(MaintainContext))
+            using (var webStream = new InMemoryRandomAccessStream())
             {
+                using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
+                {
+                    using (var response = await HttpHelperInstance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
+                    {
+                        if (response.Success)
+                        {
+                            await response.Content.WriteToStreamAsync(webStream).AsTask().ConfigureAwait(false);
+
+                            webStream.Seek(0);
+                        }
+                    }
+                }
+
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {

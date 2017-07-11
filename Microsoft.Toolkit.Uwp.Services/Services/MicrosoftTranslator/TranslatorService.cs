@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
     /// <para>To use this library, you must register Microsoft Translator on https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation to obtain the Subscription key.
     /// </para>
     /// </remarks>
-    public class TranslatorService : ITranslatorService
+    public class TranslatorService : HttpDataProviderBase, ITranslatorService
     {
         private const string BaseUrl = "http://api.microsofttranslator.com/v2/Http.svc/";
         private const string LanguagesUri = "GetLanguagesForTranslate";
@@ -55,13 +55,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// Gets public singleton property.
         /// </summary>
         public static TranslatorService Instance => instance ?? (instance = new TranslatorService());
-
-        private static HttpHelper _httpHelper = null;
-
-        static TranslatorService()
-        {
-            _httpHelper = new HttpHelper(1, null);
-        }
 
         private AzureAuthToken _authToken;
         private string _authorizationHeaderValue = string.Empty;
@@ -131,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);
@@ -158,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{LanguagesUri}"))
             {
-                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 XNamespace ns = ArrayNamespace;
@@ -198,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 request.Content = new HttpStringContent(xmlRequest.ToString());
                 request.Content.Headers.ContentType = new HttpMediaTypeHeaderValue(XmlContentType);
 
-                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
                 var xmlContent = XDocument.Parse(content);
 
@@ -267,7 +260,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);
