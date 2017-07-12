@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Menu _parentMenu;
         private bool _isOpened;
         private MenuFlyout _menuFlyout;
+        private Rect _bounds;
 
         internal Button FlyoutButton { get; private set; }
 
@@ -40,8 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null));
 
-        private Rect _bounds;
-
         /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
@@ -49,6 +48,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (object)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Header"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(MenuItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the title to appear in the title bar
+        /// </summary>
+        public DataTemplate HeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
         }
 
         /// <summary>
