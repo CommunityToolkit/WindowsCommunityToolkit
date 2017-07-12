@@ -36,6 +36,8 @@ namespace Microsoft.Toolkit.Http
 
         private SemaphoreSlim _semaphore = null;
 
+        private HttpMessageHandler _httpMessageHandler = null;
+
         /// <summary>
         /// Private instance field.
         /// </summary>
@@ -45,7 +47,7 @@ namespace Microsoft.Toolkit.Http
         /// Initializes a new instance of the <see cref="HttpHelper"/> class.
         /// </summary>
         public HttpHelper()
-            : this(DefaultPoolSize)
+            : this(DefaultPoolSize, null)
         {
         }
 
@@ -53,10 +55,22 @@ namespace Microsoft.Toolkit.Http
         /// Initializes a new instance of the <see cref="HttpHelper"/> class.
         /// </summary>
         /// <param name="poolSize">number of HttpClient instances allowed</param>
-        public HttpHelper(int poolSize)
+        public HttpHelper(int poolSize) 
+            : this(poolSize, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpHelper"/> class.
+        /// </summary>
+        /// <param name="poolSize">number of HttpClient instances allowed</param>
+        /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
+        public HttpHelper(int poolSize, HttpMessageHandler httpMessageHandler)
         {
             _semaphore = new SemaphoreSlim(poolSize);
             _httpClientQueue = new ConcurrentQueue<HttpClient>();
+
+            _httpMessageHandler = httpMessageHandler;
         }
 
         /// <summary>
@@ -153,7 +167,7 @@ namespace Microsoft.Toolkit.Http
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                client = new HttpClient();
+                client = new HttpClient(_httpMessageHandler);
             }
 
             return client;
