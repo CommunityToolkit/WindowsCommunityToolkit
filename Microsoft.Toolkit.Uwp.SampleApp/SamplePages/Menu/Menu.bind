@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -12,6 +13,7 @@
       <commands:NewProjectCommand x:Key="NewProject" />
       <commands:NewFileCommand x:Key="NewFile" />
       <commands:GenericCommand x:Key="GenericCommand" />
+      <converters:StringFormatConverter x:Key="StringFormatConverter" />
     </ResourceDictionary>
 
 
