@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit
+namespace Microsoft.Toolkit.Http
 {
     /// <summary>
     /// HttpHelperResponse instance to hold data from Http Response.

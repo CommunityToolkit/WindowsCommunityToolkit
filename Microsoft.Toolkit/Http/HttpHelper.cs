@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit
+namespace Microsoft.Toolkit.Http
 {
     /// <summary>
     /// This class exposes functionality of HttpClient through a singleton to take advantage of built-in connection pooling.

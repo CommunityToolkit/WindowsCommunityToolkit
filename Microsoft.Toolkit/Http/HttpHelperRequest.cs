@@ -14,7 +14,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace Microsoft.Toolkit
+namespace Microsoft.Toolkit.Http
 {
     /// <summary>
     /// Represents an HTTP request message including headers.

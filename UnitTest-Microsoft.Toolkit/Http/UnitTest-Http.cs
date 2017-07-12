@@ -12,7 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit;
+using Microsoft.Toolkit.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest_Microsoft.Toolkit
