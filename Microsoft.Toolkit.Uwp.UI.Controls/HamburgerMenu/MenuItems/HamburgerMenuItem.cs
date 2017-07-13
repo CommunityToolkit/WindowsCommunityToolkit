@@ -19,17 +19,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItem provides an abstract implementation for HamburgerMenu entries.
     /// </summary>
-    public abstract class HamburgerMenuItem : Control, IHamburgerMenuItem
+    public abstract class HamburgerMenuItemControl : Control, HamburgerMenuItem
     {
         /// <summary>
         /// Identifies the <see cref="Label"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(string), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(string), typeof(HamburgerMenuItemControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="TargetPageType"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TargetPageTypeProperty = DependencyProperty.Register(nameof(TargetPageType), typeof(Type), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty TargetPageTypeProperty = DependencyProperty.Register(nameof(TargetPageType), typeof(Type), typeof(HamburgerMenuItemControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value that specifies label to display.

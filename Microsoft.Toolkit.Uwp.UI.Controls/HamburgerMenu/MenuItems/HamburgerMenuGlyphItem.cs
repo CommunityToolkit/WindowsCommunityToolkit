@@ -17,12 +17,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuGlyphItem provides a glyph based implementation for HamburgerMenu entries.
     /// </summary>
-    public class HamburgerMenuGlyphItem : HamburgerMenuItem
+    public class HamburgerMenuGlyphItem : HamburgerMenuItemControl
     {
         /// <summary>
         /// Identifies the <see cref="Glyph"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(HamburgerMenuGlyphItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HamburgerMenuGlyphItem"/> class.

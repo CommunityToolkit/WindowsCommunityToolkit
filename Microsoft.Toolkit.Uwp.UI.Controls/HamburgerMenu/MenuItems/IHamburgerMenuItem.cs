@@ -2,7 +2,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public interface IHamburgerMenuItem
+    public interface HamburgerMenuItem
     {
         string Label { get; set; }
 

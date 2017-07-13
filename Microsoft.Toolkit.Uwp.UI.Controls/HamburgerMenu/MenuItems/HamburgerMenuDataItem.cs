@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class HamburgerMenuDataItem : DependencyObject, IHamburgerMenuItem
+    public class HamburgerMenuDataItem : DependencyObject, HamburgerMenuItem
     {
         /// <summary>
         /// Identifies the <see cref="Label"/> dependency property.
