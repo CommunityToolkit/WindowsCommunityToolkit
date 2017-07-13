@@ -450,7 +450,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     randomAccessStream.Seek(0);
 
                     instance = await InitializeTypeAsync(randomAccessStream, initializerKeyValues).ConfigureAwait(false);
-                } 
+                }
             }
 
             return instance;

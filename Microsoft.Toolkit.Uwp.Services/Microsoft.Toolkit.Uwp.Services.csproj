@@ -137,8 +137,6 @@
     <Compile Include="Services\Facebook\FacebookService.cs" />
     <Compile Include="Services\Twitter\TweetParser.cs" />
     <Compile Include="Services\Twitter\TwitterService.cs" />
-    <Compile Include="Core\InternalExtensionMethods.cs" />
-    <Compile Include="Core\JsonParser.cs" />
     <Compile Include="Core\StringValueAttribute.cs" />
     <Compile Include="Core\DataProviderBase.cs" />
     <Compile Include="Exceptions\ParserNullException.cs" />
@@ -149,13 +147,6 @@
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Services\Facebook\FacebookDataConfig.cs" />
     <Compile Include="Core\IParser.cs" />
-    <Compile Include="Rss\AtomParser.cs" />
-    <Compile Include="Rss\BaseRssParser.cs" />
-    <Compile Include="Rss\Rss2Parser.cs" />
-    <Compile Include="Rss\RssHelper.cs" />
-    <Compile Include="Rss\RssParser.cs" />
-    <Compile Include="Rss\RssSchema.cs" />
-    <Compile Include="Rss\RssType.cs" />
     <Compile Include="OAuth\OAuthEncoder.cs" />
     <Compile Include="OAuth\OAuthParameter.cs" />
     <Compile Include="Services\Twitter\TwitterOAuthRequest.cs" />
