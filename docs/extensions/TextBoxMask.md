@@ -118,7 +118,7 @@ The following sample demonstrates how to add TextBoxMask property.
 
 ## Default Template 
 
-[TextBoxMask XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxMask/TextBoxMaskPage.xaml) is the XAML template used in the toolkit for the default styling.
+[TextBoxMask XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask/TextBoxMaskPage.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -128,4 +128,4 @@ The following sample demonstrates how to add TextBoxMask property.
 
 ## API
 
-* [TextBoxMask source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxMask)
+* [TextBoxMask source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask)

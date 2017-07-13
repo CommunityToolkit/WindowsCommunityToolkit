@@ -144,7 +144,7 @@ The following sample demonstrates how to add TextBoxRegex property.
 
 ## Default Template 
 
-[TextBoxRegex XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxRegex/TextBoxRegex/TextBoxRegexPage.xaml) is the XAML template used in the toolkit for the default styling.
+[TextBoxRegex XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxRegex/TextBoxRegexPage.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -154,4 +154,4 @@ The following sample demonstrates how to add TextBoxRegex property.
 
 ## API
 
-* [TextBoxRegex source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Extensions/TextBoxRegEx)
+* [TextBoxRegex source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxRegEx)
