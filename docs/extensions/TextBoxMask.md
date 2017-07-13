@@ -7,11 +7,11 @@ The **TextBox Mask Property** allows a user to more easily enter fixed width tex
 The developer adds the mask property to prevent end user to enter any other format but the required one, ex postal code aaa-9999
 
 TextBox Mask property has 3 build in variable characters 
-a which represents [a-Z]
-9 which represents [0-9]
-* which represents a or 9
+1) a which represents [a-Z]
+2) 9 which represents [0-9]
+3) '*' which represents a or 9
 
-at the post code example the user will only be allowed to enter from a to Z in the first 3 characters then there is a fixed character (-) which the user can change or remove it and the last part which the user can change by entering from 0 to 9 at each character
+At the post code example the user will only be allowed to enter from a to Z in the first 3 characters then there is a fixed character (-) which the user can change or remove it and the last part which the user can change by entering from 0 to 9 at each character
 TextBoxMask prevent the text box from having non specified characters ex if you entered 1 or 2 into a mask like 9999.
 
 TextBoxMask has 2 type of characters 
