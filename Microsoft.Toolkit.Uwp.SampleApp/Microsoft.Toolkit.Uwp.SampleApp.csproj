@@ -399,6 +399,7 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -418,6 +419,9 @@
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
+      <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
@@ -675,6 +679,10 @@
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ListViewBase\ListViewBasePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Menu\MenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>

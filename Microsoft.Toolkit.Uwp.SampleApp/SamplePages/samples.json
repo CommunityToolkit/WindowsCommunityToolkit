@@ -526,6 +526,15 @@
     "Icon": "Icons/Extensions.png",
     "Samples": [
       {
+        "Name": "ListViewBase",
+        "Type": "ListViewBasePage",
+        "About": "Extensions for all controls that inherit from ListViewBase like ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase",
+        "XamlCodeFile": "ListViewBaseCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/ListViewBase.md"
+      },
+      {
         "Name": "ViewExtensions",
         "Type": "ViewExtensionsPage",
         "About": "View extensions to set StatusBar and TitleBar properties.",
