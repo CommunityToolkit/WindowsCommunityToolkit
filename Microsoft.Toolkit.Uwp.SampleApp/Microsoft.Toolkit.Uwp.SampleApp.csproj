@@ -236,6 +236,7 @@
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
     <Content Include="Icons\DeveloperTools.png" />
+    <Content Include="Icons\Extensions.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
