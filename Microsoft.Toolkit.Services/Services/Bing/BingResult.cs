@@ -12,13 +12,31 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// Implementation of the Bing result class.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    public class BingResult : SchemaBase
     {
+        /// <summary>
+        /// Gets or sets title of the search result.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets summary of the search result.
+        /// </summary>
+        public string Summary { get; set; }
+
+        /// <summary>
+        /// Gets or sets link to the Search result.
+        /// </summary>
+        public string Link { get; set; }
+
+        /// <summary>
+        /// Gets or sets date of publication.
+        /// </summary>
+        public DateTime Published { get; set; }
     }
 }

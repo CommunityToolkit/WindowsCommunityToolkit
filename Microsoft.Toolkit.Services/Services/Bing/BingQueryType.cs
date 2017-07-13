@@ -10,15 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// Search filter for search query.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    public enum BingQueryType
     {
+        /// <summary>
+        /// Search
+        /// </summary>
+        Search,
+
+        /// <summary>
+        /// News
+        /// </summary>
+        News
     }
 }

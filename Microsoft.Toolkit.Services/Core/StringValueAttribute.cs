@@ -12,13 +12,27 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services.Core
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// StringValue attribute.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class StringValueAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
+        /// Constructor accepting string value.
+        /// </summary>
+        /// <param name="value">String value</param>
+        public StringValueAttribute(string value)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets property for string value.
+        /// </summary>
+        public string Value { get; }
     }
 }

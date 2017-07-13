@@ -10,15 +10,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// Parser interface.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    /// <typeparam name="T">Type to parse into.</typeparam>
+    public interface IParser<out T>
+        where T : SchemaBase
     {
+        /// <summary>
+        /// Parse method which all classes must implement.
+        /// </summary>
+        /// <param name="data">Data to parse.</param>
+        /// <returns>Strong typed parsed data.</returns>
+        IEnumerable<T> Parse(string data);
     }
 }

@@ -10,31 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Search query configuration.
     /// </summary>
-    public class BingSearchConfig
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class BingSearchConfig : Toolkit.Services.Bing.BingSearchConfig
     {
-        /// <summary>
-        /// Gets or sets search query country.
-        /// </summary>
-        public BingCountry Country { get; set; }
-
-        /// <summary>
-        /// Gets or sets search query language.
-        /// </summary>
-        public BingLanguage Language { get; set; }
-
-        /// <summary>
-        /// Gets or sets search query.
-        /// </summary>
-        public string Query { get; set; }
-
-        /// <summary>
-        /// Gets or sets search query type.
-        /// </summary>
-        public BingQueryType QueryType { get; set; }
     }
 }

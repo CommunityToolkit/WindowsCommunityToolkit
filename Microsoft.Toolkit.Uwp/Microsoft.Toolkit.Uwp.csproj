@@ -89,6 +89,12 @@
     <Compile Include="Structures\OSVersion.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{096caa04-76fc-4947-b81e-c1f594c5ef81}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -10,15 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// Strong typed schema base class.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    public abstract class SchemaBase
     {
+        /// <summary>
+        /// Gets or sets identifier for strong typed record.
+        /// </summary>
+        public string InternalID { get; set; }
     }
 }

@@ -10,15 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.Bing
+namespace Microsoft.Toolkit.Services.Rss
 {
     /// <summary>
-    /// Data Provider for connecting to Bing service.
+    /// Type of Rss.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class BingDataProvider : Toolkit.Services.Bing.BingDataProvider
+    internal enum RssType
     {
+        /// <summary>
+        /// Atom
+        /// </summary>
+        Atom,
+
+        /// <summary>
+        /// RSS
+        /// </summary>
+        Rss,
+
+        /// <summary>
+        /// Unknown
+        /// </summary>
+        Unknown
     }
 }
