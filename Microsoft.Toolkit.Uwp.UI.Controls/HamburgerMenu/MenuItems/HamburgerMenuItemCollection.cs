@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItemCollection provides typed collection of HamburgerMenuItem.
     /// </summary>
-    public class HamburgerMenuItemCollection : List<HamburgerMenuItem>
+    public class HamburgerMenuItemCollection : List<IHamburgerMenuItem>
     {
     }
 }

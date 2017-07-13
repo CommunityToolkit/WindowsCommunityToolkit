@@ -55,6 +55,10 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuDataItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageDataItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphDataItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\IHamburgerMenuItem.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
     <Compile Include="Menu\Menu.cs" />

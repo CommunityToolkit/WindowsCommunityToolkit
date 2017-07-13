@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItem provides an abstract implementation for HamburgerMenu entries.
     /// </summary>
-    public abstract class HamburgerMenuItem : Control
+    public abstract class HamburgerMenuItem : Control, IHamburgerMenuItem
     {
         /// <summary>
         /// Identifies the <see cref="Label"/> dependency property.
