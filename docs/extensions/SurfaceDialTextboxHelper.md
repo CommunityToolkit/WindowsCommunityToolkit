@@ -28,14 +28,14 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
 <TextBox Width="106"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
-          controls:SurfaceDialTextboxHelper.EnableHapticFeedback="True"
-          controls:SurfaceDialTextboxHelper.EnableMinMaxValue="True"
-          controls:SurfaceDialTextboxHelper.EnableTapToNextControl="False"
-          controls:SurfaceDialTextboxHelper.ForceMenuItem="True"
-          controls:SurfaceDialTextboxHelper.Icon="Ruler"
-          controls:SurfaceDialTextboxHelper.MaxValue="0"
-          controls:SurfaceDialTextboxHelper.MinValue="100"
-          controls:SurfaceDialTextboxHelper.StepValue="1"
+          extensions:SurfaceDialTextboxHelper.EnableHapticFeedback="True"
+          extensions:SurfaceDialTextboxHelper.EnableMinMaxValue="True"
+          extensions:SurfaceDialTextboxHelper.EnableTapToNextControl="False"
+          extensions:SurfaceDialTextboxHelper.ForceMenuItem="True"
+          extensions:SurfaceDialTextboxHelper.Icon="Ruler"
+          extensions:SurfaceDialTextboxHelper.MaxValue="0"
+          extensions:SurfaceDialTextboxHelper.MinValue="100"
+          extensions:SurfaceDialTextboxHelper.StepValue="1"
           Text="0" />  
 
 ```

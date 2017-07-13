@@ -17,7 +17,7 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
     // Attach the command declared in MainViewModel to ListView declared in XAML
     // IsItemClickEnabled is set to true as shown below
     <ListView
-        ui:ListViewBase.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
+        extensions:ListViewBase.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
         IsItemClickEnabled="True"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}"
         SelectionMode="None" />
@@ -35,7 +35,7 @@ The AlternateColor property provides a way to assign a background color to every
 
 ```xml
     <ListView
-        ui:ListViewBase.AlternateColor="Silver"
+        extensions:ListViewBase.AlternateColor="Silver"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -62,7 +62,7 @@ The AlternateItemTemplate property provides a way to assign an alternate <a href
 
     <ListView
         ItemTemplate="{StaticResource NormalTemplate}"
-        ui:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -78,7 +78,7 @@ The StretchItemContainerDirection property provides a way to stretch the ItemCon
 
 ```xml
     <ListView
-        ui:ListViewBase.StretchItemContainerDirection="Horizontal"
+        extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 

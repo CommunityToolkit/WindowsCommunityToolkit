@@ -6,10 +6,10 @@ The **WebView** allows attaching HTML content to WebView.
 
 ```xml
 	// Attach HTML content directly to WebView.
-	<WebView xaml:WebView.Content="{Binding HtmlContent}" />
+	<WebView extensions:WebView.Content="{Binding HtmlContent}" />
 
     // Attach Uri directly to WebView
-    <WebView xaml:WebView.ContentUri="{Binding ContentUri}" />
+    <WebView extensions:WebView.ContentUri="{Binding ContentUri}" />
 ```
 
 ## Requirements (Windows 10 Device Family)

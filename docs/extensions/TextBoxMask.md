@@ -19,7 +19,7 @@ TextBoxMask has 2 type of characters
 2) Fixed: which the user can't change and it is any non variable character ex the - in the first example
 
 Variable characters a represented to end user in form of placeholder so the user can know which characters he can change and which he can't, ex mask aaa-9999 will be presented to user as ___-____
-the default placeholder is _ but you can change it using  controls:TextBoxMask.PlaceHolder property (Check the second textbox in syntax section)
+the default placeholder is _ but you can change it using  extensions:TextBoxMask.PlaceHolder property (Check the second textbox in syntax section)
 
 In case you want to add a custom variable character you can use property TextBoxMask.CustomMask (Check the third textbox in syntax section), you can add a character that represents certain regex as c:[a-c] and once you use character c in the mask the mask will prevent any characters but from a to c inside the TextBox, also you specify multiple variable characters by adding comma "," after every character and it's representation. this feature is helpful if you want to allow certain language characters ex French or Arabic only TextBox.
 
@@ -27,19 +27,19 @@ In case you want to add a custom variable character you can use property TextBox
 
 ```xml
 
-            <TextBox controls:TextBoxMask.Mask="9a9a-a9a*"
+            <TextBox extensions:TextBoxMask.Mask="9a9a-a9a*"
                      Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
                       />
 
             <TextBox 
-                     controls:TextBoxMask.Mask="+1999-9999"
-                     controls:TextBoxMask.PlaceHolder=" "
+                     extensions:TextBoxMask.Mask="+1999-9999"
+                     extensions:TextBoxMask.PlaceHolder=" "
                      Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                       />
 
             <TextBox
-                     controls:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                     controls:TextBoxMask.Mask="a5c-5c*9"
+                     extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
+                     extensions:TextBoxMask.Mask="a5c-5c*9"
                      Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                      />
 
@@ -89,21 +89,21 @@ The following sample demonstrates how to add TextBoxMask property.
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBox controls:TextBoxMask.Mask="9a9a-a9a*"
+            <TextBox extensions:TextBoxMask.Mask="9a9a-a9a*"
                      Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="1"
-                     controls:TextBoxMask.Mask="+1999-9999"
-                     controls:TextBoxMask.PlaceHolder=" "
+                     extensions:TextBoxMask.Mask="+1999-9999"
+                     extensions:TextBoxMask.PlaceHolder=" "
                      Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
 
             <TextBox Grid.Row="2"
-                     controls:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                     controls:TextBoxMask.Mask="a5c-5c*9"
+                     extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
+                     extensions:TextBoxMask.Mask="a5c-5c*9"
                      Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />

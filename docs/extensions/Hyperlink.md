@@ -9,8 +9,8 @@ The **Hyperlink** allows for a Hyperlink element to invoke the execute method on
 	// clicked passing the current data context as the command parameter.
 	<TextBlock>
 	    <Run>Some leading text with a</Run>
-	     <Hyperlink xaml:Hyperlink.Command="{Binding HyperlinkClicked}"
-			        xaml:Hyperlink.CommandParameter="{Binding}">hyperlink</Hyperlink>
+	     <Hyperlink extensions:Hyperlink.Command="{Binding HyperlinkClicked}"
+			        extensions:Hyperlink.CommandParameter="{Binding}">hyperlink</Hyperlink>
 	    <Run>in the middle.</Run>
 	</TextBlock>
 ```
