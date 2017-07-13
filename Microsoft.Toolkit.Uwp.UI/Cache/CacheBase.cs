@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
+
+        private Http.HttpHelper _httpHelper = null;
         private StorageFolder _baseFolder = null;
         private string _cacheFolderName = null;
 
@@ -77,6 +80,11 @@ namespace Microsoft.Toolkit.Uwp.UI
                 _inMemoryFileStorage.MaxItemCount = value;
             }
         }
+
+        /// <summary>
+        /// Gets HttpHelperInstance for use within CacheBase and derived classes.
+        /// </summary>
+        protected Http.HttpHelper HttpHelperInstance => _httpHelper ?? (_httpHelper = new Http.HttpHelper());
 
         /// <summary>
         /// Initializes FileCache and provides root folder and cache folder name
@@ -414,23 +422,35 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, cancellationToken).ConfigureAwait(MaintainContext))
+            using (InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream())
             {
+                using (var request = new Http.HttpHelperRequest(uri))
+                {
+                    using (var response = await HttpHelperInstance.SendRequestAsync(request, cancellationToken))
+                    {
+                        using (var stream = await response.Content.ReadAsStreamAsync())
+                        {
+                            stream.CopyTo(randomAccessStream.AsStreamForWrite());
+
+                            stream.Position = 0;
+
+                            using (var fs = await baseFile.OpenStreamForWriteAsync())
+                            {
+                                stream.CopyTo(fs);
+
+                                fs.Flush();
+                            }
+                        }
+                    }
+                }
+
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    instance = await InitializeTypeAsync(webStream, initializerKeyValues).ConfigureAwait(false);
+                    randomAccessStream.Seek(0);
 
-                    webStream.Seek(0);
-                }
-
-                using (var reader = new DataReader(webStream))
-                {
-                    await reader.LoadAsync((uint)webStream.Size).AsTask().ConfigureAwait(false);
-                    var buffer = new byte[(int)webStream.Size];
-                    reader.ReadBytes(buffer);
-                    await FileIO.WriteBytesAsync(baseFile, buffer).AsTask().ConfigureAwait(false);
-                }
+                    instance = await InitializeTypeAsync(randomAccessStream, initializerKeyValues).ConfigureAwait(false);
+                } 
             }
 
             return instance;

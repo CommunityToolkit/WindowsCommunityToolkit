@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Http
 {
     /// <summary>
-    /// This class exposes functionality of HttpClient through a singleton to take advantage of built-in connection pooling.
+    /// This class exposes functionality of HttpClient to take advantage of built-in connection pooling.
     /// </summary>
     public class HttpHelper
     {
@@ -28,11 +28,6 @@ namespace Microsoft.Toolkit.Http
         /// Maximum number of Http Clients that can be pooled.
         /// </summary>
         public const int DefaultPoolSize = 10;
-
-        /// <summary>
-        /// Private singleton field.
-        /// </summary>
-        private static HttpHelper _instance;
 
         private SemaphoreSlim _semaphore = null;
 
@@ -167,7 +162,7 @@ namespace Microsoft.Toolkit.Http
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                client = new HttpClient(_httpMessageHandler);
+                client = _httpMessageHandler == null ? new HttpClient() : new HttpClient(_httpMessageHandler);
             }
 
             return client;
