@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// Initializes a new instance of the <see cref="BingService"/> class.
         /// </summary>
         /// <param name="config">BingSearchConfig instance.</param>
-        protected BingService(BingSearchConfig config)
+        protected BingService(Toolkit.Services.Bing.BingSearchConfig config)
             : base(config)
         {
         }
@@ -39,10 +39,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// <param name="config">BingSearchConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <returns>An instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
-        public static IncrementalLoadingCollection<BingService, BingResult> GetAsIncrementalLoading(BingSearchConfig config, int maxRecords = 20)
+        public static IncrementalLoadingCollection<BingService, Toolkit.Services.Bing.BingResult> GetAsIncrementalLoading(Toolkit.Services.Bing.BingSearchConfig config, int maxRecords = 20)
         {
             var service = new BingService(config);
-            return new IncrementalLoadingCollection<BingService, BingResult>(service, maxRecords);
+            return new IncrementalLoadingCollection<BingService, Toolkit.Services.Bing.BingResult>(service, maxRecords);
         }
     }
 }
