@@ -50,8 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
-
-                SizeChanged += OnSizeChanged;
             }
         }
 
@@ -75,6 +73,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ConfigureShadowVisualForCastingElement();
 
             base.OnApplyTemplate();
+        }
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            if (oldContent != null)
+            {
+                var oldElement = oldContent as FrameworkElement;
+
+                if (oldElement != null)
+                {
+                    oldElement.SizeChanged -= OnSizeChanged;
+                }
+            }
+
+            if (newContent != null)
+            {
+                var newElement = newContent as FrameworkElement;
+
+                if (newElement != null)
+                {
+                    newElement.SizeChanged += OnSizeChanged;
+                }
+            }
+
+            base.OnContentChanged(oldContent, newContent);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
