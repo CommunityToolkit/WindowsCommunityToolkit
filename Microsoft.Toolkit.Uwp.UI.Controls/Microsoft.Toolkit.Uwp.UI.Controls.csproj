@@ -58,7 +58,7 @@
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuDataItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageDataItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphDataItem.cs" />
-    <Compile Include="HamburgerMenu\MenuItems\IHamburgerMenuItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
     <Compile Include="Menu\Menu.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
     <Compile Include="GridSplitter\GridSplitter.Options.cs" />
     <Compile Include="GridSplitter\GripperHoverWrapper.cs" />
-    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
+    <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemControl.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItemCollection.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
