@@ -56,7 +56,6 @@
 
     </Page.Resources>
     <controls:HamburgerMenu x:Name="HamburgerMenu"
-                            OpenPaneLength="240"
                             Foreground="{StaticResource Brush-Grey-04}"
                             ItemClick="HamburgerMenu_OnItemClick"
                             ItemTemplate="{StaticResource ButtonTemplate}"

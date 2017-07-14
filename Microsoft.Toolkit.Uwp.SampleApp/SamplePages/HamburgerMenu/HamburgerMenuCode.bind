@@ -9,38 +9,38 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-      <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48" />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <FontIcon Grid.Column="0"
-                FontFamily="Segoe MDL2 Assets"
-                Glyph="{Binding Glyph}"
-                Foreground="White" />
-          <TextBlock Grid.Column="1"
-                 Text="{x:Bind Label}"
-                 Foreground="White"
-                 FontSize="16"
-                 VerticalAlignment="Center" />
-        </Grid>
-      </DataTemplate>
+        <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <FontIcon Grid.Column="0" 
+                      FontFamily="Segoe MDL2 Assets" 
+                      Glyph="{Binding Glyph}" 
+                      Foreground="White" />
+                <TextBlock Grid.Column="1" 
+                       Text="{x:Bind Label}" 
+                       Foreground="White" 
+                       FontSize="16" 
+                       VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
 
-      <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48" />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <Image Source="{Binding Glyph}" Stretch="UniformToFill" Margin="12,12,11,12" />
-          <TextBlock Grid.Column="1"
-                 Text="{x:Bind Label}"
-                 Foreground="White"
-                 FontSize="16"
-                 VerticalAlignment="Center" />
-        </Grid>
-      </DataTemplate>
+        <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <TextBlock Grid.Column="1" 
+                       Text="{x:Bind Label}" 
+                       Foreground="White" 
+                       FontSize="16" 
+                       VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
@@ -58,16 +58,16 @@
                                 IsPaneOpen="@[IsPaneOpen:Bool:False]">
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
-              <controls:HamburgerMenuItemCollection>
-                <controls:HamburgerMenuGlyphItem Label="Big four summer heat"
-                                                 Glyph="/Assets/Photos/BigFourSummerHeat.jpg"/>
-                <controls:HamburgerMenuGlyphItem Label="Bison badlands Chillin"
-                                                 Glyph="/Assets/Photos/BisonBadlandsChillin.jpg"/>
-                <controls:HamburgerMenuGlyphItem Label="Giant slab in Oregon"
-                                                 Glyph="/Assets/Photos/GiantSlabInOregon.jpg"/>
-                <controls:HamburgerMenuGlyphItem Label="Lake Ann Mushroom"
-                                                 Glyph="/Assets/Photos/LakeAnnMushroom.jpg"/>
-              </controls:HamburgerMenuItemCollection>
+                <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuImageItem Label="Big four summer heat" 
+                                                 Thumbnail="/Assets/Photos/BigFourSummerHeat.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Bison badlands Chillin" 
+                                                 Thumbnail="/Assets/Photos/BisonBadlandsChillin.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Giant slab in Oregon" 
+                                                 Thumbnail="/Assets/Photos/GiantSlabInOregon.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Lake Ann Mushroom" 
+                                                 Thumbnail="/Assets/Photos/LakeAnnMushroom.jpg"/>
+                </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
             <!--  Options  -->
