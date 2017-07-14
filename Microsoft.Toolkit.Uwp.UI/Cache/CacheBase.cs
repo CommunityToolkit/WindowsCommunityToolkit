@@ -49,6 +49,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         private ConcurrentDictionary<string, ConcurrentRequest> _concurrentTasks = new ConcurrentDictionary<string, ConcurrentRequest>();
 
         /// <summary>
+        /// Gets or sets a delegate which can handle a HttpHelperRequest. For example it can be used to add custom headers to every request made by the cache.
+        /// </summary>
+        public StreamHelper.HttpHelperRequestHandlerDelegate HttpHelperRequestHandler { get; set; }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CacheBase{T}"/> class.
         /// </summary>
         protected CacheBase()
@@ -414,7 +420,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, cancellationToken).ConfigureAwait(MaintainContext))
+            using (var webStream = await StreamHelper.GetHttpStreamAsync(uri, HttpHelperRequestHandler, cancellationToken).ConfigureAwait(MaintainContext))
             {
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
