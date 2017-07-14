@@ -38,20 +38,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal Button FlyoutButton { get; private set; }
 
+        private Rect _bounds;
+
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(MenuItem), new PropertyMetadata(default(string)));
-
-        private Rect _bounds;
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
-        public string Header
+        public object Header
         {
-            get { return (string)GetValue(HeaderProperty); }
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(MenuItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the data template that is used to display the content of the MenuItem
+        /// </summary>
+        public DataTemplate HeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
         }
 
         /// <summary>

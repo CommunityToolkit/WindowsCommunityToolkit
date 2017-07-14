@@ -18,6 +18,10 @@
     </Page.Resources>
 
     <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
                        FlyoutPlacement="{Binding FlyoutPlacement.Value, Mode=TwoWay}"
@@ -25,8 +29,15 @@
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
             <controls:MenuItem Name="FileMenu"
-                               controls:Menu.InputGestureText="Alt+F"
-                               Header="File">
+                               controls:Menu.InputGestureText="Alt+F">
+                <controls:MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Document" />
+                        <TextBlock Margin="5,0,0,0"
+                                   Text="File" />
+                    </StackPanel>
+                </controls:MenuItem.Header>
+
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
@@ -123,7 +134,7 @@
 
         </controls:Menu>
 
-        <StackPanel Margin="0,50,0,0">
+        <StackPanel Grid.Row="1">
             <TextBlock Text="Click Alt to set focus on Classic Menu" />
             <TextBlock Text="Any menu shortcut is Alt + (The first character of the menu name), ex to open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
