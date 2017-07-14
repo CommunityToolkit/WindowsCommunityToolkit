@@ -60,14 +60,14 @@
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Label="Big four summer heat" 
-                                                 Thumbnail="/Assets/Photos/BigFourSummerHeat.jpg"/>
-                    <controls:HamburgerMenuImageItem Label="Bison badlands Chillin" 
-                                                 Thumbnail="/Assets/Photos/BisonBadlandsChillin.jpg"/>
-                    <controls:HamburgerMenuImageItem Label="Giant slab in Oregon" 
-                                                 Thumbnail="/Assets/Photos/GiantSlabInOregon.jpg"/>
-                    <controls:HamburgerMenuImageItem Label="Lake Ann Mushroom" 
-                                                 Thumbnail="/Assets/Photos/LakeAnnMushroom.jpg"/>
+                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/BigFourSummerHeat.jpg"
+                                                     Label="Big four summer heat" />
+                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/BisonBadlandsChillin.jpg"
+                                                     Label="Bison badlands Chillin" />
+                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/GiantSlabInOregon.jpg"
+                                                     Label="Giant slab in Oregon" />
+                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/LakeAnnMushroom.jpg" 
+                                                     Label="Lake Ann Mushroom" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
