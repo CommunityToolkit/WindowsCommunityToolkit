@@ -68,7 +68,7 @@
                                                      Label="Bison badlands Chillin" />
                     <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg"
                                                      Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg" 
+                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg"
                                                      Label="Lake Ann Mushroom" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
