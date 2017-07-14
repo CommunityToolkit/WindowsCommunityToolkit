@@ -33,7 +33,7 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="16,12" />
                 <TextBlock Grid.Column="1" 
                        Text="{x:Bind Label}" 
                        Foreground="White" 

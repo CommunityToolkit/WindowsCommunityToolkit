@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Margin="12"
+                <Image Margin="16,12"
                        Source="{x:Bind Icon}"
                        Stretch="Uniform" />
                 <TextBlock Grid.Column="1"
@@ -45,7 +45,7 @@
                 <FontIcon Grid.Column="0"
                           FontFamily="Segoe MDL2 Assets"
                           Foreground="White"
-                          Glyph="{x:Bind Glyph}" />
+                          Glyph="{x:Bind Glyph}"/>
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
                            FontSize="16"

@@ -14,14 +14,14 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" 
-                      FontFamily="Segoe MDL2 Assets" 
-                      Glyph="{Binding Glyph}" 
-                      Foreground="White" />
+                          FontFamily="Segoe MDL2 Assets" 
+                          Glyph="{Binding Glyph}" 
+                          Foreground="White" />
                 <TextBlock Grid.Column="1" 
-                       Text="{x:Bind Label}" 
-                       Foreground="White" 
-                       FontSize="16" 
-                       VerticalAlignment="Center" />
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
@@ -31,12 +31,14 @@
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="12,12,11,12" />
+                <Image Source="{Binding Thumbnail}" 
+                       Stretch="UniformToFill" 
+                       Margin="16,12" />
                 <TextBlock Grid.Column="1" 
-                       Text="{x:Bind Label}" 
-                       Foreground="White" 
-                       FontSize="16" 
-                       VerticalAlignment="Center" />
+                           Text="{x:Bind Label}" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -60,13 +62,13 @@
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/BigFourSummerHeat.jpg"
+                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"
                                                      Label="Big four summer heat" />
-                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/BisonBadlandsChillin.jpg"
+                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg"
                                                      Label="Bison badlands Chillin" />
-                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/GiantSlabInOregon.jpg"
+                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg"
                                                      Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuImageItem Thumbnail="/Assets/Photos/LakeAnnMushroom.jpg" 
+                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg" 
                                                      Label="Lake Ann Mushroom" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
@@ -74,7 +76,7 @@
             <!--  Options  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph="" 
+                    <controls:HamburgerMenuGlyphItem Glyph=""
                                                      Label="About" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.OptionsItemsSource>
