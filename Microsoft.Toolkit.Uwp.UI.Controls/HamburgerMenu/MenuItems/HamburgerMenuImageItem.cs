@@ -19,12 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuImageItem provides an image based implementation for HamburgerMenu entries.
     /// </summary>
-    public class HamburgerMenuImageItem : HamburgerMenuItem
+    public class HamburgerMenuImageItem : HamburgerMenuItemControl
     {
         /// <summary>
         /// Identifies the <see cref="Thumbnail"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(HamburgerMenuItemControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HamburgerMenuImageItem"/> class.

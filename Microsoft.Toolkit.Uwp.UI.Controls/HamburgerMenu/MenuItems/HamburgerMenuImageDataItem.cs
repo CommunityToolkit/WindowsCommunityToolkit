@@ -10,41 +10,36 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    /// <summary>
-    /// The HamburgerMenuGlyphItem provides a glyph based implementation for HamburgerMenu entries.
-    /// </summary>
-    public class HamburgerMenuGlyphItem : HamburgerMenuItemControl
+    public class HamburgerMenuImageDataItem : HamburgerMenuDataItem
     {
         /// <summary>
-        /// Identifies the <see cref="Glyph"/> dependency property.
+        /// Identifies the <see cref="Thumbnail"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(HamburgerMenuGlyphItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(HamburgerMenuImageDataItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HamburgerMenuGlyphItem"/> class.
+        /// Gets or sets a value that specifies a bitmap to display with an Image control.
         /// </summary>
-        public HamburgerMenuGlyphItem()
-        {
-            DefaultStyleKey = typeof(HamburgerMenuGlyphItem);
-        }
-
-        /// <summary>
-        /// Gets or sets a value that specifies the glyph to use from Segoe MDL2 Assets font.
-        /// </summary>
-        public string Glyph
+        public ImageSource Thumbnail
         {
             get
             {
-                return (string)GetValue(GlyphProperty);
+                return (ImageSource)GetValue(ThumbnailProperty);
             }
 
             set
             {
-                SetValue(GlyphProperty, value);
+                SetValue(ThumbnailProperty, value);
             }
         }
     }
