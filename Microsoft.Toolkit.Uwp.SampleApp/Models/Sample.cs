@@ -29,6 +29,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
+        private static HttpHelper _httpHelper = null;
+
+        static Sample()
+        {
+            _httpHelper = new HttpHelper(1);
+        }
+
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
@@ -107,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
                     {
                         if (response.Success)
                         {

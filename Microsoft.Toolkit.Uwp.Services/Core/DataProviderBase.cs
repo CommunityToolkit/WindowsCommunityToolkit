@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services
     /// Base class for data providers in this library.
     /// </summary>
     /// <typeparam name="TConfig">Query configuration type for given provider.</typeparam>
-    public abstract class DataProviderBase<TConfig>
+    public abstract class DataProviderBase<TConfig> : HttpDataProviderBase
     {
         /// <summary>
         /// Load data from provider endpoint.

@@ -19,6 +19,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class UsefulLinksPage
     {
+        private static HttpHelper _httpHelper = null;
+
+        static UsefulLinksPage()
+        {
+            _httpHelper = new HttpHelper(1);
+        }
+
         public UsefulLinksPage()
         {
             InitializeComponent();
@@ -33,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/links.md")))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    using (var response = await _httpHelper.SendRequestAsync(request))
                     {
                         if (response.Success)
                         {

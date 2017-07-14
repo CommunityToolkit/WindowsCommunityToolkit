@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
+    <Compile Include="Core\HttpDataProviderBase.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
     <Compile Include="Services\MicrosoftTranslator\ServiceLanguage.cs" />
     <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />

@@ -638,7 +638,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.GetTextResultAsync().ConfigureAwait(false);
                     if (response.Success)
@@ -722,7 +722,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     data = await response.GetTextResultAsync().ConfigureAwait(false);
                 }

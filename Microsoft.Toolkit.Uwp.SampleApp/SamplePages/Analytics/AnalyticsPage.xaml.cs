@@ -22,6 +22,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class AnalyticsPage
     {
+        private static HttpHelper _httpHelper = null;
+
+        static AnalyticsPage()
+        {
+            _httpHelper = new HttpHelper(1);
+        }
+
         public AnalyticsPage()
         {
             InitializeComponent();
@@ -36,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/analytics.md")))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    using (var response = await _httpHelper.SendRequestAsync(request))
                     {
                         if (response.Success)
                         {

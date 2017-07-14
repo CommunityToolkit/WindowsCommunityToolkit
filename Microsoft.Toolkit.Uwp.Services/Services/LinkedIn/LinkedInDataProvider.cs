@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
     /// <summary>
     /// Data Provider for connecting to LinkedIn service.
     /// </summary>
-    public class LinkedInDataProvider
+    public class LinkedInDataProvider : HttpDataProviderBase
     {
         private const string _oAuthBaseUrl = "https://www.linkedin.com/uas/oauth2/";
         private const string _baseUrl = "https://api.linkedin.com/v1";
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             {
                 request.Headers.Connection.TryParseAdd("Keep-Alive");
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.GetTextResultAsync().ConfigureAwait(false);
 
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                     var stringContent = requestParser.Parse(shareRequest);
                     request.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
 
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                     {
                         var data = await response.GetTextResultAsync().ConfigureAwait(false);
 
@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             using (var request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var jsonString = await response.GetTextResultAsync().ConfigureAwait(false);
 

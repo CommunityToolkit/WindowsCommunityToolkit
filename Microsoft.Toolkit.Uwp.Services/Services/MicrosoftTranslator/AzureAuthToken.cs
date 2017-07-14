@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
     /// <summary>
     /// Client to call Cognitive Services Azure Auth Token service in order to get an access token.
     /// </summary>
-    internal class AzureAuthToken
+    internal class AzureAuthToken : HttpDataProviderBase
     {
         /// <summary>
         /// Name of header used to pass the subscription key to the token service
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
             {
                 request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
+                var response = await HttpHelperInstance.SendRequestAsync(request).ConfigureAwait(false);
                 var content = await response.GetTextResultAsync().ConfigureAwait(false);
 
                 if (!response.Success)
