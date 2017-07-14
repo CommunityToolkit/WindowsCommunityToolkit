@@ -16,6 +16,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0" 
+                      FontSize="16"
                       FontFamily="Segoe MDL2 Assets" 
                       Glyph="{Binding Glyph}" 
                       Foreground="White" />

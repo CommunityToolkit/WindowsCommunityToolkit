@@ -44,8 +44,9 @@
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0"
                           FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
                           Foreground="White"
-                          Glyph="{x:Bind Glyph}"/>
+                          Glyph="{x:Bind Glyph}" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
                            FontSize="16"
