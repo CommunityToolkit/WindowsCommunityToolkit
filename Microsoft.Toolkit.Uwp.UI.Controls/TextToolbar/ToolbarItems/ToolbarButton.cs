@@ -32,107 +32,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         public static readonly DependencyProperty ShortcutKeyProperty =
             DependencyProperty.Register(nameof(ShortcutKey), typeof(VirtualKey?), typeof(ToolbarButton), new PropertyMetadata(null));
 
-        // Using a DependencyProperty as the backing store for IsToggleable.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsToggleableProperty =
-            DependencyProperty.Register(nameof(IsToggleable), typeof(bool), typeof(ToolbarButton), new PropertyMetadata(false));
-
         // Using a DependencyProperty as the backing store for IsToggled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsToggledProperty =
             DependencyProperty.Register(nameof(Toggled), typeof(Visibility), typeof(ToolbarButton), new PropertyMetadata(Visibility.Collapsed));
-
-        private int _position = -1;
 
         public ToolbarButton()
         {
             this.DefaultStyleKey = typeof(ToolbarButton);
             Click += ToolbarButton_Click;
         }
-
-        /// <summary>
-        /// Gets or sets the designated formatting task.
-        /// </summary>
-        public Action<ToolbarButton> Activation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the designated formatting task when pressing shift at the same time.
-        /// </summary>
-        public Action<ToolbarButton> ShiftActivation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Tooltip message, explaining what the button does.
-        /// </summary>
-        public string ToolTip
-        {
-            get { return (string)GetValue(ToolTipProperty); }
-            set { SetValue(ToolTipProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a key to activate this button from the keyboard.
-        /// </summary>
-        public VirtualKey? ShortcutKey
-        {
-            get { return (VirtualKey?)GetValue(ShortcutKeyProperty); }
-            set { SetValue(ShortcutKeyProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the position in the Toolbar to place this Button.
-        /// </summary>
-        public int Position
-        {
-            get
-            {
-                return _position;
-            }
-
-            set
-            {
-                _position = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the Button can be toggled
-        /// </summary>
-        public bool IsToggleable
-        {
-            get { return (bool)GetValue(IsToggleableProperty); }
-            set { SetValue(IsToggleableProperty, value); }
-        }
-
-        public bool IsToggled
-        {
-            get
-            {
-                return Toggled == Visibility.Visible;
-            }
-
-            set
-            {
-                if (value)
-                {
-                    Toggled = Visibility.Visible;
-                }
-                else
-                {
-                    Toggled = Visibility.Collapsed;
-                    ToggleEnded?.Invoke(this, null);
-                }
-            }
-        }
-
-        private Visibility Toggled
-        {
-            get { return (Visibility)GetValue(IsToggledProperty); }
-            set { SetValue(IsToggledProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Attached TextToolbar
-        /// </summary>
-        internal TextToolbar Model { get; set; }
 
         protected override void OnApplyTemplate()
         {
@@ -142,9 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private static void ToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is ToolbarButton)
+            var button = obj as ToolbarButton;
+            if (button != null)
             {
-                (obj as ToolbarButton).UpdateTooltip();
+                button.UpdateTooltip();
             }
         }
 
@@ -184,26 +93,120 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private void Activate(bool isShift)
         {
-            if (IsToggleable && IsToggled)
+            if (isShift && ShiftActivation != null)
             {
-                IsToggled = false;
+                ShiftActivation(this);
             }
             else
             {
-                IsToggled = IsToggleable;
+                Activation?.Invoke(this);
+            }
+        }
 
-                if (isShift && ShiftActivation != null)
+        private void Editor_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (IsToggled)
+            {
+                TextChangedEvent?.Invoke(sender, e);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the designated formatting task.
+        /// </summary>
+        public Action<ToolbarButton> Activation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the designated formatting task when pressing shift at the same time.
+        /// </summary>
+        public Action<ToolbarButton> ShiftActivation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event for updating text, if the button is toggled.
+        /// </summary>
+        public RoutedEventHandler TextChangedEvent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Tooltip message, explaining what the button does.
+        /// </summary>
+        public string ToolTip
+        {
+            get { return (string)GetValue(ToolTipProperty); }
+            set { SetValue(ToolTipProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a key to activate this button from the keyboard.
+        /// </summary>
+        public VirtualKey? ShortcutKey
+        {
+            get { return (VirtualKey?)GetValue(ShortcutKeyProperty); }
+            set { SetValue(ShortcutKeyProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the position in the Toolbar to place this Button.
+        /// </summary>
+        public int Position
+        {
+            get
+            {
+                return _position;
+            }
+
+            set
+            {
+                _position = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
+            }
+        }
+
+        public bool IsToggled
+        {
+            get
+            {
+                return Toggled == Visibility.Visible;
+            }
+
+            set
+            {
+                if (value)
                 {
-                    ShiftActivation(this);
+                    Toggled = Visibility.Visible;
                 }
                 else
                 {
-                    Activation?.Invoke(this);
+                    Toggled = Visibility.Collapsed;
                 }
             }
         }
 
-        public event EventHandler ToggleEnded;
+        private Visibility Toggled
+        {
+            get { return (Visibility)GetValue(IsToggledProperty); }
+            set { SetValue(IsToggledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Attached TextToolbar
+        /// </summary>
+        internal TextToolbar Model
+        {
+            get
+            {
+                return _model;
+            }
+
+            set
+            {
+                _model = value;
+                value.Editor.TextChanged += Editor_TextChanged;
+            }
+        }
+
+        private TextToolbar _model;
+
+        private int _position = -1;
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

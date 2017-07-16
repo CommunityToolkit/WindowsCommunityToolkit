@@ -12,9 +12,9 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Collections.ObjectModel;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+    using Windows.System;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
@@ -110,6 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (TextToolbarStrings)GetValue(LabelsProperty); }
             set { SetValue(LabelsProperty, value); }
         }
+
+        public VirtualKey LastKeyPress { get; private set; }
 
         private bool formatterLoadedBeforeTemplate = false;
     }

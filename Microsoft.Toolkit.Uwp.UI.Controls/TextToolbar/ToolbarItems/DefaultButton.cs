@@ -27,16 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             return new DefaultButton { Type = type };
         }
 
-        /// <summary>
-        /// Gets or sets the type of Default Button to remove.
-        /// </summary>
-        public ButtonType Type { get; set; }
-
-        /// <summary>
-        /// Gets or sets the instance of button that is removed, in order to preserve any modifications when re-attaching to the Toolbar.
-        /// </summary>
-        internal IToolbarItem Button { get; set; }
-
         public override bool Equals(object obj)
         {
             var other = obj as DefaultButton;
@@ -52,6 +42,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             return Type.ToString();
         }
+
+        /// <summary>
+        /// Gets or sets the type of Default Button to remove.
+        /// </summary>
+        public ButtonType Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets the instance of button that is removed, in order to preserve any modifications when re-attaching to the Toolbar.
+        /// </summary>
+        internal IToolbarItem Button { get; set; }
 
         public enum ButtonType
         {

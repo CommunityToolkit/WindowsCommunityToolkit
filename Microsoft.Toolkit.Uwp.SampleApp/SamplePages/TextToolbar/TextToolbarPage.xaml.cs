@@ -16,10 +16,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.UI.Controls;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
     using Windows.System;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 
     public sealed partial class TextToolbarPage
     {

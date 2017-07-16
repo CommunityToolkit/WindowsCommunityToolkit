@@ -120,10 +120,13 @@
     <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
+    <Compile Include="TextToolbar\Formats\ButtonActions.cs" />
     <Compile Include="TextToolbar\Formats\Format.cs" />
     <Compile Include="TextToolbar\Formats\Formatter.cs" />
-    <Compile Include="TextToolbar\Formats\MarkDownFormatter.cs" />
-    <Compile Include="TextToolbar\Formats\RichTextFormatter.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDown\MarkDownButtonActions.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDown\MarkDownFormatter.cs" />
+    <Compile Include="TextToolbar\Formats\RichText\RichTextButtonActions.cs" />
+    <Compile Include="TextToolbar\Formats\RichText\RichTextFormatter.cs" />
     <Compile Include="TextToolbar\ShortcutKeyRequestArgs.cs" />
     <Compile Include="TextToolbar\Symbols\List.cs" />
     <Compile Include="TextToolbar\Symbols\NumberedList.cs" />
@@ -134,8 +137,8 @@
     <Compile Include="TextToolbar\TextToolbarStrings.cs" />
     <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ButtonMap.cs" />
-    <Compile Include="TextToolbar\ToolbarItems\CommonButtons.cs" />
-    <Compile Include="TextToolbar\ToolbarItems\CommonButtons.Events.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.Events.cs" />
     <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\IToolbarItem.cs" />
     <Compile Include="TextToolbar\ToolbarItems\RemovalList.cs" />

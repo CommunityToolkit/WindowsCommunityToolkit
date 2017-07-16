@@ -14,7 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System.Linq;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
     using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;

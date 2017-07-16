@@ -24,64 +24,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         public Formatter(TextToolbar model)
         {
             Model = model;
+
+            // Without the Dispatch wait, the initial creation of the TextToolbar, the Editor returned an Int32, casuing an InvalidCastException. This helps wait for the Editor to be realised. (Could the int be a pointer?)
+            var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                model.Editor.SelectionChanged += Editor_SelectionChanged;
+            });
         }
 
         /// <summary>
-        /// Applies Bold
+        /// Shortcut to Carriage Return
         /// </summary>
-        public abstract void FormatBold(ToolbarButton button);
+        protected const string Return = "\r";
 
         /// <summary>
-        /// Applies Italics
+        /// Called for Changes to Selction (Requires unhook if switching RichEditBox).
         /// </summary>
-        public abstract void FormatItalics(ToolbarButton button);
-
-        /// <summary>
-        /// Applies Strikethrough
-        /// </summary>
-        public abstract void FormatStrikethrough(ToolbarButton button);
-
-        /// <summary>
-        /// Applies Link
-        /// </summary>
-        public abstract void FormatLink(ToolbarButton button, string label, string link);
-
-        /// <summary>
-        /// Applies List
-        /// </summary>
-        public abstract void FormatList(ToolbarButton button);
-
-        /// <summary>
-        /// Applies Ordered List
-        /// </summary>
-        public abstract void FormatOrderedList(ToolbarButton button);
-
-        /// <summary>
-        /// Gets the source Toolbar
-        /// </summary>
-        public TextToolbar Model { get; }
-
-        /// <summary>
-        /// Gets the default list of buttons
-        /// </summary>
-        public abstract ButtonMap DefaultButtons { get; }
-
-        /// <summary>
-        /// Gets the formatted version of the Editor's Text
-        /// </summary>
-        public abstract string Text { get; }
-
-        /// <summary>
-        /// Gets shortcut to Carriage Return
-        /// </summary>
-        internal const string Return = "\r";
-
-        /// <summary>
-        /// Gets the current Editor Selection
-        /// </summary>
-        protected ITextSelection Select
+        /// <param name="sender">Editor</param>
+        /// <param name="e">Args</param>
+        private void Editor_SelectionChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            get { return Model.Editor.Document.Selection; }
+            OnSelectionChanged();
         }
 
         /// <summary>
@@ -89,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// </summary>
         public virtual void EnsureAtNewLine()
         {
-            int val = Select.StartPosition;
+            int val = Selected.StartPosition;
             int counter = 0;
             bool atNewLine = false;
 
@@ -118,15 +81,81 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
             if (!atNewLine)
             {
-                bool selectionEmpty = string.IsNullOrWhiteSpace(Select.Text);
-                Select.Text = Select.Text.Insert(0, Return);
-                Select.StartPosition += 1;
+                bool selectionEmpty = string.IsNullOrWhiteSpace(Selected.Text);
+                Selected.Text = Selected.Text.Insert(0, Return);
+                Selected.StartPosition += 1;
 
                 if (selectionEmpty)
                 {
-                    Select.EndPosition = Select.StartPosition;
+                    Selected.EndPosition = Selected.StartPosition;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets an array of the Lines of Text in the Editor.
+        /// </summary>
+        /// <returns>Text Array</returns>
+        public virtual string[] GetLines()
+        {
+            string doc;
+            Model.Editor.Document.GetText(TextGetOptions.None, out doc);
+            var lines = doc.Split(new string[] { Return }, StringSplitOptions.None);
+            return lines;
+        }
+
+        /// <summary>
+        /// Gets the line from the index provided (Skips last Carriage Return)
+        /// </summary>
+        /// <returns>Last line text</returns>
+        public virtual string GetLine(int index)
+        {
+            return GetLines()[index];
+        }
+
+        /// <summary>
+        /// Gets the last line (Skips last Carriage Return)
+        /// </summary>
+        /// <returns>Last line text</returns>
+        public virtual string GetLastLine()
+        {
+            var lines = GetLines();
+            return lines[lines.Length - 2];
+        }
+
+        /// <summary>
+        /// Called after the Selected Text changes.
+        /// </summary>
+        public virtual void OnSelectionChanged()
+        {
+        }
+
+        /// <summary>
+        /// Gets the source Toolbar
+        /// </summary>
+        public TextToolbar Model { get; }
+
+        /// <summary>
+        /// Gets or sets a map of the Actions taken when a button is pressed. Required for Common Button actions (Unless you override both Activation and ShiftActivation)
+        /// </summary>
+        public ButtonActions ButtonActions { get; protected set; }
+
+        /// <summary>
+        /// Gets the default list of buttons
+        /// </summary>
+        public abstract ButtonMap DefaultButtons { get; }
+
+        /// <summary>
+        /// Gets the formatted version of the Editor's Text
+        /// </summary>
+        public abstract string Text { get; }
+
+        /// <summary>
+        /// Gets the current Editor Selection
+        /// </summary>
+        public ITextSelection Selected
+        {
+            get { return Model.Editor.Document.Selection; }
         }
     }
 }

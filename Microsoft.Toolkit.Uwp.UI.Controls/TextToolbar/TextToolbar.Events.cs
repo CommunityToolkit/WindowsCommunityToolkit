@@ -13,13 +13,13 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.System;
     using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Input;
 
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
@@ -33,21 +33,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">Property Changed Args</param>
         public static void OnEditorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is TextToolbar)
+            var bar = obj as TextToolbar;
+            if (bar != null)
             {
-                var bar = obj as TextToolbar;
-
                 var oldEditor = args.OldValue as RichEditBox;
                 var newEditor = args.NewValue as RichEditBox;
 
                 if (oldEditor != null)
                 {
-                    oldEditor.KeyDown -= bar.Editor_KeyDown;
+                    oldEditor.RemoveHandler(KeyDownEvent, bar.KeyEventHandler);
                 }
 
                 if (newEditor != null)
                 {
-                    newEditor.KeyDown += bar.Editor_KeyDown;
+                    newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
                 }
             }
         }
@@ -57,8 +56,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">RichEditBox</param>
         /// <param name="e">Key args</param>
-        private void Editor_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void Editor_KeyDown(object sender, KeyRoutedEventArgs e)
         {
+            LastKeyPress = e.Key;
+
             var root = GetTemplateChild(RootControl) as CommandBar;
             if (root != null)
             {
@@ -79,27 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether Control is pressed down
-        /// </summary>
-        public bool ControlKeyDown
-        {
-            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control)); }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether Shift is pressed down
-        /// </summary>
-        public bool ShiftKeyDown
-        {
-            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift)); }
-        }
-
-        /// <summary>
-        /// Fired when a CTRL + "Letter" combination is used inside the Editor.
-        /// </summary>
-        public event EventHandler<ShortcutKeyRequestArgs> ShortcutRequested;
 
         /// <summary>
         /// Creates a new formatter, if it is a built-in formatter.
@@ -298,5 +278,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
         }
+
+        private KeyEventHandler KeyEventHandler { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether Control is pressed down
+        /// </summary>
+        public bool ControlKeyDown
+        {
+            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control)); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether Shift is pressed down
+        /// </summary>
+        public bool ShiftKeyDown
+        {
+            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift)); }
+        }
+
+        /// <summary>
+        /// Fired when a CTRL + "Letter" combination is used inside the Editor.
+        /// </summary>
+        public event EventHandler<ShortcutKeyRequestArgs> ShortcutRequested;
     }
 }

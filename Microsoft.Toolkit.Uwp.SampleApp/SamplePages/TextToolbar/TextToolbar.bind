@@ -21,7 +21,6 @@
                              TextWrapping="Wrap"
                              TextChanged="EditZone_TextChanged"
                              VerticalContentAlignment="Stretch"
-                             Grid.Row="1"
                              Background="{x:Null}"
                              BorderBrush="{x:Null}"
                              MinHeight="300" />

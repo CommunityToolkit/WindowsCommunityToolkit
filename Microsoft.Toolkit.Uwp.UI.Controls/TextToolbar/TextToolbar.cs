@@ -12,10 +12,11 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Collections.ObjectModel;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Input;
 
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
@@ -46,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CustomButtons = new ButtonMap();
             RemoveDefaultButtons = new RemovalList();
+            KeyEventHandler = new KeyEventHandler(Editor_KeyDown);
         }
 
         protected override void OnApplyTemplate()

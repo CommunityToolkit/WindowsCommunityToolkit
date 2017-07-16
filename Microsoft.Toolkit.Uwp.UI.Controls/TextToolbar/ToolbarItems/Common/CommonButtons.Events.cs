@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 {
     using System;
     using Windows.UI.Xaml;
@@ -23,38 +23,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     {
         private void MakeBold(ToolbarButton button)
         {
-            Model.Formatter.FormatBold(button);
+            Model.Formatter.ButtonActions.FormatBold(button);
         }
 
         private void MakeItalics(ToolbarButton button)
         {
-            Model.Formatter.FormatItalics(button);
+            Model.Formatter.ButtonActions.FormatItalics(button);
         }
 
         private void MakeStrike(ToolbarButton button)
         {
-            Model.Formatter.FormatStrikethrough(button);
+            Model.Formatter.ButtonActions.FormatStrikethrough(button);
         }
 
         private void MakeLink(ToolbarButton button)
         {
-            Model.Formatter.FormatLink(button, string.Empty, string.Empty);
+            Model.Formatter.ButtonActions.FormatLink(button, string.Empty, string.Empty, string.Empty);
         }
 
         private void MakeList(ToolbarButton button)
         {
-            Model.Formatter.FormatList(button);
+            Model.Formatter.ButtonActions.FormatList(button);
         }
 
         private void MakeOList(ToolbarButton button)
         {
-            Model.Formatter.FormatOrderedList(button);
+            Model.Formatter.ButtonActions.FormatOrderedList(button);
         }
 
-        public async void OpenLinkCreater(ToolbarButton button)
+        public async void OpenLinkCreator(ToolbarButton button)
         {
-            var labelBox = new TextBox { PlaceholderText = Model.Labels.LabelLabel, Margin = new Thickness(0, 0, 0, 5) };
-            var linkBox = new TextBox { PlaceholderText = Model.Labels.UrlLabel };
+            var selection = button.Model.Editor.Document.Selection;
+
+            var labelBox = new RichEditBox
+            {
+                PlaceholderText = Model.Labels.LabelLabel,
+                Margin = new Thickness(0, 0, 0, 5),
+                AcceptsReturn = false
+            };
+            var linkBox = new TextBox
+            {
+                PlaceholderText = Model.Labels.UrlLabel
+            };
+
+            labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
+            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
+            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
 
             var result = await new ContentDialog
             {
@@ -73,7 +87,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
             if (result == ContentDialogResult.Primary)
             {
-                Model.Formatter.FormatLink(button, labelBox.Text, linkBox.Text);
+                string labelText;
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out labelText);
+
+                string formattedlabelText;
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
+
+                Model.Formatter.ButtonActions.FormatLink(button, labelText, formattedlabelText, linkBox.Text);
             }
         }
     }

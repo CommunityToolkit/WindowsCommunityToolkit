@@ -10,10 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 {
     using Windows.System;
-    using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
@@ -84,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
                     ToolTip = Model.Labels.LinkLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Link },
                     ShortcutKey = VirtualKey.K,
-                    Activation = OpenLinkCreater,
+                    Activation = OpenLinkCreator,
                     ShiftActivation = MakeLink
                 };
             }

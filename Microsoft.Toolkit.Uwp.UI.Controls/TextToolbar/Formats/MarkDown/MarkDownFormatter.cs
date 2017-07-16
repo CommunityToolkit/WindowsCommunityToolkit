@@ -10,91 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
-{
-    using System;
-    using System.Linq;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Windows.UI.Text;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Input;
-    using Windows.UI.Xaml.Media;
+using System;
+using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Windows.UI.Text;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
+namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
+{
     public class MarkDownFormatter : Formatter
     {
         public MarkDownFormatter(TextToolbar model)
             : base(model)
         {
+            ButtonActions = new MarkDownButtonActions(this);
         }
-
-        public override string Text
-        {
-            get
-            {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out currentvalue);
-                return currentvalue.Replace('\n', '\r'); // Converts CRLF into double Return for Markdown new line.
-            }
-        }
-
-        public override ButtonMap DefaultButtons
-        {
-            get
-            {
-                listButton = listButton ?? Model.CommonButtons.List;
-                orderedListButton = orderedListButton ?? Model.CommonButtons.OrderedList;
-
-                return new ButtonMap
-                {
-                    Model.CommonButtons.Bold,
-                    Model.CommonButtons.Italics,
-                    Model.CommonButtons.Strikethrough,
-
-                    new ToolbarSeparator(),
-
-                    new ToolbarButton
-                    {
-                        Name = TextToolbar.HeadersElement,
-                        Icon = new SymbolIcon { Symbol = Symbol.FontSize },
-                        ToolTip = Model.Labels.HeaderLabel,
-                        Activation = StyleHeader
-                    },
-                    new ToolbarButton
-                    {
-                        Name = TextToolbar.CodeElement,
-                        ToolTip = Model.Labels.CodeLabel,
-                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
-                        Activation = FormatCode
-                    },
-                    new ToolbarButton
-                    {
-                        Name = TextToolbar.QuoteElement,
-                        ToolTip = Model.Labels.QuoteLabel,
-                        Icon = new SymbolIcon { Symbol = Symbol.Message },
-                        Activation = FormatQuote
-                    },
-                    Model.CommonButtons.Link,
-
-                    new ToolbarSeparator(),
-
-                    listButton,
-                    orderedListButton
-                };
-            }
-        }
-
-        private ToolbarButton listButton = null;
-        private ToolbarButton orderedListButton = null;
-
-        private void HeaderSelected(object sender, TappedRoutedEventArgs e)
-        {
-            var item = sender as ListBoxItem;
-            SetSelection(item.Tag as string, string.Empty, false);
-            headerFlyout?.Hide();
-        }
-
-        private Flyout headerFlyout;
 
         public void StyleHeader(ToolbarButton button)
         {
@@ -123,19 +56,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             headerFlyout.ShowAt(button);
         }
 
-        public override void FormatBold(ToolbarButton button)
+        private void HeaderSelected(object sender, TappedRoutedEventArgs e)
         {
-            SetSelection("**", "**");
-        }
-
-        public override void FormatItalics(ToolbarButton button)
-        {
-            SetSelection("_", "_");
-        }
-
-        public override void FormatStrikethrough(ToolbarButton button)
-        {
-            SetSelection("~~", "~~");
+            var item = sender as FrameworkElement;
+            EnsureAtNewLine();
+            SetSelection(item.Tag as string, string.Empty, false);
+            headerFlyout?.Hide();
         }
 
         public void FormatCode(ToolbarButton button)
@@ -144,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 return;
             }
-            else if (!Select.Text.Contains(Return))
+            else if (!Selected.Text.Contains(Return))
             {
                 SetSelection("`", "`");
             }
@@ -164,60 +90,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             SetList(() => "> ", button);
         }
 
-        public override void FormatLink(ToolbarButton button, string label, string link)
-        {
-            int originalStart = Select.StartPosition;
-
-            if (string.IsNullOrWhiteSpace(label))
-            {
-                if (!string.IsNullOrWhiteSpace(link))
-                {
-                    SetSelection($"[{Model.Labels.LabelLabel}](", ")", false, link);
-                    Select.StartPosition = Select.EndPosition;
-                    Select.EndPosition = Select.StartPosition;
-                }
-                else
-                {
-                    string startChars = $"[{Model.Labels.LabelLabel}](";
-                    string filler = Model.Labels.UrlLabel;
-                    SetSelection(startChars, ")", false, filler);
-                    Select.StartPosition = originalStart + startChars.Length;
-                    Select.EndPosition = Select.StartPosition + filler.Length;
-                }
-            }
-            else if (string.IsNullOrWhiteSpace(link))
-            {
-                SetSelection("[", $"]({Model.Labels.UrlLabel})", false, label);
-            }
-            else
-            {
-                Select.Text = $"[{label}]({link})";
-                Select.StartPosition = Select.EndPosition;
-                Select.EndPosition = Select.StartPosition;
-            }
-        }
-
-        public override void FormatList(ToolbarButton button)
-        {
-            if (orderedListButton.IsToggled)
-            {
-                orderedListButton.IsToggled = false;
-            }
-
-            SetList(() => "- ", button);
-        }
-
-        public override void FormatOrderedList(ToolbarButton button)
-        {
-            if (listButton.IsToggled)
-            {
-                listButton.IsToggled = false;
-            }
-
-            Func<string> iterate = () => ListLineIterator + ". ";
-            SetList(iterate, button);
-        }
-
         /// <summary>
         /// Applies formatting to Selected Text, or Removes formatting if already applied.
         /// </summary>
@@ -234,26 +106,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
             if (!reversible || !DetermineSimpleReverse(start, end))
             {
-                int originalStartPos = Select.StartPosition;
+                int originalStartPos = Selected.StartPosition;
 
-                string originalText = contents ?? Select.Text;
+                string originalText = contents ?? Selected.Text;
 
                 if (!string.IsNullOrWhiteSpace(originalText) && originalText.Last() == Return.First())
                 {
                     originalText = originalText.Remove(originalText.Length - 1, 1);
                 }
 
-                Select.Text = start + originalText + end;
+                Selected.Text = start + originalText + end;
 
                 if (string.IsNullOrWhiteSpace(originalText))
                 {
-                    Select.StartPosition = originalStartPos + start.Length;
-                    Select.EndPosition = Select.StartPosition;
+                    Selected.StartPosition = originalStartPos + start.Length;
+                    Selected.EndPosition = Selected.StartPosition;
                 }
                 else
                 {
-                    Select.StartPosition = originalStartPos + start.Length;
-                    Select.EndPosition = Select.StartPosition + originalText.Length;
+                    Selected.StartPosition = originalStartPos + start.Length;
+                    Selected.EndPosition = Selected.StartPosition + originalText.Length;
                 }
             }
         }
@@ -270,8 +142,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 try
                 {
-                    int startpos = Select.StartPosition - start.Length;
-                    int endpos = Select.EndPosition;
+                    int startpos = Selected.StartPosition - start.Length;
+                    int endpos = Selected.EndPosition;
 
                     string text = string.Empty;
                     Model.Editor.Document.GetText(TextGetOptions.NoHidden, out text);
@@ -284,8 +156,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                             endpos -= start.Length;
                             Model.Editor.Document.SetText(TextSetOptions.None, text.Remove(endpos, end.Length));
 
-                            Select.StartPosition = startpos;
-                            Select.EndPosition = endpos;
+                            Selected.StartPosition = startpos;
+                            Selected.EndPosition = endpos;
                             return true;
                         }
                     }
@@ -312,11 +184,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             try
             {
-                if (Select.Text.Substring(0, start.Length) == start)
+                if (Selected.Text.Substring(0, start.Length) == start)
                 {
-                    if (Select.Text.Substring(Select.Text.Length - end.Length, end.Length) == end)
+                    if (Selected.Text.Substring(Selected.Text.Length - end.Length, end.Length) == end)
                     {
-                        Select.Text = Select.Text.Substring(start.Length, Select.Text.Length - end.Length - start.Length);
+                        Selected.Text = Selected.Text.Substring(start.Length, Selected.Text.Length - end.Length - start.Length);
                         return true;
                     }
                 }
@@ -329,31 +201,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         }
 
         /// <summary>
-        /// Gets the value of the Line Number Iterator. Use this for generating Numbered Lists.
-        /// </summary>
-        public int ListLineIterator { get; private set; } = 1;
-
-        /// <summary>
-        /// Gets a value indicating whether gets whether it is the last line of the list.
-        /// </summary>
-        public bool ReachedEndLine { get; private set; } = false;
-
-        /// <summary>
         /// Iterates a new line char if an enter was pressed.
         /// </summary>
+        /// <param name="button">Button linked to List Event</param>
         /// <param name="listChar">Line Char function.</param>
-        private void SetListTextChanged(Func<string> listChar)
+        private void SetListTextChanged(ToolbarButton button, Func<string> listChar)
         {
-            Select.StartPosition -= 1;
-            var lastEntered = Select.Text;
-            Select.StartPosition += 1;
+            Selected.StartPosition -= 1;
+            var lastEntered = Selected.Text;
+            Selected.StartPosition += 1;
+
+            if (Model.LastKeyPress == Windows.System.VirtualKey.Back)
+            {
+                var indexer = listChar();
+                var line = GetLastLine();
+
+                if (!line.StartsWith(indexer))
+                {
+                    button.IsToggled = false;
+                }
+            }
 
             if (lastEntered == Return)
             {
                 ListLineIterator++;
-                Select.Text += listChar();
+                Selected.Text += listChar();
 
-                Select.StartPosition = Select.EndPosition;
+                Selected.StartPosition = Selected.EndPosition;
             }
         }
 
@@ -372,15 +246,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             }
             else if (enableToggle)
             {
-                button.IsToggleable = true;
-                button.IsToggled = true;
-
-                var textChanged = new RoutedEventHandler((s, e) => SetListTextChanged(listChar));
-                Model.Editor.TextChanged += textChanged;
-                button.ToggleEnded += (s, ee) =>
+                if (button.TextChangedEvent == null)
                 {
-                    Model.Editor.TextChanged -= textChanged;
-                };
+                    button.TextChangedEvent = new RoutedEventHandler((s, e) => SetListTextChanged(button, listChar));
+                }
+
+                if (!button.IsToggled)
+                {
+                    button.IsToggled = true;
+                }
+                else
+                {
+                    button.IsToggled = false;
+                    return;
+                }
             }
 
             ListLineIterator = 1;
@@ -393,7 +272,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 EnsureAtNewLine();
                 string text = listChar();
 
-                var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
+                var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
                 if (!wrapNewLines)
                 {
                     lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
@@ -428,11 +307,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                     }
                 }
 
-                Select.Text = text;
+                Selected.Text = text;
 
                 if (!lines.Any(line => !string.IsNullOrWhiteSpace(line)))
                 {
-                    Select.StartPosition = Select.EndPosition;
+                    Selected.StartPosition = Selected.EndPosition;
                 }
             }
         }
@@ -445,7 +324,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <returns>True if List formatting is reversing, otherwise false</returns>
         protected virtual bool DetermineListReverse(Func<string> listChar, bool wrapNewLines)
         {
-            if (string.IsNullOrWhiteSpace(Select.Text))
+            if (string.IsNullOrWhiteSpace(Selected.Text))
             {
                 return false;
             }
@@ -456,9 +335,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             }
 
             string text = string.Empty;
-            int startpos = Select.StartPosition;
+            int startpos = Selected.StartPosition;
 
-            var lines = Select.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
+            var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
             if (wrapNewLines)
             {
                 lines.RemoveAt(lines.Count - 1); // removes the line kept from Wrapping with NewLines.
@@ -500,7 +379,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 text = text.Remove(text.Length - 1);
             }
 
-            Select.Text = text;
+            Selected.Text = text;
             return true;
         }
 
@@ -515,7 +394,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             {
                 ListLineIterator = 1;
                 string start = listChar();
-                int startpos = Select.StartPosition - start.Length - 1; // removing newline char as well
+                int startpos = Selected.StartPosition - start.Length - 1; // removing newline char as well
 
                 ReachedEndLine = true;
                 string end = listChar();
@@ -526,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 string startText = text.Substring(startpos, start.Length);
                 if (startText == start)
                 {
-                    string endText = text.Substring(Select.EndPosition + end.Length - 3, end.Length);
+                    string endText = text.Substring(Selected.EndPosition + end.Length - 3, end.Length);
                     if (endText == end)
                     {
                         return true; // works if Line Chars are only on the first and last lines, this would need to check all the other line chars for other NewLine Wrap methods that change the line char for all lines.
@@ -542,5 +421,86 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 
             return false;
         }
+
+        internal string OrderedListIterate()
+        {
+            return ListLineIterator + ". ";
+        }
+
+        public override string Text
+        {
+            get
+            {
+                string currentvalue = string.Empty;
+                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out currentvalue);
+                return currentvalue.Replace('\n', '\r'); // Converts CRLF into double Return for Markdown new line.
+            }
+        }
+
+        public override ButtonMap DefaultButtons
+        {
+            get
+            {
+                ListButton = ListButton ?? Model.CommonButtons.List;
+                OrderedListButton = OrderedListButton ?? Model.CommonButtons.OrderedList;
+                QuoteButton = new ToolbarButton
+                {
+                    Name = TextToolbar.QuoteElement,
+                    ToolTip = Model.Labels.QuoteLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Message },
+                    Activation = FormatQuote
+                };
+
+                return new ButtonMap
+                {
+                    Model.CommonButtons.Bold,
+                    Model.CommonButtons.Italics,
+                    Model.CommonButtons.Strikethrough,
+
+                    new ToolbarSeparator(),
+
+                    new ToolbarButton
+                    {
+                        Name = TextToolbar.HeadersElement,
+                        Icon = new SymbolIcon { Symbol = Symbol.FontSize },
+                        ToolTip = Model.Labels.HeaderLabel,
+                        Activation = StyleHeader
+                    },
+                    new ToolbarButton
+                    {
+                        Name = TextToolbar.CodeElement,
+                        ToolTip = Model.Labels.CodeLabel,
+                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                        Activation = FormatCode
+                    },
+                    QuoteButton,
+
+                    Model.CommonButtons.Link,
+
+                    new ToolbarSeparator(),
+
+                    ListButton,
+                    OrderedListButton
+                };
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of the Line Number Iterator. Use this for generating Numbered Lists.
+        /// </summary>
+        public int ListLineIterator { get; internal set; } = 1;
+
+        /// <summary>
+        /// Gets a value indicating whether gets whether it is the last line of the list.
+        /// </summary>
+        public bool ReachedEndLine { get; private set; } = false;
+
+        internal ToolbarButton QuoteButton { get; set; }
+
+        internal ToolbarButton ListButton { get; set; }
+
+        internal ToolbarButton OrderedListButton { get; set; }
+
+        private Flyout headerFlyout;
     }
 }
