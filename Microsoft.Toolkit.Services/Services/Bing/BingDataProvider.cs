@@ -32,17 +32,6 @@ namespace Microsoft.Toolkit.Services.Bing
         /// </summary>
         private const string BaseUrl = "http://www.bing.com";
 
-        private HttpHelper _httpHelper;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BingDataProvider"/> class.
-        /// </summary>
-        /// <param name="httpHelper">Optional HttpHelper instance.</param>
-        public BingDataProvider(HttpHelper httpHelper = null)
-        {
-            _httpHelper = httpHelper ?? new HttpHelper();
-        }
-
         /// <summary>
         /// Wrapper around REST API for making data request.
         /// </summary>
@@ -87,7 +76,7 @@ namespace Microsoft.Toolkit.Services.Bing
 
             using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await _httpHelper.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelper.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.GetTextResultAsync().ConfigureAwait(false);
 

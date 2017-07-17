@@ -54,22 +54,7 @@ namespace Microsoft.Toolkit.Services.Bing
         /// Gets public singleton property.
         /// </summary>
         public static BingService Instance => instance ?? (instance = new BingService());
-
-        private HttpHelper httpHelper;
-
-        /// <summary>
-        /// Optional HttpHelper instance.
-        /// </summary>
-        public HttpHelper HttpHelper
-        {
-            get { return httpHelper; }
-            set
-            {
-                httpHelper = value;
-                bingDataProvider = new BingDataProvider(httpHelper);
-            }
-        }
-
+        
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>

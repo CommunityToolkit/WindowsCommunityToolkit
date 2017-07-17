@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Http;
 
 namespace Microsoft.Toolkit.Services
 {
@@ -59,6 +60,13 @@ namespace Microsoft.Toolkit.Services
 
             return Array.Empty<TSchema>();
         }
+
+        private HttpHelper httpHelper;
+
+        /// <summary>
+        /// Returns an instance of the HttpHelper type
+        /// </summary>
+        protected HttpHelper HttpHelper => httpHelper ?? (httpHelper = new HttpHelper());
 
         /// <summary>
         /// Derived classes will have to implement this method to return provider data
