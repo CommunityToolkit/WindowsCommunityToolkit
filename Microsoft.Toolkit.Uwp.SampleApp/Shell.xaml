@@ -19,12 +19,40 @@
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate"
                       x:DataType="local:SampleCategory">
-            <controls:HamburgerMenuImageItem Thumbnail="{x:Bind Icon}" Label="{x:Bind Name}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="16,12"
+                       Source="{x:Bind Icon}"
+                       Stretch="Uniform" />
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           Foreground="White"
+                           Text="{x:Bind Name}" />
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="OptionTemplate"
                       x:DataType="local:Option">
-            <controls:HamburgerMenuGlyphItem Glyph="{x:Bind Glyph}" Label="{x:Bind Name}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <FontIcon Grid.Column="0"
+                          FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
+                          Foreground="White"
+                          Glyph="{x:Bind Glyph}" />
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           Foreground="White"
+                           Text="{x:Bind Name}" />
+            </Grid>
         </DataTemplate>
 
     </Page.Resources>
