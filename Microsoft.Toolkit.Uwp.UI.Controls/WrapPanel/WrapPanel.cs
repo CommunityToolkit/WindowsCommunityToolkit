@@ -23,16 +23,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
     public partial class WrapPanel : Panel
     {
         /// <summary>
-        /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
+        /// The maximum columns property
         /// </summary>
-        public Orientation Orientation
-        {
-            get { return (Orientation)GetValue(OrientationProperty); }
-            set { SetValue(OrientationProperty, value); }
-        }
+        public static readonly DependencyProperty MaxColumnsProperty =
+            DependencyProperty.Register("MaxColumns", typeof(int), typeof(WrapPanel), new PropertyMetadata(0, MaxRowOrColumnChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// The maximum rows property
+        /// </summary>
+        public static readonly DependencyProperty MaxRowsProperty =
+            DependencyProperty.Register("MaxRows", typeof(int), typeof(WrapPanel), new PropertyMetadata(0, MaxRowOrColumnChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="Orientation" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(
@@ -41,11 +44,131 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 typeof(WrapPanel),
                 new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
 
-        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// The empty rectangle.
+        /// </summary>
+        private static Rect emptyRect = new Rect(0, 0, 0, 0);
+
+        /// <summary>
+        /// Occurs when the current row overflows and the wrappanel moves rendering to the next row.
+        /// </summary>
+        public event EventHandler<OverflowEventArgs> RowChanged;
+
+        /// <summary>
+        /// Occurs when the current column overflows and the wrappanel moves rendering to the next column.
+        /// </summary>
+        public event EventHandler<OverflowEventArgs> ColumnChanged;
+
+        /// <summary>
+        /// Gets the number of columns.
+        /// </summary>
+        /// <value>
+        /// The columns.
+        /// </value>
+        public int Columns { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the maximum columns.
+        /// </summary>
+        /// <value>
+        /// The maximum columns.
+        /// </value>
+        public int MaxColumns
         {
-            var wrapPanel = d as WrapPanel;
-            wrapPanel?.InvalidateMeasure();
-            wrapPanel?.InvalidateArrange();
+            get { return (int)GetValue(MaxColumnsProperty); }
+            set { SetValue(MaxColumnsProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum rows.
+        /// </summary>
+        /// <value>
+        /// The maximum rows.
+        /// </value>
+        public int MaxRows
+        {
+            get { return (int)GetValue(MaxRowsProperty); }
+            set { SetValue(MaxRowsProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row
+        /// is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
+        /// </summary>
+        /// <value>
+        /// The orientation.
+        /// </value>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the number of rows.
+        /// </summary>
+        /// <value>
+        /// The rows.
+        /// </value>
+        public int Rows { get; private set; }
+
+        /// <inheritdoc />
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
+            var position = UvMeasure.Zero;
+
+            double currentV = 0;
+            this.Rows = 0;
+            this.Columns = 0;
+
+            foreach (var child in Children)
+            {
+                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                if ((desiredMeasure.U + position.U) > parentMeasure.U)
+                {
+                    // next row!
+                    position.U = 0;
+                    position.V += currentV;
+                    currentV = 0;
+
+                    if (this.Orientation == Orientation.Horizontal)
+                    {
+                        this.Rows++;
+
+                        // Raise the event when new row is added.
+                        this.RowChanged?.Invoke(this, new OverflowEventArgs(this.Rows));
+                    }
+                    else
+                    {
+                        this.Columns++;
+
+                        // Raise the event when new row is added.
+                        this.ColumnChanged?.Invoke(this, new OverflowEventArgs(this.Columns));
+                    }
+                }
+
+                // Calculate the placement area of the child.
+                Rect ctlArea = (this.Orientation == Orientation.Horizontal) ?
+                                    new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height) :
+                                    new Rect(position.V, position.U, child.DesiredSize.Width, child.DesiredSize.Height);
+
+                // Check if the child can be rendered.
+                if ((this.MaxRows != 0 && this.MaxRows <= this.Rows) ||
+                    (this.MaxColumns != 0 && this.MaxColumns <= this.Columns))
+                {
+                    ctlArea = emptyRect;
+                }
+
+                // Place the control.
+                child.Arrange(ctlArea);
+
+                // adjust the location for the next items
+                position.U += desiredMeasure.U;
+                currentV = Math.Max(desiredMeasure.V, currentV);
+            }
+
+            return finalSize;
         }
 
         /// <inheritdoc />
@@ -67,8 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 }
                 else
                 {
-                    // new line should be added
-                    // to get the max U to provide it correctly to ui width ex: ---| or -----|
+                    // new line should be added to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
                     totalMeasure.V += lineMeasure.V;
 
@@ -92,11 +214,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                 }
             }
 
-            // update value with the last line
-            // if the the last loop is(parentMeasure.U > currentMeasure.U + lineMeasure.U) the total isn't calculated then calculate it
-            // if the last loop is (parentMeasure.U > currentMeasure.U) the currentMeasure isn't added to the total so add it here
-            // for the last condition it is zeros so adding it will make no difference
-            // this way is faster than an if condition in every loop for checking the last item
+            // update value with the last line if the the last loop is(parentMeasure.U > currentMeasure.U + lineMeasure.U) the total isn't calculated then calculate it if the last loop is
+            // (parentMeasure.U > currentMeasure.U) the currentMeasure isn't added to the total so add it here for the last condition it is zeros so adding it will make no difference this way is faster
+            // than an if condition in every loop for checking the last item
             totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
             totalMeasure.V += lineMeasure.V;
 
@@ -105,40 +225,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
 
-        /// <inheritdoc />
-        protected override Size ArrangeOverride(Size finalSize)
+        /// <summary>
+        /// Maximums the row or column changed.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void MaxRowOrColumnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var position = UvMeasure.Zero;
+            Repaint(d);
+        }
 
-            double currentV = 0;
-            foreach (var child in Children)
-            {
-                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if ((desiredMeasure.U + position.U) > parentMeasure.U)
-                {
-                    // next row!
-                    position.U = 0;
-                    position.V += currentV;
-                    currentV = 0;
-                }
+        /// <summary>
+        /// Orientations the property changed.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Repaint(d);
+        }
 
-                // Place the item
-                if (Orientation == Orientation.Horizontal)
-                {
-                    child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));
-                }
-                else
-                {
-                    child.Arrange(new Rect(position.V, position.U, child.DesiredSize.Width, child.DesiredSize.Height));
-                }
-
-                // adjust the location for the next items
-                position.U += desiredMeasure.U;
-                currentV = Math.Max(desiredMeasure.V, currentV);
-            }
-
-            return finalSize;
+        /// <summary>
+        /// Repaints the specified d.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        private static void Repaint(DependencyObject d)
+        {
+            var wrapPanel = d as WrapPanel;
+            wrapPanel?.InvalidateMeasure();
+            wrapPanel?.InvalidateArrange();
         }
     }
 }
