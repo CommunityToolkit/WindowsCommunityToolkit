@@ -111,16 +111,31 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Initializes FileCache and provides root folder and cache folder name
         /// </summary>
+        /// <param name="folder">Folder that is used as root for cache</param>
+        /// <returns>awaitable task</returns>
+        public Task InitializeAsync(StorageFolder folder)
+        {
+            return InitializeAsync(folder, null, null);
+        }
+
+        /// <summary>
+        /// Initializes FileCache and provides root folder and cache folder name
+        /// </summary>
+        /// <param name="folderName">Cache folder name</param>
+        /// <returns>awaitable task</returns>
+        public Task InitializeAsync(string folderName)
+        {
+            return InitializeAsync(null, folderName, null);
+        }
+
+        /// <summary>
+        /// Initializes FileCache and provides root folder and cache folder name
+        /// </summary>
         /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitializeAsync(HttpMessageHandler httpMessageHandler)
+        public Task InitializeAsync(HttpMessageHandler httpMessageHandler)
         {
-            _cacheFolder = await GetCacheFolderAsync().ConfigureAwait(false);
-
-            if (httpMessageHandler != null)
-            {
-                _httpClient = new HttpClient(httpMessageHandler);
-            }
+            return InitializeAsync(null, null, httpMessageHandler);
         }
 
         /// <summary>
@@ -130,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="folderName">Cache folder name</param>
         /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitializeAsync(StorageFolder folder, string folderName, HttpMessageHandler httpMessageHandler = null)
+        public virtual async Task InitializeAsync(StorageFolder folder, string folderName, HttpMessageHandler httpMessageHandler)
         {
             _baseFolder = folder;
             _cacheFolderName = folderName;
