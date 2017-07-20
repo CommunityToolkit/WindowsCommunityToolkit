@@ -143,6 +143,17 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
+        /// <returns>awaitable task</returns>
+        public Task InitializeAsync(StorageFolder folder, string folderName)
+        {
+            return InitializeAsync(folder, folderName, null);
+        }
+
+        /// <summary>
+        /// Initializes FileCache and provides root folder and cache folder name
+        /// </summary>
+        /// <param name="folder">Folder that is used as root for cache</param>
+        /// <param name="folderName">Cache folder name</param>
         /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
         /// <returns>awaitable task</returns>
         public virtual async Task InitializeAsync(StorageFolder folder, string folderName, HttpMessageHandler httpMessageHandler)
