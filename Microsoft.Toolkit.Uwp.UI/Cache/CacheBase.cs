@@ -95,14 +95,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             get
             {
-                if (_httpClient != null)
+                if (_httpClient == null)
                 {
-                    return _httpClient;
+                    var messageHandler = new HttpClientHandler() { MaxConnectionsPerServer = 10 };
+
+                    _httpClient = new HttpClient(messageHandler);
                 }
-
-                var messageHandler = new HttpClientHandler() { MaxConnectionsPerServer = 10 };
-
-                _httpClient = new HttpClient(messageHandler);
 
                 return _httpClient;
             }
@@ -112,51 +110,10 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Initializes FileCache and provides root folder and cache folder name
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
-        /// <returns>awaitable task</returns>
-        public Task InitializeAsync(StorageFolder folder)
-        {
-            return InitializeAsync(folder, null, null);
-        }
-
-        /// <summary>
-        /// Initializes FileCache and provides root folder and cache folder name
-        /// </summary>
-        /// <param name="folderName">Cache folder name</param>
-        /// <returns>awaitable task</returns>
-        public Task InitializeAsync(string folderName)
-        {
-            return InitializeAsync(null, folderName, null);
-        }
-
-        /// <summary>
-        /// Initializes FileCache and provides root folder and cache folder name
-        /// </summary>
-        /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
-        /// <returns>awaitable task</returns>
-        public Task InitializeAsync(HttpMessageHandler httpMessageHandler)
-        {
-            return InitializeAsync(null, null, httpMessageHandler);
-        }
-
-        /// <summary>
-        /// Initializes FileCache and provides root folder and cache folder name
-        /// </summary>
-        /// <param name="folder">Folder that is used as root for cache</param>
-        /// <param name="folderName">Cache folder name</param>
-        /// <returns>awaitable task</returns>
-        public Task InitializeAsync(StorageFolder folder, string folderName)
-        {
-            return InitializeAsync(folder, folderName, null);
-        }
-
-        /// <summary>
-        /// Initializes FileCache and provides root folder and cache folder name
-        /// </summary>
-        /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
         /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitializeAsync(StorageFolder folder, string folderName, HttpMessageHandler httpMessageHandler)
+        public virtual async Task InitializeAsync(StorageFolder folder = null, string folderName = null, HttpMessageHandler httpMessageHandler = null)
         {
             _baseFolder = folder;
             _cacheFolderName = folderName;
