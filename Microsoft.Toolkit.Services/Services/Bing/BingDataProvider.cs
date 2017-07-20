@@ -17,7 +17,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.Exceptions;
-using Microsoft.Toolkit.Http;
 using System.Net.Http;
 
 namespace Microsoft.Toolkit.Services.Bing
@@ -74,13 +73,13 @@ namespace Microsoft.Toolkit.Services.Bing
 
             var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}&first={(pageIndex * maxRecords) + (pageIndex > 0 ? 1 : 0)}");
 
-            using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                using (var response = await HttpHelper.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpClient.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    string data = response.Content == null ? null : await response.Content.ReadAsStringAsync();
 
-                    if (response.Success && !string.IsNullOrEmpty(data))
+                    if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(data))
                     {
                         return parser.Parse(data);
                     }

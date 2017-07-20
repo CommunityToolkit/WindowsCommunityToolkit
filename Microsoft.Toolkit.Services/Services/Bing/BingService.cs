@@ -16,7 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Collections;
-using Microsoft.Toolkit.Http;
 
 namespace Microsoft.Toolkit.Services.Bing
 {

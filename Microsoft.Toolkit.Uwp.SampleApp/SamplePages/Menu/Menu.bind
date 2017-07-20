@@ -27,8 +27,13 @@
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
 
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
-                         Header="File">
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+F">
+        <controls:MenuItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <SymbolIcon Symbol="Document" />
+            <TextBlock Text="File" Margin="5,0,0,0" />
+          </StackPanel>
+        </controls:MenuItem.Header>
         <MenuFlyoutSubItem Text="New">
           <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                           Command="{StaticResource NewProject}"

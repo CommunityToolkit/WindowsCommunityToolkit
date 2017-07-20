@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Exceptions;
-using Microsoft.Toolkit.Http;
+using System.Net.Http;
 
 namespace Microsoft.Toolkit.Services
 {
@@ -25,6 +25,14 @@ namespace Microsoft.Toolkit.Services
     /// <typeparam name="TConfig">Query configuration type for given provider.</typeparam>
     public abstract class DataProviderBase<TConfig>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public DataProviderBase()
+        {
+            HttpClient = httpClient ?? new HttpClient();
+        }
+
         /// <summary>
         /// Load data from provider endpoint.
         /// </summary>
@@ -61,13 +69,17 @@ namespace Microsoft.Toolkit.Services
             return Array.Empty<TSchema>();
         }
 
-        private HttpHelper httpHelper;
+        private static HttpClient httpClient;
 
         /// <summary>
-        /// Returns an instance of the HttpHelper type
+        /// Static instance of HttpClient.
         /// </summary>
-        protected HttpHelper HttpHelper => httpHelper ?? (httpHelper = new HttpHelper());
-
+        public static HttpClient HttpClient
+        {
+            get { return httpClient; }
+            set { httpClient = value; }
+        }
+        
         /// <summary>
         /// Derived classes will have to implement this method to return provider data
         /// </summary>

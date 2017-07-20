@@ -15,6 +15,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -41,8 +42,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         private readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
-
-        private Http.HttpHelper _httpHelper = null;
         private StorageFolder _baseFolder = null;
         private string _cacheFolderName = null;
 
@@ -51,6 +50,8 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private ConcurrentDictionary<string, ConcurrentRequest> _concurrentTasks = new ConcurrentDictionary<string, ConcurrentRequest>();
 
+        private HttpClient _httpClient = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheBase{T}"/> class.
         /// </summary>
@@ -58,12 +59,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             CacheDuration = TimeSpan.FromDays(1);
             _inMemoryFileStorage = new InMemoryStorage<T>();
+            RetryCount = 1;
         }
 
         /// <summary>
         /// Gets or sets the life duration of every cache entry.
         /// </summary>
         public TimeSpan CacheDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of retries trying to ensure the file is cached.
+        /// </summary>
+        public uint RetryCount { get; set; }
 
         /// <summary>
         /// Gets or sets max in-memory item storage count
@@ -82,22 +89,41 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Gets HttpHelperInstance for use within CacheBase and derived classes.
+        /// Gets instance of <see cref="HttpClient"/>
         /// </summary>
-        protected Http.HttpHelper HttpHelperInstance => _httpHelper ?? (_httpHelper = new Http.HttpHelper());
+        protected HttpClient HttpClient
+        {
+            get
+            {
+                if (_httpClient == null)
+                {
+                    var messageHandler = new HttpClientHandler() { MaxConnectionsPerServer = 10 };
+
+                    _httpClient = new HttpClient(messageHandler);
+                }
+
+                return _httpClient;
+            }
+        }
 
         /// <summary>
         /// Initializes FileCache and provides root folder and cache folder name
         /// </summary>
         /// <param name="folder">Folder that is used as root for cache</param>
         /// <param name="folderName">Cache folder name</param>
+        /// <param name="httpMessageHandler">instance of <see cref="HttpMessageHandler"/></param>
         /// <returns>awaitable task</returns>
-        public virtual async Task InitializeAsync(StorageFolder folder, string folderName)
+        public virtual async Task InitializeAsync(StorageFolder folder = null, string folderName = null, HttpMessageHandler httpMessageHandler = null)
         {
             _baseFolder = folder;
             _cacheFolderName = folderName;
 
             _cacheFolder = await GetCacheFolderAsync().ConfigureAwait(false);
+
+            if (httpMessageHandler != null)
+            {
+                _httpClient = new HttpClient(httpMessageHandler);
+            }
         }
 
         /// <summary>
@@ -391,9 +417,27 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
                 baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
+
+                uint retries = 0;
                 try
                 {
-                    instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken, initializerKeyValues).ConfigureAwait(false);
+                    while (retries < RetryCount)
+                    {
+                        try
+                        {
+                            instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken, initializerKeyValues).ConfigureAwait(MaintainContext);
+
+                            if (instance != null)
+                            {
+                                break;
+                            }
+                        }
+                        catch (FileNotFoundException)
+                        {
+                        }
+
+                        retries++;
+                    }
                 }
                 catch (Exception)
                 {
@@ -404,7 +448,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                instance = await InitializeTypeAsync(baseFile, initializerKeyValues).ConfigureAwait(false);
+                instance = await InitializeTypeAsync(baseFile, initializerKeyValues).ConfigureAwait(MaintainContext);
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
@@ -424,22 +468,20 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             using (InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream())
             {
-                using (var request = new Http.HttpHelperRequest(uri))
+                var dataStream = randomAccessStream.AsStreamForWrite();
+
+                using (var response = await HttpClient.GetAsync(uri, cancellationToken))
                 {
-                    using (var response = await HttpHelperInstance.SendRequestAsync(request, cancellationToken))
+                    using (var stream = await response.Content.ReadAsStreamAsync())
                     {
-                        using (var stream = await response.Content.ReadAsStreamAsync())
+                        stream.CopyTo(dataStream);
+                        stream.Position = 0;
+
+                        using (var fs = await baseFile.OpenStreamForWriteAsync())
                         {
-                            stream.CopyTo(randomAccessStream.AsStreamForWrite());
+                            stream.CopyTo(fs);
 
-                            stream.Position = 0;
-
-                            using (var fs = await baseFile.OpenStreamForWriteAsync())
-                            {
-                                stream.CopyTo(fs);
-
-                                fs.Flush();
-                            }
+                            fs.Flush();
                         }
                     }
                 }
@@ -451,6 +493,8 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                     instance = await InitializeTypeAsync(randomAccessStream, initializerKeyValues).ConfigureAwait(false);
                 }
+
+                dataStream.Dispose();
             }
 
             return instance;

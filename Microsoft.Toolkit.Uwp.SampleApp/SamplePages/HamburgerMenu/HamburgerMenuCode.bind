@@ -8,9 +8,47 @@
     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <FontIcon Grid.Column="0" 
+                      FontSize="16"
+                      FontFamily="Segoe MDL2 Assets" 
+                      Glyph="{Binding Glyph}" 
+                      Foreground="White" />
+                <TextBlock Grid.Column="1" 
+                       Text="{x:Bind Label}" 
+                       Foreground="White" 
+                       FontSize="16" 
+                       VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="16,12" />
+                <TextBlock Grid.Column="1" 
+                       Text="{x:Bind Label}" 
+                       Foreground="White" 
+                       FontSize="16" 
+                       VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
         <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
                                 Foreground="White"
+                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
+                                OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
                                 ItemClick="HamburgerMenu_OnItemClick"
                                 OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
@@ -22,14 +60,14 @@
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"
-                                                     Label="Big four summer heat" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg"
-                                                     Label="Bison badlands Chillin" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg"
-                                                     Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg"
-                                                     Label="Lake Ann Mushroom" />
+                    <controls:HamburgerMenuImageItem Label="Big four summer heat" 
+                                                 Thumbnail="/Assets/Photos/BigFourSummerHeat.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Bison badlands Chillin" 
+                                                 Thumbnail="/Assets/Photos/BisonBadlandsChillin.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Giant slab in Oregon" 
+                                                 Thumbnail="/Assets/Photos/GiantSlabInOregon.jpg"/>
+                    <controls:HamburgerMenuImageItem Label="Lake Ann Mushroom" 
+                                                 Thumbnail="/Assets/Photos/LakeAnnMushroom.jpg"/>
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
