@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Windows.Graphics.Display;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -50,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         return value / PixelToInchRatio;
                     }
 
+                    if (to == ScreenUnit.EffectivePixel)
+                    {
+                        return value / (float)DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                    }
+
                     throw new ArgumentOutOfRangeException(nameof(to));
 
                 case ScreenUnit.Centimeter:
@@ -74,6 +80,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     if (to == ScreenUnit.Centimeter)
                     {
                         return value * CentimeterToInchRatio;
+                    }
+
+                    throw new ArgumentOutOfRangeException(nameof(to));
+
+                case ScreenUnit.EffectivePixel:
+                    if (to == ScreenUnit.Pixel)
+                    {
+                        return value * (float)DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));

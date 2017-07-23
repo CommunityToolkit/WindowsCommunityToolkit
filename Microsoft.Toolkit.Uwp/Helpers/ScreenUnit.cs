@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Inch
         /// </summary>
-        Inch
+        Inch,
+
+        /// <summary>
+        /// Effective Pixel
+        /// </summary>
+        EffectivePixel
     }
 }
