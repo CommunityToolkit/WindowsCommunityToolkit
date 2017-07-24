@@ -25,10 +25,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             Model = model;
 
-            // Without the Dispatch wait, the initial creation of the TextToolbar, the Editor returned an Int32, casuing an InvalidCastException. This helps wait for the Editor to be realised. (Could the int be a pointer?)
+            // Waits for the Editor to be realised.
             var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                model.Editor.SelectionChanged += Editor_SelectionChanged;
+                Model.Editor.SelectionChanged += Editor_SelectionChanged;
             });
         }
 
