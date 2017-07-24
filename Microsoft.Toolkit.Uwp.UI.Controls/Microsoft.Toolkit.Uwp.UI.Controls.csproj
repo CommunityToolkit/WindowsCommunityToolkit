@@ -57,6 +57,7 @@
     <Compile Include="Carousel\CarouselPanel.cs" />
     <Compile Include="Expander\ExpanderOrientation.cs" />
     <Compile Include="LayoutTransformer\LayoutTransformer.cs" />
+    <Compile Include="LayoutTransformer\LayoutTransformer.Properties.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
     <Compile Include="Menu\Menu.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
+    <Compile Include="LayoutTransformer\LayoutTransformer.Constants.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
     <None Include="project.json" />
   </ItemGroup>

@@ -129,9 +129,6 @@
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                          Storyboard.TargetName="Arrow" />
-                                        <!--<DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="90.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="Arrow" />-->
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
@@ -157,9 +154,6 @@
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                          Storyboard.TargetName="Arrow" />
-                                        <!--<DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="90.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="Arrow" />-->
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
@@ -173,9 +167,6 @@
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                          Storyboard.TargetName="Arrow" />
-                                        <!--<DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="90.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="Arrow" />-->
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
@@ -201,9 +192,6 @@
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                          Storyboard.TargetName="Arrow" />
-                                        <!--<DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="90.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="Arrow" />-->
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Indeterminate">
@@ -276,28 +264,6 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-
-                            <!--<VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="LeftOrientation" />
-
-                                <VisualState x:Name="TopOrientation" />
-
-                                <VisualState x:Name="RightOrientation">
-                                    <Storyboard>
-                                        <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="ArrowGrid" />
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualState x:Name="BottomOrientation">
-                                    <Storyboard>
-                                        <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                         Storyboard.TargetName="ArrowGrid" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>-->
 
                             <VisualStateGroup x:Name="OrientationStates">
                                 <VisualState x:Name="LeftOrientation" />

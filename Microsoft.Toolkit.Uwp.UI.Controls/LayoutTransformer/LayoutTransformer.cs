@@ -25,36 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <QualityBand>Preview</QualityBand>
     [TemplatePart(Name = TransformRootName, Type = typeof(Grid))]
     [TemplatePart(Name = PresenterName, Type = typeof(ContentPresenter))]
-    public sealed class LayoutTransformer : ContentControl
+    public sealed partial class LayoutTransformer : ContentControl
     {
-        /// <summary>
-        /// Name of the TransformRoot template part.
-        /// </summary>
-        private const string TransformRootName = "TransformRoot";
-
-        /// <summary>
-        /// Name of the Presenter template part.
-        /// </summary>
-        private const string PresenterName = "Presenter";
-
-        /// <summary>
-        /// Gets or sets the layout transform to apply on the LayoutTransformer control content.
-        /// </summary>
-        /// <remarks>
-        /// Corresponds to UIElement.LayoutTransform.
-        /// </remarks>
-        public Transform LayoutTransform
-        {
-            get { return (Transform)GetValue(LayoutTransformProperty); }
-            set { SetValue(LayoutTransformProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the LayoutTransform DependencyProperty.
-        /// </summary>
-        public static readonly DependencyProperty LayoutTransformProperty = 
-            DependencyProperty.Register(nameof(LayoutTransform), typeof(Transform), typeof(LayoutTransformer), new PropertyMetadata(null, LayoutTransformChanged));
-
         /// <summary>
         /// Gets the child element being transformed.
         /// </summary>
@@ -63,14 +35,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get
             {
                 // Preferred child is the content; fall back to the presenter itself
-                return (null != _contentPresenter) ?
+                return (_contentPresenter != null) ?
                     (_contentPresenter.Content as FrameworkElement ?? _contentPresenter) :
                     null;
             }
         }
 
         // Note: AcceptableDelta and DecimalsAfterRound work around double arithmetic rounding issues on Silverlight.
-
         private const double AcceptableDelta = 0.0001;
 
         private const int DecimalsAfterRound = 4;
@@ -92,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Can't tab to LayoutTransformer
             IsTabStop = false;
+
 #if SILVERLIGHT
             // Disable layout rounding because its rounding of values confuses things
             UseLayoutRounding = false;
@@ -99,8 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Builds the visual tree for the LayoutTransformer control when a new 
-        /// template is applied.
+        /// Builds the visual tree for the LayoutTransformer control when a new template is applied.
         /// </summary>
         protected override void OnApplyTemplate()
         {
@@ -111,7 +82,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _transformRoot = GetTemplateChild(TransformRootName) as Grid;
             _contentPresenter = GetTemplateChild(PresenterName) as ContentPresenter;
             _matrixTransform = new MatrixTransform();
-            if (null != _transformRoot)
+
+            if (_transformRoot != null)
             {
                 _transformRoot.RenderTransform = _matrixTransform;
             }
@@ -153,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Get the transform matrix and apply it
             _transformation = RoundMatrix(GetTransformMatrix(transform), DecimalsAfterRound);
 
-            if (null != _matrixTransform)
+            if (_matrixTransform != null)
             {
                 _matrixTransform.Matrix = _transformation;
             }
@@ -169,26 +141,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Computed Matrix.</returns>
         private Matrix GetTransformMatrix(Transform transform)
         {
-            if (null != transform)
+            if (transform != null)
             {
                 // WPF equivalent of this entire method:
                 // return transform.Value;
 
                 // Process the TransformGroup
-                TransformGroup transformGroup = transform as TransformGroup;
-                if (null != transformGroup)
+                var transformGroup = transform as TransformGroup;
+                if (transformGroup != null)
                 {
                     Matrix groupMatrix = Matrix.Identity;
                     foreach (Transform child in transformGroup.Children)
                     {
                         groupMatrix = MatrixMultiply(groupMatrix, GetTransformMatrix(child));
                     }
+
                     return groupMatrix;
                 }
 
                 // Process the RotateTransform
-                RotateTransform rotateTransform = transform as RotateTransform;
-                if (null != rotateTransform)
+                var rotateTransform = transform as RotateTransform;
+                if (rotateTransform != null)
                 {
                     double angle = rotateTransform.Angle;
                     double angleRadians = (2 * Math.PI * angle) / 360;
@@ -198,8 +171,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Process the ScaleTransform
-                ScaleTransform scaleTransform = transform as ScaleTransform;
-                if (null != scaleTransform)
+                var scaleTransform = transform as ScaleTransform;
+                if (scaleTransform != null)
                 {
                     double scaleX = scaleTransform.ScaleX;
                     double scaleY = scaleTransform.ScaleY;
@@ -207,8 +180,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Process the SkewTransform
-                SkewTransform skewTransform = transform as SkewTransform;
-                if (null != skewTransform)
+                var skewTransform = transform as SkewTransform;
+                if (skewTransform != null)
                 {
                     double angleX = skewTransform.AngleX;
                     double angleY = skewTransform.AngleY;
@@ -218,8 +191,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Process the MatrixTransform
-                MatrixTransform matrixTransform = transform as MatrixTransform;
-                if (null != matrixTransform)
+                var matrixTransform = transform as MatrixTransform;
+                if (matrixTransform != null)
                 {
                     return matrixTransform.Matrix;
                 }
@@ -238,14 +211,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The size that this element determines it needs during layout, based on its calculations of child element sizes.</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            FrameworkElement child = Child;
-            if ((null == _transformRoot) || (null == child))
+            var child = Child;
+            if (_transformRoot == null || child == null)
             {
                 // No content, no size
                 return Size.Empty;
             }
 
-            //DiagnosticWriteLine("MeasureOverride < " + availableSize);
             Size measureSize;
             if (_childActualSize == Size.Empty)
             {
@@ -255,14 +227,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 // Previous measure/arrange pass determined that Child.DesiredSize was larger than believed
-                //DiagnosticWriteLine("  Using _childActualSize");
                 measureSize = _childActualSize;
             }
 
             // Perform a mesaure on the _transformRoot (containing Child)
-            //DiagnosticWriteLine("  _transformRoot.Measure < " + measureSize);
             _transformRoot.Measure(measureSize);
-            //DiagnosticWriteLine("  _transformRoot.DesiredSize = " + _transformRoot.DesiredSize);
 
             // WPF equivalent of _childActualSize technique (much simpler, but doesn't work on Silverlight 2)
             // // If the child is going to render larger than the available size, re-measure according to that size
@@ -273,11 +242,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // }
 
             // Transform DesiredSize to find its width/height
-            Rect transformedDesiredRect = RectTransform(new Rect(0, 0, _transformRoot.DesiredSize.Width, _transformRoot.DesiredSize.Height), _transformation);
-            Size transformedDesiredSize = new Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
+            var transformedDesiredRect = RectTransform(new Rect(0, 0, _transformRoot.DesiredSize.Width, _transformRoot.DesiredSize.Height), _transformation);
+            var transformedDesiredSize = new Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
 
             // Return result to allocate enough space for the transformation
-            //DiagnosticWriteLine("MeasureOverride > " + transformedDesiredSize);
             return transformedDesiredSize;
         }
 
@@ -292,46 +260,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             FrameworkElement child = Child;
-            if ((null == _transformRoot) || (null == child))
+            if (_transformRoot == null || child == null)
             {
                 // No child, use whatever was given
                 return finalSize;
             }
 
-            //DiagnosticWriteLine("ArrangeOverride < " + finalSize);
             // Determine the largest available size after the transformation
-            Size finalSizeTransformed = ComputeLargestTransformedSize(finalSize);
+            var finalSizeTransformed = ComputeLargestTransformedSize(finalSize);
             if (IsSizeSmaller(finalSizeTransformed, _transformRoot.DesiredSize))
             {
                 // Some elements do not like being given less space than they asked for (ex: TextBlock)
                 // Bump the working size up to do the right thing by them
-                //DiagnosticWriteLine("  Replacing finalSizeTransformed with larger _transformRoot.DesiredSize");
                 finalSizeTransformed = _transformRoot.DesiredSize;
             }
-            //DiagnosticWriteLine("  finalSizeTransformed = " + finalSizeTransformed);
 
             // Transform the working size to find its width/height
-            Rect transformedRect = RectTransform(new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height), _transformation);
+            var transformedRect = RectTransform(new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height), _transformation);
+
             // Create the Arrange rect to center the transformed content
-            Rect finalRect = new Rect(
+            var finalRect = new Rect(
                 -transformedRect.Left + ((finalSize.Width - transformedRect.Width) / 2),
                 -transformedRect.Top + ((finalSize.Height - transformedRect.Height) / 2),
                 finalSizeTransformed.Width,
                 finalSizeTransformed.Height);
 
             // Perform an Arrange on _transformRoot (containing Child)
-            //DiagnosticWriteLine("  _transformRoot.Arrange < " + finalRect);
             _transformRoot.Arrange(finalRect);
-            //DiagnosticWriteLine("  Child.RenderSize = " + child.RenderSize);
 
             // This is the first opportunity under Silverlight to find out the Child's true DesiredSize
             if (IsSizeSmaller(finalSizeTransformed, child.RenderSize) && (Size.Empty == _childActualSize))
             {
                 // Unfortunately, all the work so far is invalid because the wrong DesiredSize was used
-                //DiagnosticWriteLine("  finalSizeTransformed smaller than Child.RenderSize");
                 // Make a note of the actual DesiredSize
                 _childActualSize = new Size(child.ActualWidth, child.ActualHeight);
-                //DiagnosticWriteLine("  _childActualSize = " + _childActualSize);
+
                 // Force a new measure/arrange pass
                 InvalidateMeasure();
             }
@@ -340,10 +303,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Clear the "need to measure/arrange again" flag
                 _childActualSize = Size.Empty;
             }
-            //DiagnosticWriteLine("  _transformRoot.RenderSize = " + _transformRoot.RenderSize);
 
             // Return result to perform the transformation
-            //DiagnosticWriteLine("ArrangeOverride > " + finalSize);
             return finalSize;
         }
 
@@ -355,10 +316,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Closely corresponds to WPF's FrameworkElement.FindMaximalAreaLocalSpaceRect.")]
         private Size ComputeLargestTransformedSize(Size arrangeBounds)
         {
-            //DiagnosticWriteLine("  ComputeLargestTransformedSize < " + arrangeBounds);
-
             // Computed largest transformed size
-            Size computedSize = Size.Empty;
+            var computedSize = Size.Empty;
 
             // Detect infinite bounds and constrain the scenario
             bool infiniteWidth = double.IsInfinity(arrangeBounds.Width);
@@ -366,6 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 arrangeBounds.Width = arrangeBounds.Height;
             }
+
             bool infiniteHeight = double.IsInfinity(arrangeBounds.Height);
             if (infiniteHeight)
             {
@@ -396,7 +356,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double slopeFromWidth = -(maxHeightFromWidth / maxWidthFromWidth);
             double slopeFromHeight = -(maxHeightFromHeight / maxWidthFromHeight);
 
-            if ((0 == arrangeBounds.Width) || (0 == arrangeBounds.Height))
+            if (arrangeBounds.Width == 0 || arrangeBounds.Height == 0)
             {
                 // Check for empty bounds
                 computedSize = new Size(arrangeBounds.Width, arrangeBounds.Height);
@@ -411,17 +371,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Check for singular matrix
                 computedSize = new Size(0, 0);
             }
-            else if ((0 == b) || (0 == c))
+            else if (b == 0 || c == 0)
             {
                 // Check for 0/180 degree special cases
-                double maxHeight = (infiniteHeight ? double.PositiveInfinity : maxHeightFromHeight);
-                double maxWidth = (infiniteWidth ? double.PositiveInfinity : maxWidthFromWidth);
-                if ((0 == b) && (0 == c))
+                double maxHeight = infiniteHeight ? double.PositiveInfinity : maxHeightFromHeight;
+                double maxWidth = infiniteWidth ? double.PositiveInfinity : maxWidthFromWidth;
+                if (b == 0 && c == 0)
                 {
                     // No constraints
                     computedSize = new Size(maxWidth, maxHeight);
                 }
-                else if (0 == b)
+                else if (b == 0)
                 {
                     // Constrained by width
                     double computedHeight = Math.Min(idealHeightFromWidth, maxHeight);
@@ -429,7 +389,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         maxWidth - Math.Abs((c * computedHeight) / a),
                         computedHeight);
                 }
-                else if (0 == c)
+                else if (c == 0)
                 {
                     // Constrained by height
                     double computedWidth = Math.Min(idealWidthFromHeight, maxWidth);
@@ -438,17 +398,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         maxHeight - Math.Abs((b * computedWidth) / d));
                 }
             }
-            else if ((0 == a) || (0 == d))
+            else if (a == 0 || d == 0)
             {
                 // Check for 90/270 degree special cases
-                double maxWidth = (infiniteHeight ? double.PositiveInfinity : maxWidthFromHeight);
-                double maxHeight = (infiniteWidth ? double.PositiveInfinity : maxHeightFromWidth);
-                if ((0 == a) && (0 == d))
+                double maxWidth = infiniteHeight ? double.PositiveInfinity : maxWidthFromHeight;
+                double maxHeight = infiniteWidth ? double.PositiveInfinity : maxHeightFromWidth;
+                if (a == 0 && d == 0)
                 {
                     // No constraints
                     computedSize = new Size(maxWidth, maxHeight);
                 }
-                else if (0 == a)
+                else if (a == 0)
                 {
                     // Constrained by width
                     double computedHeight = Math.Min(idealHeightFromHeight, maxHeight);
@@ -456,7 +416,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         maxWidth - Math.Abs((d * computedHeight) / b),
                         computedHeight);
                 }
-                else if (0 == d)
+                else if (d == 0)
                 {
                     // Constrained by height
                     double computedWidth = Math.Min(idealWidthFromWidth, maxWidth);
@@ -480,6 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Neither midpoint is viable; use the intersection of the two constraint lines instead
                 // Compute width by setting heights equal (m1*x+c1=m2*x+c2)
                 double computedWidth = (maxHeightFromHeight - maxHeightFromWidth) / (slopeFromWidth - slopeFromHeight);
+
                 // Compute height from width constraint line (y=m*x+c; using height would give same result)
                 computedSize = new Size(
                     computedWidth,
@@ -487,7 +448,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return result
-            //DiagnosticWriteLine("  ComputeLargestTransformedSize > " + computedSize);
             return computedSize;
         }
 
@@ -497,11 +457,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="a">Second Size.</param>
         /// <param name="b">First Size.</param>
         /// <returns>True if Size a is smaller than Size b in either dimension.</returns>
-        private static bool IsSizeSmaller(Size a, Size b)
+        private bool IsSizeSmaller(Size a, Size b)
         {
             // WPF equivalent of following code:
             // return ((a.Width < b.Width) || (a.Height < b.Height));
-            return ((a.Width + AcceptableDelta < b.Width) || (a.Height + AcceptableDelta < b.Height));
+            return (a.Width + AcceptableDelta < b.Width) || (a.Height + AcceptableDelta < b.Height);
         }
 
         /// <summary>
@@ -510,7 +470,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="matrix">Matrix to round.</param>
         /// <param name="decimals">Number of decimal places to round to.</param>
         /// <returns>Rounded Matrix.</returns>
-        private static Matrix RoundMatrix(Matrix matrix, int decimals)
+        private Matrix RoundMatrix(Matrix matrix, int decimals)
         {
             return new Matrix(
                 Math.Round(matrix.M11, decimals),
@@ -527,7 +487,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="rect">Rect to transform.</param>
         /// <param name="matrix">Matrix to transform with.</param>
         /// <returns>Bounding box of transformed Rect.</returns>
-        private static Rect RectTransform(Rect rect, Matrix matrix)
+        private Rect RectTransform(Rect rect, Matrix matrix)
         {
             // WPF equivalent of following code:
             // Rect rectTransformed = Rect.Transform(rect, matrix);
@@ -549,7 +509,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="matrix1">First matrix.</param>
         /// <param name="matrix2">Second matrix.</param>
         /// <returns>Multiplication result.</returns>
-        private static Matrix MatrixMultiply(Matrix matrix1, Matrix matrix2)
+        private Matrix MatrixMultiply(Matrix matrix1, Matrix matrix2)
         {
             // WPF equivalent of following code:
             // return Matrix.Multiply(matrix1, matrix2);
@@ -567,11 +527,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="matrix">Matrix to check for inverse.</param>
         /// <returns>True if the Matrix has an inverse.</returns>
-        private static bool MatrixHasInverse(Matrix matrix)
+        private bool MatrixHasInverse(Matrix matrix)
         {
             // WPF equivalent of following code:
             // return matrix.HasInverse;
-            return (0 != ((matrix.M11 * matrix.M22) - (matrix.M12 * matrix.M21)));
+            return ((matrix.M11 * matrix.M22) - (matrix.M12 * matrix.M21)) != 0;
         }
     }
 }
