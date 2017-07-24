@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
+using WinRTXamlToolkit.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -30,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
-    [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformer))]
+    [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
@@ -103,9 +104,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void OnExpandDirectionChanged()
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
-            var layoutTransformer = (LayoutTransformer)GetTemplateChild(LayoutTransformerPart);
 
-            if (button == null || layoutTransformer == null)
+            if (button == null)
             {
                 return;
             }
@@ -129,9 +129,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     VisualStateManager.GoToState(button, StateContentUpDirection, true);
                     break;
             }
-
-            // Apply rotation on expander toggle button
-            layoutTransformer.ApplyLayoutTransform();
 
             // Re-execute animation on expander toggle button (to set correct arrow rotation)
             VisualStateManager.GoToState(button, "Normal", true);
