@@ -265,18 +265,18 @@
                                 </VisualState>
                             </VisualStateGroup>
 
-                            <VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="LeftOrientation" />
+                            <VisualStateGroup x:Name="ExpandDirectionStates">
+                                <VisualState x:Name="RightDirection" />
 
-                                <VisualState x:Name="TopOrientation" />
+                                <VisualState x:Name="DownDirection" />
 
-                                <VisualState x:Name="RightOrientation">
+                                <VisualState x:Name="LeftDirection">
                                     <VisualState.Setters>
                                         <Setter Target="ArrowRotation.Value" Value="-90" />
                                     </VisualState.Setters>
                                 </VisualState>
 
-                                <VisualState x:Name="BottomOrientation">
+                                <VisualState x:Name="UpDirection">
                                     <VisualState.Setters>
                                         <Setter Target="ArrowRotation.Value" Value="-90" />
                                     </VisualState.Setters>
@@ -338,8 +338,8 @@
                                 </VisualState>
                             </VisualStateGroup>
 
-                            <VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="LeftOrientation">
+                            <VisualStateGroup x:Name="ExpandDirectionStates">
+                                <VisualState x:Name="RightDirection">
                                     <VisualState.Setters>
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
@@ -355,9 +355,9 @@
                                     </VisualState.Setters>
                                 </VisualState>
 
-                                <VisualState x:Name="TopOrientation" />
+                                <VisualState x:Name="DownDirection" />
 
-                                <VisualState x:Name="RightOrientation">
+                                <VisualState x:Name="LeftDirection">
                                     <VisualState.Setters>
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
@@ -376,7 +376,7 @@
                                     </VisualState.Setters>
                                 </VisualState>
 
-                                <VisualState x:Name="BottomOrientation">
+                                <VisualState x:Name="UpDirection">
                                     <VisualState.Setters>
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="1" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="1" />

@@ -24,10 +24,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
-    [TemplateVisualState(Name = StateContentLeftOrientation, GroupName = OrientationGroupStateContent)]
-    [TemplateVisualState(Name = StateContentTopOrientation, GroupName = OrientationGroupStateContent)]
-    [TemplateVisualState(Name = StateContentRightOrientation, GroupName = OrientationGroupStateContent)]
-    [TemplateVisualState(Name = StateContentBottomOrientation, GroupName = OrientationGroupStateContent)]
+    [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformer))]
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 button.KeyDown += ExpanderToggleButtonPart_KeyDown;
             }
 
-            OnOrientationChanged();
+            OnExpandDirectionChanged();
         }
 
         protected virtual void OnExpanded(EventArgs args)
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnCollapsed(EventArgs.Empty);
         }
 
-        public void OnOrientationChanged()
+        public void OnExpandDirectionChanged()
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
             var layoutTransformer = (LayoutTransformer)GetTemplateChild(LayoutTransformerPart);
@@ -110,28 +110,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (Orientation == ExpanderOrientation.Left)
+            switch (ExpandDirection)
             {
-                VisualStateManager.GoToState(this, StateContentLeftOrientation, true);
-                VisualStateManager.GoToState(button, StateContentLeftOrientation, true);
-            }
-
-            if (Orientation == ExpanderOrientation.Top)
-            {
-                VisualStateManager.GoToState(this, StateContentTopOrientation, true);
-                VisualStateManager.GoToState(button, StateContentTopOrientation, true);
-            }
-
-            if (Orientation == ExpanderOrientation.Right)
-            {
-                VisualStateManager.GoToState(this, StateContentRightOrientation, true);
-                VisualStateManager.GoToState(button, StateContentRightOrientation, true);
-            }
-
-            if (Orientation == ExpanderOrientation.Bottom)
-            {
-                VisualStateManager.GoToState(this, StateContentBottomOrientation, true);
-                VisualStateManager.GoToState(button, StateContentBottomOrientation, true);
+                case ExpandDirection.Left:
+                    VisualStateManager.GoToState(this, StateContentLeftDirection, true);
+                    VisualStateManager.GoToState(button, StateContentLeftDirection, true);
+                    break;
+                case ExpandDirection.Down:
+                    VisualStateManager.GoToState(this, StateContentDownDirection, true);
+                    VisualStateManager.GoToState(button, StateContentDownDirection, true);
+                    break;
+                case ExpandDirection.Right:
+                    VisualStateManager.GoToState(this, StateContentRightDirection, true);
+                    VisualStateManager.GoToState(button, StateContentRightDirection, true);
+                    break;
+                case ExpandDirection.Up:
+                    VisualStateManager.GoToState(this, StateContentUpDirection, true);
+                    VisualStateManager.GoToState(button, StateContentUpDirection, true);
+                    break;
             }
 
             // Apply rotation on expander toggle button

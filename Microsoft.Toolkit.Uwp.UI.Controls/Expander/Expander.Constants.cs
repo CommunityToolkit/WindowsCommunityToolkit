@@ -20,61 +20,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Key of the VisualStateGroup that open/close content
         /// </summary>
-        public const string ExpandedGroupStateContent = "ExpandedStates";
+        private const string ExpandedGroupStateContent = "ExpandedStates";
 
         /// <summary>
         /// Key of the VisualState when content is expanded
         /// </summary>
-        public const string StateContentExpanded = "Expanded";
+        private const string StateContentExpanded = "Expanded";
 
         /// <summary>
         /// Key of the VisualState when content is collapsed
         /// </summary>
-        public const string StateContentCollapsed = "Collapsed";
+        private const string StateContentCollapsed = "Collapsed";
 
         /// <summary>
         /// Key of the UI Element that toggle IsExpanded property
         /// </summary>
-        public const string ExpanderToggleButtonPart = "PART_ExpanderToggleButton";
+        private const string ExpanderToggleButtonPart = "PART_ExpanderToggleButton";
 
         /// <summary>
         /// Key of the UI Element that contains the content of the control that is expanded/collapsed
         /// </summary>
-        public const string MainContentPart = "PART_MainContent";
+        private const string MainContentPart = "PART_MainContent";
 
         /// <summary>
-        /// Key of the VisualStateGroup that set orientation of the control
+        /// Key of the VisualStateGroup that set expander direction of the control
         /// </summary>
-        public const string OrientationGroupStateContent = "OrientationStates";
+        private const string ExpandDirectionGroupStateContent = "ExpandDirectionStates";
 
         /// <summary>
-        /// Key of the VisualState when orientation is set to Left
+        /// Key of the VisualState when expander direction is set to Left
         /// </summary>
-        public const string StateContentLeftOrientation = "LeftOrientation";
+        private const string StateContentLeftDirection = "LeftDirection";
 
         /// <summary>
-        /// Key of the VisualState when orientation is set to Top
+        /// Key of the VisualState when expander direction is set to Down
         /// </summary>
-        public const string StateContentTopOrientation = "TopOrientation";
+        private const string StateContentDownDirection = "DownDirection";
 
         /// <summary>
-        /// Key of the VisualState when orientation is set to Right
+        /// Key of the VisualState when expander direction is set to Right
         /// </summary>
-        public const string StateContentRightOrientation = "RightOrientation";
+        private const string StateContentRightDirection = "RightDirection";
 
         /// <summary>
-        /// Key of the VisualState when orientation is set to Bottom
+        /// Key of the VisualState when expander direction is set to Up
         /// </summary>
-        public const string StateContentBottomOrientation = "BottomOrientation";
+        private const string StateContentUpDirection = "UpDirection";
 
         /// <summary>
         /// Key of the UI Element that contains the content of the entire control
         /// </summary>
-        public const string RootGridPart = "PART_RootGrid";
+        private const string RootGridPart = "PART_RootGrid";
 
         /// <summary>
         /// Key of the UI Element that contains the content of the LayoutTransformer (of the expander button)
         /// </summary>
-        public const string LayoutTransformerPart = "PART_LayoutTransformer";
+        private const string LayoutTransformerPart = "PART_LayoutTransformer";
     }
 }

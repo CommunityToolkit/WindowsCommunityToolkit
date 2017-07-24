@@ -63,11 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Can't tab to LayoutTransformer
             IsTabStop = false;
-
-#if SILVERLIGHT
-            // Disable layout rounding because its rounding of values confuses things
-            UseLayoutRounding = false;
-#endif
         }
 
         /// <summary>

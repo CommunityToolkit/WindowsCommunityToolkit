@@ -14,7 +14,7 @@
                          Foreground="White"
                          Background="@[BackgroundExpander1:Brush:Gray]"
                          IsExpanded="@[IsExpanded1:Bool:False]"
-                         Orientation="@[Orientation1:Enum:ExpanderOrientation.Top]">
+                         ExpandDirection="@[ExpandDirection1:Enum:ExpandDirection.Down]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"
@@ -29,7 +29,7 @@
                          Foreground="White"
                          Background="@[BackgroundExpander2:Brush:Black]"
                          IsExpanded="@[IsExpanded2:Bool:True]"
-                         Orientation="@[Orientation2:Enum:ExpanderOrientation.Left]">
+                         ExpandDirection="@[ExpandDirection2:Enum:ExpandDirection.Right]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"

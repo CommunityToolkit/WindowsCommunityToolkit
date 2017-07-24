@@ -55,7 +55,7 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
-    <Compile Include="Expander\ExpanderOrientation.cs" />
+    <Compile Include="Expander\ExpandDirection.cs" />
     <Compile Include="LayoutTransformer\LayoutTransformer.cs" />
     <Compile Include="LayoutTransformer\LayoutTransformer.Properties.cs" />
     <Compile Include="Menu\Menu.Events.cs" />

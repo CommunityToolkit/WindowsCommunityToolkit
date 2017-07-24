@@ -12,26 +12,26 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public enum ExpanderOrientation
+    public enum ExpandDirection
     {
+        /// <summary>
+        /// Down
+        /// </summary>
+        Down,
+
+        /// <summary>
+        /// Up
+        /// </summary>
+        Up,
+
         /// <summary>
         /// Left
         /// </summary>
         Left,
 
         /// <summary>
-        /// Top
-        /// </summary>
-        Top,
-
-        /// <summary>
         /// Right
         /// </summary>
-        Right,
-
-        /// <summary>
-        /// Bottom
-        /// </summary>
-        Bottom
+        Right
     }
 }
