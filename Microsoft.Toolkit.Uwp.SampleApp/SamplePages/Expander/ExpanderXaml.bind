@@ -13,7 +13,8 @@
                          Header="This is the header - expander 1"
                          Foreground="White"
                          Background="@[BackgroundExpander1:Brush:Gray]"
-                         IsExpanded="@[IsExpanded1:Bool:False]">
+                         IsExpanded="@[IsExpanded1:Bool:False]"
+                         Orientation="@[Orientation1:Enum:ExpanderOrientation.Top]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"
@@ -27,7 +28,8 @@
                          Header="This is the header - expander 2"
                          Foreground="White"
                          Background="@[BackgroundExpander2:Brush:Black]"
-                         IsExpanded="@[IsExpanded2:Bool:True]">
+                         IsExpanded="@[IsExpanded2:Bool:True]"
+                         Orientation="@[Orientation2:Enum:ExpanderOrientation.Left]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"

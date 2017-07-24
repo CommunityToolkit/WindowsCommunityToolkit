@@ -38,6 +38,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(nameof(Orientation), typeof(ExpanderOrientation), typeof(Expander), new PropertyMetadata(ExpanderOrientation.Top, OnOrientationChanged));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header
@@ -64,6 +70,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Orientation of the control.
+        /// </summary>
+        public ExpanderOrientation Orientation
+        {
+            get { return (ExpanderOrientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
@@ -76,6 +91,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 expander.CollapseControl();
+            }
+        }
+
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var expander = d as Expander;
+            var previousOrientation = (ExpanderOrientation)e.OldValue;
+            var newOrientation = (ExpanderOrientation)e.NewValue;
+
+            if (previousOrientation != newOrientation)
+            {
+                expander.OnOrientationChanged();
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Key of the VisualStateGroup that open/close content
         /// </summary>
-        public const string GroupContent = "ExpandedStates";
+        public const string ExpandedGroupStateContent = "ExpandedStates";
 
         /// <summary>
         /// Key of the VisualState when content is expanded
@@ -41,5 +41,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the UI Element that contains the content of the control that is expanded/collapsed
         /// </summary>
         public const string MainContentPart = "PART_MainContent";
+
+        /// <summary>
+        /// Key of the VisualStateGroup that set orientation of the control
+        /// </summary>
+        public const string OrientationGroupStateContent = "OrientationStates";
+
+        /// <summary>
+        /// Key of the VisualState when orientation is set to Left
+        /// </summary>
+        public const string StateContentLeftOrientation = "LeftOrientation";
+
+        /// <summary>
+        /// Key of the VisualState when orientation is set to Top
+        /// </summary>
+        public const string StateContentTopOrientation = "TopOrientation";
+
+        /// <summary>
+        /// Key of the VisualState when orientation is set to Right
+        /// </summary>
+        public const string StateContentRightOrientation = "RightOrientation";
+
+        /// <summary>
+        /// Key of the VisualState when orientation is set to Bottom
+        /// </summary>
+        public const string StateContentBottomOrientation = "BottomOrientation";
+
+        /// <summary>
+        /// Key of the UI Element that contains the content of the entire control
+        /// </summary>
+        public const string RootGridPart = "PART_RootGrid";
+
+        /// <summary>
+        /// Key of the UI Element that contains the content of the LayoutTransformer (of the expander button)
+        /// </summary>
+        public const string LayoutTransformerPart = "PART_LayoutTransformer";
     }
 }
