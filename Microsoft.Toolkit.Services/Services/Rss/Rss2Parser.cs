@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.Toolkit.Uwp.Services.Core;
+using Microsoft.Toolkit.Services.Core;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Services.Rss
 {
     /// <summary>
     /// Rss reader implementation to parse Rss content.

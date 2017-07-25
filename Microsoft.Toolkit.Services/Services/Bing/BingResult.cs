@@ -12,56 +12,31 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
-    /// Implementation of the RssSchema class.
+    /// Implementation of the Bing result class.
     /// </summary>
-    internal class RssSchema : SchemaBase
+    public class BingResult : SchemaBase
     {
         /// <summary>
-        /// Gets or sets title.
+        /// Gets or sets title of the search result.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets summary.
+        /// Gets or sets summary of the search result.
         /// </summary>
         public string Summary { get; set; }
 
         /// <summary>
-        /// Gets or sets content.
+        /// Gets or sets link to the Search result.
         /// </summary>
-        public string Content { get; set; }
+        public string Link { get; set; }
 
         /// <summary>
-        /// Gets or sets image Url.
+        /// Gets or sets date of publication.
         /// </summary>
-        public string ImageUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets extra Image Url.
-        /// </summary>
-        public string ExtraImageUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets media Url.
-        /// </summary>
-        public string MediaUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets feed Url.
-        /// </summary>
-        public string FeedUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets author.
-        /// </summary>
-        public string Author { get; set; }
-
-        /// <summary>
-        /// Gets or sets publish Date.
-        /// </summary>
-        public DateTime PublishDate { get; set; }
+        public DateTime Published { get; set; }
     }
 }

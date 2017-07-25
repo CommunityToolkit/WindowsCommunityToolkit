@@ -10,28 +10,28 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
-using Newtonsoft.Json;
-using Windows.Security.Authentication.Web;
-using Windows.Security.Credentials;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Windows.Storage;
-using Windows.Storage.Streams;
-
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Net;
+    using System.Runtime.InteropServices.WindowsRuntime;
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Services.Exceptions;
+    using Newtonsoft.Json;
+    using Windows.Security.Authentication.Web;
+    using Windows.Security.Credentials;
+    using Windows.Security.Cryptography;
+    using Windows.Security.Cryptography.Core;
+    using Windows.Storage;
+    using Windows.Storage.Streams;
+
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-    public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, Tweet>
+    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Tweet>
     {
         /// <summary>
         /// Base Url for service.
@@ -135,8 +135,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             string rawResult = null;
             try
@@ -195,8 +195,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             try
             {
@@ -449,7 +449,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
+        protected override Toolkit.Services.IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
         {
             if (config == null)
             {
@@ -476,7 +476,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, Toolkit.Services.IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)
@@ -585,8 +585,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific result parser.</param>
         /// <returns>Return strong typed list of results.</returns>
-        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             try
             {
@@ -638,7 +638,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await Uwp.HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.GetTextResultAsync().ConfigureAwait(false);
                     if (response.Success)
@@ -722,7 +722,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await Uwp.HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
                 {
                     data = await response.GetTextResultAsync().ConfigureAwait(false);
                 }

@@ -11,41 +11,21 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Xml.Linq;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
-    /// RssParser.
+    /// Parser interface.
     /// </summary>
-    internal class RssParser : IParser<RssSchema>
+    /// <typeparam name="T">Type to parse into.</typeparam>
+    public interface IParser<out T>
+        where T : SchemaBase
     {
         /// <summary>
-        /// Parse string to strong type.
+        /// Parse method which all classes must implement.
         /// </summary>
-        /// <param name="data">Input string.</param>
-        /// <returns>Strong type.</returns>
-        public IEnumerable<RssSchema> Parse(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-            {
-                return null;
-            }
-
-            var doc = XDocument.Parse(data);
-            var type = BaseRssParser.GetFeedType(doc);
-
-            BaseRssParser rssParser;
-            if (type == RssType.Rss)
-            {
-                rssParser = new Rss2Parser();
-            }
-            else
-            {
-                rssParser = new AtomParser();
-            }
-
-            return rssParser.LoadFeed(doc);
-        }
+        /// <param name="data">Data to parse.</param>
+        /// <returns>Strong typed parsed data.</returns>
+        IEnumerable<T> Parse(string data);
     }
 }

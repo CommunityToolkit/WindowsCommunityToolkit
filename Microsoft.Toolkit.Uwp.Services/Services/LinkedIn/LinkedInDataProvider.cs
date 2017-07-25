@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Microsoft.Toolkit.Services.Exceptions;
 using Windows.Data.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                         return parser.Parse(data);
                     }
 
-                    throw new RequestFailedException(response.StatusCode, data);
+                    throw new Exceptions.RequestFailedException(response.StatusCode, data);
                 }
             }
         }

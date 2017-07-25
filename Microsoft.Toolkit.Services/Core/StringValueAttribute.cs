@@ -10,26 +10,29 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+using System;
+
+namespace Microsoft.Toolkit.Services.Core
 {
     /// <summary>
-    /// Type of Rss.
+    /// StringValue attribute.
     /// </summary>
-    internal enum RssType
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class StringValueAttribute : Attribute
     {
         /// <summary>
-        /// Atom
+        /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
+        /// Constructor accepting string value.
         /// </summary>
-        Atom,
+        /// <param name="value">String value</param>
+        public StringValueAttribute(string value)
+        {
+            Value = value;
+        }
 
         /// <summary>
-        /// RSS
+        /// Gets property for string value.
         /// </summary>
-        Rss,
-
-        /// <summary>
-        /// Unknown
-        /// </summary>
-        Unknown
+        public string Value { get; }
     }
 }

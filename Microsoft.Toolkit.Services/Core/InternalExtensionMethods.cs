@@ -12,7 +12,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Services.Core
 {
     /// <summary>
     /// This class offers general purpose methods.

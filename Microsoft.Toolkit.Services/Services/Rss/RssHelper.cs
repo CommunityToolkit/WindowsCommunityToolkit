@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Services.Rss
 {
     /// <summary>
     /// Class with utilities for Rss related works.

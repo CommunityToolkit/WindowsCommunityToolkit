@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Bing;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-
 namespace UnitTests.Services
 {
+    using System.Threading.Tasks;
+    using Microsoft.Toolkit.Services.Bing;
+    using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+
     [TestClass]
     public class Test_BingService
     {

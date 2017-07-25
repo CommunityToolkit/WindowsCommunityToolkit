@@ -10,26 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
-    /// JsonParser type.
+    /// Search filter for search query.
     /// </summary>
-    /// <typeparam name="T">Data type to parse</typeparam>
-    internal class JsonParser<T> : IParser<T>
-        where T : SchemaBase
+    public enum BingQueryType
     {
         /// <summary>
-        /// Takes string data and parses to strong type.
+        /// Search
         /// </summary>
-        /// <param name="data">String data.</param>
-        /// <returns>Strong type deserialized from string data.</returns>
-        public IEnumerable<T> Parse(string data)
-        {
-            return JsonConvert.DeserializeObject<IEnumerable<T>>(data);
-        }
+        Search,
+
+        /// <summary>
+        /// News
+        /// </summary>
+        News
     }
 }

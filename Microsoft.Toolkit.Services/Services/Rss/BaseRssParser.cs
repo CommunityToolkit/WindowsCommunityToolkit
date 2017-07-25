@@ -12,9 +12,9 @@
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Toolkit.Uwp.Services.Core;
+using Microsoft.Toolkit.Services.Core;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Services.Rss
 {
     /// <summary>
     /// Base class for Rss Parser(s).

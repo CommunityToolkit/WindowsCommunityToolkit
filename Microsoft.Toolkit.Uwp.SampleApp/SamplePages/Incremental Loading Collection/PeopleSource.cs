@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
     /// </summary>
     /// <seealso cref="IIncrementalSource{TSource}"/>
-    public class PeopleSource : IIncrementalSource<Person>
+    public class PeopleSource : Collections.IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
 
