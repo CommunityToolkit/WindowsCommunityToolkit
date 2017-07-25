@@ -43,7 +43,7 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="Attach.Background" Value="Gray" />
+                                        <Setter Target="Attach.Background" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -92,7 +92,7 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="Attach.Background" Value="Gray" />
+                                        <Setter Target="Attach.Background" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

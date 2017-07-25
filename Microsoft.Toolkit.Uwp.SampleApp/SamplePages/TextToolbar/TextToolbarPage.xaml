@@ -13,16 +13,26 @@
         <local:IsFormat x:Key="IsFormatMarkdown" Format="MarkDown" />
     </Page.Resources>
 
-    <StackPanel x:Name="MainGrid"
+    <Grid x:Name="MainGrid"
                                RequestedTheme="{Binding Theme.Value, Mode=TwoWay}"
                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <controls:TextToolbar x:Name="Toolbar"
                                 Editor="{x:Bind EditZone}"
                                 IsEnabled="{Binding IsEnabled.Value, Mode=TwoWay}"
                                 Format="{Binding Format.Value, Mode=TwoWay}"
                                 Background="#4C4F4F4F" />
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-        <RichEditBox x:Name="EditZone"
+                <RichEditBox x:Name="EditZone"
                                  PlaceholderText="Enter Text Here"
                                  TextWrapping="Wrap"
                                  TextChanged="EditZone_TextChanged"
@@ -31,16 +41,24 @@
                                  BorderBrush="{x:Null}"
                                  MinHeight="300" />
 
-        <StackPanel x:Name="MD"
+                <Grid x:Name="MD"
+                                 Grid.Row="1"
                                  Padding="10"
                                  Visibility="{Binding Format.Value, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
-            <TextBlock Text="MarkDown Preview"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="MarkDown Preview"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  Style="{StaticResource SubtitleTextBlockStyle}" />
-            <controls:MarkdownTextBlock x:Name="Previewer"
+                    <controls:MarkdownTextBlock x:Name="Previewer"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  LinkClicked="Previewer_LinkClicked"
-                                 Canvas.ZIndex="99" />
-        </StackPanel>
-    </StackPanel>
+                                 Grid.Row="1"
+                                 Canvas.ZIndex="99" ScrollViewer.IsVerticalRailEnabled="False" />
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </Page>

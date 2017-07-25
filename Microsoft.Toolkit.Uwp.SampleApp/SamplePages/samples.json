@@ -8,7 +8,8 @@
         "Type": "TextToolbarPage",
         "About": "Toolbar for Editing Text attached to a RichEditBox",
         "XamlCodeFile": "TextToolbar.bind",
-        "CodeFile": "TextToolbarCode.bind"
+        "CodeFile": "TextToolbarCode.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextToolbar.md"
       },
       {
         "Name": "Carousel",
