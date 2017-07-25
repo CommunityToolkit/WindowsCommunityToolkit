@@ -203,7 +203,7 @@
                     <ListView x:Name="MessagesList"
                               Grid.Row="3"
                               Margin="10,0"
-                              Height="400"
+                              MaxHeight="400"
                               IncrementalLoadingThreshold="1"
                               IncrementalLoadingTrigger="Edge"
                               ItemsSource="{Binding}">
@@ -271,7 +271,7 @@
                     <ListView x:Name="EventsList"
                               Grid.Row="5"
                               Margin="10,0"
-                              Height="400"
+                              MaxHeight="400"
                               IncrementalLoadingThreshold="1"
                               IncrementalLoadingTrigger="Edge"
                               ItemsSource="{Binding}">
