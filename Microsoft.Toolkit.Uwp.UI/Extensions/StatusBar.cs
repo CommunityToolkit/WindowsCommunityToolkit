@@ -28,10 +28,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static bool IsStatusBarSupported => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="StatusBar.BackgroundColor"/>
+        /// Gets Color for StatusBar.BackgroundColor
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetBackgroundColor(Page page)
         {
             Color color;
@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="StatusBar.BackgroundColor"/>
+        /// Sets Color to StatusBar.BackgroundColor
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetBackgroundColor(Page page, Color value)
         {
             var statusBar = GetStatusBar();
@@ -60,10 +60,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> from <see cref="StatusBar.ForegroundColor"/>
+        /// Gets Color from StatusBar.ForegroundColor
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetForegroundColor(Page page)
         {
             Color color;
@@ -78,10 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="StatusBar.ForegroundColor"/>
+        /// Sets Color to StatusBar.ForegroundColor
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"> <see cref="Color"/></param>
+        /// <param name="value"> Color</param>
         public static void SetForegroundColor(Page page, Color value)
         {
             var statusBar = GetStatusBar();
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="double"/> from <see cref="StatusBar.BackgroundOpacity"/>
+        /// Gets <see cref="double"/> from StatusBar.BackgroundOpacity
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="double"/></returns>
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="double"/> to <see cref="StatusBar.BackgroundOpacity"/>
+        /// Sets <see cref="double"/> to StatusBar.BackgroundOpacity
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="double"/></param>

@@ -5,18 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+
     <Page.Resources>
         <DataTemplate x:Key="HamburgerMenuItem"
                       x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240"
-                  Height="48">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0"
-                          Margin="12,12,11,12"
                           FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
                           Foreground="White"
                           Glyph="{Binding Glyph}" />
                 <TextBlock Grid.Column="1"
@@ -28,15 +28,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="HamburgerMenuImageItem"
-                      x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid Width="240"
-                  Height="48">
+                      x:DataType="controls:HamburgerMenuImageItem">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Margin="12,12,11,12"
-                       Source="{Binding Glyph}"
+                <Image Margin="16,12"
+                       Source="{Binding Thumbnail}"
                        Stretch="UniformToFill" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
@@ -66,14 +65,14 @@
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BigFourSummerHeat.jpg"
-                                                     Label="Big four summer heat" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/BisonBadlandsChillin.jpg"
-                                                     Label="Bison badlands Chillin" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/GiantSlabInOregon.jpg"
-                                                     Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuGlyphItem Glyph="/Assets/Photos/LakeAnnMushroom.jpg"
-                                                     Label="Lake Ann Mushroom" />
+                    <controls:HamburgerMenuImageItem Label="Big four summer heat"
+                                                     Thumbnail="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg" />
+                    <controls:HamburgerMenuImageItem Label="Bison badlands Chillin"
+                                                     Thumbnail="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg" />
+                    <controls:HamburgerMenuImageItem Label="Giant slab in Oregon"
+                                                     Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" />
+                    <controls:HamburgerMenuImageItem Label="Lake Ann Mushroom"
+                                                     Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
@@ -102,7 +101,7 @@
                 </Border>
                 <Image x:Name="Image"
                        Grid.Row="1"
-                       Source="{Binding Glyph}" />
+                       Source="{Binding Thumbnail}" />
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

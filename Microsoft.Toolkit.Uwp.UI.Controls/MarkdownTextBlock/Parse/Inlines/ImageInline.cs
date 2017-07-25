@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 Url = url,
                 Text = markdown.Substring(start, pos + 1 - start)
             };
-            return new Common.InlineParseResult(result, start, end);
+            return new Common.InlineParseResult(result, start, pos + 1);
         }
 
         /// <summary>

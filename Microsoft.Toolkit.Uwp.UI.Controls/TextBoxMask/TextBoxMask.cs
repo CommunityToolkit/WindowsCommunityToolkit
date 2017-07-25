@@ -114,7 +114,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var textboxInitialValue = textbox.Text;
                 textbox.Text = displayText;
-                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder);
+                int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
+                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder, oldSelectionStart);
             }
 
             textbox.TextChanging += Textbox_TextChanging;
@@ -122,6 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textbox.Paste += Textbox_Paste;
             textbox.GotFocus += Textbox_GotFocus;
             textbox.SetValue(OldTextProperty, textbox.Text);
+            textbox.SetValue(DefaultDisplayTextProperty, displayText);
             textbox.SelectionStart = 0;
         }
 
@@ -180,8 +182,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // to update the textbox text without triggering TextChanging text
+            int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             textbox.TextChanging -= Textbox_TextChanging;
-            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0]);
+            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0], oldSelectionStart);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.TextChanging += Textbox_TextChanging;
         }
@@ -191,9 +194,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextBox textbox,
             string mask,
             Dictionary<char, string> representationDictionary,
-            char placeholder)
+            char placeholder,
+            int oldSelectionStart)
         {
-            var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             var maxLength = (newValue.Length + oldSelectionStart) < mask.Length ? (newValue.Length + oldSelectionStart) : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
@@ -276,10 +279,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var selectedChar = textbox.SelectionStart > 0 ?
-                textbox.Text[textbox.SelectionStart - 1] :
-                placeHolder;
-
             var textArray = oldText.ToCharArray();
 
             // detect if backspace or delete is triggered to handle the right removed character
@@ -291,8 +290,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
 
+            // Case change due to Text property is assigned a value (Ex Textbox.Text="value")
+            if (textbox.SelectionStart == 0 && textbox.FocusState == FocusState.Unfocused)
+            {
+                var displayText = textbox.GetValue(DefaultDisplayTextProperty) as string ?? string.Empty;
+                if (string.IsNullOrEmpty(textbox.Text))
+                {
+                    textbox.Text = displayText;
+                }
+                else
+                {
+                    var textboxInitialValue = textbox.Text;
+                    textbox.Text = displayText;
+                    SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolderValue[0], 0);
+                    textbox.SetValue(OldTextProperty, textbox.Text);
+                    return;
+                }
+            }
+
             if (!isDeleteOrBackspace)
             {
+                // Case change happended due to user input
+                var selectedChar = textbox.SelectionStart > 0 ?
+                                    textbox.Text[textbox.SelectionStart - 1] :
+                                    placeHolder;
+
                 var maskChar = mask[newSelectionIndex];
 
                 // If dynamic character a,9,* or custom

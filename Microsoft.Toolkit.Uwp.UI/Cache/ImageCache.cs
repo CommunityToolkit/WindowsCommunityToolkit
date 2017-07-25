@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
             {
-                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
             }
         }
 

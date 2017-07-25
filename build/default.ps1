@@ -21,8 +21,6 @@ properties {
   $signClientAppPath = "$tempDir\SignClient\Tools\SignClient.dll"
 }
 
-Framework "4.6x86"
-
 task default -depends ?
 
 task UpdateHeaders -description "Updates the headers in *.cs files" {
@@ -55,9 +53,26 @@ task Clean -description "Clean the output folder" {
 }
 
 task Setup -description "Setup environment" {
-  WriteColoredOutput -ForegroundColor Green "Restoring NuGet packages...`n"
+  New-Item -Path "$tempDir" -ItemType Directory | Out-Null
   
-  Exec { .$nuget restore $packagesConfig "$sourceDir\UWP Community Toolkit.sln" } "Error pre-installing NuGet packages"
+  WriteColoredOutput -ForegroundColor Green "Installing VSWhere NuGet package...`n"
+  
+  Exec { .$nuget install -excludeversion vswhere -outputdirectory $tempDir } "Error installing VSWhere NuGet package"
+  
+  WriteColoredOutput -ForegroundColor Green "Executing VSWhere...`n"
+  
+  [xml]$vsResult = Exec { .$tempDir\vswhere\tools\vswhere.exe -latest -requires Microsoft.Component.MSBuild -format xml } "Error executing VSWhere"
+  
+  $vsPath = $vsResult.instances.instance.installationPath
+  $buildToolsPath = "$vsPath\MSBuild\15.0\Bin\"
+  
+  WriteColoredOutput -ForegroundColor Green "Updating build tools path...`n"
+  
+  if (-not (Test-Path -path "$buildToolsPath")) {
+    throw "Path not found: $buildToolsPath"
+  }
+  
+  $env:path = "$buildToolsPath;$env:path"
 }
 
 task Verify -description "Run pre-build verifications" {
@@ -110,7 +125,7 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
 task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
-  Exec { msbuild "/t:Clean;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+  Exec { msbuild "/t:Clean;Restore;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
   
   WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
 

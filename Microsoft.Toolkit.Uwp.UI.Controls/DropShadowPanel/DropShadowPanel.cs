@@ -10,7 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -48,8 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
-
-                SizeChanged += OnSizeChanged;
             }
         }
 
@@ -73,6 +73,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ConfigureShadowVisualForCastingElement();
 
             base.OnApplyTemplate();
+        }
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            if (oldContent != null)
+            {
+                var oldElement = oldContent as FrameworkElement;
+
+                if (oldElement != null)
+                {
+                    oldElement.SizeChanged -= OnSizeChanged;
+                }
+            }
+
+            if (newContent != null)
+            {
+                var newElement = newContent as FrameworkElement;
+
+                if (newElement != null)
+                {
+                    newElement.SizeChanged += OnSizeChanged;
+                }
+            }
+
+            base.OnContentChanged(oldContent, newContent);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -145,6 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Content != null)
             {
                 CompositionBrush mask = null;
+
                 if (Content is Image)
                 {
                     mask = ((Image)Content).GetAlphaMask();
@@ -157,6 +183,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
+                else if (Content is ImageExBase)
+                {
+                    var imageExBase = (ImageExBase)Content;
+
+                    imageExBase.ImageExInitialized += ImageExInitialized;
+
+                    if (imageExBase.IsInitialized)
+                    {
+                        imageExBase.ImageExInitialized -= ImageExInitialized;
+
+                        mask = ((ImageExBase)Content).GetAlphaMask();
+                    }
+                }
 
                 _dropShadow.Mask = mask;
             }
@@ -164,6 +203,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dropShadow.Mask = null;
             }
+        }
+
+        private void ImageExInitialized(object sender, EventArgs e)
+        {
+            var imageExBase = (ImageExBase)Content;
+
+            imageExBase.ImageExInitialized -= ImageExInitialized;
+
+            CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
+
+            _dropShadow.Mask = mask;
         }
 
         private void UpdateShadowOffset(float x, float y, float z)

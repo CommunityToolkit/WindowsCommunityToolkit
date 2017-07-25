@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,6 +55,10 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
+    <Compile Include="Menu\Menu.Events.cs" />
+    <Compile Include="Menu\Menu.Extensions.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuItem.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.cs" />
     <Compile Include="DropShadowPanel\DropShadowPanel.Properties.cs" />
     <Compile Include="Expander\Expander.Constants.cs" />
@@ -66,7 +70,6 @@
     <Compile Include="GridSplitter\GridSplitter.Events.cs" />
     <Compile Include="GridSplitter\GridSplitter.Helper.cs" />
     <Compile Include="GridSplitter\GridSplitter.Options.cs" />
-    <Compile Include="GridSplitter\GridSplitterGripper.cs" />
     <Compile Include="GridSplitter\GripperHoverWrapper.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuItem.cs" />
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuGlyphItem.cs" />
@@ -74,6 +77,13 @@
     <Compile Include="HamburgerMenu\MenuItems\HamburgerMenuImageItem.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.cs" />
     <Compile Include="HeaderedTextBlock\HeaderedTextBlock.Properties.cs" />
+    <Compile Include="MarkdownTextBlock\Display\IImageResolver.cs" />
+    <Compile Include="ImageEx\ImageExBase.Placeholder.cs" />
+    <Compile Include="ImageEx\ImageExBase.Source.cs" />
+    <Compile Include="ImageEx\ImageExBase.cs" />
+    <Compile Include="ImageEx\ImageExBase.Members.cs" />
+    <Compile Include="ImageEx\RoundImageEx.cs" />
+    <Compile Include="ImageEx\RoundImageEx.Members.cs" />
     <Compile Include="MarkdownTextBlock\Display\ILinkRegister.cs" />
     <Compile Include="MarkdownTextBlock\Display\MarkdownTable.cs" />
     <Compile Include="MarkdownTextBlock\Display\XamlRenderer.cs" />
@@ -106,14 +116,25 @@
     <Compile Include="MarkdownTextBlock\Parse\MarkdownDocument.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownElement.cs" />
     <Compile Include="MarkdownTextBlock\Parse\MarkdownInline.cs" />
+    <Compile Include="MarkdownTextBlock\ImageResolvingEventArgs.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="BladeView\BladeItem.Events.cs" />
     <Compile Include="MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="OrbitView\OrbitViewItem.cs" />
     <Compile Include="ScrollHeader\ScrollHeaderMode.cs" />
+    <Compile Include="RadialProgressBar\RadialProgressBar.cs" />
     <Compile Include="SlidableListItem\SwipeStatus.cs" />
     <Compile Include="SlidableListItem\SwipeStatusChangedEventArgs.cs" />
+    <Compile Include="OrbitView\OrbitView.cs" />
+    <Compile Include="OrbitView\OrbitViewElementProperties.cs" />
+    <Compile Include="OrbitView\OrbitViewDataItem.cs" />
+    <Compile Include="OrbitView\OrbitViewItemClickedEventArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewDataItemCollection.cs" />
+    <Compile Include="OrbitView\OrbitViewPanel.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemArrangedArgs.cs" />
+    <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
@@ -160,8 +181,6 @@
     <Compile Include="ControlHelpers.Math.cs" />
     <Compile Include="ImageEx\ImageEx.cs" />
     <Compile Include="ImageEx\ImageEx.Members.cs" />
-    <Compile Include="ImageEx\ImageEx.Placeholder.cs" />
-    <Compile Include="ImageEx\ImageEx.Source.cs" />
     <Compile Include="ScrollHeader\ScrollHeader.cs" />
     <Compile Include="ImageEx\ImageExFailedEventArgs.cs" />
     <Compile Include="ImageEx\ImageExOpenedEventArgs.cs" />
@@ -187,6 +206,11 @@
     <Page Include="Carousel\Carousel.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Menu\Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="DropShadowPanel\DropShadowPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -218,13 +242,18 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="ImageEx\RoundImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="MarkdownTextBlock\MarkdownTextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TextToolbar\Symbols\Symbols.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TextToolbar\TextToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -238,7 +267,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="OrbitView\OrbitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TileControl\TileControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialProgressBar\RadialProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

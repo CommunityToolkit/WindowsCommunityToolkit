@@ -163,7 +163,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     var value = proxy[option.Name] as ValueHolder;
                     if (value != null)
                     {
-                        result = result.Replace(option.OriginalString, value.Value.ToString());
+                        var newString = value.Value is Windows.UI.Xaml.Media.SolidColorBrush brush ?
+                                            brush.Color.ToString() : value.Value.ToString();
+
+                        result = result.Replace(option.OriginalString, newString);
                     }
                 }
 

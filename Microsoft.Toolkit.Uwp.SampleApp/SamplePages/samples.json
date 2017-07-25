@@ -93,6 +93,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialGauge.md"
       },
       {
+        "Name": "RadialProgressBar",
+        "Type": "RadialProgressBarPage",
+        "About": "The radial progress bar displays progress as a circle getting filled.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
+        "XamlCodeFile": "RadialProgressBarCode.bind",
+        "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/RadialProgressBar.md"
+      },
+      {
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
         "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
@@ -219,6 +228,23 @@
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "OrbitView",
+        "Type": "OrbitViewPage",
+        "About": "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
+        "XamlCodeFile": "OrbitViewXaml.bind",
+        "Icon": "/SamplePages/OrbitView/OrbitView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/OrbitView.md"
+      },
+      {
+        "Name": "Menu",
+        "Type": "MenuPage",
+        "About": "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
+        "XamlCodeFile": "Menu.bind",
+        "Icon": "/SamplePages/Menu/Menu.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Menu.md"
       }
     ]
   },
@@ -481,6 +507,16 @@
         "CodeFile": "NetworkHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/NetworkHelper.md"
+      },
+      {
+        "Name": "BluetoothLEHelper",
+        "Type": "BluetoothLEHelperPage",
+        "About": "The Bluetooth LE helper class is used to connect and interact with bluetooth LE devices.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/BluetoothLEHelper",
+        "CodeFile": "BluetoothLEHelperCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/BluetoothLEHelper.md",
+        "BadgeUpdateVersionRequired": "Creators Update required"
       },
       {
         "Name": "SystemInformation",

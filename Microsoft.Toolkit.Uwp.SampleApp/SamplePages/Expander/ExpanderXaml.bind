@@ -10,9 +10,11 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <StackPanel Margin="20">
       <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" 
-                               Header="This is the header - expander 1"
-                               IsExpanded="@[IsExpanded1:Bool:False]">
-        <Grid Height="250" Background="#FFF5F1D9">
+                         Header="This is the header - expander 1"
+                         Foreground="White"
+                         Background="@[BackgroundExpander1:Brush:Gray]"
+                         IsExpanded="@[IsExpanded1:Bool:False]">
+        <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"
                      Text="This is the content"
@@ -22,9 +24,11 @@
       </controls:Expander>
 
       <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0" 
-                               Header="This is the header - expander 2"
-                               IsExpanded="@[IsExpanded2:Bool:True]">
-        <Grid Height="250" Background="#FFD9F1F5">
+                         Header="This is the header - expander 2"
+                         Foreground="White"
+                         Background="@[BackgroundExpander2:Brush:Black]"
+                         IsExpanded="@[IsExpanded2:Bool:True]">
+        <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
                      TextWrapping="Wrap"
                      Text="This is the content"

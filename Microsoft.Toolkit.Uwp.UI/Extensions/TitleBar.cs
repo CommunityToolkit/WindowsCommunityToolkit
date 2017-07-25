@@ -28,10 +28,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static bool IsTitleBarSupported => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationViewTitleBar");
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.BackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetBackgroundColor(Page page)
         {
             Color color;
@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.BackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -60,10 +60,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonBackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonBackgroundColor(Page page)
         {
             Color color;
@@ -78,10 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="StaApplicationViewTitleBartusBar.ButtonBackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -92,10 +92,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonForegroundColor(Page page)
         {
             Color color;
@@ -110,10 +110,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -124,10 +124,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonHoverBackgroundColor(Page page)
         {
             Color color;
@@ -142,10 +142,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonHoverBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonHoverBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -156,10 +156,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonHoverForegroundColor(Page page)
         {
             Color color;
@@ -174,10 +174,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonHoverForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonHoverForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -188,10 +188,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonInactiveBackgroundColor(Page page)
         {
             Color color;
@@ -206,10 +206,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonInactiveBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonInactiveBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -220,10 +220,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonInactiveForegroundColor(Page page)
         {
             Color color;
@@ -238,10 +238,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonInactiveForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonInactiveForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -252,10 +252,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonPressedBackgroundColor(Page page)
         {
             Color color;
@@ -270,10 +270,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonPressedBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonPressedBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -284,10 +284,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetButtonPressedForegroundColor(Page page)
         {
             Color color;
@@ -302,10 +302,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ButtonPressedForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetButtonPressedForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -316,10 +316,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.ForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.ForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetForegroundColor(Page page)
         {
             Color color;
@@ -334,10 +334,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.ForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.ForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -348,10 +348,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetInactiveBackgroundColor(Page page)
         {
             Color color;
@@ -366,10 +366,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.InactiveBackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetInactiveBackgroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
@@ -380,10 +380,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets <see cref="Color"/> for <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
+        /// Gets Color for <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <returns><see cref="Color"/></returns>
+        /// <returns>Color</returns>
         public static Color GetInactiveForegroundColor(Page page)
         {
             Color color;
@@ -398,10 +398,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Sets <see cref="Color"/> to <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
+        /// Sets Color to <see cref="ApplicationViewTitleBar.InactiveForegroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
-        /// <param name="value"><see cref="Color"/></param>
+        /// <param name="value">Color</param>
         public static void SetInactiveForegroundColor(Page page, Color value)
         {
             var titleBar = GetTitleBar();
