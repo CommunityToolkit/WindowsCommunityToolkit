@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.InAppNotificationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
+            <Button x:Name="ShowNotificationWithRandomTextButton" 
+                    Content="Show notification with random text"
+                    Click="ShowNotificationWithRandomTextButton_Click" />
+            
+            <Button x:Name="ShowNotificationWithButtonsButton" 
+                    Content="Show notification with buttons"
+                    Click="ShowNotificationWithButtonsButton_Click" />
+            
+            <Button x:Name="DismissNotificationButton" 
+                    Content="Dismiss"
+                    Click="DismissNotificationButton_Click" />
+        </StackPanel>
+
+        <controls:InAppNotification x:Name="ExampleInAppNotification" 
+                                    Content="This is a test message." />
+    </Grid>
+</Page>

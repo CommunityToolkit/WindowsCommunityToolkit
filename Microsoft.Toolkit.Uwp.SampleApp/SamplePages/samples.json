@@ -238,6 +238,13 @@
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Menu.md"
+      },
+      {
+        "Name": "InAppNotification",
+        "Type": "InAppNotificationPage",
+        "About": "The In App Notification control offers the ability to show local notifications in your application.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification",
+        "Icon": "/SamplePages/InAppNotification/InAppNotification.png"
       }
     ]
   },

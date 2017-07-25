@@ -55,6 +55,8 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
+    <Compile Include="InAppNotification\InAppNotification.cs" />
+    <Compile Include="InAppNotification\InAppNotification.Events.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
     <Compile Include="Menu\Menu.cs" />
@@ -182,6 +184,11 @@
     <Page Include="Carousel\Carousel.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="InAppNotification\InAppNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Menu\Menu.xaml">
       <Generator>MSBuild:Compile</Generator>
