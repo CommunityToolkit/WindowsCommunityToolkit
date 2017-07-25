@@ -101,6 +101,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ExampleInAppNotification.Dismiss();
         }
 
+        private void ShowNotificationWithButtonsDataTemplateButton_Click(object sender, RoutedEventArgs e)
+        {
+            object inAppNotificationWithButtonsTemplate;
+            bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+
+            if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+            {
+                ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+            }
+        }
+
         private void DismissNotificationButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleInAppNotification.Dismiss();

@@ -53,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Show(string text)
         {
+            ContentTemplate = null;
             Content = text;
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
@@ -60,7 +61,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Show(UIElement element)
         {
+            ContentTemplate = null;
             Content = element;
+            Visibility = Visibility.Visible;
+            VisualStateManager.GoToState(this, StateContentVisible, true);
+        }
+
+        public void Show(DataTemplate dataTemplate)
+        {
+            ContentTemplate = dataTemplate;
+            Content = null;
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
         }

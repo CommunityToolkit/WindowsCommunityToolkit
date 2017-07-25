@@ -7,6 +7,26 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Do you like it?" VerticalAlignment="Center" />
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
+                        <Button Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Padding="20">
             <Button x:Name="ShowNotificationWithRandomTextButton" 
@@ -16,8 +36,13 @@
 
             <Button x:Name="ShowNotificationWithButtonsButton" 
                     Margin="5"
-                    Content="Show notification with buttons"
+                    Content="Show notification with buttons (without DataTemplate)"
                     Click="ShowNotificationWithButtonsButton_Click" />
+
+            <Button x:Name="ShowNotificationWithButtonsDataTemplateButton" 
+                    Margin="5"
+                    Content="Show notification with buttons (with DataTemplate)"
+                    Click="ShowNotificationWithButtonsDataTemplateButton_Click" />
 
             <Button x:Name="DismissNotificationButton" 
                     Margin="5"
