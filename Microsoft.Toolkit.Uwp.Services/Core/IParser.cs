@@ -18,14 +18,8 @@ namespace Microsoft.Toolkit.Uwp.Services
     /// Parser interface.
     /// </summary>
     /// <typeparam name="T">Type to parse into.</typeparam>
-    public interface IParser<out T>
-        where T : SchemaBase
+    public interface IParser<out T> : Toolkit.Services.IParser<T>
+        where T : Toolkit.Services.SchemaBase
     {
-        /// <summary>
-        /// Parse method which all classes must implement.
-        /// </summary>
-        /// <param name="data">Data to parse.</param>
-        /// <returns>Strong typed parsed data.</returns>
-        IEnumerable<T> Parse(string data);
     }
 }
