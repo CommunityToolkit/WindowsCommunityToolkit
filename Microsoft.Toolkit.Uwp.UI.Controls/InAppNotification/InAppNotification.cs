@@ -19,7 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// In App Notification defines a control to show local notification in the app.
     /// </summary>
-    [TemplatePart(Name = "DismissButton", Type = typeof(Button))]
+    [TemplateVisualState(Name = StateContentVisible, GroupName = GroupContent)]
+    [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
+    [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
         private Button _dismissButton;
@@ -39,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _dismissButton.Click -= DismissButton_Click;
             }
 
-            _dismissButton = (Button)GetTemplateChild("DismissButton");
+            _dismissButton = (Button)GetTemplateChild(DismissButtonPart);
 
             if (_dismissButton != null)
             {
@@ -53,18 +55,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Content = text;
             Visibility = Visibility.Visible;
+            VisualStateManager.GoToState(this, StateContentVisible, true);
         }
 
         public void Show(UIElement element)
         {
             Content = element;
             Visibility = Visibility.Visible;
+            VisualStateManager.GoToState(this, StateContentVisible, true);
         }
 
         public void Dismiss()
         {
-            Visibility = Visibility.Collapsed;
-            Dismissed?.Invoke(this, EventArgs.Empty);
+            if (Visibility == Visibility.Visible)
+            {
+                VisualStateManager.GoToState(this, StateContentCollapsed, true);
+                Dismissed?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

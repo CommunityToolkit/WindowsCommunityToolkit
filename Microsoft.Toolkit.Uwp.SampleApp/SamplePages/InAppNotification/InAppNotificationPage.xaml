@@ -8,16 +8,19 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <StackPanel Padding="20">
             <Button x:Name="ShowNotificationWithRandomTextButton" 
+                    Margin="5"
                     Content="Show notification with random text"
                     Click="ShowNotificationWithRandomTextButton_Click" />
-            
+
             <Button x:Name="ShowNotificationWithButtonsButton" 
+                    Margin="5"
                     Content="Show notification with buttons"
                     Click="ShowNotificationWithButtonsButton_Click" />
-            
+
             <Button x:Name="DismissNotificationButton" 
+                    Margin="5"
                     Content="Dismiss"
                     Click="DismissNotificationButton_Click" />
         </StackPanel>

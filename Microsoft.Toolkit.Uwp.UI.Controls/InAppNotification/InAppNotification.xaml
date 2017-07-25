@@ -77,38 +77,81 @@
         <Setter Property="MinHeight" Value="55" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,1" />
         <Setter Property="Margin" Value="20 0" />
         <Setter Property="Padding" Value="25 10" />
         <Setter Property="MaxWidth" Value="1200" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:InAppNotification">
-                    <Grid x:Name="RootGrid" 
-                          Margin="{TemplateBinding Margin}"
-                          Padding="{TemplateBinding Padding}"
-                          MaxWidth="{TemplateBinding MaxWidth}"
-                          Visibility="{TemplateBinding Visibility}"
-                          Background="{TemplateBinding Background}" 
-                          BorderBrush="{TemplateBinding BorderBrush}" 
-                          BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="State">
+                                <VisualState x:Name="Collapsed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
 
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                          HorizontalContentAlignment="Stretch"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          VerticalContentAlignment="Center"
-                                          TextWrapping="WrapWholeWords" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RootGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
 
-                        <Button x:Name="DismissButton"
-                                Grid.Column="1" 
-                                Margin="10 0 -10 0"
-                                FontSize="12"
-                                Style="{StaticResource DismissTextBlockButtonStyle}"
-                                Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
-                                AutomationProperties.Name="Dismiss" />
+                                <VisualState x:Name="Visible">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="RootGrid" 
+                              RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                              Margin="{TemplateBinding Margin}"
+                              Padding="{TemplateBinding Padding}"
+                              MaxWidth="{TemplateBinding MaxWidth}"
+                              Visibility="{TemplateBinding Visibility}"
+                              Background="{TemplateBinding Background}" 
+                              BorderBrush="{TemplateBinding BorderBrush}" 
+                              BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid.RenderTransform>
+                                <CompositeTransform />
+                            </Grid.RenderTransform>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                              HorizontalContentAlignment="Stretch"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              VerticalContentAlignment="Center"
+                                              TextWrapping="WrapWholeWords" />
+
+                            <Button x:Name="PART_DismissButton"
+                                    Grid.Column="1" 
+                                    Margin="10 0 -10 0"
+                                    FontSize="12"
+                                    Style="{StaticResource DismissTextBlockButtonStyle}"
+                                    Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
+                                    AutomationProperties.Name="Dismiss" />
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
