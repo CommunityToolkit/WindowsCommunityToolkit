@@ -4,6 +4,7 @@ The **MicrosoftGraph** Service aim to easily logon to Office 365 Service in orde
 
 * Retrieve User Information
 * Retrieve and Send emails
+* Retrieve User events
 
 ## Prerequisites
 
@@ -36,6 +37,7 @@ When you register your app in the [Azure Management Portal](manage.windowsazure.
 4. Specify the permission levels the MicrosoftGraph Service requires from the Office 365 API (Microsoft Graph). Choose at least:
    * **Sign in and read user profile** to access user's profile.
    * **Read user mail and Send mail as user** to retrieve/send messages.
+   * **Read user calendars** to retrieve events.
 
 **Note:** Once register copy and save the Client ID for futur use.
  
@@ -44,7 +46,7 @@ When you register your app in the [Azure Management Portal](manage.windowsazure.
 |Web application and/or web API|Yes|
 |Redirect Uri|http://localhost:8080|
 |Resource to Add|Microsoft Graph|
-|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail|
+|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
 
 
 ## Syntax
