@@ -222,9 +222,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RecalculateLayout(double containerWidth)
         {
-            var itemsWrapGridPanel = ItemsPanelRoot as ItemsWrapGrid;
-            var panelMargin = itemsWrapGridPanel != null ?
-                              itemsWrapGridPanel.Margin.Left + itemsWrapGridPanel.Margin.Right :
+            var itemsPanel = ItemsPanelRoot as Panel;
+            var panelMargin = itemsPanel != null ?
+                              itemsPanel.Margin.Left + itemsPanel.Margin.Right :
                               0;
 
             // width should be the displayable width
