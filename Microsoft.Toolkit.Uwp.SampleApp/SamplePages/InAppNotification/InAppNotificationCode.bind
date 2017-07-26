@@ -1,0 +1,84 @@
+// ## XAML - Text + buttons (DataTemplate)
+
+<DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
+    <UserControl>
+        <Grid DataContext="{Binding ElementName=CurrentPage}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.Setters>
+                            <Setter Target="TextBlock.(Grid.RowSpan)" Value="1" />
+                            <Setter Target="TextBlock.(Grid.ColumnSpan)" Value="2" />
+
+                            <Setter Target="ButtonsStackPanel.(Grid.Row)" Value="1" />
+                            <Setter Target="ButtonsStackPanel.(Grid.RowSpan)" Value="1" />
+                            <Setter Target="ButtonsStackPanel.(Grid.Column)" Value="0" />
+                            <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="ButtonsStackPanel.Orientation" Value="Vertical" />
+                            <Setter Target="ButtonsStackPanel.Margin" Value="0 5 0 0" />
+
+                            <Setter Target="YesButton.Width" Value="Auto" />
+                            <Setter Target="YesButton.HorizontalAlignment" Value="Stretch" />
+
+                            <Setter Target="NoButton.Width" Value="Auto" />
+                            <Setter Target="NoButton.HorizontalAlignment" Value="Stretch" />
+                            <Setter Target="NoButton.Margin" Value="0 5 0 0" />
+                        </VisualState.Setters>
+                                    
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{Binding IsRootGridActualWidthLargerThan700, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+
+                    <VisualState x:Name="LargeState">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{Binding IsRootGridActualWidthLargerThan700, Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                        
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TextBlock" Grid.RowSpan="2" 
+                            Text="Do you like it?" VerticalAlignment="Center" />
+
+                <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
+                            Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
+                    <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </UserControl>
+</DataTemplate>
+
+// ## XAML - Control placed where you want the notification to appear
+
+<controls:InAppNotification x:Name="ExampleInAppNotification" />
+
+// ## C# - Show and dismiss the in app notification
+
+// Show notification with simple text
+ExampleInAppNotification.Show("Some text.");
+
+// Show notification using the previous DataTemplate
+object inAppNotificationWithButtonsTemplate;
+bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+
+if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+{
+    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+}
+
+// Dismiss notification
+ExampleInAppNotification.Dismiss();

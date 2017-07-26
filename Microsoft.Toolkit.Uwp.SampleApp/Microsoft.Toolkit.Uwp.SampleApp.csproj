@@ -399,6 +399,8 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
