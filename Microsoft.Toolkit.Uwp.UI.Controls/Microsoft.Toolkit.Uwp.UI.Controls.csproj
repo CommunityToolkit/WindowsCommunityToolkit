@@ -142,6 +142,7 @@
     <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
     <Compile Include="TileControl\TileControl.cs" />
+    <Compile Include="WrapPanel\OverflowEventArgs.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.Controls.ruleset" />
