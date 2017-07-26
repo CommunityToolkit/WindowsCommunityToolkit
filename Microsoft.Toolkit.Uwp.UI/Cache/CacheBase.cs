@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public async Task ClearAsync()
         {
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync();
 
             await InternalClearAsync(files).ConfigureAwait(false);
 
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             TimeSpan expiryDuration = duration.HasValue ? duration.Value : CacheDuration;
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync();
 
             var filesToDelete = new List<StorageFile>();
 
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-            var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+            var files = await folder.GetFilesAsync();
 
             var filesToDelete = new List<StorageFile>();
             var keys = new List<string>();
@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             string fileName = GetCacheFileName(uri);
 
-            var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+            var item = await folder.TryGetItemAsync(fileName);
 
             return item as StorageFile;
         }
@@ -320,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return treatNullFileAsOutOfDate;
             }
 
-            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+            var properties = await file.GetBasicPropertiesAsync();
 
             return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
@@ -412,11 +412,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
-            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
+            baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
 
             if (baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
+                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
                 uint retries = 0;
                 try
@@ -441,7 +441,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 catch (Exception)
                 {
-                    await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
+                    await baseFile.DeleteAsync();
                     throw; // re-throwing the exception changes the stack trace. just throw
                 }
             }
@@ -452,7 +452,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {
-                    var properties = await baseFile.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+                    var properties = await baseFile.GetBasicPropertiesAsync();
 
                     var msi = new InMemoryStorageItem<T>(fileName, properties.DateModified.DateTime, instance);
                     _inMemoryFileStorage.SetItem(msi);
@@ -506,7 +506,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 try
                 {
-                    await file.DeleteAsync().AsTask().ConfigureAwait(false);
+                    await file.DeleteAsync();
                 }
                 catch
                 {
@@ -542,7 +542,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                _cacheFolder = await _baseFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
+                _cacheFolder = await _baseFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists);
             }
             finally
             {
