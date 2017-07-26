@@ -1,0 +1,90 @@
+# In App Notification 
+
+The *In App Notification* control offers the ability to show local notifications in your application.
+
+## Syntax
+
+The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
+
+```xml
+
+<controls:InAppNotification
+    x:Name="ExampleInAppNotification" />
+
+```
+
+### Show notification
+
+You have multiple options to show an in-app notification.
+
+1. By using a simple text content.
+
+```c#
+ExampleInAppNotification.Show("Some text.");
+```
+
+2. By using a UIElement (with a container as parent, ex: Grid)
+
+```c#
+var grid = new Grid();
+
+// TODO : Construct the Grid in C#
+
+ExampleInAppNotification.Show(grid);
+```
+
+3. By using a DataTemplate
+
+```c#
+object inAppNotificationWithButtonsTemplate;
+bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+
+if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+{
+    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+}
+```
+
+### Dismiss notification
+
+```c#
+ExampleInAppNotification.Dismiss();
+```
+
+## Example Image
+
+![InAppNotification animation](../resources/images/Controls-InAppNotification.gif "InAppNotification")
+
+## Events
+
+### Dismissed
+
+This event is raised when the system or your user dismissed the notification.
+
+```c#
+private void InAppNotification_OnDismissed(object sender, EventArgs e)
+{
+    // TODO
+}
+```
+
+## Example Code
+
+[InAppNotification Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
+
+## Default Template 
+
+The default template is based on Microsoft Edge in-app notification template. You can override it for your own needs.
+
+[InAppNotification XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
+
+## Requirements (Windows 10 Device Family)
+
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| --- | --- |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+
+## API
+
+* [InAppNotification source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
+
