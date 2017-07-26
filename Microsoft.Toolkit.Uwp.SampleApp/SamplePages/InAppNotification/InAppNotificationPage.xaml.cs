@@ -11,13 +11,17 @@
 // ******************************************************************
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class InAppNotificationPage : Page
+    public sealed partial class InAppNotificationPage : Page, INotifyPropertyChanged
     {
+        public bool IsRootGridActualWidthLargerThan700 { get; set; }
+
         public InAppNotificationPage()
         {
             InitializeComponent();
@@ -115,6 +119,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void DismissNotificationButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleInAppNotification.Dismiss();
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // When the root part size of the In App Notification template changed, we should apply VisualState
+            bool newValue = e.NewSize.Width > 700;
+
+            if (IsRootGridActualWidthLargerThan700 != newValue)
+            {
+                IsRootGridActualWidthLargerThan700 = newValue;
+                OnPropertyChanged(nameof(IsRootGridActualWidthLargerThan700));
+            }
+        }
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
