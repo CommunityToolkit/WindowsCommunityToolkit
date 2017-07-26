@@ -14,7 +14,7 @@ Choose the *Bing Search - Free* option.  After selecting this and agreeing to th
 
 ```csharp
 
-// using Microsoft.Toolkit.Uwp.Services.Bing;
+// using Microsoft.Toolkit.Services.Bing;
 
 var searchConfig = new BingSearchConfig
 {
@@ -36,15 +36,18 @@ ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
+| Namespace | Microsoft.Toolkit.Services |
+
+**Note:** The BingService.GetAsIncrementalLoading(BingSearchConfig, int) method resides in the Microsoft.Toolkit.Uwp.Services Nuget package and namespace.
 
 ## API
 
+* [Bing Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Bing)
 * [Bing Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing)
 
 
 ## NuGet Packages Required
 
-**Microsoft.Toolkit.Uwp.Services**
+**Microsoft.Toolkit.Services**
 
 See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
