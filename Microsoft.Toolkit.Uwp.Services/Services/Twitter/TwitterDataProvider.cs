@@ -10,24 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Exceptions;
+using Newtonsoft.Json;
+using Windows.Security.Authentication.Web;
+using Windows.Security.Credentials;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using Windows.Storage;
+using Windows.Storage.Streams;
+
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Net;
-    using System.Runtime.InteropServices.WindowsRuntime;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Services.Exceptions;
-    using Newtonsoft.Json;
-    using Windows.Security.Authentication.Web;
-    using Windows.Security.Credentials;
-    using Windows.Security.Cryptography;
-    using Windows.Security.Cryptography.Core;
-    using Windows.Storage;
-    using Windows.Storage.Streams;
-
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>

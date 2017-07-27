@@ -18,7 +18,7 @@ using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public class MicrosoftGraphSource<T> : IIncrementalSource<T>
+    public class MicrosoftGraphSource<T> : Collections.IIncrementalSource<T>
     {
         private bool isFirstCall = true;
 
