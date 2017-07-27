@@ -127,7 +127,7 @@ internal class NewProjectCommand : ICommand
 
 ## Default Template 
 
-[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/MenuPage.xaml) is the XAML template used in the toolkit for the default styling.
+[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
