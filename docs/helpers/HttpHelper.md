@@ -53,4 +53,4 @@ It additionally has one method - **SendRequestAsync**. This method requires an i
 
 ## API
 
-* [HttpHelper source code]https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelper.cs)
+* [HttpHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelper.cs)
