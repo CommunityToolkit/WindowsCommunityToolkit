@@ -20,15 +20,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class InAppNotificationPage : Page, INotifyPropertyChanged
     {
+        private ControlTemplate _defaultInAppNotificationControlTemplate;
+
         public bool IsRootGridActualWidthLargerThan700 { get; set; }
 
         public InAppNotificationPage()
         {
             InitializeComponent();
+
+            _defaultInAppNotificationControlTemplate = ExampleInAppNotification.Template;
         }
 
         private void ShowNotificationWithRandomTextButton_Click(object sender, RoutedEventArgs e)
         {
+            // Update control template
+            ExampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
+
             var random = new Random();
             int result = random.Next(1, 4);
 
@@ -50,6 +57,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ShowNotificationWithButtonsButton_Click(object sender, RoutedEventArgs e)
         {
+            // Update control template
+            ExampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
+
             var grid = new Grid();
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -107,6 +117,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ShowNotificationWithButtonsDataTemplateButton_Click(object sender, RoutedEventArgs e)
         {
+            // Update control template
+            ExampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
+
             object inAppNotificationWithButtonsTemplate;
             bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
@@ -114,6 +127,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
             }
+        }
+
+        private void ShowNotificationWithDropShadowButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Update control template
+            object inAppNotificationDropShadowControlTemplate;
+            bool isTemplatePresent = Resources.TryGetValue("InAppNotificationDropShadowControlTemplate", out inAppNotificationDropShadowControlTemplate);
+
+            if (isTemplatePresent && inAppNotificationDropShadowControlTemplate is ControlTemplate)
+            {
+                ExampleInAppNotification.Template = inAppNotificationDropShadowControlTemplate as ControlTemplate;
+            }
+
+            ExampleInAppNotification.Show();
         }
 
         private void DismissNotificationButton_Click(object sender, RoutedEventArgs e)

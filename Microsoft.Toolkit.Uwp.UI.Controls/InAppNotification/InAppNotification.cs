@@ -51,28 +51,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        public void Show()
+        {
+            Visibility = Visibility.Visible;
+            VisualStateManager.GoToState(this, StateContentVisible, true);
+        }
+
         public void Show(string text)
         {
             ContentTemplate = null;
             Content = text;
-            Visibility = Visibility.Visible;
-            VisualStateManager.GoToState(this, StateContentVisible, true);
+            Show();
         }
 
         public void Show(UIElement element)
         {
             ContentTemplate = null;
             Content = element;
-            Visibility = Visibility.Visible;
-            VisualStateManager.GoToState(this, StateContentVisible, true);
+            Show();
         }
 
         public void Show(DataTemplate dataTemplate)
         {
             ContentTemplate = dataTemplate;
             Content = null;
-            Visibility = Visibility.Visible;
-            VisualStateManager.GoToState(this, StateContentVisible, true);
+            Show();
         }
 
         public void Dismiss()
