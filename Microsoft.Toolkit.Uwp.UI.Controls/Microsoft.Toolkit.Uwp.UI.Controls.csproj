@@ -58,6 +58,7 @@
     <Compile Include="InAppNotification\InAppNotification.Constants.cs" />
     <Compile Include="InAppNotification\InAppNotification.cs" />
     <Compile Include="InAppNotification\InAppNotification.Events.cs" />
+    <Compile Include="InAppNotification\InAppNotification.Properties.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
     <Compile Include="Menu\Menu.cs" />

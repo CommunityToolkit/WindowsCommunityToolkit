@@ -55,6 +55,13 @@ ExampleInAppNotification.Dismiss();
 
 ![InAppNotification animation](../resources/images/Controls-InAppNotification.gif "InAppNotification")
 
+## Properties
+
+### ShowDismissButton
+
+If you want to fully customize the in-app notification, you will see that the Dismiss button is still visible.
+To hide it, simply set the property to `ShowDismissButton="False"`.
+
 ## Events
 
 ### Dismissed
