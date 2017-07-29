@@ -260,6 +260,17 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Padding="20">
+            <StackPanel Margin="5">
+                <TextBox x:Name="NotificationDurationTextBox"
+                         Width="250"
+                         HorizontalAlignment="Left"
+                         Text="0"
+                         PlaceholderText="Notification duration (in ms)"
+                         TextChanged="NotificationDurationTextBox_TextChanged" />
+
+                <TextBlock Text="*if duration is less or equal 0, the notification will never be dismissed" />
+            </StackPanel>
+            
             <Button x:Name="ShowNotificationWithRandomTextButton" 
                     Margin="5"
                     Content="Show notification with random text"

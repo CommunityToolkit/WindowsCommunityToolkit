@@ -24,6 +24,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public bool IsRootGridActualWidthLargerThan700 { get; set; }
 
+        public int NotificationDuration { get; set; } = 0;
+
         public InAppNotificationPage()
         {
             InitializeComponent();
@@ -37,7 +39,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ExampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
         }
 
-        private void ShowNotificationWithRandomTextButton_Click(object sender, RoutedEventArgs e)
+        private void NotificationDurationTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int newDuration;
+            if (int.TryParse(NotificationDurationTextBox.Text, out newDuration))
+            {
+                NotificationDuration = newDuration;
+            }
+        }
+
+        private async void ShowNotificationWithRandomTextButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleVSCodeInAppNotification.Dismiss();
             SetDefaultControlTemplate();
@@ -47,21 +58,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (result == 1)
             {
-                ExampleInAppNotification.Show("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.");
+                await ExampleInAppNotification.ShowAsync("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.", NotificationDuration);
             }
 
             if (result == 2)
             {
-                ExampleInAppNotification.Show("Pellentesque in risus eget leo rhoncus ultricies nec id ante.");
+                await ExampleInAppNotification.ShowAsync("Pellentesque in risus eget leo rhoncus ultricies nec id ante.", NotificationDuration);
             }
 
             if (result == 3)
             {
-                ExampleInAppNotification.Show("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.");
+                await ExampleInAppNotification.ShowAsync("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.", NotificationDuration);
             }
         }
 
-        private void ShowNotificationWithButtonsButton_Click(object sender, RoutedEventArgs e)
+        private async void ShowNotificationWithButtonsButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleVSCodeInAppNotification.Dismiss();
             SetDefaultControlTemplate();
@@ -108,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Grid.SetColumn(stackPanel, 1);
             grid.Children.Add(stackPanel);
 
-            ExampleInAppNotification.Show(grid);
+            await ExampleInAppNotification.ShowAsync(grid, NotificationDuration);
         }
 
         private void YesButton_Click(object sender, RoutedEventArgs e)
@@ -121,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ExampleInAppNotification.Dismiss();
         }
 
-        private void ShowNotificationWithButtonsDataTemplateButton_Click(object sender, RoutedEventArgs e)
+        private async void ShowNotificationWithButtonsDataTemplateButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleVSCodeInAppNotification.Dismiss();
             SetDefaultControlTemplate();
@@ -131,11 +142,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
             {
-                ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+                await ExampleInAppNotification.ShowAsync(inAppNotificationWithButtonsTemplate as DataTemplate, NotificationDuration);
             }
         }
 
-        private void ShowNotificationWithDropShadowButton_Click(object sender, RoutedEventArgs e)
+        private async void ShowNotificationWithDropShadowButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleVSCodeInAppNotification.Dismiss();
 
@@ -148,13 +159,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ExampleInAppNotification.Template = inAppNotificationDropShadowControlTemplate as ControlTemplate;
             }
 
-            ExampleInAppNotification.Show();
+            await ExampleInAppNotification.ShowAsync(NotificationDuration);
         }
 
-        private void ShowNotificationWithVSCodeTemplateButton_Click(object sender, RoutedEventArgs e)
+        private async void ShowNotificationWithVSCodeTemplateButton_Click(object sender, RoutedEventArgs e)
         {
             ExampleInAppNotification.Dismiss();
-            ExampleVSCodeInAppNotification.Show();
+            await ExampleVSCodeInAppNotification.ShowAsync(NotificationDuration);
         }
 
         private void Action1Button_Click(object sender, RoutedEventArgs e)

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -51,33 +52,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        public void Show()
+        /// <summary>
+        /// Show notification using the current template
+        /// </summary>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ShowAsync(int duration = 0)
         {
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
+
+            if (duration > 0)
+            {
+                await Task.Delay(duration);
+                Dismiss();
+            }
         }
 
-        public void Show(string text)
+        /// <summary>
+        /// Show notification using text as the content of the notification
+        /// </summary>
+        /// <param name="text">Text used as the content of the notification</param>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ShowAsync(string text, int duration = 0)
         {
             ContentTemplate = null;
             Content = text;
-            Show();
+            await ShowAsync(duration);
         }
 
-        public void Show(UIElement element)
+        /// <summary>
+        /// Show notification using UIElement as the content of the notification
+        /// </summary>
+        /// <param name="element">UIElement used as the content of the notification</param>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ShowAsync(UIElement element, int duration = 0)
         {
             ContentTemplate = null;
             Content = element;
-            Show();
+            await ShowAsync(duration);
         }
 
-        public void Show(DataTemplate dataTemplate)
+        /// <summary>
+        /// Show notification using DataTemplate as the content of the notification
+        /// </summary>
+        /// <param name="dataTemplate">DataTemplate used as the content of the notification</param>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ShowAsync(DataTemplate dataTemplate, int duration = 0)
         {
             ContentTemplate = dataTemplate;
             Content = null;
-            Show();
+            await ShowAsync(duration);
         }
 
+        /// <summary>
+        /// Dismiss the notification
+        /// </summary>
         public void Dismiss()
         {
             if (Visibility == Visibility.Visible)

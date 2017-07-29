@@ -68,16 +68,17 @@
 
 // ## C# - Show and dismiss the in app notification
 
-// Show notification with simple text
-ExampleInAppNotification.Show("Some text.");
+// Show notification with simple text (and a duration of 2 seconds)
+int duration = 2000;
+await ExampleInAppNotification.ShowAsync("Some text.", duration);
 
-// Show notification using the previous DataTemplate
+// Show notification using a DataTemplate
 object inAppNotificationWithButtonsTemplate;
 bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
 if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
 {
-    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+    await ExampleInAppNotification.ShowAsync(inAppNotificationWithButtonsTemplate as DataTemplate);
 }
 
 // Dismiss notification
