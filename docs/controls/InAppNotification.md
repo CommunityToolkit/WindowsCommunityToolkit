@@ -95,8 +95,6 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 
 ## Default Template 
 
-The default template is based on Microsoft Edge in-app notification template. You can override it for your own needs.
-
 [InAppNotification XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
