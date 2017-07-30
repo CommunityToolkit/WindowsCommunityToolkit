@@ -192,9 +192,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var placementMode = menu.GetMenuFlyoutPlacementMode();
             foreach (MenuItem menuItem in menu.Items)
             {
-                if (menuItem.FlyoutButton?.Flyout != null)
+                if (menuItem.MenuFlyout != null)
                 {
-                    menuItem.FlyoutButton.Flyout.Placement = placementMode;
+                    menuItem.MenuFlyout.Placement = placementMode;
                 }
             }
         }

@@ -55,7 +55,7 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
-    <Compile Include="Menu\Menu.Data.cs" />
+    <Compile Include="Menu\MenuFlyoutPlacement.cs" />
     <Compile Include="Menu\Menu.Logic.cs" />
     <Compile Include="Menu\Menu.Events.cs" />
     <Compile Include="Menu\Menu.Extensions.cs" />
