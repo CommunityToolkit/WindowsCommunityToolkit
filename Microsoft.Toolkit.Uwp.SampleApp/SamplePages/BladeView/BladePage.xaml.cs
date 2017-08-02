@@ -10,6 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -20,6 +23,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public BladePage()
         {
             InitializeComponent();
+        }
+
+        private void OnAddBladeButtonClicked(object sender, RoutedEventArgs e)
+        {
+            BladeItem bladeItem = new BladeItem()
+            {
+                Title = "Default blade",
+                Width = 400,
+                IsOpen = true
+            };
+
+            BladeView?.Items?.Add(bladeItem);
         }
     }
 }

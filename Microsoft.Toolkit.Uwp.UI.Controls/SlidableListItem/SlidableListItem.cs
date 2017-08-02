@@ -226,7 +226,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
             }
 
+            Loaded += SlidableListItem_Loaded;
+            Unloaded += SlidableListItem_Unloaded;
+
             base.OnApplyTemplate();
+        }
+
+        private void SlidableListItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_contentStoryboard != null)
+            {
+                _contentStoryboard.Completed += ContentStoryboard_Completed;
+            }
+        }
+
+        private void SlidableListItem_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_contentStoryboard != null)
+            {
+                _contentStoryboard.Completed -= ContentStoryboard_Completed;
+            }
         }
 
         private void ContentGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -254,6 +273,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _contentStoryboard = new Storyboard();
                 _contentStoryboard.Children.Add(_contentAnimation);
+
+                _contentStoryboard.Completed += ContentStoryboard_Completed;
             }
 
             if (_commandContainer == null)
@@ -304,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsLeftCommandEnabled && !IsRightCommandEnabled))
+            if (SwipeStatus == SwipeStatus.Idle)
             {
                 return;
             }
@@ -317,12 +338,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
-                RightCommandRequested?.Invoke(this, new EventArgs());
+                RightCommandRequested?.Invoke(this, EventArgs.Empty);
                 RightCommand?.Execute(RightCommandParameter);
             }
             else if (SwipeStatus == SwipeStatus.SwipingPassedRightThreshold)
             {
-                LeftCommandRequested?.Invoke(this, new EventArgs());
+                LeftCommandRequested?.Invoke(this, EventArgs.Empty);
                 LeftCommand?.Execute(LeftCommandParameter);
             }
 
@@ -520,6 +541,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _transform.TranslateX = newTranslationX;
             SwipeStatus = newSwipeStatus;
+        }
+
+        private void ContentStoryboard_Completed(object sender, object e)
+        {
+            _commandContainer.Opacity = 0.0;
         }
 
         /// <summary>

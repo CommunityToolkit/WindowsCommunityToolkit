@@ -3,11 +3,14 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:GridSplitter">
+        <Setter Property="IsTabStop" Value="True"></Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
+        <Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
                     <Grid Background="{TemplateBinding Background}">
-                        <ContentPresenter Content="{TemplateBinding Element}" />
+                        <ContentPresenter Content="{TemplateBinding Element}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

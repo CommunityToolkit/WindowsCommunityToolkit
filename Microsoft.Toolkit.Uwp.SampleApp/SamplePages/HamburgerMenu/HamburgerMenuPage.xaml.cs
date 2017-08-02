@@ -11,11 +11,9 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,18 +22,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public HamburgerMenuPage()
         {
             InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)

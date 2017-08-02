@@ -17,6 +17,16 @@ Copy this from the *Keys and Access Tokens* tab on your application page.
 **Callback URI** Enter a unique URI for your application.  This must match the *Callback URL* field on the *Application Details* tab in Twitter.
 *Example*: http://myapp.company.com - (this does not have to be a working URL)
 
+## Overview
+
+In the code section below the GetUserTimeLineAsync method returns some Tweet objects.  The Tweet class returns some basic information along with the tweet text itself.
+
+- **CreatedAt**	(string)         – The date and time of the Tweet formatted by Twitter
+- **Text**		(string)         – The text of the Tweet
+- **Id**		(string)         – The Twitter status identifier
+- **GeoData**   (TwitterGeoData) - A class containing the latitude and longitude of the Tweet
+- **User**      (TwitterUser)    - A class containing the user ID, Name, ScreenName, and ProfileImageUrl
+
 ## Syntax
 
 ```csharp
@@ -34,17 +44,52 @@ if (!await TwitterService.Instance.LoginAsync())
 var user = await TwitterService.Instance.GetUserAsync();
 ProfileImage.DataContext = user;
 
-// Get user timeline
+// Get user time line
 ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
 // Post a tweet
 await TwitterService.Instance.TweetStatusAsync(TweetText.Text);
 
+var status = new TwitterStatus
+			{
+				Message = TweetText.Text,
+
+				// Optional parameters defined by the Twitter "update" API (they may all be null or false)
+
+				DisplayCoordinates = true,
+				InReplyToStatusId = "@ValidAccount",
+				Latitude = validLatitude,
+				Longitude = validLongitude,
+				PlaceId = "df51dec6f4ee2b2c",	// As defined by Twitter
+				PossiblySensitive = true,		// As defined by Twitter (nudity, violence, or medical procedures)
+				TrimUser = true
+			}
+
+await TwitterService.Instance.TweetStatusAsync(status);
+
 // Post a tweet with a picture
 await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
 
+await TwitterService.Instance.TweetStatusAsync(status, stream);
+
 // Search for a specific tag
 ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
+
+// Open a connection with the stream service in order to receive live tweets and events
+ListView.ItemsSource = _tweets;
+await TwitterService.Instance.StartUserStreamAsync(async tweet =>
+{
+    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+    {
+        if (tweet != null)
+        {
+		_tweets.Insert(0, tweet);
+        }
+    });
+});
+
+// Stop receiving live tweets and events
+TwitterService.Instance.StopUserStream();
 
 ```
 

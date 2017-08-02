@@ -32,6 +32,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty OptionsItemTemplateProperty = DependencyProperty.Register(nameof(OptionsItemTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="OptionsItemTemplateSelector"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OptionsItemTemplateSelectorProperty = DependencyProperty.Register(nameof(OptionsItemTemplateSelector), typeof(DataTemplateSelector), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="OptionsVisibility"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OptionsVisibilityProperty = DependencyProperty.Register(nameof(OptionsVisibility), typeof(Visibility), typeof(HamburgerMenu), new PropertyMetadata(Visibility.Visible));
@@ -47,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedOptionsIndexProperty = DependencyProperty.Register(nameof(SelectedOptionsIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
 
         /// <summary>
-        ///     Gets or sets an object source used to generate the content of the options.
+        /// Gets or sets an object source used to generate the content of the options.
         /// </summary>
         public object OptionsItemsSource
         {
@@ -62,6 +67,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(OptionsItemTemplateProperty); }
             set { SetValue(OptionsItemTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplateSelector used to display each item in the options.
+        /// </summary>
+        public DataTemplateSelector OptionsItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(OptionsItemTemplateSelectorProperty); }
+            set { SetValue(OptionsItemTemplateSelectorProperty, value); }
         }
 
         /// <summary>
@@ -84,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets options' visibility.
+        /// Gets or sets the visibility of the options menu.
         /// </summary>
         public Visibility OptionsVisibility
         {

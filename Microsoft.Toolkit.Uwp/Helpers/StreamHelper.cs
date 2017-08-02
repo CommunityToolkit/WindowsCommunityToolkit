@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -30,18 +31,19 @@ namespace Microsoft.Toolkit.Uwp
         /// Get the response stream returned by a HTTP get request.
         /// </summary>
         /// <param name="uri">Uri to request.</param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Response stream</returns>
-        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri)
+        public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
         {
             var outputStream = new InMemoryRandomAccessStream();
 
             using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await HttpHelper.Instance.SendRequestAsync(request, cancellationToken).ConfigureAwait(false))
                 {
                     if (response.Success)
                     {
-                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
+                        await response.Content.WriteToStreamAsync(outputStream);
 
                         outputStream.Seek(0);
                     }
@@ -61,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
@@ -69,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp
                     {
                         if (response.Success)
                         {
-                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                            await response.Content.WriteToStreamAsync(fileStream);
                         }
                     }
                 }

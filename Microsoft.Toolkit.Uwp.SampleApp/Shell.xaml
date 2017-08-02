@@ -4,19 +4,27 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsLocal="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      extensions:StatusBar.IsVisible="False"
+      extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
+      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
+      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      Loaded="Shell_OnLoaded"
+      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="ButtonTemplate"
                       x:DataType="local:SampleCategory">
-            <Grid Width="240"
-                  Height="48">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Margin="12"
+                <Image Margin="16,12"
                        Source="{x:Bind Icon}"
                        Stretch="Uniform" />
                 <TextBlock Grid.Column="1"
@@ -29,15 +37,14 @@
 
         <DataTemplate x:Key="OptionTemplate"
                       x:DataType="local:Option">
-            <Grid Width="240"
-                  Height="48">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <FontIcon Grid.Column="0"
-                          Margin="12"
                           FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
                           Foreground="White"
                           Glyph="{x:Bind Glyph}" />
                 <TextBlock Grid.Column="1"
@@ -49,14 +56,14 @@
         </DataTemplate>
 
     </Page.Resources>
-
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             Foreground="{StaticResource Brush-Grey-04}"
                             ItemClick="HamburgerMenu_OnItemClick"
                             ItemTemplate="{StaticResource ButtonTemplate}"
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource OptionTemplate}"
-                            PaneBackground="{StaticResource Brush-Grey-02}">
+                            PaneBackground="{StaticResource Brush-Grey-02}"
+                            Style="{StaticResource HamburgerMenuWithSearchTemplate}">
         <Grid x:Name="RootGrid"
               Background="{StaticResource Brush-Grey-05}">
             <Grid.ColumnDefinitions>
@@ -87,6 +94,13 @@
                                Text="Sample App" />
                 </StackPanel>
                 <Frame x:Name="NavigationFrame" />
+                <!--
+                    Uncomment this control to help you determine where the focus is.
+                    This could be useful when validating accessibility of your control
+                -->
+                <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
+                                             HorizontalAlignment="Center"
+                                             IsRunning="True"/>-->
             </Grid>
             <Grid x:Name="InfoAreaGrid"
                   Background="{StaticResource Brush-Grey-04}">
@@ -98,6 +112,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="ExpandButton"
                             VerticalAlignment="Stretch"
@@ -110,6 +125,12 @@
                                VerticalAlignment="Center"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="" />
+                    <HyperlinkButton x:Name="GitHub"
+                                     Grid.Column="2"
+                                     Margin="0,0,10,0"
+                                     Click="GitHub_OnClick"
+                                     Content="Github"
+                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
                        Grid.Row="1"
@@ -134,20 +155,29 @@
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
                                Header="JAVASCRIPT">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer"
-                                                    Grid.Row="0" />
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
+
+                    <PivotItem x:Name="DocumentationPivotItem"
+                               Header="DOCUMENTATION">
+                        <ScrollViewer x:Name="DocumentationScrollViewer"
+                                      Padding="10,5"
+                                      Background="{StaticResource Brush-White}">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                        Foreground="{StaticResource Brush-Grey-01}"
+                                                        ImageResolving="DocumentationTextblock_ImageResolving"
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
+                        </ScrollViewer>
                     </PivotItem>
                 </Pivot>
 
@@ -194,6 +224,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MediumState">
@@ -214,6 +246,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -234,6 +268,8 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
+
+                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
                     </VisualState.Setters>
 
                 </VisualState>

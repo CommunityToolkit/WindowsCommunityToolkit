@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,24 +21,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class PullToRefreshListViewPage
     {
         private readonly ObservableCollection<Item> _items;
+        private DelegateCommand _refreshIntentCanceledCommand;
 
         public PullToRefreshListViewPage()
         {
             InitializeComponent();
             _items = new ObservableCollection<Item>();
             AddItems();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
         }
 
         private void AddItems()
@@ -52,5 +42,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddItems();
         }
+
+        private void ListView_RefreshIntentCanceled(object sender, EventArgs e)
+        {
+        }
+
+        private DelegateCommand RefreshIntentCanceled => _refreshIntentCanceledCommand ?? (_refreshIntentCanceledCommand = new DelegateCommand(
+            () => { }));
     }
 }

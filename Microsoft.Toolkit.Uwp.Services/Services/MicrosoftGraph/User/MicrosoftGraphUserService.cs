@@ -29,10 +29,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
         /// </summary>
-        /// <param name="graphClientProvider">Instance of GraphClientService class</param>
-        public MicrosoftGraphUserService(GraphServiceClient graphClientProvider)
+        /// <param name="graphProvider">Instance of GraphClientService class</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphProvider)
         {
-            _graphProvider = graphClientProvider;
+            _graphProvider = graphProvider;
         }
 
         ///// <summary>
@@ -46,6 +46,19 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphServiceMessage Message
         {
             get { return _message; }
+        }
+
+        ///// <summary>
+        ///// MicrosoftGraphServiceEvent instance
+        ///// </summary>
+        private MicrosoftGraphServiceEvent _event;
+
+        /// <summary>
+        /// Gets MicrosoftGraphServiceEvent instance
+        /// </summary>
+        public MicrosoftGraphServiceEvent Event
+        {
+            get { return _event; }
         }
 
         /// <summary>
@@ -79,8 +92,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphUserFields>(selectFields);
                 _currentConnectedUser = await _graphProvider.Me.Request().Select(selectedProperties).GetAsync(cancellationToken);
             }
-
-            InitializeMessage();
 
             return _currentConnectedUser;
         }
@@ -126,9 +137,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create an instance of MicrosoftGraphServiceMessage
         /// </summary>
-        private void InitializeMessage()
+        internal void InitializeMessage()
         {
             _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
+        }
+
+        /// <summary>
+        /// Create an instance of MicrosoftGraphServiceEvent
+        /// </summary>
+        internal void InitializeEvent()
+        {
+            _event = new MicrosoftGraphServiceEvent(_graphProvider, _currentConnectedUser);
         }
     }
 }

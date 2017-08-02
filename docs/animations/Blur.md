@@ -9,7 +9,7 @@ Sometimes you want an element to appear slightly out of focus, but to be familia
 
 You can either use the blur behavior from your XAML code:
 
-```xaml
+```xml
 
     <interactivity:Interaction.Behaviors>
     <behaviors:Blur x:Name="BlurBehavior" 

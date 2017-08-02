@@ -11,6 +11,7 @@ NuGet is a standard package manager for .Net applications that is built into Vis
 | Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 
 ## Search in Visual Studio
@@ -19,14 +20,18 @@ Searching in Visual Studio package manager you should see a list similar to the 
 
 ![NuGet packages](resources/images/NugetPackages.png "Nuget Packages")
 
-### Getting Started
+## Update Nuget Packages
+
+The UWP Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. To make sure you are on the latest version, open your project in Visual Studio, choose the **Tools** menu, select **NuGet Package Manager** -> **Manage NuGet Packages for Solution...** and select the *Updates* tab. Select the package you want to update and click Instal to update to the latest version.
+
+## Getting Started
 
 Read the [getting Started with the UWP Community Toolkit](getting-started.md) for more instructions on using these NuGet Packages in your own projects. 
 
-### Windows 10 Store App
+## Windows 10 Store App
 
 Want to see the controls and animations in action before jumping into the code?  We have published the [UWP Community Toolkit Sample App](http://aka.ms/uwptoolkitapp) to the Windows 10 store.  Download the app and play with the controls live to see what they do before ever writing a line of code.
 
-### GitHub Repository
+## GitHub Repository
 
 Visit the [UWP Community Toolkit Github Repository](http://aka.ms/uwptoolkit) to see the current source code, what is coming next, and to clone the repository.  Community contributions are welcome!

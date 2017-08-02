@@ -62,6 +62,21 @@
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                             <ItemsPresenter Padding="{TemplateBinding Padding}" />
                         </ScrollViewer>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="BladeModeStates">
+                                <VisualState x:Name="Normal" />
+
+                                <VisualState x:Name="FullScreen">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer"
+                                                                       Storyboard.TargetProperty="HorizontalSnapPointsType">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Mandatory" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -79,16 +94,31 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="0,0,4,4" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="IsExpanded" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
                     <Grid BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ExpandedStates">
+                                <VisualState x:Name="Expanded"/>
+                                <VisualState x:Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="TitleBar.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="EnlargeButton.Content" Value="&#xE1D9;"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>                        
+                      
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -99,15 +129,26 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Margin="4,0,0,0"
+                            <TextBlock x:Name="TitleBar"
+                                       Margin="4,0,0,0"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        Foreground="{TemplateBinding TitleBarForeground}"
                                        Text="{TemplateBinding Title}" />
-                            <Button Name="CloseButton"
+                            <Button Name="EnlargeButton"
                                     Grid.Column="1"
+                                    TabIndex="0"
+                                    HorizontalAlignment="Right"
+                                    Background="{TemplateBinding CloseButtonBackground}"
+                                    Content="&#xE73F;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Foreground="{TemplateBinding CloseButtonForeground}" />
+                            <Button Name="CloseButton"
+                                    Grid.Column="2"
+                                    TabIndex="0"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
@@ -116,7 +157,8 @@
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
                         </Grid>
 
-                        <ContentPresenter Grid.Row="1"
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Grid.Row="1"
                                           VerticalAlignment="Stretch"
                                           Background="{TemplateBinding Background}"
                                           Visibility="{TemplateBinding IsOpen}" />

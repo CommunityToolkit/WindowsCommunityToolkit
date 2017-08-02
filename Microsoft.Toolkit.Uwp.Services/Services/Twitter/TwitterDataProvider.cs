@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
         private const string PublishUrl = "https://upload.twitter.com/1.1";
+        private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
         /// <summary>
         /// Base Url for service.
@@ -49,6 +50,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Password vault used to store access tokens
         /// </summary>
         private readonly PasswordVault _vault;
+
+        private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -321,6 +324,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Success or failure.</returns>
         public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
+            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
+        }
+
+        /// <summary>
+        /// Tweets a status update.
+        /// </summary>
+        /// <param name="status">Tweet text.</param>
+        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        {
             try
             {
                 var mediaIds = string.Empty;
@@ -336,7 +350,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     mediaIds = "&media_ids=" + string.Join(",", ids);
                 }
 
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?status={Uri.EscapeDataString(tweet)}{mediaIds}");
+                var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 await request.ExecutePostAsync(uri, _tokens);
@@ -361,6 +375,51 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Open a connection to user streams service (Events, DirectMessages...).
+        /// </summary>
+        /// <param name="parser">Specific stream's result parser.</param>
+        /// <param name="callback">Method invoked each time a result occurs.</param>
+        /// <returns>Awaitable task.</returns>
+        public Task StartUserStreamAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            try
+            {
+                var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
+
+                _streamRequest = new TwitterOAuthRequest();
+
+                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)));
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Stop user's stream
+        /// </summary>
+        public void StopStream()
+        {
+            _streamRequest?.Abort();
+            _streamRequest = null;
         }
 
         /// <summary>
@@ -414,9 +473,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <typeparam name="TSchema">Schema to use</typeparam>
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)

@@ -10,6 +10,7 @@
         <Setter Property="ActivationWidth" Value="80" />
         <Setter Property="IsOffsetLimited" Value="True" />
         <Setter Property="ExtraSwipeThreshold" Value="40" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SlidableListItem">

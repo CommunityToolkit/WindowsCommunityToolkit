@@ -46,18 +46,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-
         private static TileBinding GenerateTileBindingMedium(string username, string avatarLogoSource)
         {
             return new TileBinding()
@@ -232,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Initialize()
         {
             // Generate the tile notification content
-            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.png");
+            _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
 
             // Prepare and update the preview tiles
             var previewTiles = new PreviewTile[] { MediumPreviewTile, WidePreviewTile, LargePreviewTile };
