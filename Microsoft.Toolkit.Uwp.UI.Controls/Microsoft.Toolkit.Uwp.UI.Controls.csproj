@@ -280,17 +280,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
-      <Project>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>

@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.Services</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,6 +51,10 @@
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
+    <Compile Include="Services\Facebook\FacebookLocation.cs" />
+    <Compile Include="Services\Facebook\FacebookPage.cs" />
+    <Compile Include="Services\Facebook\FacebookPlace.cs" />
+    <Compile Include="Services\Facebook\FacebookPlaceConfidenceLevel.cs" />
     <Compile Include="Services\MicrosoftTranslator\ServiceLanguage.cs" />
     <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />
     <Compile Include="Services\Bing\BingLanguage.cs" />
