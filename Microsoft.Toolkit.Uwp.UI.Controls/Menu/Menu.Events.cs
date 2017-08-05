@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -132,6 +133,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 HideSubItemTooltips();
             }
+            else
+            {
+                RemoveUnderlineSubItem();
+            }
         }
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
@@ -165,8 +170,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
             {
                 _altHandled = true;
+                Debug.WriteLine("Enter");
                 if (!IsOpened)
                 {
+                    Debug.WriteLine("Loop");
                     if (_isLostFocus)
                     {
                         LostFocus -= Menu_LostFocus;
@@ -177,6 +184,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (AllowTooltip)
                         {
                             ShowSubItemToolTips();
+                        }
+                        else
+                        {
+                            UnderlineSubItem();
                         }
 
                         LostFocus += Menu_LostFocus;

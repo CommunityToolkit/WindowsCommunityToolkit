@@ -12,12 +12,14 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -29,10 +31,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class MenuItem : ItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
+        private const char UnderlineCharacter = '^';
         private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
         private Menu _parentMenu;
         private bool _isOpened;
         private bool _menuFlyoutRepositioned;
+        private string _originalHeader;
+        private bool _isInternalHeaderUpdate;
 
         internal MenuFlyout MenuFlyout { get; set; }
 
@@ -43,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null, HeaderPropertyChanged));
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
@@ -52,6 +57,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        private object InternalHeader
+        {
+            set
+            {
+                _isInternalHeaderUpdate = true;
+                Header = value;
+            }
         }
 
         /// <summary>
@@ -396,6 +410,100 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _parentMenu.SelectedMenuItem = this;
             base.OnGotFocus(e);
+        }
+
+        internal void Underline()
+        {
+            if (_originalHeader == null)
+            {
+                return;
+            }
+
+            var underlineCharacterIndex = _originalHeader.IndexOf(UnderlineCharacter);
+
+            var underlinedCharacter = _originalHeader[underlineCharacterIndex + 1];
+            var text = new TextBlock();
+
+            var runWithUnderlinedCharacter = new Run
+            {
+                Text = underlinedCharacter.ToString(),
+                TextDecorations = Windows.UI.Text.TextDecorations.Underline
+            };
+
+            var firstPartBuilder = new StringBuilder();
+            var secondPartBuilder = new StringBuilder();
+
+            for (int i = 0; i < underlineCharacterIndex; i++)
+            {
+                firstPartBuilder.Append(_originalHeader[i]);
+            }
+
+            for (int i = underlineCharacterIndex + 2; i < _originalHeader.Length; i++)
+            {
+                secondPartBuilder.Append(_originalHeader[i]);
+            }
+
+            var firstPart = firstPartBuilder.ToString();
+            var secondPart = secondPartBuilder.ToString();
+
+            if (!string.IsNullOrEmpty(firstPart))
+            {
+                text.Inlines.Add(new Run
+                {
+                    Text = firstPart
+                });
+            }
+
+            text.Inlines.Add(runWithUnderlinedCharacter);
+
+            if (!string.IsNullOrEmpty(secondPart))
+            {
+                text.Inlines.Add(new Run
+                {
+                    Text = secondPart
+                });
+            }
+
+            InternalHeader = text;
+        }
+
+        private static void HeaderPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+
+            if (menuItem._isInternalHeaderUpdate)
+            {
+                menuItem._isInternalHeaderUpdate = false;
+                return;
+            }
+
+            menuItem._originalHeader = null;
+
+            var headerString = menuItem.Header as string;
+
+            if (string.IsNullOrEmpty(headerString))
+            {
+                return;
+            }
+
+            var underlineCharacterIndex = headerString.IndexOf(UnderlineCharacter);
+
+            if (underlineCharacterIndex == -1 || underlineCharacterIndex == headerString.Length - 1)
+            {
+                return;
+            }
+
+            menuItem._isInternalHeaderUpdate = true;
+            menuItem._originalHeader = headerString;
+            menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+        }
+
+        internal void RemoveUnderline()
+        {
+            if (_originalHeader != null)
+            {
+                InternalHeader = _originalHeader.Replace(UnderlineCharacter.ToString(), string.Empty);
+            }
         }
     }
 }

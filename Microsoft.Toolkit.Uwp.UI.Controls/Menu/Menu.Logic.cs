@@ -228,6 +228,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void UnderlineSubItem()
+        {
+            foreach (MenuItem item in Items)
+            {
+                item.Underline();
+            }
+        }
+
+        private void RemoveUnderlineSubItem()
+        {
+            foreach (MenuItem item in Items)
+            {
+                item.RemoveUnderline();
+            }
+        }
+
         private void HideSubItemTooltips()
         {
             foreach (MenuItem item in Items)

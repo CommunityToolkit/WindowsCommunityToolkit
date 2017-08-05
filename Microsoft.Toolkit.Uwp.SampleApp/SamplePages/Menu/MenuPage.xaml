@@ -75,7 +75,7 @@
 
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+E"
-                               Header="Edit">
+                               Header="^Edit">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Text="Go To Line" />
                     <MenuFlyoutItem Text="Go To All" />
@@ -88,7 +88,7 @@
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
-                               Header="View">
+                               Header="^View">
                 <MenuFlyoutSubItem Text="Designer">
                     <MenuFlyoutItem Text="VS Designer" />
                     <MenuFlyoutItem Text="Blend" />
@@ -100,8 +100,8 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
-                               Header="Project">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+T"
+                               Header="Projec^t">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Text="Class" />
                     <MenuFlyoutItem Text="Interface" />
@@ -113,14 +113,14 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
-                               Header="Build">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+L"
+                               Header="Bui^ld">
                 <MenuFlyoutItem Text="Build Solution" />
                 <MenuFlyoutItem Text="Rebuild Solution" />
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+D"
-                               Header="Debug">
+                               Header="^Debug">
                 <MenuFlyoutSubItem Text="Windows">
                     <MenuFlyoutItem Text="Windows 8" />
                     <MenuFlyoutItem Text="Windows 10" />
@@ -136,7 +136,7 @@
 
         <StackPanel Grid.Row="1">
             <TextBlock Text="Click Alt to set focus on Classic Menu" />
-            <TextBlock Text="Any menu shortcut is Alt + (The first character of the menu name), ex to open File menu click Alt+F" />
+            <TextBlock Text="To know any menu shortcut click Alt + (The underlined character in case underline ^ is used), ex to open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
             <TextBlock Text="Create new file shortcut: Ctrl+N" />
             <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
