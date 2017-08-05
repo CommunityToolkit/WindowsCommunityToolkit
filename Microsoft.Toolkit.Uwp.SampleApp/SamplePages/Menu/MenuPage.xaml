@@ -100,8 +100,8 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+T"
-                               Header="Projec^t">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
+                               Header="^Project">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Text="Class" />
                     <MenuFlyoutItem Text="Interface" />
@@ -113,8 +113,8 @@
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
 
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+L"
-                               Header="Bui^ld">
+            <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
+                               Header="^Build">
                 <MenuFlyoutItem Text="Build Solution" />
                 <MenuFlyoutItem Text="Rebuild Solution" />
             </controls:MenuItem>
