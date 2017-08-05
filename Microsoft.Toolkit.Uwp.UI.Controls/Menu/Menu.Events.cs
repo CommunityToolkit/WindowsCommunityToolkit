@@ -127,6 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("lose focus");
             _isLostFocus = true;
 
             if (AllowTooltip)
@@ -170,13 +171,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
             {
                 _altHandled = true;
-                Debug.WriteLine("Enter");
                 if (!IsOpened)
                 {
-                    Debug.WriteLine("Loop");
+                    LostFocus -= Menu_LostFocus;
                     if (_isLostFocus)
                     {
-                        LostFocus -= Menu_LostFocus;
                         Focus(FocusState.Programmatic);
                         _lastFocusElementBeforeMenu = _lastFocusElement;
                         _isLostFocus = false;
@@ -189,13 +188,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             UnderlineSubItem();
                         }
-
-                        LostFocus += Menu_LostFocus;
                     }
                     else
                     {
+                        if (AllowTooltip)
+                        {
+                            HideSubItemTooltips();
+                        }
+                        else
+                        {
+                            RemoveUnderlineSubItem();
+                        }
+
                         _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
+                        _isLostFocus = true;
                     }
+
+                    LostFocus += Menu_LostFocus;
                 }
             }
         }
