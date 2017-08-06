@@ -102,11 +102,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return nextItem;
         }
 
-        private static string MapInputToGestureKey(VirtualKey key)
+        private static string MapInputToGestureKey(VirtualKey key, bool menuHasFocus = false)
         {
             var isCtrlDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var isShiftDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var isAltDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
 
             if (!isCtrlDown && !isShiftDown && !isAltDown)
             {

@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -26,7 +25,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Menu
     {
         private Control _lastFocusElement;
-        private bool _altHandled;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
         private Rect _bounds;
@@ -127,9 +125,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("lose focus");
-            _isLostFocus = true;
+            var menuItem = FocusManager.GetFocusedElement() as MenuItem;
 
+            if (menuItem != null || IsOpened)
+            {
+                return;
+            }
+
+            _isLostFocus = true;
             if (AllowTooltip)
             {
                 HideSubItemTooltips();
@@ -143,15 +146,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
             _lastFocusElement = FocusManager.GetFocusedElement() as Control;
-            if (args.VirtualKey == VirtualKey.Menu && !args.KeyStatus.WasKeyDown)
-            {
-                _altHandled = false;
-            }
-            else if (args.KeyStatus.IsMenuKeyDown && args.KeyStatus.IsKeyReleased && !_altHandled)
-            {
-                _altHandled = true;
-                string gestureKey = MapInputToGestureKey(args.VirtualKey);
 
+            if (args.VirtualKey == VirtualKey.Menu)
+            {
+                if (!IsOpened)
+                {
+                    if (_isLostFocus)
+                    {
+                        Focus(FocusState.Programmatic);
+
+                        if (!(_lastFocusElement is MenuItem))
+                        {
+                            _lastFocusElementBeforeMenu = _lastFocusElement;
+                        }
+
+                        if (AllowTooltip)
+                        {
+                            ShowSubItemToolTips();
+                        }
+                        else
+                        {
+                            UnderlineSubItem();
+                        }
+
+                        if (args.KeyStatus.IsKeyReleased)
+                        {
+                            _isLostFocus = false;
+                        }
+                    }
+                    else if (!_isLostFocus && args.KeyStatus.IsKeyReleased)
+                    {
+                        if (AllowTooltip)
+                        {
+                            HideSubItemTooltips();
+                        }
+                        else
+                        {
+                            RemoveUnderlineSubItem();
+                        }
+
+                        _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
+                    }
+                }
+            }
+            else if ((args.KeyStatus.IsMenuKeyDown || !_isLostFocus) && args.KeyStatus.IsKeyReleased)
+            {
+                var gestureKey = MapInputToGestureKey(args.VirtualKey, !_isLostFocus);
                 if (gestureKey == null)
                 {
                     return;
@@ -166,45 +206,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         menuItem.ShowMenu();
                         menuItem.Focus(FocusState.Keyboard);
                     }
-                }
-            }
-            else if (args.VirtualKey == VirtualKey.Menu && args.KeyStatus.IsKeyReleased && !_altHandled)
-            {
-                _altHandled = true;
-                if (!IsOpened)
-                {
-                    LostFocus -= Menu_LostFocus;
-                    if (_isLostFocus)
-                    {
-                        Focus(FocusState.Programmatic);
-                        _lastFocusElementBeforeMenu = _lastFocusElement;
-                        _isLostFocus = false;
-
-                        if (AllowTooltip)
-                        {
-                            ShowSubItemToolTips();
-                        }
-                        else
-                        {
-                            UnderlineSubItem();
-                        }
-                    }
-                    else
-                    {
-                        if (AllowTooltip)
-                        {
-                            HideSubItemTooltips();
-                        }
-                        else
-                        {
-                            RemoveUnderlineSubItem();
-                        }
-
-                        _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
-                        _isLostFocus = true;
-                    }
-
-                    LostFocus += Menu_LostFocus;
                 }
             }
         }

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.Foundation;
@@ -488,12 +489,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var underlineCharacterIndex = headerString.IndexOf(UnderlineCharacter);
 
-            if (underlineCharacterIndex == -1 || underlineCharacterIndex == headerString.Length - 1)
+            if (underlineCharacterIndex == -1)
             {
                 return;
             }
 
-            menuItem._isInternalHeaderUpdate = true;
+            if (underlineCharacterIndex == headerString.Length - 1)
+            {
+                menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+                return;
+            }
+
             menuItem._originalHeader = headerString;
             menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
         }
