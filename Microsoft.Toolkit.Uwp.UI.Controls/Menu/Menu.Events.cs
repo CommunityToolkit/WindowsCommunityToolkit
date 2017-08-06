@@ -127,19 +127,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var menuItem = FocusManager.GetFocusedElement() as MenuItem;
 
+            if (AllowTooltip)
+            {
+                HideMenuItemsTooltips();
+            }
+
             if (menuItem != null || IsOpened)
             {
                 return;
             }
 
             _isLostFocus = true;
-            if (AllowTooltip)
+            if (!AllowTooltip)
             {
-                HideSubItemTooltips();
-            }
-            else
-            {
-                RemoveUnderlineSubItem();
+                RemoveUnderlineMenuItems();
             }
         }
 
@@ -162,11 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         if (AllowTooltip)
                         {
-                            ShowSubItemToolTips();
+                            ShowMenuItemsToolTips();
                         }
                         else
                         {
-                            UnderlineSubItem();
+                            UnderlineMenuItems();
                         }
 
                         if (args.KeyStatus.IsKeyReleased)
@@ -178,11 +179,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (AllowTooltip)
                         {
-                            HideSubItemTooltips();
+                            HideMenuItemsTooltips();
                         }
                         else
                         {
-                            RemoveUnderlineSubItem();
+                            RemoveUnderlineMenuItems();
                         }
 
                         _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);

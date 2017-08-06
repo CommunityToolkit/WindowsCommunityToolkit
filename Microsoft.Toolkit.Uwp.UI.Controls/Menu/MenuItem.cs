@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Windows.Foundation;
@@ -218,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             tooltip.Placement = _parentMenu.TooltipPlacement;
             tooltip.Content = RemoveAlt(inputGestureText);
-            tooltip.IsOpen = !tooltip.IsOpen;
+            tooltip.IsOpen = true;
         }
 
         private string RemoveAlt(string inputGesture)

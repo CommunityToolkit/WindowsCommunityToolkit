@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ShowSubItemToolTips()
+        private void ShowMenuItemsToolTips()
         {
             foreach (MenuItem item in Items)
             {
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void UnderlineSubItem()
+        private void UnderlineMenuItems()
         {
             foreach (MenuItem item in Items)
             {
@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RemoveUnderlineSubItem()
+        private void RemoveUnderlineMenuItems()
         {
             foreach (MenuItem item in Items)
             {
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void HideSubItemTooltips()
+        private void HideMenuItemsTooltips()
         {
             foreach (MenuItem item in Items)
             {
