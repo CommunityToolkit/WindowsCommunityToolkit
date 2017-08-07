@@ -10,12 +10,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RoundImageEx">
-                    <Grid>
+                    <Grid Width="{TemplateBinding Width}"
+                          Height="{TemplateBinding Height}">
                         <Rectangle x:Name="PlaceholderRectangle"
-                                   Width="{TemplateBinding Width}"
-                                   Height="{TemplateBinding Height}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
                                    Opacity="1.0"
                                    RadiusX="{TemplateBinding CornerRadius}"
                                    RadiusY="{TemplateBinding CornerRadius}"
@@ -28,10 +27,8 @@
                             </Rectangle.Fill>
                         </Rectangle>
                         <Rectangle x:Name="ImageRectangle"
-                                   Width="{TemplateBinding Width}"
-                                   Height="{TemplateBinding Height}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
                                    Opacity="0.0"
                                    RadiusX="{TemplateBinding CornerRadius}"
                                    RadiusY="{TemplateBinding CornerRadius}"
