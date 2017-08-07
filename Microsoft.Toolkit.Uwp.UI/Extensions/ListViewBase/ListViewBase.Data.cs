@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             /// <summary>
             /// Horizontal and Vertical stretch
             /// </summary>
-            All
+            Both
         }
     }
 }

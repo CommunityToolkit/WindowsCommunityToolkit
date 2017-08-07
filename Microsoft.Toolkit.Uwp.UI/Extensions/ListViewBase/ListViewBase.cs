@@ -141,12 +141,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var itemContainer = args.ItemContainer as SelectorItem;
             var stretchDirection = GetStretchItemContainerDirection(sender);
 
-            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.All)
+            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.Both)
             {
                 itemContainer.VerticalContentAlignment = VerticalAlignment.Stretch;
             }
 
-            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.All)
+            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.Both)
             {
                 itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             }

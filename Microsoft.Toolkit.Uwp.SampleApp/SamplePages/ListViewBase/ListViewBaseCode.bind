@@ -25,7 +25,7 @@
         ItemTemplate="{StaticResource NormalTemplate}"
         extensions:ListViewBase.AlternateColor="LightGray"
         extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-        extensions:ListViewBase.StretchItemContainerDirection="All">
+        extensions:ListViewBase.StretchItemContainerDirection="Both">
     </ListView>
 
   </Grid>

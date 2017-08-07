@@ -70,7 +70,7 @@ The AlternateItemTemplate property provides a way to assign an alternate <a href
 
 ##### StretchItemContainerDirection
 
-The StretchItemContainerDirection property provides a way to stretch the ItemContainer in horizontal, vertical or both ways. Possible values for this property are **Horizontal**, **Vertical** and **All**.
+The StretchItemContainerDirection property provides a way to stretch the ItemContainer in horizontal, vertical or both ways. Possible values for this property are **Horizontal**, **Vertical** and **Both**.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
