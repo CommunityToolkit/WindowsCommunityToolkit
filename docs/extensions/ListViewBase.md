@@ -1,12 +1,12 @@
-# ListViewBaseExtensions class
+# ListViewBase class
 
-ListViewBaseExtensions provides a lightweight way to extend every control that inherits the <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase" target="_blank">ListViewBase</a> class with attached properties.
+ListViewBase provides a lightweight way to extend every control that inherits the <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase" target="_blank">ListViewBase</a> class with attached properties.
 
 <br/>
 
 ##### Command
 
-ListViewBaseExtensions provides extension method that allow attaching ICommand to handle ListViewBase Item interaction by means of [ItemClick](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.listviewbase.itemclick.aspx) event. 
+ListViewBase provides extension method that allow attaching ICommand to handle ListViewBase Item interaction by means of [ItemClick](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.listviewbase.itemclick.aspx) event. 
 ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.listviewbase.isitemclickenabled.aspx) must be set to **true**
 
 
@@ -17,7 +17,7 @@ ListViewBase [IsItemClickEnabled](https://msdn.microsoft.com/en-us/library/windo
     // Attach the command declared in MainViewModel to ListView declared in XAML
     // IsItemClickEnabled is set to true as shown below
     <ListView
-        ui:ListViewBaseExtensions.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
+        extensions:ListViewBase.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
         IsItemClickEnabled="True"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}"
         SelectionMode="None" />
@@ -35,7 +35,7 @@ The AlternateColor property provides a way to assign a background color to every
 
 ```xml
     <ListView
-        ui:ListViewBaseExtensions.AlternateColor="Silver"
+        extensions:ListViewBase.AlternateColor="Silver"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -62,7 +62,7 @@ The AlternateItemTemplate property provides a way to assign an alternate <a href
 
     <ListView
         ItemTemplate="{StaticResource NormalTemplate}"
-        ui:ListViewBaseExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -70,7 +70,7 @@ The AlternateItemTemplate property provides a way to assign an alternate <a href
 
 ##### StretchItemContainerDirection
 
-The StretchItemContainerDirection property provides a way to stretch the ItemContainer in horizontal, vertical or both ways. Possible values for this property are **Horizontal**, **Vertical** and **All**.
+The StretchItemContainerDirection property provides a way to stretch the ItemContainer in horizontal, vertical or both ways. Possible values for this property are **Horizontal**, **Vertical** and **Both**.
 
 > The <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ContainerContentChanging" target="_blank">ContainerContentChanging</a> event used for this extension to work, will not be raised when the ItemsPanel is replaced with another type of panel than ItemsStackPanel or ItemsWrapGrid. 
 
@@ -78,7 +78,7 @@ The StretchItemContainerDirection property provides a way to stretch the ItemCon
 
 ```xml
     <ListView
-        ui:ListViewBaseExtensions.StretchItemContainerDirection="Horizontal"
+        extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
         ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -86,9 +86,9 @@ The StretchItemContainerDirection property provides a way to stretch the ItemCon
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [ListViewBaseExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBaseExtensions.cs)
+* [ListViewBase source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase)
 

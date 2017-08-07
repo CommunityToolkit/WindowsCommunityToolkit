@@ -12,13 +12,13 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      viewHelper:ApplicationViewExtensions.Title="View Extensions"
-      viewHelper:StatusBarExtensions.BackgroundColor="Blue"
-      viewHelper:StatusBarExtensions.BackgroundOpacity="0.8"
-      viewHelper:StatusBarExtensions.ForegroundColor="White"
-      viewHelper:StatusBarExtensions.IsVisible="True"
-      viewHelper:TitleBarExtensions.BackgroundColor="Blue"
-      viewHelper:TitleBarExtensions.ForegroundColor="White"
+      extensions:ApplicationViewExtensions.Title="View Extensions"
+      extensions:StatusBarExtensions.BackgroundColor="Blue"
+      extensions:StatusBarExtensions.BackgroundOpacity="0.8"
+      extensions:StatusBarExtensions.ForegroundColor="White"
+      extensions:StatusBarExtensions.IsVisible="True"
+      extensions:TitleBarExtensions.BackgroundColor="Blue"
+      extensions:TitleBarExtensions.ForegroundColor="White"
       mc:Ignorable="d">
 
     <Grid Background="{StaticResource Brush-Grey-05}" />
@@ -29,7 +29,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
