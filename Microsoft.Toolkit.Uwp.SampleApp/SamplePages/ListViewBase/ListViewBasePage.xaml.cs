@@ -10,16 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
-    /// where you would like them to enter the data in a certain format
-    /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.TextBoxMask")]
-    public class TextBoxMask : Microsoft.Toolkit.Uwp.UI.Extensions.TextBoxMask
+    public sealed partial class ListViewBasePage : Page
     {
+        public ListViewBasePage()
+        {
+            this.InitializeComponent();
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SampleListView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+        }
     }
 }

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// TextBoxRegex allows text validation using a regular expression.

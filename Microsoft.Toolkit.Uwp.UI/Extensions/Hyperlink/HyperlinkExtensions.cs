@@ -11,15 +11,16 @@
 // ******************************************************************
 
 using System;
+using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
-    /// where you would like them to enter the data in a certain format
+    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> content element that allows
+    /// it to invoke a <see cref="ICommand"/> when clicked
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.TextBoxMask")]
-    public class TextBoxMask : Microsoft.Toolkit.Uwp.UI.Extensions.TextBoxMask
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.HyperLink")]
+    public class HyperlinkExtensions : Microsoft.Toolkit.Uwp.UI.Extensions.Hyperlink
     {
     }
 }

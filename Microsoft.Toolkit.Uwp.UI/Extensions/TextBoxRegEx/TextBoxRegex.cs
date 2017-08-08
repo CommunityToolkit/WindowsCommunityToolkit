@@ -10,13 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// TextBoxRegex allows text validation using a regular expression.
