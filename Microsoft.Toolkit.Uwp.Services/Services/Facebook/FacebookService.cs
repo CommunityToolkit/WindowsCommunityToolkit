@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         {
             if (Provider != null)
             {
-                var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebView);
+                var result = await Provider.LoginAsync(permissions, SessionLoginBehavior.WebAuth);
 
                 if (result.Succeeded)
                 {
