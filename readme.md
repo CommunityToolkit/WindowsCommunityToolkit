@@ -42,6 +42,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
+* [ExpressionBuilder](http://www.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
 * [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 * [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
@@ -51,7 +52,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
 * [Saturation](http://www.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
-* [ExpressionBuilder](http://www.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
 
 ### Controls
 
