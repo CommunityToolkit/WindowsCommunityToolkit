@@ -93,7 +93,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
 
 ### Code Helpers
-* [AdvancedCollectionView](docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
+* [AdvancedCollectionView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
 * [BluetoothLEHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)
