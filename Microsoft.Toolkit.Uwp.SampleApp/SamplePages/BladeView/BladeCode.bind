@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.BladePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -51,7 +50,7 @@
                            Text="This is a blade with custom titlebar colors." />
             </controls:BladeItem>
             
-            <controls:BladeItem x:Name="ForthBlade" 
+            <controls:BladeItem x:Name="FourthBlade" 
                                 Title="Custom close button color"
                                 CloseButtonBackground="Black"
                                 CloseButtonForeground="White"

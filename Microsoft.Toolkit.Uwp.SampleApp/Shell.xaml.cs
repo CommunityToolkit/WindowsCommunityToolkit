@@ -13,10 +13,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private bool _isPaneOpen;
         private Sample _currentSample;
         private AutoSuggestBox _searchBox;
+        private XamlRenderService _xamlRenderer = new XamlRenderService();
+        private ThreadPoolTimer _autocompileTimer;
 
         public bool DisplayWaitRing
         {
@@ -87,14 +91,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void NavigateToSample(Sample sample)
         {
-            var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
+            InfoAreaPivot.Items.Clear();
 
-            if (pageType != null)
-            {
-                InfoAreaPivot.Items.Clear();
-
-                NavigationFrame.Navigate(pageType, sample.Name);
-            }
+            // TODO: Do I have a special Page here?
+            NavigationFrame.Navigate(typeof(Page), sample.Name);
         }
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (propertyDesc != null)
                 {
-                    NavigationFrame.DataContext = propertyDesc.Expando;
+                    _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
                 Title.Text = sample.Name;
@@ -200,7 +200,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (sample.HasXAMLCode)
                 {
-                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                    XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+
+                    UpdateXamlRender(_currentSample.UpdatedXamlCode);
 
                     InfoAreaPivot.Items.Add(XamlPivotItem);
 
@@ -409,7 +411,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_currentSample.HasXAMLCode)
             {
-                XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+
+                UpdateXamlRender(_currentSample.UpdatedXamlCode);
             }
 
             if (_currentSample.HasCSharpCode)
@@ -515,6 +519,64 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             // Connect to search UI
             ConnectToSearch();
+        }
+
+        private void UpdateXamlRender(string text)
+        {
+            var element = _xamlRenderer.Render(text);
+            if (element != null)
+            {
+                // Add element to main panel
+                var content = NavigationFrame.Content as Page;
+                content.Content = element;
+            }
+        }
+
+        private static readonly int[] NonCharacterCodes = new int[] {
+            // Modifier Keys
+            16, 17, 18, 20, 91,
+
+            // Esc / Page Keys / Home / End / Insert
+            27, 33, 34, 35, 36, 45,
+
+            // Arrow Keys
+            37, 38, 39, 40,
+
+            // Function Keys
+            112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123
+        };
+
+        private void XamlCodeRenderer_KeyDown(Monaco.CodeEditor sender, Monaco.Helpers.WebKeyEventArgs args)
+        {
+            // Handle Shortcuts.
+            // Ctrl+Enter or F5 Update // TODO: Do we need this in the app handler too? (Thinking no)
+            if ((args.KeyCode == 13 && args.CtrlKey) ||
+                 args.KeyCode == 116)
+            {
+                UpdateXamlRender(XamlCodeRenderer.Text);
+
+                // Eat key stroke
+                args.Handled = true;
+            }
+
+            // Ignore as a change to the document if we handle it as a shortcut above or it's a special char.
+            if (!args.Handled && Array.IndexOf(NonCharacterCodes, args.KeyCode) == -1)
+            {
+                // TODO: Mark Dirty here if we want to prevent overwrites.
+
+                // Setup Time for Auto-Compile
+                this._autocompileTimer?.Cancel(); // Stop Old Timer
+
+                // Create Compile Timer
+                this._autocompileTimer = ThreadPoolTimer.CreateTimer(
+                    async (e) =>
+                    {
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        {
+                            UpdateXamlRender(XamlCodeRenderer.Text);
+                        });
+                    }, TimeSpan.FromSeconds(0.5));
+            }
         }
     }
 }

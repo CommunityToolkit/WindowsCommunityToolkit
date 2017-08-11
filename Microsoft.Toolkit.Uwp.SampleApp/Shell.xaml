@@ -8,6 +8,7 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:monaco="using:Monaco"
       extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
@@ -155,7 +156,8 @@
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
+                        <monaco:CodeEditor x:Name="XamlCodeRenderer" CodeLanguage="xml" 
+                                           KeyDown="XamlCodeRenderer_KeyDown"/>
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
