@@ -50,22 +50,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\BluetoothLEHelper\GattNativeUuid.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattConvert.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattProtocolErrorParser.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattUuidsService.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattCharacteristics.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattDeviceService.cs" />
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Helpers\Network\ConnectionHelper.cs" />
-    <Compile Include="Helpers\Network\ConnectionInformation.cs" />
-    <Compile Include="Helpers\Network\ConnectionType.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
-    <Compile Include="Helpers\Network\NetworkHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />

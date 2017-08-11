@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.UI.Core;

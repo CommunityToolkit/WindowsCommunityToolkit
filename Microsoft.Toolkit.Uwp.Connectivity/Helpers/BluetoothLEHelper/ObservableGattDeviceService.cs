@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Wrapper around <see cref="GattDeviceService" /> to make it easier to use

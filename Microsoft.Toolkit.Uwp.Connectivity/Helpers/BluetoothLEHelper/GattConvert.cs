@@ -15,7 +15,7 @@ using System.Text;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Extension methods for Gatt Convert.

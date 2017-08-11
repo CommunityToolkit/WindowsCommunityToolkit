@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
@@ -50,6 +50,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks", "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj", "{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.DeveloperTools", "Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Connectivity", "Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Services", "Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj", "{34398053-FC70-4243-84F9-F355DEFFF66D}"
 EndProject
@@ -564,6 +566,30 @@ Global
 		{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}.Release|x64.Build.0 = Release|Any CPU
 		{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}.Release|x86.ActiveCfg = Release|Any CPU
 		{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}.Release|x86.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|ARM.ActiveCfg = Debug|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|ARM.Build.0 = Debug|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x64.ActiveCfg = Debug|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x64.Build.0 = Debug|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x86.ActiveCfg = Debug|x86
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x86.Build.0 = Debug|x86
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|ARM.ActiveCfg = Release|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|ARM.Build.0 = Release|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|x64.ActiveCfg = Release|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|x64.Build.0 = Release|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|x86.ActiveCfg = Release|x86
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Publish|x86.Build.0 = Release|x86
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|ARM.ActiveCfg = Release|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|ARM.Build.0 = Release|ARM
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x64.ActiveCfg = Release|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x64.Build.0 = Release|x64
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x86.ActiveCfg = Release|x86
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

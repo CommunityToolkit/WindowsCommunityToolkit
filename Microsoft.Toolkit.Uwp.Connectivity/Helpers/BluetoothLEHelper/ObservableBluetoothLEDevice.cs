@@ -23,7 +23,7 @@ using Windows.Devices.Enumeration;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Wrapper around <see cref="BluetoothLEDevice" /> to make it bindable.

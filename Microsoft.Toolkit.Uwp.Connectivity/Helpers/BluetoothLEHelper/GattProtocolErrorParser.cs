@@ -12,7 +12,7 @@
 
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Helper function when working with <see cref="GattProtocolError" />

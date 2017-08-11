@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp.Connectivity</id>
+    <version>$version$</version>
+    <title>UWP Community Toolkit Devices</title>
+    <authors>Microsoft</authors>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>This library enables easier consumption of Devices / Pheripherals connected to Windows device. It is part of the UWP Community Toolkit.</description>
+    <releaseNotes>v1.4: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v1.4.0</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>UWP Toolkit Windows Devices Bluetooth BTLE</tags>
+    <references>
+      <reference file="Microsoft.Toolkit.Uwp.Connectivity.dll" />
+    </references>
+    <dependencies>
+      <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.dll" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.pdb" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.pri" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.xml" target="lib\uap10.0" />
+  </files>
+</package>
