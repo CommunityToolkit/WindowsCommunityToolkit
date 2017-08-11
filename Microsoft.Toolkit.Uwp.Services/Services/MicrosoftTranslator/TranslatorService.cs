@@ -14,10 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 {
@@ -45,6 +45,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
         private const int _maxTextLength = 1000;
         private const int _MaxTextLengthForAutoDetection = 100;
+
+        private static HttpClient client = new HttpClient();
 
         /// <summary>
         /// Private singleton field.
@@ -124,8 +126,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);
                 var detectedLanguage = doc.Root.Value;
@@ -151,8 +153,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{LanguagesUri}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 XNamespace ns = ArrayNamespace;
                 var xmlContent = XDocument.Parse(content);
@@ -188,11 +190,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 XNamespace ns = ArrayNamespace;
                 var xmlRequest = new XDocument(new XElement(ns + ArrayOfStringXmlElement, from lang in languageCodes select new XElement(ns + StringXmlElement, lang)));
 
-                request.Content = new HttpStringContent(xmlRequest.ToString());
-                request.Content.Headers.ContentType = new HttpMediaTypeHeaderValue(XmlContentType);
+                request.Content = new StringContent(xmlRequest.ToString());
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(XmlContentType);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var xmlContent = XDocument.Parse(content);
 
                 var languageNames = xmlContent.Root.Elements(ns + StringXmlElement).Select(s => s.Value);
@@ -260,8 +262,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
             using (var request = CreateHttpRequest($"{BaseUrl}{uriString}"))
             {
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var doc = XDocument.Parse(content);
                 var translatedText = doc.Root.Value;
@@ -343,12 +345,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
             _authorizationHeaderValue = await _authToken.GetAccessTokenAsync().ConfigureAwait(false);
         }
 
-        private HttpHelperRequest CreateHttpRequest(string uriString)
+        private HttpRequestMessage CreateHttpRequest(string uriString)
             => CreateHttpRequest(uriString, HttpMethod.Get);
 
-        private HttpHelperRequest CreateHttpRequest(string uriString, HttpMethod method)
+        private HttpRequestMessage CreateHttpRequest(string uriString, HttpMethod method)
         {
-            var request = new HttpHelperRequest(new Uri(uriString), method);
+            var request = new HttpRequestMessage(method, new Uri(uriString));
             request.Headers.Add(AuthorizationUri, _authorizationHeaderValue);
 
             return request;
