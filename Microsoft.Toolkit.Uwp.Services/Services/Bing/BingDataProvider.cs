@@ -14,10 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Core;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
@@ -30,6 +30,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
         /// Base Url for service.
         /// </summary>
         private const string BaseUrl = "http://www.bing.com";
+
+        private static HttpClient client = new HttpClient();
 
         /// <summary>
         /// Wrapper around REST API for making data request.
@@ -73,13 +75,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
 
             var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}&first={(pageIndex * maxRecords) + (pageIndex > 0 ? 1 : 0)}");
 
-            using (HttpHelperRequest request = new HttpHelperRequest(uri, HttpMethod.Get))
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    if (response.Success && !string.IsNullOrEmpty(data))
+                    if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(data))
                     {
                         return parser.Parse(data);
                     }
