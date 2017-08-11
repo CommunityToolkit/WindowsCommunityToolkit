@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.Exceptions
 {
@@ -44,8 +43,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
         /// </summary>
         /// <param name="statusCode">Failure status code.</param>
         /// <param name="reason">Failure reason.</param>
-        public RequestFailedException(HttpStatusCode statusCode, string reason)
+        public RequestFailedException(Windows.Web.Http.HttpStatusCode statusCode, string reason)
             : base(string.Format("Request failed with status code {0} and reason '{1}'", (int)statusCode, reason))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
+        /// </summary>
+        /// <param name="statusCode">Failure status code.</param>
+        /// <param name="reason">Failure reason.</param>
+        public RequestFailedException(System.Net.HttpStatusCode statusCode, string reason)
+            : base ($"Request failed with status code {statusCode} and reason '{reason}'")
         {
         }
 
