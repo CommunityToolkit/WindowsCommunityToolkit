@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Services.Exceptions;
@@ -40,6 +42,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
         private const string PublishUrl = "https://upload.twitter.com/1.1";
         private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
+
+        private static HttpClient client = new HttpClient();
 
         /// <summary>
         /// Base Url for service.
@@ -636,12 +640,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string getResponse;
 
-            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
-                    if (response.Success)
+                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (response.IsSuccessStatusCode)
                     {
                         getResponse = data;
                     }
@@ -718,13 +722,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
 
-            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(twitterUrl)))
             {
-                request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
+                request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
             }
 
