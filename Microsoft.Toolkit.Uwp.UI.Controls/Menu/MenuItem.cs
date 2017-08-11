@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string FlyoutButtonName = "FlyoutButton";
         private const char UnderlineCharacter = '^';
         private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
+        private readonly bool _isTextTextDecorationsSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
         private Menu _parentMenu;
         private bool _isOpened;
         private bool _menuFlyoutRepositioned;
@@ -426,9 +427,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var runWithUnderlinedCharacter = new Run
             {
-                Text = underlinedCharacter.ToString(),
-                TextDecorations = Windows.UI.Text.TextDecorations.Underline
+                Text = underlinedCharacter.ToString()
             };
+
+            if (_isTextTextDecorationsSupported)
+            {
+                runWithUnderlinedCharacter.TextDecorations = Windows.UI.Text.TextDecorations.Underline;
+            }
 
             var firstPartBuilder = new StringBuilder();
             var secondPartBuilder = new StringBuilder();
