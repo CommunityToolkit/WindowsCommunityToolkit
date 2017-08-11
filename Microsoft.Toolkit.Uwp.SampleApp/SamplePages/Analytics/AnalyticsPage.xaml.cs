@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Net.Http;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Xaml.Navigation;
@@ -22,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class AnalyticsPage
     {
+        private static HttpClient client = new HttpClient();
+
         public AnalyticsPage()
         {
             InitializeComponent();
@@ -34,11 +37,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/analytics.md")))
+                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/analytics.md")))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+                    using (var response = await client.SendAsync(request))
                     {
-                        if (response.Success)
+                        if (response.IsSuccessStatusCode)
                         {
                             MarkdownTextBlockTextblock.Text = await response.Content.ReadAsStringAsync();
                         }
