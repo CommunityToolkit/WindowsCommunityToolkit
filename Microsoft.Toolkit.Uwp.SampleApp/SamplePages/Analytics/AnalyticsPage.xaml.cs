@@ -23,11 +23,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class AnalyticsPage
     {
-        private static HttpClient client = new HttpClient();
+        private readonly HttpClient client;
 
         public AnalyticsPage()
         {
             InitializeComponent();
+            client = new HttpClient();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
