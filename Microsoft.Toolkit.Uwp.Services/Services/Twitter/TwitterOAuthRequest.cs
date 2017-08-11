@@ -12,12 +12,11 @@
 
 using System;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
@@ -26,6 +25,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequest
     {
+        private static HttpClient client = new HttpClient();
+
         private bool _abort;
 
         /// <summary>
@@ -36,15 +37,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens)
         {
-            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
 
-                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
+                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -58,17 +59,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>awaitable task</returns>
         public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback)
         {
-            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Get))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens);
 
-                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await HttpHelper.Instance.GetInputStreamAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var responseStream = await response.GetStreamResultAsync().ConfigureAwait(false);
+                    var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-                    using (var reader = new StreamReader(responseStream.AsStreamForRead()))
+                    using (var reader = new StreamReader(responseStream))
                     {
                         while (!_abort && !reader.EndOfStream)
                         {
@@ -100,15 +101,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens)
         {
-            using (var request = new HttpHelperRequest(requestUri, HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
             {
                 var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    return ProcessErrors(await response.GetTextResultAsync().ConfigureAwait(false));
+                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -127,23 +128,23 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             try
             {
-                using (var multipartFormDataContent = new HttpMultipartFormDataContent(boundary))
+                using (var multipartFormDataContent = new MultipartFormDataContent(boundary))
                 {
-                    using (var byteContent = new HttpBufferContent(content.AsBuffer()))
+                    using (var byteContent = new ByteArrayContent(content))
                     {
                         multipartFormDataContent.Add(byteContent, "media");
 
-                        using (var request = new HttpHelperRequest(requestUri, HttpMethod.Post))
+                        using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
                         {
                             var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
 
-                            request.Headers.Authorization = HttpCredentialsHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                             request.Content = multipartFormDataContent;
 
-                            using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                            using (var response = await client.SendAsync(request).ConfigureAwait(false))
                             {
-                                string jsonResult = await response.GetTextResultAsync().ConfigureAwait(false);
+                                string jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                                 JObject jObj = JObject.Parse(jsonResult);
                                 mediaId = jObj["media_id_string"];
