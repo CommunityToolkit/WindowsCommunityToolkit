@@ -1,5 +1,7 @@
 # HttpHelperRequest
 
+(This API is obsolete.)
+
 Represents an HTTP request message including headers. 
 
 ## Example
