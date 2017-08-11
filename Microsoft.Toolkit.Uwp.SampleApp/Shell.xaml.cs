@@ -202,8 +202,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
-                    UpdateXamlRender(_currentSample.UpdatedXamlCode);
-
                     InfoAreaPivot.Items.Add(XamlPivotItem);
 
                     InfoAreaPivot.SelectedIndex = 0;
@@ -353,6 +351,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_isPaneOpen)
             {
                 ExpandOrCloseProperties();
+            }
+
+            if (_currentSample != null && _currentSample.HasXAMLCode)
+            {
+                UpdateXamlRender(_currentSample.UpdatedXamlCode);
             }
         }
 
