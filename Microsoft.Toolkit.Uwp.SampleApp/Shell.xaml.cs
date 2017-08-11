@@ -360,8 +360,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (category != null)
             {
-                HideInfoArea();
-                NavigationFrame.Navigate(typeof(SamplePicker), category);
+                ShowSamplePicker(category.Samples);
             }
         }
 
@@ -515,6 +514,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             // Connect to search UI
             ConnectToSearch();
+        }
+
+        private void HideSamplePicker()
+        {
+            HideSampleDetails();
+            SamplePickerGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSamplePicker(Sample[] samples)
+        {
+            SamplePickerListView.ItemsSource = samples;
+            SamplePickerGrid.Visibility = Visibility.Visible;
+        }
+
+        private void HideSampleDetails()
+        {
+            SamplePickerDetailsGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSampleDetails(Sample sample)
+        {
+            SamplePickerDetailsGrid.DataContext = sample;
+            SamplePickerDetailsGrid.Visibility = Visibility.Visible;
+        }
+
+        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
+        }
+
+        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            HideSampleDetails();
+        }
+
+        private void SamplePickerListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            HideSamplePicker();
+            NavigateToSample(e.ClickedItem as Sample);
         }
     }
 }

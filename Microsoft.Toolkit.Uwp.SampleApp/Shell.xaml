@@ -8,6 +8,7 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
@@ -17,6 +18,8 @@
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
+
         <DataTemplate x:Key="ButtonTemplate"
                       x:DataType="local:SampleCategory">
             <Grid>
@@ -55,6 +58,30 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="SampleTemplate"
+                      x:DataType="local:Sample">
+            <StackPanel Height="104"
+                        Width="120"
+                        PointerEntered="StackPanel_PointerEntered"
+                        PointerExited="StackPanel_PointerExited"
+                        Background="Transparent">
+                <Border VerticalAlignment="Center"
+                        BorderBrush="{StaticResource Brush-Grey-04}"
+                        BorderThickness="1">
+                    <Image Width="80"
+                           Source="{Binding Icon}" />
+                </Border>
+
+                <TextBlock VerticalAlignment="Top"
+                           FontSize="16"
+                           Margin="0,8,0,0"
+                           FontWeight="Light"
+                           Foreground="{StaticResource Brush-Grey-03}"
+                           Text="{x:Bind Name}" />
+
+            </StackPanel>
+        </DataTemplate>
+
     </Page.Resources>
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             Foreground="{StaticResource Brush-Grey-04}"
@@ -63,21 +90,30 @@
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource OptionTemplate}"
                             PaneBackground="{StaticResource Brush-Grey-02}"
-                            Style="{StaticResource HamburgerMenuWithSearchTemplate}">
-        <Grid x:Name="RootGrid"
-              Background="{StaticResource Brush-Grey-05}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+                            Style="{StaticResource HorizontalHamburgerMenu}">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="32" />
+                <RowDefinition Height="152"></RowDefinition>
+                <RowDefinition Height="304"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid x:Name="DemoAreaGrid">
-                <StackPanel HorizontalAlignment="Center"
+            
+            <Grid x:Name="RootGrid"
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
+                  Background="{StaticResource Brush-Grey-05}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <Grid x:Name="DemoAreaGrid">
+                    <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <TextBlock Margin="0,24,0,0"
+                        <TextBlock Margin="0,24,0,0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="32"
@@ -85,124 +121,199 @@
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="UWP Community Toolkit"
                                TextWrapping="Wrap" />
-                    <TextBlock Margin="0"
+                        <TextBlock Margin="0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="18.667"
                                FontWeight="Light"
                                Foreground="{StaticResource Brush-Grey-03}"
                                Text="Sample App" />
-                </StackPanel>
-                <Frame x:Name="NavigationFrame" />
-                <!--
+                    </StackPanel>
+                    <Frame x:Name="NavigationFrame" />
+                    <!--
                     Uncomment this control to help you determine where the focus is.
                     This could be useful when validating accessibility of your control
                 -->
-                <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
+                    <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
                                              HorizontalAlignment="Center"
                                              IsRunning="True"/>-->
-            </Grid>
-            <Grid x:Name="InfoAreaGrid"
+                </Grid>
+                <Grid x:Name="InfoAreaGrid"
                   Background="{StaticResource Brush-Grey-04}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid Background="#FFCCCCCC">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="ExpandButton"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Background="#FFCCCCCC">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ExpandButton"
                             VerticalAlignment="Stretch"
                             Click="ExpandButton_Click"
                             FontFamily="Segoe MDL2 Assets" />
-                    <TextBlock x:Name="Title"
+                        <TextBlock x:Name="Title"
                                Grid.Column="1"
                                Margin="12,6"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                Foreground="{StaticResource Brush-Grey-01}"
                                Text="" />
-                    <HyperlinkButton x:Name="GitHub"
+                        <HyperlinkButton x:Name="GitHub"
                                      Grid.Column="2"
                                      Margin="0,0,10,0"
                                      Click="GitHub_OnClick"
                                      Content="Github"
                                      Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
-                </Grid>
-                <Pivot x:Name="InfoAreaPivot"
+                    </Grid>
+                    <Pivot x:Name="InfoAreaPivot"
                        Grid.Row="1"
                        HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                        SelectionChanged="InfoAreaPivot_OnSelectionChanged">
-                    <PivotItem x:Name="PropertiesPivotItem"
+                        <PivotItem x:Name="PropertiesPivotItem"
                                Header="PROPERTIES">
-                        <ScrollViewer>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <controlsLocal:PropertyControl x:Name="Properties" />
-                                <StackPanel x:Name="CommandArea"
+                            <ScrollViewer>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <controlsLocal:PropertyControl x:Name="Properties" />
+                                    <StackPanel x:Name="CommandArea"
                                             Grid.Row="1"
                                             HorizontalAlignment="Stretch"
                                             Orientation="Vertical" />
-                            </Grid>
-                        </ScrollViewer>
-                    </PivotItem>
+                                </Grid>
+                            </ScrollViewer>
+                        </PivotItem>
 
-                    <PivotItem x:Name="XamlPivotItem"
+                        <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
-                    </PivotItem>
+                            <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
+                        </PivotItem>
 
-                    <PivotItem x:Name="CSharpPivotItem"
+                        <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
-                    </PivotItem>
+                            <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
+                        </PivotItem>
 
-                    <PivotItem x:Name="JavaScriptPivotItem"
+                        <PivotItem x:Name="JavaScriptPivotItem"
                                Header="JAVASCRIPT">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
-                    </PivotItem>
+                            <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                        </PivotItem>
 
-                    <PivotItem x:Name="DocumentationPivotItem"
+                        <PivotItem x:Name="DocumentationPivotItem"
                                Header="DOCUMENTATION">
-                        <ScrollViewer x:Name="DocumentationScrollViewer"
+                            <ScrollViewer x:Name="DocumentationScrollViewer"
                                       Padding="10,5"
                                       Background="{StaticResource Brush-White}">
-                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                         Foreground="{StaticResource Brush-Grey-01}"
                                                         ImageResolving="DocumentationTextblock_ImageResolving"
                                                         LinkClicked="DocumentationTextblock_OnLinkClicked" />
-                        </ScrollViewer>
-                    </PivotItem>
-                </Pivot>
+                            </ScrollViewer>
+                        </PivotItem>
+                    </Pivot>
 
-                <controls:GridSplitter x:Name="Splitter"
+                    <controls:GridSplitter x:Name="Splitter"
                                        Grid.Row="1"
                                        Width="11"
                                        HorizontalAlignment="Left"
                                        Background="{StaticResource Brush-Grey-04}"
                                        GripperForeground="White"
                                        ParentLevel="1" />
-            </Grid>
-            <Grid x:Name="waitRing"
+                </Grid>
+                <Grid x:Name="waitRing"
                   Grid.RowSpan="2"
                   Grid.ColumnSpan="2"
                   Visibility="Collapsed">
-                <Rectangle Fill="Black"
+                    <Rectangle Fill="Black"
                            Opacity="0.2" />
-                <ProgressRing Width="100"
+                    <ProgressRing Width="100"
                               Height="100"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Foreground="{StaticResource ApplicationForegroundThemeBrush}"
                               IsActive="True" />
+                </Grid>
             </Grid>
+
+            <Grid x:Name="SamplePickerGrid"
+                  Grid.Row="0" 
+                  Visibility="Collapsed"
+                  Background="#AA000000">
+                <ListView x:Name="SamplePickerListView" 
+                          ItemTemplate="{StaticResource SampleTemplate}"
+                          SelectionMode="Single"
+                          IsItemClickEnabled="True"
+                          ItemClick="SamplePickerListView_ItemClick"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Auto">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal"></ItemsStackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </Grid>
+
+            <Grid x:Name="SamplePickerDetailsGrid"
+                  Grid.Row="1"
+                  Background="#55000000"
+                  Visibility="Collapsed">
+                <Grid Width="500"
+                  Height="120"
+                  Margin="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0"
+                        Margin="0,0,12,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="{StaticResource Brush-Grey-04}"
+                        BorderThickness="1">
+                        <Image Width="120"
+                           Height="120"
+                           Source="{Binding Icon}" />
+                    </Border>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock VerticalAlignment="Top"
+                               FontSize="24"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Brush-Grey-03}"
+                               Text="{x:Bind Name}" />
+                        <TextBlock Grid.Row="1"
+                               Margin="0,4,0,0"
+                               VerticalAlignment="Top"
+                               FontSize="14"
+                               Foreground="{StaticResource Brush-Grey-01}"
+                               Text="{Binding About}"
+                               TextWrapping="Wrap" />
+                        <Grid Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
+                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                            <TextBlock
+                           Margin="0,2,0,2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Text="{Binding BadgeUpdateVersionRequired}"
+                           Foreground="White" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
         </Grid>
+        
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
