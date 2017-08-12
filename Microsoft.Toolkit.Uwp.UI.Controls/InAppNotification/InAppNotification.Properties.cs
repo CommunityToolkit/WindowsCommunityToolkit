@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ShowDismissButton"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ShowDismissButtonProperty =
-            DependencyProperty.Register(nameof(ShowDismissButton), typeof(bool), typeof(InAppNotification), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(ShowDismissButton), typeof(bool), typeof(InAppNotification), new PropertyMetadata(true, OnShowDismissButtonChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the Dismiss button of the control.
@@ -32,6 +32,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(ShowDismissButtonProperty); }
             set { SetValue(ShowDismissButtonProperty, value); }
+        }
+
+        private static void OnShowDismissButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var inApNotification = d as InAppNotification;
+
+            bool showDismissButton = (bool)e.NewValue;
+
+            if (inApNotification._dismissButton != null)
+            {
+                inApNotification._dismissButton.Visibility = showDismissButton ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

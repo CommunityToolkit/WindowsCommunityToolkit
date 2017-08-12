@@ -146,7 +146,6 @@
 
                             <Button x:Name="PART_DismissButton"
                                     Grid.Column="1" 
-                                    Visibility="{Binding ShowDismissButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
                                     Margin="10 0 -10 0"
                                     FontSize="12"
                                     Style="{StaticResource DismissTextBlockButtonStyle}"
