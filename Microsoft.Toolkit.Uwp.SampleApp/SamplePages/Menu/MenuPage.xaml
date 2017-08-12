@@ -24,6 +24,7 @@
         </Grid.RowDefinitions>
 
         <controls:Menu AllowTooltip="{Binding AllowTooltip.Value, Mode=TwoWay}"
+                       FlyoutPlacement="{Binding FlyoutPlacement.Value, Mode=TwoWay}"
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
