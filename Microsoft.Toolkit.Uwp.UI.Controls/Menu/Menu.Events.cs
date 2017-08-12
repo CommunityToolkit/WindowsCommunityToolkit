@@ -39,6 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _wrapPanel.Orientation = Orientation;
             }
 
+            UpdateMenuItemsFlyoutPlacement();
+
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;

@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Menu _parentMenu;
         private bool _isOpened;
         private bool _menuFlyoutRepositioned;
+        private bool _menuFlyoutPlacementChanged;
         private string _originalHeader;
         private bool _isInternalHeaderUpdate;
 
@@ -137,6 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 MenuFlyout.Opened -= MenuFlyout_Opened;
+
                 MenuFlyout.Closed -= MenuFlyout_Closed;
             }
 
@@ -145,8 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                MenuFlyout.Placement = _parentMenu.GetMenuFlyoutPlacementMode();
-
+                MenuFlyout.Opening += MenuFlyout_Opening;
                 MenuFlyout.Opened += MenuFlyout_Opened;
                 MenuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
@@ -162,6 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+
         }
 
         internal void CalculateBounds()
@@ -317,11 +323,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             IsOpened = false;
             _menuFlyoutRepositioned = false;
+            _menuFlyoutPlacementChanged = false;
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private void MenuFlyout_Opened(object sender, object e)
         {
+            if (_parentMenu.UpdateMenuItemsFlyoutPlacement() && !_menuFlyoutPlacementChanged)
+            {
+                _menuFlyoutPlacementChanged = true;
+                ShowMenu();
+            }
+
             _parentMenu.CalculateBounds();
             IsOpened = true;
             VisualStateManager.GoToState(this, "Opened", true);
@@ -340,11 +353,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var flytoutButtonPoint = FlyoutButton.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
 
                     if ((width > Window.Current.Bounds.Width - flytoutButtonPoint.X &&
-                        (MenuFlyout.Placement == FlyoutPlacementMode.Top ||
-                        MenuFlyout.Placement == FlyoutPlacementMode.Bottom)) ||
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)) ||
                         (height > Window.Current.Bounds.Height - flytoutButtonPoint.Y &&
-                        (MenuFlyout.Placement == FlyoutPlacementMode.Right ||
-                        MenuFlyout.Placement == FlyoutPlacementMode.Left)))
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Right)))
                     {
                         ShowMenuRepositioned(width, height);
                     }

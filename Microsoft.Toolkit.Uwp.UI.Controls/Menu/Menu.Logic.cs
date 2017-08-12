@@ -29,13 +29,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
         private const string AltValue = "ALT";
+        private FlyoutPlacementMode? _currentFlyoutPlacement;
 
         private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
         {
             if (!menu.IsOpened && element is MenuItem)
             {
-                if (((args.VirtualKey == VirtualKey.Down || args.VirtualKey == VirtualKey.Enter) && orientation == Orientation.Horizontal) ||
-                    ((args.VirtualKey == VirtualKey.Right || args.VirtualKey == VirtualKey.Enter) && orientation == Orientation.Vertical))
+                menu.UpdateMenuItemsFlyoutPlacement();
+
+                if (args.VirtualKey == VirtualKey.Enter ||
+                    ((args.VirtualKey == VirtualKey.Down) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Bottom) ||
+                    ((args.VirtualKey == VirtualKey.Up) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Top) ||
+                    ((args.VirtualKey == VirtualKey.Left) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Left) ||
+                    ((args.VirtualKey == VirtualKey.Right) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Right))
                 {
                     menu.SelectedMenuItem.ShowMenu();
                     return true;
@@ -56,7 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (args.VirtualKey == VirtualKey.Left)
+            if ((menu._currentFlyoutPlacement == FlyoutPlacementMode.Left &&
+                 args.VirtualKey == VirtualKey.Right) ||
+                 (args.VirtualKey == VirtualKey.Left &&
+                 menu._currentFlyoutPlacement != FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
                 {
@@ -79,7 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (args.VirtualKey == VirtualKey.Right)
+            if ((args.VirtualKey == VirtualKey.Right &&
+                menu._currentFlyoutPlacement != FlyoutPlacementMode.Left) ||
+                (args.VirtualKey == VirtualKey.Left &&
+                menu._currentFlyoutPlacement == FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
                 {
@@ -145,39 +157,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return gestureKeyBuilder.ToString();
         }
 
-        private static void FlyoutPlacementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        internal bool UpdateMenuItemsFlyoutPlacement()
         {
-            var menu = (Menu)d;
-            var placementMode = menu.GetMenuFlyoutPlacementMode();
-            foreach (MenuItem menuItem in menu.Items)
+            var placementMode = GetMenuFlyoutPlacementMode();
+
+            if (placementMode == _currentFlyoutPlacement)
+            {
+                return false;
+            }
+
+            _currentFlyoutPlacement = placementMode;
+
+            foreach (MenuItem menuItem in Items)
             {
                 if (menuItem.MenuFlyout != null)
                 {
-                    menuItem.MenuFlyout.Placement = placementMode;
+                    menuItem.MenuFlyout.Placement = _currentFlyoutPlacement.Value;
                 }
             }
+
+            return true;
         }
 
         internal FlyoutPlacementMode GetMenuFlyoutPlacementMode()
         {
-            switch (FlyoutPlacement)
+            var ttv = TransformToVisual(Window.Current.Content);
+            var menuCoords = ttv.TransformPoint(new Point(0, 0));
+
+            if (Orientation == Orientation.Horizontal)
             {
-                case MenuFlyoutPlacement.Auto:
-                    return Orientation == Orientation.Horizontal
-                        ? FlyoutPlacementMode.Bottom
-                        : FlyoutPlacementMode.Right;
-                case MenuFlyoutPlacement.Top:
+                var menuCenter = menuCoords.Y + (ActualHeight / 2);
+
+                if (menuCenter <= Window.Current.Bounds.Height / 2)
+                {
+                    return FlyoutPlacementMode.Bottom;
+                }
+                else
+                {
                     return FlyoutPlacementMode.Top;
-                case MenuFlyoutPlacement.Bottom:
-                    return FlyoutPlacementMode.Bottom;
-                case MenuFlyoutPlacement.Left:
-                    return FlyoutPlacementMode.Left;
-                case MenuFlyoutPlacement.Right:
+                }
+            }
+            else
+            {
+                var menuCenter = menuCoords.X + (ActualWidth / 2);
+
+                if (menuCenter <= Window.Current.Bounds.Width / 2)
+                {
                     return FlyoutPlacementMode.Right;
-                case MenuFlyoutPlacement.Full:
-                    return FlyoutPlacementMode.Full;
-                default:
-                    return FlyoutPlacementMode.Bottom;
+                }
+                else
+                {
+                    return FlyoutPlacementMode.Left;
+                }
             }
         }
 
@@ -189,14 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menu._wrapPanel.Orientation = menu.Orientation;
             }
 
-            var placementMode = menu.GetMenuFlyoutPlacementMode();
-            foreach (MenuItem menuItem in menu.Items)
-            {
-                if (menuItem.MenuFlyout != null)
-                {
-                    menuItem.MenuFlyout.Placement = placementMode;
-                }
-            }
+            menu.UpdateMenuItemsFlyoutPlacement();
         }
 
         private static void RemoveElementFromCache(FrameworkElement descendant)

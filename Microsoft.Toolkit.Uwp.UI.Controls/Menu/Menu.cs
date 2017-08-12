@@ -57,25 +57,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the menu flyout placement
-        /// </summary>
-        public MenuFlyoutPlacement FlyoutPlacement
-        {
-            get { return (MenuFlyoutPlacement)GetValue(FlyoutPlacementProperty); }
-            set { SetValue(FlyoutPlacementProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="FlyoutPlacement"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty FlyoutPlacementProperty =
-            DependencyProperty.Register(
-                nameof(FlyoutPlacement),
-                typeof(MenuFlyoutPlacement),
-                typeof(Menu),
-                new PropertyMetadata(MenuFlyoutPlacement.Auto, FlyoutPlacementPropertyChanged));
-
-        /// <summary>
         /// Identifies the <see cref="MenuFlyoutStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty MenuFlyoutStyleProperty = DependencyProperty.Register(nameof(MenuFlyoutStyle), typeof(Style), typeof(MenuItem), new PropertyMetadata(default(Style)));
