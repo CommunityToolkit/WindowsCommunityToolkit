@@ -166,6 +166,8 @@ namespace UnitTests.Markdown.Parse
 
                 [text](mumble://reddit.com)
 
+                [text](sip:1-999-123-4567@voip-provider.example.net)
+
                 [text](ssh://reddit.com)"),
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "https://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
@@ -174,6 +176,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "irc://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "news://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "mumble://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
+                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "sip:1-999-123-4567@voip-provider.example.net" }.AddChildren(new TextRunInline { Text = "text" })),
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "ssh://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })));
         }
 

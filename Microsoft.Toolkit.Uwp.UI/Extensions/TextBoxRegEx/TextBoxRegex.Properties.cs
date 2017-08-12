@@ -13,7 +13,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// TextBoxRegex allows text validation using a regular expression.

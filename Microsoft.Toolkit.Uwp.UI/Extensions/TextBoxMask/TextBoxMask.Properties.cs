@@ -12,8 +12,9 @@
 
 using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
