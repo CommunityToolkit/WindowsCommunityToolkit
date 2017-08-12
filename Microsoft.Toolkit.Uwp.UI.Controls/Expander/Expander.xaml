@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:winrtcontrols="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d">
 
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
@@ -406,12 +405,12 @@
                                 <ColumnDefinition x:Name="ColumnTwo" Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <winrtcontrols:LayoutTransformControl Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                                                  x:Name="PART_LayoutTransformer"
-                                                                  RenderTransformOrigin="0.5,0.5">
-                                <winrtcontrols:LayoutTransformControl.Transform>
+                            <controls:LayoutTransformControl Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                             x:Name="PART_LayoutTransformer"
+                                                             RenderTransformOrigin="0.5,0.5">
+                                <controls:LayoutTransformControl.Transform>
                                     <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
-                                </winrtcontrols:LayoutTransformControl.Transform>
+                                </controls:LayoutTransformControl.Transform>
 
                                 <ToggleButton x:Name="PART_ExpanderToggleButton" 
                                               Height="40"
@@ -423,7 +422,7 @@
                                               Background="{TemplateBinding Background}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                               IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                            </winrtcontrols:LayoutTransformControl>
+                            </controls:LayoutTransformControl>
 
                             <ContentPresenter Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                               x:Name="PART_MainContent"
