@@ -302,8 +302,9 @@
                     Click="DismissNotificationButton_Click" />
         </StackPanel>
 
-        <controls:InAppNotification x:Name="ExampleInAppNotification" 
-                                    Content="This is a test message." />
+        <controls:InAppNotification x:Name="ExampleInAppNotification"
+                                    Content="This is a test message."
+                                    ShowDismissButton="@[ShowDismissButton:Bool:True]" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     MinHeight="35"

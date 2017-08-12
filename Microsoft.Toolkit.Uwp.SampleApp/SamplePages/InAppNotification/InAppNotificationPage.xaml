@@ -303,7 +303,8 @@
         </StackPanel>
 
         <controls:InAppNotification x:Name="ExampleInAppNotification" 
-                                    Content="This is a test message." />
+                                    Content="This is a test message."
+                                    ShowDismissButton="{Binding Path=ShowDismissButton.Value, Mode=TwoWay}" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     MinHeight="35"
