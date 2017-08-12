@@ -45,6 +45,10 @@ Sets the text describing an input gesture that will call the command tied to the
 ### AllowTooltip
 Specify whether to allow tooltip on Alt click or not.
 
+## MenuItem Properties
+### Header
+Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on clicking or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem.
+
 ## Menu Properties
 
 ### Orientation
