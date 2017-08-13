@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
