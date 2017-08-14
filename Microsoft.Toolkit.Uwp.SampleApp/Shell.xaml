@@ -3,12 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsLocal="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      x:Name="RootPage"
       extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Grey-01}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Grey-03}"
@@ -16,62 +17,59 @@
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       Loaded="Shell_OnLoaded"
       SizeChanged="Page_SizeChanged"
-      mc:Ignorable="d"
-      x:Name="RootPage">
+      mc:Ignorable="d">
     <Page.Resources>
-        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
+                                                 EmptyValue="Collapsed"
+                                                 NotEmptyValue="Visible" />
 
-        <DataTemplate x:Key="ButtonTemplate"
+        <DataTemplate x:Key="HorizontalItemTemplate"
                       x:DataType="local:SampleCategory">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="16,12"
-                       Source="{x:Bind Icon}"
-                       Stretch="Uniform" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
-                           FontSize="16"
-                           Foreground="White"
+                           FontFamily="Segoe UI"
+                           FontSize="15px"
+                           FontWeight="Normal"
+                           Foreground="Black"
                            Text="{x:Bind Name}" />
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="ExpandableTemplate"
+        <DataTemplate x:Key="VerticalItemTemplate"
                       x:DataType="local:SampleCategory">
-            <controls:Expander Header="{x:Bind Name}"
-                               Style="{StaticResource HamburgerExpanderItem}"
+            <controls:Expander Background="Transparent"
                                Expanded="Expander_Expanded"
-                               Background="Transparent"
-                               Foreground="White">
-                <ListView ItemTemplate="{StaticResource SampleTemplate}"
-                          ItemsSource="{x:Bind Samples}"
-                          SelectionMode="None"
-                          Margin="0,-4,0,0"
+                               Foreground="White"
+                               Header="{x:Bind Name}"
+                               Style="{StaticResource HamburgerExpanderItem}">
+                <ListView Margin="0,-4,0,0"
                           IsItemClickEnabled="True"
                           ItemClick="VerticalSamplePickerListView_ItemClick"
+                          ItemTemplate="{StaticResource VerticalSampleTemplate}"
+                          ItemsSource="{x:Bind Samples}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Auto"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ScrollViewer.VerticalScrollMode="Disabled"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollMode="Auto">
+                          SelectionMode="None">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Margin="32,0" Orientation="Horizontal"></ItemsStackPanel>
+                            <ItemsStackPanel Margin="32,0"
+                                             Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0,0,10,0"></Setter>
-                            <Setter Property="Padding" Value="5,6"></Setter>
+                            <Setter Property="Margin" Value="0,0,10,0" />
+                            <Setter Property="Padding" Value="5,6" />
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
             </controls:Expander>
         </DataTemplate>
 
-        <DataTemplate x:Key="OptionTemplate"
+        <DataTemplate x:Key="VerticalOptionTemplate"
                       x:DataType="local:Option">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -79,21 +77,32 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="1"
+                           Margin="0,14"
                            VerticalAlignment="Center"
                            FontSize="20"
                            FontWeight="SemiBold"
-                           Opacity="0.8"
-                           Margin="0,14"
                            Foreground="White"
+                           Opacity="0.8"
                            Text="{x:Bind Name}" />
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="SampleTemplate"
+        <DataTemplate x:Key="HorizontalOptionTemplate"
+                      x:DataType="local:Option">
+            <Grid>
+                <FontIcon Grid.Column="0"
+                          FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
+                          Foreground="Black"
+                          Glyph="{x:Bind Glyph}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="VerticalSampleTemplate"
                       x:DataType="local:Sample">
-            <StackPanel PointerEntered="StackPanel_PointerEntered"
-                        PointerExited="StackPanel_PointerExited"
-                        Background="Transparent">
+            <StackPanel Background="Transparent"
+                        PointerEntered="StackPanel_PointerEntered"
+                        PointerExited="StackPanel_PointerExited">
                 <Border Background="Black">
                     <Image Width="120"
                            Height="80"
@@ -109,21 +118,42 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="HorizontalSampleTemplate"
+                      x:DataType="local:Sample">
+            <StackPanel Padding="16,24"
+                        Background="Transparent"
+                        PointerEntered="StackPanel_PointerEntered"
+                        PointerExited="StackPanel_PointerExited">
+                <Border Background="Black">
+                    <Image Width="120"
+                           Height="80"
+                           Source="{Binding Icon}" />
+                </Border>
+
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="12"
+                           FontWeight="Light"
+                           Foreground="Black"
+                           Text="{x:Bind Name}" />
+
+            </StackPanel>
+        </DataTemplate>
+
     </Page.Resources>
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             Foreground="{StaticResource Brush-Grey-04}"
                             ItemClick="HamburgerMenu_OnItemClick"
-                            ItemTemplate="{StaticResource ButtonTemplate}"
+                            ItemTemplate="{StaticResource HorizontalItemTemplate}"
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-                            OptionsItemTemplate="{StaticResource OptionTemplate}"
+                            OptionsItemTemplate="{StaticResource VerticalOptionTemplate}"
                             PaneBackground="{StaticResource Brush-Grey-02}"
                             Style="{StaticResource VerticalHamburgerMenu}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="152"></RowDefinition>
-                <RowDefinition Height="304"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="152" />
+                <RowDefinition Height="304" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid x:Name="TitleGrid"
@@ -131,8 +161,8 @@
                   Background="White"
                   Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="HamburgerButton"
                         Width="48"
@@ -144,20 +174,20 @@
                         BorderThickness="0"
                         Click="HamburgerButtonClicked"
                         TabIndex="0">
-                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                    <FontIcon Margin="16"
+                              FontFamily="Segoe MDL2 Assets"
                               FontSize="16"
-                              Margin="16"
                               Foreground="Black"
                               Glyph="&#xE700;" />
                 </Button>
                 <TextBlock x:Name="TitleTextBlock"
                            Grid.Column="1"
                            VerticalAlignment="Center"
-                           FontWeight="SemiBold"
                            FontFamily="Segoe UI"
-                           FontSize="15px"></TextBlock>
+                           FontSize="15px"
+                           FontWeight="SemiBold" />
             </Grid>
-            
+
             <Grid x:Name="RootGrid"
                   Grid.Row="1"
                   Grid.RowSpan="3"
@@ -172,34 +202,34 @@
                 </Grid.RowDefinitions>
                 <Grid x:Name="DemoAreaGrid">
                     <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Margin="0,24,0,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="32"
-                               FontWeight="Light"
-                               Foreground="{StaticResource Brush-Grey-03}"
-                               Text="UWP Community Toolkit"
-                               TextWrapping="Wrap" />
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="32"
+                                   FontWeight="Light"
+                                   Foreground="{StaticResource Brush-Grey-03}"
+                                   Text="UWP Community Toolkit"
+                                   TextWrapping="Wrap" />
                         <TextBlock Margin="0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="18.667"
-                               FontWeight="Light"
-                               Foreground="{StaticResource Brush-Grey-03}"
-                               Text="Sample App" />
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="18.667"
+                                   FontWeight="Light"
+                                   Foreground="{StaticResource Brush-Grey-03}"
+                                   Text="Sample App" />
                     </StackPanel>
                     <Frame x:Name="NavigationFrame" />
                     <!--
-                    Uncomment this control to help you determine where the focus is.
-                    This could be useful when validating accessibility of your control
-                -->
+                        Uncomment this control to help you determine where the focus is.
+                        This could be useful when validating accessibility of your control
+                    -->
                     <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
                                              HorizontalAlignment="Center"
                                              IsRunning="True"/>-->
                 </Grid>
                 <Grid x:Name="InfoAreaGrid"
-                  Background="{StaticResource Brush-Grey-04}">
+                      Background="{StaticResource Brush-Grey-04}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
@@ -211,29 +241,29 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="ExpandButton"
-                            VerticalAlignment="Stretch"
-                            Click="ExpandButton_Click"
-                            FontFamily="Segoe MDL2 Assets" />
+                                VerticalAlignment="Stretch"
+                                Click="ExpandButton_Click"
+                                FontFamily="Segoe MDL2 Assets" />
                         <TextBlock x:Name="Title"
-                               Grid.Column="1"
-                               Margin="12,6"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource Brush-Grey-01}"
-                               Text="" />
+                                   Grid.Column="1"
+                                   Margin="12,6"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource Brush-Grey-01}"
+                                   Text="" />
                         <HyperlinkButton x:Name="GitHub"
-                                     Grid.Column="2"
-                                     Margin="0,0,10,0"
-                                     Click="GitHub_OnClick"
-                                     Content="Github"
-                                     Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
+                                         Grid.Column="2"
+                                         Margin="0,0,10,0"
+                                         Click="GitHub_OnClick"
+                                         Content="Github"
+                                         Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
                     </Grid>
                     <Pivot x:Name="InfoAreaPivot"
-                       Grid.Row="1"
-                       HeaderTemplate="{StaticResource PivotHeaderTemplate}"
-                       SelectionChanged="InfoAreaPivot_OnSelectionChanged">
+                           Grid.Row="1"
+                           HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+                           SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                         <PivotItem x:Name="PropertiesPivotItem"
-                               Header="PROPERTIES">
+                                   Header="PROPERTIES">
                             <ScrollViewer>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -242,138 +272,147 @@
                                     </Grid.RowDefinitions>
                                     <controlsLocal:PropertyControl x:Name="Properties" />
                                     <StackPanel x:Name="CommandArea"
-                                            Grid.Row="1"
-                                            HorizontalAlignment="Stretch"
-                                            Orientation="Vertical" />
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Stretch"
+                                                Orientation="Vertical" />
                                 </Grid>
                             </ScrollViewer>
                         </PivotItem>
 
                         <PivotItem x:Name="XamlPivotItem"
-                               Header="XAML">
+                                   Header="XAML">
                             <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
                         </PivotItem>
 
                         <PivotItem x:Name="CSharpPivotItem"
-                               Header="CODE">
+                                   Header="CODE">
                             <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
                         </PivotItem>
 
                         <PivotItem x:Name="JavaScriptPivotItem"
-                               Header="JAVASCRIPT">
+                                   Header="JAVASCRIPT">
                             <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
                         </PivotItem>
 
                         <PivotItem x:Name="DocumentationPivotItem"
-                               Header="DOCUMENTATION">
+                                   Header="DOCUMENTATION">
                             <ScrollViewer x:Name="DocumentationScrollViewer"
-                                      Padding="10,5"
-                                      Background="{StaticResource Brush-White}">
+                                          Padding="10,5"
+                                          Background="{StaticResource Brush-White}">
                                 <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
-                                                        Foreground="{StaticResource Brush-Grey-01}"
-                                                        ImageResolving="DocumentationTextblock_ImageResolving"
-                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
+                                                            Foreground="{StaticResource Brush-Grey-01}"
+                                                            ImageResolving="DocumentationTextblock_ImageResolving"
+                                                            LinkClicked="DocumentationTextblock_OnLinkClicked" />
                             </ScrollViewer>
                         </PivotItem>
                     </Pivot>
 
                     <controls:GridSplitter x:Name="Splitter"
-                                       Grid.Row="1"
-                                       Width="11"
-                                       HorizontalAlignment="Left"
-                                       Background="{StaticResource Brush-Grey-04}"
-                                       GripperForeground="White"
-                                       ParentLevel="1" />
+                                           Grid.Row="1"
+                                           Width="11"
+                                           HorizontalAlignment="Left"
+                                           Background="{StaticResource Brush-Grey-04}"
+                                           GripperForeground="White"
+                                           ParentLevel="1" />
                 </Grid>
                 <Grid x:Name="waitRing"
-                  Grid.RowSpan="2"
-                  Grid.ColumnSpan="2"
-                  Visibility="Collapsed">
+                      Grid.RowSpan="2"
+                      Grid.ColumnSpan="2"
+                      Visibility="Collapsed">
                     <Rectangle Fill="Black"
-                           Opacity="0.2" />
+                               Opacity="0.2" />
                     <ProgressRing Width="100"
-                              Height="100"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Foreground="{StaticResource ApplicationForegroundThemeBrush}"
-                              IsActive="True" />
+                                  Height="100"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                  IsActive="True" />
                 </Grid>
             </Grid>
 
             <Grid x:Name="SamplePickerGrid"
                   Grid.Row="1"
-                  Visibility="Collapsed"
-                  Background="#AA000000">
-                <ListView x:Name="SamplePickerListView" 
-                          ItemTemplate="{StaticResource SampleTemplate}"
-                          SelectionMode="Single"
+                  Background="White"
+                  Visibility="Collapsed">
+                <ListView x:Name="SamplePickerListView"
                           IsItemClickEnabled="True"
                           ItemClick="SamplePickerListView_ItemClick"
+                          ItemTemplate="{StaticResource HorizontalSampleTemplate}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Auto"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ScrollViewer.VerticalScrollMode="Disabled"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollMode="Auto">
+                          SelectionMode="Single">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal"></ItemsStackPanel>
+                            <ItemsStackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </Grid>
 
             <Grid x:Name="SamplePickerDetailsGrid"
                   Grid.Row="2"
-                  Background="#55000000"
+                  Background="White"
                   Visibility="Collapsed">
-                <Grid Width="500"
-                  Height="120"
-                  Margin="6">
+                <Grid Width="700"
+                      Height="192"
+                      VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="72" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0"
-                        Margin="0,0,12,0"
-                        VerticalAlignment="Top"
-                        BorderBrush="{StaticResource Brush-Grey-04}"
-                        BorderThickness="1">
+                            Margin="0,0,12,0"
+                            VerticalAlignment="Stretch"
+                            Background="Black">
                         <Image Width="120"
-                           Height="120"
-                           Source="{Binding Icon}" />
+                               Height="120"
+                               Source="{Binding Icon}" />
                     </Border>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock VerticalAlignment="Top"
-                               FontSize="24"
-                               FontWeight="Light"
-                               Foreground="{StaticResource Brush-Grey-03}"
-                               Text="{x:Bind Name}" />
-                        <TextBlock Grid.Row="1"
-                               Margin="0,4,0,0"
-                               VerticalAlignment="Top"
-                               FontSize="14"
-                               Foreground="{StaticResource Brush-Grey-01}"
-                               Text="{Binding About}"
-                               TextWrapping="Wrap" />
-                        <Grid Grid.Row="2" Background="{StaticResource Brush-Blue-01}" 
-                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
-                            <TextBlock
-                           Margin="0,2,0,2"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           Text="{Binding BadgeUpdateVersionRequired}"
-                           Foreground="White" />
+                                   FontSize="48"
+                                   FontWeight="Normal"
+                                   Foreground="Black"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Row="2"
+                                   VerticalAlignment="Top"
+                                   CharacterSpacing="30"
+                                   FontSize="15"
+                                   Foreground="Black"
+                                   LineHeight="22"
+                                   Text="{Binding About}"
+                                   TextWrapping="Wrap" />
+                        <Grid Grid.Row="3"
+                              Margin="0,16,0,0"
+                              Background="{StaticResource Brush-Blue-01}"
+                              Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                            <TextBlock Margin="0,2,0,2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       Foreground="White"
+                                       Text="{Binding BadgeUpdateVersionRequired}" />
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-            
+
         </Grid>
-        
+
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
@@ -397,7 +436,8 @@
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
 
                         <Setter Target="HamburgerMenu.Style" Value="{StaticResource VerticalHamburgerMenu}" />
-                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource ExpandableTemplate}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource VerticalItemTemplate}" />
+                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource VerticalOptionTemplate}" />
                         <Setter Target="HamburgerMenu.IsPaneOpen" Value="False" />
 
                         <Setter Target="TitleGrid.Visibility" Value="Visible" />
@@ -423,7 +463,10 @@
                         <Setter Target="Splitter.Visibility" Value="Visible" />
 
                         <Setter Target="HamburgerMenu.Style" Value="{StaticResource HorizontalHamburgerMenu}" />
-                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource ButtonTemplate}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource HorizontalItemTemplate}" />
+                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource HorizontalOptionTemplate}" />
+                        <Setter Target="HamburgerMenu.PaneBackground" Value="White" />
+                        <Setter Target="HamburgerMenu.PaneForeground" Value="Black" />
 
                         <Setter Target="TitleGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>

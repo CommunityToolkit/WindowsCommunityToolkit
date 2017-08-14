@@ -127,8 +127,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Options
             HamburgerMenu.OptionsItemsSource = new[]
             {
-                new Option { Glyph = "", Name = "More resources", PageType = typeof(About), Tag = moreResources },
-                new Option { Glyph = "", Name = "About", PageType = typeof(About) }
+                new Option { Glyph = "\xEC7A", Name = "More resources", PageType = typeof(About), Tag = moreResources },
+                new Option { Glyph = "\xE946", Name = "About", PageType = typeof(About) }
             };
 
             HideInfoArea();
@@ -384,6 +384,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 NavigationFrame.Navigate(option.PageType);
             }
 
+            HideSamplePicker();
             HamburgerMenu.IsPaneOpen = false;
 
             var expanders = HamburgerMenu.FindDescendants<Expander>();
@@ -530,7 +531,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            HamburgerMenu.IsPaneOpen = true;
+            HideSamplePicker();
             _searchBox.Text = string.Empty;
 
             _searchButton.Visibility = Visibility.Collapsed;
