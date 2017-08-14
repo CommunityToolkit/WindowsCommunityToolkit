@@ -16,7 +16,8 @@
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       Loaded="Shell_OnLoaded"
       SizeChanged="Page_SizeChanged"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      x:Name="RootPage">
     <Page.Resources>
         <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
 
@@ -38,21 +39,51 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="ExpandableTemplate"
+                      x:DataType="local:SampleCategory">
+            <controls:Expander Header="{x:Bind Name}"
+                               Style="{StaticResource HamburgerExpanderItem}"
+                               Expanded="Expander_Expanded"
+                               Background="Transparent"
+                               Foreground="White">
+                <ListView ItemTemplate="{StaticResource SampleTemplate}"
+                          ItemsSource="{x:Bind Samples}"
+                          SelectionMode="None"
+                          Margin="0,-4,0,0"
+                          IsItemClickEnabled="True"
+                          ItemClick="VerticalSamplePickerListView_ItemClick"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Auto">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Margin="32,0" Orientation="Horizontal"></ItemsStackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0,0,10,0"></Setter>
+                            <Setter Property="Padding" Value="5,6"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </controls:Expander>
+        </DataTemplate>
+
         <DataTemplate x:Key="OptionTemplate"
                       x:DataType="local:Option">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="32" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0"
-                          FontFamily="Segoe MDL2 Assets"
-                          FontSize="16"
-                          Foreground="White"
-                          Glyph="{x:Bind Glyph}" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
-                           FontSize="16"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Opacity="0.8"
+                           Margin="0,14"
                            Foreground="White"
                            Text="{x:Bind Name}" />
             </Grid>
@@ -60,23 +91,19 @@
 
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="local:Sample">
-            <StackPanel Height="104"
-                        Width="120"
-                        PointerEntered="StackPanel_PointerEntered"
+            <StackPanel PointerEntered="StackPanel_PointerEntered"
                         PointerExited="StackPanel_PointerExited"
                         Background="Transparent">
-                <Border VerticalAlignment="Center"
-                        BorderBrush="{StaticResource Brush-Grey-04}"
-                        BorderThickness="1">
-                    <Image Width="80"
+                <Border Background="Black">
+                    <Image Width="120"
+                           Height="80"
                            Source="{Binding Icon}" />
                 </Border>
 
-                <TextBlock VerticalAlignment="Top"
-                           FontSize="16"
-                           Margin="0,8,0,0"
+                <TextBlock Margin="0,10,0,12"
+                           FontSize="12"
                            FontWeight="Light"
-                           Foreground="{StaticResource Brush-Grey-03}"
+                           Foreground="White"
                            Text="{x:Bind Name}" />
 
             </StackPanel>
@@ -90,16 +117,49 @@
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource OptionTemplate}"
                             PaneBackground="{StaticResource Brush-Grey-02}"
-                            Style="{StaticResource HorizontalHamburgerMenu}">
+                            Style="{StaticResource VerticalHamburgerMenu}">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="152"></RowDefinition>
                 <RowDefinition Height="304"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+
+            <Grid x:Name="TitleGrid"
+                  Height="48"
+                  Background="White"
+                  Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="HamburgerButton"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Main button"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="HamburgerButtonClicked"
+                        TabIndex="0">
+                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                              FontSize="16"
+                              Margin="16"
+                              Foreground="Black"
+                              Glyph="&#xE700;" />
+                </Button>
+                <TextBlock x:Name="TitleTextBlock"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           FontFamily="Segoe UI"
+                           FontSize="15px"></TextBlock>
+            </Grid>
             
             <Grid x:Name="RootGrid"
-                  Grid.Row="0"
+                  Grid.Row="1"
                   Grid.RowSpan="3"
                   Background="{StaticResource Brush-Grey-05}">
                 <Grid.ColumnDefinitions>
@@ -241,7 +301,7 @@
             </Grid>
 
             <Grid x:Name="SamplePickerGrid"
-                  Grid.Row="0" 
+                  Grid.Row="1"
                   Visibility="Collapsed"
                   Background="#AA000000">
                 <ListView x:Name="SamplePickerListView" 
@@ -262,7 +322,7 @@
             </Grid>
 
             <Grid x:Name="SamplePickerDetailsGrid"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Background="#55000000"
                   Visibility="Collapsed">
                 <Grid Width="500"
@@ -336,34 +396,16 @@
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
 
-                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactOverlay" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="MediumState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
-                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1" />
-                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource VerticalHamburgerMenu}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource ExpandableTemplate}" />
+                        <Setter Target="HamburgerMenu.IsPaneOpen" Value="False" />
 
-                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
-                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1" />
-                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2" />
-
-                        <Setter Target="ExpandButton.Content" Value="" />
-
-                        <Setter Target="Splitter.Visibility" Value="Collapsed" />
-
-                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
+                        <Setter Target="TitleGrid.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1200" />
+                        <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0" />
@@ -380,7 +422,10 @@
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
 
-                        <Setter Target="HamburgerMenu.DisplayMode" Value="CompactInline" />
+                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource HorizontalHamburgerMenu}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource ButtonTemplate}" />
+
+                        <Setter Target="TitleGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
 
                 </VisualState>

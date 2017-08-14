@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private bool _isPaneOpen;
         private Sample _currentSample;
         private AutoSuggestBox _searchBox;
+        private Button _searchButton;
 
         public bool DisplayWaitRing
         {
@@ -62,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _currentSample = null;
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
+            TitleTextBlock.Text = string.Empty;
         }
 
         public void ShowOnlyHeader(string title)
@@ -92,7 +94,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (pageType != null)
             {
                 InfoAreaPivot.Items.Clear();
-
                 NavigationFrame.Navigate(pageType, sample.Name);
             }
         }
@@ -239,6 +240,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     HideInfoArea();
                 }
+
+                TitleTextBlock.Text = $"{category.Name} -> {sample.Name}";
             }
 
             if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
@@ -375,12 +378,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (option.Tag != null)
             {
                 NavigationFrame.Navigate(typeof(SamplePicker), option.Tag);
-                return;
             }
-
-            if (NavigationFrame.CurrentSourcePageType != option.PageType)
+            else if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
+            }
+
+            HamburgerMenu.IsPaneOpen = false;
+
+            var expanders = HamburgerMenu.FindDescendants<Expander>();
+            foreach (var expander in expanders)
+            {
+                expander.IsExpanded = false;
             }
         }
 
@@ -436,9 +445,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (DataContext == null)
+            if (e.NewSize.Width <= 700)
             {
-                return;
+                if (e.PreviousSize.Width > 700)
+                {
+                    HideSamplePicker();
+                    ConnectToSearch();
+                }
+
+                HamburgerMenu.OpenPaneLength = e.NewSize.Width;
+            }
+            else if (e.PreviousSize.Width <= 700)
+            {
+                ConnectToSearch();
             }
         }
 
@@ -447,67 +466,96 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
 
+        private void ConnectToSearch()
+        {
+            if (_searchBox != null)
+            {
+                _searchBox.LostFocus -= SearchBox_LostFocus;
+                _searchBox.QuerySubmitted -= SearchBox_QuerySubmitted;
+                _searchBox.TextChanged -= SearchBox_TextChanged;
+            }
+
+            if (_searchButton != null)
+            {
+                _searchButton.Click -= SearchButton_Click;
+            }
+
+            _searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
+            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
+
+            if (_searchBox == null || _searchButton == null)
+            {
+                return;
+            }
+
+            _searchBox.LostFocus += SearchBox_LostFocus;
+            _searchBox.QuerySubmitted += SearchBox_QuerySubmitted;
+            _searchBox.TextChanged += SearchBox_TextChanged;
+
+            _searchButton.Click += SearchButton_Click;
+
+            _searchBox.DisplayMemberPath = "Name";
+            _searchBox.TextMemberPath = "Name";
+        }
+
         private async void UpdateSearchSuggestions()
         {
             _searchBox.ItemsSource = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name);
         }
 
-        private void ConnectToSearch()
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
-            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
-
-            if (_searchBox == null || searchButton == null)
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 return;
             }
 
-            searchButton.Click += async (sender, args) =>
+            UpdateSearchSuggestions();
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var sample = args.ChosenSuggestion as Sample;
+            if (sample != null)
             {
-                HamburgerMenu.IsPaneOpen = true;
-                _searchBox.Text = string.Empty;
-
-                // We need to wait for the textbox to be created to focus it (only first time).
-                TextBox innerTextbox = null;
-
-                do
-                {
-                    innerTextbox = _searchBox.FindDescendant<TextBox>();
-                    innerTextbox?.Focus(FocusState.Programmatic);
-
-                    if (innerTextbox == null)
-                    {
-                        await Task.Delay(150);
-                    }
-                }
-                while (innerTextbox == null);
-            };
-
-            _searchBox.DisplayMemberPath = "Name";
-            _searchBox.TextMemberPath = "Name";
-
-            _searchBox.QuerySubmitted += (sender, args) =>
+                NavigateToSample(sample);
+            }
+            else
             {
-                var sample = args.ChosenSuggestion as Sample;
-                if (sample != null)
-                {
-                    NavigateToSample(sample);
-                }
-                else
-                {
-                    NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
-                }
-            };
+                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+            }
 
-            _searchBox.TextChanged += (sender, args) =>
+            HamburgerMenu.IsPaneOpen = false;
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            HamburgerMenu.IsPaneOpen = true;
+            _searchBox.Text = string.Empty;
+
+            _searchButton.Visibility = Visibility.Collapsed;
+            _searchBox.Visibility = Visibility.Visible;
+
+            // We need to wait for the textbox to be created to focus it (only first time).
+            TextBox innerTextbox = null;
+
+            do
             {
-                if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
-                {
-                    return;
-                }
+                innerTextbox = _searchBox.FindDescendant<TextBox>();
+                innerTextbox?.Focus(FocusState.Programmatic);
 
-                UpdateSearchSuggestions();
-            };
+                if (innerTextbox == null)
+                {
+                    await Task.Delay(150);
+                }
+            }
+            while (innerTextbox == null);
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _searchButton.Visibility = Visibility.Visible;
+            _searchBox.Visibility = Visibility.Collapsed;
         }
 
         private void Shell_OnLoaded(object sender, RoutedEventArgs e)
@@ -553,6 +601,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             HideSamplePicker();
             NavigateToSample(e.ClickedItem as Sample);
+        }
+
+        private void VerticalSamplePickerListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            HamburgerMenu.IsPaneOpen = false;
+            NavigateToSample(e.ClickedItem as Sample);
+        }
+
+        private void Expander_Expanded(object sender, EventArgs e)
+        {
+            var expanders = HamburgerMenu.FindDescendants<Expander>();
+            foreach (var expander in expanders)
+            {
+                if (expander != sender)
+                {
+                    expander.IsExpanded = false;
+                }
+            }
+        }
+
+        private void HamburgerButtonClicked(object sender, RoutedEventArgs e)
+        {
+            HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
         }
     }
 }
