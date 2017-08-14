@@ -13,23 +13,25 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class AdaptiveGridViewPage
+    public sealed partial class AdaptiveGridViewPage: IXamlRenderListener
     {
+        private AdaptiveGridView AdaptiveGridViewControl;
+
         public AdaptiveGridViewPage()
         {
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
-
+            AdaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewcontrol") as AdaptiveGridView;
             AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
             AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
             AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;

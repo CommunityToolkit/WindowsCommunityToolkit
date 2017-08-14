@@ -6,7 +6,6 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.DropShadowPanelPage"
     mc:Ignorable="d">
 
   <Page.Resources>
@@ -88,7 +87,7 @@
                                     Color="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
-            <Image Width="200" Source="Unicorn.png" Stretch="Uniform"/>
+            <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform"/>
           </controls:DropShadowPanel>
           <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
                                     ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
@@ -97,7 +96,7 @@
                                     Color="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
-            <Image Width="200" Source="Trex.png" Stretch="Uniform"/>
+            <Image Width="200" Source="/SamplePages/DropShadowPanel/Trex.png" Stretch="Uniform"/>
           </controls:DropShadowPanel>
         </StackPanel>
       </StackPanel>

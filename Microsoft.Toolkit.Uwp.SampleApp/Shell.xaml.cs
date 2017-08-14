@@ -24,6 +24,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -91,10 +92,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void NavigateToSample(Sample sample)
         {
+            var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
             InfoAreaPivot.Items.Clear();
 
-            // TODO: Do I have a special Page here?
-            NavigationFrame.Navigate(typeof(Page), sample.Name);
+            if (pageType != null)
+            {
+                InfoAreaPivot.Items.Clear();
+
+                NavigationFrame.Navigate(pageType, sample.Name);
+            }
         }
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
@@ -531,11 +537,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 // Add element to main panel
                 var content = NavigationFrame.Content as Page;
-                content.Content = element;
+                var root = content.FindDescendantByName("XamlRoot");
+
+                if (root is Panel)
+                {
+                    // If we've defined a 'XamlRoot' element to host us as a panel, use that.
+                    (root as Panel).Children.Clear();
+                    (root as Panel).Children.Add(element);
+                }
+                else
+                {
+                    // Otherwise, just replace the entire page's content
+                    content.Content = element;
+                }
+
+                // Tell the page we've finished with an update to the XAML contents.
+                (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
             }
         }
 
-        private static readonly int[] NonCharacterCodes = new int[] {
+        private static readonly int[] NonCharacterCodes = new int[]
+        {
             // Modifier Keys
             16, 17, 18, 20, 91,
 

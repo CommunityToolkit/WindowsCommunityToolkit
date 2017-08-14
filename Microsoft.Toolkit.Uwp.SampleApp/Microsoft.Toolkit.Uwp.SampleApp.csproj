@@ -422,6 +422,7 @@
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\IXamlRenderListener.cs" />
     <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
       <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>
