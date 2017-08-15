@@ -559,8 +559,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     content.Content = element;
                 }
 
-                // Tell the page we've finished with an update to the XAML contents.
-                (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
+                // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
+                Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
+                });
             }
         }
 

@@ -11,22 +11,41 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class HamburgerMenuPage
+    public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
+        private HamburgerMenu HamburgerMenuControl;
+        private Grid ContentGrid;
+
         public HamburgerMenuPage()
         {
             InitializeComponent();
         }
 
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            ContentGrid = control.FindDescendantByName("ContentGrid") as Grid;
+            HamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
+            if (HamburgerMenuControl != null)
+            {
+                HamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
+                HamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
+            }
+        }
+
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ContentGrid.DataContext = e.ClickedItem;
+            if (ContentGrid != null)
+            {
+                ContentGrid.DataContext = e.ClickedItem;
+            }
         }
 
         private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)

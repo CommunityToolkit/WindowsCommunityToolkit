@@ -32,9 +32,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public async void OnXamlRendered(FrameworkElement control)
         {
             AdaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewcontrol") as AdaptiveGridView;
-            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-            AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
-            AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+            if (AdaptiveGridViewControl != null)
+            {
+                AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+                AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
+                AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+            }
         }
 
         private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
