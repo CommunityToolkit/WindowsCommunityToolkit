@@ -20,7 +20,7 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class AdaptiveGridViewPage: IXamlRenderListener
+    public sealed partial class AdaptiveGridViewPage : IXamlRenderListener
     {
         private AdaptiveGridView AdaptiveGridViewControl;
 

@@ -31,7 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public uint EndColumn { get; set; }
 
-        public XamlExceptionRange(string message, Exception error, uint startline, uint startcol, uint endline, uint endcol) : base(message, error)
+        public XamlExceptionRange(string message, Exception error, uint startline, uint startcol, uint endline, uint endcol)
+            : base(message, error)
         {
             StartLine = startline;
             StartColumn = startcol;
