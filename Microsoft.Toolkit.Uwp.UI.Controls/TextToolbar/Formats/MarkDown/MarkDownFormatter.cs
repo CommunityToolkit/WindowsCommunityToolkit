@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     return ListLineIterator == 1 || ReachedEndLine ? "```" : string.Empty;
                 };
 
-                SetList(codeLines, button, wrapNewLines: true, enableToggle: false);
+                SetList(codeLines, button, wrapNewLines: true);
             }
         }
 
@@ -115,7 +115,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     originalText = originalText.Remove(originalText.Length - 1, 1);
                 }
 
-                Selected.Text = start + originalText + end;
+                string beginningNoWhiteSpace = originalText.TrimStart();
+                string beginningWhiteSpace = originalText.Replace(beginningNoWhiteSpace, string.Empty);
+
+                string endNoWhiteSpace = originalText.TrimEnd();
+                string endWhiteSpace = originalText.Replace(endNoWhiteSpace, string.Empty);
+
+                string originalNoWhiteSpace = originalText.Trim();
+
+                Selected.Text = beginningWhiteSpace + start + originalNoWhiteSpace + end + endWhiteSpace;
 
                 if (string.IsNullOrWhiteSpace(originalText))
                 {
@@ -125,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 else
                 {
                     Selected.StartPosition = originalStartPos + start.Length;
-                    Selected.EndPosition = Selected.StartPosition + originalText.Length;
+                    Selected.EndPosition = Selected.StartPosition + originalNoWhiteSpace.Length;
                 }
             }
         }
@@ -201,65 +209,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         }
 
         /// <summary>
-        /// Iterates a new line char if an enter was pressed.
-        /// </summary>
-        /// <param name="button">Button linked to List Event</param>
-        /// <param name="listChar">Line Char function.</param>
-        private void SetListTextChanged(ToolbarButton button, Func<string> listChar)
-        {
-            Selected.StartPosition -= 1;
-            var lastEntered = Selected.Text;
-            Selected.StartPosition += 1;
-
-            if (Model.LastKeyPress == Windows.System.VirtualKey.Back)
-            {
-                var indexer = listChar();
-                var line = GetLastLine();
-
-                if (!line.StartsWith(indexer))
-                {
-                    button.IsToggled = false;
-                }
-            }
-
-            if (lastEntered == Return)
-            {
-                ListLineIterator++;
-                Selected.Text += listChar();
-
-                Selected.StartPosition = Selected.EndPosition;
-            }
-        }
-
-        /// <summary>
         ///  This function will either add List Characters to lines of text, or Remove List Characters from Lines of Text, if already applied.
         /// </summary>
         /// <param name="listChar">A function for generating a List Character, use ListLineIterator to generate a Numbered Style List, or return a string Result, e.g. () => "- "</param>
         /// <param name="button">Button that activated the Set List</param>
         /// <param name="wrapNewLines">Adds New Lines to Start and End of Selected Text</param>
-        /// <param name="enableToggle">Is this a Toggleable element?</param>
-        public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false, bool enableToggle = true)
+        public virtual void SetList(Func<string> listChar, ToolbarButton button, bool wrapNewLines = false)
         {
             if (Model.Editor == null)
             {
                 return;
-            }
-            else if (enableToggle)
-            {
-                if (button.TextChangedEvent == null)
-                {
-                    button.TextChangedEvent = new RoutedEventHandler((s, e) => SetListTextChanged(button, listChar));
-                }
-
-                if (!button.IsToggled)
-                {
-                    button.IsToggled = true;
-                }
-                else
-                {
-                    button.IsToggled = false;
-                    return;
-                }
             }
 
             ListLineIterator = 1;

@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         public RichTextFormatter(TextToolbar model)
             : base(model)
         {
+            ButtonActions = new RichTextButtonActions(this);
         }
 
         public void FormatUnderline(ToolbarButton button)

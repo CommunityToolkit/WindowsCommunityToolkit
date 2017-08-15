@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 string formattedlabelText;
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
 
-                Model.Formatter.ButtonActions.FormatLink(button, labelText, formattedlabelText, linkBox.Text);
+                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
             }
         }
     }

@@ -74,12 +74,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
         public override void FormatList(ToolbarButton button)
         {
-            Formatter.SetList(() => "- ", button, enableToggle: true);
+            Formatter.SetList(() => "- ", button);
         }
 
         public override void FormatOrderedList(ToolbarButton button)
         {
-            Formatter.SetList(Formatter.OrderedListIterate, button, enableToggle: true);
+            Formatter.SetList(Formatter.OrderedListIterate, button);
         }
 
         public MarkDownFormatter Formatter { get; }
