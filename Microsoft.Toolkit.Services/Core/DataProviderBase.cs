@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Services
         /// </summary>
         public DataProviderBase()
         {
-            HttpClient = httpClient ?? new HttpClient();
+            
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Services
         /// </summary>
         public static HttpClient HttpClient
         {
-            get { return httpClient; }
+            get { return httpClient ?? (httpClient = new HttpClient()); }
             set { httpClient = value; }
         }
         
