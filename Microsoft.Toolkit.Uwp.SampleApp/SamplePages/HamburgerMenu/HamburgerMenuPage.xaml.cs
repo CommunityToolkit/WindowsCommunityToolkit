@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
-        private HamburgerMenu HamburgerMenuControl;
-        private Grid ContentGrid;
+        private HamburgerMenu hamburgerMenuControl;
+        private Grid contentGrid;
 
         public HamburgerMenuPage()
         {
@@ -31,20 +31,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            ContentGrid = control.FindDescendantByName("ContentGrid") as Grid;
-            HamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
-            if (HamburgerMenuControl != null)
+            contentGrid = control.FindDescendantByName("ContentGrid") as Grid;
+            hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
+            if (hamburgerMenuControl != null)
             {
-                HamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
-                HamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
+                hamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
+                hamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
             }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            if (ContentGrid != null)
+            if (contentGrid != null)
             {
-                ContentGrid.DataContext = e.ClickedItem;
+                contentGrid.DataContext = e.ClickedItem;
             }
         }
 

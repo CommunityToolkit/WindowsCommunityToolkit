@@ -12,11 +12,11 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class CarouselPage : Page, IXamlRenderListener
     {
-        private Carousel CarouselControl;
+        private Carousel carouselControl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselPage"/> class.
@@ -37,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            CarouselControl = control.FindDescendantByName("CarouselControl") as Carousel;
-            CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            carouselControl = control.FindDescendantByName("CarouselControl") as Carousel;
+            carouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
 
         /// <summary>

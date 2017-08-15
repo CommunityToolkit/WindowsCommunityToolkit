@@ -362,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_currentSample != null && _currentSample.HasXAMLCode)
             {
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                UpdateXamlRender(_currentSample.BindedXamlCode);
+                UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
             }
         }
 
@@ -419,7 +419,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Properties Panel, we want to use a binded version of the Xaml Code.
                 if (_currentSample.HasXAMLCode)
                 {
-                    UpdateXamlRender(_currentSample.BindedXamlCode);
+                    UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
                 }
 
                 return;
@@ -430,7 +430,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
-                UpdateXamlRender(_currentSample.UpdatedXamlCode);
+                UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
             }
 
             if (_currentSample.HasCSharpCode)
@@ -538,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ConnectToSearch();
         }
 
-        private void UpdateXamlRender(string text)
+        private async void UpdateXamlRenderAsync(string text)
         {
             var element = _xamlRenderer.Render(text);
             if (element != null)
@@ -560,7 +560,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
-                Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
                 });
@@ -589,7 +589,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if ((args.KeyCode == 13 && args.CtrlKey) ||
                  args.KeyCode == 116)
             {
-                UpdateXamlRender(XamlCodeRenderer.Text);
+                UpdateXamlRenderAsync(XamlCodeRenderer.Text);
 
                 // Eat key stroke
                 args.Handled = true;
@@ -609,7 +609,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
-                            UpdateXamlRender(XamlCodeRenderer.Text);
+                            UpdateXamlRenderAsync(XamlCodeRenderer.Text);
                         });
                     }, TimeSpan.FromSeconds(0.5));
             }

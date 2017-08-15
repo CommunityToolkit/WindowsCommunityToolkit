@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class AdaptiveGridViewPage : IXamlRenderListener
     {
-        private AdaptiveGridView AdaptiveGridViewControl;
+        private AdaptiveGridView adaptiveGridViewControl;
 
         public AdaptiveGridViewPage()
         {
@@ -31,19 +31,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            AdaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewcontrol") as AdaptiveGridView;
-            if (AdaptiveGridViewControl != null)
+            adaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewcontrol") as AdaptiveGridView;
+            if (adaptiveGridViewControl != null)
             {
-                AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-                AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
-                AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+                adaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+                adaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
+                adaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
             }
         }
 
         private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
-            SelectedItemCountTextBlock.Text = AdaptiveGridViewControl.SelectedItems.Any()
-                ? $"You have selected {AdaptiveGridViewControl.SelectedItems.Count} items."
+            SelectedItemCountTextBlock.Text = adaptiveGridViewControl.SelectedItems.Any()
+                ? $"You have selected {adaptiveGridViewControl.SelectedItems.Count} items."
                 : "You haven't selected any items";
         }
 
