@@ -17,35 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for revoked OAuth keys.
     /// </summary>
-    public class OAuthKeysRevokedException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class OAuthKeysRevokedException : Toolkit.Services.Exceptions.OAuthKeysRevokedException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OAuthKeysRevokedException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public OAuthKeysRevokedException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OAuthKeysRevokedException"/> class.
-        /// Constructor with additional message.
-        /// </summary>
-        /// <param name="message">Additional message</param>
-        public OAuthKeysRevokedException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OAuthKeysRevokedException"/> class.
-        /// Constructor with additional message and inner exception.
-        /// </summary>
-        /// <param name="message">Additionnal message.</param>
-        /// <param name="innerException">Reference to inner exception.</param>
-        public OAuthKeysRevokedException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

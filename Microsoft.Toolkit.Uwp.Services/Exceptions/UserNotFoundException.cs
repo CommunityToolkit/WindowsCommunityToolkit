@@ -17,23 +17,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for user not found.
     /// </summary>
-    public class UserNotFoundException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class UserNotFoundException : Toolkit.Services.Exceptions.UserNotFoundException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserNotFoundException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public UserNotFoundException()
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UserNotFoundException"/> class.
         /// Constructor with screen/user name information.
         /// </summary>
         /// <param name="screenName">Name of user not found.</param>
         public UserNotFoundException(string screenName)
-            : base("User " + screenName + " not found.")
+            : base(screenName)
         {
         }
 
@@ -44,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
         /// <param name="screenName">Name of user not found.</param>
         /// <param name="innerException">Reference to inner exception.</param>
         public UserNotFoundException(string screenName, Exception innerException)
-            : base("User " + screenName + " not found.", innerException)
+            : base(screenName, innerException)
         {
         }
     }

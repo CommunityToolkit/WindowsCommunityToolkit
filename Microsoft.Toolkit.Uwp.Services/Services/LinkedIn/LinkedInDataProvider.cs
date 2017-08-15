@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                         return parser.Parse(data);
                     }
 
-                    throw new RequestFailedException(response.StatusCode, data);
+                    throw new Toolkit.Services.Exceptions.RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
                 }
             }
         }
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             if (config?.Query == null)
             {
-                throw new ConfigParameterNullException(nameof(config.Query));
+                throw new Toolkit.Services.Exceptions.ConfigParameterNullException(nameof(config.Query));
             }
         }
 
