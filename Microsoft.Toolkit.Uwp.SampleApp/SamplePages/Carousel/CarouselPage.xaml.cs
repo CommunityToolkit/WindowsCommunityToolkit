@@ -10,17 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// A page that shows how to use the Carousel control.
     /// </summary>
-    public sealed partial class CarouselPage : Page
+    public sealed partial class CarouselPage : Page, IXamlRenderListener
     {
+        private Carousel CarouselControl;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselPage"/> class.
         /// </summary>
@@ -29,11 +35,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
+        public async void OnXamlRendered(FrameworkElement control)
+        {
+            CarouselControl = control.FindDescendantByName("CarouselControl") as Carousel;
+            CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+        }
+
         /// <summary>
         /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
         /// </summary>
         /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -43,8 +55,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 DataContext = propertyDesc.Expando;
             }
-
-            CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }
