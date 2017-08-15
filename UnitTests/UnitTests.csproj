@@ -119,6 +119,7 @@
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_ColorHelper.cs" />
     <Compile Include="Helpers\Test_ConnectionHelper.cs" />
+    <Compile Include="Helpers\Test_ScreenUnitHelper.cs" />
     <Compile Include="Helpers\Test_StorageFileHelper.cs" />
     <Compile Include="Helpers\Test_HttpHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />

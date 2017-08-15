@@ -18,7 +18,7 @@
           VerticalAlignment="Center"/>
       
       <controls:RoundImageEx x:Name="RoundImageExControl1"
-          IsCacheEnabled="True"
+          IsCacheEnabled="@[Enable Cache:Bool:True]"
           Source="{Binding Thumbnail}"
           Stretch="UniformToFill"
           CornerRadius="999"

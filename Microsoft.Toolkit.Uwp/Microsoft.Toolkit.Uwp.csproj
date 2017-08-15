@@ -77,6 +77,8 @@
     <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
+    <Compile Include="Helpers\ScreenUnit.cs" />
+    <Compile Include="Helpers\ScreenUnitHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\SystemInformation.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />

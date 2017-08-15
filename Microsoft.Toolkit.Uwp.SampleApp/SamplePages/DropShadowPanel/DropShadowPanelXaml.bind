@@ -48,28 +48,28 @@
         <Border Style="{StaticResource DividingBorder}"/>
 
         <StackPanel Orientation="Horizontal">
-          <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
-                                    ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
-                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+          <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                    OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
+                                    OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                     Margin="20">
             <Polygon Points="50,0 0,50 50,50"
                 Stroke="BlueViolet" StrokeThickness="2" Fill="Blue"/>
           </controls:DropShadowPanel>
 
-          <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
-                                    ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
-                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+          <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                    OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
+                                    OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                     Margin="20">
             <Rectangle Width="100" Height="50"
                 Stroke="Green" StrokeThickness="5"/>
           </controls:DropShadowPanel>
 
-          <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
-                                    ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
-                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+          <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                    OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
+                                    OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                     Margin="20">
             <Polyline Points="0,0 50,50 50,0 0,50"
                 Stroke="Black" StrokeThickness="2"/>
@@ -80,19 +80,19 @@
         <Border Style="{StaticResource DividingBorder}"/>
 
         <StackPanel Orientation="Horizontal">
-          <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
-                                    ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
-                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+          <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                    OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
+                                    OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                     Color="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
             <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform"/>
           </controls:DropShadowPanel>
-          <controls:DropShadowPanel BlurRadius="{Binding BlurRadius.Value, Mode=OneWay}"
-                                    ShadowOpacity="{Binding Opacity.Value, Mode=OneWay}"
-                                    OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                    OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
+          <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                    OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
+                                    OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                     Color="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">

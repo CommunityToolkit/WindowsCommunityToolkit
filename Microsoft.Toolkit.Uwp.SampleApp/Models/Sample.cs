@@ -206,6 +206,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         if (Enum.TryParse(type, out kind))
                         {
+                            var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
+                            if (existingOption != null)
+                            {
+                                if (existingOption.Kind != kind)
+                                {
+                                    throw new NotSupportedException($"Multiple options with same name but different type not supported: {XamlCodeFile}:{name}");
+                                }
+
+                                continue;
+                            }
+
                             PropertyOptions options;
 
                             switch (kind)
