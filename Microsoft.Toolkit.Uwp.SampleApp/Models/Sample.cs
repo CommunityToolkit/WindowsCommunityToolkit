@@ -147,6 +147,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets a version of the XamlCode with the explicit values of the option controls.
+        /// </summary>
         public string UpdatedXamlCode
         {
             get
@@ -167,6 +170,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets a version of the XamlCode bound directly to the slider/option controls.
+        /// </summary>
+        public string BindedXamlCode
+        {
+            get
+            {
+                if (_propertyDescriptor == null)
+                {
+                    return string.Empty;
+                }
+
+                var result = XamlCode;
+                var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
+                foreach (var option in _propertyDescriptor.Options)
+                {
+                    var value = proxy[option.Name] as ValueHolder;
+                    if (value != null)
+                    {
+                        result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
                     }
                 }
 

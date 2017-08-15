@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
@@ -24,7 +25,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -361,7 +361,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_currentSample != null && _currentSample.HasXAMLCode)
             {
-                UpdateXamlRender(_currentSample.UpdatedXamlCode);
+                // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
+                UpdateXamlRender(_currentSample.BindedXamlCode);
             }
         }
 
@@ -408,18 +409,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
-            {
-                return;
-            }
-
             if (_currentSample == null)
             {
                 return;
             }
 
-            if (_currentSample.HasXAMLCode)
+            if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
+                // If we switch to the Properties Panel, we want to use a binded version of the Xaml Code.
+                if (_currentSample.HasXAMLCode)
+                {
+                    UpdateXamlRender(_currentSample.BindedXamlCode);
+                }
+
+                return;
+            }
+
+            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem)
+            {
+                // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
                 UpdateXamlRender(_currentSample.UpdatedXamlCode);
