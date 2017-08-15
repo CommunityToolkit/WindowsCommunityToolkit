@@ -28,14 +28,14 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
 <TextBox Width="106"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
-          controls:SurfaceDialTextboxHelper.EnableHapticFeedback="True"
-          controls:SurfaceDialTextboxHelper.EnableMinMaxValue="True"
-          controls:SurfaceDialTextboxHelper.EnableTapToNextControl="False"
-          controls:SurfaceDialTextboxHelper.ForceMenuItem="True"
-          controls:SurfaceDialTextboxHelper.Icon="Ruler"
-          controls:SurfaceDialTextboxHelper.MaxValue="0"
-          controls:SurfaceDialTextboxHelper.MinValue="100"
-          controls:SurfaceDialTextboxHelper.StepValue="1"
+          extensions:SurfaceDialTextboxHelper.EnableHapticFeedback="True"
+          extensions:SurfaceDialTextboxHelper.EnableMinMaxValue="True"
+          extensions:SurfaceDialTextboxHelper.EnableTapToNextControl="False"
+          extensions:SurfaceDialTextboxHelper.ForceMenuItem="True"
+          extensions:SurfaceDialTextboxHelper.Icon="Ruler"
+          extensions:SurfaceDialTextboxHelper.MaxValue="0"
+          extensions:SurfaceDialTextboxHelper.MinValue="100"
+          extensions:SurfaceDialTextboxHelper.StepValue="1"
           Text="0" />  
 
 ```
@@ -52,8 +52,8 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [SurfaceDialTextboxHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper)
+* [SurfaceDialTextboxHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextboxHelper)

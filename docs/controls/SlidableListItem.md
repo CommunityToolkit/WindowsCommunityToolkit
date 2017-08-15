@@ -84,11 +84,11 @@ If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, 
 
 ## Example Code
 
-[SlideableListItem Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem)
+[SlidableListItem Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem)
 
 ## Default Template 
 
-[SlideableListItem XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/SlideableListItem/SlideableListItem.xaml) is the XAML template used in the toolkit for the default styling.
+[SlidableListItem XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 

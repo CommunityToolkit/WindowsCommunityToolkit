@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp
                 {
                     if (response.Success)
                     {
-                        await response.Content.WriteToStreamAsync(outputStream).AsTask().ConfigureAwait(false);
+                        await response.Content.WriteToStreamAsync(outputStream);
 
                         outputStream.Seek(0);
                     }
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp
             this Uri uri,
             StorageFile targetFile)
         {
-            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 using (var request = new HttpHelperRequest(uri, HttpMethod.Get))
                 {
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp
                     {
                         if (response.Success)
                         {
-                            await response.Content.WriteToStreamAsync(fileStream).AsTask().ConfigureAwait(false);
+                            await response.Content.WriteToStreamAsync(fileStream);
                         }
                     }
                 }

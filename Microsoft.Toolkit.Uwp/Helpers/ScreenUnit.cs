@@ -10,17 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
-    public sealed partial class SurfaceDialTextboxHelperPage : Page
+    /// <summary>
+    /// Enumeration listing all screen units.
+    /// </summary>
+    public enum ScreenUnit
     {
-        public SurfaceDialTextboxHelperPage()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Pixel
+        /// </summary>
+        Pixel,
+
+        /// <summary>
+        /// Centimeter
+        /// </summary>
+        Centimeter,
+
+        /// <summary>
+        /// Inch
+        /// </summary>
+        Inch,
+
+        /// <summary>
+        /// Effective Pixel
+        /// </summary>
+        EffectivePixel
     }
 }

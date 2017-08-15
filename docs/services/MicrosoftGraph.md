@@ -4,6 +4,7 @@ The **MicrosoftGraph** Service aim to easily logon to Office 365 Service in orde
 
 * Retrieve User Information
 * Retrieve and Send emails
+* Retrieve User events
 
 ## Prerequisites
 
@@ -36,6 +37,7 @@ When you register your app in the [Azure Management Portal](manage.windowsazure.
 4. Specify the permission levels the MicrosoftGraph Service requires from the Office 365 API (Microsoft Graph). Choose at least:
    * **Sign in and read user profile** to access user's profile.
    * **Read user mail and Send mail as user** to retrieve/send messages.
+   * **Read user calendars** to retrieve events.
 
 **Note:** Once register copy and save the Client ID for futur use.
  
@@ -44,7 +46,7 @@ When you register your app in the [Azure Management Portal](manage.windowsazure.
 |Web application and/or web API|Yes|
 |Redirect Uri|http://localhost:8080|
 |Resource to Add|Microsoft Graph|
-|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail|
+|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
 
 
 ## Syntax
@@ -114,12 +116,12 @@ messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10);
 MessagesList.ItemsSource = messages;
 
 // You can also select any fields you want in the response
-MicrosoftGraphMessageProperties[] selectedFields = 
+MicrosoftGraphMessageFields[] selectedFields = 
 { 
- MicrosoftGraphMessageProperties.Id,
- MicrosoftGraphMessageProperties.From,
- MicrosoftGraphMessageProperties.Subject,
- MicrosoftGraphMessageProperties.BodyPreview
+ MicrosoftGraphMessageFields.Id,
+ MicrosoftGraphMessageFields.From,
+ MicrosoftGraphMessageFields.Subject,
+ MicrosoftGraphMessageFields.BodyPreview
 };
 
 messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10,selectedFields);
@@ -141,13 +143,44 @@ await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, conten
 
 // You can also send a message in html format
 string content = GetHtmlMessage();
-await MicrosoftGraphService.Instance.UseR.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+
+
+```
+
+### Retrieve calendar events
+
+```csharp
+// Get the top 10 events
+events = await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(10);
+EventsList.ItemsSource = events;
+
+// You can also select any fields you want in the response
+MicrosoftGraphEventFields[] selectedFields = 
+{ 
+ MicrosoftGraphEventFields.Id,
+ MicrosoftGraphEventFields.Attendees,
+ MicrosoftGraphEventFields.Start,
+ MicrosoftGraphEventFields.HasAttachments,
+ MicrosoftGraphEventFields.Subject,
+ MicrosoftGraphEventFields.BodyPreview
+};
+
+events = await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(10,selectedFields);
+EventsList.ItemsSource = events;
+
+// Request the next 10 events
+events = await MicrosoftGraphService.Instance.User.Event.NextPageEventsAsync();
+if (events == null)
+{
+	// no more events
+}
 
 
 ```
 
 ### Example
-[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MicrosoftGraph%20Service)
+[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service)
 
 ### Requirements (Windows 10 Device Family)
 

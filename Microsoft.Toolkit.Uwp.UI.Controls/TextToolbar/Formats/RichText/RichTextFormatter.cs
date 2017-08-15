@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
     using Windows.UI.Text;
     using Windows.UI.Xaml.Controls;
 
-    // Rudimentary showcase of RichText and Toggleable Toolbar Buttons, requires a detection of what current formatting the selected Text has, when the selection changes, and then reflecting that in the ToggleState of the Button.
+    // Rudimentary showcase of RichText and Toggleable Toolbar Buttons.
     public class RichTextFormatter : Formatter
     {
         public RichTextFormatter(TextToolbar model)

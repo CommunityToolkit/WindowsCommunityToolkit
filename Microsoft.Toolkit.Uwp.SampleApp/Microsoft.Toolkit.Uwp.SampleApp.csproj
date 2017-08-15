@@ -236,6 +236,7 @@
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
     <Content Include="Icons\DeveloperTools.png" />
+    <Content Include="Icons\Extensions.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
@@ -294,7 +295,7 @@
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
     <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
-    <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.png" />
+    <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
     <Content Include="SamplePages\Toast\icon.jpg" />
@@ -373,7 +374,7 @@
     <Content Include="SamplePages\TileControl\TileControl.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelperCode.bind">
+    <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxCode.bind">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
@@ -400,6 +401,7 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -419,6 +421,9 @@
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
+      <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
@@ -564,8 +569,8 @@
     <Compile Include="SamplePages\Object Storage\ObjectStoragePage.xaml.cs">
       <DependentUpon>ObjectStoragePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelperPage.xaml.cs">
-      <DependentUpon>SurfaceDialTextboxHelperPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxPage.xaml.cs">
+      <DependentUpon>SurfaceDialTextboxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SystemInformation\SystemInformationPage.xaml.cs">
       <DependentUpon>SystemInformationPage.xaml</DependentUpon>
@@ -681,10 +686,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-
     <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ListViewBase\ListViewBasePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Menu\MenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -842,7 +850,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\SurfaceDialTextboxHelper\SurfaceDialTextboxHelperPage.xaml">
+    <Page Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

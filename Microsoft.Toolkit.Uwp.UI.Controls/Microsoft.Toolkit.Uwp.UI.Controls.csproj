@@ -137,10 +137,6 @@
     <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
-    <Compile Include="TextBoxMask\TextBoxMask.Properties.cs" />
-    <Compile Include="TextBoxRegex\TextBoxRegex.Data.cs" />
-    <Compile Include="TextBoxRegex\TextBoxRegex.Properties.cs" />
-    <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
     <Compile Include="TextToolbar\Formats\ButtonActions.cs" />
     <Compile Include="TextToolbar\Formats\Format.cs" />
     <Compile Include="TextToolbar\Formats\Formatter.cs" />
@@ -165,6 +161,7 @@
     <Compile Include="TextToolbar\ToolbarItems\RemovalList.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarSeparator.cs" />
+    <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
@@ -341,7 +338,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.Controls.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -349,7 +345,7 @@
     <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

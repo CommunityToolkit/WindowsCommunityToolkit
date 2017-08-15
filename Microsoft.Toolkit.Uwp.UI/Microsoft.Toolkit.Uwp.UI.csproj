@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.UI</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Extensions\Hyperlink\Hyperlink.Properties.cs" />
+    <Compile Include="Extensions\Hyperlink\Hyperlink.cs" />
+    <Compile Include="Extensions\ListViewBase\ListViewBaseExtensions.cs" />
+    <Compile Include="Extensions\ListViewBase\ListViewBase.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.ruleset" />
     <None Include="project.json" />
   </ItemGroup>
@@ -71,15 +75,24 @@
     <Compile Include="Converters\EmptyStringToObjectConverter.cs" />
     <Compile Include="Converters\FormatStringConverter.cs" />
     <Compile Include="Converters\ResourceNameToResourceStringConverter.cs" />
-    <Compile Include="Extensions\ListViewBaseExtensions.cs" />
-    <Compile Include="Extensions\HyperlinkExtensions.cs" />
+    <Compile Include="Extensions\ListViewBase\ListViewBase.cs" />
+    <Compile Include="Extensions\Hyperlink\HyperlinkExtensions.cs" />
     <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="Extensions\ApplicationView.cs" />
-    <Compile Include="Extensions\TitleBar.cs" />
-    <Compile Include="Extensions\StatusBar.cs" />
+    <Compile Include="Extensions\ApplicationView\ApplicationView.cs" />
+    <Compile Include="Extensions\ListViewBase\ListViewBase.Properties.cs" />
+    <Compile Include="Extensions\SurfaceDialTextbox\SurfaceDialTextbox.cs" />
+    <Compile Include="Extensions\TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="Extensions\TextBoxMask\TextBoxMask.Properties.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Data.cs" />
+    <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Properties.cs" />
+    <Compile Include="Extensions\TitleBar\TitleBar.cs" />
+    <Compile Include="Extensions\StatusBar\StatusBar.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
-    <Compile Include="Extensions\WebViewExtensions.cs" />
+    <Compile Include="Extensions\WebView\WebView.Properties.cs" />
+    <Compile Include="Extensions\WebView\WebView.cs" />
+    <Compile Include="Extensions\WebView\WebViewExtensions.cs" />
     <Compile Include="Helpers\BindableValueHolder.cs" />
     <Compile Include="Helpers\DependencyPropertyWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,13 +108,14 @@
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
