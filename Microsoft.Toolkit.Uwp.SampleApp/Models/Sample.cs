@@ -170,6 +170,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
+                        result = result.Replace("@[" + option.Name + "]", newString);
                     }
                 }
 
@@ -197,6 +198,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (value != null)
                     {
                         result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
+                        result = result.Replace("@[" + option.Name + "]", "{Binding " + option.Name + ".Value, Mode=OneWay}");
                     }
                 }
 
@@ -221,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     XamlCode = await codeStream.ReadTextAsync();
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?):(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*\]");
+                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
@@ -232,11 +234,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         var type = match.Groups["type"].Value;
                         var value = match.Groups["value"].Value;
 
+                        var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
+
+                        if (existingOption == null && string.IsNullOrWhiteSpace(type))
+                        {
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
+                        }
+
                         PropertyKind kind;
 
                         if (Enum.TryParse(type, out kind))
                         {
-                            var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
                             if (existingOption != null)
                             {
                                 if (existingOption.Kind != kind)
