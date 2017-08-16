@@ -208,30 +208,41 @@
                                        Text="Post" />
                         </Grid>
 
-                        <StackPanel x:Name="PostPanel"
+                        <Grid x:Name="PostPanel"
                                     Grid.Row="1"
                                     Margin="24">
-                            <TextBox x:Name="TitleText"
-                                     Margin="0,0,0,12"
-                                     Header="Title" />
-                            <TextBox x:Name="DescriptionText"
-                                     Margin="0,0,0,12"
-                                     Header="Description" />
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            
                             <TextBox x:Name="UrlText"
-                                     Margin="0,0,0,12"
-                                     Header="Url"
-                                     Text="https://github.com/Microsoft/UWPCommunityToolkit" />
-                            <StackPanel Margin="0,12"
-                                        Orientation="Horizontal">
-                                <Button x:Name="ShareButton"
-                                        Margin="0,0,12,0"
-                                        Click="ShareButton_OnClick"
-                                        Content="Share with dialog" />
-                                <Button x:Name="SharePictureButton"
-                                        Click="SharePictureButton_OnClick"
-                                        Content="Share directly with picture" />
-                            </StackPanel>
-                        </StackPanel>
+                                    Header="Url"
+                                    Text="https://github.com/Microsoft/UWPCommunityToolkit" />
+                            <Button x:Name="ShareButton"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    Click="ShareButton_OnClick"
+                                    VerticalAlignment="Bottom"
+                                    Content="Share with dialog" />
+                            <TextBox x:Name="TitleText"
+                                    Grid.Row="1"
+                                    Margin="0,12,0,0"
+                                    Header="Title" />
+                            <Button x:Name="SharePictureButton"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Click="SharePictureButton_OnClick"
+                                    Content="Share directly with picture" />
+                        </Grid>
                     </Grid>
 
                     <!--  Posts  -->
