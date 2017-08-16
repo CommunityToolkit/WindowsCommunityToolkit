@@ -12,7 +12,6 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
-    using System;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.UI.Text;
 
@@ -76,17 +75,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         public override void FormatLink(ToolbarButton button, string label, string formattedText, string link)
         {
-            throw new NotImplementedException();
+            var selected = Formatter.Selected;
+            if (!string.IsNullOrWhiteSpace(label))
+            {
+                selected.SetText(TextSetOptions.FormatRtf, formattedText);
+            }
+            else
+            {
+                selected.Text = link;
+            }
+
+            selected.Link = $"\"{link}\"";
+
+            var doc = Formatter.Model.Editor.Document;
+            doc.ApplyDisplayUpdates(); // doesn't seem to work
         }
 
         public override void FormatList(ToolbarButton button)
         {
-            throw new NotImplementedException();
+            var selected = Formatter.Selected;
+            if (!button.IsToggled)
+            {
+                Formatter.OrderedListButton.IsToggled = false;
+                selected.ParagraphFormat.ListType = MarkerType.Bullet;
+                selected.ParagraphFormat.ListStyle = MarkerStyle.Plain;
+            }
+            else
+            {
+                selected.ParagraphFormat.ListType = MarkerType.None;
+            }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public override void FormatOrderedList(ToolbarButton button)
         {
-            throw new NotImplementedException();
+            var selected = Formatter.Selected;
+            if (!button.IsToggled)
+            {
+                Formatter.ListButton.IsToggled = false;
+                selected.ParagraphFormat.ListType = MarkerType.UnicodeSequence;
+                selected.ParagraphFormat.ListStyle = MarkerStyle.Period;
+            }
+            else
+            {
+                selected.ParagraphFormat.ListType = MarkerType.None;
+            }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public RichTextFormatter Formatter { get; }

@@ -12,7 +12,6 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
-    using System;
     using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
     using Windows.System;
     using Windows.UI.Text;
@@ -82,6 +81,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 Underline.IsToggled = false;
             }
 
+            switch (Selected.ParagraphFormat.ListType)
+            {
+                case MarkerType.Bullet:
+                    ListButton.IsToggled = true;
+                    OrderedListButton.IsToggled = false;
+                    break;
+
+                default:
+                    OrderedListButton.IsToggled = true;
+                    ListButton.IsToggled = false;
+                    break;
+
+                case MarkerType.Undefined:
+                case MarkerType.None:
+                    ListButton.IsToggled = false;
+                    OrderedListButton.IsToggled = false;
+                    break;
+            }
+
             base.OnSelectionChanged();
         }
 
@@ -95,13 +113,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             }
         }
 
-        private ToolbarButton BoldButton { get; set; }
+        internal ToolbarButton BoldButton { get; set; }
 
-        private ToolbarButton ItalicButton { get; set; }
+        internal ToolbarButton ItalicButton { get; set; }
 
-        private ToolbarButton StrikeButton { get; set; }
+        internal ToolbarButton StrikeButton { get; set; }
 
-        private ToolbarButton Underline { get; set; }
+        internal ToolbarButton Underline { get; set; }
+
+        internal ToolbarButton ListButton { get; set; }
+
+        internal ToolbarButton OrderedListButton { get; set; }
 
         public override ButtonMap DefaultButtons
         {
@@ -117,6 +139,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                     ShortcutKey = VirtualKey.U,
                     Activation = FormatUnderline
                 };
+                ListButton = Model.CommonButtons.List;
+                OrderedListButton = Model.CommonButtons.OrderedList;
 
                 return new ButtonMap
                 {
@@ -128,7 +152,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
                     Model.CommonButtons.Link,
                     StrikeButton,
-                    new ToolbarButton { Content = "WIP" }
+
+                    new ToolbarSeparator(),
+
+                    ListButton,
+                    OrderedListButton
                 };
             }
         }
