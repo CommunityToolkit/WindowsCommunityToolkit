@@ -28,16 +28,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             var format = Formatter.SelectionFormat;
             if (!button.IsToggled)
             {
-                button.IsToggled = true;
                 format.Bold = FormatEffect.On;
                 Formatter.SelectionFormat = format;
             }
             else
             {
-                button.IsToggled = false;
                 format.Bold = FormatEffect.Off;
                 Formatter.SelectionFormat = format;
             }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public override void FormatItalics(ToolbarButton button)
@@ -45,16 +45,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             var format = Formatter.SelectionFormat;
             if (!button.IsToggled)
             {
-                button.IsToggled = true;
                 format.Italic = FormatEffect.On;
                 Formatter.SelectionFormat = format;
             }
             else
             {
-                button.IsToggled = false;
                 format.Italic = FormatEffect.Off;
                 Formatter.SelectionFormat = format;
             }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public override void FormatStrikethrough(ToolbarButton button)
@@ -62,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             var format = Formatter.SelectionFormat;
             if (!button.IsToggled)
             {
-                button.IsToggled = true;
                 format.Strikethrough = FormatEffect.On;
                 Formatter.SelectionFormat = format;
             }
@@ -71,6 +70,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 format.Strikethrough = FormatEffect.Off;
                 Formatter.SelectionFormat = format;
             }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public override void FormatLink(ToolbarButton button, string label, string formattedText, string link)

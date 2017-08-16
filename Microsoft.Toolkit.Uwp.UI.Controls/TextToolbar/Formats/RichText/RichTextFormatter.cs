@@ -32,7 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             var format = SelectionFormat;
             if (!button.IsToggled)
             {
-                button.IsToggled = true;
                 format.Underline = UnderlineType.Single;
                 SelectionFormat = format;
             }
@@ -41,6 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 format.Underline = UnderlineType.None;
                 SelectionFormat = format;
             }
+
+            button.IsToggled = button.IsToggled != true;
         }
 
         public override void OnSelectionChanged()
@@ -100,19 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         private ToolbarButton StrikeButton { get; set; }
 
-        private ToolbarButton Underline
-        {
-            get
-            {
-                return new ToolbarButton
-                {
-                    ToolTip = Model.Labels.UnderlineLabel,
-                    Icon = new SymbolIcon { Symbol = Symbol.Underline },
-                    ShortcutKey = VirtualKey.U,
-                    Activation = FormatUnderline
-                };
-            }
-        }
+        private ToolbarButton Underline { get; set; }
 
         public override ButtonMap DefaultButtons
         {
@@ -121,6 +110,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 BoldButton = Model.CommonButtons.Bold;
                 ItalicButton = Model.CommonButtons.Italics;
                 StrikeButton = Model.CommonButtons.Strikethrough;
+                Underline = new ToolbarButton
+                {
+                    ToolTip = Model.Labels.UnderlineLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.Underline },
+                    ShortcutKey = VirtualKey.U,
+                    Activation = FormatUnderline
+                };
 
                 return new ButtonMap
                 {
