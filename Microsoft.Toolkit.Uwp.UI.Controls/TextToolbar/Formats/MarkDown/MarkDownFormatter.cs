@@ -115,15 +115,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     originalText = originalText.Remove(originalText.Length - 1, 1);
                 }
 
-                string beginningNoWhiteSpace = originalText.TrimStart();
-                string beginningWhiteSpace = originalText.Replace(beginningNoWhiteSpace, string.Empty);
-
-                string endNoWhiteSpace = originalText.TrimEnd();
-                string endWhiteSpace = originalText.Replace(endNoWhiteSpace, string.Empty);
-
                 string originalNoWhiteSpace = originalText.Trim();
 
-                Selected.Text = beginningWhiteSpace + start + originalNoWhiteSpace + end + endWhiteSpace;
+                if (!string.IsNullOrWhiteSpace(originalText))
+                {
+                    string beginningNoWhiteSpace = originalText.TrimStart();
+                    string beginningWhiteSpace = originalText.Replace(beginningNoWhiteSpace, string.Empty);
+
+                    string endNoWhiteSpace = originalText.TrimEnd();
+                    string endWhiteSpace = originalText.Replace(endNoWhiteSpace, string.Empty);
+
+                    Selected.Text = beginningWhiteSpace + start + originalNoWhiteSpace + end + endWhiteSpace;
+                }
+                else
+                {
+                    Selected.Text = start + end;
+                }
 
                 if (string.IsNullOrWhiteSpace(originalText))
                 {
