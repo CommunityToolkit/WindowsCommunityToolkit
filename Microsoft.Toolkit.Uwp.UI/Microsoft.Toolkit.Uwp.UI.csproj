@@ -89,6 +89,7 @@
     <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Properties.cs" />
     <Compile Include="Extensions\TitleBar\TitleBar.cs" />
     <Compile Include="Extensions\StatusBar\StatusBar.cs" />
+    <Compile Include="Extensions\LogicalTreeExtensions.cs" />
     <Compile Include="Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WebView\WebView.Properties.cs" />
     <Compile Include="Extensions\WebView\WebView.cs" />
