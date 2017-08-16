@@ -180,7 +180,7 @@ if (events == null)
 ```
 
 ### Example
-[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MicrosoftGraph%20Service)
+[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service)
 
 ### Requirements (Windows 10 Device Family)
 

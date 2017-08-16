@@ -10,9 +10,7 @@ The **Menu Control** positions it's items the way the WrapPanel does based on th
 
 To invoke any command on any Menu, MenuItem or MenuFlyoutItem you must use property `InputGestureText`
 
-If the tooltip is allowed on the Menu control when clicking Alt a tooltip with the input gesture text will show\hide.
-
-![Menu Overview](../resources/images/Menu.png "Menu")  
+If the tooltip is allowed on the Menu control when clicking Alt a tooltip with the input gesture text will show\hide.  
 
 ## Syntax
 
@@ -34,6 +32,10 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 </controls:Menu>
 
 ```
+
+## Example Image
+
+![Menu Overview](../resources/images/Controls-Menu.gif "Menu")
 
 ## External Properties
 
@@ -127,7 +129,7 @@ internal class NewProjectCommand : ICommand
 
 ## Default Template 
 
-[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/MenuPage.xaml) is the XAML template used in the toolkit for the default styling.
+[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 

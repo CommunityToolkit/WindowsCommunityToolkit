@@ -62,4 +62,4 @@ An app starts by using one of the **HttpHelperRequest** constructors to create a
 
 ## API
 
-* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp/Helpers/HttpHelperRequest.cs)
+* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelperRequest.cs)
