@@ -1,6 +1,7 @@
 # HttpHelperRequest
 
-(This API is obsolete.)
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpRequestMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/uwp/api/windows.web.http.httprequestmessage) directly)
 
 Represents an HTTP request message including headers. 
 
