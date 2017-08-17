@@ -6,7 +6,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
   
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:HeaderedTextBlock 
             Header="@[Header:String:Name]"
             Text="@[Text:String:UWP Toolkit]"

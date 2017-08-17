@@ -20,6 +20,7 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
                                    OneRowModeEnabled="@[OneRowModeEnabled:Bool:false]"
