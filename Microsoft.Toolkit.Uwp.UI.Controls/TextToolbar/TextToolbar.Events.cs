@@ -63,9 +63,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var root = GetTemplateChild(RootControl) as CommandBar;
             if (root != null)
             {
-                if (ControlKeyDown)
+                if (ControlKeyDown && e.Key != VirtualKey.Control)
                 {
-                    var args = new ShortcutKeyRequestArgs(e.Key, ShiftKeyDown, e);
+                    if (e.Handled)
+                    {
+                        Editor.Document.Undo();
+                    }
+
+                    var key = FindBestAlternativeKey(e.Key);
+
+                    var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
                     foreach (var item in root.PrimaryCommands)
                     {
                         var button = item as ToolbarButton;
@@ -76,6 +83,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     ShortcutRequested?.Invoke(this, args);
+
+                    if (e.Handled == true && args.Handled == false)
+                    {
+                        Editor.Document.Redo();
+                    }
+
                     e.Handled = args.Handled;
                 }
             }

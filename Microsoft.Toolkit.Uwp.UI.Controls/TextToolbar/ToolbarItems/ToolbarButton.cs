@@ -36,6 +36,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         public static readonly DependencyProperty IsToggledProperty =
             DependencyProperty.Register(nameof(Toggled), typeof(Visibility), typeof(ToolbarButton), new PropertyMetadata(Visibility.Collapsed));
 
+        // Using a DependencyProperty as the backing store for ShortcutFancyName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShortcutFancyNameProperty =
+            DependencyProperty.Register(nameof(ShortcutFancyName), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null));
+
         public ToolbarButton()
         {
             this.DefaultStyleKey = typeof(ToolbarButton);
@@ -62,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             string tooltip = ToolTip;
             if (ShortcutKey.HasValue)
             {
-                tooltip += $" (Ctrl + {ShortcutKey.Value.ToString()})";
+                tooltip += $" (Ctrl + {ShortcutFancyName ?? ShortcutKey.Value.ToString()})";
             }
 
             if (!string.IsNullOrWhiteSpace(ToolTip))
@@ -86,7 +90,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             if (args.Key == ShortcutKey)
             {
                 Activate(args.ShiftKeyHeld);
-
                 args.Handled = true;
             }
         }
@@ -142,6 +145,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         {
             get { return (VirtualKey?)GetValue(ShortcutKeyProperty); }
             set { SetValue(ShortcutKeyProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the name that represents the <see cref="ShortcutKey"/> as the Keyboard Character
+        /// </summary>
+        public string ShortcutFancyName
+        {
+            get { return (string)GetValue(ShortcutFancyNameProperty); }
+            set { SetValue(ShortcutFancyNameProperty, value); }
         }
 
         /// <summary>

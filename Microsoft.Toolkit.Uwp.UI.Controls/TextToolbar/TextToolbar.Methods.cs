@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.System;
 
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
@@ -162,6 +163,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!RemoveDefaultButtons.Contains(button))
             {
                 RemoveDefaultButtons.Add(button);
+            }
+        }
+
+        /// <summary>
+        /// Returns the best Match for some keys that don't have names.
+        /// </summary>
+        /// <returns>Best Match</returns>
+        private static VirtualKey FindBestAlternativeKey(VirtualKey original)
+        {
+            switch (original)
+            {
+                case (VirtualKey)189:
+                    return VirtualKey.Subtract;
+
+                default:
+                    return original;
             }
         }
 

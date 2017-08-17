@@ -68,7 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                     Name = TextToolbar.StrikethoughElement,
                     ToolTip = Model.Labels.StrikethroughLabel,
                     Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
-                    Activation = MakeStrike
+                    Activation = MakeStrike,
+                    ShortcutKey = VirtualKey.Subtract,
+                    ShortcutFancyName = "-"
                 };
             }
         }
