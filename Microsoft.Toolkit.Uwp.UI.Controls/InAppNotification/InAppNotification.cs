@@ -50,6 +50,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _dismissButton.Click += DismissButton_Click;
             }
 
+            if (Visibility == Visibility.Visible)
+            {
+                VisualStateManager.GoToState(this, StateContentVisible, true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, StateContentCollapsed, true);
+            }
+
             base.OnApplyTemplate();
         }
 
