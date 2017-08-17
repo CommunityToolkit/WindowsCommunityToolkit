@@ -44,17 +44,17 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers\BluetoothLEHelper\BluetoothLEHelper.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattConvert.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattNativeUuid.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattProtocolErrorParser.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\GattUuidsService.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattCharacteristics.cs" />
-    <Compile Include="Helpers\BluetoothLEHelper\ObservableGattDeviceService.cs" />
-    <Compile Include="Helpers\Network\ConnectionInformation.cs" />
-    <Compile Include="Helpers\Network\ConnectionType.cs" />
-    <Compile Include="Helpers\Network\NetworkHelper.cs" />
+    <Compile Include="BluetoothLEHelper\BluetoothLEHelper.cs" />
+    <Compile Include="BluetoothLEHelper\GattConvert.cs" />
+    <Compile Include="BluetoothLEHelper\GattNativeUuid.cs" />
+    <Compile Include="BluetoothLEHelper\GattProtocolErrorParser.cs" />
+    <Compile Include="BluetoothLEHelper\GattUuidsService.cs" />
+    <Compile Include="BluetoothLEHelper\ObservableBluetoothLEDevice.cs" />
+    <Compile Include="BluetoothLEHelper\ObservableGattCharacteristics.cs" />
+    <Compile Include="BluetoothLEHelper\ObservableGattDeviceService.cs" />
+    <Compile Include="Network\ConnectionInformation.cs" />
+    <Compile Include="Network\ConnectionType.cs" />
+    <Compile Include="Network\NetworkHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Connectivity.rd.xml" />
   </ItemGroup>
