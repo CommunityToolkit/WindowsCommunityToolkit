@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
