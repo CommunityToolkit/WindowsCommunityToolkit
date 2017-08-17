@@ -14,11 +14,12 @@ using System;
 using System.Reflection;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for colors.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
     public static class ColorHelper
     {
         /// <summary>
@@ -26,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="colorString">The color string. Any format used in XAML should work.</param>
         /// <returns>Parsed color</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Color ToColor(this string colorString)
         {
             if (string.IsNullOrEmpty(colorString))
@@ -132,6 +134,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="color">The Color to convert.</param>
         /// <returns>Returns a string representing the hex value.</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static string ToHex(this Color color)
         {
             return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
@@ -142,6 +145,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="color">the Color to convert</param>
         /// <returns>Returns a int representing the color.</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static int ToInt(this Color color)
         {
             var a = color.A + 1;
@@ -154,6 +158,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="color">The Color to convert.</param>
         /// <returns>HslColor.</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static HslColor ToHsl(this Color color)
         {
             const double toDouble = 1.0 / 255;
@@ -199,6 +204,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="color">Color to convert.</param>
         /// <returns>HsvColor</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static HsvColor ToHsv(this Color color)
         {
             const double toDouble = 1.0 / 255;
@@ -246,6 +252,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="lightness">0..1 range lightness</param>
         /// <param name="alpha">0..1 alpha</param>
         /// <returns>A Color object</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Color FromHsl(double hue, double saturation, double lightness, double alpha = 1.0)
         {
             if (hue < 0 || hue > 360)
@@ -312,6 +319,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="value">0..1 range value</param>
         /// <param name="alpha">0..1 alpha</param>
         /// <returns>A Color object</returns>
+        [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Color FromHsv(double hue, double saturation, double value, double alpha = 1.0)
         {
             if (hue < 0 || hue > 360)

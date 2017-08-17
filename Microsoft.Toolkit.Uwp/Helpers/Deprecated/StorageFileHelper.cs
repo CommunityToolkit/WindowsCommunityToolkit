@@ -19,11 +19,12 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for <see cref="StorageFile" />.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
     public static class StorageFileHelper
     {
         /// <summary>
@@ -44,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteTextToLocalFileAsync(
             string text,
             string fileName,
@@ -76,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteTextToLocalCacheFileAsync(
             string text,
             string fileName,
@@ -111,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteTextToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             string text,
@@ -147,6 +151,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<StorageFile> WriteTextToFileAsync(
             this StorageFolder fileLocation,
             string text,
@@ -187,6 +192,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteBytesToLocalFileAsync(
             byte[] bytes,
             string fileName,
@@ -219,6 +225,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteBytesToLocalCacheFileAsync(
             byte[] bytes,
             string fileName,
@@ -254,6 +261,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<StorageFile> WriteBytesToKnownFolderFileAsync(
             KnownFolderId knownFolderId,
             byte[] bytes,
@@ -290,6 +298,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<StorageFile> WriteBytesToFileAsync(
             this StorageFolder fileLocation,
             byte[] bytes,
@@ -324,6 +333,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<string> ReadTextFromPackagedFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -347,6 +357,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<string> ReadTextFromLocalCacheFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -370,6 +381,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<string> ReadTextFromLocalFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -396,6 +408,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<string> ReadTextFromKnownFoldersFileAsync(
             KnownFolderId knownFolderId,
             string fileName)
@@ -424,6 +437,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<string> ReadTextFromFileAsync(
             this StorageFolder fileLocation,
             string fileName)
@@ -449,6 +463,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<byte[]> ReadBytesFromPackagedFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -472,6 +487,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<byte[]> ReadBytesFromLocalCacheFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -495,6 +511,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<byte[]> ReadBytesFromLocalFileAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -521,6 +538,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<byte[]> ReadBytesFromKnownFoldersFileAsync(
             KnownFolderId knownFolderId,
             string fileName)
@@ -549,6 +567,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<byte[]> ReadBytesFromFileAsync(
             this StorageFolder fileLocation,
             string fileName)
@@ -571,6 +590,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>
         /// Returns the stored <see cref="byte"/> array.
         /// </returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<byte[]> ReadBytesAsync(this StorageFile file)
         {
             if (file == null)
@@ -605,6 +625,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
             => isRecursive
                 ? FileExistsInSubtreeAsync(folder, fileName)
@@ -615,6 +636,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="fileName">The filename to test. Must include the file extension and is not case-sensitive.</param>
         /// <returns>Returns true if the filename is valid.</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static bool IsFileNameValid(string fileName)
         {
             var illegalChars = Path.GetInvalidFileNameChars();
@@ -626,6 +648,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
         /// <returns>Returns true if the file path is valid.</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static bool IsFilePathValid(string filePath)
         {
             var illegalChars = Path.GetInvalidPathChars();
@@ -644,6 +667,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>
         /// Returns true, if the file exists.
         /// </returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
             var item = await folder.TryGetItemAsync(fileName);
@@ -665,6 +689,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <exception cref="ArgumentException">
         /// Exception thrown if the <paramref name="fileName"/> contains a quotation mark.
         /// </exception>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         internal static async Task<bool> FileExistsInSubtreeAsync(StorageFolder rootFolder, string fileName)
         {
             if (fileName.IndexOf('"') >= 0)
@@ -687,6 +712,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="knownFolderId">Folder Id</param>
         /// <returns><see cref="StorageFolder"/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         internal static StorageFolder GetFolderFromKnownFolderId(KnownFolderId knownFolderId)
         {
             StorageFolder workingFolder;

@@ -11,29 +11,14 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp
 {
-    public class SolidColorBrushConverter : IValueConverter
+    /// <summary>
+    /// Service used to store data
+    /// </summary>
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
+    public interface IObjectStorageHelper : Helpers.IObjectStorageHelper
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is string)
-            {
-                return value;
-            }
-
-            var brush = (SolidColorBrush)value;
-
-            return brush.Color.ToString();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return new SolidColorBrush(value.ToString().ToColor());
-        }
     }
 }

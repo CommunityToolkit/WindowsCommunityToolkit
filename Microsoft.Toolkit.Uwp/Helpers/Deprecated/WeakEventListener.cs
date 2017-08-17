@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Implements a weak event listener that allows the owner to be garbage
@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <typeparam name="TSource">Type of source for the event.</typeparam>
     /// <typeparam name="TEventArgs">Type of event arguments for the event.</typeparam>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
     public sealed class WeakEventListener<TInstance, TSource, TEventArgs>
         where TInstance : class
     {

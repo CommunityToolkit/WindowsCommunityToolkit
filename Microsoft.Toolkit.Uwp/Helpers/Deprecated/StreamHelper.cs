@@ -20,11 +20,12 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static helper methods for streams.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
     public static class StreamHelper
     {
         /// <summary>
@@ -33,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="uri">Uri to request.</param>
         /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Response stream</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
         {
             var outputStream = new InMemoryRandomAccessStream();
@@ -59,6 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="uri">Uri to request.</param>
         /// <param name="targetFile">StorageFile to save the stream to.</param>
         /// <returns>True if success.</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task GetHttpStreamToStorageFileAsync(
             this Uri uri,
             StorageFile targetFile)
@@ -84,6 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<IRandomAccessStream> GetPackagedFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -98,6 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<IRandomAccessStream> GetLocalFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -112,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -127,6 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
         /// <returns>File stream</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(
             KnownFolderId knownFolderId,
             string fileName,
@@ -137,81 +144,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Test if a file exists in the application installation folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsPackagedFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = Package.Current.InstalledLocation;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsLocalFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local cache folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsLocalCacheFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local cache folder.
-        /// </summary>
-        /// <param name="knownFolderId">The well known folder ID to use</param>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsKnownFolderFileExistsAsync(
-            KnownFolderId knownFolderId,
-            string fileName)
-        {
-            StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local folder.
-        /// </summary>
-        /// <param name="workingFolder">Folder to use.</param>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static async Task<bool> IsFileExistsAsync(
-            this StorageFolder workingFolder,
-            string fileName)
-        {
-            var name = Path.GetFileName(fileName);
-            workingFolder = await GetSubFolderAsync(fileName, workingFolder);
-
-            var item = await workingFolder.TryGetItemAsync(name);
-
-            return item != null;
-        }
-
-        /// <summary>
         /// Read stream content as a string.
         /// </summary>
         /// <param name="stream">Stream to read from.</param>
         /// <param name="encoding">Encoding to use. Can be set to null (ASCII will be used in this case).</param>
         /// <returns>Stream content.</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static async Task<string> ReadTextAsync(
             this IRandomAccessStream stream,
             Encoding encoding = null)
@@ -231,6 +169,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return encoding.GetString(bytes);
         }
 
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         private static async Task<IRandomAccessStream> GetFileStreamAsync(
             string fullFileName,
             FileAccessMode accessMode,
@@ -244,6 +183,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return await file.OpenAsync(accessMode);
         }
 
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         private static async Task<StorageFolder> GetSubFolderAsync(
             string fullFileName,
             StorageFolder workingFolder)

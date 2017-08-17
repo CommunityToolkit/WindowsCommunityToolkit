@@ -15,11 +15,12 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
     public static class DispatcherHelper
     {
         /// <summary>
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync<T>(CoreApplication.MainView, function, priority);
@@ -42,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
@@ -59,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
@@ -75,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -87,6 +92,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
@@ -103,6 +109,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task ExecuteOnUIThreadAsync(Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -116,6 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Synchronous function with return type <typeparamref name="T"/> to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (viewToExecuteOn == null)
@@ -133,6 +141,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Synchronous function to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task </returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -146,6 +155,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (function == null)
@@ -186,6 +196,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (function == null)
@@ -227,6 +238,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (function == null)
@@ -258,6 +270,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
+        [Obsolete("This method is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return dispatcher.AwaitableRunAsync(

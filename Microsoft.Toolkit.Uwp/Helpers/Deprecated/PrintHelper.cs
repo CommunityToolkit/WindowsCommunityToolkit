@@ -10,22 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.Storage;
+using System;
+using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
-    /// Store data in the Local environment (only on the current device)
+    /// Helper class used to simplify document printing.
+    /// Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs />
+    /// It allows you to render a framework element per page.
     /// </summary>
-    public class LocalObjectStorageHelper : BaseObjectStorageHelper
+    [Obsolete("This class is being deprecated. Please use the Microsoft.Toolkit.Uwp.Helpers counterpart.")]
+    public class PrintHelper : Helpers.PrintHelper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalObjectStorageHelper"/> class.
+        /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
-        public LocalObjectStorageHelper()
+        /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
+        public PrintHelper(Panel canvasContainer)
+            : base(canvasContainer)
         {
-            Settings = ApplicationData.Current.LocalSettings;
-            Folder = ApplicationData.Current.LocalFolder;
         }
     }
 }
