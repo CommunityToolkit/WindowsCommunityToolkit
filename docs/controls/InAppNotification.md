@@ -89,6 +89,26 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 }
 ```
 
+## Animation
+
+By default, the popup animation of the control is a bottom to top animation. You can update the popup animation using the `RenderTransformOrigin` property of the control. See examples:
+
+```xml
+
+<controls:InAppNotification RenderTransformOrigin="0.5,1" />
+
+```
+
+The default value (X: 0.5, Y:1) will show popup animation from bottom to top.
+
+```xml
+
+<controls:InAppNotification RenderTransformOrigin="0.5,0" />
+
+```
+
+An alternate version of the popup animation (used by the vscode-like notification) will start from top to bottom.
+
 ## Example Code
 
 [InAppNotification Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
