@@ -43,10 +43,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _dismissButton = (Button)GetTemplateChild(DismissButtonPart);
-            _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
 
             if (_dismissButton != null)
             {
+                _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
             }
 
