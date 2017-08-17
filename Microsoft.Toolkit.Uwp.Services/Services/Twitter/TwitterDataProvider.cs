@@ -19,7 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Microsoft.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-    public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, Tweet>
+    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Tweet>
     {
         /// <summary>
         /// Base Url for service.
@@ -139,8 +139,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             string rawResult = null;
             try
@@ -199,8 +199,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             try
             {
@@ -453,7 +453,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
+        protected override Toolkit.Services.IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
         {
             if (config == null)
             {
@@ -480,7 +480,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, Toolkit.Services.IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)
@@ -589,8 +589,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific result parser.</param>
         /// <returns>Return strong typed list of results.</returns>
-        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
         {
             try
             {

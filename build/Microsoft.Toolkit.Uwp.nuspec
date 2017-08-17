@@ -17,6 +17,7 @@
     <dependencies>
       <group>
         <dependency id="Newtonsoft.Json" version="[9.0.1,)" />
+        <dependency id="Microsoft.Toolkit" version="$version$" />
       </group>
     </dependencies>
   </metadata>
