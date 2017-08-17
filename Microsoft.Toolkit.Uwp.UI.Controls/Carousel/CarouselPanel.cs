@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return carouselControl;
                 }
 
-                carouselControl = this.FindVisualAscendant<Carousel>();
+                carouselControl = this.FindAscendant<Carousel>();
 
                 if (carouselControl == null)
                 {

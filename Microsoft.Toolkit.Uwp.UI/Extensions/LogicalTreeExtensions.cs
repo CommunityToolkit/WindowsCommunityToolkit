@@ -142,33 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Obsolete: Find first logical ascendant control of a specified type.
-        /// Same as <see cref="FindParent{T}(FrameworkElement)"/>
-        /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Child element.</param>
-        /// <returns>Ascendant control or null if not found.</returns>
-        [Obsolete("This extension method is being deprecated.  Please use FindParent<T> instead.")]
-        public static T FindAscendant<T>(this FrameworkElement element)
-            where T : FrameworkElement
-        {
-            // Moved from VisualTreeExtensions to here, also created new alias to match FindParentByName.
-            if (element.Parent == null)
-            {
-                return null;
-            }
-
-            if (element.Parent is T)
-            {
-                return element.Parent as T;
-            }
-
-            return (element.Parent as FrameworkElement).FindAscendant<T>();
-        }
-
-        /// <summary>
         /// Find first logical parent control of a specified type.
-        /// Same as <see cref="FindAscendant{T}(FrameworkElement)"/>
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>

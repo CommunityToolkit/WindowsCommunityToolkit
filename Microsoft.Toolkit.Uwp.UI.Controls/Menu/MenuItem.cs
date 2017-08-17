@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             FlyoutButton = GetTemplateChild(FlyoutButtonName) as Button;
-            _parentMenu = this.FindAscendant<Menu>();
+            _parentMenu = this.FindParent<Menu>();
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;

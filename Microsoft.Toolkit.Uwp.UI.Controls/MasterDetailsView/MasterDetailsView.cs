@@ -286,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Frame GetFrame()
         {
-            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
+            return _frame ?? (_frame = this.FindAscendant<Frame>());
         }
 
         private void UpdateViewState()

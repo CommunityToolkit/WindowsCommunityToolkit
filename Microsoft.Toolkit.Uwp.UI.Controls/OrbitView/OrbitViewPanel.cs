@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return _orbitView;
                 }
 
-                _orbitView = this.FindVisualAscendant<OrbitView>();
+                _orbitView = this.FindAscendant<OrbitView>();
 
                 if (_orbitView == null)
                 {
