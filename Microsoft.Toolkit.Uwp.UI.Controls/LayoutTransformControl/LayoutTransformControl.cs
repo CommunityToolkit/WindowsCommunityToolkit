@@ -22,21 +22,18 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Control that implements support for transformations as if applied by
-    /// LayoutTransform (which does not exist in Silverlight).
+    /// Control that implements support for transformations as if applied by LayoutTransform.
     /// </summary>
     [ContentProperty(Name = "Child")]
     public partial class LayoutTransformControl : Control
     {
         /// <summary>
-        /// Value used to work around double arithmetic rounding issues in
-        /// Silverlight.
+        /// Value used to work around double arithmetic rounding issues.
         /// </summary>
         private const double AcceptableDelta = 0.0001;
 
         /// <summary>
-        /// Value used to work around double arithmetic rounding issues in
-        /// Silverlight.
+        /// Value used to work around double arithmetic rounding issues.
         /// </summary>
         private const int DecimalsAfterRound = 4;
 
@@ -148,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Implement Windows Presentation Foundation's Rect.Transform on Silverlight.
+        /// Implement WPF's Rect.Transform.
         /// </summary>
         /// <param name="rectangle">The rectangle to transform.</param>
         /// <param name="matrix">The matrix to use to transform the rectangle.
@@ -171,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Implements Windows Presentation Foundation's Matrix.Multiply on Silverlight.
+        /// Implements WPF's Matrix.Multiply.
         /// </summary>
         /// <param name="matrix1">The left matrix.</param>
         /// <param name="matrix2">The right matrix.</param>
@@ -190,8 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Implements Windows Presentation Foundation's Matrix.HasInverse on
-        /// Silverlight.
+        /// Implements WPF's Matrix.HasInverse.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>True if matrix has an inverse.</returns>
@@ -350,9 +346,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="finalSize">The final area within the parent that this
         /// element should use to arrange itself and its children.</param>
         /// <returns>The actual size used.</returns>
-        /// <remarks>
-        /// Using the WPF paramater name finalSize instead of Silverlight's finalSize for clarity.
-        /// </remarks>
         protected override Size ArrangeOverride(Size finalSize)
         {
             FrameworkElement child = Child;
@@ -384,7 +377,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Perform an Arrange on _layoutRoot (containing Child)
             _layoutRoot.Arrange(finalRect);
 
-            // This is the first opportunity under Silverlight to find out the Child's true DesiredSize
+            // This is the first opportunity to find out the Child's true DesiredSize
             if (IsSizeSmaller(finalSizeTransformed, child.RenderSize) && (Size.Empty == _childActualSize))
             {
                 // Unfortunately, all the work so far is invalid because the wrong DesiredSize was used

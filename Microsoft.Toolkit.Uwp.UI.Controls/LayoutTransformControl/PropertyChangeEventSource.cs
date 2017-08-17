@@ -53,8 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Handles changes to the Value property.
         /// </summary>
         /// <param name="d">
-        /// The <see cref="DependencyObject"/> on which
-        /// the property has changed value.
+        /// The <see cref="DependencyObject"/> on which the property has changed value.
         /// </param>
         /// <param name="e">
         /// Event data that is issued by any event that
@@ -69,8 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Provides derived classes an opportunity to handle changes
-        /// to the Value property.
+        /// Provides derived classes an opportunity to handle changes to the Value property.
         /// </summary>
         /// <param name="oldValue">The old Value value</param>
         /// <param name="newValue">The new Value value</param>

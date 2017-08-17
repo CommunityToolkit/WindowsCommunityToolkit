@@ -18,8 +18,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Control that implements support for transformations as if applied by
-    /// LayoutTransform (which does not exist in Silverlight).
+    /// Control that implements support for transformations as if applied by LayoutTransform.
     /// </summary>
     public partial class LayoutTransformControl : Control
     {
@@ -27,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the single child of the LayoutTransformControl.
         /// </summary>
         /// <remarks>
-        /// Corresponds to Windows Presentation Foundation's Decorator.Child
+        /// Corresponds to WPF's Decorator.Child
         /// property.
         /// </remarks>
         public FrameworkElement Child
@@ -53,7 +52,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Information about the event.</param>
         private static void ChildChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            // Casts are safe because Silverlight is enforcing the types
             ((LayoutTransformControl)o).OnChildChanged((FrameworkElement)e.NewValue);
         }
 
@@ -107,7 +105,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Information about the event.</param>
         private static void TransformChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            // Casts are safe because Silverlight is enforcing the types
             ((LayoutTransformControl)o).OnTransformChanged(
                 e.OldValue as Transform,
                 (Transform)e.NewValue);
