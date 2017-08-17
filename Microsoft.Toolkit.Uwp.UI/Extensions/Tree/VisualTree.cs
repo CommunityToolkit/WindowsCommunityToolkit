@@ -14,12 +14,12 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Defines a collection of extensions methods for UI.
     /// </summary>
-    public static class VisualTreeExtensions
+    public static class VisualTree
     {
         /// <summary>
         /// Find descendant <see cref="FrameworkElement"/> control using its name.

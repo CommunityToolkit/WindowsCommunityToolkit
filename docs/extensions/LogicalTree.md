@@ -1,6 +1,6 @@
-# LogicalTreeExtensions
+# Logical Tree Extensions
 
-The **LogicalTreeExtensions** provide a collection of extensions methods for UI controls.
+The **LogicalTree** extensions provide a collection of extensions methods for UI controls.
 
 It provides [FrameworkElement][1] extensions to aid in walking the logical tree of control structures.
 
@@ -8,7 +8,7 @@ This differs from the *Visual Tree* where extra containers and styles can wrap o
 The Logical Tree instead defines how controls are directly connected through construction.
 These methods can also be used on controls that aren't yet connected or rendered in the Visual Tree.
 
-See also [VisualTreeExtensions](VisualTreeExtensions.md).
+See also [VisualTree Extensions](VisualTree.md).
 
 ## Example
 
@@ -38,10 +38,10 @@ See also [VisualTreeExtensions](VisualTreeExtensions.md).
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [LogicalTreeExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/LogicalTreeExtensions.cs)
+* [LogicalTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs)
 
 [1]:https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.FrameworkElement

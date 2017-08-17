@@ -18,12 +18,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Defines a collection of extensions methods for UI.
     /// </summary>
-    public static class LogicalTreeExtensions
+    public static class LogicalTree
     {
         /// <summary>
         /// Find logical child control using its name.

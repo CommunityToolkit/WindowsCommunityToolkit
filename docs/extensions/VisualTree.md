@@ -1,11 +1,11 @@
-# VisualTreeExtensions
+# Visual Tree Extensions
 
-The **VisualTreeExtensions** provide a collection of extensions methods for UI controls.
+The **VisualTree** extensions provide a collection of extensions methods for UI controls.
 
 It provides [DependencyObject][1] extensions to aid in using the [VisualTreeHelper][2] class.
 The official [VisualTreeHelper][2] documentation best explains reasons for walking the Visual Tree.
 
-See also [LogicalTreeExtensions](LogicalTreeExtensions.md).
+See also [LogicalTree Extensions](LogicalTree.md).
 
 ## Example
 
@@ -31,11 +31,11 @@ See also [LogicalTreeExtensions](LogicalTreeExtensions.md).
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [VisualTreeExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/VisualTreeExtensions.cs)
+* [VisualTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
 
 [1]:https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.DependencyObject
 [2]:https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.VisualTreeHelper
