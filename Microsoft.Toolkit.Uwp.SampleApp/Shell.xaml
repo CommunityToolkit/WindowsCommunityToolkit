@@ -124,11 +124,21 @@
                         Background="Transparent"
                         PointerEntered="StackPanel_PointerEntered"
                         PointerExited="StackPanel_PointerExited">
-                <Border Background="Black">
-                    <Image Width="120"
-                           Height="80"
-                           Source="{Binding Icon}" />
-                </Border>
+
+                <Grid Width="120"
+                      Height="80">
+                    <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          BlurRadius="10"
+                                          ShadowOpacity="1"
+                                          Visibility="Collapsed">
+                        <Border></Border>
+                    </controls:DropShadowPanel>
+                    <Border Background="Black">
+                        <Image Source="{Binding Icon}" />
+                    </Border>
+                </Grid>
+                
 
                 <TextBlock Margin="0,8,0,0"
                            FontSize="12"
@@ -308,9 +318,79 @@
                     Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
             </Border>
 
+            <Grid Grid.Row="3"
+                  IsHitTestVisible="False">
+                <Grid x:Name="SamplePickerDetailsGrid"
+                      Height="304"
+                      Visibility="Collapsed">
+                    <Border Background="#F3F3F3"
+                        Opacity="0.96">
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                        </interactivity:Interaction.Behaviors>
+                    </Border>
+                    <Border x:Name="SamplePickerDetailsGridContent"
+                            BorderThickness="0,0,0,1"
+                            BorderBrush="#48000000">
+                        <Grid Width="700"
+                      Height="192"
+                      VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="72" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                            Margin="0,0,12,0"
+                            VerticalAlignment="Stretch"
+                            Background="Black">
+                                <Image Width="120"
+                               Height="120"
+                               Source="{Binding Icon}" />
+                            </Border>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="16" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock VerticalAlignment="Top"
+                                   FontSize="48"
+                                   FontWeight="Normal"
+                                   Foreground="Black"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Row="2"
+                                   VerticalAlignment="Top"
+                                   CharacterSpacing="30"
+                                   FontSize="15"
+                                   Foreground="Black"
+                                   LineHeight="22"
+                                   Text="{Binding About}"
+                                   TextWrapping="Wrap" />
+                                <Grid Grid.Row="3"
+                              Margin="0,16,0,0"
+                              Background="{StaticResource Brush-Blue-01}"
+                              Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                                    <TextBlock Margin="0,2,0,2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       Foreground="White"
+                                       Text="{Binding BadgeUpdateVersionRequired}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
 
             <Grid x:Name="SamplePickerGrid"
                   Grid.Row="2"
+                  Height="152"
                   Visibility="Collapsed">
                 <Border Background="#F3F3F3"
                         Opacity="0.96">
@@ -324,89 +404,24 @@
                 <ListView x:Name="SamplePickerListView"
                           IsItemClickEnabled="True"
                           ItemClick="SamplePickerListView_ItemClick"
+                          ContainerContentChanging="SamplePickerListView_ContainerContentChanging"
+                          ChoosingItemContainer="SamplePickerListView_ChoosingItemContainer"
+                          ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
                           ItemTemplate="{StaticResource HorizontalSampleTemplate}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                           ScrollViewer.HorizontalScrollMode="Auto"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ScrollViewer.VerticalScrollMode="Disabled"
                           SelectionMode="Single">
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection />
+                    </ListView.ItemContainerTransitions>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsStackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
                 </ListView>
-            </Grid>
-
-            <Grid x:Name="SamplePickerDetailsGrid"
-                  Grid.Row="3"
-                  Visibility="Collapsed">
-                <Border Background="#F3F3F3"
-                        Opacity="0.96">
-                    <interactivity:Interaction.Behaviors>
-                        <behaviors:Blur AutomaticallyStart="True"
-                                        Delay="0"
-                                        Value="3"
-                                        Duration="0" />
-                    </interactivity:Interaction.Behaviors>
-                </Border>
-                <Border BorderThickness="0,0,0,1"
-                        BorderBrush="#48000000">
-                    <Grid Width="700"
-                      Height="192"
-                      VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200" />
-                            <ColumnDefinition Width="72" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0"
-                            Margin="0,0,12,0"
-                            VerticalAlignment="Stretch"
-                            Background="Black">
-                            <Image Width="120"
-                               Height="120"
-                               Source="{Binding Icon}" />
-                        </Border>
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock VerticalAlignment="Top"
-                                   FontSize="48"
-                                   FontWeight="Normal"
-                                   Foreground="Black"
-                                   Text="{Binding Name}"
-                                   TextTrimming="CharacterEllipsis" />
-                            <TextBlock Grid.Row="2"
-                                   VerticalAlignment="Top"
-                                   CharacterSpacing="30"
-                                   FontSize="15"
-                                   Foreground="Black"
-                                   LineHeight="22"
-                                   Text="{Binding About}"
-                                   TextWrapping="Wrap" />
-                            <Grid Grid.Row="3"
-                              Margin="0,16,0,0"
-                              Background="{StaticResource Brush-Blue-01}"
-                              Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
-                                <TextBlock Margin="0,2,0,2"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Bottom"
-                                       Foreground="White"
-                                       Text="{Binding BadgeUpdateVersionRequired}" />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Border>
             </Grid>
 
             <controls:DropShadowPanel x:Name="TitleGrid"
@@ -446,16 +461,6 @@
                            FontWeight="SemiBold" />
                 </Grid>
             </controls:DropShadowPanel>
-            <!--<controls:DropShadowPanel Grid.Row="1"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      BlurRadius="10"
-                                      OffsetY="3"
-                                      ShadowOpacity="0.4">
-                <Border Height="1"
-                        Background="Black"
-                        Opacity="0" />
-            </controls:DropShadowPanel>-->
         </Grid>
 
 

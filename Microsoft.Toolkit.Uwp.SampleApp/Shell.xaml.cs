@@ -17,9 +17,11 @@ using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -34,6 +36,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private AutoSuggestBox _searchBox;
         private Button _searchButton;
         private bool _hamburgerMenuClosing = false;
+
+        private Compositor _compositor;
+        private float _defaultShowAnimationDuration = 300;
+        private float _defaultHideAnimationDiration = 150;
 
         public bool DisplayWaitRing
         {
@@ -147,6 +153,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     NavigateToSample(targetSample);
                 }
             }
+
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            SetTopLevelShowHideAnimation(SamplePickerGrid);
+            //SetSecondLevelShowHideAnimation(SamplePickerListView);
+
+            SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
+            SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
+
+            ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, GetOpacityAnimation((float)ContentShadow.Opacity, _defaultShowAnimationDuration));
         }
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
@@ -601,12 +618,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
+                if (panel != null)
+                {
+                    panel.Visibility = Visibility.Visible;
+                }
+
+                ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
+            }
         }
 
         private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             HideSampleDetails();
+            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
+            if (panel != null)
+            {
+                panel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void SamplePickerListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -641,6 +672,82 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideSamplePicker();
+        }
+
+        private void SetTopLevelShowHideAnimation(FrameworkElement element)
+        {
+            var visual = ElementCompositionPreview.GetElementVisual(element);
+
+            visual.Opacity = 0f;
+            visual.Offset = new System.Numerics.Vector3(0, -(float)element.Height, 0);
+            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+            var hideAnimationGroup = _compositor.CreateAnimationGroup();
+            hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
+
+            var showAnimationGroup = _compositor.CreateAnimationGroup();
+            showAnimationGroup.Add(GetOpacityAnimation(1, _defaultShowAnimationDuration));
+            showAnimationGroup.Add(GetYOffsetAnimation(0, _defaultShowAnimationDuration));
+
+            ElementCompositionPreview.SetImplicitShowAnimation(element, showAnimationGroup);
+        }
+
+        private void SetSecondLevelShowHideAnimation(FrameworkElement element)
+        {
+            var visual = ElementCompositionPreview.GetElementVisual(element);
+            visual.Opacity = 0f;
+
+            ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(1, 200, 200));
+        }
+
+        private CompositionAnimation GetYOffsetAnimation(float y, float duration, float delay = 0)
+        {
+            var animation = _compositor.CreateScalarKeyFrameAnimation();
+            animation.Target = "Offset.Y";
+            animation.InsertKeyFrame(1, y);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+
+            return animation;
+        }
+
+        private CompositionAnimation GetOpacityAnimation(float opacity, float duration, float delay = 0)
+        {
+            var animation = _compositor.CreateScalarKeyFrameAnimation();
+            animation.Target = "Opacity";
+            animation.InsertKeyFrame(1, opacity);
+            animation.Duration = TimeSpan.FromMilliseconds(duration);
+            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+
+            return animation;
+        }
+
+        private void SamplePickerListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
+            if (panel != null)
+            {
+                var panelAnimation = GetOpacityAnimation(1, _defaultShowAnimationDuration);
+                (panelAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
+                (panelAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
+                ElementCompositionPreview.SetImplicitShowAnimation(panel, panelAnimation);
+                ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            }
+        }
+
+        private void SamplePickerListView_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            args.ItemContainer = args.ItemContainer ?? new ListViewItem();
+
+            var showAnimation = GetOpacityAnimation(1, _defaultShowAnimationDuration, 200);
+            (showAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
+            (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
+
+            ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
         }
     }
 }
