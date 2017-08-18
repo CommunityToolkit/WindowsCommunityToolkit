@@ -13,6 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -644,7 +646,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var data = await ReadHttpContentAsStringAsync(response.Content).ConfigureAwait(false);
                     if (response.IsSuccessStatusCode)
                     {
                         getResponse = data;
@@ -728,7 +730,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    data = await ReadHttpContentAsStringAsync(response.Content);
                 }
             }
 
@@ -784,6 +786,36 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string signature = CryptographicBuffer.EncodeToBase64String(signatureBuffer);
 
             return signature;
+        }
+
+        private async Task<Stream> ReadHttpContentAsStreamAsync(HttpContent content)
+        {
+            if (content.Headers.ContentEncoding.Count == 0)
+            {
+                // No encoding.
+                return await content.ReadAsStreamAsync().ConfigureAwait(false);
+            }
+
+            MemoryStream random = new MemoryStream();
+
+            using (Stream compressedStream = await content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                var decompressedStream = new GZipStream(compressedStream, CompressionMode.Decompress);
+                decompressedStream.CopyTo(random);
+                random.Position = 0;
+                return random;
+            }
+        }
+
+        private async Task<string> ReadHttpContentAsStringAsync(HttpContent content)
+        {
+            Stream decompressedStream = await ReadHttpContentAsStreamAsync(content).ConfigureAwait(false);
+
+            using (StreamReader reader = new StreamReader(decompressedStream))
+            {
+                string contentString = await reader.ReadToEndAsync().ConfigureAwait(false);
+                return contentString;
+            }
         }
     }
 }
