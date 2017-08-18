@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Bing;
+using Microsoft.Toolkit.Services.Bing;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace UnitTests.Services

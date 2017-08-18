@@ -10,41 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.Core;
-using Microsoft.Toolkit.Uwp.Services.Rss;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Parse Bing results into strong type.
     /// </summary>
-    public class BingParser : IParser<BingResult>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class BingParser : Toolkit.Services.Bing.BingParser
     {
-        /// <summary>
-        /// Take string data and parse into strong data type.
-        /// </summary>
-        /// <param name="data">String data.</param>
-        /// <returns>Returns strong type.</returns>
-        public IEnumerable<BingResult> Parse(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-            {
-                return null;
-            }
-
-            RssParser rssParser = new RssParser();
-            IEnumerable<RssSchema> syndicationItems = rssParser.Parse(data);
-            return from r in syndicationItems
-                    select new BingResult
-                    {
-                        InternalID = r.InternalID,
-                        Title = r.Title,
-                        Summary = r.Summary,
-                        Link = r.FeedUrl,
-                        Published = r.PublishDate
-                    };
-        }
     }
 }
