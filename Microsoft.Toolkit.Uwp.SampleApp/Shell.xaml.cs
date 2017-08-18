@@ -703,6 +703,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             animation.InsertKeyFrame(1, y);
             animation.Duration = TimeSpan.FromMilliseconds(duration);
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+            animation.DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
             return animation;
         }
@@ -715,6 +716,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             animation.InsertKeyFrame(1, opacity);
             animation.Duration = TimeSpan.FromMilliseconds(duration);
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
+            animation.DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
             return animation;
         }
