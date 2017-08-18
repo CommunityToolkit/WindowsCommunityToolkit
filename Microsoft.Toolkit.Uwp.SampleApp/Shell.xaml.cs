@@ -157,13 +157,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             SetTopLevelShowHideAnimation(SamplePickerGrid);
-            //SetSecondLevelShowHideAnimation(SamplePickerListView);
 
             SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
             SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
 
-            //ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, GetOpacityAnimation((float)ContentShadow.Opacity, _defaultShowAnimationDuration));
+            //ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, GetOpacityAnimation((float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
         }
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
@@ -676,37 +675,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SetTopLevelShowHideAnimation(FrameworkElement element)
         {
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-
-            visual.Opacity = 0f;
-            visual.Offset = new System.Numerics.Vector3(0, -(float)element.Height, 0);
             ElementCompositionPreview.SetIsTranslationEnabled(element, true);
 
-            var hideAnimationGroup = _compositor.CreateAnimationGroup();
-            hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
+            //var hideAnimationGroup = _compositor.CreateAnimationGroup();
+            //hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            //hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
             //ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
 
             var showAnimationGroup = _compositor.CreateAnimationGroup();
-            showAnimationGroup.Add(GetOpacityAnimation(1, _defaultShowAnimationDuration));
-            showAnimationGroup.Add(GetYOffsetAnimation(0, _defaultShowAnimationDuration));
+            showAnimationGroup.Add(GetOpacityAnimation(1, 0, _defaultShowAnimationDuration));
+            showAnimationGroup.Add(GetYOffsetAnimation(0, -(float)element.Height, _defaultShowAnimationDuration));
 
             ElementCompositionPreview.SetImplicitShowAnimation(element, showAnimationGroup);
         }
 
         private void SetSecondLevelShowHideAnimation(FrameworkElement element)
         {
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Opacity = 0f;
-
-            //ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(1, 200, 200));
+            //ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(1, 0, 200, 200));
         }
 
-        private CompositionAnimation GetYOffsetAnimation(float y, float duration, float delay = 0)
+        private CompositionAnimation GetYOffsetAnimation(float y, float from, float duration, float delay = 0)
         {
             var animation = _compositor.CreateScalarKeyFrameAnimation();
             animation.Target = "Offset.Y";
+            animation.InsertKeyFrame(0, from);
             animation.InsertKeyFrame(1, y);
             animation.Duration = TimeSpan.FromMilliseconds(duration);
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
@@ -714,10 +707,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return animation;
         }
 
-        private CompositionAnimation GetOpacityAnimation(float opacity, float duration, float delay = 0)
+        private CompositionAnimation GetOpacityAnimation(float opacity, float from, float duration, float delay = 0)
         {
             var animation = _compositor.CreateScalarKeyFrameAnimation();
             animation.Target = "Opacity";
+            animation.InsertKeyFrame(0, from);
             animation.InsertKeyFrame(1, opacity);
             animation.Duration = TimeSpan.FromMilliseconds(duration);
             animation.DelayTime = TimeSpan.FromMilliseconds(delay);
@@ -730,10 +724,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
             if (panel != null)
             {
-                var panelAnimation = GetOpacityAnimation(1, _defaultShowAnimationDuration);
-                (panelAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
-                (panelAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
-                ElementCompositionPreview.SetImplicitShowAnimation(panel, panelAnimation);
+                ElementCompositionPreview.SetImplicitShowAnimation(panel, GetOpacityAnimation(1, 0, _defaultShowAnimationDuration));
                 //ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             }
         }
@@ -742,8 +733,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             args.ItemContainer = args.ItemContainer ?? new ListViewItem();
 
-            var showAnimation = GetOpacityAnimation(1, _defaultShowAnimationDuration, 200);
-            (showAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
+            var showAnimation = GetOpacityAnimation(1, 0, _defaultShowAnimationDuration, 200);
             (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
             //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
