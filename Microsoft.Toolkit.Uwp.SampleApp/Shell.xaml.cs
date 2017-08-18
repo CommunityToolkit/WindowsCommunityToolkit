@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -71,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             CommandArea.Children.Clear();
             Splitter.Visibility = Visibility.Collapsed;
             TitleTextBlock.Text = string.Empty;
+            ApplicationView.SetTitle(this, string.Empty);
         }
 
         public void ShowOnlyHeader(string title)
@@ -259,6 +261,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 TitleTextBlock.Text = $"{category.Name} -> {sample.Name}";
+                ApplicationView.SetTitle(this, $"{category.Name} - {sample.Name}");
             }
 
             if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
@@ -364,9 +367,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
         private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
-                ? AppViewBackButtonVisibility.Visible
-                : AppViewBackButtonVisibility.Collapsed;
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
+            //    ? AppViewBackButtonVisibility.Visible
+            //    : AppViewBackButtonVisibility.Collapsed;
 
             if (_isPaneOpen)
             {
@@ -721,7 +724,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return animation;
         }
 
-        private void SamplePickerListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
             if (panel != null)
@@ -731,7 +734,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private void SamplePickerListView_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             args.ItemContainer = args.ItemContainer ?? new ListViewItem();
 

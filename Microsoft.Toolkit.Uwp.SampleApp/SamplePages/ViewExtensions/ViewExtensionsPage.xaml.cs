@@ -89,12 +89,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ApplicationView.SetTitle(this, string.Empty);
 
             var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];
-            var greyBrush03 = (Color)Application.Current.Resources["Grey-03"];
-            var greyBrush01 = (Color)Application.Current.Resources["Grey-01"];
+            var brandColor = (Color)Application.Current.Resources["Brand-Color"];
 
-            TitleBar.SetButtonBackgroundColor(this, greyBrush03);
+            TitleBar.SetButtonBackgroundColor(this, brandColor);
             TitleBar.SetButtonForegroundColor(this, lightGreyBrush);
-            TitleBar.SetBackgroundColor(this, greyBrush01);
+            TitleBar.SetBackgroundColor(this, brandColor);
             TitleBar.SetForegroundColor(this, lightGreyBrush);
 
             if (_expando != null)
