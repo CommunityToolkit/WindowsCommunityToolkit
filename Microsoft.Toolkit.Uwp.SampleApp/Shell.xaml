@@ -1,12 +1,14 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.Shell"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsLocal="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:Name="RootPage"
@@ -100,9 +102,7 @@
 
         <DataTemplate x:Key="VerticalSampleTemplate"
                       x:DataType="local:Sample">
-            <StackPanel Background="Transparent"
-                        PointerEntered="StackPanel_PointerEntered"
-                        PointerExited="StackPanel_PointerExited">
+            <StackPanel Background="Transparent">
                 <Border Background="Black">
                     <Image Width="120"
                            Height="80"
@@ -151,45 +151,15 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="0" /> <!-- TODO -->
                 <RowDefinition Height="152" />
                 <RowDefinition Height="304" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid x:Name="TitleGrid"
-                  Height="48"
-                  Background="White"
-                  Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button x:Name="HamburgerButton"
-                        Width="48"
-                        Height="48"
-                        Padding="0"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="Main button"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="HamburgerButtonClicked"
-                        TabIndex="0">
-                    <FontIcon Margin="16"
-                              FontFamily="Segoe MDL2 Assets"
-                              FontSize="16"
-                              Foreground="Black"
-                              Glyph="&#xE700;" />
-                </Button>
-                <TextBlock x:Name="TitleTextBlock"
-                           Grid.Column="1"
-                           VerticalAlignment="Center"
-                           FontFamily="Segoe UI"
-                           FontSize="15px"
-                           FontWeight="SemiBold" />
-            </Grid>
 
             <Grid x:Name="RootGrid"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Grid.RowSpan="3"
                   Background="{StaticResource Brush-Grey-05}">
                 <Grid.ColumnDefinitions>
@@ -330,10 +300,27 @@
                 </Grid>
             </Grid>
 
+            <Border x:Name="ContentShadow"
+                    Grid.RowSpan="5"
+                    Tapped="ContentShadow_Tapped"
+                    Background="Black"
+                    Opacity="0.2"
+                    Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+            </Border>
+
+
             <Grid x:Name="SamplePickerGrid"
-                  Grid.Row="1"
-                  Background="White"
+                  Grid.Row="2"
                   Visibility="Collapsed">
+                <Border Background="#F3F3F3"
+                        Opacity="0.96">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
                 <ListView x:Name="SamplePickerListView"
                           IsItemClickEnabled="True"
                           ItemClick="SamplePickerListView_ItemClick"
@@ -357,39 +344,49 @@
             </Grid>
 
             <Grid x:Name="SamplePickerDetailsGrid"
-                  Grid.Row="2"
-                  Background="White"
+                  Grid.Row="3"
                   Visibility="Collapsed">
-                <Grid Width="700"
+                <Border Background="#F3F3F3"
+                        Opacity="0.96">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
+                <Border BorderThickness="0,0,0,1"
+                        BorderBrush="#48000000">
+                    <Grid Width="700"
                       Height="192"
                       VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="72" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="72" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"
                             Margin="0,0,12,0"
                             VerticalAlignment="Stretch"
                             Background="Black">
-                        <Image Width="120"
+                            <Image Width="120"
                                Height="120"
                                Source="{Binding Icon}" />
-                    </Border>
-                    <Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="16" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock VerticalAlignment="Top"
+                        </Border>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock VerticalAlignment="Top"
                                    FontSize="48"
                                    FontWeight="Normal"
                                    Foreground="Black"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis" />
-                        <TextBlock Grid.Row="2"
+                            <TextBlock Grid.Row="2"
                                    VerticalAlignment="Top"
                                    CharacterSpacing="30"
                                    FontSize="15"
@@ -397,20 +394,68 @@
                                    LineHeight="22"
                                    Text="{Binding About}"
                                    TextWrapping="Wrap" />
-                        <Grid Grid.Row="3"
+                            <Grid Grid.Row="3"
                               Margin="0,16,0,0"
                               Background="{StaticResource Brush-Blue-01}"
                               Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
-                            <TextBlock Margin="0,2,0,2"
+                                <TextBlock Margin="0,2,0,2"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Bottom"
                                        Foreground="White"
                                        Text="{Binding BadgeUpdateVersionRequired}" />
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Border>
             </Grid>
 
+            <controls:DropShadowPanel x:Name="TitleGrid"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      BlurRadius="10"
+                                      OffsetY="3"
+                                      ShadowOpacity="0.4"
+                                      Visibility="Collapsed">
+                <Grid Height="48"
+                      Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="HamburgerButton"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Main button"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="HamburgerButtonClicked"
+                        TabIndex="0">
+                        <FontIcon Margin="16"
+                              FontFamily="Segoe MDL2 Assets"
+                              FontSize="16"
+                              Foreground="Black"
+                              Glyph="&#xE700;" />
+                    </Button>
+                    <TextBlock x:Name="TitleTextBlock"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe UI"
+                           FontSize="15px"
+                           FontWeight="SemiBold" />
+                </Grid>
+            </controls:DropShadowPanel>
+            <!--<controls:DropShadowPanel Grid.Row="1"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      BlurRadius="10"
+                                      OffsetY="3"
+                                      ShadowOpacity="0.4">
+                <Border Height="1"
+                        Background="Black"
+                        Opacity="0" />
+            </controls:DropShadowPanel>-->
         </Grid>
 
 

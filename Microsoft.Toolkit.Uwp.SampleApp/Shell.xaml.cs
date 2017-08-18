@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private Sample _currentSample;
         private AutoSuggestBox _searchBox;
         private Button _searchButton;
+        private bool _hamburgerMenuClosing = false;
 
         public bool DisplayWaitRing
         {
@@ -444,7 +445,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             e.Handled = true;
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.NewSize.Width <= 700)
             {
@@ -454,7 +455,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     ConnectToSearch();
                 }
 
-                HamburgerMenu.OpenPaneLength = e.NewSize.Width;
+                if (HamburgerMenu.IsPaneOpen)
+                {
+                    _hamburgerMenuClosing = true;
+                    await Task.Delay(800);
+                    HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
+                    _hamburgerMenuClosing = false;
+                }
+                else if (!_hamburgerMenuClosing)
+                {
+                    HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
+                }
             }
             else if (e.PreviousSize.Width <= 700)
             {
@@ -625,6 +636,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void HamburgerButtonClicked(object sender, RoutedEventArgs e)
         {
             HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
+        }
+
+        private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            HideSamplePicker();
         }
     }
 }
