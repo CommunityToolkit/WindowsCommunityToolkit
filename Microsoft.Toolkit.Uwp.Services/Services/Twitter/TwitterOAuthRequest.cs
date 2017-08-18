@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -26,9 +27,22 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequest
     {
-        private static HttpClient client = new HttpClient();
+        private static HttpClient client;
 
         private bool _abort;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TwitterOAuthRequest"/> class.
+        /// </summary>
+        public TwitterOAuthRequest()
+        {
+            if (client == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                client = new HttpClient(handler);
+            }
+        }
 
         /// <summary>
         /// HTTP Get request to specified Uri.
@@ -46,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    return ProcessErrors(await ReadHttpContentAsStringAsync(response.Content).ConfigureAwait(false));
+                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -68,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
-                    var responseStream = await ReadHttpContentAsStreamAsync(response.Content).ConfigureAwait(false);
+                    var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
                     using (var reader = new StreamReader(responseStream))
                     {
@@ -110,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    return ProcessErrors(await ReadHttpContentAsStringAsync(response.Content).ConfigureAwait(false));
+                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -145,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
                             using (var response = await client.SendAsync(request).ConfigureAwait(false))
                             {
-                                string jsonResult = await ReadHttpContentAsStringAsync(response.Content).ConfigureAwait(false);
+                                string jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                                 JObject jObj = JObject.Parse(jsonResult);
                                 mediaId = jObj["media_id_string"];
@@ -173,36 +187,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
 
             return content;
-        }
-
-        private async Task<Stream> ReadHttpContentAsStreamAsync(HttpContent content)
-        {
-            if (content.Headers.ContentEncoding.Count == 0)
-            {
-                // No encoding.
-                return await content.ReadAsStreamAsync().ConfigureAwait(false);
-            }
-
-            MemoryStream random = new MemoryStream();
-
-            using (Stream compressedStream = await content.ReadAsStreamAsync().ConfigureAwait(false))
-            {
-                var decompressedStream = new GZipStream(compressedStream, CompressionMode.Decompress);
-                decompressedStream.CopyTo(random);
-                random.Position = 0;
-                return random;
-            }
-        }
-
-        private async Task<string> ReadHttpContentAsStringAsync(HttpContent content)
-        {
-            Stream decompressedStream = await ReadHttpContentAsStreamAsync(content).ConfigureAwait(false);
-
-            using (StreamReader reader = new StreamReader(decompressedStream))
-            {
-                string contentString = await reader.ReadToEndAsync().ConfigureAwait(false);
-                return contentString;
-            }
         }
     }
 }
